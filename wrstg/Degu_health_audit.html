@@ -1,0 +1,915 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/select2_4.1.0/select2.min.css' %}">
+<link rel="stylesheet" href="{% static 'ems/assets/global/plugins/bootstrap-toastr/toastr.min.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Trails</a></li>
+                    <li class="breadcrumb-item"><a href="#">Degaussing Health Audit Report</a></li>
+                </ol>
+            </nav>
+        </div>
+
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                         
+                        <span class="caption-subject bold">DEGUASSING HEALTH AUDIT REPORT</span>
+                    </div>
+                </div><!-- /.portlet-title  ← WAS MISSING -->
+
+                <div class="portlet-body form mt-4 mb-4" style="background-color: transparent;">
+                    <form method="post" id="degu_health_audit_form" action="{% url 'ITTTM:degu_health_audit' %}">
+                        {% csrf_token %}
+                        <div class="form-body" style="background-color: transparent;">
+
+                            <!-- ═══════════════════════════════════════
+                                 INFORMATION FIELDSET
+                            ═══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">Information</legend>
+                                <div class="row g-3">
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control select2_no_placeholder  " id="tagout_ship_class" name="ship_class" required>
+                                                <option value="">Select Ship Class</option>
+                                                <option value="Destroyer">Destroyer</option>
+                                                <option value="Frigate">Frigate</option>
+                                                <option value="Corvette">Corvette</option>
+                                                <option value="Other">Other</option>
+                                            </select>
+                                            <label class="form_control_1">Ship Class<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control select2_no_placeholder  " id="tagout_ship_name" name="ship" required>
+                                                <option value="">Select Ship Name</option>
+                                                {% for ship in ship_options %}
+                                                <option value="{{ ship.value }}">{{ ship.label }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <label class="form_control_1">Ship Name<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control select2_no_placeholder  " id="tagout_audit_type" name="health_audit_type" required>
+                                                <option value="">Select Audit Type</option>
+                                                <option value="quarterly">Quarterly</option>
+                                                <option value="annual">Annual</option>
+                                                <option value="pre_suwr">Pre UWR</option>
+                                                <option value="post_refit">Post REFIT</option>
+                                                <option value="special">Special</option>
+                                            </select>
+                                            <label class="form_control_1">Audit Type<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control select2_no_placeholder  " id="tagout_audit_status" name="health_audit_status" required>
+                                                <option value="">Select Audit Status</option>
+                                                <option value="satisfactory">Satisfactory</option>
+                                                <option value="unsatisfactory">Unsatisfactory</option>
+                                                <option value="partially_satisfactory">Partially Satisfactory</option>
+                                            </select>
+                                            <label class="form_control_1">Health Audit Status<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mb-4">
+                                            <input type="text" class="form-control  " name="health_audit_no" required placeholder="Enter Audit Report No.">
+                                            <label class="form_control_1">Audit Report No.<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mb-4">
+                                            <input type="text" class="form-control  " name="ship_health_audit_report_no" required placeholder="Enter Ship Audit Report No.">
+                                            <label class="form_control_1">Ship Audit Report No.<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mb-4">
+                                            <input type="date" class="form-control  " name="audit_date" required>
+                                            <label class="form_control_1">Audit Date<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mb-4">
+                                            <input type="text" class="form-control  " name="equipment_code" required placeholder="Enter Equipment Code">
+                                            <label class="form_control_1">Equipment Code<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </fieldset><!-- /Information -->
+
+
+                            <!-- ═══════════════════════════════════════
+                                 SYSTEM PARAMETERS FIELDSET (wrapper)
+                            ═══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">SYSTEM PARAMETERS</legend>
+
+                                <!-- (A) INSULATION OF COILS -->
+                                <p class="fw-semibold text-uppercase mb-1 mt-3">(A) INSULATION OF COILS (SPECIFIED VALUE &gt;= 0.5 MΩ)</p>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl">
+                                        <thead>
+                                            <tr>
+                                                <th>Ser</th>
+                                                <th>Coil Name</th>
+                                                <th>Status</th>
+                                                <th>Values (MΩ)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown">
+                                                        
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control status-dropdown">
+                                                        <option value="">Select Status</option>
+                                                        <option value="sat">SAT</option>
+                                                        <option value="unsat">UNSAT</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1"></textarea>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- (B) INSULATION OF MG SETS -->
+                                <p class="fw-semibold text-uppercase mb-1 mt-3">(B) INSULATION OF MG SETS (M)/SFC/POC/TRANSFORMERS</p>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl">
+                                        <thead>
+                                            <tr>
+                                                <th>Ser</th>
+                                                <th>Coil Name</th>
+                                                <th>Status</th>
+                                                <th>Values (MΩ)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown">
+                                                        
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control status-dropdown">
+                                                        <option value="">Select Status</option>
+                                                        <option value="sat">SAT</option>
+                                                        <option value="unsat">UNSAT</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1"></textarea>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- (C) SPM READING OF MG SET -->
+                                <p class="fw-semibold text-uppercase mb-1 mt-3">(C) SPM READING OF MG SET</p>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl">
+                                        <thead>
+                                            <tr>
+                                                <th>Ser</th>
+                                                <th>Coil Name</th>
+                                                <th>Status</th>
+                                                <th>Values (MΩ)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown">
+                                                        
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control status-dropdown">
+                                                        <option value="">Select Status</option>
+                                                        <option value="sat">SAT</option>
+                                                        <option value="unsat">UNSAT</option>
+                                                    </select>
+                                                </td>
+
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1"></textarea>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- (D) AMPERE METER CALIBRATION DATE -->
+                                <p class="fw-semibold text-uppercase mb-1 mt-3">(D) AMPERE METER CALIBRATION DATE</p>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl">
+                                        <thead>
+                                            <tr>
+                                                <th>Ser</th>
+                                                <th>Name</th>
+                                                <th>Last Calibration Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown">
+                                                        <option value="">Select Status</option>
+                                                        <option value="sat">SAT</option>
+                                                        <option value="unsat">UNSAT</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input type="date" class="form-control  " name="ampere_meter_calibration_date">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- (E) EARTHING OF MG SETS -->
+                                <p class="fw-semibold text-uppercase mb-1 mt-3">(E) EARTHING OF MG SETS/SFC/POC/TRANSFORMERS</p>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl">
+                                        <thead>
+                                            <tr>
+                                                <th>Ser</th>
+                                                <th>Name</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown">
+                                                        <option value="">Select Status</option>
+                                                        <option value="sat">SAT</option>
+                                                        <option value="unsat">UNSAT</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control status-dropdown">
+                                                        <option value="">Select Status</option>
+                                                        <option value="sat">SAT</option>
+                                                        <option value="unsat">UNSAT</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- (F) VOLT METER CALIBRATION DATE -->
+                                <p class="fw-semibold text-uppercase mb-1 mt-3">(F) VOLT METER CALIBRATION DATE</p>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl">
+                                        <thead>
+                                            <tr>
+                                                <th>Ser</th>
+                                                <th>Name</th>
+                                                <th>Last Calibration Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown">
+                                                        <option value="">Select Status</option>
+                                                        <option value="sat">SAT</option>
+                                                        <option value="unsat">UNSAT</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input type="date" class="form-control  " name="volt_meter_calibration_date">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- (G) INSULATION METER/MEGGER CALIBRATION DATE -->
+                                <p class="fw-semibold text-uppercase mb-1 mt-3">(G) INSULATION METER/MEGGER CALIBRATION DATE</p>
+                                <div class="d-flex align-items-center" style="margin-bottom: 16px; margin-top: 8px;">
+                                    <span class="fw-semibold" style="margin-right: 24px; font-size: 1rem;">Last Calibration Date:</span>
+                                    <input type="date" class="form-control  " name="insulation_meter_calibration_date" style="max-width: 220px;" >
+                                </div>
+
+                                <!-- (H) SYSTEM STATUS -->
+                                    <p class="fw-semibold text-uppercase mb-1 mt-3">(H) SYSTEM STATUS</p>
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl mb-3">
+                                            <thead>
+                                                <tr>
+                                                    <th>Ser</th>
+                                                    <th>Status</th>
+                                                    <th>Mode</th>
+                                                    <th>Remark</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>
+                                                        <select class="form-control status-dropdown">
+                                                            <option value="">Select Status</option>
+                                                            <option value="sat">SAT</option>
+                                                            <option value="unsat">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-control status-dropdown">
+                                                            <option value="">Select Status</option>
+                                                            <option value="automatic">Automatic</option>
+                                                            <option value="semi-automatic">Semi-automatic</option>
+                                                            <option value="stand-by">Stand By</option>
+                                                            <option value="magnetometer">Magnetometer</option>
+                                                            <option value="others">others</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1"></textarea>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <table class="custom_tbl">
+                                            <thead>
+                                                <tr>
+                                                    <th>Ser</th>
+                                                    <th>Checks</th>
+                                                    <th>Status</th>
+                                                    <th>Remark</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>Condition of Junction Boxes</td>
+                                                    <td>
+                                                        <select class="form-control status-dropdown">
+                                                            <option value="">Select Status</option>
+                                                            <option value="sat">SAT</option>
+                                                            <option value="unsat">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1"></textarea>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2</td>
+                                                    <td>Earthing of Control Cabinet</td>
+                                                    <td>
+                                                        <select class="form-control status-dropdown">
+                                                            <option value="">Select Status</option>
+                                                            <option value="sat">SAT</option>
+                                                            <option value="unsat">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1"></textarea>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>3</td>
+                                                    <td>Internal Hygiene of Control Cabinet</td>
+                                                    <td>
+                                                        <select class="form-control status-dropdown">
+                                                            <option value="">Select Status</option>
+                                                            <option value="sat">SAT</option>
+                                                            <option value="unsat">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1"></textarea>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                               
+
+                            </fieldset><!-- /SYSTEM PARAMETERS -->
+
+
+                            <!-- ═══════════════════════════════════════
+                                 RECOMMENDED UMR DETAILS
+                            ═══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">RECOMMENDED UMR DETAILS</legend>
+                                <div class="card mb-3 p-3">
+                                    <div class="mb-2" style="font-size: 0.9rem;">The ship DG system was tuned and calibrated as per the following values recommended by UWR OA vide late:</div>
+                                    <div class="row mb-3">
+                                        <div class="col-md-8 col-12">
+                                            <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1"></textarea>
+                                        </div>
+                                        <div class="col-md-4 col-12">
+                                            <input type="date" class="form-control " name="uwr_recommended_date" >
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl">
+                                            <thead>
+                                                <tr>
+                                                    <th>Ser</th>
+                                                    <th>Heading Name</th>
+                                                    <th>Coil Name</th>
+                                                    <th>Values</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>
+                                                        <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1"></textarea>
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-control status-dropdown">
+                                                            
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1"></textarea>
+                                                    </td>
+                                                    <td class="action action-cell-holder">
+                                                        <div class="action-controls">
+                                                            <button type="button" class="btn-round btn-add" onclick="addRow('parts_replaced_table')">+</button>
+                                                            <button type="button" class="btn-round btn-remove" onclick="removeRow('parts_replaced_table')">-</button>
+                                                        </div>
+												    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </fieldset><!-- /RECOMMENDED UMR DETAILS -->
+
+
+                            <!-- ═══════════════════════════════════════
+                                 VALUE OF CURRENT
+                            ═══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">VALUE OF CURRENT</legend>
+                                <div class="card mb-3 p-3">
+                                    <div class="mb-2" style="font-size: 0.9rem;">The corresponding values of current in different coils for different headings are as follows</div>
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl">
+                                            <thead>
+                                                <tr>
+                                                    <th>Ser</th>
+                                                    <th>Mode</th>
+                                                    <th>Heading Name</th>
+                                                    <th>Coil Name</th>
+                                                    <th>Values</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>
+                                                        <select class="form-control status-dropdown">
+                                                            <option value="">Select Status</option>
+                                                            <option value="automatic">Automatic</option>
+                                                            <option value="semi-automatic">Semi-automatic</option>
+                                                            <option value="stand-by">Stand By</option>
+                                                            <option value="magnetometer">Magnetometer</option>
+                                                            <option value="others">others</option>    
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1"></textarea>
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-control status-dropdown">
+                                                           
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1"></textarea>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </fieldset><!-- /VALUE OF CURRENT -->
+
+
+                            <!-- ═══════════════════════════════════════
+                                 VALUE OF CURRENT AT PRESENT HEADING
+                            ═══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">VALUE OF CURRENT AT PRESENT HEADING</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl">
+                                        <thead>
+                                            <tr>
+                                                <th>Ser</th>
+                                                <th>Mode</th>
+                                                <th>Heading</th>
+                                                <th>Coil Name</th>
+                                                <th>Values</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown">
+                                                        <option value="">Select Status</option>
+                                                        <option value="automatic">Automatic</option>
+                                                        <option value="semi-automatic">Semi-automatic</option>
+                                                        <option value="stand-by">Stand By</option>
+                                                        <option value="magnetometer">Magnetometer</option>
+                                                        <option value="others">others</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1"></textarea>
+                                                </td>
+                                                <td>
+                                                    <select class="form-control status-dropdown">
+                                                        
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1"></textarea>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset><!-- /VALUE OF CURRENT AT PRESENT HEADING -->
+
+
+                            <!-- ═══════════════════════════════════════
+                                 MAXIMUM CURRENT CARRYING CAPACITY
+                            ═══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">MAXIMUM CURRENT CARRYING CAPACITY</legend>
+                                <div class="card mb-3 p-3">
+                                    <div class="mb-2" style="font-size: 0.9rem;">Maximum design current carrying capacity of each coil as per OEM documentation (relevant document to be made available during health audit).</div>
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl">
+                                            <thead>
+                                                <tr>
+                                                    <th>Ser</th>
+                                                    <th>Coil Name</th>
+                                                    <th>Max Current Values (Ampere)</th>
+                                                    <th>Achieved Current Values (Ampere)</th>
+                                                    
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>
+                                                        <select class="form-control status-dropdown">
+                                                            
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-control status-dropdown">
+                                                            <option value="">Select Status</option>
+                                                            <option value="sat">SAT</option>
+                                                            <option value="unsat">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1"></textarea>
+                                                    </td>
+                                                    
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </fieldset><!-- /MAXIMUM CURRENT CARRYING CAPACITY -->
+
+
+                            <!-- ═══════════════════════════════════════
+                                 HEADING OF SHIP AT BASE PORT
+                            ═══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">HEADING OF SHIP AT BASE PORT</legend>
+                                <div class="card mb-3 p-3">
+                                    <div class="mb-2" style="font-size: 0.9rem;">Whether ship's heading was changed to opposite direction during operation period at base port. If not, number of days ship remains in same heading without any changes.</div>
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl">
+                                            <thead>
+                                                <tr>
+                                                    <th>Ser</th>
+                                                    <th>Berth</th>
+                                                    <th>Heading</th>
+                                                    <th>No. of Days in Same Heading</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>
+                                                        <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1"></textarea>
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1"></textarea>
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1"></textarea>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </fieldset><!-- /HEADING OF SHIP AT BASE PORT -->
+
+
+                            <!-- ═══════════════════════════════════════
+                                 MAJOR DEFECT AND CABLE RENEWAL
+                            ═══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">MAJOR DEFECT AND CABLE RENEWAL</legend>
+                                <div class="card mb-3 p-3">
+                                    <div class="mb-2" style="font-size: 0.9rem;">Any major defect on the system or cable renewal undertaken since last magnetic ranging? If yes, please provide details as per format below.</div>
+                                    <div class="mb-3">
+                                        <label class="fw-semibold me-3">Is there a major defect or cable renewal?</label>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="major_defect_cable_renewal" id="major_defect_yes" value="yes">
+                                            <label class="form-check-label" for="major_defect_yes">Yes</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="major_defect_cable_renewal" id="major_defect_no" value="no">
+                                            <label class="form-check-label" for="major_defect_no">No</label>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl">
+                                            <thead>
+                                                <tr>
+                                                    <th>Ser</th>
+                                                    <th>Defect Description</th>
+                                                    <th>Type of Defect</th>
+                                                    <th>Status</th>
+                                                    <th>Total System Downtime</th>
+                                                    <th>Rectified By</th>
+                                                    <th>Spare Consumer Dr</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>
+                                                        <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1"></textarea>
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-control status-dropdown">
+                                                            <option value="">Select Status</option>
+                                                            <option value="pass">Pass</option>
+                                                            <option value="fail">Fail</option>
+                                                            <option value="pending">Pending</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-control status-dropdown">
+                                                            <option value="">Select Status</option>
+                                                            <option value="sat">SAT</option>
+                                                            <option value="unsat">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1"></textarea>
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-control status-dropdown">
+                                                            <option value="">Select Status</option>
+                                                            <option value="pass">Pass</option>
+                                                            <option value="fail">Fail</option>
+                                                            <option value="pending">Pending</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1"></textarea>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </fieldset><!-- /MAJOR DEFECT AND CABLE RENEWAL -->
+
+
+                            <!-- ═══════════════════════════════════════
+                                 REMOVAL/FITMENT OF MAJOR MACHINERIES
+                            ═══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">REMOVAL/FITMENT OF MAJOR MACHINERIES ONBOARD</legend>
+                                <div class="card mb-3 p-3">
+                                    <div class="mb-2" style="font-size: 0.9rem;">Record of removal/fitment of major onboard machinery since last magnetic ranging (please provide details).</div>
+                                    <div class="mb-3">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="major_machinery_removal" id="machinery_removal_yes" value="yes">
+                                            <label class="form-check-label" for="machinery_removal_yes">Yes</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="major_machinery_removal" id="machinery_removal_no" value="no">
+                                            <label class="form-check-label" for="machinery_removal_no">No</label>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl">
+                                            <thead>
+                                                <tr>
+                                                    <th>Ser</th>
+                                                    <th>Demand No.</th>
+                                                    <th>Demand Date</th>
+                                                    <th>Description</th>
+                                                    <th>Remarks</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>
+                                                        <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1"></textarea>
+                                                    </td>
+                                                    <td>
+                                                        <input type="date" class="form-control " name="demand_date" style="width: 100%; min-width: 120px;">
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1"></textarea>
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1"></textarea>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </fieldset><!-- /REMOVAL/FITMENT -->
+
+
+                            
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">MAJOR HULL WORK</legend>
+                                <div class="card mb-3 p-3">
+                                    <div class="mb-2" style="font-size: 0.9rem;">Any major hull work undertaken since last UWR.</div>
+                                    <div class="mb-3">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="major_hull_work" id="hull_work_yes" value="yes">
+                                            <label class="form-check-label" for="hull_work_yes">Yes</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="major_hull_work" id="hull_work_no" value="no">
+                                            <label class="form-check-label" for="hull_work_no">No</label>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl">
+                                            <thead>
+                                                <tr>
+                                                    <th>Ser</th>
+                                                    <th>Location</th>
+                                                    <th>Side</th>
+                                                    <th>Frame Number (From–To)</th>
+                                                    <th>Remarks</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>
+                                                        <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1"></textarea>
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-control status-dropdown">
+                                                            <option value="">Select Side</option>
+                                                            <option value="port">Port</option>
+                                                            <option value="starboard">Starboard</option>
+                                                            <option value="both">Both</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1"></textarea>
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1"></textarea>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </fieldset><!-- /MAJOR HULL WORK -->
+
+
+                           
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">WMM/GMM SOFTWARE VERSION</legend>
+                                <div class="table-responsive">
+                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="wmm_gmm_software_version"></textarea>
+                                </div>
+                            </fieldset><!-- /WMM/GMM -->
+
+
+                            <!-- ═══════════════════════════════════════
+                                 CALIBRATION STATUS OF TRIAXIAL PROBE SENSOR
+                            ═══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">CALIBRATION STATUS OF TRIAXIAL PROBE SENSOR</legend>
+                                <div class="card mb-3 p-3">
+                                    <div class="mb-3">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="triaxial_calibration_status" id="triaxial_yes" value="yes">
+                                            <label class="form-check-label" for="triaxial_yes">Yes</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="triaxial_calibration_status" id="triaxial_no" value="no">
+                                            <label class="form-check-label" for="triaxial_no">No</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="triaxial_calibration_status" id="triaxial_na" value="na">
+                                            <label class="form-check-label" for="triaxial_na">Not Applicable</label>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center" style="margin-bottom: 16px; margin-top: 8px;">
+                                        <span class="fw-semibold" style="margin-right: 24px; font-size: 1rem;">Last Calibration Date:</span>
+                                        <input type="date" class="form-control  " name="triaxial_calibration_date" style="max-width: 220px;">
+                                    </div>
+                                </div>
+                            </fieldset><!-- /TRIAXIAL PROBE SENSOR -->
+
+
+                            <!-- ═══════════════════════════════════════
+                                 OBSERVATION & RECOMMENDATION
+                            ═══════════════════════════════════════ -->
+                            <div class="row mb-4" style="margin-top: 24px;">
+                                <div class="col-md-6 col-12">
+                                    <label class="fw-semibold mb-1" for="observation_box">Observation<span class="text-danger">*</span></label>
+                                    <textarea id="observation_box" class="form-control remarks-field" placeholder="Enter observation..." rows="3" name="observation"></textarea>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <label class="fw-semibold mb-1" for="recommendation_box">Recommendation<span class="text-danger">*</span></label>
+                                    <textarea id="recommendation_box" class="form-control remarks-field" placeholder="Enter recommendation..." rows="3" name="recommendation"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-center mt-4">
+                                <button type="submit" class="btn btn-primary px-4">Submit</button>
+                                <a href="{% url 'ITTTM:degu_health_audit' %}" class="btn btn-secondary px-4" style="margin-left: 8px;">Reset</a>
+                            </div>
+
+                        </div><!-- /.form-body -->
+                    </form>
+                </div><!-- /.portlet-body -->
+            </div><!-- /.portlet -->
+        </div><!-- /.col-md-12 -->
+    </div><!-- /.row -->
+</div><!-- /.container-fluid -->
+{% endblock content %}
+
+{% block pagescripts %}
+<script src="{% static 'js/select2_4.1.0/select2.min.js' %}"></script>
+<script src="{% static 'ems/assets/global/plugins/bootstrap-toastr/toastr.min.js' %}"></script>
+<script src="{% static 'js/Degu_health_audit.js' %}"></script>
+<script src="{% static 'wrstg_common.js' %}"></script>
+{% endblock pagescripts %}

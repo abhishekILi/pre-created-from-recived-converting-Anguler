@@ -1,0 +1,898 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+	
+
+	/* .dark-cell {
+		background-color: #5d5d5d !important; 
+	} */
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item" >ETMA</li>
+					<li class="breadcrumb-item" >Submarine</li>
+					<li class="breadcrumb-item active" aria-current="page">Charging Generators</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">RESULT SHEET</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="charging_generators_form">
+						{% csrf_token %}
+						<div class="form-body">
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">Basic Information</legend>
+								<div class="row g-3">
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="date" class="form-control" name="date_of_trials" required>
+											<label class="form_control_1">DATE OF TRIALS <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="submarine_id" required>
+                                                <option value="">--Select--</option>
+												{% for submarine in submarine_options %}
+												<option value="{{ submarine.value }}">{{ submarine.label }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <label class="form_control_1">Submarine	 <span class="text-danger">*</span></label>
+                                        </div>
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<div class="table-responsive">
+									<table class="custom_tbl" id="charging_generators_table">
+										<thead class="table-dark-head">
+											<tr>
+												<th rowspan="3">TEST SER</th>
+												<th rowspan="3">TEST/ NOMINAL VALUE</th>
+												<th colspan="4">ACTUAL VALUE</th>
+												<th rowspan="3">REMARKS</th>
+											</tr>
+											<tr>
+												<th colspan="4">GENERATORS</th>
+											</tr>
+											<tr>
+												<th>1</th>
+												<th>2</th>
+												<th>3</th>
+												<th>4</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>114.100</td>
+												<td>Visual inspection</td>
+												<td><input type="text" class="form-control" name="actual_114_100_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_100_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_100_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_100_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_100"></textarea></td>
+											</tr>
+											<tr>
+												<td>114.101</td>
+												<td>Visual inspection</td>
+												<td><input type="text" class="form-control" name="actual_114_101_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_101_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_101_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_101_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_101"></textarea></td>
+											</tr>
+											<tr>
+												<td>114.102</td>
+												<td>Visual inspection</td>
+												<td><input type="text" class="form-control" name="actual_114_102_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_102_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_102_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_102_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_102"></textarea></td>
+											</tr>
+											<tr>
+												<td>114.103</td>
+												<td>Visual inspection</td>
+												<td><input type="text" class="form-control" name="actual_114_103_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_103_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_103_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_103_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_103"></textarea></td>
+											</tr>
+											<tr>
+												<td>114.104</td>
+												<td>Visual inspection</td>
+												<td><input type="text" class="form-control" name="actual_114_104_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_104_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_104_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_104_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_104"></textarea></td>
+											</tr>
+											<tr>
+												<td>114.105</td>
+												<td>Visual inspection</td>
+												<td><input type="text" class="form-control" name="actual_114_105_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_105_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_105_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_105_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_105"></textarea></td>
+											</tr>
+											<tr>
+												<td>114.106</td>
+												<td>Visual inspection</td>
+												<td><input type="text" class="form-control" name="actual_114_106_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_106_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_106_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_106_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_106"></textarea></td>
+											</tr>
+											<tr>
+												<td>114.107</td>
+												<td>Visual inspection</td>
+												<td><input type="text" class="form-control" name="actual_114_107_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_107_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_107_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_107_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_107"></textarea></td>
+											</tr>
+											<tr>
+												<td>114.108</td>
+												<td>Visual inspection</td>
+												<td><input type="text" class="form-control" name="actual_114_108_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_108_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_108_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_108_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_108"></textarea></td>
+											</tr>
+
+											<tr>
+												<td rowspan="4">114.109</td>
+												<td>Insulation Test</td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>(a) Insulation resistance of Stator winding &gt;= 2.00 M Ohms</td>
+												<td><input type="text" class="form-control" name="actual_114_109_a_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_109_a_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_109_a_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_109_a_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_109_a"></textarea></td>
+											</tr>
+											<tr>
+												<td>(b) Insulation resistance of Excitation field &gt;= 2.00 M Ohms</td>
+												<td><input type="text" class="form-control" name="actual_114_109_b_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_109_b_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_109_b_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_109_b_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_109_b"></textarea></td>
+											</tr>
+											<tr>
+												<td>(c) Insulation resistance of Stand Still Heating &gt;= 1.00 M Ohms</td>
+												<td><input type="text" class="form-control" name="actual_114_109_c_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_109_c_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_109_c_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_109_c_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_109_c"></textarea></td>
+											</tr>
+
+											<tr>
+												<td rowspan="8">114.110.a</td>
+												<td>VOLTAGE measured at :</td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>- DM Panel</td>
+												<td><input type="text" class="form-control" name="actual_114_110_a_dm_panel_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_a_dm_panel_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_a_dm_panel_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_a_dm_panel_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_a_dm_panel"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Data logging</td>
+												<td><input type="text" class="form-control" name="actual_114_110_a_data_logging_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_a_data_logging_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_a_data_logging_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_a_data_logging_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_a_data_logging"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Test Points</td>
+												<td><input type="text" class="form-control" name="actual_114_110_a_test_points_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_a_test_points_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_a_test_points_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_a_test_points_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_a_test_points"></textarea></td>
+											</tr>
+											<tr>
+												<td>CURRENT in Amps :</td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>- DM Panel</td>
+												<td><input type="text" class="form-control" name="actual_114_110_a_current_dm_panel_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_a_current_dm_panel_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_a_current_dm_panel_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_a_current_dm_panel_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_a_current_dm_panel"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Data logging</td>
+												<td><input type="text" class="form-control" name="actual_114_110_a_current_data_logging_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_a_current_data_logging_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_a_current_data_logging_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_a_current_data_logging_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_a_current_data_logging"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Test points (mV)</td>
+												<td><input type="text" class="form-control" name="actual_114_110_a_current_test_points_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_a_current_test_points_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_a_current_test_points_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_a_current_test_points_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_a_current_test_points"></textarea></td>
+											</tr>
+
+											<tr>
+												<td rowspan="9">114.110.b</td>
+												<td>VOLTAGE measured at :</td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>- DM Panel</td>
+												<td><input type="text" class="form-control" name="actual_114_110_b_dm_panel_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_b_dm_panel_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_b_dm_panel_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_b_dm_panel_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_b_dm_panel"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Data logging</td>
+												<td><input type="text" class="form-control" name="actual_114_110_b_data_logging_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_b_data_logging_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_b_data_logging_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_b_data_logging_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_b_data_logging"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Test points (mV)</td>
+												<td><input type="text" class="form-control" name="actual_114_110_b_test_points_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_b_test_points_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_b_test_points_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_b_test_points_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_b_test_points"></textarea></td>
+											</tr>
+											<tr>
+												<td>CURRENT in Amps :</td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>- DM Panel</td>
+												<td><input type="text" class="form-control" name="actual_114_110_b_current_dm_panel_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_b_current_dm_panel_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_b_current_dm_panel_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_b_current_dm_panel_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_b_current_dm_panel"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Data logging</td>
+												<td><input type="text" class="form-control" name="actual_114_110_b_current_data_logging_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_b_current_data_logging_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_b_current_data_logging_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_b_current_data_logging_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_b_current_data_logging"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Test points (mV)</td>
+												<td><input type="text" class="form-control" name="actual_114_110_b_current_test_points_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_b_current_test_points_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_b_current_test_points_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_b_current_test_points_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_b_current_test_points"></textarea></td>
+											</tr>
+                                            <tr>
+												<td>POWER Recorded by Data logging system in KW</td>
+												<td><input type="text" class="form-control" name="actual_114_110_b_current_power_recorderd_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_b_current_power_recorderd_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_b_current_power_recorderd_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_b_current_power_recorderd_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_b_current_power_recorderd"></textarea></td>
+											</tr>
+
+											<tr>
+												<td rowspan="8">114.110.c</td>
+												<td>VOLTAGE measured at :</td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td></td>
+											</tr>
+											<!-- <tr>
+												<td>VOLTAGE measured at :</td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_c_voltage"></textarea></td>
+											</tr> -->
+											<tr>
+												<td>- DM Panel</td>
+												<td><input type="text" class="form-control" name="actual_114_110_c_dm_panel_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_c_dm_panel_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_c_dm_panel_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_c_dm_panel_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_c_dm_panel"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Data logging</td>
+												<td><input type="text" class="form-control" name="actual_114_110_c_data_logging_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_c_data_logging_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_c_data_logging_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_c_data_logging_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_c_data_logging"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Test Points</td>
+												<td><input type="text" class="form-control" name="actual_114_110_c_test_points_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_c_test_points_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_c_test_points_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_c_test_points_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_c_test_points"></textarea></td>
+											</tr>
+											<tr>
+												<td>CURRENT in Amps :</td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>- DM Panel</td>
+												<td><input type="text" class="form-control" name="actual_114_110_c_current_dm_panel_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_c_current_dm_panel_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_c_current_dm_panel_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_c_current_dm_panel_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_c_current_dm_panel"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Data logging</td>
+												<td><input type="text" class="form-control" name="actual_114_110_c_current_data_logging_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_c_current_data_logging_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_c_current_data_logging_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_c_current_data_logging_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_c_current_data_logging"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Test points (mV)</td>
+												<td><input type="text" class="form-control" name="actual_114_110_c_current_test_points_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_c_current_test_points_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_c_current_test_points_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_c_current_test_points_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_c_current_test_points"></textarea></td>
+											</tr>
+
+											<tr>
+												<td rowspan="9">114.110.d</td>
+												<td>VOLTAGE measured at</td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>- DM Panel</td>
+												<td><input type="text" class="form-control" name="actual_114_110_d_dm_panel_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_d_dm_panel_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_d_dm_panel_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_d_dm_panel_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_d_dm_panel"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Data logging</td>
+												<td><input type="text" class="form-control" name="actual_114_110_d_data_logging_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_d_data_logging_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_d_data_logging_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_d_data_logging_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_d_data_logging"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Test Points</td>
+												<td><input type="text" class="form-control" name="actual_114_110_d_test_points_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_d_test_points_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_d_test_points_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_d_test_points_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_d_test_points"></textarea></td>
+											</tr>
+											<tr>
+												<td>CURRENT in Amps</td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>- DM Panel</td>
+												<td><input type="text" class="form-control" name="actual_114_110_d_current_dm_panel_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_d_current_dm_panel_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_d_current_dm_panel_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_d_current_dm_panel_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_d_current_dm_panel"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Data logging</td>
+												<td><input type="text" class="form-control" name="actual_114_110_d_current_data_logging_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_d_current_data_logging_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_d_current_data_logging_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_d_current_data_logging_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_d_current_data_logging"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Test points (mV)</td>
+												<td><input type="text" class="form-control" name="actual_114_110_d_current_test_points_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_d_current_test_points_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_d_current_test_points_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_d_current_test_points_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_d_current_test_points"></textarea></td>
+											</tr>
+                                            <tr>
+												<td>POWER Recorded by Data logging system in KW</td>
+												<td><input type="text" class="form-control" name="actual_114_110_d_current_power_recorded_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_d_current_power_recorded_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_d_current_power_recorded_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_d_current_power_recorded_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_d_current_power_recorded"></textarea></td>
+											</tr>
+
+											<tr>
+												<td rowspan="8">114.110.e</td>
+												<td>VOLTAGE measured at :</td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td></td>
+											</tr>
+											<!-- <tr>
+												<td>VOLTAGE measured at :</td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_e_voltage"></textarea></td>
+											</tr> -->
+											<tr>
+												<td>- DM Panel</td>
+												<td><input type="text" class="form-control" name="actual_114_110_e_dm_panel_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_e_dm_panel_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_e_dm_panel_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_e_dm_panel_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_e_dm_panel"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Data logging</td>
+												<td><input type="text" class="form-control" name="actual_114_110_e_data_logging_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_e_data_logging_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_e_data_logging_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_e_data_logging_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_e_data_logging"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Test Points</td>
+												<td><input type="text" class="form-control" name="actual_114_110_e_test_points_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_e_test_points_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_e_test_points_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_e_test_points_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_e_test_points"></textarea></td>
+											</tr>
+											<tr>
+												<td>CURRENT in Amps :</td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>- DM Panel</td>
+												<td><input type="text" class="form-control" name="actual_114_110_e_current_dm_panel_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_e_current_dm_panel_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_e_current_dm_panel_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_e_current_dm_panel_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_e_current_dm_panel"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Data logging</td>
+												<td><input type="text" class="form-control" name="actual_114_110_e_current_data_logging_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_e_current_data_logging_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_e_current_data_logging_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_e_current_data_logging_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_e_current_data_logging"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Test points (mV)</td>
+												<td><input type="text" class="form-control" name="actual_114_110_e_current_test_points_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_e_current_test_points_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_e_current_test_points_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_e_current_test_points_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_e_current_test_points"></textarea></td>
+											</tr>
+
+											<tr>
+												<td rowspan="9">114.110.f</td>
+												<td>VOLTAGE measured at</td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>- DM Panel</td>
+												<td><input type="text" class="form-control" name="actual_114_110_f_dm_panel_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_f_dm_panel_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_f_dm_panel_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_f_dm_panel_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_f_dm_panel"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Data logging</td>
+												<td><input type="text" class="form-control" name="actual_114_110_f_data_logging_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_f_data_logging_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_f_data_logging_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_f_data_logging_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_f_data_logging"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Test Points</td>
+												<td><input type="text" class="form-control" name="actual_114_110_f_test_points_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_f_test_points_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_f_test_points_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_f_test_points_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_f_test_points"></textarea></td>
+											</tr>
+											<tr>
+												<td>CURRENT in Amps</td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>- DM Panel</td>
+												<td><input type="text" class="form-control" name="actual_114_110_f_current_dm_panel_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_f_current_dm_panel_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_f_current_dm_panel_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_f_current_dm_panel_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_f_current_dm_panel"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Data logging</td>
+												<td><input type="text" class="form-control" name="actual_114_110_f_current_data_logging_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_f_current_data_logging_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_f_current_data_logging_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_f_current_data_logging_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_f_current_data_logging"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Test points (mV)</td>
+												<td><input type="text" class="form-control" name="actual_114_110_f_current_test_points_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_f_current_test_points_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_f_current_test_points_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_f_current_test_points_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_f_current_test_points"></textarea></td>
+											</tr>
+                                            <tr>
+												<td>POWER Recorded by Data logging system in KW</td>
+												<td><input type="text" class="form-control" name="actual_114_110_f_current_power_recorded_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_f_current_power_recorded_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_f_current_power_recorded_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_110_f_current_power_recorded_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_110_f_current_power_recorded"></textarea></td>
+											</tr>
+
+											<tr>
+												<td>114.112</td>
+												<td>Functional Check, Max No Load Voltage</td>
+												<td><input type="text" class="form-control" name="actual_114_112_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_112_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_112_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_112_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_112"></textarea></td>
+											</tr>
+											<tr>
+												<td>114.113</td>
+												<td>Limitation of current with 260V</td>
+												<td><input type="text" class="form-control" name="actual_114_113_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_113_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_113_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_113_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_113"></textarea></td>
+											</tr>
+
+											<tr>
+												<td rowspan="9">114.114.a</td>
+												<td>VOLTAGE measured at</td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>- DM Panel</td>
+												<td><input type="text" class="form-control" name="actual_114_114_a_dm_panel_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_a_dm_panel_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_a_dm_panel_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_a_dm_panel_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_114_a_dm_panel"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Data logging</td>
+												<td><input type="text" class="form-control" name="actual_114_114_a_data_logging_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_a_data_logging_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_a_data_logging_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_a_data_logging_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_114_a_data_logging"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Test Points</td>
+												<td><input type="text" class="form-control" name="actual_114_114_a_test_points_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_a_test_points_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_a_test_points_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_a_test_points_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_114_a_test_points"></textarea></td>
+											</tr>
+											<tr>
+												<td>CURRENT in Amps :</td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>- DM Panel</td>
+												<td><input type="text" class="form-control" name="actual_114_114_a_current_dm_panel_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_a_current_dm_panel_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_a_current_dm_panel_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_a_current_dm_panel_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_114_a_current_dm_panel"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Data logging</td>
+												<td><input type="text" class="form-control" name="actual_114_114_a_current_data_logging_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_a_current_data_logging_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_a_current_data_logging_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_a_current_data_logging_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_114_a_current_data_logging"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Test points (mV)</td>
+												<td><input type="text" class="form-control" name="actual_114_114_a_current_test_points_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_a_current_test_points_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_a_current_test_points_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_a_current_test_points_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_114_a_current_test_points"></textarea></td>
+											</tr>
+											<tr>
+												<td>POWER Recorded by Data logging system in KW</td>
+												<td><input type="text" class="form-control" name="actual_114_114_a_current_power_recorded_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_a_current_power_recorded_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_a_current_power_recorded_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_a_current_power_recorded_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_114_a_current_power_recorded"></textarea></td>
+											</tr>
+
+											<tr>
+												<td rowspan="9">114.114.b</td>
+												<td>VOLTAGE measured at</td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>- DM Panel</td>
+												<td><input type="text" class="form-control" name="actual_114_114_b_dm_panel_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_b_dm_panel_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_b_dm_panel_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_b_dm_panel_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_114_b_dm_panel"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Data logging</td>
+												<td><input type="text" class="form-control" name="actual_114_114_b_data_logging_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_b_data_logging_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_b_data_logging_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_b_data_logging_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_114_b_data_logging"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Test Points</td>
+												<td><input type="text" class="form-control" name="actual_114_114_b_test_points_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_b_test_points_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_b_test_points_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_b_test_points_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_114_b_test_points"></textarea></td>
+											</tr>
+											<tr>
+												<td>CURRENT in Amps :</td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>- DM Panel</td>
+												<td><input type="text" class="form-control" name="actual_114_114_b_current_dm_panel_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_b_current_dm_panel_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_b_current_dm_panel_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_b_current_dm_panel_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_114_b_current_dm_panel"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Data logging</td>
+												<td><input type="text" class="form-control" name="actual_114_114_b_current_data_logging_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_b_current_data_logging_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_b_current_data_logging_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_b_current_data_logging_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_114_b_current_data_logging"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Test points (mV)</td>
+												<td><input type="text" class="form-control" name="actual_114_114_b_current_test_points_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_b_current_test_points_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_b_current_test_points_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_b_current_test_points_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_114_b_current_test_points"></textarea></td>
+											</tr>
+											<tr>
+												<td>POWER Recorded by Data logging system in KW</td>
+												<td><input type="text" class="form-control" name="actual_114_114_b_current_power_recorded_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_b_current_power_recorded_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_b_current_power_recorded_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_b_current_power_recorded_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_114_b_current_power_recorded"></textarea></td>
+											</tr>
+
+											<tr>
+												<td rowspan="9">114.114.c</td>
+												<td>VOLTAGE measured at</td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>- DM Panel</td>
+												<td><input type="text" class="form-control" name="actual_114_114_c_dm_panel_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_c_dm_panel_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_c_dm_panel_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_c_dm_panel_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_114_c_dm_panel"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Data logging</td>
+												<td><input type="text" class="form-control" name="actual_114_114_c_data_logging_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_c_data_logging_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_c_data_logging_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_c_data_logging_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_114_c_data_logging"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Test Points</td>
+												<td><input type="text" class="form-control" name="actual_114_114_c_test_points_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_c_test_points_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_c_test_points_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_c_test_points_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_114_c_test_points"></textarea></td>
+											</tr>
+											<tr>
+												<td>CURRENT in Amps :</td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td  ></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>- DM Panel</td>
+												<td><input type="text" class="form-control" name="actual_114_114_c_current_dm_panel_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_c_current_dm_panel_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_c_current_dm_panel_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_c_current_dm_panel_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_114_c_current_dm_panel"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Data logging</td>
+												<td><input type="text" class="form-control" name="actual_114_114_c_current_data_logging_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_c_current_data_logging_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_c_current_data_logging_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_c_current_data_logging_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_114_c_current_data_logging"></textarea></td>
+											</tr>
+											<tr>
+												<td>- Test points (mV)</td>
+												<td><input type="text" class="form-control" name="actual_114_114_c_current_test_points_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_c_current_test_points_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_c_current_test_points_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_c_current_test_points_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_114_c_current_test_points"></textarea></td>
+											</tr>
+											<tr>
+												<td>POWER Recorded by Data logging system in KW</td>
+												<td><input type="text" class="form-control" name="actual_114_114_c_current_power_recorded_g1"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_c_current_power_recorded_g2"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_c_current_power_recorded_g3"></td>
+												<td><input type="text" class="form-control" name="actual_114_114_c_current_power_recorded_g4"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="remarks_114_114_c_current_power_recorded"></textarea></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<div class="d-flex justify-content-center mt-4">
+								<button type="submit" class="btn btn-success px-4">Save</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

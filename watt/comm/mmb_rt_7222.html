@@ -1,0 +1,232 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+	.inline-middle {
+		vertical-align: middle;
+	}
+
+	.cell-align-top {
+		vertical-align: top;
+	}
+
+	.matrix-table-no-gap {
+		margin-bottom: 0;
+	}
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">WATT</a></li>
+					<li class="breadcrumb-item">Communication</li>
+					<li class="breadcrumb-item active" aria-current="page">MMB RT 6222</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">MMB RT 6222 - OP Checks</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-3 mb-4">
+					<form method="post" id="mmb_rt_7222_form">
+						{% csrf_token %}
+
+						<input type="hidden" id="mmb_rt_7222_form_id" name="mmb_rt_7222_form_id" value="mmb_rt_7222_communication_checks">
+						<input type="hidden" id="mmb_rt_7222_form_name" name="mmb_rt_7222_form_name" value="MMB_RT_6222_OP_CHECKS">
+
+						<fieldset class="custom-fieldset">
+							<legend class="legend-custom text-uppercase">Basic Information</legend>
+							<div class="row g-3">
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<select class="form-control" id="mmb_rt_7222_ship_name" name="mmb_rt_7222_ship_name" required>
+											<option value="">--Select--</option>
+											{% for ship in ship_options %}
+											<option value="{{ ship.value }}">{{ ship.label }}</option>
+											{% endfor %}
+										</select>
+										<label class="form_control_1" for="mmb_rt_7222_ship_name">Ship <span class="text-danger">*</span></label>
+									</div>
+								</div>
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<select class="form-control" id="mmb_rt_7222_department" name="mmb_rt_7222_department" required>
+											<option value="">-- Select --</option>
+											<option value="ND">ND</option>
+											<option value="ASW">ASW</option>
+											<option value="COMM">COMM</option>
+											<option value="GUNNERY">GUNNERY</option>
+										</select>
+										<label class="form_control_1" for="mmb_rt_7222_department">Department <span class="text-danger">*</span></label>
+									</div>
+								</div>
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<input type="text" class="form-control" id="mmb_rt_7222_equipment" name="mmb_rt_7222_equipment" value="MMB RT 6222" required>
+										<label class="form_control_1" for="mmb_rt_7222_equipment">Equipment <span class="text-danger">*</span></label>
+									</div>
+								</div>
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<input type="date" class="form-control" id="mmb_rt_7222_date" name="mmb_rt_7222_date" required>
+										<label class="form_control_1" for="mmb_rt_7222_date">Date <span class="text-danger">*</span></label>
+									</div>
+								</div>
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<select class="form-control" id="mmb_rt_7222_nature_of_trials" name="mmb_rt_7222_nature_of_trials" required>
+											<option value="">--Select--</option>
+											<option value="SATs">SATs</option>
+											<option value="HATS">HATs</option>
+											<option value="OP_CHECKS">OP CHECKS</option>
+											<option value="IIS">IIs</option>
+										</select>
+										<label class="form_control_1" for="mmb_rt_7222_nature_of_trials">Nature of Trial</label>
+									</div>
+								</div>
+							</div>
+						</fieldset>
+
+						<fieldset class="custom-fieldset">
+							<legend class="legend-custom text-uppercase">Checks</legend>
+
+							<div class="mb-2">
+								Trial Team reported onboard for Op Checks of <strong>MMB RT 6222</strong> at
+								<textarea id="mmb_rt_7222_reported_time" name="mmb_rt_7222_reported_time" rows="1" class="form-control d-inline-block wrstg-scroll-textarea embarked-hrs inline-middle" required></textarea>
+								hrs. The trials were carried out iaw IHQ MoD (N) /DNS fax CM/0301/Ops_ Dated, 27 Dec 23 approved schedule and CNO. 07/10 are enumerated in succeeding paragraph. :-
+							</div>
+
+							<div class="table-responsive">
+								<table class="custom_tbl" id="mmb_rt_7222_checks_table">
+									<thead class="table-dark-head">
+										<tr>
+											<th>Ser</th>
+											<th>Checks</th>
+											<th>Observations</th>
+											<th>Remarks</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>(A)</td>
+											<td colspan="3"><strong><u>Physical Checks</u></strong></td>
+										</tr>
+										<tr><td></td><td>(i)</td><td>Fitment of Tx/Rx unit in Bridge/Flag Bridge.</td><td><label><input type="radio" name="mmb_rt_7222_a_i" value="SAT" required> Sat</label><label><input type="radio" name="mmb_rt_7222_a_i" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td>(ii)</td><td>Fitment of Antenna in <textarea id="mmb_rt_7222_a_ii_location" name="mmb_rt_7222_a_ii_location" rows="1" class="form-control d-inline-block wrstg-scroll-textarea embarked-hrs inline-middle"></textarea></td><td><label><input type="radio" name="mmb_rt_7222_a_ii" value="SAT" required> Sat</label><label><input type="radio" name="mmb_rt_7222_a_ii" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td>(iii)</td><td>Antenna connection to Tx/Rx.</td><td><label><input type="radio" name="mmb_rt_7222_a_iii" value="SAT" required> Sat</label><label><input type="radio" name="mmb_rt_7222_a_iii" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td>(iv)</td><td>Grounding of Tx/Rx and securing of system.</td><td><label><input type="radio" name="mmb_rt_7222_a_iv" value="SAT" required> Sat</label><label><input type="radio" name="mmb_rt_7222_a_iv" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td>(v)</td><td>All sub-assemblies are fixed properly.</td><td><label><input type="radio" name="mmb_rt_7222_a_v" value="SAT" required> Sat</label><label><input type="radio" name="mmb_rt_7222_a_v" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td>(vi)</td><td>Securing of connecting cables.</td><td><label><input type="radio" name="mmb_rt_7222_a_vi" value="SAT" required> Sat</label><label><input type="radio" name="mmb_rt_7222_a_vi" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td>(vii)</td><td>Power supply to Tx/Rx.</td><td><label><input type="radio" name="mmb_rt_7222_a_vii" value="SAT" required> Sat</label><label><input type="radio" name="mmb_rt_7222_a_vii" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td>(viii)</td><td>Switch from main power supply to uninterrupted power supply and Air conditioning in the compartment.</td><td><label><input type="radio" name="mmb_rt_7222_a_viii" value="SAT" required> Sat</label><label><input type="radio" name="mmb_rt_7222_a_viii" value="UNSAT"> Unsat</label></td></tr>
+
+										<tr>
+											<td>(B)</td>
+											<td colspan="3"><strong><u>Functional Checks</u></strong></td>
+										</tr>
+										<tr><td></td><td>(i)</td><td>Switch on Main power supply &amp; indication on VHF Control unit.</td><td><label><input type="radio" name="mmb_rt_7222_b_i" value="SAT" required> Sat</label><label><input type="radio" name="mmb_rt_7222_b_i" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td>(ii)</td><td>Check and Verify key function, volume controls, menu functions.</td><td><label><input type="radio" name="mmb_rt_7222_b_ii" value="SAT" required> Sat</label><label><input type="radio" name="mmb_rt_7222_b_ii" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td>(iii)</td><td>Check position data from GPS.</td><td><label><input type="radio" name="mmb_rt_7222_b_iii" value="SAT" required> Sat</label><label><input type="radio" name="mmb_rt_7222_b_iii" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td>(iv)</td><td>Check and verify DSC test.</td><td><label><input type="radio" name="mmb_rt_7222_b_iv" value="SAT" required> Sat</label><label><input type="radio" name="mmb_rt_7222_b_iv" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td>(v)</td><td>Check RT operation, transmission and reception on various frequencies.</td><td><label><input type="radio" name="mmb_rt_7222_b_v" value="SAT" required> Sat</label><label><input type="radio" name="mmb_rt_7222_b_v" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td>(vi)</td><td>Check communication with Navy control and Tower.</td><td><label><input type="radio" name="mmb_rt_7222_b_vi" value="SAT" required> Sat</label><label><input type="radio" name="mmb_rt_7222_b_vi" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td>(vii)</td><td>Verify the transmission power (25 W).</td><td><label><input type="radio" name="mmb_rt_7222_b_vii" value="SAT" required> Sat</label><label><input type="radio" name="mmb_rt_7222_b_vii" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td>(ix)</td><td>DSC Checks.</td><td><label><input type="radio" name="mmb_rt_7222_b_ix" value="SAT" required> Sat</label><label><input type="radio" name="mmb_rt_7222_b_ix" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td>(x)</td><td>Select same channel on VHF radio set and onboard available portable VHF set for voice communication.</td><td><label><input type="radio" name="mmb_rt_7222_b_x" value="SAT" required> Sat</label><label><input type="radio" name="mmb_rt_7222_b_x" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td>(xi)</td><td>Check interfacing with DMR 16A and check recording. Switch from main power supply to uninterrupted power supply and the overall Stability of the power supply.</td><td><label><input type="radio" name="mmb_rt_7222_b_xi" value="SAT" required> Sat</label><label><input type="radio" name="mmb_rt_7222_b_xi" value="UNSAT"> Unsat</label></td></tr>
+									</tbody>
+								</table>
+							</div>
+						</fieldset>
+
+						<fieldset class="custom-fieldset">
+							<legend class="legend-custom text-uppercase">Remarks</legend>
+							<div class="static-section">
+								<div class="table-responsive">
+									<table class="custom_tbl" id="remarks_table">
+										<thead>
+											<tr>
+												<th class="serial-no">Sr No</th>
+												<th>Observations</th>
+												<th>SS Remarks</th>
+												<th class="action">Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no">1</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" data-base-name="observation" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" data-base-name="ss_remarks" rows="2"></textarea></td>
+												<td class="action action-cell-holder">
+													<div class="action-controls">
+														<button type="button" class="btn-round btn-add" onclick="addRow('remarks_table')" title="Add Row">+</button>
+														<button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'remarks_table')" title="Remove Row">-</button>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</fieldset>
+
+						<fieldset class="custom-fieldset">
+							<legend class="legend-custom text-uppercase">Presenting Authority</legend>
+							<div class="row g-3">
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<select class="form-control" id="mmb_rt_7222_presenting_authority" name="mmb_rt_7222_presenting_authority" required>
+											<option value="">--Select--</option>
+											<option value="dockyard">Dockyard</option>
+											<option value="shipstaff">Shipstaff</option>
+											<option value="oem">OEM</option>
+										</select>
+										<label class="form_control_1" for="mmb_rt_7222_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+									</div>
+								</div>
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<input type="text" class="form-control" id="mmb_rt_7222_watt" name="mmb_rt_7222_watt" value="VZG" >
+										<label class="form_control_1" for="mmb_rt_7222_watt">WATT</label>
+									</div>
+								</div>
+							</div>
+						</fieldset>
+
+						<div class="d-flex justify-content-center mt-4">
+							<button type="submit" class="btn btn-success px-4">Save</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		WRSTGQuarterly.init({
+			extraTableIds: ['remarks_table'],
+			submitConfirmation: { formId: 'mmb_rt_7222_form' }
+		});
+	});
+</script>
+{% endblock js %}

@@ -1,0 +1,298 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">WATT</a></li>
+                    <li class="breadcrumb-item">Gunnery</li>
+                    <li class="breadcrumb-item active" aria-current="page">AMDR 2D</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">AMDR 2D 740101</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-3 mb-4">
+                    <form method="post" id="amdr_2d_form">
+                        {% csrf_token %}
+
+                        <input type="hidden" id="form_id" name="form_id" value="artx_1000_7110012">
+                        <input type="hidden" id="form_name" name="form_name" value="HF_TXR_ATRX_1000_OP_CHECKS">
+
+                        <fieldset class="custom-fieldset">
+                            <legend class="legend-custom text-uppercase">Basic Information</legend>
+                            <div class="row g-3">
+
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <select class="form-control" name="ship" required>
+                                            <option value="">--Select--</option>
+                                            {% for ship in ship_options %}
+                                            <option value="{{ ship.value }}">{{ ship.label }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <label class="form_control_1">Ship <span class="text-danger">*</span></label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <select class="form-control" id="department_select" name="department">
+                                            <option value="">-- Select --</option>
+                                            
+                                            <option value="P28">GUN</option>
+                                        </select>
+                                        <label class="form_control_1">Department</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                       <input type="text" class="form-control" name="equipment" value="AMDR 2D"
+                                                required>
+                                            <label class="form_control_1">EQUIPMENT <span
+                                                    class="text-danger">*</span></label>
+                                       
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <input type="date" class="form-control" id="date_input" name="date_">
+                                        <label class="form_control_1">Date</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <select class="form-control" id="nature_trials_select" name="nature_of_trials"
+                                            required>
+                                            <option value="">--Select--</option>
+                                            <option value="SATs">SATs</option>
+                                            <option value="HATS">HATs</option>
+                                            <option value="OP_CHECKS">OP CHECKS</option>
+                                            <option value="IIS">IIs</option>
+                                        </select>
+                                        <label class="form_control_1">Nature of Trial</label>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="custom-fieldset">
+                            <legend class="legend-custom text-uppercase">Checks</legend>
+
+
+                            <div class="table-responsive">
+                                <table class="custom_tbl">
+                                    <thead class="table-dark-head">
+                                        <tr>
+                                            <th >SER</th>
+                                            <th>OBSERVATIONS / CHECK DESCRIPTION AS PER SCHEDULE</th>
+                                            <th >RESULT<br>SAT / UNSAT</th>
+                                            <th>REMARKS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="4">Trials team embarked onboard at <input type="text" class="line-input embarked-hrs" name="amdr_embark_time">on
+                                                <input type="date" class="line-input embarked-hrs" name="amdr_embark_date"> for SATs
+                                                of AMDR 2D as per approved schedule, BR 4050 and CNO 07/10. Following
+                                                observed:-</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4"><b>CHECKS</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td> <b>Area at Sea: -</b></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+
+                                        <!-- ===== TEST 2: SURFACE TARGET ===== -->
+                                        <tr>
+                                            <td><strong>01</strong></td>
+                                            <td>
+                                                <strong>Test No. 2 – Tests Involving Surface Target</strong>
+                                                <em>(Freight Service Vessel)</em><br><br>
+                                                Demonstration of AMDR surface target detection and display it on
+                                                radar video
+                                                <strong>(From 2.1.1 to 2.1.4)</strong><br><br>
+                                                <span class="text-muted">
+                                                    <strong>Note:</strong> The surface target will start closing
+                                                    from <strong>30 Km</strong> up to <strong>15 Km</strong>.
+                                                </span>
+                                            </td>
+                                              <td class="text-center">
+                                                    <label><input type="radio" name="status_5_11" value="SAT">
+                                                        SAT</label>
+                                                    <label><input type="radio" name="status_5_11" value="UNSAT">
+                                                        UNSAT</label>
+                                                </td>
+                                            <td>
+                                                <textarea class="form-control wrstg-scroll-textarea" rows="4"
+                                                    name="ch_test_2_remarks"></textarea>
+                                            </td>
+                                        </tr>
+
+                                        <!-- ===== TEST 3: AIR TARGET ===== -->
+                                        <tr>
+                                            <td><strong>02</strong></td>
+                                            <td>
+                                                <strong>Test No. 3 – Test Involving Air Target</strong>
+                                                <strong>(From 3.1.1 to 3.1.5)</strong><br><br>
+
+                                                <strong>Target Parameters for the Air Target:</strong>
+                                                <ul class="mb-2">
+                                                    <li>Flight Altitude: <strong>5000 ft</strong> and
+                                                        <strong>300 ft to 500 ft</strong>
+                                                    </li>
+                                                    <li>Range: from <strong>200 Km to 10 Km</strong></li>
+                                                    <li>Target Speed: <strong>300 Knots</strong></li>
+                                                </ul>
+
+                                                <!-- Run 01: In-Bound -->
+                                                <div class="run-block">
+                                                    <strong>Run 01 (In-Bound)</strong><br>
+                                                    <div class="row g-2 mt-1">
+                                                        <div class="col-6">
+                                                            <label class="sub-check-label">(a) IDR -</label><br>
+                                                            <label class="sub-check-label">(b) MTR-</label>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <!-- Run 02: Out-Bound -->
+                                                <div class="run-block mt-2">
+                                                    <strong>Run 02 (Out-Bound)</strong><br>
+                                                    <div class="row g-2 mt-1">
+                                                        <div class="col-6">
+                                                            <label class="sub-check-label">(a) IDR-</label><br>
+                                                            <label class="sub-check-label">(b) MTR-</label>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <!-- Run 03: In-Bound -->
+                                                <div class="run-block mt-2">
+                                                    <strong>Run 03 (In-Bound)</strong><br>
+                                                    <div class="row g-2 mt-1">
+                                                        <div class="col-6">
+                                                            <label class="sub-check-label">(a) IDR-</label><br>
+                                                            <label class="sub-check-label">(b) MTR-</label>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <!-- Run 04: Out-Bound -->
+                                                <div class="run-block mt-2">
+                                                    <strong>Run 04 (Out-Bound)</strong><br>
+                                                    <div class="row g-2 mt-1">
+                                                        <div class="col-6">
+                                                            <label class="sub-check-label">(a) IDR-</label>
+                                                            <label class="sub-check-label">(b) MTR-</label>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </td>
+                                             <td class="text-center">
+                                                    <label><input type="radio" name="status_5_3" value="SAT">
+                                                        SAT</label>
+                                                    <label><input type="radio" name="status_5_3" value="UNSAT">
+                                                        UNSAT</label>
+                                                </td>
+                                            <td>
+                                                <textarea class="form-control wrstg-scroll-textarea" rows="10"
+                                                    name="ch_test_3_remarks"></textarea>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4"><b>SATs RUN DOWN.</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4"><b>Note: </b>If AMDR dropped the target indicate range..
+                                            </td>
+                                        </tr>
+
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                <div class="row g-3">
+                    <div class="col-md-4 col-12">
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <select class="form-control" id="dmr_16a_presenting_authority"
+                                name="dmr_16a_presenting_authority" required>
+                                <option value="">--Select--</option>
+
+                                <option value="shipstaff">Shipstaff</option>
+
+                            </select>
+                            <label class="form_control_1" for="dmr_16a_presenting_authority">Presenting
+                                Authority <span class="text-danger">*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" id="dmr_16a_watt"
+                                name="dmr_16a_inspecting_authority" value="WATT">
+                            <label class="form_control_1" for="dmr_16a_watt">Inspecting Authority</label>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="d-flex justify-content-center mt-4">
+                <button type="submit" class="btn btn-success px-4">Save</button>
+            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        WRSTGQuarterly.init({
+            extraTableIds: [, 'remarks_table',],
+            submitConfirmation: { formId: 'artx_1000_form' }
+        });
+    });
+</script>
+{% endblock js %}

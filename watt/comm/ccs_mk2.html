@@ -1,0 +1,275 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+	.checks-text-input {
+		width: 140px !important;
+		min-width: 140px !important;
+		max-width: 140px !important;
+		height: 34px;
+		box-sizing: border-box;
+	}
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">WATT</a></li>
+					<li class="breadcrumb-item">Communication</li>
+					<li class="breadcrumb-item active" aria-current="page">CCS MK2</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">CCS MK II - OP Checks</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-3 mb-4">
+					<form method="post" id="ccs_mk2_form">
+						{% csrf_token %}
+
+						<input type="hidden" id="ccs_mk2_form_id" name="ccs_mk2_form_id" value="ccs_mk2_communication_checks">
+						<input type="hidden" id="ccs_mk2_form_name" name="ccs_mk2_form_name" value="CCS_MK2_OP_CHECKS">
+
+						<fieldset class="custom-fieldset">
+							<legend class="legend-custom text-uppercase">Basic Information</legend>
+							<div class="row g-3">
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<select class="form-control" id="ccs_mk2_ship_name" name="ccs_mk2_ship_name" required>
+											<option value="">--Select--</option>
+											{% for ship in ship_options %}
+											<option value="{{ ship.value }}">{{ ship.label }}</option>
+											{% endfor %}
+										</select>
+										<label class="form_control_1" for="ccs_mk2_ship_name">Ship <span class="text-danger">*</span></label>
+									</div>
+								</div>
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<select class="form-control" id="ccs_mk2_department" name="ccs_mk2_department" required>
+											<option value="">-- Select --</option>
+											<option value="ND">ND</option>
+											<option value="ASW">ASW</option>
+											<option value="COMM">COMM</option>
+											<option value="GUNNERY">GUNNERY</option>
+										</select>
+										<label class="form_control_1" for="ccs_mk2_department">Department <span class="text-danger">*</span></label>
+									</div>
+								</div>
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<input type="text" class="form-control" id="ccs_mk2_equipment" name="ccs_mk2_equipment" value="CCS MK II" required>
+										<label class="form_control_1" for="ccs_mk2_equipment">Equipment <span class="text-danger">*</span></label>
+									</div>
+								</div>
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<input type="date" class="form-control" id="ccs_mk2_date" name="ccs_mk2_date" required>
+										<label class="form_control_1" for="ccs_mk2_date">Date <span class="text-danger">*</span></label>
+									</div>
+								</div>
+								<div class="col-md-4 col-12">
+                                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                <select class="form-control" id="nature_trials_select" name="nature_of_trials" required>
+                                    <option value="">--Select--</option>
+                                    <option value="SATs">SATs</option>
+                                    <option value="HATS">HATs</option>
+                                    <option value="OP_CHECKS">OP CHECKS</option>
+                                    <option value="IIS">IIs</option>
+                                    </select>
+                                    <label class="form_control_1">Nature of Trial</label>
+                                </div>
+                            </div>
+							</div>
+						</fieldset>
+
+						<fieldset class="custom-fieldset">
+							<legend class="legend-custom text-uppercase">Checks</legend>
+
+							<div class="mb-2">
+								Trial team reported onboard for Ops Check of CCS MK II at
+								<input type="time" id="ccs_mk2_reported_time" name="ccs_mk2_reported_time" class="form-control d-inline-block checks-text-input" required>
+								hrs Checks and trials carried out IAW IHQ MoD(Navy)/DEE approved schedule EE/05/1963 dated 20 Feb 14 and CNO, 07/10 are enumerated in succeeding paragraphs :-
+							</div>
+
+							<div class="table-responsive">
+								<table class="custom_tbl" id="ccs_mk2_checks_table">
+									<thead class="table-dark-head">
+										<tr>
+											<th>Ser</th>
+											<th class="checks-col">Checks</th>
+											<th class="obs-col">Observations</th>
+											<th class="remarks-col">Remarks (SAT / UNSAT)</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>2.1</td>
+											<td colspan="3"><strong><u>INITIAL CHECKS.</u></strong></td>
+										</tr>
+										<tr>
+											<td></td>
+											<td>(i)</td>
+											<td>CCT Desk <input type="text" id="ccs_mk2_cct_desk_no" name="ccs_mk2_cct_desk_no" class="form-control d-inline-block checks-text-input"> fitted in <input type="text" id="ccs_mk2_cct_desk_location" name="ccs_mk2_cct_desk_location" class="form-control d-inline-block checks-text-input"></td>
+											<td><div class="sat-unsat"><label><input type="radio" id="ccs_mk2_2_1_i_sat" name="ccs_mk2_2_1_i" value="SAT" required> SAT</label><label><input type="radio" id="ccs_mk2_2_1_i_unsat" name="ccs_mk2_2_1_i" value="UNSAT"> UNSAT</label></div></td>
+										</tr>
+										<tr>
+											<td></td>
+											<td>(ii)</td>
+											<td>
+												CCT Desk <input type="text" id="ccs_mk2_cct_desk_count" name="ccs_mk2_cct_desk_count" class="form-control d-inline-block checks-text-input"> Total
+												<input type="text" id="ccs_mk2_total_itu" name="ccs_mk2_total_itu" class="form-control d-inline-block checks-text-input"> ITUs fitted in:
+												MCO <input type="text" id="ccs_mk2_itu_mco" name="ccs_mk2_itu_mco" class="form-control d-inline-block checks-text-input">,
+												Bridge <input type="text" id="ccs_mk2_itu_bridge" name="ccs_mk2_itu_bridge" class="form-control d-inline-block checks-text-input">,
+												LSO <input type="text" id="ccs_mk2_itu_lso_1" name="ccs_mk2_itu_lso_1" class="form-control d-inline-block checks-text-input">,
+												<br>
+												Ops Room <input type="text" id="ccs_mk2_itu_ops_room" name="ccs_mk2_itu_ops_room" class="form-control d-inline-block checks-text-input">,
+												LSO <input type="text" id="ccs_mk2_itu_lso_2" name="ccs_mk2_itu_lso_2" class="form-control d-inline-block checks-text-input">,
+												Rx Room <input type="text" id="ccs_mk2_itu_rx_room" name="ccs_mk2_itu_rx_room" class="form-control d-inline-block checks-text-input">,
+												Tx Room <input type="text" id="ccs_mk2_itu_tx_room" name="ccs_mk2_itu_tx_room" class="form-control d-inline-block checks-text-input">,
+												EW Post <input type="text" id="ccs_mk2_itu_ew_post" name="ccs_mk2_itu_ew_post" class="form-control d-inline-block checks-text-input">,
+												<br>
+												Conning position <input type="text" id="ccs_mk2_itu_conning_position" name="ccs_mk2_itu_conning_position" class="form-control d-inline-block checks-text-input">.
+											</td>
+											<td><div class="sat-unsat"><label><input type="radio" id="ccs_mk2_2_1_ii_sat" name="ccs_mk2_2_1_ii" value="SAT" required> SAT</label><label><input type="radio" id="ccs_mk2_2_1_ii_unsat" name="ccs_mk2_2_1_ii" value="UNSAT"> UNSAT</label></div></td>
+										</tr>
+										<tr>
+											<td></td>
+											<td>(iii)</td>
+											<td>
+												Total Concentrator <input type="text" id="ccs_mk2_total_concentrator" name="ccs_mk2_total_concentrator" class="form-control d-inline-block checks-text-input"> fitted in
+												MCO <input type="text" id="ccs_mk2_concentrator_mco" name="ccs_mk2_concentrator_mco" class="form-control d-inline-block checks-text-input">,
+												Tx Room <input type="text" id="ccs_mk2_concentrator_tx_room" name="ccs_mk2_concentrator_tx_room" class="form-control d-inline-block checks-text-input">,
+												Rx Room <input type="text" id="ccs_mk2_concentrator_rx_room" name="ccs_mk2_concentrator_rx_room" class="form-control d-inline-block checks-text-input">,
+												<br>
+												Ops Room <input type="text" id="ccs_mk2_concentrator_ops_room" name="ccs_mk2_concentrator_ops_room" class="form-control d-inline-block checks-text-input">,
+												Bridge <input type="text" id="ccs_mk2_concentrator_bridge" name="ccs_mk2_concentrator_bridge" class="form-control d-inline-block checks-text-input">.
+											</td>
+											<td><div class="sat-unsat"><label><input type="radio" id="ccs_mk2_2_1_iii_sat" name="ccs_mk2_2_1_iii" value="SAT" required> SAT</label><label><input type="radio" id="ccs_mk2_2_1_iii_unsat" name="ccs_mk2_2_1_iii" value="UNSAT"> UNSAT</label></div></td>
+										</tr>
+										<tr>
+											<td></td>
+											<td>(iv)</td>
+											<td>Total PCTP <input type="text" id="ccs_mk2_total_pctp" name="ccs_mk2_total_pctp" class="form-control d-inline-block checks-text-input"> fitted in <input type="text" id="ccs_mk2_pctp_location" name="ccs_mk2_pctp_location" class="form-control d-inline-block checks-text-input"></td>
+											<td><div class="sat-unsat"><label><input type="radio" id="ccs_mk2_2_1_iv_sat" name="ccs_mk2_2_1_iv" value="SAT" required> SAT</label><label><input type="radio" id="ccs_mk2_2_1_iv_unsat" name="ccs_mk2_2_1_iv" value="UNSAT"> UNSAT</label></div></td>
+										</tr>
+
+										<tr>
+											<td>2.2</td>
+											<td colspan="3"><strong><u>PRELIMINARY CHECKS.</u></strong></td>
+										</tr>
+										<tr><td></td><td>(i)</td><td>Securing of connecting cable and units of the system.</td><td><div class="sat-unsat"><label><input type="radio" id="ccs_mk2_2_2_i_sat" name="ccs_mk2_2_2_i" value="SAT" required> SAT</label><label><input type="radio" id="ccs_mk2_2_2_i_unsat" name="ccs_mk2_2_2_i" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>(ii)</td><td>Grounding and AC in the compartment.</td><td><div class="sat-unsat"><label><input type="radio" id="ccs_mk2_2_2_ii_sat" name="ccs_mk2_2_2_ii" value="SAT" required> SAT</label><label><input type="radio" id="ccs_mk2_2_2_ii_unsat" name="ccs_mk2_2_2_ii" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>(iii)</td><td>Stabilised power supply to the system.</td><td><div class="sat-unsat"><label><input type="radio" id="ccs_mk2_2_2_iii_sat" name="ccs_mk2_2_2_iii" value="SAT" required> SAT</label><label><input type="radio" id="ccs_mk2_2_2_iii_unsat" name="ccs_mk2_2_2_iii" value="UNSAT"> UNSAT</label></div></td></tr>
+
+										<tr>
+											<td>2.6</td>
+											<td colspan="3"><strong><u>Functional Checks</u></strong></td>
+										</tr>
+										<tr><td>D</td><td>2.6.1</td><td>Check ITUs Self-test (By pressing SPL 8 and ENTER).</td><td><div class="sat-unsat"><label><input type="radio" id="ccs_mk2_2_6_1_sat" name="ccs_mk2_2_6_1" value="SAT" required> SAT</label><label><input type="radio" id="ccs_mk2_2_6_1_unsat" name="ccs_mk2_2_6_1" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>2.6.2</td><td>Check Intercom Operation of all ITUs.</td><td><div class="sat-unsat"><label><input type="radio" id="ccs_mk2_2_6_2_sat" name="ccs_mk2_2_6_2" value="SAT" required> SAT</label><label><input type="radio" id="ccs_mk2_2_6_2_unsat" name="ccs_mk2_2_6_2" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>2.6.3</td><td>ITUs health check from CCT Desk.</td><td><div class="sat-unsat"><label><input type="radio" id="ccs_mk2_2_6_3_sat" name="ccs_mk2_2_6_3" value="SAT" required> SAT</label><label><input type="radio" id="ccs_mk2_2_6_3_unsat" name="ccs_mk2_2_6_3" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>2.6.4</td><td>Check CCT call conference.</td><td><div class="sat-unsat"><label><input type="radio" id="ccs_mk2_2_6_4_sat" name="ccs_mk2_2_6_4" value="SAT" required> SAT</label><label><input type="radio" id="ccs_mk2_2_6_4_unsat" name="ccs_mk2_2_6_4" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>2.6.5</td><td><strong>Radio Checks.</strong> Remoting of Tx/Rx ST 1075/ Tx/Rx ATRX 1000/ Tx/Rx TR 2400/ Rx EK 896 / V/UHF Tx/Rx PAE 3060/ PAE M7/ SDR NC <br> and check external communication with consort ships.</td><td><div class="sat-unsat"><label><input type="radio" id="ccs_mk2_2_6_5_sat" name="ccs_mk2_2_6_5" value="SAT" required> SAT</label><label><input type="radio" id="ccs_mk2_2_6_5_unsat" name="ccs_mk2_2_6_5" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td></td><td><strong>2.6.5.3</strong> Check Group Working.</td><td><div class="sat-unsat"><label><input type="radio" id="ccs_mk2_2_6_5_3_sat" name="ccs_mk2_2_6_5_3" value="SAT" required> SAT</label><label><input type="radio" id="ccs_mk2_2_6_5_3_unsat" name="ccs_mk2_2_6_5_3" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td></td><td><strong>2.6.5.4</strong> Check simultaneous, Radio and Intercom operation.</td><td><div class="sat-unsat"><label><input type="radio" id="ccs_mk2_2_6_5_4_sat" name="ccs_mk2_2_6_5_4" value="SAT" required> SAT</label><label><input type="radio" id="ccs_mk2_2_6_5_4_unsat" name="ccs_mk2_2_6_5_4" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>2.6.6</td><td><strong>Other functions of CCT Desk.</strong></td><td><div class="sat-unsat"><label><input type="radio" id="ccs_mk2_2_6_6_sat" name="ccs_mk2_2_6_6" value="SAT" required> SAT</label><label><input type="radio" id="ccs_mk2_2_6_6_unsat" name="ccs_mk2_2_6_6" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td></td><td><strong>2.6.6.1</strong> AF Monitoring unit.</td><td><div class="sat-unsat"><label><input type="radio" id="ccs_mk2_2_6_6_1_sat" name="ccs_mk2_2_6_6_1" value="SAT" required> SAT</label><label><input type="radio" id="ccs_mk2_2_6_6_1_unsat" name="ccs_mk2_2_6_6_1" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td></td><td><strong>2.6.6.2</strong> HF power monitoring.</td><td><div class="sat-unsat"><label><input type="radio" id="ccs_mk2_2_6_6_2_sat" name="ccs_mk2_2_6_6_2" value="SAT" required> SAT</label><label><input type="radio" id="ccs_mk2_2_6_6_2_unsat" name="ccs_mk2_2_6_6_2" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td></td><td><strong>2.6.6.3</strong> V/UHF power monitoring.</td><td><div class="sat-unsat"><label><input type="radio" id="ccs_mk2_2_6_6_3_sat" name="ccs_mk2_2_6_6_3" value="SAT" required> SAT</label><label><input type="radio" id="ccs_mk2_2_6_6_3_unsat" name="ccs_mk2_2_6_6_3" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td></td><td><strong>2.6.7.3.1</strong> Check Radio Silence.</td><td><div class="sat-unsat"><label><input type="radio" id="ccs_mk2_2_6_7_3_1_sat" name="ccs_mk2_2_6_7_3_1" value="SAT" required> SAT</label><label><input type="radio" id="ccs_mk2_2_6_7_3_1_unsat" name="ccs_mk2_2_6_7_3_1" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td></td><td><strong>2.6.7.3.3</strong> Store and Retrieve of Complan.</td><td><div class="sat-unsat"><label><input type="radio" id="ccs_mk2_2_6_7_3_3_sat" name="ccs_mk2_2_6_7_3_3" value="SAT" required> SAT</label><label><input type="radio" id="ccs_mk2_2_6_7_3_3_unsat" name="ccs_mk2_2_6_7_3_3" value="UNSAT"> UNSAT</label></div></td></tr>
+									</tbody>
+								</table>
+							</div>
+						</fieldset>
+
+						<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">REMARKS</legend>
+								<div class="static-section">
+								<div class="table-responsive">
+									<table class="custom_tbl" id="remarks_table">
+										<thead>
+											<tr>
+												<th class="serial-no">Sr No</th>
+												<th>Observations</th>
+												<th>SS Remarks</th>
+												<th class="action">Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no">1</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" data-base-name="observation" placeholder="" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" data-base-name="ss_remarks" placeholder="" rows="2"></textarea></td>
+												<td class="action action-cell-holder">
+													<div class="action-controls">
+														<button type="button" class="btn-round btn-add" onclick="addRow('remarks_table')" title="Add Row">+</button>
+														<button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'remarks_table')" title="Remove Row">-</button>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								</div>
+							</fieldset>
+							<fieldset class="custom-fieldset">
+                            <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                            <div class="row g-3">
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <select class="form-control" id="dmr_16a_presenting_authority" name="dmr_16a_presenting_authority" required>
+                                            <option value="">--Select--</option>
+                                            <option value="dockyard">Dockyard</option>
+                                            <option value="shipstaff">Shipstaff</option>
+                                            <option value="oem">OEM</option>
+                                        </select>
+                                        <label class="form_control_1" for="dmr_16a_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <input type="text" class="form-control" id="dmr_16a_watt" name="dmr_16a_watt" value="VZG" >
+                                        <label class="form_control_1" for="dmr_16a_watt">WATT</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+						<div class="d-flex justify-content-center mt-4">
+							<button type="submit" class="btn btn-success px-4">Save</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		WRSTGQuarterly.init({
+			extraTableIds: [, 'remarks_table',],
+			submitConfirmation: { formId: 'ccs_mk2_form' }
+		});
+	});
+</script>
+{% endblock js %}

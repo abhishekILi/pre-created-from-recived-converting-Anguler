@@ -1,0 +1,1398 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                         
+                        <span class="caption-subject bold">HEALTH AUDIT REPORT</span>
+                    </div>
+                    
+                </div>
+
+                <div class="portlet-body form mt-4 mb-4" style="background-color: transparent;">
+                    <form method="post" id="br_health_audit_form">
+                        {% csrf_token %}
+                        <div class="form-body" style="background-color: transparent;">
+                            
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">Information</legend>
+                                <div class="row g-3">
+                                    
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" name="ship" required>
+                                                <option value="">--Select--</option>
+                                                {% for ship in ship_options %}
+                                                <option value="{{ ship.value }}">{{ ship.label }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <label class="form_control_1">Ship Name<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12 ">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" id="ship_class" name="ship_class" required>
+                                                <option value="">Select Ship Class</option>
+                                                <option value="class1">Class 1</option>
+                                                <option value="class2">Class 2</option>
+                                            </select>
+                                            <label class="form_control_1">Ship Class<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12 ">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control " name="health_audit_no" required placeholder="Enter Health Audit No">
+                                            <label class="form_control_1">Health Audit No.<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" id="health_audit_status" name="health_audit_status" required>
+                                                <option value="">Select Health Audit Status</option>
+                                                <option value="satisfactory_with_observations">Satisfactory with Observations</option>
+                                                <option value="satisfactory_without_observations">Satisfactory without Observations</option>
+                                                <option value="unsatisfactory">Unsatisfactory</option>
+                                                <option value="na">N/A</option>
+                                            </select>
+                                            <label class="form_control_1">Health Audit Status<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" id="health_audit_type" name="health_audit_type" required>
+                                                <option value="">Select Health Audit Type</option>
+                                                <option value="type1">Annual</option>
+                                                <option value="type2">Prefiring</option>
+                                                <option value="type3">Postfiring</option>
+                                                <option value="type4">As Promulgated by AA</option>
+                                                <option value="na">N/A</option>
+                                            </select>
+                                            <label class="form_control_1">Health Audit Type<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                                
+
+                                    
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control " name="ship_health_audit_report_no" required placeholder="Enter ship health audit report no">
+                                            <label class="form_control_1">Ship Health Audit Report No.</label>
+                                        </div>
+                                    </div>
+
+                                    
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="date" class="form-control " name="audit_date" required>
+                                            <label class="form_control_1">Date<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control " name="equipment_code" required placeholder="Enter Equipment Code">
+                                            <label class="form_control_1">Equipment Code</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">BRAHMOS HEALTH AUDIT</legend>
+                                <div class="table-responsive">
+                                    <table id="Pre_Ranging_Table_1" class="custom_tbl">
+                                        <thead>
+                                            <th>SER</th>
+                                            <th>CHECK</th>
+                                            <th>REFERENCE</th>
+                                            <th>REMARKS</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                
+                                                <td colspan="4" class="section-heading fw-semibold text-uppercase text-center">
+                                                    Visual inspection of the system
+                                                </td>
+                                                
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td class="description-text">(a) Check proper condition and connection of cables and connectors of all units</td>
+                                                <td>Maintops W1</td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_1"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td class="description-text">(b) Check for hanging and loose cables</td>
+                                                <td>Maintops W1</td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_2"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td class="description-text">(c) Check cabinets and units undamaged and clean</td>
+                                                <td>Maintops W1</td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_3"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td class="description-text">(d) Check that all spare connectors of PCUs and SBMS are covered properly</td>
+                                                <td>Maintops W1</td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_4"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td class="description-text">(e) Check that there is no hydraulic oil leakages in hydraulics room and on launcher deck</td>
+                                                <td>Maintops W1</td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_5"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td class="description-text">(f) Check that temperature of equipment room and ops room is below 24±4°C</td>
+                                                <td>Maintops W1</td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_6"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>2</td>
+                                                <td class="description-text">Check that hydraulic oil analyses is Satisfactory and hydraulic pressure is above 200 bar when the motor (AC/DC) is running</td>
+                                                <td>Maintops W1</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_7"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>3</td>
+                                                <td class="description-text">Lubrication checks undertaken for launcher and hatches</td>
+                                                <td>Maintops W1</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_8"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>4</td>
+                                                <td class="description-text">Earthing and Bonding checks undertaken for UVLM and sub units of system</td>
+                                                <td>3M2</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_9"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>5</td>
+                                                <td class="description-text">Power supply checks undertaken PSU and CCU</td>
+                                                <td>HATS schedule 10.1</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_10"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>6</td>
+                                                <td class="description-text">Supply changeover checks undertaken from ship mains to Battery</td>
+                                                <td>HATS schedule 10.1</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_11"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>7</td>
+                                                <td class="description-text">Emergency launch operation using battery</td>
+                                                <td>HATS schedule 10.1</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_12"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>8</td>
+                                                <td class="description-text">SIGMA 40(MINS)data reception-Main</td>
+                                                <td>HATS schedule 10.2</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_13"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>9</td>
+                                                <td class="description-text">SIGMA 40(MINS)data reception-Reserve</td>
+                                                <td>HATS schedule 10.2</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_14"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>10</td>
+                                                <td class="description-text">Check GPS Aimanac data reception</td>
+                                                <td>HATS schedule Appendix 2 S.No.3</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_15"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>11</td>
+                                                <td class="description-text">Missile Heating test of Type-A using SBMS </td>
+                                                <td>HATS schedule 10.3</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_16"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>12</td>
+                                                <td class="description-text">Missile Heating test of Type-B using SBMS </td>
+                                                <td>HATS schedule 10.3</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_17"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>13</td>
+                                                <td class="description-text">Missile Health Checks of Type-A using SBMS </td>
+                                                <td>HATS schedule 10.4</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_18"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>14</td>
+                                                <td class="description-text">Missile Health Checks of Type-B using SBMS</td>
+                                                <td>HATS schedule 10.4</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_19"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>15</td>
+                                                <td class="description-text">Missile Launch checks in Single Salvo of Type-A using SBMS</td>
+                                                <td>HATS schedule 10.5</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_20"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>16</td>
+                                                <td class="description-text">Missile Launch checks in Single Salvo of Type-B using SBMS</td>
+                                                <td>HATS schedule 10.5</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_21"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>17</td>
+                                                <td class="description-text">Missile Launch in Dual Salvo of Type-A using SBMS</td>
+                                                <td>HATS schedule 10.6</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_22"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>18</td>
+                                                <td class="description-text">Missile Launch in Dual Salvo of Type-B using SBMS</td>
+                                                <td>HATS schedule 10.6</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_23"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>19</td>
+                                                <td class="description-text">Missile Launch in Single Salvo of Type-B using SBMS in Land Attack Mode</td>
+                                                <td>HATS schedule Appendix 2</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_24"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>20</td>
+                                                <td class="description-text">Missile Launch in Dual Salvo of Type-B using SBMS in Land Attack Mode</td>
+                                                <td>HATS schedule Appendix 2</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_25"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>21</td>
+                                                <td class="description-text">Launch Cancellation of Missile using MES</td>
+                                                <td>HATS schedule 10.9</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_26"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>22</td>
+                                                <td class="description-text">BFCS Checks in Main Mode</td>
+                                                <td>HATS schedule 10.10</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_27"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>23</td>
+                                                <td class="description-text">BFCS Checks in Reserve Mode</td>
+                                                <td>HATS schedule 10.11</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_28"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>24</td>
+                                                <td class="description-text">Combat Route Planning in Independent Mode</td>
+                                                <td>HATS schedule 10.12</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_29"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>25</td>
+                                                <td class="description-text">BFCS Maintenance Checks</td>
+                                                <td>HATS schedule 10.13</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_30"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>26</td>
+                                                <td class="description-text">Report Viewing in Independent mode</td>
+                                                <td>HATS schedule 10.14</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_31"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>27</td>
+                                                <td class="description-text">GUI Interlock Checks</td>
+                                                <td>HATS schedule 10.15</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_32"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>28</td>
+                                                <td class="description-text">Changing Salvo interval</td>
+                                                <td>HATS schedule 10.16</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_33"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>29</td>
+                                                <td class="description-text">SWISS Interlock Checks</td>
+                                                <td>HATS schedule 10.17</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_34"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>30</td>
+                                                <td class="description-text">BFCS Cartographic Checks</td>
+                                                <td>HATS schedule 10.18</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_35"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>31</td>
+                                                <td class="description-text">Check Hydraulic Status Display and controls to verify the hatch operation</td>
+                                                <td>HATS schedule 10.19</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_36"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>32</td>
+                                                <td class="description-text">Hatch close and open checks from CCU and /LHC/RHC/CVD/HPP</td>
+                                                <td>HATS schedule 10.20</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_37"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>33</td>
+                                                
+                                                <td colspan="4" class="section-heading fw-semibold text-uppercase text-center">
+                                                    Mustering of SPTA/Test Equipment/Documents
+                                                </td>
+                                                
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td class="description-text">(a)Mustering certificate of documents</td>
+                                                <td></td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_38"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td class="description-text">(b)Mustering of calibration certificate of all test equipments </td>
+                                                <td></td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_39"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>34</td>
+                                                
+                                                <td colspan="4" class="section-heading fw-semibold text-uppercase text-center">
+                                                    EMAP Checks
+                                                </td>
+                                                
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td class="description-text">(a)Check routines carried out and routines due as per approved MAINTOPS</td>
+                                                <td></td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_40"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td class="description-text">(b)Check battery replacement timeline as per MAINTOPS</td>
+                                                <td></td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_41"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td class="description-text">(C) Check the availability of maintenance instructions and policies for Brahmos issued by IHQ/HQWNC/WRSTG/OEM</td>
+                                                <td></td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_42"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td class="description-text">(D) Check usage of spares  updaed in EMAPS</td>
+                                                <td></td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_43"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td class="description-text">(E) Check oil analysis report of Hydraulic Systems</td>
+                                                <td></td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_44"></textarea>
+                                                </td>
+                                            </tr>
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+                        
+                            
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">DATA OBTAINED FROM SHIP</legend>
+                                <div class="table-responsive">
+                                    <table id="Pre_Ranging_Table_1" class="custom_tbl">
+                                        <thead>
+                                            <th>SER</th>
+                                            <th>PARAMETER</th> 
+                                            <th>REMARKS</th>
+                                        </thead>
+                                        
+                                        <tbody>
+
+                                            <tr>
+                                                <td>1</td>
+                                                <td class="description-text">Hatch seal changed date</td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_42"></textarea>
+                                                </td>
+                                            </tr>
+
+                                             <tr>
+                                                <td>2</td>
+                                                <td class="description-text">Battery commissioning date</td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_43"></textarea>
+                                                </td>
+                                            </tr>
+
+                                             <tr>
+                                                <td>3</td>
+                                                <td class="description-text">Hydraulic oil latest testing date</td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_44"></textarea>
+                                                </td>
+                                            </tr>
+                                             <tr>
+                                                <td>4</td>
+                                                <td class="description-text">TEM article check date</td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_45"></textarea>
+                                                </td>
+                                            </tr>
+                                             <tr>
+                                                <td>5</td>
+                                                <td class="description-text">Combat article health check date</td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_46"></textarea>
+                                                </td>
+                                            </tr>
+                                             <tr>
+                                                <td>6</td>
+                                                <td class="description-text">Last CIT date</td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_47"></textarea>
+                                                </td>
+                                            </tr>
+                                             <tr>
+                                                <td>7</td>
+                                                <td class="description-text">Critical Spare Required</td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_48"></textarea>
+                                                </td>
+                                            </tr>
+                                             <tr>
+                                                <td>8</td>
+                                                <td class="description-text">Last LSAS and VSAS load test date</td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="br_remarks_49"></textarea>
+                                                </td>
+                                            </tr>
+                                            
+                                            
+                
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+
+
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">VERIFICATION OF LAUNCHER PARAMETERS</legend>
+
+                                <div class="table-responsive">
+                                    <h4>Main MINS</h4>
+                                    <table id="Pre_Ranging_Table_1" class="custom_tbl">
+                                        <thead>
+                                            <th>LAUNCHER CELL</th>
+                                            <th>DX-TYPE A(MM)</th>
+                                            <th>DY-TYPE A(MM)</th>
+                                            <th>DZ-TYPE A(MM)</th>
+                                            <th>ACONST-TYPE A(DEG)</th>
+                                            <th>DX-TYPE B(MM)</th>
+                                            <th>DY-TYPE B(MM)</th>
+                                            <th>DZ-TYPE B(MM)</th>
+                                            <th>AX-TYPE B(DEG)</th>
+                                            <th>AY-TYPE B(DEG)</th>
+                                            <th>AZ-TYPE B(MM)</th>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr>
+                                                <td>Cell 1</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_50"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_51"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_52"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_53"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_54"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_55"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_56"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_57"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_58"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_59"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            
+                                            <tr>
+                                                <td>Cell 2</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_60"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_61"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_62"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_63"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_64"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_65"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_66"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_67"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_68"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_69"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Cell 3</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_70"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_71"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_72"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_73"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_74"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_75"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_76"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_77"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_78"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_79"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Cell 4</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_80"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_81"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_82"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_83"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_84"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_85"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_86"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_87"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_88"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_89"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Cell 5</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_90"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_91"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_92"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_93"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_94"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_95"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_96"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_97"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_98"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_99"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Cell 6</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_100"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_101"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_102"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_103"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_104"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_105"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_106"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_107"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_108"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_109"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Cell 7</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_110"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_111"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_112"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_113"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_114"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_115"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_116"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_117"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_118"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_119"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Cell 8</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_120"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_121"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_122"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_123"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_124"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_125"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_126"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_127"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_128"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_129"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Cell 9</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_130"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_131"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_132"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_133"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_134"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_135"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_136"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_137"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_138"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_139"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Cell 10</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_140"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_141"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_142"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_143"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_144"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_145"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_146"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_147"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_148"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_149"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Cell 11</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_150"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_151"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_152"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_153"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_154"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_155"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_156"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_157"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_158"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_159"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Cell 12</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_160"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_161"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_162"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_163"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_164"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_165"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_166"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_167"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_168"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_169"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Cell 13</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_170"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_171"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_172"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_173"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_174"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_175"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_176"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_177"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_178"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_179"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Cell 14</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_180"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_181"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_182"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_183"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_184"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_185"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_186"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_187"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_188"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_189"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Cell 15</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_190"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_191"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_192"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_193"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_194"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_195"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_196"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_197"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_198"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_199"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Cell 16</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_200"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_201"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_202"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_203"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_204"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_205"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_206"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_207"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_208"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_209"></textarea>
+                                                </td>
+                                            </tr>
+
+                                          
+                                        </tbody>
+                                    </table>
+
+                                    <h4 class="mt-4">Reserve MINS</h4>
+                                    <table id="Pre_Ranging_Table_2" class="custom_tbl">
+                                        <thead>
+                                            <th>LAUNCHER CELL</th>
+                                            <th>DX-TYPE A(MM)</th>
+                                            <th>DY-TYPE A(MM)</th>
+                                            <th>DZ-TYPE A(MM)</th>
+                                            <th>ACONST-TYPE A(DEG)</th>
+                                            <th>DX-TYPE B(MM)</th>
+                                            <th>DY-TYPE B(MM)</th>
+                                            <th>DZ-TYPE B(MM)</th>
+                                            <th>AX-TYPE B(DEG)</th>
+                                            <th>AY-TYPE B(DEG)</th>
+                                            <th>AZ-TYPE B(MM)</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr><td>Cell 1</td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_213"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_214"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_215"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_216"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_217"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_218"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_219"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_220"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_221"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_222"></textarea></td></tr>
+                                            <tr><td>Cell 2</td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_223"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_224"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_225"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_226"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_227"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_228"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_229"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_230"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_231"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_232"></textarea></td></tr>
+                                            <tr><td>Cell 3</td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_233"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_234"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_235"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_236"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_237"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_238"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_239"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_240"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_241"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_242"></textarea></td></tr>
+                                            <tr><td>Cell 4</td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_243"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_244"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_245"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_246"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_247"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_248"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_249"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_250"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_251"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_252"></textarea></td></tr>
+                                            <tr><td>Cell 5</td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_253"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_254"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_255"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_256"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_257"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_258"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_259"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_260"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_261"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_262"></textarea></td></tr>
+                                            <tr><td>Cell 6</td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_263"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_264"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_265"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_266"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_267"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_268"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_269"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_270"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_271"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_272"></textarea></td></tr>
+                                            <tr><td>Cell 7</td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_273"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_274"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_275"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_276"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_277"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_278"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_279"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_280"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_281"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_282"></textarea></td></tr>
+                                            <tr><td>Cell 8</td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_283"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_284"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_285"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_286"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_287"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_288"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_289"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_290"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_291"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_292"></textarea></td></tr>
+                                            <tr><td>Cell 9</td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_293"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_294"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_295"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_296"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_297"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_298"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_299"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_300"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_301"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_302"></textarea></td></tr>
+                                            <tr><td>Cell 10</td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_303"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_304"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_305"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_306"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_307"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_308"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_309"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_310"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_311"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_312"></textarea></td></tr>
+                                            <tr><td>Cell 11</td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_313"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_314"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_315"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_316"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_317"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_318"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_319"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_320"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_321"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_322"></textarea></td></tr>
+                                            <tr><td>Cell 12</td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_323"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_324"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_325"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_326"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_327"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_328"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_329"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_330"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_331"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_332"></textarea></td></tr>
+                                            <tr><td>Cell 13</td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_333"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_334"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_335"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_336"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_337"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_338"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_339"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_340"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_341"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_342"></textarea></td></tr>
+                                            <tr><td>Cell 14</td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_343"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_344"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_345"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_346"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_347"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_348"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_349"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_350"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_351"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_352"></textarea></td></tr>
+                                            <tr><td>Cell 15</td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_353"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_354"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_355"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_356"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_357"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_358"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_359"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_360"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_361"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_362"></textarea></td></tr>
+                                            <tr><td>Cell 16</td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_363"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_364"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_365"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_366"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_367"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_368"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_369"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_370"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_371"></textarea></td><td><textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="br_remarks_372"></textarea></td></tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+
+                                <div class="mb-4">
+                                    <strong>Outstanding Demand details With WED (Mbi)<span class="text-danger">*</span></strong>
+                                    <div class="table-responsive mt-2">
+                                        <table class="custom_tbl" id="br_outstanding_tbl">
+                                            <thead>
+                                                <tr>
+                                                    <th class="serial-no">Ser</th>
+                                                    <th>Description</th>
+                                                    <th>Part No</th>
+                                                    <th>Demand No</th>
+                                                    <th>Demand Date</th>
+                                                    <th>Qty</th>
+                                                    <th class="action">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="serial-no">1</td>
+                                                    <td>
+                                                        <textarea class="form-control wrstg-scroll-textarea" rows="1" data-base-name="br_outstanding_description" name="br_outstanding_description_row_1" placeholder="Enter description..."></textarea>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control" data-base-name="br_outstanding_part_no" name="br_outstanding_part_no_row_1" placeholder="Enter part no">
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control" data-base-name="br_outstanding_demand_no" name="br_outstanding_demand_no_row_1" placeholder="Enter demand no">
+                                                    </td>
+                                                    <td>
+                                                        <input type="date" class="form-control" data-base-name="br_outstanding_demand_date" name="br_outstanding_demand_date_row_1">
+                                                    </td>
+                                                    <td>
+                                                        <input type="number" class="form-control" data-base-name="br_outstanding_qty" name="br_outstanding_qty_row_1" placeholder="Enter qty">
+                                                    </td>
+                                                    <td class="action action-cell-holder">
+                                                        <div class="action-controls">
+                                                            <button type="button" class="btn-round btn-add" onclick="addRow('br_outstanding_tbl')" title="Add Row">+</button>
+                                                            <!-- <button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'br_outstanding_tbl')" title="Remove Row" disabled>-</button> -->
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <strong>Item Landed in Yard</strong>
+                                    <div class="table-responsive mt-2">
+                                        <table class="custom_tbl" id="br_landed_yard_tbl">
+                                            <thead>
+                                                <tr>
+                                                    <th class="serial-no">Ser</th>
+                                                    <th>Description</th>
+                                                    <th>Part No</th>
+                                                    <th>Qty</th>
+                                                    <th>Landed Date</th>
+                                                    <th>Remarks</th>
+                                                    <th class="action">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="serial-no">1</td>
+                                                    <td>
+                                                        <textarea class="form-control wrstg-scroll-textarea" rows="1" data-base-name="br_landed_description" name="br_landed_description_row_1" placeholder="Enter description..."></textarea>
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control" data-base-name="br_landed_part_no" name="br_landed_part_no_row_1" placeholder="Enter part no">
+                                                    </td>
+                                                    <td>
+                                                        <input type="number" class="form-control" data-base-name="br_landed_qty" name="br_landed_qty_row_1" placeholder="Enter qty">
+                                                    </td>
+                                                    <td>
+                                                        <input type="date" class="form-control" data-base-name="br_landed_date" name="br_landed_date_row_1">
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control wrstg-scroll-textarea" rows="1" data-base-name="br_landed_remarks" name="br_landed_remarks_row_1" placeholder="Enter remarks..."></textarea>
+                                                    </td>
+                                                    <td class="action action-cell-holder">
+                                                        <div class="action-controls">
+                                                            <button type="button" class="btn-round btn-add" onclick="addRow('br_landed_yard_tbl')" title="Add Row">+</button>
+                                                            <!-- <button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'br_landed_yard_tbl')" title="Remove Row" disabled>-</button> -->
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <strong>Observations<span class="text-danger">*</span></strong>
+                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="2" style="margin-top: 5px;" name="br_remarks_212" required></textarea>
+                                </div>
+                            </fieldset>
+
+
+                            <div class="d-flex justify-content-center mt-4">
+                                <button type="submit" class="btn btn-primary px-4">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block pagescripts %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('br_health_audit_form');
+    if (!form) return;
+
+    if (typeof WRSTGQuarterly !== 'undefined') {
+        WRSTGQuarterly.init({
+            extraTableIds: ['br_outstanding_tbl', 'br_landed_yard_tbl'],
+            visibilityBindings: []
+        });
+    }
+
+    form.addEventListener('submit', function () {
+        const launcherFields = form.querySelectorAll('.remarks-field[name^="br_remarks_"]');
+
+        launcherFields.forEach(function (field) {
+            const trimmedValue = field.value.trim();
+            if (trimmedValue === '') {
+                field.disabled = true;
+            } else {
+                field.value = trimmedValue;
+                field.disabled = false;
+            }
+        });
+    });
+});
+</script>
+
+
+
+
+
+                            
+{% endblock pagescripts %}

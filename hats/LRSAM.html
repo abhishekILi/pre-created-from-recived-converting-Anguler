@@ -1,0 +1,1440 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <!-- <li class="breadcrumb-item active" aria-current="page">WATT</li> -->
+          <li class="breadcrumb-item active" aria-current="page">HATs</li>
+          <li class="breadcrumb-item active" aria-current="page">LRSAM</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">WEAPON ACCEPTANCE TRIAL TEAM (MUMBAI)</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="hats_lrsam_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!-- Basic Information -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Basic Information</legend>
+                <div class="row g-3">
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="ship_name" name="ship_name">
+                        <option value="">-- Select --</option>
+                        {% for ship in ship_options %}
+                          <option value="{{ ship.value }}">{{ ship.label }}</option>
+                        {% endfor %}
+                      </select>
+                      <label class="form_control_1">Name of Ship</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="lrsam_equipment" name="equipment">
+                        <option value="">-- Select --</option>
+                        <option value="LRSAM_HATS">LRSAM HATs</option>
+                      </select>
+                      <label class="form_control_1">Equipment</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="date" class="form-control" id="lrsam_date" name="date_">
+                      <label class="form_control_1">Date</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="lrsam_unit" name="units">
+                        <option value="">-- Select --</option>
+                        <option value="YARD_12651">YARD 12651</option>
+                      </select>
+                      <label class="form_control_1">Units</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" id="lrsam_presented_by" name="presented_by" placeholder=" ">
+                      <label class="form_control_1">Presented By</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" id="lrsam_obs_sheet_no" name="observation_sheet_no" placeholder=" ">
+                      <label class="form_control_1">Observation Sheet No</label>
+                    </div>
+                  </div>
+
+                </div>
+              </fieldset>
+
+               <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Checks</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr class="custom-header-row">
+                        <th style="width:1%; white-space:nowrap;">TRIAL SER.</th>
+                        <th style="width:40%;">CHECK DESCRIPTION AS PER SCHEDULE</th>
+                        <th>RESULT SAT/UNSAT</th>
+                        <th style="width:25%;">PRESENTING AUTHORITY REMARKS</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+ 
+                      <!-- 1. HATS requirements -->
+                      <tr>
+                        <td>1</td>
+                        <td>HATS requirements</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_1_sat" name="hats_result_1" value="SAT">
+                              <label for="hats_result_1_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_1_unsat" name="hats_result_1" value="UNSAT">
+                              <label for="hats_result_1_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_1" name="hats_remark_1"></textarea></td>
+                      </tr>
+ 
+                      <!-- 2. Electrical power system checks -->
+                      <tr>
+                        <td>2</td>
+                        <td>Electrical power system checks</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_2_sat" name="hats_result_2" value="SAT">
+                              <label for="hats_result_2_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_2_unsat" name="hats_result_2" value="UNSAT">
+                              <label for="hats_result_2_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_2" name="hats_remark_2"></textarea></td>
+                      </tr>
+ 
+                      <!-- 3. Hardware Interface Tests -->
+                      <tr>
+                        <td>3</td>
+                        <td>Hardware Interface Tests</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_3_sat" name="hats_result_3" value="SAT">
+                              <label for="hats_result_3_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_3_unsat" name="hats_result_3" value="UNSAT">
+                              <label for="hats_result_3_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_3" name="hats_remark_3"></textarea></td>
+                      </tr>
+ 
+                      <!-- 3.1 Unit's set up -->
+                      <tr>
+                        <td>3.1</td>
+                        <td>Unit's set up</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_3_1_sat" name="hats_result_3_1" value="SAT">
+                              <label for="hats_result_3_1_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_3_1_unsat" name="hats_result_3_1" value="UNSAT">
+                              <label for="hats_result_3_1_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_3_1" name="hats_remark_3_1"></textarea></td>
+                      </tr>
+ 
+                      <!-- 3.2 "Any unit on" checks -->
+                      <tr>
+                        <td>3.2</td>
+                        <td>"Any unit on" checks</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_3_2_sat" name="hats_result_3_2" value="SAT">
+                              <label for="hats_result_3_2_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_3_2_unsat" name="hats_result_3_2" value="UNSAT">
+                              <label for="hats_result_3_2_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_3_2" name="hats_remark_3_2"></textarea></td>
+                      </tr>
+ 
+                      <!-- 3.3 MU and MFC Tests -->
+                      <tr>
+                        <td>3.3</td>
+                        <td>MU and MFC Tests</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_3_3_sat" name="hats_result_3_3" value="SAT">
+                              <label for="hats_result_3_3_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_3_3_unsat" name="hats_result_3_3" value="UNSAT">
+                              <label for="hats_result_3_3_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_3_3" name="hats_remark_3_3"></textarea></td>
+                      </tr>
+ 
+                      <!-- 3.4 "Battle Short" Tests -->
+                      <tr>
+                        <td>3.4</td>
+                        <td>"Battle Short" Tests</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_3_4_sat" name="hats_result_3_4" value="SAT">
+                              <label for="hats_result_3_4_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_3_4_unsat" name="hats_result_3_4" value="UNSAT">
+                              <label for="hats_result_3_4_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_3_4" name="hats_remark_3_4"></textarea></td>
+                      </tr>
+ 
+                      <!-- 3.5 Communication Tests -->
+                      <tr>
+                        <td>3.5</td>
+                        <td>Communication Tests</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_3_5_sat" name="hats_result_3_5" value="SAT">
+                              <label for="hats_result_3_5_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_3_5_unsat" name="hats_result_3_5" value="UNSAT">
+                              <label for="hats_result_3_5_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_3_5" name="hats_remark_3_5"></textarea></td>
+                      </tr>
+ 
+                      <!-- 3.5.1 1553 Data Bus -->
+                      <tr>
+                        <td>3.5.1</td>
+                        <td>1553 Data Bus</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_3_5_1_sat" name="hats_result_3_5_1" value="SAT">
+                              <label for="hats_result_3_5_1_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_3_5_1_unsat" name="hats_result_3_5_1" value="UNSAT">
+                              <label for="hats_result_3_5_1_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_3_5_1" name="hats_remark_3_5_1"></textarea></td>
+                      </tr>
+ 
+                      <!-- 3.5.2 WCS Ethernet LAN Checks -->
+                      <tr>
+                        <td>3.5.2</td>
+                        <td>WCS Ethernet LAN Checks</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_3_5_2_sat" name="hats_result_3_5_2" value="SAT">
+                              <label for="hats_result_3_5_2_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_3_5_2_unsat" name="hats_result_3_5_2" value="UNSAT">
+                              <label for="hats_result_3_5_2_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_3_5_2" name="hats_remark_3_5_2"></textarea></td>
+                      </tr>
+ 
+                      <!-- 4. Internal Interface Tests -->
+                      <tr>
+                        <td>4</td>
+                        <td>Internal Interface Tests</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_4_sat" name="hats_result_4" value="SAT">
+                              <label for="hats_result_4_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_4_unsat" name="hats_result_4" value="UNSAT">
+                              <label for="hats_result_4_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_4" name="hats_remark_4"></textarea></td>
+                      </tr>
+ 
+                      <!-- 4.1 MFC Test -->
+                      <tr>
+                        <td>4.1</td>
+                        <td>MFC Test</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_4_1_sat" name="hats_result_4_1" value="SAT">
+                              <label for="hats_result_4_1_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_4_1_unsat" name="hats_result_4_1" value="UNSAT">
+                              <label for="hats_result_4_1_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_4_1" name="hats_remark_4_1"></textarea></td>
+                      </tr>
+ 
+                      <!-- 4.2 BVU Test -->
+                      <tr>
+                        <td>4.2</td>
+                        <td>BVU Test</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_4_2_sat" name="hats_result_4_2" value="SAT">
+                              <label for="hats_result_4_2_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_4_2_unsat" name="hats_result_4_2" value="UNSAT">
+                              <label for="hats_result_4_2_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_4_2" name="hats_remark_4_2"></textarea></td>
+                      </tr>
+ 
+                      <!-- 4.3 MFSTAR Tests -->
+                      <tr>
+                        <td>4.3</td>
+                        <td>MFSTAR Tests</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_4_3_sat" name="hats_result_4_3" value="SAT">
+                              <label for="hats_result_4_3_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_4_3_unsat" name="hats_result_4_3" value="UNSAT">
+                              <label for="hats_result_4_3_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_4_3" name="hats_remark_4_3"></textarea></td>
+                      </tr>
+ 
+                      <!-- 4.4 EOD Tests -->
+                      <tr>
+                        <td>4.4</td>
+                        <td>EOD Tests</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_4_4_sat" name="hats_result_4_4" value="SAT">
+                              <label for="hats_result_4_4_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_4_4_unsat" name="hats_result_4_4" value="UNSAT">
+                              <label for="hats_result_4_4_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_4_4" name="hats_remark_4_4"></textarea></td>
+                      </tr>
+ 
+                      <!-- 4.5 DLU Test -->
+                      <tr>
+                        <td>4.5</td>
+                        <td>DLU Test</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_4_5_sat" name="hats_result_4_5" value="SAT">
+                              <label for="hats_result_4_5_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_4_5_unsat" name="hats_result_4_5" value="UNSAT">
+                              <label for="hats_result_4_5_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_4_5" name="hats_remark_4_5"></textarea></td>
+                      </tr>
+ 
+                      <!-- 4.6 MU Sub Unit Tests -->
+                      <tr>
+                        <td>4.6</td>
+                        <td>MU Sub Unit Tests</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_4_6_sat" name="hats_result_4_6" value="SAT">
+                              <label for="hats_result_4_6_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_4_6_unsat" name="hats_result_4_6" value="UNSAT">
+                              <label for="hats_result_4_6_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_4_6" name="hats_remark_4_6"></textarea></td>
+                      </tr>
+ 
+                      <!-- 4.7 RECU -->
+                      <tr>
+                        <td>4.7</td>
+                        <td>RECU</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_4_7_sat" name="hats_result_4_7" value="SAT">
+                              <label for="hats_result_4_7_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_4_7_unsat" name="hats_result_4_7" value="UNSAT">
+                              <label for="hats_result_4_7_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_4_7" name="hats_remark_4_7"></textarea></td>
+                      </tr>
+ 
+                      <!-- 4.8 VLU Tests -->
+                      <tr>
+                        <td>4.8</td>
+                        <td>VLU Tests</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_4_8_sat" name="hats_result_4_8" value="SAT">
+                              <label for="hats_result_4_8_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_4_8_unsat" name="hats_result_4_8" value="UNSAT">
+                              <label for="hats_result_4_8_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_4_8" name="hats_remark_4_8"></textarea></td>
+                      </tr>
+ 
+                      <!-- 5. External Interface Checks -->
+                      <tr>
+                        <td>5</td>
+                        <td>External Interface Checks</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_5_sat" name="hats_result_5" value="SAT">
+                              <label for="hats_result_5_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_5_unsat" name="hats_result_5" value="UNSAT">
+                              <label for="hats_result_5_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_5" name="hats_remark_5"></textarea></td>
+                      </tr>
+ 
+                      <!-- 5.1 SDN LACP Management -->
+                      <tr>
+                        <td>5.1</td>
+                        <td>SDN LACP Management</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_5_1_sat" name="hats_result_5_1" value="SAT">
+                              <label for="hats_result_5_1_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_5_1_unsat" name="hats_result_5_1" value="UNSAT">
+                              <label for="hats_result_5_1_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_5_1" name="hats_remark_5_1"></textarea></td>
+                      </tr>
+ 
+                      <!-- 5.2 SDN LAN Test -->
+                      <tr>
+                        <td>5.2</td>
+                        <td>SDN LAN Test</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_5_2_sat" name="hats_result_5_2" value="SAT">
+                              <label for="hats_result_5_2_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_5_2_unsat" name="hats_result_5_2" value="UNSAT">
+                              <label for="hats_result_5_2_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_5_2" name="hats_remark_5_2"></textarea></td>
+                      </tr>
+ 
+                      <!-- 5.3 DDU -->
+                      <tr>
+                        <td>5.3</td>
+                        <td>DDU</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_5_3_sat" name="hats_result_5_3" value="SAT">
+                              <label for="hats_result_5_3_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_5_3_unsat" name="hats_result_5_3" value="UNSAT">
+                              <label for="hats_result_5_3_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_5_3" name="hats_remark_5_3"></textarea></td>
+                      </tr>
+ 
+                      <!-- 5.4 KAVACH -->
+                      <tr>
+                        <td>5.4</td>
+                        <td>KAVACH</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_5_4_sat" name="hats_result_5_4" value="SAT">
+                              <label for="hats_result_5_4_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_5_4_unsat" name="hats_result_5_4" value="UNSAT">
+                              <label for="hats_result_5_4_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_5_4" name="hats_remark_5_4"></textarea></td>
+                      </tr>
+ 
+                      <!-- 5.5 SWISS -->
+                      <tr>
+                        <td>5.5</td>
+                        <td>SWISS</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_5_5_sat" name="hats_result_5_5" value="SAT">
+                              <label for="hats_result_5_5_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_5_5_unsat" name="hats_result_5_5" value="UNSAT">
+                              <label for="hats_result_5_5_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_5_5" name="hats_remark_5_5"></textarea></td>
+                      </tr>
+ 
+                      <!-- 5.6 RAWL -->
+                      <tr>
+                        <td>5.6</td>
+                        <td>RAWL</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_5_6_sat" name="hats_result_5_6" value="SAT">
+                              <label for="hats_result_5_6_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_5_6_unsat" name="hats_result_5_6" value="UNSAT">
+                              <label for="hats_result_5_6_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_5_6" name="hats_remark_5_6"></textarea></td>
+                      </tr>
+ 
+                      <!-- 5.7 SHAKTI -->
+                      <tr>
+                        <td>5.7</td>
+                        <td>SHAKTI</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_5_7_sat" name="hats_result_5_7" value="SAT">
+                              <label for="hats_result_5_7_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_5_7_unsat" name="hats_result_5_7" value="UNSAT">
+                              <label for="hats_result_5_7_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_5_7" name="hats_remark_5_7"></textarea></td>
+                      </tr>
+ 
+                      <!-- 5.8 CMS -->
+                      <tr>
+                        <td>5.8</td>
+                        <td>CMS</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_5_8_sat" name="hats_result_5_8" value="SAT">
+                              <label for="hats_result_5_8_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_5_8_unsat" name="hats_result_5_8" value="UNSAT">
+                              <label for="hats_result_5_8_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_5_8" name="hats_remark_5_8"></textarea></td>
+                      </tr>
+ 
+                      <!-- 5.9 AWOS(Meteorology) -->
+                      <tr>
+                        <td>5.9</td>
+                        <td>AWOS (Meteorology)</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_5_9_sat" name="hats_result_5_9" value="SAT">
+                              <label for="hats_result_5_9_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_5_9_unsat" name="hats_result_5_9" value="UNSAT">
+                              <label for="hats_result_5_9_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_5_9" name="hats_remark_5_9"></textarea></td>
+                      </tr>
+ 
+                      <!-- 5.10 NTP Servers -->
+                      <tr>
+                        <td>5.10</td>
+                        <td>NTP Servers</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_5_10_sat" name="hats_result_5_10" value="SAT">
+                              <label for="hats_result_5_10_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_5_10_unsat" name="hats_result_5_10" value="UNSAT">
+                              <label for="hats_result_5_10_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_5_10" name="hats_remark_5_10"></textarea></td>
+                      </tr>
+ 
+                      <!-- 5.11 Cartographic Server -->
+                      <tr>
+                        <td>5.11</td>
+                        <td>Cartographic Server</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_5_11_sat" name="hats_result_5_11" value="SAT">
+                              <label for="hats_result_5_11_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_5_11_unsat" name="hats_result_5_11" value="UNSAT">
+                              <label for="hats_result_5_11_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_5_11" name="hats_remark_5_11"></textarea></td>
+                      </tr>
+ 
+                      <!-- 6. Functional Tests -->
+                      <tr>
+                        <td>6</td>
+                        <td>Functional Tests</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_6_sat" name="hats_result_6" value="SAT">
+                              <label for="hats_result_6_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_6_unsat" name="hats_result_6" value="UNSAT">
+                              <label for="hats_result_6_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_6" name="hats_remark_6"></textarea></td>
+                      </tr>
+ 
+                      <!-- 6.1 Engagement Policy & Tactical zone Tests -->
+                      <tr>
+                        <td>6.1</td>
+                        <td>Engagement Policy &amp; Tactical zone Tests</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_6_1_sat" name="hats_result_6_1" value="SAT">
+                              <label for="hats_result_6_1_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_6_1_unsat" name="hats_result_6_1" value="UNSAT">
+                              <label for="hats_result_6_1_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_6_1" name="hats_remark_6_1"></textarea></td>
+                      </tr>
+ 
+                      <!-- 6.2 Target management tests -->
+                      <tr>
+                        <td>6.2</td>
+                        <td>Target management tests</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_6_2_sat" name="hats_result_6_2" value="SAT">
+                              <label for="hats_result_6_2_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_6_2_unsat" name="hats_result_6_2" value="UNSAT">
+                              <label for="hats_result_6_2_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_6_2" name="hats_remark_6_2"></textarea></td>
+                      </tr>
+ 
+                      <!-- 6.3 Missilery tests -->
+                      <tr>
+                        <td>6.3</td>
+                        <td>Missilery tests</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_6_3_sat" name="hats_result_6_3" value="SAT">
+                              <label for="hats_result_6_3_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_6_3_unsat" name="hats_result_6_3" value="UNSAT">
+                              <label for="hats_result_6_3_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_6_3" name="hats_remark_6_3"></textarea></td>
+                      </tr>
+ 
+                      <!-- 6.4 Gunnery tests -->
+                      <tr>
+                        <td>6.4</td>
+                        <td>Gunnery tests</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_6_4_sat" name="hats_result_6_4" value="SAT">
+                              <label for="hats_result_6_4_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_6_4_unsat" name="hats_result_6_4" value="UNSAT">
+                              <label for="hats_result_6_4_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_6_4" name="hats_remark_6_4"></textarea></td>
+                      </tr>
+ 
+                      <!-- 6.5 Main unit redundancy tests -->
+                      <tr>
+                        <td>6.5</td>
+                        <td>Main unit redundancy tests</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_6_5_sat" name="hats_result_6_5" value="SAT">
+                              <label for="hats_result_6_5_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_6_5_unsat" name="hats_result_6_5" value="UNSAT">
+                              <label for="hats_result_6_5_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_6_5" name="hats_remark_6_5"></textarea></td>
+                      </tr>
+ 
+                      <!-- 6.6 Jettison mode tests -->
+                      <tr>
+                        <td>6.6</td>
+                        <td>Jettison mode tests</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_6_6_sat" name="hats_result_6_6" value="SAT">
+                              <label for="hats_result_6_6_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_6_6_unsat" name="hats_result_6_6" value="UNSAT">
+                              <label for="hats_result_6_6_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_6_6" name="hats_remark_6_6"></textarea></td>
+                      </tr>
+ 
+                      <!-- 6.7 JTC mode tests -->
+                      <tr>
+                        <td>6.7</td>
+                        <td>JTC mode tests</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_6_7_sat" name="hats_result_6_7" value="SAT">
+                              <label for="hats_result_6_7_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_6_7_unsat" name="hats_result_6_7" value="UNSAT">
+                              <label for="hats_result_6_7_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_6_7" name="hats_remark_6_7"></textarea></td>
+                      </tr>
+ 
+                      <!-- 7. MAINTENANCE MODE -->
+                      <tr>
+                        <td>7</td>
+                        <td>MAINTENANCE MODE</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_7_sat" name="hats_result_7" value="SAT">
+                              <label for="hats_result_7_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_7_unsat" name="hats_result_7" value="UNSAT">
+                              <label for="hats_result_7_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_7" name="hats_remark_7"></textarea></td>
+                      </tr>
+ 
+                      <!-- 7.1 Maintenance mode management -->
+                      <tr>
+                        <td>7.1</td>
+                        <td>Maintenance mode management</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_7_1_sat" name="hats_result_7_1" value="SAT">
+                              <label for="hats_result_7_1_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_7_1_unsat" name="hats_result_7_1" value="UNSAT">
+                              <label for="hats_result_7_1_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_7_1" name="hats_remark_7_1"></textarea></td>
+                      </tr>
+ 
+                      <!-- 7.2 Units and missile versions -->
+                      <tr>
+                        <td>7.2</td>
+                        <td>Units and missile versions</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_7_2_sat" name="hats_result_7_2" value="SAT">
+                              <label for="hats_result_7_2_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_7_2_unsat" name="hats_result_7_2" value="UNSAT">
+                              <label for="hats_result_7_2_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_7_2" name="hats_remark_7_2"></textarea></td>
+                      </tr>
+ 
+                      <!-- 7.3 LCS Test -->
+                      <tr>
+                        <td>7.3</td>
+                        <td>LCS Test</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_7_3_sat" name="hats_result_7_3" value="SAT">
+                              <label for="hats_result_7_3_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_7_3_unsat" name="hats_result_7_3" value="UNSAT">
+                              <label for="hats_result_7_3_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_7_3" name="hats_remark_7_3"></textarea></td>
+                      </tr>
+ 
+                      <!-- 7.4 Mobs test -->
+                      <tr>
+                        <td>7.4</td>
+                        <td>Mobs test</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_7_4_sat" name="hats_result_7_4" value="SAT">
+                              <label for="hats_result_7_4_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_7_4_unsat" name="hats_result_7_4" value="UNSAT">
+                              <label for="hats_result_7_4_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_7_4" name="hats_remark_7_4"></textarea></td>
+                      </tr>
+ 
+                      <!-- 7.5 AK-630 Guns tests -->
+                      <tr>
+                        <td>7.5</td>
+                        <td>AK-630 Guns tests</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_7_5_sat" name="hats_result_7_5" value="SAT">
+                              <label for="hats_result_7_5_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_7_5_unsat" name="hats_result_7_5" value="UNSAT">
+                              <label for="hats_result_7_5_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_7_5" name="hats_remark_7_5"></textarea></td>
+                      </tr>
+ 
+                      <!-- 7.6 SRGM - MR tests -->
+                      <tr>
+                        <td>7.6</td>
+                        <td>SRGM - MR tests</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_7_6_sat" name="hats_result_7_6" value="SAT">
+                              <label for="hats_result_7_6_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_7_6_unsat" name="hats_result_7_6" value="UNSAT">
+                              <label for="hats_result_7_6_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_7_6" name="hats_remark_7_6"></textarea></td>
+                      </tr>
+ 
+                      <!-- 7.7 General tests -->
+                      <tr>
+                        <td>7.7</td>
+                        <td>General tests</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_7_7_sat" name="hats_result_7_7" value="SAT">
+                              <label for="hats_result_7_7_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_7_7_unsat" name="hats_result_7_7" value="UNSAT">
+                              <label for="hats_result_7_7_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_7_7" name="hats_remark_7_7"></textarea></td>
+                      </tr>
+ 
+                      <!-- 7.8 MU POB tests -->
+                      <tr>
+                        <td>7.8</td>
+                        <td>MU POB tests</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_7_8_sat" name="hats_result_7_8" value="SAT">
+                              <label for="hats_result_7_8_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_7_8_unsat" name="hats_result_7_8" value="UNSAT">
+                              <label for="hats_result_7_8_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_7_8" name="hats_remark_7_8"></textarea></td>
+                      </tr>
+ 
+                      <!-- 7.9 SBDL tests -->
+                      <tr>
+                        <td>7.9</td>
+                        <td>SBDL tests</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_7_9_sat" name="hats_result_7_9" value="SAT">
+                              <label for="hats_result_7_9_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_7_9_unsat" name="hats_result_7_9" value="UNSAT">
+                              <label for="hats_result_7_9_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_7_9" name="hats_remark_7_9"></textarea></td>
+                      </tr>
+ 
+                      <!-- 7.10 EOD tests -->
+                      <tr>
+                        <td>7.10</td>
+                        <td>EOD tests</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_7_10_sat" name="hats_result_7_10" value="SAT">
+                              <label for="hats_result_7_10_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_7_10_unsat" name="hats_result_7_10" value="UNSAT">
+                              <label for="hats_result_7_10_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_7_10" name="hats_remark_7_10"></textarea></td>
+                      </tr>
+ 
+                      <!-- 8. TRAINING MODE -->
+                      <tr>
+                        <td>8</td>
+                        <td>TRAINING MODE</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_8_sat" name="hats_result_8" value="SAT">
+                              <label for="hats_result_8_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_8_unsat" name="hats_result_8" value="UNSAT">
+                              <label for="hats_result_8_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_8" name="hats_remark_8"></textarea></td>
+                      </tr>
+ 
+                      <!-- 8.1 Training mode management -->
+                      <tr>
+                        <td>8.1</td>
+                        <td>Training mode management</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_8_1_sat" name="hats_result_8_1" value="SAT">
+                              <label for="hats_result_8_1_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_8_1_unsat" name="hats_result_8_1" value="UNSAT">
+                              <label for="hats_result_8_1_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_8_1" name="hats_remark_8_1"></textarea></td>
+                      </tr>
+ 
+                      <!-- 8.2 Training player -->
+                      <tr>
+                        <td>8.2</td>
+                        <td>Training player</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_8_2_sat" name="hats_result_8_2" value="SAT">
+                              <label for="hats_result_8_2_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_8_2_unsat" name="hats_result_8_2" value="UNSAT">
+                              <label for="hats_result_8_2_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_8_2" name="hats_remark_8_2"></textarea></td>
+                      </tr>
+ 
+                      <!-- 8.3 Training missilery engagement -->
+                      <tr>
+                        <td>8.3</td>
+                        <td>Training missilery engagement</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_8_3_sat" name="hats_result_8_3" value="SAT">
+                              <label for="hats_result_8_3_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_8_3_unsat" name="hats_result_8_3" value="UNSAT">
+                              <label for="hats_result_8_3_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_8_3" name="hats_remark_8_3"></textarea></td>
+                      </tr>
+ 
+                      <!-- 8.4 Training gunnery engagement -->
+                      <tr>
+                        <td>8.4</td>
+                        <td>Training gunnery engagement</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_8_4_sat" name="hats_result_8_4" value="SAT">
+                              <label for="hats_result_8_4_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_8_4_unsat" name="hats_result_8_4" value="UNSAT">
+                              <label for="hats_result_8_4_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_8_4" name="hats_remark_8_4"></textarea></td>
+                      </tr>
+ 
+                      <!-- 8.5 Training failures -->
+                      <tr>
+                        <td>8.5</td>
+                        <td>Training failures</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_8_5_sat" name="hats_result_8_5" value="SAT">
+                              <label for="hats_result_8_5_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_8_5_unsat" name="hats_result_8_5" value="UNSAT">
+                              <label for="hats_result_8_5_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_8_5" name="hats_remark_8_5"></textarea></td>
+                      </tr>
+ 
+                      <!-- 9. SCENARIOS DESCRIPTION -->
+                      <tr>
+                        <td>9</td>
+                        <td>SCENARIOS DESCRIPTION</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="hats_result_9_sat" name="hats_result_9" value="SAT">
+                              <label for="hats_result_9_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="hats_result_9_unsat" name="hats_result_9" value="UNSAT">
+                              <label for="hats_result_9_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_9" name="hats_remark_9"></textarea></td>
+                      </tr>
+ 
+                      <!-- 9.1 to 9.7 HATS Functional Scenarios -->
+                      <tr>
+                        <td>9.1</td>
+                        <td>HATS Functional Scenario 9</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="hats_result_9_1_sat" name="hats_result_9_1" value="SAT"><label for="hats_result_9_1_sat">SAT</label></div>
+                            <div><input type="radio" id="hats_result_9_1_unsat" name="hats_result_9_1" value="UNSAT"><label for="hats_result_9_1_unsat">UNSAT</label></div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_9_1" name="hats_remark_9_1"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td>9.2</td>
+                        <td>HATS Functional Scenario 10</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="hats_result_9_2_sat" name="hats_result_9_2" value="SAT"><label for="hats_result_9_2_sat">SAT</label></div>
+                            <div><input type="radio" id="hats_result_9_2_unsat" name="hats_result_9_2" value="UNSAT"><label for="hats_result_9_2_unsat">UNSAT</label></div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_9_2" name="hats_remark_9_2"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td>9.3</td>
+                        <td>HATS Functional Scenario 11</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="hats_result_9_3_sat" name="hats_result_9_3" value="SAT"><label for="hats_result_9_3_sat">SAT</label></div>
+                            <div><input type="radio" id="hats_result_9_3_unsat" name="hats_result_9_3" value="UNSAT"><label for="hats_result_9_3_unsat">UNSAT</label></div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_9_3" name="hats_remark_9_3"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td>9.4</td>
+                        <td>HATS Functional Scenario 12</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="hats_result_9_4_sat" name="hats_result_9_4" value="SAT"><label for="hats_result_9_4_sat">SAT</label></div>
+                            <div><input type="radio" id="hats_result_9_4_unsat" name="hats_result_9_4" value="UNSAT"><label for="hats_result_9_4_unsat">UNSAT</label></div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_9_4" name="hats_remark_9_4"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td>9.5</td>
+                        <td>HATS Functional Scenario 13</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="hats_result_9_5_sat" name="hats_result_9_5" value="SAT"><label for="hats_result_9_5_sat">SAT</label></div>
+                            <div><input type="radio" id="hats_result_9_5_unsat" name="hats_result_9_5" value="UNSAT"><label for="hats_result_9_5_unsat">UNSAT</label></div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_9_5" name="hats_remark_9_5"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td>9.6</td>
+                        <td>HATS Functional Scenario 14</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="hats_result_9_6_sat" name="hats_result_9_6" value="SAT"><label for="hats_result_9_6_sat">SAT</label></div>
+                            <div><input type="radio" id="hats_result_9_6_unsat" name="hats_result_9_6" value="UNSAT"><label for="hats_result_9_6_unsat">UNSAT</label></div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_9_6" name="hats_remark_9_6"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td>9.7</td>
+                        <td>HATS Functional Scenario 15</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="hats_result_9_7_sat" name="hats_result_9_7" value="SAT"><label for="hats_result_9_7_sat">SAT</label></div>
+                            <div><input type="radio" id="hats_result_9_7_unsat" name="hats_result_9_7" value="UNSAT"><label for="hats_result_9_7_unsat">UNSAT</label></div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_9_7" name="hats_remark_9_7"></textarea></td>
+                      </tr>
+ 
+                      <!-- 10. IHATS DESCRIPTION -->
+                      <tr>
+                        <td>10</td>
+                        <td>IHATS DESCRIPTION</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="hats_result_10_sat" name="hats_result_10" value="SAT"><label for="hats_result_10_sat">SAT</label></div>
+                            <div><input type="radio" id="hats_result_10_unsat" name="hats_result_10" value="UNSAT"><label for="hats_result_10_unsat">UNSAT</label></div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_10" name="hats_remark_10"></textarea></td>
+                      </tr>
+ 
+                      <!-- 11. APPENDIX A - INS SWITCHING TEST ELABORATION -->
+                      <tr>
+                        <td>11</td>
+                        <td>APPENDIX A – INS SWITCHING TEST ELABORATION</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="hats_result_11_sat" name="hats_result_11" value="SAT"><label for="hats_result_11_sat">SAT</label></div>
+                            <div><input type="radio" id="hats_result_11_unsat" name="hats_result_11" value="UNSAT"><label for="hats_result_11_unsat">UNSAT</label></div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_11" name="hats_remark_11"></textarea></td>
+                      </tr>
+ 
+                      <!-- 12. APPENDIX B – ELECTRICAL SYSTEM POWER TEST -->
+                      <tr>
+                        <td>12</td>
+                        <td>APPENDIX B – ELECTRICAL SYSTEM POWER TEST</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="hats_result_12_sat" name="hats_result_12" value="SAT"><label for="hats_result_12_sat">SAT</label></div>
+                            <div><input type="radio" id="hats_result_12_unsat" name="hats_result_12" value="UNSAT"><label for="hats_result_12_unsat">UNSAT</label></div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_12" name="hats_remark_12"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:480px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_12" name="hats_remark_12"></textarea></td>
+
+                         <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_12" name="hats_remark_12"></textarea></td>
+
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_12" name="hats_remark_12"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td></td>
+                         <td><textarea class="form-control wrstg-scroll-textarea" style="width:480px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_12" name="hats_remark_12"></textarea></td>
+
+                         <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_12" name="hats_remark_12"></textarea></td>
+
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_12" name="hats_remark_12"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td></td>
+                         <td><textarea class="form-control wrstg-scroll-textarea" style="width:480px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_12" name="hats_remark_12"></textarea></td>
+
+                      <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_12" name="hats_remark_12"></textarea></td>
+
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_12" name="hats_remark_12"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:480px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_12" name="hats_remark_12"></textarea></td>
+
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_12" name="hats_remark_12"></textarea></td>
+
+                        <td><textarea class="form-control wrstg-scroll-textarea" style="width:280px;font-size:12px;display:inline-block;vertical-align:middle;" id="hats_remark_12" name="hats_remark_12"></textarea></td>
+                      </tr>
+ 
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+ 
+              <fieldset class="custom-fieldset mt-4">
+							<legend class="legend-custom text-uppercase">Presenting Authority</legend>
+							<div class="row g-3 mb-3">
+								<div class="col-md-3 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<select class="form-control" id="hats_sdr_tac_1a_presenting_authority" name="hats_sdr_tac_1a_presenting_authority" required>
+											<option value="">--Select--</option>
+											<option value="dockyard">Dockyard</option>
+											<option value="shipstaff">Shipstaff</option>
+											<option value="oem">OEM</option>
+										</select>
+										<label class="form_control_1" for="hats_sdr_tac_1a_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+									</div>
+								</div>
+								<div class="col-md-3 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<input type="text" class="form-control" id="hats_sdr_tac_1a_watt_1_name" name="hats_sdr_tac_1a_watt_1_name">
+										<label class="form_control_1">WATT(1)</label>
+									</div>
+								</div>
+
+								<!-- WATT 2 -->
+								<div class="col-md-3 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<input type="text" class="form-control" id="hats_sdr_tac_1a_watt_2_name" name="hats_sdr_tac_1a_watt_2_name">
+										<label class="form_control_1">WATT(2)</label>
+									</div>
+								</div>
+
+								<!-- WATT 3 -->
+								<div class="col-md-3 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<input type="text" class="form-control" id="hats_sdr_tac_1a_watt_3_name" name="hats_sdr_tac_1a_watt_3_name">
+										<label class="form_control_1">WATT(3)</label>
+									</div>
+								</div>
+							</div>
+
+							<div class="table-responsive mt-4">
+								<table class="custom_tbl " id="hats_sdr_tac_1a_remarks_table">
+									<thead class="table-dark-head">
+										<tr>
+											<th>REMARKS TO BE GIVEN</th>
+											<th>WBA - WILL BE AMENDED</th>
+											<th>WBD - WILL BE DONE</th>
+											<th>WOW - WILL OBTAIN WAIVER</th>
+											<th>COM - COMPLETED</th>
+											<th>N/O - NOT OFFERED</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_remarks_main"></textarea></td>
+											<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_wba"></textarea></td>
+											<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_wbd"></textarea></td>
+											<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_wow"></textarea></td>
+											<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_com"></textarea></td>
+											<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_no"></textarea></td>
+										</tr>
+										<tr>
+											<td><strong>OIC</strong></td>
+											<td><strong>CDR TRIALS</strong></td>
+											<td><strong>STO (G)</strong></td>
+											<td><strong>STO (L)</strong></td>
+											<td colspan="2"><strong>TO (L)</strong></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</fieldset>
+ 
+              <div class="d-flex justify-content-center mt-4 gap-2">
+                <button type="submit" class="btn btn-success px-4">Save</button>
+              </div>
+ 
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+ 
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

@@ -1,0 +1,507 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+    .group-header-cell {
+        background-color: #e9ecef;
+        font-size: 13px;
+        padding: 6px 10px;
+    }
+
+    #defective_items_tbl th{
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    #insulation_of_dvices_tbl th{
+        text-align: center;
+        vertical-align: middle;
+    }
+    
+    #td_plp_ti_variant_table th{
+        text-align: center;
+        vertical-align: middle;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+                    <li class="breadcrumb-item" aria-current="page">FTTT</li>
+                    <li class="breadcrumb-item active" aria-current="page">Uran SSM Parameter Checks    </li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">URAN SSM Parameter Checks</span>
+          </div>
+        </div>
+        <div class="portlet-body form mt-4 mb-4">
+            <form method="post" id="brahmos_feedback_form">
+                {% csrf_token %}
+                <div class="form-body">
+                                                    <fieldset class="custom-fieldset">
+                                            <legend class="legend-custom text-uppercase">Part - I</legend>
+                                            <div class="row g-3">
+
+                                                <div class="col-md-4 col-12">
+                                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                        <input type="text" class="form-control" name="part1_system_sub_system" value="KASU/URAN" placeholder=" " readonly>
+                                                        <label class="form_control_1">1. System/ Sub system</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4 col-12">
+                                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                        <textarea class="form-control wrstg-scroll-textarea" name="part1_job_undertaken" rows="2" placeholder=" "></textarea>
+                                                        <label class="form_control_1">2. Job Undertaken</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4 col-12">
+                                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                        <!-- <textarea class="form-control wrstg-scroll-textarea" name="part1_reference_documents" rows="2" placeholder=" "></textarea> -->
+                                                        <input type="file" class ="form-control" name="part1_reference_documents">
+                                                        <label class="form_control_1">3. Reference Documents</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4 col-12">
+                                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                        <input type="text" class="form-control" name="part1_authority" placeholder=" ">
+                                                        <label class="form_control_1">4. Authority</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4 col-12">
+                                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                        <input type="text" class="form-control" name="part1_agencies_involved" value="FTTT(Vzg)" placeholder=" " readonly>
+                                                        <label class="form_control_1">5. Agencies involved</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4 col-12">
+                                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                        <input type="date" class="form-control" name="part1_date_commenced">
+                                                        <label class="form_control_1">6. Date Commenced</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4 col-12">
+                                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                        <input type="date" class="form-control" name="part1_date_completed">
+                                                        <label class="form_control_1">7. Date Completed</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4 col-12">
+                                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                        <input type="text" class="form-control" name="part1_prepared_by" placeholder=" ">
+                                                        <label class="form_control_1">8. Prepared by</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4 col-12">
+                                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                        <input type="text" class="form-control" name="part1_vetted_by" placeholder=" ">
+                                                        <label class="form_control_1">9. Vetted by</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4 col-12">
+                                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                        <input type="text" class="form-control" name="part1_reference_no" placeholder=" ">
+                                                        <label class="form_control_1">10. Reference No.</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4 col-12">
+                                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                        <textarea class="form-control wrstg-scroll-textarea" name="part1_summary_of_observations" rows="2" placeholder=" "></textarea>
+                                                        <label class="form_control_1">11. Summary of observations</label>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4 col-12">
+                                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                        <textarea class="form-control wrstg-scroll-textarea" name="part1_operational_limitations" rows="2" placeholder=" "></textarea>
+                                                        <label class="form_control_1">12. Operational limitations (if any)</label>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </fieldset>
+
+                    <fieldset class="custom-fieldset">
+                        <legend class="legend-custom text-uppercase">13. Status of Lines of Communication, SR-60 and ADAASU Checks</legend>
+                        
+                        <div id="defective_items_section">
+                            <div class="table-responsive">
+                                <table class="custom_tbl" id="defective_items_tbl">
+                                    <thead>
+                                        <tr>
+                                            <th>Ser</th>
+                                            <th>Quick Pack<br>a.</th>
+                                            <th>Channel<br>b.</th>
+                                            <th>Lines of Communication Checks<br>c.</th>
+                                            <th>SR-60 Checks<br>d.</th>
+                                            <th>ADAASU Checks<br>e.</th>
+                                            <th>Remarks<br>f.</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Group 1 -->
+                                        <tr>
+                                            <td rowspan="4">1</td>
+                                            <td rowspan="4">1</td>
+                                            <td>1</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="loc_check" name="fs1_ch1_loc_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="sr60_check" name="fs1_ch1_sr60_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="adaasu_check" name="fs1_ch1_adaasu_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs1_ch1_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="loc_check" name="fs1_ch2_loc_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="sr60_check" name="fs1_ch2_sr60_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="adaasu_check" name="fs1_ch2_adaasu_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs1_ch2_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="loc_check" name="fs1_ch3_loc_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="sr60_check" name="fs1_ch3_sr60_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="adaasu_check" name="fs1_ch3_adaasu_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs1_ch3_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="loc_check" name="fs1_ch4_loc_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="sr60_check" name="fs1_ch4_sr60_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="adaasu_check" name="fs1_ch4_adaasu_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs1_ch4_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+
+                                        <!-- Group 2 -->
+                                        <tr>
+                                            <td rowspan="4">2</td>
+                                            <td rowspan="4">2</td>
+                                            <td>5</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="loc_check" name="fs1_ch5_loc_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="sr60_check" name="fs1_ch5_sr60_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="adaasu_check" name="fs1_ch5_adaasu_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs1_ch5_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>6</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="loc_check" name="fs1_ch6_loc_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="sr60_check" name="fs1_ch6_sr60_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="adaasu_check" name="fs1_ch6_adaasu_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs1_ch6_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>7</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="loc_check" name="fs1_ch7_loc_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="sr60_check" name="fs1_ch7_sr60_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="adaasu_check" name="fs1_ch7_adaasu_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs1_ch7_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>8</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="loc_check" name="fs1_ch8_loc_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="sr60_check" name="fs1_ch8_sr60_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="adaasu_check" name="fs1_ch8_adaasu_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs1_ch8_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+
+                                        <!-- Group 3 -->
+                                        <tr>
+                                            <td rowspan="4">3</td>
+                                            <td rowspan="4">3</td>
+                                            <td>9</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="loc_check" name="fs1_ch9_loc_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="sr60_check" name="fs1_ch9_sr60_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="adaasu_check" name="fs1_ch9_adaasu_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs1_ch9_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>10</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="loc_check" name="fs1_ch10_loc_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="sr60_check" name="fs1_ch10_sr60_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="adaasu_check" name="fs1_ch10_adaasu_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs1_ch10_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>11</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="loc_check" name="fs1_ch11_loc_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="sr60_check" name="fs1_ch11_sr60_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="adaasu_check" name="fs1_ch11_adaasu_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs1_ch11_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>12</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="loc_check" name="fs1_ch12_loc_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="sr60_check" name="fs1_ch12_sr60_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="adaasu_check" name="fs1_ch12_adaasu_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs1_ch12_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+
+                                        <!-- Group 4 -->
+                                        <tr>
+                                            <td rowspan="4">4</td>
+                                            <td rowspan="4">4</td>
+                                            <td>13</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="loc_check" name="fs1_ch13_loc_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="sr60_check" name="fs1_ch13_sr60_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="adaasu_check" name="fs1_ch13_adaasu_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs1_ch13_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>14</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="loc_check" name="fs1_ch14_loc_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="sr60_check" name="fs1_ch14_sr60_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="adaasu_check" name="fs1_ch14_adaasu_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs1_ch14_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>15</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="loc_check" name="fs1_ch15_loc_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="sr60_check" name="fs1_ch15_sr60_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="adaasu_check" name="fs1_ch15_adaasu_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs1_ch15_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>16</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="loc_check" name="fs1_ch16_loc_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="sr60_check" name="fs1_ch16_sr60_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="adaasu_check" name="fs1_ch16_adaasu_check" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs1_ch16_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>   
+                    </fieldset>
+
+                    <fieldset class="custom-fieldset">
+                        <legend class="legend-custom text-uppercase">14. Insulation of Dvices</legend>
+                        
+                        <div id="insulation_of_dvices_tbl">
+                            <div class="table-responsive">
+                                <table class="custom_tbl" id="insulation_of_dvices_tbl">
+                                    <thead>
+                                        <tr>
+                                            <th>Ser</th>
+                                            <th>Chennel<br>a.</th>
+                                            <th>Dev KБ-163<br>b.</th>
+                                            <th>Dev HБ-108<br>c.</th>
+                                            <th>Remarks<br>d.</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Group 1 -->
+                                        <tr>
+                                            <td>1</td>
+                                            <td>QP-1 (Ch 1-4)</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="dev_kb163" name="fs2_chQP_1__Ch_1_4_dev_kb163" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="dev_nb108" name="fs2_chQP_1__Ch_1_4_dev_nb108" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs2_chQP_1__Ch_1_4_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>QP-2 (Ch 5-8)</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="dev_kb163" name="fs2_chQP_2__Ch_5_8_dev_kb163" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="dev_nb108" name="fs2_chQP_2__Ch_5_8_dev_nb108" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs2_chQP_2__Ch_5_8_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>QP-3 (Ch 9-12)</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="dev_kb163" name="fs2_chQP_3__Ch_9_12_dev_kb163" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="dev_nb108" name="fs2_chQP_3__Ch_9_12_dev_nb108" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs2_chQP_3__Ch_9_12_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td>QP-4 (Ch 13-16)</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="dev_kb163" name="fs2_chQP_4__Ch_13_16_dev_kb163" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="dev_nb108" name="fs2_chQP_4__Ch_13_16_dev_nb108" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs2_chQP_4__Ch_13_16_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>   
+                    </fieldset>
+
+                    <fieldset class="custom-fieldset">
+                        <legend class="legend-custom text-uppercase">15.Power Supply Checks</legend>
+                        <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="power_supply_check" name="fs3_ch_unknown_power_supply_check" placeholder="" rows="2"></textarea></td>
+                    </fieldset>
+
+                    <fieldset class="custom-fieldset">
+                        <legend class="legend-custom text-uppercase">16.TD Input and PLP check in TI Variant 01</legend>
+                        
+                        <div id="defective_items_section">
+                            <div class="table-responsive">
+                                <table class="custom_tbl" id="td_plp_ti_variant_table">
+                                    <thead>
+                                        <tr>
+                                            <th>Ser</th>
+                                            <th>Channel<br>a.</th>
+                                            <th>RLG Input/Manual<br>b.</th>
+                                            <th>SSR Input/Manual<br>c.</th>
+                                            <th>PLP Time (Sec)<br>d.</th>
+                                            <th>FC Engagement Completed/Failed<br>e.</th>
+                                            <th>Remarks<br>f.</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Group 1 -->
+                                        <tr>
+                                            <td rowspan="4">1</td>
+                                            <td>1</td>
+                                            <td rowspan="16">
+                                                <select class="form-control" name="fs4_rlg_mode">
+                                                    <option value="" selected>Select mode</option>
+                                                    <option value="RLG">RLG</option>
+                                                    <option value="MANUAL">Manual</option>
+                                                </select>
+                                            </td>
+                                            <td rowspan="16">
+                                                <select class="form-control" name="fs4_ssr_mode">
+                                                    <option value="" selected>Select mode</option>
+                                                    <option value="SSR">SSR</option>
+                                                    <option value="MANUAL">Manual</option>
+                                                </select>
+                                            </td>
+                                            <td>60</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="fc_engagement" name="fs4_ch1_fc_engagement" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs4_ch1_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>60</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="fc_engagement" name="fs4_ch2_fc_engagement" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs4_ch2_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>60</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="fc_engagement" name="fs4_ch3_fc_engagement" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs4_ch3_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td>60</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="fc_engagement" name="fs4_ch4_fc_engagement" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs4_ch4_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+
+                                        <!-- Group 2 -->
+                                        <tr>
+                                            <td rowspan="4">2</td>
+                                            <td>5</td>
+                                            <td>60</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="fc_engagement" name="fs4_ch5_fc_engagement" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs4_ch5_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>6</td>
+                                            <td>60</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="fc_engagement" name="fs4_ch6_fc_engagement" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs4_ch6_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>7</td>
+                                            <td>60</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="fc_engagement" name="fs4_ch7_fc_engagement" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs4_ch7_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>8</td>
+                                            <td>60</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="fc_engagement" name="fs4_ch8_fc_engagement" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs4_ch8_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+
+                                        <!-- Group 3 -->
+                                        <tr>
+                                            <td rowspan="4">3</td>
+                                            <td>9</td>
+                                            <td>60</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="fc_engagement" name="fs4_ch9_fc_engagement" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs4_ch9_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>10</td>
+                                            <td>60</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="fc_engagement" name="fs4_ch10_fc_engagement" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs4_ch10_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>11</td>
+                                            <td>60</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="fc_engagement" name="fs4_ch11_fc_engagement" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs4_ch11_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>12</td>
+                                            <td>60</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="fc_engagement" name="fs4_ch12_fc_engagement" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs4_ch12_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+
+                                        <!-- Group 4 -->
+                                        <tr>
+                                            <td rowspan="4">4</td>
+                                            <td>13</td>
+                                            <td>60</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="fc_engagement" name="fs4_ch13_fc_engagement" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs4_ch13_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>14</td>
+                                            <td>60</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="fc_engagement" name="fs4_ch14_fc_engagement" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs4_ch14_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>15</td>
+                                            <td>60</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="fc_engagement" name="fs4_ch15_fc_engagement" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs4_ch15_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>16</td>
+                                            <td>60</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="fc_engagement" name="fs4_ch16_fc_engagement" placeholder="" rows="2"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="remarks" name="fs4_ch16_remarks" placeholder="" rows="2"></textarea></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+{% endblock content %}

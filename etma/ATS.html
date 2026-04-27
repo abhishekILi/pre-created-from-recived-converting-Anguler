@@ -1,0 +1,703 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">CHECK OFF LIST – AUTO TRANSFER SWITCHES (ATS)</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="auto_transfer_switches_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+
+                            <!-- ══════════════════════════════════════
+                                HEADER INFORMATION
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <div class="row g-3">
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" name="ship" required>
+                                                <option value="">--Select--</option>
+                                                <option value="">INS KOCHI</option>
+                                                <option value="">INS VIKRANT</option>
+                                        
+                                                {% for ship in ship_options %}
+                                                <option value="{{ ship.value }}">{{ ship.label }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <label class="form_control_1">Ship<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" name="Occasion_system">
+                                                <option value="">--Select--</option>
+                                                <option value="Initial Trial">Initial Trial</option>
+                                                <option value="Periodical Trial">Periodical Trial</option>
+                                                <option value="Post Repair Trial">Post Repair Trial</option>
+                                                <option value="Post Modification Trial">Post Modification Trial</option>
+                                                <option value="Midlife Upgrade">Midlife Upgrade</option>
+                                            </select>
+                                            <label class="form_control_1">Occasion of Trial</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" name="Location_ats" placeholder="">
+                                            <label class="form_control_1">Location of ATS</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" name="Present_system">
+                                                <option value="">--Select--</option>
+                                                <option value="Ship's Crew">Ship's Crew</option>
+                                                <option value="Contractor">Contractor</option>
+                                                <option value="OEM">OEM</option>
+                                                <option value="Naval Dockyard">Naval Dockyard</option>
+                                                <option value="Shipyard">Shipyard</option>
+                                            </select>
+                                            <label class="form_control_1">Presented By</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" name="ATS_feeds" placeholder="">
+                                            <label class="form_control_1">ATS Feeds to Equipment</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" name="Trial equipment">
+                                                <option value="">--Select--</option>
+                                                <option value="Ship's Crew">Ship's Crew</option>
+                                                <option value="Contractor">Contractor</option>
+                                                <option value="OEM">OEM</option>
+                                                <option value="Naval Dockyard">Naval Dockyard</option>
+                                                <option value="Shipyard">Shipyard</option>
+                                            </select>
+                                            <label class="form_control_1">Trails Equipment used during Trial</label>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </fieldset>
+
+                            <!--  SECTION 1: Test Equipment-->
+                            
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">1.Test Equipment used during Trials</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="test_equipment_during_trial_table">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser</th>
+                                                <th>Description of Defects / Deficiencies</th>
+                                                <th >Remarks</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="serial-no">1</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="obs_1_desc" rows="1"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="obs_1_remarks" rows="1"></textarea></td>
+                                                <td class="action action-cell-holder">
+                                                 <div class="action-controls">
+                                                 <button type="button" class="btn-round btn-add" onclick="addRow('test_equipment_during_trial_table')" title="Add Row">+</button>
+                                                 <button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'test_equipment_during_trial_table')" title="Remove Row">-</button>
+                                                </div>
+                                                </td>
+                                            
+                                            </tr>
+
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 2: Date & Time
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">2. Date &amp; Time</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" >
+                                        <thead class="custom-header-row">
+                                            <tr>
+                                                <th >Ser</th>
+                                                <th >Activity</th>
+                                                <th >Date</th>
+                                                <th >Time</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="serial-no">2.1</td>
+                                                <td>Intimation from Ship</td>
+                                                <td><input type="date" class="form-control" name="dt_intimation_date"></td>
+                                                <td><input type="time" class="form-control" name="dt_intimation_time"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">2.2</td>
+                                                <td>Readiness indicated by Ship</td>
+                                                <td><input type="date" class="form-control" name="dt_readiness_date"></td>
+                                                <td><input type="time" class="form-control" name="dt_readiness_time"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">2.3</td>
+                                                <td>Trial Inspector reported onboard Ship</td>
+                                                <td><input type="date" class="form-control" name="dt_inspector_date"></td>
+                                                <td><input type="time" class="form-control" name="dt_inspector_time"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">2.4</td>
+                                                <td>Trials Completed</td>
+                                                <td><input type="date" class="form-control" name="dt_completed_date"></td>
+                                                <td><input type="time" class="form-control" name="dt_completed_time"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 3: Design Requirements / Documentation
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">3. Design Requirements / Documentation</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="design_req_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser</th>
+                                                <th>Description</th>
+                                                <th>Remarks</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="serial-no">3.1</td>
+                                                <td><strong>Manufacturer</strong></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_manufacturer" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.2</td>
+                                                <td><strong>Make &amp; Model </strong></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_make_model" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.3</td>
+                                                <td><strong>Rating </strong></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_rating" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.4</td>
+                                                <td><strong>Equipment Serial Number </strong></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_serial_no" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.5</td>
+                                                <td><strong>CMMS Code </strong></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_cmms" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.6</td>
+                                                <td><strong>GRAQ </strong></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_graq" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.7</td>
+                                                <td><strong>ATP </strong></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_atp" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.8</td>
+                                                <td><strong>Board Proceedings </strong></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_board" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.9</td>
+                                                <td><strong>FATs Report </strong></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_fats" rows="1"></textarea></td>
+                                            </tr>
+                                            <!-- Section 3.10 - Certification/Documents required from OEM -->
+                                            <tr>
+                                                <td class="serial-no" rowspan="10">3.10</td>
+                                                <td><strong>Certification / Documents required from OEM </strong></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.10.1&nbsp;&nbsp; Drawings and documentation</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_doc_3101" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.10.2&nbsp;&nbsp; Binding data</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_doc_3102" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.10.3&nbsp;&nbsp; Part Identification list</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_doc_3103" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.10.4&nbsp;&nbsp; Hardware warranty</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_doc_3104" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.10.5&nbsp;&nbsp; Certificate for Overload Capability (Type test - 125% of rated current)</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_doc_3105" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.10.6&nbsp;&nbsp; Certificate for Short circuit (Type test - 150% of rated current)</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_doc_3106" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.10.7&nbsp;&nbsp; Calibration certificates of instrumentation (If any).</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_doc_3107" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.10.8&nbsp;&nbsp; Onboard spares (OBS)</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_doc_3108" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.10.9&nbsp;&nbsp; B &amp; D spares</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_doc_3109" rows="1"></textarea></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 4: Installation Checks
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">4. Installation Checks</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="iis_checks_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser</th>
+                                                <th >Reference</th>
+                                                <th colspan="3">Checks</th>
+                                                <th >SAT / UNSAT</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <!-- 4.1 -->
+                                            <tr>
+                                                <td class="serial-no">4.1</td>
+                                                <td >Chapter II Para 2 (l)</td>
+                                                <td colspan="3">Check the earthing of equipment.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="ins_4_1" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="ins_4_1" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 4.2 -->
+                                            <tr>
+                                                <td class="serial-no">4.2</td>
+                                                <td >Chapter II Para 2 (k)</td>
+                                                <td colspan="3">Check tally plate and circuit diagram plate.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="ins_4_2" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="ins_4_2" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 4.3 -->
+                                            <tr>
+                                                <td class="serial-no">4.3</td>
+                                                <td >Chapter II Para 2 (n)</td>
+                                                <td colspan="3">Check the clearance between terminals.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="ins_4_3" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="ins_4_3" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 4.4 -->
+                                            <tr>
+                                                <td class="serial-no">4.4</td>
+                                                <td>Chapter II Para 2 (r)</td>
+                                                <td colspan="3">Check all incoming and outgoing supply cables are provisioned with bolted type terminals and crimped lugs/ sockets of electrolytic copper.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="ins_4_4" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="ins_4_4" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 4.5 -->
+                                            <tr>
+                                                <td class="serial-no">4.5</td>
+                                                <td >Chapter II Para 2 (h)</td>
+                                                <td colspan="3">Check the lifting &amp; locking arrangements.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="ins_4_5" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="ins_4_5" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 4.6 -->
+                                            <tr>
+                                                <td class="serial-no">4.6</td>
+                                                <td >Chapter II Para 4 (d)</td>
+                                                <td colspan="3">Check for the component access. Access to a component shall not be impeded by other components or wiring.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="ins_4_6" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="ins_4_6" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 4.7 -->
+                                            <tr>
+                                                <td class="serial-no">4.7</td>
+                                                <td >Chapter II Para 1</td>
+                                                <td colspan="3">
+                                                    <strong>Enclosure -</strong><br>
+                                                    IP 43 for ATS &gt; 100 amps<br>
+                                                    IP 55 for ATS &lt; 100 amps
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="ins_4_7" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="ins_4_7" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 4.8 Insulation Resistance Checks -->
+                                            <tr >
+                                                <td rowspan="7" class="serial-no">4.8</td>
+                                                <td rowspan="7" >Chapter II Para 2 (m)</td>
+                                                <td colspan="3"><strong>Insulation Resistance Checks.</strong> <br>4.8.1 Insulation value between each Phase and Earth (&gt;2 MΩ)</td>
+                                                <td rowspan="3">
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="ins_4_8_1" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="ins_4_8_1" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+
+                                            <tr class="custom-header-row">
+                                                <th>R</th>
+                                                <th>Y</th>
+                                                <th>B</th>
+                                            </tr> 
+                                            <tr>
+                                                <td><input type="text" class="form-control input-sm" name="ir_phase_earth_R" ></td>
+                                                <td><input type="text" class="form-control input-sm" name="ir_phase_earth_Y" ></td>
+                                                <td><input type="text" class="form-control input-sm" name="ir_phase_earth_B" ></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3">4.8.2 Insulation value between Phases (&gt;2 MΩ)</td>
+                                                <td rowspan="3">
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="ins_4_8_2" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="ins_4_8_2" value="UNSAT">
+                                                            <label>UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                            </tr>
+
+                                            <tr class="custom-header-row">
+                                                <th>R-Y</th>
+                                                <th>Y-B</th>
+                                                <th>B-R</th>
+                                            </tr> 
+                                            <tr>
+                                                <td><input type="text" class="form-control input-sm" name="ir_phase_R-Y" ></td>
+                                                <td><input type="text" class="form-control input-sm" name="ir_phase_Y-B" ></td>
+                                                <td><input type="text" class="form-control input-sm" name="ir_phase_B-R" ></td>
+                                                
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 5: Operational Checks
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">5. Operational Checks</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="ops_checks_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser</th>
+                                                <th>Reference</th>
+                                                <th colspan="7">Checks</th>
+                                                <th>Remarks</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <!-- 5.1 Voltage Tolerance -->
+                                            <tr>
+                                                <td rowspan="5" class="serial-no">5.1</td>
+                                                <td rowspan="5">Para 1 (a) of Chapter I</td>
+                                                <td colspan="7"><strong>Voltage Tolerance (±10%).</strong> Check 'Normal' and 'Alternate' power supplies at Input &amp; Output end terminals.
+                                                <td rowspan="5"><textarea class="form-control wrstg-scroll-textarea" name="ops_5_1_remarks" rows="1"></textarea></td>    
+                                            </tr>
+                                            <tr class="custom-header-row">
+                                                <th colspan="4">I/P Supply</th>
+                                                <th colspan="3">O/P Supply</th>
+                                            </tr>
+
+                                            <tr  >
+                                                <td style="text-align: center;"><strong>I/P</strong></td>
+                                                <td style="text-align: center;"><strong>R-Y</strong></td>
+                                                <td style="text-align: center;"><strong>Y-B</strong></td>
+                                                <td style="text-align: center;"><strong>B-R</strong></td>
+                                                <td style="text-align: center;"><strong>R-Y</strong></td>
+                                                <td style="text-align: center;"><strong>Y-B</strong></td>
+                                                <td style="text-align: center;"><strong>B-R</strong></td>
+                                            </tr>
+                                            <tr >
+                                                <td><strong>Main</strong></td>
+                                                <td><input type="text" class="form-control input-sm" name="vt_main_ip_ry"></td>
+                                                <td><input type="text" class="form-control input-sm" name="vt_main_ip_yb"></td>
+                                                <td><input type="text" class="form-control input-sm" name="vt_main_ip_br"></td>
+                                                <td><input type="text" class="form-control input-sm" name="vt_main_op_ry"></td>
+                                                <td><input type="text" class="form-control input-sm" name="vt_main_op_yb"></td>
+                                                <td><input type="text" class="form-control input-sm" name="vt_main_op_br"></td>
+                                            </tr>
+                                            <tr >
+                                                <td> <strong>Alt</strong></td>
+                                                <td><input type="text" class="form-control input-sm" name="vt_alt_ip_ry"></td>
+                                                <td><input type="text" class="form-control input-sm" name="vt_alt_ip_yb"></td>
+                                                <td><input type="text" class="form-control input-sm" name="vt_alt_ip_br"></td>
+                                                <td><input type="text" class="form-control input-sm" name="vt_alt_op_ry"></td>
+                                                <td><input type="text" class="form-control input-sm" name="vt_alt_op_yb"></td>
+                                                <td><input type="text" class="form-control input-sm" name="vt_alt_op_br"></td>
+
+                                            </tr>
+
+                                            <tr>
+                                                <td class="serial-no">5.2</td>
+                                                <td >--</td>
+                                                <td colspan="7">Check the proper operation of all indication lamp by test lamp button (If available).</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ops_5_2_remarks" rows="1"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="serial-no">5.3</td>
+                                                <td >Para 1 (t) of Chapter I</td>
+                                                <td colspan="7"><strong>Testing by Test Push.</strong> Press 'Test push button' (provided on panel) &amp; hold until switch  has changed to 'Alternate' supply. <br>On release switch will revert to 'Normal' supply.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ops_5_3_remarks" rows="1"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="serial-no">5.4</td>
+                                                <td >--</td>
+                                                <td colspan="7">Check the local and remote operation of ATS (if any).</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ops_5_4_remarks" rows="1"></textarea></td>
+                                            </tr> 
+                                            
+                                            <tr>
+                                                <td rowspan="5" class="serial-no">5.5</td>
+                                                <td rowspan="5">Para 3 of Chapter II</td>
+                                                <td colspan="8"><strong>Protections Checks</strong></td>
+                                                
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td colspan="7">5.5.1&nbsp;&nbsp; Over Voltage - 10 % of rated voltage</td>
+                                                <td ><textarea class="form-control wrstg-scroll-textarea" name="ops_5_5_1_remarks" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                            
+                                                <td colspan="7">5.5.2&nbsp;&nbsp; Under Voltage - 15 % of rated voltage</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ops_5_5_2_remarks" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td colspan="7">5.5.3&nbsp;&nbsp; Single Phasing</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ops_5_5_3_remarks" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td colspan="7">5.5.4&nbsp;&nbsp; Fuse protections for SCRs</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ops_5_5_4_remarks" rows="1"></textarea></td>
+                                            </tr> 
+
+                                             
+                                             <tr>
+                                                <td rowspan="4" class="serial-no">5.6</td>
+                                                <td rowspan="4">Para 2 of Chapter III <br> of EED-50-78</td>
+                                                <td colspan="8"><strong>Modes of Operation.</strong></td>
+                                                
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td colspan="7">
+                                                    <strong>5.6.1&nbsp;&nbsp; Auto Mode.</strong> Reduce/increase incoming voltage supply for main/alternate supply using variac. <br> ATS will trigger when voltage goes out of the limit of ± 10 % of rated voltage.</br>
+                                                    <strong>Observed change over time (&gt;20 ms) -</strong> <input type="text" class="form-control input-sm d-inline" style="width:120px;" name="ops_5_6_1_time"> milli seconds.
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ops_5_6_1_remarks" rows="3"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td colspan="7">
+                                                    <strong>5.6.2&nbsp;&nbsp; Manual Mode.</strong> Reduce/increase incoming voltage supply for main supply using variac <br>and alternate supply to be available. ATS will trigger when main supply voltage goes out of the limit of ± 10 % of rated voltage.<br>
+                                                    <strong>Observed change over time (&gt;20 ms) -</strong> <input type="text" class="form-control input-sm d-inline" style="width:120px;" name="ops_5_6_2_time"> milli seconds.
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ops_5_6_2_remarks" rows="3"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td colspan="7">
+                                                    <strong>5.6.3&nbsp;&nbsp; Manual Bypass (Emergency Mode).</strong> If the ATS itself becomes defective, then the load <br> gets transferred to Normal and Alternate supply through a manual bypass switch based on the selection of user.
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ops_5_6_3_remarks" rows="3"></textarea></td>
+                                            </tr> 
+
+                                             
+                                             <tr>
+                                                <td class="serial-no">5.7</td>
+                                                <td>--</td>
+                                                <td colspan="7"><strong>ATS Trials with System Load.</strong> Check the ATS with system load and ensure proper operation of <br>equipment without power supply interruption while changeover.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ops_5_7_remarks" rows="3"></textarea></td>
+                                            </tr> 
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 6: Observations
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">6. Observations</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="defects_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser</th>
+                                                <th>Description of Defects / Deficiencies</th>
+                                                <th style="width:50%;">Remarks</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="serial-no">1</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="obs_1_desc" rows="1"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="obs_1_remarks" rows="1"></textarea></td>
+                                                <td class="action action-cell-holder">
+                                                 <div class="action-controls">
+                                                 <button type="button" class="btn-round btn-add" onclick="addRow('defects_tbl')" title="Add Row">+</button>
+                                                 <button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'defects_tbl')" title="Remove Row">-</button>
+                                                </div>
+                                                </td>
+                                            
+                                            </tr>
+
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Save</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

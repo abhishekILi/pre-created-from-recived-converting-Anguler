@@ -1,0 +1,443 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+  /* Inline table input styling */
+  .custom_tbl td input[type="text"] {
+    display: inline-block;
+    width: 100px;
+    height: 28px;
+    padding: 4px 6px;
+    font-size: 12px;
+    border: 1px solid #d9d9d9;
+    border-radius: 3px;
+    margin: 2px 4px;
+    vertical-align: middle;
+  }
+
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+            <li class="breadcrumb-item active" aria-current="page">WATT</li>
+            <li class="breadcrumb-item active" aria-current="page">Communications</li>
+            <li class="breadcrumb-item active" aria-current="page">MSS TX/RX MK II</li>
+          </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">MSS TX/RX MK II</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="mss_tx_rx_mk_ii_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!--HEADER — Ship / Inspection Info-->
+
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Basic Information</legend>
+                <div class="row g-3">
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="name_of_ship_select" name="name_of_ship">
+                          <option value="">-- Select --</option>
+                          <option value="INS_A">INS Alpha</option>
+                          <option value="INS_B">INS Bravo</option>
+                          <option value="INS_C">INS Charlie</option>
+                          <option value="INS_D">INS Delta</option>
+                        </select>
+                        <label class="form_control_1">Name of Ship</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="department_select" name="department">
+                          <option value="">-- Select --</option>
+                          <option value="P15A">ND</option>
+                          <option value="P17">ASW</option>
+                          <option value="P17A">COMM</option>
+                          <option value="P28">GUNNERY</option>
+                        </select>
+                        <label class="form_control_1">Department</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="equipment_select" name="equipment">
+                          <option value="">-- Select --</option>
+                        </select>
+                        <label class="form_control_1">Equipment</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                      <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                        <input type="date" class="form-control" id="date_input" name="date_">
+                        <label class="form_control_1">Date</label>
+                      </div>
+                    </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="nature_trials_select" name="nature_of_trials" required>
+                          <option value="">--Select--</option>
+                          <option value="SATs">SATs</option>
+                          <option value="HATS">HATs</option>
+                          <option value="OP_CHECKS">OP CHECKS</option>
+                          <option value="IIS">IIs</option>
+                        </select>
+                        <label class="form_control_1">Nature of Trial</label>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                        <textarea class="form-control wrstg-scroll-textarea" id="offered_no" name="offered_no" rows="3" required></textarea>
+                        <label class="form_control_1">Serial Number</label>
+                    </div>
+                  </div>
+
+            </div>
+          </fieldset>
+
+          <fieldset class="custom-fieldset">
+            <legend class="legend-custom text-uppercase">Checks</legend>
+            <div class="table-responsive">
+              <table class="custom_tbl" >
+                
+                        <label colspan="3">
+                            Trial team reported onboard for Ops Check of MSS MK II at 
+                            <input type="time"  name="mss_mk_ii_embark_time" class="form-control d-inline-block" style="width: 100px; height: 28px;">hrs Checks and trials carried out IAW IHQ MoD(N)/ DNSO approved schedule vide 
+                             
+                            <textarea class="form-control wrstg-scroll-textarea" style="width: 280px; font-size: 12px; display: inline-block; vertical-align: middle;" id="mss_mk_ii_schedule" name="mss_mk_ii_schedule"></textarea> are enumerated in succeeding paragraphs :-
+                        </label>
+                    
+                <thead>
+                  <tr class="custom-header-row">
+                    <th>Ser No.</th>
+                    <th>Checks</th>
+                    <th>Observation</th>
+                    <th>Remarks</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td colspan="3"><b> Physical checks/Setup</b></td>
+                    </tr>
+                    
+                  
+                  <tr>
+                    <td rowspan="8"></td>
+                    <td>(i)</td>
+                    <td>Integrity of platform /location suitable for Antenna fitted in rough weather and high sea state<input type="text" id="mss_mk_ii_physical_obs_a" name="mss_mk_ii_physical_obs_a"></td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="mss_mk_ii_platform_antenna" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="mss_mk_ii_platform_antenna" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    
+                    <td>(ii)</td>
+                    <td>Water integrity of the cable/ wiring/ interconnections from Antenna to BDU.</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="mss_mk_ii_cable_water_integrity" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="mss_mk_ii_cable_water_integrity" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    
+                    <td>(iii)</td>
+                    <td>Connections are properly insulated</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="mss_mk_ii_connections_insulation" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="mss_mk_ii_connections_insulation" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>(iv)</td>
+                    <td>Interconnections to sub units PC, Key Board and Mouse.</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="mss_mk_ii_subunit_interconnections" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="mss_mk_ii_subunit_interconnections" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>(v)</td>
+                    <td>Power supply from individual UPS</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="mss_mk_ii_power_ups" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="mss_mk_ii_power_ups" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>(vi)</td>
+                    <td>Grounding of Rack</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="mss_mk_ii_rack_grounding" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="mss_mk_ii_rack_grounding" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>(vii)</td>
+                    <td>Securing arrangement of System shock mounts and space sufficient for maintenance</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="mss_mk_ii_shock_mount_securing" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="mss_mk_ii_shock_mount_securing" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>(viii)</td>
+                    <td>Fixing and locking nuts/screws are tightened.</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="mss_mk_ii_fixing_locking_nuts" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="mss_mk_ii_fixing_locking_nuts" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td colspan="3"><b>Electrical Supply Checks</b></td>
+                    
+                  </tr>
+                  <tr>
+                    <td rowspan="3"></td>
+                    <td>(i)</td>
+                    <td>Power Supply 230V/ Requisite AC input is available and measured within tolerance level of± 10%, 50Hz, 1 Phase.</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="mss_mk_ii_ac_power_supply" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="mss_mk_ii_ac_power_supply" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>(ii)</td>
+                    <td>The output of Power Supply Unit measured at 28V DC.</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="mss_mk_ii_psu_output_28v" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="mss_mk_ii_psu_output_28v" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>(iii)</td>
+                    <td>Front panel controls, switches and indication lamps. Fuses are of correct ratings.</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="mss_mk_ii_front_panel_controls" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="mss_mk_ii_front_panel_controls" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                        <td>3</td>
+                        <td colspan="3"><b>Functional checks</b></td>
+                    </tr>
+                    
+                  
+                  <tr>
+                    <td rowspan="7"></td>
+                    <td>(i)</td>
+                    <td>Power ON /self-test</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="mss_mk_ii_power_on_selftest" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="mss_mk_ii_power_on_selftest" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    
+                    <td>(ii)</td>
+                    <td>Perform the BITE through MSS Tx/Rx client software</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="mss_mk_ii_bite_software" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="mss_mk_ii_bite_software" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    
+                    <td>(iii)</td>
+                    <td>All the modules in the units should pass the BITE</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="mss_mk_ii_modules_bite_pass" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="mss_mk_ii_modules_bite_pass" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>(iv)</td>
+                    <td>Configure the parameters through client software</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="mss_mk_ii_parameters_configure" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="mss_mk_ii_parameters_configure" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>(v)</td>
+                    <td>Exchange 02 voice calls to assess the system. Establish calls to assess Terminal • Hub, Hub - terminal and Terminal- Terminal</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="mss_mk_ii_voice_calls_exchange" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="mss_mk_ii_voice_calls_exchange" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>(vi)</td>
+                    <td>Transmit 02 messages each to assess the system from terminal-Hub, Hub- terminal and terminal-Terminal</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="mss_mk_ii_messages_transmit" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="mss_mk_ii_messages_transmit" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>(vii)</td>
+                    <td>Exchange 02 plots to assess Link MSS plot transfer from MOC/Link- MSS Data.</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="mss_mk_ii_plots_exchange" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="mss_mk_ii_plots_exchange" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>4</td>
+                    <td colspan="3"><b>Miscellaneous Checks</b></td>
+                    
+                  </tr>
+                  <tr>
+                    <td rowspan="2"></td>
+                    <td>(i)</td>
+                    <td>System parameters are matching with manuals</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="mss_mk_ii_misc_a" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="mss_mk_ii_misc_a" value="UNSAT"><label >UNSAT</label></div>                        </div>
+                    </td>
+                  </tr>
+                  
+                </tbody>
+              </table>
+            </div>
+          </fieldset>
+
+          <fieldset class="custom-fieldset">
+            <legend class="legend-custom text-uppercase">REMARKS</legend>
+            <div class="static-section">
+              <div class="table-responsive">
+                <table class="custom_tbl" id="mss_mk_ii_remarks_table">
+                  <thead>
+                    <tr>
+                      <th class="serial-no">Sr No</th>
+                      <th>Observations</th>
+                      <th>SS Remarks</th>
+                      <th class="action">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="serial-no">1</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="observation" placeholder="" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="ss_remarks" placeholder="" rows="2"></textarea></td>
+                      <td class="action action-cell-holder">
+                      <div class="action-controls">
+                        <button type="button" class="btn-round btn-add" onclick="addRow('mss_mk_ii_remarks_table')" title="Add Row">+</button>
+                        <button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'mss_mk_ii_remarks_table')" title="Remove Row">-</button>
+                      </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+             </div>
+           </div>
+          </fieldset>
+
+        <fieldset class="custom-fieldset">
+          <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+          <div class="row g-3">
+            <div class="col-md-4 col-12">
+              <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                <select class="form-control" id="mss_mk_ii_presenting_authority" name="mss_mk_ii_presenting_authority" required>
+                  <option value="">--Select--</option>
+                  <option value="dockyard">Dockyard</option>
+                  <option value="shipstaff">Shipstaff</option>
+                  <option value="oem">OEM</option>
+                </select>
+                <label class="form_control_1" for="mss_mk_ii_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+              </div>
+            </div>
+            <div class="col-md-4 col-12">
+              <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                <input type="text" class="form-control" id="mss_mk_ii_watt" name="mss_mk_ii_watt" value="VZG" >
+                <label class="form_control_1" for="mss_mk_ii_watt">WATT</label>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Submit Button -->
+        <div class="d-flex justify-content-center mt-4 gap-2">
+          <button type="submit" class="btn btn-success px-4">Save</button>
+        </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+
+{% endblock js %}

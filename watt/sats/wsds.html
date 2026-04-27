@@ -1,0 +1,342 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+
+<!--  -->
+
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+            <li class="breadcrumb-item active" aria-current="page">WATT</li>
+            <li class="breadcrumb-item active" aria-current="page">SATs</li>
+            <li class="breadcrumb-item active" aria-current="page">WSDS</li>
+          </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">WSDS</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="rlg_sigma_40_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!--HEADER — Ship / Inspection Info-->
+
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Basic Information</legend>
+                <div class="row g-3">
+
+                  <div class="col-md-4 col-12">
+                      <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                          <select class="form-control" name="ship" required>
+                              <option value="">--Select--</option>
+                              {% for ship in ship_options %}
+                              <option value="{{ ship.value }}">{{ ship.label }}</option>
+                              {% endfor %}
+                          </select>
+                          <label class="form_control_1">Ship <span class="text-danger">*</span></label>
+                      </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="department_select" name="department">
+                          <option value="">-- Select --</option>
+                          <option value="P15A">ND</option>
+                          <option value="P17">ASW</option>
+                          <option value="P17A">COMM</option>
+                          <option value="P28">GUNNERY</option>
+                        </select>
+                        <label class="form_control_1">Department</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="equipment_select" name="equipment">
+                          <option value="">-- Select --</option>
+                        </select>
+                        <label class="form_control_1">Equipment</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                      <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                        <input type="date" class="form-control" id="date_input" name="date_">
+                        <label class="form_control_1">Date</label>
+                      </div>
+                    </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="nature_trials_select" name="nature_of_trials" required>
+                          <option value="">--Select--</option>
+                          <option value="SATs">SATs</option>
+                          <option value="HATS">HATs</option>
+                          <option value="OP_CHECKS">OP CHECKS</option>
+                          <option value="IIS">IIs</option>
+                        </select>
+                        <label class="form_control_1">Nature of Trial</label>
+                    </div>
+                  </div>
+
+            </div>
+          </fieldset>
+
+          <fieldset class="custom-fieldset">
+            <legend class="legend-custom text-uppercase">Checks</legend>
+            <div class="table-responsive">
+              <table class="custom_tbl">
+                <thead>
+                  <tr class="custom-header-row">
+                    <th>Ser No.</th>
+                    <th>Observation</th>
+                    <th>Remarks</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="3">
+                            Trials team embarked onboard at 
+                            <input type="time"  name="embark_time" class="form-control d-inline-block" style="width: 100px; height: 28px;"> hrs on 
+                            <input type="date"  name="embark_date" class="form-control d-inline-block" style="width: 140px; height: 28px;"> for SATs of Wind Speed Direction System 
+                            <textarea class="form-control wrstg-scroll-textarea" style="width: 280px; font-size: 12px; display: inline-block; vertical-align: middle;" id="test_1_rlg1_velocity" name="test_1_rlg1_velocity"></textarea> as per IHQ MoD (N) approved schedule. Following observed:-
+                        </td>
+                    </tr>
+                  
+                  <tr>
+                    <td >1</td>
+                    <td>Check - Switching ON the WSDS system.</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="wsds_check_1" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="wsds_check_1" value="UNSAT">
+                                <label >UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                 
+
+
+                  <tr>
+                    <td >2</td>
+                    <td>Check - Feed to all Repeater showing same reading.</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="wsds_check_2" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="wsds_check_2" value="UNSAT">
+                                <label >UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                    <td >3</td>
+                    <td>Check- Recorded the readings in GPS Mode and verified the data with Battenberg and other software in various course</td>
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="wsds_check_3" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="wsds_check_3" value="UNSAT">
+                                <label >UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                    <td >4</td>
+                    <td>Check- Recorded the reading on Gyro-Log mode and calculate true wind by using with Battenberg and other software and compared each other in various courses.</td>
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="wsds_check_4" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="wsds_check_4" value="UNSAT">
+                                <label >UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    
+                   
+                    <td >5</td>
+                    <td>Check – Slave LSO repeater reading.</td>
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="wsds_check_5" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="wsds_check_5" value="UNSAT">
+                                <label >UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                <tr>
+                  <td >6</td>
+                    <td>Check – Interface Checks with ECDIS, Gyro, Log, other equipment</td>
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="wsds_check_6" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="wsds_check_6" value="UNSAT">
+                                <label >UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </fieldset>
+
+          <fieldset class="custom-fieldset">
+            <legend class="legend-custom fw-semibold text-uppercase">MAGNETIC COMPASS SWING CHECKS READING</legend>
+            <div class="table-responsive">
+              <table  class="custom_tbl">
+                
+                <thead>
+                    <tr class="custom-header-row">
+                        <th rowspan="2">SL</th>
+                        <th colspan="2">Own Ship</th>
+                        <th colspan="2">Relative</th>
+                        <th colspan="2">True</th>
+                        <th rowspan="2">Remarks</th>
+                    </tr>
+
+                    <tr>
+                        <th>Couse</th>
+                        <th>Speed</th>
+                        <th>Couse</th>
+                        <th>Speed</th>
+                        <th>Couse</th>
+                        <th>Speed</th>
+                    </tr>
+                     
+                </thead>
+                <tbody>
+                  <tr>
+                    <td rowspan="3">GPS Mode</td>
+                    <td><input type="text" class="form-control" name="wsds_gps_r1_own_course"></td>
+                    <td><input type="number" class="form-control" name="wsds_gps_r1_own_speed"></td>
+                    <td><input type="text" class="form-control" name="wsds_gps_r1_rel_course"></td>
+                    <td><input type="number" class="form-control" name="wsds_gps_r1_rel_speed"></td>
+                    <td><input type="text" class="form-control" name="wsds_gps_r1_true_course"></td>
+                    <td><input type="number" class="form-control" name="wsds_gps_r1_true_speed"></td>
+                    <td ><textarea class="form-control wrstg-scroll-textarea" name="wsds_gps_r1_remarks" rows="2"></textarea></td>
+                  <tr>
+                    <td><input type="text" class="form-control" name="wsds_gps_r2_own_course"></td>
+                    <td><input type="number" class="form-control" name="wsds_gps_r2_own_speed"></td>
+                    <td><input type="text" class="form-control" name="wsds_gps_r2_rel_course"></td>
+                    <td><input type="number" class="form-control" name="wsds_gps_r2_rel_speed"></td>
+                    <td><input type="text" class="form-control" name="wsds_gps_r2_true_course"></td>
+                    <td><input type="number" class="form-control" name="wsds_gps_r2_true_speed"></td>
+                    <td ><textarea class="form-control wrstg-scroll-textarea" name="wsds_gps_r2_remarks" rows="2"></textarea></td>
+                  </tr>
+                  <tr>
+                    <td><input type="text" class="form-control" name="wsds_gps_r3_own_course"></td>
+                    <td><input type="number" class="form-control" name="wsds_gps_r3_own_speed"></td>
+                    <td><input type="text" class="form-control" name="wsds_gps_r3_rel_course"></td>
+                    <td><input type="number" class="form-control" name="wsds_gps_r3_rel_speed"></td>
+                    <td><input type="text" class="form-control" name="wsds_gps_r3_true_course"></td>
+                    <td><input type="number" class="form-control" name="wsds_gps_r3_true_speed"></td>
+                    <td ><textarea class="form-control wrstg-scroll-textarea" name="wsds_gps_r3_remarks" rows="2"></textarea></td>
+                  </tr>
+
+                  <tr>
+                    <td rowspan="3">Gyro-LOG Mode</td>
+                    <td><input type="text" class="form-control" id="wsds_gyro_r1_own_course" name="wsds_gyro_r1_own_course"></td>
+                    <td><input type="number" class="form-control" id="wsds_gyro_r1_own_speed" name="wsds_gyro_r1_own_speed"></td>
+                    <td><input type="text" class="form-control" id="wsds_gyro_r1_rel_course" name="wsds_gyro_r1_rel_course"></td>
+                    <td><input type="number" class="form-control" id="wsds_gyro_r1_rel_speed" name="wsds_gyro_r1_rel_speed"></td>
+                    <td><input type="text" class="form-control" id="wsds_gyro_r1_true_course" name="wsds_gyro_r1_true_course"></td>
+                    <td><input type="number" class="form-control" id="wsds_gyro_r1_true_speed" name="wsds_gyro_r1_true_speed"></td>
+                    <td ><textarea class="form-control wrstg-scroll-textarea" id="wsds_gyro_r1_remarks" name="wsds_gyro_r1_remarks" rows="2"></textarea></td>
+                  </tr>
+                  <tr>
+                    <td><input type="text" class="form-control" id="wsds_gyro_r2_own_course" name="wsds_gyro_r2_own_course"></td>
+                    <td><input type="number" class="form-control" id="wsds_gyro_r2_own_speed" name="wsds_gyro_r2_own_speed"></td>
+                    <td><input type="text" class="form-control" id="wsds_gyro_r2_rel_course" name="wsds_gyro_r2_rel_course"></td>
+                    <td><input type="number" class="form-control" id="wsds_gyro_r2_rel_speed" name="wsds_gyro_r2_rel_speed"></td>
+                    <td><input type="text" class="form-control" id="wsds_gyro_r2_true_course" name="wsds_gyro_r2_true_course"></td>
+                    <td><input type="number" class="form-control" id="wsds_gyro_r2_true_speed" name="wsds_gyro_r2_true_speed"></td>
+                    <td ><textarea class="form-control wrstg-scroll-textarea" id="wsds_gyro_r2_remarks" name="wsds_gyro_r2_remarks" rows="2"></textarea></td>
+                  <tr>
+                    <td><input type="text" class="form-control" id="wsds_gyro_r3_own_course" name="wsds_gyro_r3_own_course"></td>
+                    <td><input type="number" class="form-control" id="wsds_gyro_r3_own_speed" name="wsds_gyro_r3_own_speed"></td>
+                    <td><input type="text" class="form-control" id="wsds_gyro_r3_rel_course" name="wsds_gyro_r3_rel_course"></td>
+                    <td><input type="number" class="form-control" id="wsds_gyro_r3_rel_speed" name="wsds_gyro_r3_rel_speed"></td>
+                    <td><input type="text" class="form-control" id="wsds_gyro_r3_true_course" name="wsds_gyro_r3_true_course"></td>
+                    <td><input type="number" class="form-control" id="wsds_gyro_r3_true_speed" name="wsds_gyro_r3_true_speed"></td>
+                    <td ><textarea class="form-control wrstg-scroll-textarea" id="wsds_gyro_r3_remarks" name="wsds_gyro_r3_remarks" rows="2"></textarea></td>
+                  </tr>
+                  
+
+                  
+                </tbody>
+              </table>
+            </div>
+          </fieldset>
+
+          <!-- Submit -->
+          <div class="d-flex justify-content-center mt-4 gap-2">
+            <button type="submit" class="btn btn-success px-4">Submit</button>
+          </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+
+{% endblock js %}

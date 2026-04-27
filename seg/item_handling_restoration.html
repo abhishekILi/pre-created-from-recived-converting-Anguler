@@ -1,0 +1,474 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<style>
+    body { font-family: Arial, sans-serif; background: #f8f9fa; }
+    .container-fluid { margin-top: 30px; }
+    .portlet { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); padding: 24px; }
+    .portlet-title { border-bottom: 1px solid #eee; margin-bottom: 16px; }
+    .caption { font-size: 1.3rem; font-weight: 600; color: #1976d2; }
+    .table_wrapper { overflow-x: unset; }
+    .custom_tbl th, .custom_tbl td { vertical-align: middle; }
+    .nav-tabs { border-bottom: 2px solid #1976d2; }
+    .nav-link.active { background: #1976d2; color: #fff !important; }
+    .nav-link { color: #1976d2; font-weight: 500; }
+    .nav-item + .nav-item { margin-left: 8px; }
+
+    /* ===== CARD ===== */
+    .card_seg_catalogue {
+        padding: 15px;
+    }
+
+    /* ===== TABLE HOVER ===== */
+    .table-hover tbody tr:hover {
+        background: #eef5ff !important;
+    }
+
+    /* ===== DATATABLE BUTTONS ===== */
+    .dt-buttons .btn {
+        margin-right: 4px;
+    }
+
+    /* Highlight selected Select Image button */
+    .btn-image-selected {
+        background-color: #1976d2 !important;
+        color: #fff !important;
+        border-color: #1976d2 !important;
+        box-shadow: 0 2px 8px rgba(25,118,210,0.15);
+    }
+
+    /* ===== LENGTH MENU ===== */
+    .length-menu-container {
+        display: flex;
+        align-items: center;
+    }
+
+    /* ===== COLUMN FILTER ROW ===== */
+    .filter-row th input {
+        width: 100%;
+        font-size: 12px;
+        padding: 3px 6px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    /* ===== STATUS BADGES ===== */
+    .status-approval {
+        font-weight: 600;
+        font-size: 13px;
+    }
+
+    /* ===== FIELDSET STYLE ===== */
+    .custom-fieldset {
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        padding: 16px;
+        margin-bottom: 20px;
+    }
+
+    .legend-custom {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #1976d2;
+        padding: 0 8px;
+        width: auto;
+    }
+
+    /* ===== FORM LINE INPUT - FIXED ===== */
+    .form-md-line-input {
+        position: relative;
+        padding-top: 20px;        /* space above for floating label */
+        margin-bottom: 6px !important;
+    }
+
+    .form-md-line-input .form-control {
+        border: none !important;
+        border-bottom: 2px solid #ccc !important;
+        border-radius: 0 !important;
+        padding: 4px 0px !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }
+
+    .form-md-line-input .form-control:focus {
+        border-bottom-color: #1976d2 !important;
+        box-shadow: none !important;
+        background: transparent !important;
+    }
+
+    .form-md-line-input .form_control_1 {
+        position: absolute;
+        top: 22px;                /* aligned to input baseline */
+        left: 0px;
+        transition: all 0.2s ease;
+        pointer-events: none;
+        color: #888;
+        font-size: 14px;
+        margin: 0;
+        padding: 0;
+        background: transparent;
+    }
+
+    .form-md-line-input .form-control:focus ~ .form_control_1,
+    .form-md-line-input .form-control:not(:placeholder-shown) ~ .form_control_1 {
+        top: 2px;
+        font-size: 11px;
+        color: #1976d2;
+        background: transparent;
+    }
+
+    /* ===== REMOVE EXTRA SPACE AT BOTTOM OF FIELDSET ===== */
+    .custom-fieldset {
+        padding-bottom: 4px !important;
+    }
+
+    .custom-fieldset .row.g-3 {
+        margin-bottom: 0 !important;
+    }
+
+    .custom-fieldset .col-md-6 > .form-group:last-child,
+    .custom-fieldset .col-12 > .form-group:last-child {
+        margin-bottom: 0 !important;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+
+<div class="container-fluid">
+    
+
+    <!-- ===== FORM CARD ===== -->
+    <div class="card card_seg_catalogue mb-4">
+        <h2 style="text-align: center;">Item Handling Restoration</h2>
+        <form id="item-handling-tabular-form">
+            <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Catalogue of Selected MMD</legend>
+                <div class="row g-3">
+                    <div class="col-md-6 col-12">
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="system" placeholder=" " value="{{ extraction.system|default:'' }}" required>
+                            <label class="form_control_1">Show System <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="subsystem" placeholder=" " value="{{ extraction.subsystem|default:'' }}" required>
+                            <label class="form_control_1">Subsystem <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="mmd_typeos" placeholder=" " value="{{ extraction.mmd_typeos|default:'' }}" required>
+                            <label class="form_control_1">MMD TypeOS <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="interface" placeholder=" " value="{{ extraction.interface|default:'' }}" required>
+                            <label class="form_control_1">Interface <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="size" placeholder=" " value="{{ extraction.size|default:'' }}" required>
+                            <label class="form_control_1">Size <span class="text-danger">*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="application" placeholder=" " value="{{ extraction.application|default:'' }}" required>
+                            <label class="form_control_1">Application <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="name" placeholder=" " value="{{ extraction.name|default:'' }}" required>
+                            <label class="form_control_1">Name <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="application_version" placeholder=" " value="{{ extraction.application_version|default:'' }}" required>
+                            <label class="form_control_1">Application Version <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="part_no_mother_board" placeholder=" " value="{{ extraction.part_no_mother_board|default:'' }}" required>
+                            <label class="form_control_1">Part No of Mother Board <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="pattern_no_selected_mmd" placeholder=" " value="{{ extraction.pattern_no_selected_mmd|default:'' }}" required>
+                            <label class="form_control_1">Pattern No of Selected MMD <span class="text-danger">*</span></label>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+
+    <!-- ===== TABLE CARD ===== -->
+    <div class="card card_seg_catalogue">
+
+        <!-- ===== FIRST TABLE ===== -->
+        <fieldset class="custom-fieldset">
+            <legend class="legend-custom text-uppercase">available backup</legend>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table_wrapper">
+                        <table id="seg_catalogue_table_1" class="table table-bordered table-hover custom_tbl">
+                            <thead>
+                                <tr>
+                                    <th>System</th>
+                                    <th>File Name</th>
+                                    <th>Extraction Format</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Dummy Data Rows -->
+                                <tr>
+                                    <td>CMS</td>
+                                    <td>XXX_YYY</td>
+                                    <td>DD</td>
+                                    <td><button type="button" class="btn btn-sm btn-info">Select Image</button></td>
+                                </tr>
+                                <!--tr>
+                                    <td>Hull</td>
+                                    <td>radar1</td>
+                                    <td>TX-DX Card</td>
+                                    <td><button type="button" class="btn btn-sm btn-info"></button></td>
+                                </tr-->
+                                {% for item in catalogue_items %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ item.sub_system }}</td>
+                                    <td>{{ item.mmd_type }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-info">View</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+        <!-- ===== SECOND TABLE (UNIQUE ID) ===== -->
+        <fieldset class="custom-fieldset">
+            <legend class="legend-custom text-uppercase">SHip Suggested Backup</legend>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table_wrapper">
+                        <table id="seg_catalogue_table_2" class="table table-bordered table-hover custom_tbl">
+                            <thead>
+                                <tr>
+                                    <th>Ship Name</th>
+                                    <th>File Name</th>
+                                    <th>Extraction Format</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Dummy Data Rows -->
+                                <tr>
+                                    <td>SDN</td>
+                                    <td>XXX_YYY</td>
+                                    <td>DD</td>
+                                    <td><button type="button" class="btn btn-sm btn-info">Select Image</button></td>
+                                </tr>
+                                <tr>
+                                    <td>SDN</td>
+                                    <td>XXX_YYY</td>
+                                    <td>DD</td>
+                                    <td><button type="button" class="btn btn-sm btn-info">Select Image</button></td>
+                                </tr>
+                                <tr>
+                                    <td>SDN</td>
+                                    <td>XXX_YYY</td>
+                                    <td>DD</td>
+                                    <td><button type="button" class="btn btn-sm btn-info">Select Image</button></td>
+                                </tr>
+                                {% for item in catalogue_items %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ item.sub_system }}</td>
+                                    <td>{{ item.mmd_type }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-info">View</button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <!-- Five fields side by side below the scroll bar -->
+        <form id="backup-info-form">
+            <div class="row mb-2 mt-3 align-items-end">
+                <div class="col-md-3 col-12">
+                    <div class="form-group">
+                        <label for="app_req_status">App Req Status</label>
+                        <select class="form-control" id="app_req_status" name="app_req_status" required>
+                            <option value="">Req Status</option>
+                            <option value="Accepted">Accepted</option>
+                            <option value="Rejected">Rejected</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3 col-12">
+                    <div class="form-group">
+                        <label for="date_field">Date</label>
+                        <input type="date" class="form-control" id="date_field" name="date_field" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3 align-items-end">
+                <div class="col-md-4 col-12">
+                    <div class="form-group">
+                        <label for="backup_location">Backup Location</label>
+                        <input type="text" class="form-control" id="backup_location" name="backup_location" placeholder="Enter location" required>
+                    </div>
+                </div>
+                <div class="col-md-4 col-12">
+                    <div class="form-group">
+                        <label for="backup_file_format">Backup File Format</label>
+                        <input type="text" class="form-control" id="backup_file_format" name="backup_file_format" placeholder="Enter file format" required>
+                    </div>
+                </div>
+                <div class="col-md-4 col-12">
+                    <div class="form-group">
+                        <label for="backup_file_name">Backup File Name</label>
+                        <input type="text" class="form-control" id="backup_file_name" name="backup_file_name" placeholder="Enter file name" required>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center mt-4 gap-2">
+								<button type="submit" class="btn btn-success px-4">Save</button>
+							</div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+        <!-- ===== SAVE BUTTON ===== -->
+        <div class="d-flex justify-content-center mt-4 gap-2 mb-3">
+            <button type="submit" form="item-handling-tabular-form" class="btn btn-success px-4">Save</button>
+        </div>
+
+    </div><!-- end card -->
+</div><!-- end container -->
+
+{% endblock content %}
+
+{% block js %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    // Highlight selected Select Image button
+    function setupImageSelectButtons(tableSelector) {
+        $(tableSelector).on('click', '.btn-info', function() {
+            // Remove highlight from all buttons in this table
+            $(tableSelector + ' .btn-info').removeClass('btn-image-selected');
+            // Add highlight to the clicked button
+            $(this).addClass('btn-image-selected');
+        });
+    }
+    setupImageSelectButtons('#seg_catalogue_table_1');
+    setupImageSelectButtons('#seg_catalogue_table_2');
+
+    // ===== REUSABLE DATATABLE INITIALIZER =====
+    let initDataTable = (selector) => {
+
+        // Destroy if already initialized
+        if ($.fn.DataTable.isDataTable(selector)) {
+            $(selector).DataTable().clear().destroy();
+            $(selector + ' thead tr.filter-row').remove();
+        }
+
+        let $thead = $(selector + ' thead');
+        // Removed column search inputs and filter row
+
+        // Initialize DataTable
+        let table = $(selector).DataTable({
+              dom: "<'row'<'col-md-12'B>>rt",
+
+            buttons: [
+                {
+                    extend: 'print',
+                    className: 'btn-outline-dark',
+                    text: '<i class="bi bi-printer" data-bs-toggle="tooltip" title="Print"></i>'
+                },
+                {
+                    extend: 'pdf',
+                    className: 'btn-outline-success',
+                    text: '<i class="bi bi-file-earmark-pdf" data-bs-toggle="tooltip" title="Export to PDF"></i>'
+                },
+                {
+                    extend: 'csv',
+                    className: 'btn-outline-primary',
+                    text: '<i class="bi bi-file-earmark-spreadsheet" data-bs-toggle="tooltip" title="Export to CSV"></i>'
+                },
+                {
+                    extend: 'copy',
+                    className: 'btn-outline-secondary',
+                    text: '<i class="bi bi-clipboard" data-bs-toggle="tooltip" title="Copy"></i>'
+                }
+            ],
+
+            language: {
+                emptyTable: "No data available",
+                zeroRecords: "No matching records found"
+            },
+
+            order: [[0, "asc"]],
+            pageLength: 10,
+            fixedHeader: true,
+            retrieve: true,
+
+            initComplete: function () {
+                $(selector + '_length select').addClass('custom-length');
+                $(selector + '_length').addClass('position-relative d-inline-block');
+            }
+        });
+
+        // ===== COLUMN-WISE SEARCH =====
+        // Removed column-wise search
+
+        // Re-init tooltips after each draw
+        $(selector).on('draw.dt', function () {
+            $('[data-bs-toggle="tooltip"]').tooltip();
+        });
+
+        return table;
+    };
+
+    // ===== INIT BOTH TABLES =====
+    let segTable1 = initDataTable('#seg_catalogue_table_1');  // First table
+    let segTable2 = initDataTable('#seg_catalogue_table_2');  // Second table — FIX: was never initialized
+
+    // ===== FORM SUBMIT =====
+    document.getElementById('item-handling-tabular-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const system      = this.querySelector('[name="system"]').value.trim();
+        const subsystem   = this.querySelector('[name="subsystem"]').value.trim();
+        const mmd_typeos  = this.querySelector('[name="mmd_typeos"]').value.trim();
+        const interface_  = this.querySelector('[name="interface"]').value.trim();
+        const size        = this.querySelector('[name="size"]').value.trim();
+
+        if (!system || !subsystem) {
+            alert('System and Subsystem are required.');
+            return;
+        }
+
+        // Example: add a row to the first table on save
+        let rowCount = segTable1.data().length + 1;
+        segTable1.row.add([
+            new Date().toLocaleDateString(),
+            system + '_' + subsystem,
+            mmd_typeos || '-',
+            '<button type="button" class="btn btn-sm btn-info">View</button>'
+        ]).draw();
+
+        // Optionally reset form
+        // this.reset();
+    });
+
+});
+</script>
+{% endblock js %}

@@ -1,0 +1,824 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">WATT</a></li>
+					<li class="breadcrumb-item active" aria-current="page">HUMSA NG MK II</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">HUMSA NG MK II</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="humsa_ng_mk2_form" action="{% url 'ITTTM:humsa_ng_mk2' %}">
+						{% csrf_token %}
+						<div class="form-body">
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">Basic Information</legend>
+								<div class="row g-3">
+
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+												<select class="form-control" name="humsa_ng_mk2_ship_name" required>
+													<option value="">--Select--</option>
+													{% for ship in ship_options %}
+													<option value="{{ ship.value }}">{{ ship.label }}</option>
+													{% endfor %}
+												</select>
+												<label class="form_control_1">SHIP <span class="text-danger">*</span></label>
+											</div>
+								</div>
+
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+									<select class="form-control" id="humsa_ng_mk2_department" name="humsa_ng_mk2_department">
+										<option value="">-- Select --</option>
+										<option value="ASW">ASW</option>
+										<option value="COMM">COMM</option>
+										<option value="ND">ND</option>
+										<option value="GUNNERY">GUNNERY</option>
+										</select>
+										<label class="form_control_1">DEPARTMENT</label>
+									</div>
+								</div>
+
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<input type="text" class="form-control" name="humsa_ng_mk2_equipment" value="HUMSA NG MK II" required>
+										<label class="form_control_1">EQUIPMENT</label>
+									</div>
+								</div>
+
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<input type="date" class="form-control" id="humsa_ng_mk2_date" name="humsa_ng_mk2_date">
+										<label class="form_control_1">DATE</label>
+									</div>
+								</div>
+
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<select class="form-control" id="humsa_ng_mk2_nature_of_trials" name="humsa_ng_mk2_nature_of_trials" required>
+										<option value="">--Select--</option>
+										<option value="SATs">SATs</option>
+										<option value="HATS">HATs</option>
+										<option value="OP_CHECKS">OP CHECKS</option>
+										<option value="IIS">IIs</option>
+										</select>
+										<label class="form_control_1">NATURE OF TRIAL</label>
+									</div>
+								</div>
+
+							</div>
+						</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<div class="table-responsive mt-4">
+									<table class="custom_tbl" id="humsa_ng_mk2_summary_table">
+										<thead class="table-dark-head">
+											<tr>
+												<th class="ser-col">TRIAL SER</th>
+												<th class="obs-col">CHECK DESCRIPTION AS PER SCHEDULE</th>
+												<th class="remarks-col">RESULT<br>SAT/UNSAT</th>
+												<th class="remarks-col">PRESENTING AUTHORITY REMARKS</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td colspan="4">
+													TRIALS TEAM EMBARKED ONBOARD AT
+													<input type="text" name="humsa_embarked_onboard_at" class="line-input embarked-hrs">
+													on
+													<input type="text" name="humsa_embarked_on_date" class="line-input embarked-date">
+													FOR SATS OF HUMSA NG MK II AS PER APPROVED SCHEDULE, BR 4050 AND CNQ 07/10. FOLLOWING OBSERVED:-
+												</td>
+											</tr>
+											<tr>
+												<td>CH 2.</td>
+												<td><strong>ACTIVE SONAR RANGE AND BEARING ACCURACY TRAILS</strong></td>
+												<td class="text-center"><label><input type="radio" name="ch2_active_sonar_range_bearing_accuracy_result" value="SAT"> SAT</label> <label><input type="radio" name="ch2_active_sonar_range_bearing_accuracy_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="ch2_active_sonar_range_bearing_accuracy_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>CH 3.</td>
+												<td><strong>ACTIVE SONAR MAXIMUM HOLDING RANGE TRAILS</strong></td>
+												<td class="text-center"><label><input type="radio" name="ch3_active_sonar_max_holding_range_result" value="SAT"> SAT</label> <label><input type="radio" name="ch3_active_sonar_max_holding_range_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="ch3_active_sonar_max_holding_range_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>CH 4.</td>
+												<td><strong>ACTIVE SONAR INITIAL DETECTION RANGE TRIALS</strong></td>
+												<td class="text-center"><label><input type="radio" name="ch4_active_sonar_initial_detection_result" value="SAT"> SAT</label> <label><input type="radio" name="ch4_active_sonar_initial_detection_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="ch4_active_sonar_initial_detection_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>CH 5.</td>
+												<td><strong>ACTIVE SONAR DOPPLER ACCURACY TRIALS</strong></td>
+												<td class="text-center"><label><input type="radio" name="ch5_active_sonar_doppler_accuracy_result" value="SAT"> SAT</label> <label><input type="radio" name="ch5_active_sonar_doppler_accuracy_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="ch5_active_sonar_doppler_accuracy_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>CH 6.</td>
+												<td><strong>ACTIVE CMA TRIALS</strong></td>
+												<td class="text-center"><label><input type="radio" name="ch6_active_cma_result" value="SAT"> SAT</label> <label><input type="radio" name="ch6_active_cma_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="ch6_active_cma_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>CH 7.</td>
+												<td><strong>ACTIVE CLASSIFIER TRIALS</strong></td>
+												<td class="text-center"><label><input type="radio" name="ch7_active_classifier_result" value="SAT"> SAT</label> <label><input type="radio" name="ch7_active_classifier_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="ch7_active_classifier_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>CH 8.</td>
+												<td><strong>PASSIVE SONAR SYSTEM TRIALS &amp; MHR TRIALS</strong></td>
+												<td class="text-center"><label><input type="radio" name="ch8_passive_sonar_system_mhr_result" value="SAT"> SAT</label> <label><input type="radio" name="ch8_passive_sonar_system_mhr_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="ch8_passive_sonar_system_mhr_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>CH 9.</td>
+												<td><strong>PASSIVE CMA TRIALS</strong></td>
+												<td class="text-center"><label><input type="radio" name="ch9_passive_cma_result" value="SAT"> SAT</label> <label><input type="radio" name="ch9_passive_cma_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="ch9_passive_cma_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>CH 10.</td>
+												<td><strong>PASSIVE CLASSIFIER TRIALS</strong></td>
+												<td class="text-center"><label><input type="radio" name="ch10_passive_classifier_result" value="SAT"> SAT</label> <label><input type="radio" name="ch10_passive_classifier_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="ch10_passive_classifier_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>CH 11.</td>
+												<td><strong>TORPEDO DETECTION TRIALS</strong></td>
+												<td class="text-center"><label><input type="radio" name="ch11_torpedo_detection_result" value="SAT"> SAT</label> <label><input type="radio" name="ch11_torpedo_detection_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="ch11_torpedo_detection_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>CH 12.</td>
+												<td><strong>INTERCEPT TRIALS</strong></td>
+												<td class="text-center"><label><input type="radio" name="ch12_intercept_result" value="SAT"> SAT</label> <label><input type="radio" name="ch12_intercept_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="ch12_intercept_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>CH 13.</td>
+												<td><strong>BI-STATIC TRIALS</strong></td>
+												<td class="text-center"><label><input type="radio" name="ch13_bi_static_result" value="SAT"> SAT</label> <label><input type="radio" name="ch13_bi_static_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="ch13_bi_static_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>CH 14.</td>
+												<td><strong>UWACS TRITON TRIALS</strong></td>
+												<td class="text-center"><label><input type="radio" name="ch14_uwacs_triton_result" value="SAT"> SAT</label> <label><input type="radio" name="ch14_uwacs_triton_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="ch14_uwacs_triton_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>ANNX</td>
+												<td><strong>XBT &amp; EXTERNAL SYSTEM INTERFACES TRIALS</strong></td>
+												<td class="text-center"><label><input type="radio" name="annx_xbt_external_interfaces_result" value="SAT"> SAT</label> <label><input type="radio" name="annx_xbt_external_interfaces_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="annx_xbt_external_interfaces_remarks" rows="2"></textarea></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<legend class="legend-custom text-uppercase">TABLE 2-1. STANDARD DEVIATION OF RANGE AND BEARING TO BE ACHIEVED</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="humsa_table_2_1">
+										<thead>
+											<tr>
+												<th>PARAMETER</th>
+												<th>RESULT TO BE ACHIEVED</th>
+												<th>RESULT COMPUTED</th>
+												<th>SAT/UNSAT</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>RANGE (M)</td><td>&le; 200</td><td><textarea class="form-control wrstg-scroll-textarea" name="table2_1_range_result_computed" rows="2"></textarea></td><td class="text-center"><label><input type="radio" name="table2_1_range_result" value="SAT"> SAT</label> <label><input type="radio" name="table2_1_range_result" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>BEARING (DEG)</td><td>&le; 2</td><td><textarea class="form-control wrstg-scroll-textarea" name="table2_1_bearing_result_computed" rows="2"></textarea></td><td class="text-center"><label><input type="radio" name="table2_1_bearing_result" value="SAT"> SAT</label> <label><input type="radio" name="table2_1_bearing_result" value="UNSAT"> UNSAT</label></td></tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<legend class="legend-custom text-uppercase">TABLE 2-2. ACTIVE SONAR RANGE &amp; BEARING ACCURACY CHECKS (SCR)</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="humsa_table_2_2">
+										<thead>
+											<tr>
+												<th rowspan="2">SER</th>
+												<th rowspan="2">CUT NO.</th>
+												<th rowspan="2">TIME</th>
+												<th colspan="3">SONAR READINGS</th>
+												<th rowspan="2">REMARKS</th>
+											</tr>
+											<tr>
+												<th>OWN SHIP COURSE (SCc)</th>
+												<th>RANGE (KM) R<sub>s</sub></th>
+												<th>TRUE BEARING (TB<sub>s</sub>)</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for _ in "xxxxxxxxxxxxxxxxxxxx"|make_list %}
+											<tr>
+												<td>{{ forloop.counter }}</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="table2_2_cut_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><input type="time" class="form-control" name="table2_2_time_{{ forloop.counter }}"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="table2_2_sc_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="table2_2_rs_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="table2_2_tbs_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="table2_2_remarks_{{ forloop.counter }}" rows="2"></textarea></td>
+											</tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<legend class="legend-custom text-uppercase">TABLE 2-3. NAVIGATIONAL RADAR RANGE AND BEARING DATA (RADAR ROOM)</legend>
+								<div class="mb-2"><strong>RADAR NAME</strong> <textarea class="form-control wrstg-scroll-textarea" name="table2_3_radar_name" rows="2"></textarea></div>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="humsa_table_2_3">
+										<thead>
+											<tr>
+												<th rowspan="2">SER</th>
+												<th rowspan="2">CUT NO.</th>
+												<th rowspan="2">TIME</th>
+												<th colspan="3">RADAR READINGS</th>
+												<th rowspan="2">REMARKS</th>
+											</tr>
+											<tr>
+												<th>OWN SHIP COURSE (SC<sub>R</sub>)</th>
+												<th>RANGE (NM) R<sub>R</sub></th>
+												<th>TRUE BEARING (TB<sub>R</sub>)</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for _ in "xxxxxxxxxxxxxxxxxxxx"|make_list %}
+											<tr>
+												<td>{{ forloop.counter }}</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="table2_3_cut_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><input type="time" class="form-control" name="table2_3_time_{{ forloop.counter }}"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="table2_3_scr_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="table2_3_rr_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="table2_3_tbr_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="table2_3_remarks_{{ forloop.counter }}" rows="2"></textarea></td>
+											</tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<legend class="legend-custom text-uppercase">TABLE 2-4. ERROR IN BEARING &amp; RANGE (FOR OFFLINE COMPUTATION)</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="humsa_table_2_4">
+										<thead>
+											<tr>
+												<th rowspan="2">SER</th>
+												<th rowspan="2">CUT NO.</th>
+												<th rowspan="2">TIME</th>
+												<th colspan="3">BEARING ERROR</th>
+												<th colspan="3">RANGE ERROR</th>
+											</tr>
+											<tr>
+												<th>SONAR TRUE BRG (TB<sub>s</sub>)</th>
+												<th>RADAR TRUE BEARING (TB<sub>R</sub>)</th>
+												<th>BEARING ERROR ( B = TB<sub>s</sub> - TB<sub>R</sub> )</th>
+												<th>SONAR RANGE (R<sub>s</sub>) (KM)</th>
+												<th>RADAR RANGE (R<sub>R</sub>) (KM)</th>
+												<th>RANGE ERROR ( R = R<sub>s</sub> - R<sub>R</sub> )</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for _ in "xxxxxxxxxxxxxxxxxxxx"|make_list %}
+											<tr>
+												<td>{{ forloop.counter }}</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="table2_4_cut_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><input type="time" class="form-control" name="table2_4_time_{{ forloop.counter }}"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="table2_4_tbs_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="table2_4_tbr_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="table2_4_bearing_error_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="table2_4_rs_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="table2_4_rr_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="table2_4_range_error_{{ forloop.counter }}" rows="2"></textarea></td>
+											</tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+								<div class="mt-2">Standard Deviation of Bearing error = <textarea class="form-control wrstg-scroll-textarea" name="table2_4_std_dev_bearing_error" rows="2"></textarea></div>
+								<div class="mt-2">Standard Deviation of Range error = <textarea class="form-control wrstg-scroll-textarea" name="table2_4_std_dev_range_error" rows="2"></textarea></div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<legend class="legend-custom text-uppercase">TABLE 3-1. ORDER OF CHANGING TRANSMISSION MODE &amp; SOURCE LEVEL</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="humsa_table_3_1">
+										<thead>
+											<tr><th>SER</th><th>SOURCE LEVEL SETTING</th><th>TX MODE</th><th>MHR IN VIDEO (KM)</th><th>RANGE IMPROVEMENT IN KM FROM PREVIOUS SL</th><th>REMARKS</th></tr>
+										</thead>
+										<tbody>
+											<tr><td>1</td><td>-24 dB</td><td>OMNI</td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_1_mhr_video_1" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_1_range_improvement_1" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_1_remarks_1" rows="2"></textarea></td></tr>
+											<tr><td>2</td><td>-18 dB</td><td>OMNI</td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_1_mhr_video_2" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_1_range_improvement_2" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_1_remarks_2" rows="2"></textarea></td></tr>
+											<tr><td>3</td><td>-24 dB</td><td>DRDT</td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_1_mhr_video_3" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_1_range_improvement_3" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_1_remarks_3" rows="2"></textarea></td></tr>
+											<tr><td>4</td><td>-12 dB</td><td>OMNI</td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_1_mhr_video_4" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_1_range_improvement_4" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_1_remarks_4" rows="2"></textarea></td></tr>
+											<tr><td>5</td><td>-18 dB</td><td>DRDT</td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_1_mhr_video_5" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_1_range_improvement_5" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_1_remarks_5" rows="2"></textarea></td></tr>
+											<tr><td>6</td><td>-6 dB</td><td>OMNI</td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_1_mhr_video_6" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_1_range_improvement_6" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_1_remarks_6" rows="2"></textarea></td></tr>
+											<tr><td>7</td><td>-12 dB</td><td>DRDT</td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_1_mhr_video_7" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_1_range_improvement_7" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_1_remarks_7" rows="2"></textarea></td></tr>
+											<tr><td>8</td><td>-0 dB</td><td>OMNI</td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_1_mhr_video_8" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_1_range_improvement_8" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_1_remarks_8" rows="2"></textarea></td></tr>
+											<tr><td>9</td><td>-6 dB</td><td>DRDT</td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_1_mhr_video_9" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_1_range_improvement_9" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_1_remarks_9" rows="2"></textarea></td></tr>
+											<tr><td>10</td><td>-0 dB</td><td>DRDT</td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_1_mhr_video_10" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_1_range_improvement_10" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_1_remarks_10" rows="2"></textarea></td></tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<legend class="legend-custom text-uppercase">TABLE 3-2. ACTIVE MHR READINGS</legend>
+								<div class="mb-2">ESR = <textarea class="form-control wrstg-scroll-textarea" name="table3_2_esr" rows="2"></textarea></div>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="humsa_table_3_2">
+										<thead>
+											<tr><th>TIME</th><th>RANGE</th><th>TRUE BRG</th><th>VIDEO GOOD</th><th>AUDIO GOOD</th><th>TX MODE</th><th>SOURCE LEVEL</th><th>WAVEFORM</th><th>PULSE LENGTH</th><th>PROCESSING MODE</th><th>SENSITIVITY</th><th>REMARKS</th></tr>
+										</thead>
+										<tbody>
+											<tr><td><input type="time" class="form-control" name="table3_2_time_1"></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_2_range_1" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_2_true_brg_1" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_2_video_good_1" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_2_audio_good_1" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_2_tx_mode_1" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_2_source_level_1" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_2_waveform_1" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_2_pulse_length_1" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_2_processing_mode_1" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_2_sensitivity_1" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_2_remarks_1" rows="2"></textarea></td></tr>
+											<tr><td><input type="time" class="form-control" name="table3_2_time_2"></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_2_range_2" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_2_true_brg_2" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_2_video_good_2" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_2_audio_good_2" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_2_tx_mode_2" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_2_source_level_2" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_2_waveform_2" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_2_pulse_length_2" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_2_processing_mode_2" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_2_sensitivity_2" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_2_remarks_2" rows="2"></textarea></td></tr>
+											<tr><td><input type="time" class="form-control" name="table3_2_time_3"></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_2_range_3" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_2_true_brg_3" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_2_video_good_3" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_2_audio_good_3" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_2_tx_mode_3" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_2_source_level_3" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_2_waveform_3" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_2_pulse_length_3" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_2_processing_mode_3" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_2_sensitivity_3" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_2_remarks_3" rows="2"></textarea></td></tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<legend class="legend-custom text-uppercase">TABLE 3-3. ACTIVE MHR RESULTS</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="humsa_table_3_3">
+										<thead>
+											<tr><th>TARGET POSITION</th><th>OWN SPEED (KNOTS)</th><th>OMNI/LFM/RC/0dB VIDEO (KM)</th><th>DRDT/LFM/RC/0dB VIDEO (KM)</th><th>AUDIO (KM)</th><th>REMARKS</th></tr>
+										</thead>
+										<tbody>
+											<tr><td>ABOVE LAYER</td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_3_above_layer_own_speed" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_3_above_layer_omni_video" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_3_above_layer_drdt_video" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_3_above_layer_audio" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_3_above_layer_remarks" rows="2"></textarea></td></tr>
+											<tr><td>BELOW LAYER</td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_3_below_layer_own_speed" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_3_below_layer_omni_video" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_3_below_layer_drdt_video" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_3_below_layer_audio" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table3_3_below_layer_remarks" rows="2"></textarea></td></tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<legend class="legend-custom">TABLE. AREA DATA (TO BE FILLED EVERY HOUR)</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="humsa_area_data_table">
+										<thead>
+											<tr>
+												<th>DATE</th><th>TIME</th><th>LAT</th><th>LONG</th><th>OFF PLACE</th><th>DISTANCE FROM COAST</th><th>DEPTH</th><th>BOTTOM TYPE</th><th>COASTAL RIVERS</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for _ in "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"|make_list %}
+											<tr>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="area_data_date_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><input type="time" class="form-control" name="area_data_time_{{ forloop.counter }}"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="area_data_lat_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="area_data_long_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="area_data_off_place_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="area_data_distance_from_coast_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="area_data_depth_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="area_data_bottom_type_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="area_data_coastal_rivers_{{ forloop.counter }}" rows="2"></textarea></td>
+											</tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<legend class="legend-custom">TABLE. SEA STATE DATA (TO BE FILLED EVERY HOUR)</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="humsa_sea_state_data_table">
+										<thead>
+											<tr>
+												<th>DATE</th><th>TIME</th><th>WIND FORCE</th><th>WIND DIR</th><th>WAVE HEIGHT</th><th>SEA STATE</th><th>SEA DIR</th><th>WEATHER</th><th>VISIBILITY</th><th>PRESENCE OF FISH</th><th>REMARKS</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for _ in "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"|make_list %}
+											<tr>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="sea_state_date_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><input type="time" class="form-control" name="sea_state_time_{{ forloop.counter }}"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="sea_state_wind_force_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="sea_state_wind_dir_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="sea_state_wave_height_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="sea_state_sea_state_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="sea_state_sea_dir_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="sea_state_weather_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="sea_state_visibility_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="sea_state_presence_of_fish_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="sea_state_remarks_{{ forloop.counter }}" rows="2"></textarea></td>
+											</tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<legend class="legend-custom">TABLE. BATHY AND OCEAN DATA (TO BE FILLED EVERY HOUR)</legend>
+								<div class="mb-2">ESR Predicted: <textarea class="form-control wrstg-scroll-textarea" name="bathy_esr_predicted" rows="2"></textarea></div>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="humsa_bathy_ocean_data_table">
+										<thead>
+											<tr>
+												<th>DATE</th><th>TIME</th><th>SALINITY (PSU)</th><th>TEMP (C)</th><th>DEPTH (M)</th><th>SOUND VELOCITY (M/SEC)</th><th>TYPE OF PROBE (ECCL/MECH)</th><th>SURFACE TEMP (C)</th><th>REMARKS REGARDING ESR ETC FROM SUB/CONSORT</th><th>SOUND VELOCITY RECORD</th><th>REMARKS</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for _ in "xxxxxxxxxxxxxxxxxxxx"|make_list %}
+											<tr>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="bathy_date_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><input type="time" class="form-control" name="bathy_time_{{ forloop.counter }}"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="bathy_salinity_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="bathy_temp_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="bathy_depth_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="bathy_sound_velocity_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="bathy_probe_type_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="bathy_surface_temp_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="bathy_sub_consort_remarks_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="bathy_sound_velocity_record_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="bathy_remarks_{{ forloop.counter }}" rows="2"></textarea></td>
+											</tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<legend class="legend-custom">TABLE. SHIP DATA (TO BE FILLED EVERY HOUR)</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="humsa_ship_data_table">
+										<thead>
+											<tr>
+												<th>DATE</th><th>TIME</th><th>COURSE</th><th>SPEED</th><th>DISPLACEMENT</th><th>DRAUGHT (FWD/AFT)</th><th>PNM/CNM (ON/OFF)</th><th>MACHINERY STATE, TA, DA (BOILER, TURBINES A/C PLANT, COMPRESSOR)</th><th>STATUS (ON/OFF)</th><th>REGIME</th><th>REMARKS</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_date_1" rows="2"></textarea></td><td><input type="time" class="form-control" name="ship_data_time_1"></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_course_1" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_speed_1" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_displacement_1" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_draught_1" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_pnm_cnm_1" rows="2"></textarea></td><td>Stbd GT</td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_status_1" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_regime_1" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_remarks_1" rows="2"></textarea></td></tr>
+											<tr><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_date_2" rows="2"></textarea></td><td><input type="time" class="form-control" name="ship_data_time_2"></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_course_2" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_speed_2" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_displacement_2" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_draught_2" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_pnm_cnm_2" rows="2"></textarea></td><td>Port GT</td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_status_2" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_regime_2" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_remarks_2" rows="2"></textarea></td></tr>
+											<tr><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_date_3" rows="2"></textarea></td><td><input type="time" class="form-control" name="ship_data_time_3"></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_course_3" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_speed_3" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_displacement_3" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_draught_3" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_pnm_cnm_3" rows="2"></textarea></td><td>Port DA</td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_status_3" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_regime_3" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_remarks_3" rows="2"></textarea></td></tr>
+											<tr><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_date_4" rows="2"></textarea></td><td><input type="time" class="form-control" name="ship_data_time_4"></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_course_4" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_speed_4" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_displacement_4" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_draught_4" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_pnm_cnm_4" rows="2"></textarea></td><td>Fwd Fire Pump</td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_status_4" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_regime_4" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_remarks_4" rows="2"></textarea></td></tr>
+											<tr><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_date_5" rows="2"></textarea></td><td><input type="time" class="form-control" name="ship_data_time_5"></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_course_5" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_speed_5" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_displacement_5" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_draught_5" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_pnm_cnm_5" rows="2"></textarea></td><td>Stbd Refrigerating Plant</td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_status_5" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_regime_5" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_remarks_5" rows="2"></textarea></td></tr>
+											<tr><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_date_6" rows="2"></textarea></td><td><input type="time" class="form-control" name="ship_data_time_6"></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_course_6" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_speed_6" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_displacement_6" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_draught_6" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_pnm_cnm_6" rows="2"></textarea></td><td>Stbd Steering Motor</td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_status_6" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_regime_6" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_remarks_6" rows="2"></textarea></td></tr>
+											<tr><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_date_7" rows="2"></textarea></td><td><input type="time" class="form-control" name="ship_data_time_7"></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_course_7" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_speed_7" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_displacement_7" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_draught_7" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_pnm_cnm_7" rows="2"></textarea></td><td>Port Steering Motor Outboard Servo</td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_status_7" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_regime_7" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_remarks_7" rows="2"></textarea></td></tr>
+											<tr><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_date_8" rows="2"></textarea></td><td><input type="time" class="form-control" name="ship_data_time_8"></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_course_8" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_speed_8" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_displacement_8" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_draught_8" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_pnm_cnm_8" rows="2"></textarea></td><td>Air Compressor Inboard Servo</td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_status_8" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_regime_8" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_remarks_8" rows="2"></textarea></td></tr>
+											<tr><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_date_9" rows="2"></textarea></td><td><input type="time" class="form-control" name="ship_data_time_9"></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_course_9" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_speed_9" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_displacement_9" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_draught_9" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_pnm_cnm_9" rows="2"></textarea></td><td>Air Compressor</td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_status_9" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_regime_9" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_remarks_9" rows="2"></textarea></td></tr>
+											<tr><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_date_10" rows="2"></textarea></td><td><input type="time" class="form-control" name="ship_data_time_10"></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_course_10" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_speed_10" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_displacement_10" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_draught_10" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_pnm_cnm_10" rows="2"></textarea></td><td>Both Main Engine A/C</td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_status_10" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_regime_10" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="ship_data_remarks_10" rows="2"></textarea></td></tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<legend class="legend-custom">TABLE. ACTIVE IDR READINGS</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="humsa_active_idr_readings_table">
+										<thead>
+											<tr>
+												<th>TIME</th>
+												<th>RANGE</th>
+												<th>TRUE BRG</th>
+												<th>VIDEO GOOD</th>
+												<th>AUDIO GOOD</th>
+												<th>TX MODE</th>
+												<th>SOURCE LEVEL</th>
+												<th>WAVEFORM</th>
+												<th>PULSE LENGTH</th>
+												<th>PROCESSING MODE</th>
+												<th>SENSITIVITY</th>
+												<th>REMARKS</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for _ in "xxxxxxxxxxxxxxxxxxxx"|make_list %}
+											<tr>
+												<td><input type="time" class="form-control" name="active_idr_time_{{ forloop.counter }}"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="active_idr_range_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="active_idr_true_brg_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="active_idr_video_good_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="active_idr_audio_good_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="active_idr_tx_mode_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="active_idr_source_level_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="active_idr_waveform_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="active_idr_pulse_length_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="active_idr_processing_mode_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="active_idr_sensitivity_{{ forloop.counter }}" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="active_idr_remarks_{{ forloop.counter }}" rows="2"></textarea></td>
+											</tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<legend class="legend-custom">TABLE. NAVIGATIONAL RADAR DATA (RADAR ROOM) - RUN 1</legend>
+								<div class="mb-2">Radar Name: <textarea class="form-control wrstg-scroll-textarea" name="run1_radar_name" rows="2"></textarea></div>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="humsa_radar_run1_table">
+										<thead>
+											<tr>
+												<th rowspan="2">SER</th><th rowspan="2">CUT NO.</th><th rowspan="2">TIME</th><th rowspan="2">RANGE RR</th><th rowspan="2">TRUE BEARING (TBR)</th><th rowspan="2">TARGET COURSE (CR)</th><th rowspan="2">SPEED (VR)</th><th rowspan="2">OWN SHIP COURSE (SCC)</th><th rowspan="2">OWN SHIP SPEED (SSR)</th><th rowspan="2">REMARKS</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for _ in "xxxxxxxxxxxxxxxxxxxx"|make_list %}
+											<tr>
+												<td>{{ forloop.counter }}</td><td><textarea class="form-control wrstg-scroll-textarea" name="run1_radar_cut_{{ forloop.counter }}" rows="2"></textarea></td><td><input type="time" class="form-control" name="run1_radar_time_{{ forloop.counter }}"></td><td><textarea class="form-control wrstg-scroll-textarea" name="run1_radar_range_rr_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="run1_radar_true_bearing_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="run1_radar_target_course_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="run1_radar_speed_vr_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="run1_radar_own_ship_course_scc_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="run1_radar_own_ship_speed_ssr_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="run1_radar_remarks_{{ forloop.counter }}" rows="2"></textarea></td>
+											</tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<legend class="legend-custom">TABLE. ACTIVE SONAR DOPPLER ACCURACY CHECKS (SCR) - RUN 1</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="humsa_active_doppler_run1_table">
+										<thead>
+											<tr><th>SER</th><th>CUT NO.</th><th>TIME</th><th>OWN SHIP COURSE (SCS)</th><th>OWN SHIP SPEED (SSS)</th><th>TRUE BEARING (TBR)</th><th>DOPPLER (DS)</th><th>REMARKS</th></tr>
+										</thead>
+										<tbody>
+											{% for _ in "xxxxxxxxxxxxxxxxxxxx"|make_list %}
+											<tr>
+												<td>{{ forloop.counter }}</td><td><textarea class="form-control wrstg-scroll-textarea" name="run1_doppler_cut_{{ forloop.counter }}" rows="2"></textarea></td><td><input type="time" class="form-control" name="run1_doppler_time_{{ forloop.counter }}"></td><td><textarea class="form-control wrstg-scroll-textarea" name="run1_doppler_own_course_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="run1_doppler_own_speed_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="run1_doppler_true_bearing_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="run1_doppler_ds_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="run1_doppler_remarks_{{ forloop.counter }}" rows="2"></textarea></td>
+											</tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<legend class="legend-custom">TABLE. ERROR IN DOPPLER (FOR OFFLINE COMPUTATION) - RUN 1</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="humsa_error_doppler_run1_table">
+										<thead>
+											<tr><th>SER</th><th>SONAR RELATIVE BEARING</th><th>OWN DOPPLER CORRECTION (DOOC)</th><th>EXPECTED DOPPLER (D)</th><th>DOPPLER ERROR (DEL D)</th><th>REMARKS</th></tr>
+										</thead>
+										<tbody>
+											{% for _ in "xxxxxxxxxxxxxxxxxxxx"|make_list %}
+											<tr><td>{{ forloop.counter }}</td><td><textarea class="form-control wrstg-scroll-textarea" name="run1_error_relative_bearing_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="run1_error_own_doppler_correction_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="run1_error_expected_doppler_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="run1_error_doppler_error_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="run1_error_remarks_{{ forloop.counter }}" rows="2"></textarea></td></tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+								<div class="mt-2">Standard Deviation of Doppler error = <textarea class="form-control wrstg-scroll-textarea" name="run1_standard_deviation_doppler_error" rows="2"></textarea></div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<legend class="legend-custom">TABLE. NAVIGATIONAL RADAR DATA (RADAR ROOM) - RUN 2</legend>
+								<div class="mb-2">Radar Name: <textarea class="form-control wrstg-scroll-textarea" name="run2_radar_name" rows="2"></textarea></div>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="humsa_radar_run2_table">
+										<thead>
+											<tr><th>SER</th><th>CUT NO.</th><th>TIME</th><th>RANGE (RR)</th><th>TRUE BEARING (TBR)</th><th>TARGET COURSE (CR)</th><th>SPEED (VR)</th><th>OWN SHIP COURSE (SCC)</th><th>OWN SHIP SPEED (SSR)</th><th>REMARKS</th></tr>
+										</thead>
+										<tbody>
+											{% for _ in "xxxxxxxxxxxxxxxxxxxx"|make_list %}
+											<tr><td>{{ forloop.counter }}</td><td><textarea class="form-control wrstg-scroll-textarea" name="run2_radar_cut_{{ forloop.counter }}" rows="2"></textarea></td><td><input type="time" class="form-control" name="run2_radar_time_{{ forloop.counter }}"></td><td><textarea class="form-control wrstg-scroll-textarea" name="run2_radar_range_rr_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="run2_radar_true_bearing_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="run2_radar_target_course_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="run2_radar_speed_vr_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="run2_radar_own_ship_course_scc_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="run2_radar_own_ship_speed_ssr_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="run2_radar_remarks_{{ forloop.counter }}" rows="2"></textarea></td></tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<legend class="legend-custom">TABLE. ERROR IN DOPPLER (FOR OFFLINE COMPUTATION) - RUN 2</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="humsa_error_doppler_run2_table">
+										<thead>
+											<tr><th>SER</th><th>SONAR RELATIVE BEARING</th><th>OWN DOPPLER CORRECTION (DOOC)</th><th>EXPECTED DOPPLER (D)</th><th>DOPPLER ERROR (DEL D)</th><th>REMARKS</th></tr>
+										</thead>
+										<tbody>
+											{% for _ in "xxxxxxxxxxxxxxxxxxxx"|make_list %}
+											<tr><td>{{ forloop.counter }}</td><td><textarea class="form-control wrstg-scroll-textarea" name="run2_error_relative_bearing_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="run2_error_own_doppler_correction_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="run2_error_expected_doppler_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="run2_error_doppler_error_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="run2_error_remarks_{{ forloop.counter }}" rows="2"></textarea></td></tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+								<div class="mt-2">Standard Deviation of Doppler error = <textarea class="form-control wrstg-scroll-textarea" name="run2_standard_deviation_doppler_error" rows="2"></textarea></div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<legend class="legend-custom">TABLE. ACTIVE SONAR DOPPLER ACCURACY CHECKS (SCR) - RUN 2</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="humsa_active_doppler_run2_table">
+										<thead>
+											<tr><th>SER</th><th>CUT NO.</th><th>TIME</th><th>OWN SHIP COURSE (SCS)</th><th>OWN SHIP SPEED (SSS)</th><th>TRUE BEARING (TBR)</th><th>DOPPLER (DS)</th><th>REMARKS</th></tr>
+										</thead>
+										<tbody>
+											{% for _ in "xxxxxxxxxxxxxxxxxxxx"|make_list %}
+											<tr><td>{{ forloop.counter }}</td><td><textarea class="form-control wrstg-scroll-textarea" name="run2_doppler_cut_{{ forloop.counter }}" rows="2"></textarea></td><td><input type="time" class="form-control" name="run2_doppler_time_{{ forloop.counter }}"></td><td><textarea class="form-control wrstg-scroll-textarea" name="run2_doppler_own_course_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="run2_doppler_own_speed_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="run2_doppler_true_bearing_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="run2_doppler_ds_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="run2_doppler_remarks_{{ forloop.counter }}" rows="2"></textarea></td></tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<legend class="legend-custom">TABLE. STANDARD DEVIATION OF DOPPLER TO BE ACHIEVED</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="humsa_std_deviation_doppler_table">
+										<thead>
+											<tr><th rowspan="2">RUN NO.</th><th colspan="2">DOPPLER (KNOTS)</th><th rowspan="2">SAT/UNSAT</th></tr>
+											<tr><th>STANDARD DEVIATION TO BE ACHIEVED</th><th>STANDARD DEVIATION COMPUTED</th></tr>
+										</thead>
+										<tbody>
+											<tr><td>RUN 1</td><td>&le; 2</td><td><textarea class="form-control wrstg-scroll-textarea" name="std_doppler_run1_computed" rows="2"></textarea></td><td class="text-center"><label><input type="radio" name="std_doppler_run1_sat_unsat" value="SAT"> SAT</label> <label><input type="radio" name="std_doppler_run1_sat_unsat" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>RUN 2</td><td>&le; 2</td><td><textarea class="form-control wrstg-scroll-textarea" name="std_doppler_run2_computed" rows="2"></textarea></td><td class="text-center"><label><input type="radio" name="std_doppler_run2_sat_unsat" value="SAT"> SAT</label> <label><input type="radio" name="std_doppler_run2_sat_unsat" value="UNSAT"> UNSAT</label></td></tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<legend class="legend-custom">TABLE. OPERATING REGIMES USED</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="humsa_operating_regimes_table">
+										<thead>
+											<tr><th>RUN NO.</th><th>RUN NAME</th><th>CONSORT</th><th>REGIME</th><th>RADIATED NOISE LEVEL AT GMF (3 KHZ) AS PER UWR REPORT</th></tr>
+										</thead>
+										<tbody>
+											<tr><td>1</td><td>Bearing Accuracy Checks</td><td><textarea class="form-control wrstg-scroll-textarea" name="operating_regimes_consort_1" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="operating_regimes_regime_1" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="operating_regimes_radiated_noise_1" rows="2"></textarea></td></tr>
+											<tr><td>2</td><td>Maximum Holding Range Checks</td><td><textarea class="form-control wrstg-scroll-textarea" name="operating_regimes_consort_2" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="operating_regimes_regime_2" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="operating_regimes_radiated_noise_2" rows="2"></textarea></td></tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<legend class="legend-custom">TABLE. PASSIVE SONAR BEARING ACCURACY CHECKS</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="humsa_passive_bearing_accuracy_table">
+										<thead>
+											<tr>
+												<th rowspan="2">SER</th><th rowspan="2">TIME</th><th colspan="3">SONAR READING</th><th colspan="2">RADAR READING</th><th rowspan="2">BEARING ERROR (DEL B)</th><th rowspan="2">REMARKS</th>
+											</tr>
+											<tr>
+												<th>TRUE BEARING (BS)</th><th>SHIP COURSE</th><th>SHIP SPEED</th><th>TRUE BEARING (BR)</th><th>RANGE</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for _ in "xxxxxxxxxxxxxxxxxxxx"|make_list %}
+											<tr><td>{{ forloop.counter }}</td><td><input type="time" class="form-control" name="passive_bearing_time_{{ forloop.counter }}"></td><td><textarea class="form-control wrstg-scroll-textarea" name="passive_bearing_sonar_true_bearing_bs_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="passive_bearing_ship_course_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="passive_bearing_ship_speed_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="passive_bearing_radar_true_bearing_br_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="passive_bearing_radar_range_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="passive_bearing_error_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="passive_bearing_remarks_{{ forloop.counter }}" rows="2"></textarea></td></tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<legend class="legend-custom">TABLE. PASSIVE SONAR MAXIMUM HOLDING CHECKS</legend>
+								<div class="mb-2">ESR = <textarea class="form-control wrstg-scroll-textarea" name="passive_max_holding_esr" rows="2"></textarea></div>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="humsa_passive_max_holding_table">
+										<thead>
+											<tr><th rowspan="2">SER</th><th colspan="2">RADAR READINGS</th><th colspan="4">SONAR READINGS</th><th rowspan="2">REMARKS</th></tr>
+											<tr><th>TRUE BEARING</th><th>RANGE</th><th>TRUE BEARING</th><th>VIDEO GOOD</th><th>AUDIO GOOD</th><th>SHIP COURSE/ SPEED</th></tr>
+										</thead>
+										<tbody>
+											{% for _ in "xxxxxxxxxxxxxxxxxxxx"|make_list %}
+											<tr><td>{{ forloop.counter }}</td><td><textarea class="form-control wrstg-scroll-textarea" name="passive_mhr_radar_true_bearing_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="passive_mhr_radar_range_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="passive_mhr_sonar_true_bearing_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="passive_mhr_video_good_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="passive_mhr_audio_good_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="passive_mhr_ship_course_speed_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="passive_mhr_remarks_{{ forloop.counter }}" rows="2"></textarea></td></tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+								<div class="mt-2"><strong>Maximum Holding Range = </strong><textarea class="form-control wrstg-scroll-textarea" name="passive_maximum_holding_range" rows="2"></textarea></div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<legend class="legend-custom">TABLE 35. SCR RECORD</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="humsa_table_35_scr_record">
+										<thead>
+											<tr><th>TIME</th><th>TRUE BRG</th><th>RANGE</th><th>OWN COURSE</th><th>OWN SPEED</th><th>PROCESSING MODE</th><th>SENSITIVITY</th><th>CONSORT COURSE</th><th>CONSORT SPEED</th><th>REMARKS</th></tr>
+										</thead>
+										<tbody>
+											{% for _ in "xxxxxxxxxxxxxxxxxxxx"|make_list %}
+											<tr><td><input type="time" class="form-control" name="table35_time_{{ forloop.counter }}"></td><td><textarea class="form-control wrstg-scroll-textarea" name="table35_true_brg_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table35_range_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table35_own_course_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table35_own_speed_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table35_processing_mode_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table35_sensitivity_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table35_consort_course_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table35_consort_speed_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="table35_remarks_{{ forloop.counter }}" rows="2"></textarea></td></tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<legend class="legend-custom">TABLE. ACTIVE CMA EVALUATION</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="humsa_active_cma_evaluation_table">
+										<thead>
+											<tr>
+												<th rowspan="2">CUT NO</th><th rowspan="2">TIME</th><th colspan="4">RADAR VALUES</th><th colspan="2">SONAR TRACK OUTPUT</th><th colspan="4">CMA OUTPUT</th><th colspan="4">DIFFERENCE</th>
+											</tr>
+											<tr>
+												<th>BR</th><th>RR</th><th>CR</th><th>SR</th><th>BS</th><th>RS</th><th>BC</th><th>RC</th><th>CC</th><th>SC</th><th>BE (BS-BC)</th><th>RE (RS-RC)</th><th>CE (CR-CC)</th><th>SE (SR-SC)</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for _ in "xxxxxxxxxx"|make_list %}
+											<tr>
+												<td>{{ forloop.counter }}</td><td><input type="time" class="form-control" name="active_cma_time_{{ forloop.counter }}"></td><td><textarea class="form-control wrstg-scroll-textarea" name="active_cma_br_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="active_cma_rr_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="active_cma_cr_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="active_cma_sr_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="active_cma_bs_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="active_cma_rs_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="active_cma_bc_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="active_cma_rc_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="active_cma_cc_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="active_cma_sc_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="active_cma_be_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="active_cma_re_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="active_cma_ce_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="active_cma_se_{{ forloop.counter }}" rows="2"></textarea></td>
+											</tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<legend class="legend-custom">TABLE. PASSIVE CMA EVALUATION</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="humsa_passive_cma_evaluation_table">
+										<thead>
+											<tr>
+												<th rowspan="2">CUT NO</th><th rowspan="2">TIME</th><th colspan="4">RADAR VALUES</th><th colspan="1">SONAR TRACK OUTPUT</th><th colspan="4">CMA OUTPUT</th><th colspan="4">DIFFERENCE</th>
+											</tr>
+											<tr>
+												<th>BR</th><th>RR</th><th>CR</th><th>SR</th><th>BS</th><th>BC</th><th>RC</th><th>CC</th><th>SC</th><th>BE (BS-BC)</th><th>RE (RS-RC)</th><th>CE (CR-CC)</th><th>SE (SR-SC)</th>
+											</tr>
+										</thead>
+										<tbody>
+											{% for _ in "xxxxxxxxxx"|make_list %}
+											<tr>
+												<td>{{ forloop.counter }}</td><td><input type="time" class="form-control" name="passive_cma_time_{{ forloop.counter }}"></td><td><textarea class="form-control wrstg-scroll-textarea" name="passive_cma_br_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="passive_cma_rr_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="passive_cma_cr_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="passive_cma_sr_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="passive_cma_bs_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="passive_cma_bc_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="passive_cma_rc_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="passive_cma_cc_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="passive_cma_sc_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="passive_cma_be_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="passive_cma_re_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="passive_cma_ce_{{ forloop.counter }}" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="passive_cma_se_{{ forloop.counter }}" rows="2"></textarea></td>
+											</tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">PRESENTING AUTHORITY</legend>
+								<div class="row g-3">
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" id="humsa_ng_mk2_presenting_authority" name="humsa_ng_mk2_presenting_authority" required>
+												<option value="">--Select--</option>
+												<option value="dockyard">Dockyard</option>
+												<option value="shipstaff">Shipstaff</option>
+												<option value="oem">OEM</option>
+											</select>
+											<label class="form_control_1" for="humsa_ng_mk2_presenting_authority">PRESENTING AUTHORITY <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" id="humsa_ng_mk2_watt" name="humsa_ng_mk2_watt" value="VZG">
+											<label class="form_control_1" for="humsa_ng_mk2_watt">WATT</label>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+
+							<div class="d-flex justify-content-center mt-4 gap-2">
+								<button type="submit" class="btn btn-success px-4">Save</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

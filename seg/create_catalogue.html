@@ -1,0 +1,158 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<i class="icon-plus font-green"></i>
+						<span class="caption-subject bold">Create Catalogue </span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="create_catalogue_form">
+						{% csrf_token %}
+						<div class="form-body">
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">SEG Catalogue</legend>
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="ship_name" required>
+												<option value="">--Select--</option>
+												{% for ship in ship_options %}
+												<option value="{{ ship.value }}">{{ ship.label }}</option>
+												{% endfor %}
+											</select>
+											<label class="form_control_1">Ship Name <span class="text-danger">*</span></label>
+											</div>
+									</div>
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="Sub_System_name" required>
+												<option value="">--Sub_System_name--</option>
+                                                <option value="">1</option>
+                                                <option value="">2</option>
+												
+											</select>
+											<label class="form_control_1">Sub System Name<span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="Select Media Type" required>
+												<option value="">--Select Media--</option>
+                                                <option value="">1</option>
+                                                <option value="">2</option>
+												
+											</select>
+											<label class="form_control_1">Media Type <span class="text-danger">*</span></label>
+										</div>
+									</div>
+
+
+
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="select size " required>
+												<option value="">--Select--</option>
+												
+                                                <option value="">64MB</option>
+												<option value="">1MB</option>
+                                                <option value="" >2MB</option>
+                                                
+											</select>
+											<label class="form_control_1">Select Size <span class="text-danger">*</span></label>
+										</div>
+									</div>
+
+                                    <div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="Select OS" required>
+												<option value="">--Select OS--</option>
+                                                <option value="">Windows</option>
+                                                <option value="">Linux</option>
+												
+											</select>
+											<label class="form_control_1">Select OS <span class="text-danger">*</span></label>
+										</div>
+									</div>
+
+                                    <div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="Select Interface" required>
+												<option value="">--Select Interface--</option>
+												
+                                                <option value="">1</option>
+                                                <option value="" >2</option>
+                                                
+											</select>
+											<label class="form_control_1">Select Interface <span class="text-danger">*</span></label>
+										</div>
+									</div>
+                                    
+								</div>
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" name="application_name" placeholder=" " required>
+                                            <label class="form_control_1">Enter Application Name<span class="text-danger">*</span></label>
+                                        </div>
+									</div>
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" name="application_version" placeholder=" " required>
+                                            <label class="form_control_1">Enter Application Version<span class="text-danger">*</span></label>
+                                        </div>
+									</div>
+								</div>
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" name="serial_no" placeholder=" " >
+											<label class="form_control_1">Enter Serial Number <span class="text-danger"></span></label>
+										</div>
+									</div>
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" name="oem_of_module" placeholder=" " >
+											<label class="form_control_1">Enter Make / OEM of Module<span class="text-danger"></span></label>
+										</div>
+									</div>
+                                    <div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" name="pattern_number" placeholder=" " >
+											<label class="form_control_1">Enter Pattern Number of Module<span class="text-danger"></span></label>
+										</div>
+									</div>
+                                    <div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" name="oem_part" placeholder=" ">
+											<label class="form_control_1">Enter OEM Part no of Motherboard<span class="text-danger"></span></label>
+										</div>
+									</div>
+                                    
+                                    
+                                
+								</div>							
+							</fieldset>
+							<div class="d-flex justify-content-center mt-4 gap-2">
+								<button type="submit" class="btn btn-success px-4">Save</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

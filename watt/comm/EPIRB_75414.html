@@ -1,0 +1,424 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+  .wrstg-note-box {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    background: #fffbe6;
+    border-left: 4px solid #f5a623;
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-size: 13.5px;
+    color: #5a4000;
+    line-height: 1.6;
+    flex-wrap: wrap;
+  }
+  .wrstg-note-icon {
+    font-size: 16px;
+    color: #f5a623;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .wrstg-note-inline-input {
+    width: 64px;
+    border: none;
+    border-bottom: 1.5px solid #c9922a;
+    background: transparent;
+    font-size: 13.5px;
+    color: #5a4000;
+    text-align: center;
+    outline: none;
+    padding: 0 2px 1px;
+    font-family: inherit;
+  }
+  .wrstg-note-inline-input:focus {
+    border-bottom: 2px solid #f5a623;
+  }
+  .wrstg-note-inline-input::placeholder {
+    color: #c9922a;
+    opacity: 0.7;
+  }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item active" aria-current="page">EPIRB</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">CHECK OFF LIST — EPIRB (75414)</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="epirb_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!-- ══════════════════════════════════════════
+                   HEADER — Ship / Trial Info
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Trial Header Information</legend>
+                <div class="row g-3">
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="ship" required>
+                        <option value="">-- Select Ship --</option>
+                        {% for ship in ship_options %}
+                        <option value="{{ ship.value }}">{{ ship.label }}</option>
+                        {% endfor %}
+                      </select>
+                      <label class="form_control_1">Name of Ship <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="equipment" value="EPIRB" readonly placeholder=" ">
+                      <label class="form_control_1">Equipment</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="sno" placeholder=" ">
+                      <label class="form_control_1">S. No.</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="date" class="form-control" name="trial_date" required placeholder=" ">
+                      <label class="form_control_1">Date <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="department" required>
+                        <option value="">-- Select Department --</option>
+                        <option value="ND">ND</option>
+                        <option value="Gunnery">Gunnery</option>
+                        <option value="Communication">Communication</option>
+                        <option value="ASW">ASW</option>
+                      </select>
+                      <label class="form_control_1">Department <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="nature_of_trials" required>
+                        <option value="">-- Select Nature of Trials --</option>
+                        <option value="lls">lls</option>
+                        <option value="SATs">SATs</option>
+                        <option value="HATs">HATs</option>
+                        <option value="OP Checks">OP Checks</option>
+                      </select>
+                      <label class="form_control_1">Nature of Trials <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   PREAMBLE
+              ══════════════════════════════════════════ -->
+              <div class="wrstg-note-box mt-3 mb-3">
+                <span class="wrstg-note-icon">&#9432;</span>
+                Trial team reported onboard for Op Checks of EPIRB at
+                <input type="text" class="wrstg-note-inline-input" name="preamble_time" maxlength="5" placeholder="HH:MM"> hrs.
+                The trials were carried out i.a.w. IHQ MoD(N) letter CM/0301/OPS dated 15 Apr 24 approved schedule and CNO. 07/10 are enumerated in succeeding paragraphs&nbsp;:&ndash;
+              </div>
+
+              <!-- ══════════════════════════════════════════
+                   (A) PRELIMINARY CHECKS
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">(A) Preliminary Checks</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Ser</th>
+                        <th>Observations</th>
+                        <th style="width: 160px;">Remarks </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <!-- A1 -->
+                      <tr>
+    <td class="serial-no">1.</td>
+
+    <td>
+        <div>Set fixed on (position).</div>
+
+        <div class="mt-2">
+            Set free from crack and damage.
+        </div>
+
+        <div class="mt-2">
+            <label class="form_control_1">Battery Life Expires On</label>
+        </div>
+    </td>
+
+    <td>
+        <select class="form-control" name="prelim_1_rmk">
+            <option value="">--</option>
+            <option>Sat</option>
+            <option>Unsat</option>
+        </select>
+        <textarea class="form-control mt-2"
+              name="prelim_1_comment"
+              rows="2"
+             ></textarea>
+    </td>
+</tr>
+
+                      <!-- A3 -->
+                      <tr>
+                        <td class="serial-no">2.</td>
+                        <td>Ensure EPIRB bracket installation.</td>
+                        <td>
+                          <select class="form-control" name="prelim_3_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <!-- A4 -->
+                      <tr>
+                        <td class="serial-no">3.</td>
+                        <td>Check IMO Compliance / certification for the equipment.</td>
+                        <td>
+                          <select class="form-control" name="prelim_4_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   (B) VISUAL CHECKS
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">(B) Visual Checks</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Ser</th>
+                        <th>Observations</th>
+                        <th style="width: 160px;">Remarks </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <!-- B1 -->
+                      <tr>
+                        <td class="serial-no">1.</td>
+                        <td>
+                          Check the battery and HRU expiry date of EPIRB.
+                        </td>
+                        <td>
+                          <select class="form-control" name="visual_1_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <!-- B2 -->
+                      <tr>
+                        <td class="serial-no">2.</td>
+                        <td>Check proper securing and installation of EPIRB.</td>
+                        <td>
+                          <select class="form-control" name="visual_2_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   (C) FUNCTIONAL CHECKS
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">(C) Functional Checks</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Ser</th>
+                        <th>Observations</th>
+                        <th style="width: 160px;">Remarks </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <!-- C1 -->
+                      <tr>
+                        <td class="serial-no">1.</td>
+                        <td>Push and hold switch in <strong>TEST</strong> position for 15 seconds. Keep hand and other objects away from the antenna. A successful self-test will result in the Test passes after one signal flash only.</td>
+                        <td>
+                          <select class="form-control" name="func_1_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                          
+                        </td>
+                      </tr>
+
+                      <!-- C2 -->
+                      <tr>
+                        <td class="serial-no">2.</td>
+                        <td>Release the switch and put the EPIRB back into the bracket.</td>
+                        <td>
+                          <textarea class="form-control mt-2"
+              name="prelim_1_comment"
+              rows="2"
+             ></textarea>
+                        </td>
+                      </tr>
+
+                      <!-- C3 -->
+                      <tr>
+                        <td class="serial-no">3.</td>
+                        <td>Press the button for <strong>2 seconds</strong> and then release. The Green LED will flash once to confirm the short self-test has started.</td>
+                        <td>
+                          <select class="form-control" name="func_3_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <!-- C4 -->
+                      <tr>
+                        <td class="serial-no">4.</td>
+                        <td>A successful self-test result is indicated by the flashing of the <strong>white strobe lights</strong>. On completion of self-test the EPIRB will switch off automatically. A self-test failure will result in <strong>NO</strong> high intensity strobe flash and the red LED will flash once.</td>
+                        <td>
+                          <select class="form-control" name="func_4_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   REMARKS
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Remarks</legend>
+                <div class="static-section">
+                  <div class="table-responsive">
+                    <table class="custom_tbl" id="remarks_table">
+                      <thead>
+                        <tr>
+                          <th class="serial-no">Sr No</th>
+                          <th>Observations</th>
+                          <th>SS Remarks</th>
+                          <th class="action" style="width: 80px;">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="serial-no">1</td>
+                          <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="observation" rows="2"></textarea></td>
+                          <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="ss_remarks" rows="2"></textarea></td>
+                          <td class="action action-cell-holder">
+                            <div class="action-controls">
+                              <button type="button" class="btn-round btn-add" onclick="addRow('remarks_table')" title="Add Row">+</button>
+                              <button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'remarks_table')" title="Remove Row">-</button>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset class="custom-fieldset">
+                                                        <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                                                        <div class="row g-3">
+                                                                <div class="col-md-4 col-12">
+                                                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                                                <select class="form-control" id="dmr_16a_presenting_authority" name="dmr_16a_presenting_authority" required>
+                                                                                        <option value="">--Select--</option>
+                                                                                        <option value="dockyard">Dockyard</option>
+                                                                                        <option value="shipstaff">Shipstaff</option>
+                                                                                        <option value="oem">OEM</option>
+                                                                                </select>
+                                                                                <label class="form_control_1" for="dmr_16a_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+                                                                        </div>
+                                                                </div>
+                                                                <div class="col-md-4 col-12">
+                                                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                                                <input type="text" class="form-control" id="dmr_16a_watt" name="dmr_16a_watt" value="VZG" >
+                                                                                <label class="form_control_1" for="dmr_16a_watt">WATT</label>
+                                                                        </div>
+                                                                </div>
+                                                        </div>
+                                                </fieldset>
+
+              <!-- Submit -->
+              <div class="d-flex justify-content-center mt-4 gap-2">
+                <button type="submit" class="btn btn-success px-4">Submit</button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

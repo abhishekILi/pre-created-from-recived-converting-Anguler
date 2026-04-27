@@ -1,0 +1,459 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+  /* Inline table input styling */
+  .custom_tbl td input[type="text"] {
+    display: inline-block;
+    width: 100px;
+    height: 28px;
+    padding: 4px 6px;
+    font-size: 12px;
+    border: 1px solid #d9d9d9;
+    border-radius: 3px;
+    margin: 2px 4px;
+    vertical-align: middle;
+  }
+
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+            <li class="breadcrumb-item active" aria-current="page">WATT</li>
+            <li class="breadcrumb-item active" aria-current="page">Communications</li>
+            <li class="breadcrumb-item active" aria-current="page">PAE-3060 Updated</li>
+          </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">PAE-3060 Updated</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="pae_3060_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!--HEADER — Ship / Inspection Info-->
+
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Basic Information</legend>
+                <div class="row g-3">
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="name_of_ship_select" name="name_of_ship">
+                          <option value="">-- Select --</option>
+                          <option value="INS_A">INS Alpha</option>
+                          <option value="INS_B">INS Bravo</option>
+                          <option value="INS_C">INS Charlie</option>
+                          <option value="INS_D">INS Delta</option>
+                        </select>
+                        <label class="form_control_1">Name of Ship</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="department_select" name="department">
+                          <option value="">-- Select --</option>
+                          <option value="P15A">ND</option>
+                          <option value="P17">ASW</option>
+                          <option value="P17A">COMM</option>
+                          <option value="P28">GUNNERY</option>
+                        </select>
+                        <label class="form_control_1">Department</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="equipment_select" name="equipment">
+                          <option value="">-- Select --</option>
+                        </select>
+                        <label class="form_control_1">Equipment</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                      <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                        <input type="date" class="form-control" id="date_input" name="date_">
+                        <label class="form_control_1">Date</label>
+                      </div>
+                    </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="nature_trials_select" name="nature_of_trials" required>
+                          <option value="">--Select--</option>
+                          <option value="SATs">SATs</option>
+                          <option value="HATS">HATs</option>
+                          <option value="OP_CHECKS">OP CHECKS</option>
+                          <option value="IIS">IIs</option>
+                        </select>
+                        <label class="form_control_1">Nature of Trial</label>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                        <textarea class="form-control wrstg-scroll-textarea" id="offered_no" name="offered_no" rows="3" required></textarea>
+                        <label class="form_control_1">Serial Number</label>
+                    </div>
+                  </div>
+
+            </div>
+          </fieldset>
+
+          <fieldset class="custom-fieldset">
+            <legend class="legend-custom text-uppercase">Checks</legend>
+            <div class="table-responsive">
+              <table class="custom_tbl" >
+                
+                        <label colspan="3">
+                            Trial team reported onboard for Ops Check of V/UHF TX/RX PAE 3060 at
+                            <input type="time"  name="pae_3060_embark_time" class="form-control d-inline-block" style="width: 100px; height: 28px;">hrs. Checks and trials carried out IAW IHQ approved schedule and
+                             
+                            <textarea class="form-control wrstg-scroll-textarea" style="width: 280px; font-size: 12px; display: inline-block; vertical-align: middle;" id="pae_3060_schedule" name="pae_3060_schedule"></textarea> are enumerated in succeeding paragraphs :-
+                    
+                <thead>
+                  <tr class="custom-header-row">
+                    <th>Ser No.</th>
+                    <th>Checks</th>
+                    <th>Observation</th>
+                    <th>Remarks</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>5.1</td>
+                        <td colspan="3"><b> Physical Checks/Checks Prior Switching ON.</b></td>
+                    </tr>
+                    
+                  
+                  <tr>
+                    <td rowspan="7"></td>
+                    <td>(i)</td>
+                    <td>Fitment of Antenna on mast.</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="antenna_fitment" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="antenna_fitment" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    
+                    <td>(ii)</td>
+                    <td>Fitment of equipment cabinet on shock mount in MCO compartment.</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="cabinet_shock_mount" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="cabinet_shock_mount" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    
+                    <td>(iii)</td>
+                    <td>Fitment of TX/RX into cabinet.</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="tx_rx_fitment" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="tx_rx_fitment" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>(iv)</td>
+                    <td>Grounding of TX/RX into cabinet</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="grounding_tx_rx" value="SAT"><label for="pae_3060_tx_rx_grounding_sat">SAT</label></div>
+                            <div><input type="radio"  name="grounding_tx_rx" value="UNSAT"><label for="pae_3060_tx_rx_grounding_unsat">UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>(v)</td>
+                    <td>All sub-assemblies, are fixed properly.</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="subassemblies_fixing" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="subassemblies_fixing" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>(vi)</td>
+                    <td>Securing of connecting cable.</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="securing_connection_cable" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="securing_connection_cable" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>(vii)</td>
+                    <td>Fitment of RCU in Bridge.</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="pae_3060_rcu_bridge" value="SAT"><label>SAT</label></div>
+                            <div><input type="radio"  name="pae_3060_rcu_bridge" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                        <td>5.2</td>
+                        <td colspan="3"><b>Functional checks</b></td>
+                    </tr>
+                    
+                  
+                  <tr>
+                    <td rowspan="3"></td>
+                    <td>(i)</td>
+                    <td>Power ON /self-test</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="pae_3060_power_on_selftest" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="pae_3060_power_on_selftest" value="UNSAT"><label>UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    
+                    <td>(ii)</td>
+                    <td>Function of front panel, switches, Led and functional keys</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="pae_3060_front_panel_function" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="pae_3060_front_panel_function" value="UNSAT"><label>UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    
+                    <td>(iii)</td>
+                    <td>PDP indicating lamps</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio" name="pae_3060_pdp_lamps" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio" name="pae_3060_pdp_lamps" value="UNSAT"><label>UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                        <td>5.3</td>
+                        <td colspan="3"><b>Operational Checks</b></td>
+                    </tr>
+                    
+                  
+                  <tr>
+                    <td rowspan="7"></td>
+                    <td>(i)</td>
+                    <td>Changing of frequency from set and RCU.</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio" name="pae_3060_op_a" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio" name="pae_3060_op_a" value="UNSAT"><label>UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    
+                    <td>(ii)</td>
+                    <td>Setting of frequency into channel</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio" name="pae_3060_op_b" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio" name="pae_3060_op_b" value="UNSAT"><label>UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    
+                    <td>(iii)</td>
+                    <td>Recalling channels</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio" name="pae_3060_op_c" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio" name="pae_3060_op_c" value="UNSAT"><label>UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>(iv)</td>
+                    <td>Changing of mode and forward power in AM/FM</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio" name="pae_3060_op_d" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio" name="pae_3060_op_d" value="UNSAT"><label>UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>(v)</td>
+                    <td>Extending of frequency</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio" name="pae_3060_op_e" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio" name="pae_3060_op_e" value="UNSAT"><label>UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>(vi)</td>
+                    <td>Communication with Navy Control and Tower</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio" name="pae_3060_op_f" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio" name="pae_3060_op_f" value="UNSAT"><label>UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>(vii)</td>
+                    <td>Communication with INS<input type="text" name="test_1_rlg1_velocity">on various frequency from set and RCU</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio" name="pae_3060_op_g" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio" name="pae_3060_op_g" value="UNSAT"><label>UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+
+                   <tr>
+                        <td>5.4</td>
+                        <td colspan="3"><b>RCU Checks.</b></td>
+                    </tr>
+                    
+                  
+                  <tr>
+                    <td rowspan="3"></td>
+                    <td>(i)</td>
+                    <td>Operation of TX/RX from RCU</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio" name="pae_3060_rcu_a" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio" name="pae_3060_rcu_a" value="UNSAT"><label>UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    
+                    <td>(ii)</td>
+                    <td>Changing of Ch./ Frequency/ Mode</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="pae_3060_rcu_b" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="pae_3060_rcu_b" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    
+                    <td>(iii)</td>
+                    <td>Communication from RCU with INS<input type="text" name="test_1_rlg1_velocity"></td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio" name="pae_3060_rcu_c" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio" name="pae_3060_rcu_c" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  
+                </tbody>
+              </table>
+            </div>
+          </fieldset>
+
+          <fieldset class="custom-fieldset">
+<legend class="legend-custom text-uppercase">REMARKS</legend>
+<div class="static-section">
+<div class="table-responsive">
+<table class="custom_tbl" id="pae_3060_remarks_table">
+<thead>
+<tr>
+<th class="serial-no">Sr No</th>
+<th>Observations</th>
+<th>SS Remarks</th>
+<th class="action">Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="serial-no">1</td>
+<td><textarea class="form-control wrstg-scroll-textarea" data-base-name="observation" placeholder="" rows="2"></textarea></td>
+<td><textarea class="form-control wrstg-scroll-textarea" data-base-name="ss_remarks" placeholder="" rows="2"></textarea></td>
+<td class="action action-cell-holder">
+<div class="action-controls">
+<button type="button" class="btn-round btn-add" onclick="addRow('pae_3060_remarks_table')" title="Add Row">+</button>
+<button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'pae_3060_remarks_table')" title="Remove Row">-</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</fieldset>
+
+        <fieldset class="custom-fieldset">
+          <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+          <div class="row g-3">
+            <div class="col-md-4 col-12">
+              <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                <select class="form-control" id="pae_3060_presenting_authority" name="pae_3060_presenting_authority" required>
+                  <option value="">--Select--</option>
+                  <option value="dockyard">Dockyard</option>
+                  <option value="shipstaff">Shipstaff</option>
+                  <option value="oem">OEM</option>
+                </select>
+                <label class="form_control_1" for="pae_3060_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+              </div>
+            </div>
+            <div class="col-md-4 col-12">
+              <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                <input type="text" class="form-control" id="pae_3060_watt" name="pae_3060_watt" value="VZG" >
+                <label class="form_control_1" for="pae_3060_watt">WATT</label>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Submit Button -->
+        <div class="d-flex justify-content-center mt-4 gap-2">
+          <button type="submit" class="btn btn-success px-4">Save</button>
+        </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+
+{% endblock js %}

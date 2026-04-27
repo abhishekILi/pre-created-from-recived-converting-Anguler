@@ -1,0 +1,482 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item active" aria-current="page">IFF JAT 1410 NV</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">IFF JAT 1410 NV — CHECK OFF LIST (74427)</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="iff_jat_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!-- ══════════════════════════════════════════
+                   HEADER
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Trial Header Information</legend>
+                <div class="row g-3">
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="ship" required>
+                        <option value="">-- Select Ship --</option>
+                        {% for ship in ship_options %}
+                        <option value="{{ ship.value }}">{{ ship.label }}</option>
+                        {% endfor %}
+                      </select>
+                      <label class="form_control_1">Name of Ship <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="equipment" value="IFF JAT 1410 NV" readonly placeholder=" ">
+                      <label class="form_control_1">Equipment</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="obs_sno" placeholder=" ">
+                      <label class="form_control_1">Observation S. No.</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="date" class="form-control" name="trial_date" required placeholder=" ">
+                      <label class="form_control_1">Date <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="unit" required>
+                        <option value="">-- Select Unit --</option>
+                        <option value="ND">ND</option>
+                        <option value="Gunnery">Gunnery</option>
+                        <option value="Communication">Communication</option>
+                        <option value="ASW">ASW</option>
+                      </select>
+                      <label class="form_control_1">Unit <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="presented_by" placeholder=" " required>
+                      <label class="form_control_1">Presented By <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   CHECK OFF LIST TABLE
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Check Off List</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl" id="checklist_table" style="table-layout:fixed; width:100%;">
+                    <colgroup>
+                      <col style="width:80px;">
+                      <col style="width:28%;">
+                      <col style="width:18%;">
+                      <col>
+                    </colgroup>
+                    <thead>
+                      <tr>
+                        <th>TRIAL SER</th>
+                        <th>CHECK DESCRIPTION AS PER SCHEDULE</th>
+                        <th>RESULT<br><small style="font-weight:400; font-size:11px;">(SAT / UNSAT)</small></th>
+                        <th>PRESENTING AUTHORITY REMARKS</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <!-- ── 1. Sensitivity Checks ── -->
+                      <tr>
+                        <td class="serial-no text-center"><strong>1</strong></td>
+                        <td colspan="3"><strong>Sensitivity Checks</strong></td>
+                      </tr>
+                      <tr class="sub-row">
+                        <td></td>
+                        <td>Mode 1</td>
+                        <td><select class="form-control" name="sens_mode1_result"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="sens_mode1_pa" rows="2"></textarea></td>
+                      </tr>
+                      <tr class="sub-row">
+                        <td></td>
+                        <td>Mode 2</td>
+                        <td><select class="form-control" name="sens_mode2_result"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="sens_mode2_pa" rows="2"></textarea></td>
+                      </tr>
+                      <tr class="sub-row">
+                        <td></td>
+                        <td>Mode 3</td>
+                        <td><select class="form-control" name="sens_mode3_result"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="sens_mode3_pa" rows="2"></textarea></td>
+                      </tr>
+                      <tr class="sub-row">
+                        <td></td>
+                        <td>Mode 5</td>
+                        <td><select class="form-control" name="sens_mode5_result"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="sens_mode5_pa" rows="2"></textarea></td>
+                      </tr>
+
+                      <!-- ── 2. SLS Test ── -->
+                      <tr >
+                        <td class="serial-no text-center"><strong>2</strong></td>
+                        <td colspan="3"><strong>SLS Test</strong></td>
+                      </tr>
+                      <tr class="sub-row">
+                        <td></td>
+                        <td>Mode 1</td>
+                        <td><select class="form-control" name="sls_mode1_result"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="sls_mode1_pa" rows="2"></textarea></td>
+                      </tr>
+                      <tr class="sub-row">
+                        <td></td>
+                        <td>Mode 2</td>
+                        <td><select class="form-control" name="sls_mode2_result"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="sls_mode2_pa" rows="2"></textarea></td>
+                      </tr>
+                      <tr class="sub-row">
+                        <td></td>
+                        <td>Mode 3</td>
+                        <td><select class="form-control" name="sls_mode3_result"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="sls_mode3_pa" rows="2"></textarea></td>
+                      </tr>
+                      <tr class="sub-row">
+                        <td></td>
+                        <td>Mode 5</td>
+                        <td><select class="form-control" name="sls_mode5_result"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="sls_mode5_pa" rows="2"></textarea></td>
+                      </tr>
+
+                      <!-- ── 3. IP Operation ── -->
+                      <tr >
+                        <td class="serial-no text-center"><strong>3</strong></td>
+                        <td colspan="3"><strong>IP Operation</strong></td>
+                      </tr>
+                      <tr class="sub-row">
+                        <td></td>
+                        <td>Mode 1</td>
+                        <td><select class="form-control" name="ip_mode1_result"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="ip_mode1_pa" rows="2"></textarea></td>
+                      </tr>
+                      <tr class="sub-row">
+                        <td></td>
+                        <td>Mode 2</td>
+                        <td><select class="form-control" name="ip_mode2_result"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="ip_mode2_pa" rows="2"></textarea></td>
+                      </tr>
+                      <tr class="sub-row">
+                        <td></td>
+                        <td>Mode 3</td>
+                        <td><select class="form-control" name="ip_mode3_result"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="ip_mode3_pa" rows="2"></textarea></td>
+                      </tr>
+
+                      <!-- ── 4. Emergency Operation ── -->
+                      <tr>
+                        <td class="serial-no text-center"><strong>4</strong></td>
+                        <td colspan="3"><strong>Emergency Operation</strong></td>
+                      </tr>
+                      <tr class="sub-row">
+                        <td></td>
+                        <td>Mode 1</td>
+                        <td><select class="form-control" name="emg_mode1_result"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="emg_mode1_pa" rows="2"></textarea></td>
+                      </tr>
+                      <tr class="sub-row">
+                        <td></td>
+                        <td>Mode 2</td>
+                        <td><select class="form-control" name="emg_mode2_result"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="emg_mode2_pa" rows="2"></textarea></td>
+                      </tr>
+                      <tr class="sub-row">
+                        <td></td>
+                        <td>Mode 3</td>
+                        <td><select class="form-control" name="emg_mode3_result"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="emg_mode3_pa" rows="2"></textarea></td>
+                      </tr>
+
+                      <!-- ── 5. Code and Mode Check ── -->
+                      <tr >
+                        <td class="serial-no text-center"><strong>5</strong></td>
+                        <td colspan="3"><strong>Code and Mode Check</strong></td>
+                      </tr>
+                      <tr class="sub-row">
+                        <td></td>
+                        <td>Mode 1 &amp; Mode 2</td>
+                        <td><select class="form-control" name="code_mode12_result"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="code_mode12_pa" rows="2"></textarea></td>
+                      </tr>
+                      <tr class="sub-row">
+                        <td></td>
+                        <td>Mode 3</td>
+                        <td><select class="form-control" name="code_mode3_result"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="code_mode3_pa" rows="2"></textarea></td>
+                      </tr>
+
+                      <!-- ── 6. Mode S Address Check ── -->
+                      <tr >
+                        <td class="serial-no text-center"><strong>6</strong></td>
+                        <td>Mode S Address Check</td>
+                        <td><select class="form-control" name="mode_s_result"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="mode_s_pa" rows="2"></textarea></td>
+                      </tr>
+
+                      <!-- ── 7. FPL Checks ── -->
+                      <tr >
+                        <td class="serial-no text-center"><strong>7</strong></td>
+                        <td>FPL Checks</td>
+                        <td><select class="form-control" name="fpl_result"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="fpl_pa" rows="2"></textarea></td>
+                      </tr>
+
+                      <!-- ── 8. KWD Checks ── -->
+                      <tr>
+                        <td class="serial-no text-center"><strong>8</strong></td>
+                        <td>KWD Checks</td>
+                        <td><select class="form-control" name="kwd_result"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="kwd_pa" rows="2"></textarea></td>
+                      </tr>
+
+                      <!-- ── 9. Self-test ── -->
+                      <tr >
+                        <td class="serial-no text-center"><strong>9</strong></td>
+                        <td>Self-test</td>
+                        <td><select class="form-control" name="selftest_result"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="selftest_pa" rows="2"></textarea></td>
+                      </tr>
+
+                      <!-- ── Extra Rows (10 onwards) ── -->
+                      <tr class="extra-row" id="extra_row_1">
+                        <td class="serial-no extra-ser text-center">10</td>
+                        <td><input type="text" class="form-control" name="extra_desc_1" ></td>
+                        <td><select class="form-control" name="extra_result_1"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td>
+                          <div style="display:flex; gap:4px; align-items:center;">
+                            <textarea class="form-control wrstg-scroll-textarea" name="extra_pa_1" rows="2" style="flex:1;"></textarea>
+                            <div style="display:flex; flex-direction:column; gap:4px;">
+                              <button type="button" class="btn-round btn-add" onclick="addExtraRow()" title="Add Row">+</button>
+                              <button type="button" class="btn-round btn-remove" onclick="removeExtraRow(this)" title="Remove Row">−</button>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   REMARKS
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Remarks</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl" id="remarks_table">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Sr No</th>
+                        <th>Observations</th>
+                        <th>SS Remarks</th>
+                        <th class="action" style="width:80px;">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-no">1</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="observation" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="ss_remarks" rows="2"></textarea></td>
+                        <td class="action action-cell-holder">
+                          <div class="action-controls">
+                            <button type="button" class="btn-round btn-add" onclick="addRow('remarks_table')" title="Add Row">+</button>
+                            <button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'remarks_table')" title="Remove Row">-</button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ===== PRESENTING AUTHORITY ===== -->
+                                                        <fieldset class="custom-fieldset mt-4">
+                                                                <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                                                                <div class="row g-3 mb-3">
+
+                                                                        <div class="col-md-3 col-12">
+                                                                                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                                                        <select class="form-control" id="hats_atrx_1000_presenting_authority"
+                                                                                                name="hats_atrx_1000_presenting_authority" required>
+                                                                                                <option value="">--Select--</option>
+                                                                                                <option value="dockyard">Dockyard</option>
+                                                                                                <option value="shipstaff">Ship's Staff</option>
+                                                                                                <option value="oem">OEM</option>
+                                                                                        </select>
+                                                                                        <label class="form_control_1" for="hats_atrx_1000_presenting_authority">
+                                                                                                Presenting Authority <span class="text-danger">*</span>
+                                                                                        </label>
+                                                                                </div>
+                                                                        </div>
+
+                                                                        <!-- WATT 1 -->
+                                                                        <div class="col-md-3 col-12">
+                                                                                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                                                        <input type="text" class="form-control" id="hats_atrx_1000_watt_1_name"
+                                                                                                name="hats_atrx_1000_watt_1_name">
+                                                                                        <label class="form_control_1">WATT(1)</label>
+                                                                                </div>
+                                                                        </div>
+
+                                                                        <!-- WATT 2 -->
+                                                                        <div class="col-md-3 col-12">
+                                                                                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                                                        <input type="text" class="form-control" id="hats_atrx_1000_watt_2_name"
+                                                                                                name="hats_atrx_1000_watt_2_name">
+                                                                                        <label class="form_control_1">WATT(2)</label>
+                                                                                </div>
+                                                                        </div>
+
+                                                                        <!-- WATT 3 -->
+                                                                        <div class="col-md-3 col-12">
+                                                                                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                                                        <input type="text" class="form-control" id="hats_atrx_1000_watt_3_name"
+                                                                                                name="hats_atrx_1000_watt_3_name">
+                                                                                        <label class="form_control_1">WATT(3)</label>
+                                                                                </div>
+                                                                        </div>
+
+                                                                </div>
+
+                                                                <div class="table-responsive mt-4">
+                                                                        <table class="custom_tbl" id="hats_atrx_1000_remarks_table">
+                                                                                <thead class="table-dark-head">
+                                                                                        <tr>
+                                                                                                <th>REMARKS TO BE GIVEN</th>
+                                                                                                <th>WBA - WILL BE AMENDED</th>
+                                                                                                <th>WBD - WILL BE DONE</th>
+                                                                                                <th>WOW - WILL OBTAIN WAIVER</th>
+                                                                                                <th>COM - COMPLETED</th>
+                                                                                                <th>N/O - NOT OFFERED</th>
+                                                                                        </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                        <tr>
+                                                                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                                                                                name="hats_atrx_1000_remarks_main"></textarea></td>
+                                                                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                                                                                name="hats_atrx_1000_wba"></textarea></td>
+                                                                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                                                                                name="hats_atrx_1000_wbd"></textarea></td>
+                                                                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                                                                                name="hats_atrx_1000_wow"></textarea></td>
+                                                                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                                                                                name="hats_atrx_1000_com"></textarea></td>
+                                                                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                                                                                name="hats_atrx_1000_no"></textarea></td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                                <td><strong>OIC</strong></td>
+                                                                                                <td><strong>CDR TRIALS</strong></td>
+                                                                                                <td><strong>STO (G)</strong></td>
+                                                                                                <td><strong>STO (L)</strong></td>
+                                                                                                <td colspan="2"><strong>TO (L)</strong></td>
+                                                                                        </tr>
+                                                                                </tbody>
+                                                                        </table>
+                                                                </div>
+                                                        </fieldset>
+
+              <!-- Submit -->
+              <div class="d-flex justify-content-center mt-4 gap-2">
+                <button type="submit" class="btn btn-success px-4">Submit</button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+  let extraRowCount = 1;
+
+  function reNumberExtraRows() {
+    const rows = document.querySelectorAll('#checklist_table tbody tr.extra-row');
+    rows.forEach((row, idx) => {
+      const serCell = row.querySelector('.extra-ser');
+      if (serCell) serCell.textContent = 10 + idx;
+    });
+  }
+
+  function addExtraRow() {
+    extraRowCount++;
+    const n = extraRowCount;
+    const tbody = document.querySelector('#checklist_table tbody');
+    const newCount = document.querySelectorAll('.extra-row').length;
+
+    const tr = document.createElement('tr');
+    tr.className = 'extra-row';
+    tr.innerHTML = `
+      <td class="serial-no extra-ser text-center">${10 + newCount}</td>
+      <td><input type="text" class="form-control" name="extra_desc_${n}" placeholder="Check Description"></td>
+      <td><select class="form-control" name="extra_result_${n}"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+      <td>
+        <div style="display:flex; gap:4px; align-items:center;">
+          <textarea class="form-control wrstg-scroll-textarea" name="extra_pa_${n}" rows="2" style="flex:1;"></textarea>
+          <div style="display:flex; flex-direction:column; gap:4px;">
+            <button type="button" class="btn-round btn-add" onclick="addExtraRow()" title="Add Row">+</button>
+            <button type="button" class="btn-round btn-remove" onclick="removeExtraRow(this)" title="Remove Row">−</button>
+          </div>
+        </div>
+      </td>`;
+    tbody.appendChild(tr);
+    reNumberExtraRows();
+  }
+
+  function removeExtraRow(btn) {
+    const allExtra = document.querySelectorAll('#checklist_table tbody tr.extra-row');
+    if (allExtra.length <= 1) {
+      alert('At least one additional row must remain.');
+      return;
+    }
+    btn.closest('tr.extra-row').remove();
+    reNumberExtraRows();
+  }
+</script>
+{% endblock js %}

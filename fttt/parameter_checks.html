@@ -1,0 +1,1628 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item" aria-current="page">FTTT</li>
+          <li class="breadcrumb-item active" aria-current="page">Parameter Checks MRSAM FCS P17A</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">FTTT - PARAMETER CHECKS</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-4 mb-4">
+          <form method="post" id="fttt_parameter_checks_form">
+            {% csrf_token %}
+            <div class="form-body">
+               <fieldset class="custom-fieldset">
+                                    <legend class="legend-custom text-uppercase">BASIC INFORMATION</legend>
+                                    <div class="row g-3">
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="system_sub_system" placeholder=" ">
+                                                <label class="form_control_1">1. System/ Sub system</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="job_undertaken" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">2. Job Undertaken</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <!-- <textarea class="form-control wrstg-scroll-textarea" name="reference_documents" rows="2" placeholder=" "></textarea> -->
+                                                 <input type="file" class ="form-control" name="reference_documents">
+                                                <label class="form_control_1">3. Reference Documents</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="authority" placeholder=" ">
+                                                <label class="form_control_1">4. Authority</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="agencies_involved" value="FTTT(Vzg)" placeholder=" " readonly>
+                                                <label class="form_control_1">5. Agencies involved</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="date" class="form-control" name="date_commenced">
+                                                <label class="form_control_1">6. Date Commenced</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="date" class="form-control" name="date_completed">
+                                                <label class="form_control_1">7. Date Completed</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="prepared_by" placeholder=" ">
+                                                <label class="form_control_1">8. Prepared by</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="vetted_by" placeholder=" ">
+                                                <label class="form_control_1">9. Vetted by</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="reference_no" placeholder=" ">
+                                                <label class="form_control_1">10. Reference No.</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="summary_of_observations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">11. Summary of observations</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="operational_limitations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">12. Operational limitations (if any)</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </fieldset>
+
+              <!-- ══════════════════════════════════════════════
+                   SECTION 13: Electric Hygiene Integrity and Visual Inspection
+                   ══════════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset mt-4">
+                <legend class="legend-custom text-uppercase">13) Electric Hygiene Integrity and Visual Inspection</legend>
+                <div class="table-responsive" style="margin-top: 8px;">
+                  <table class="table table-bordered custom_tbl param-check-table">
+                    <thead>
+                      <tr>
+                        <th class="serial-col">Ser No.</th>
+                        <th>Checks</th>
+                        <th class="status-col">Sat/Unsat</th>
+                        <th class="remarks-col">Remarks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- Electrical Power System Test (EPS) header row -->
+                      <tr>
+                        <td colspan="4"><strong>Electrical Power System Test (EPS)</strong></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-col">1</td>
+                        <td>
+                          Ship's I/P power supply test<br>
+                          Input 380V 50 Hz 3φ ± 2.5 %
+                        </td>
+                        <td class="status-col">
+                          <select class="form-control" name="eps_ship_input_supply_status" required>
+                            <option value="" selected>Select status</option>
+                            <option value="sat">SAT</option>
+                            <option value="unsat">UNSAT</option>
+                          </select>
+                        </td>
+                        <td class="remarks-col">
+                          <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="eps_ship_input_supply_remarks" rows="1"></textarea>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="serial-col">2</td>
+                        <td>Supply Auto change over checks (Fwd &amp; Aft)</td>
+                        <td>
+                          <select class="form-control" name="supply_auto_changeover_status" required>
+                            <option value="" selected>Select status</option>
+                            <option value="sat">SAT</option>
+                            <option value="unsat">UNSAT</option>
+                          </select>
+                        </td>
+                        <td>
+                          <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="supply_auto_changeover_remarks" rows="1"></textarea>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="serial-col">3</td>
+                        <td>PDBs indication LEDs test</td>
+                        <td>
+                          <select class="form-control" name="pdb_led_indication_status" required>
+                            <option value="" selected>Select status</option>
+                            <option value="sat">SAT</option>
+                            <option value="unsat">UNSAT</option>
+                          </select>
+                        </td>
+                        <td>
+                          <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="pdb_led_indication_remarks" rows="1"></textarea>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="serial-col">4</td>
+                        <td>PDBs ISO meter checks</td>
+                        <td>
+                          <select class="form-control" name="pdb_iso_meter_status" required>
+                            <option value="" selected>Select status</option>
+                            <option value="sat">SAT</option>
+                            <option value="unsat">UNSAT</option>
+                          </select>
+                        </td>
+                        <td>
+                          <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="pdb_iso_meter_remarks" rows="1"></textarea>
+                        </td>
+                      </tr>
+
+                      <!-- Isolation Transformer rows -->
+                      <tr>
+                        <td class="serial-col" rowspan="3">5</td>
+                        <td colspan="3"><strong>Isolation Transformer Checks</strong></td>
+                      </tr>
+                      <tr>
+                        <td>Input 380V ± 2.5 %, 50 Hz</td>
+                        <td>
+                          <select class="form-control" name="isolation_transformer_input_status">
+                            <option value="" selected>Select status</option>
+                            <option value="sat">SAT</option>
+                            <option value="unsat">UNSAT</option>
+                          </select>
+                        </td>
+                        <td>
+                          <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="isolation_transformer_input_remarks" rows="1"></textarea>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Output 380V ± 10 %, 50 Hz</td>
+                        <td>
+                          <select class="form-control" name="isolation_transformer_output_status">
+                            <option value="" selected>Select status</option>
+                            <option value="sat">SAT</option>
+                            <option value="unsat">UNSAT</option>
+                          </select>
+                        </td>
+                        <td>
+                          <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="isolation_transformer_output_remarks" rows="1"></textarea>
+                        </td>
+                      </tr>
+
+                      <!-- O/P transformer header row -->
+                      <tr>
+                          <td class="serial-col" rowspan="3">6</td>
+                          <td colspan="3"><strong>O/P Transformer Checks</strong></td>
+                      </tr>
+                      <tr>
+                          <td>Input 380V ± 10 %, 50 Hz</td>
+                          <td>
+                              <div class="radio-stack">
+                                  <select class="form-control" name="output_transformer_input_status">
+                                    <option value="" selected>Select status</option>
+                                    <option value="sat">SAT</option>
+                                    <option value="unsat">UNSAT</option>
+                                  </select>
+                              </div>
+                          </td>
+                          <td>
+                              <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="output_transformer_input_remarks" rows="1"></textarea>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>Output 115V ± 10 %, 50 Hz</td>
+                          <td>
+                              <div class="radio-stack">
+                                  <select class="form-control" name="output_transformer_output_status">
+                                    <option value="" selected>Select status</option>
+                                    <option value="sat">SAT</option>
+                                    <option value="unsat">UNSAT</option>
+                                  </select>
+                              </div>
+                          </td>
+                          <td>
+                              <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="output_transformer_output_remarks" rows="1"></textarea>
+                          </td>
+                      </tr>
+
+                      <!-- Fwd UPS checks header row -->
+                      <tr>
+                          <td class="serial-col" rowspan="7">7</td>
+                          <td colspan="3"><strong>Fwd UPS checks</strong></td>
+                      </tr>
+                      <tr>
+                          <td>
+                              <div style="display:flex; align-items:center; gap:6px;">
+                                  Running Hrs: <input type="text" class="form-control table-inline-input" name="fwd_ups_running_hours" placeholder="Enter running hours">
+                              </div>
+                          </td>
+                          <td></td>
+                          <td></td>
+                      </tr>
+                      <tr>
+                          <td>10 KVA UPS modules</td>
+                          <td></td>
+                          <td></td>
+                      </tr>
+                      <tr>
+                          <td>Static Switch</td>
+                          <td></td>
+                          <td></td>
+                      </tr>
+                      <tr>
+                          <td>Input 380V ± 10 %, 50 Hz</td>
+                          <td>
+                              <div class="radio-stack">
+                                  <select class="form-control" name="fwd_ups_input_status">
+                                    <option value="" selected>Select status</option>
+                                    <option value="sat">SAT</option>
+                                    <option value="unsat">UNSAT</option>
+                                  </select>
+                              </div>
+                          </td>
+                          <td>
+                              <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="fwd_ups_input_remarks" rows="1"></textarea>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>Output 380V ± 10 %, 50 Hz</td>
+                          <td>
+                              <div class="radio-stack">
+                                  <select class="form-control" name="fwd_ups_output_status">
+                                    <option value="" selected>Select status</option>
+                                    <option value="sat">SAT</option>
+                                    <option value="unsat">UNSAT</option>
+                                  </select>
+                              </div>
+                          </td>
+                          <td>
+                              <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="fwd_ups_output_remarks" rows="1"></textarea>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>Bypass 380V ± 10 %, 50 Hz</td>
+                          <td>
+                              <div class="radio-stack">
+                                  <select class="form-control" name="fwd_ups_bypass_status">
+                                    <option value="" selected>Select status</option>
+                                    <option value="sat">SAT</option>
+                                    <option value="unsat">UNSAT</option>
+                                  </select>
+                              </div>
+                          </td>
+                          <td>
+                              <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="fwd_ups_bypass_remarks" rows="1"></textarea>
+                          </td>
+                      </tr>
+
+                      <!-- Aft UPS checks rows -->
+                      <tr>
+                          <td class="serial-col" rowspan="7">8</td>
+                          <td colspan="3"><strong>Aft UPS checks</strong></td>
+                      </tr>
+                      <tr>
+                          <td>
+                              <div style="display:flex; align-items:center; gap:6px;">
+                                  Running Hrs: <input type="text" class="form-control table-inline-input" name="aft_ups_running_hours" placeholder="Enter running hours">
+                              </div>
+                          </td>
+                          <td></td>
+                          <td></td>
+                      </tr>
+                      <tr>
+                          <td>10 KVA UPS modules</td>
+                          <td></td>
+                          <td></td>
+                      </tr>
+                      <tr>
+                          <td>Static Switch</td>
+                          <td></td>
+                          <td></td>
+                      </tr>
+                      <tr>
+                          <td>Input 380V ± 10 %, 50 Hz</td>
+                          <td>
+                              <div class="radio-stack">
+                                  <select class="form-control" name="aft_ups_input_status">
+                                    <option value="" selected>Select status</option>
+                                    <option value="sat">SAT</option>
+                                    <option value="unsat">UNSAT</option>
+                                  </select>
+                              </div>
+                          </td>
+                          <td>
+                              <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="aft_ups_input_remarks" rows="1"></textarea>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>Output 380V ± 10 %, 50 Hz</td>
+                          <td>
+                              <div class="radio-stack">
+                                  <select class="form-control" name="aft_ups_output_status">
+                                    <option value="" selected>Select status</option>
+                                    <option value="sat">SAT</option>
+                                    <option value="unsat">UNSAT</option>
+                                  </select>
+                              </div>
+                          </td>
+                          <td>
+                              <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="aft_ups_output_remarks" rows="1"></textarea>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>Bypass 380V ± 10 %, 50 Hz</td>
+                          <td>
+                              <div class="radio-stack">
+                                  <select class="form-control" name="aft_ups_bypass_status">
+                                    <option value="" selected>Select status</option>
+                                    <option value="sat">SAT</option>
+                                    <option value="unsat">UNSAT</option>
+                                  </select>
+                              </div>
+                          </td>
+                          <td>
+                              <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="aft_ups_bypass_remarks" rows="1"></textarea>
+                          </td>
+                      </tr>
+
+        
+                      <tr>
+                        <td class="serial-col">9</td>
+                        <td>Battery drain checks of both UPS (10-15 min)</td>
+                        <td>
+                          <div class="radio-stack">
+                            <select class="form-control" name="battery_drain_ups_status" required>
+                              <option value="" selected>Select status</option>
+                              <option value="sat">SAT</option>
+                              <option value="unsat">UNSAT</option>
+                            </select>
+                          </div>
+                        </td>
+                        <td>
+                          <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="battery_drain_ups_remarks" rows="1"></textarea>
+                        </td>
+                      </tr>
+
+                      <!-- DSC rows -->
+                      <tr>
+                          <td class="serial-col" rowspan="2">10</td>
+                          <td colspan="3"><strong>Dual Static Converter Checks (DSC)</strong></td>
+                          
+                      </tr>
+                      <tr>
+                          <td>Outputs 220V &amp; 36 V ± 10 %, 400 Hz</td>
+                          <td>
+                              <div class="radio-stack">
+                                  <select class="form-control" name="dsc_output_status" required>
+                                    <option value="" selected>Select status</option>
+                                    <option value="sat">SAT</option>
+                                    <option value="unsat">UNSAT</option>
+                                  </select>
+                              </div>
+                          </td>
+                          <td>
+                              <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="dsc_output_remarks" rows="1"></textarea>
+                          </td>
+                      </tr>
+
+                      <!-- Compartment Ventilation rows -->
+                      <tr>
+                          <td class="serial-col" rowspan="5">11</td>
+                          <td colspan="3"><strong>Check Compartment Ventilation</strong></td>
+                      </tr>
+                      <tr>
+                          <td>Fwd SAM Electronics</td>
+                          <td>
+                              <div class="radio-stack">
+                                  <select class="form-control" name="fwd_sam_electronics_status">
+                                    <option value="" selected>Select status</option>
+                                    <option value="sat">SAT</option>
+                                    <option value="unsat">UNSAT</option>
+                                  </select>
+                              </div>
+                          </td>
+                          <td>
+                              <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="fwd_sam_electronics_remarks" rows="1"></textarea>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>Aft SAM Electronics</td>
+                          <td>
+                              <div class="radio-stack">
+                                  <select class="form-control" name="aft_sam_electronics_status">
+                                    <option value="" selected>Select status</option>
+                                    <option value="sat">SAT</option>
+                                    <option value="unsat">UNSAT</option>
+                                  </select>
+                              </div>
+                          </td>
+                          <td>
+                              <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="aft_sam_electronics_remarks" rows="1"></textarea>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>Fwd &amp; Aft VLU Compartments</td>
+                          <td>
+                              <div class="radio-stack">
+                                  <select class="form-control" name="vlu_compartments_status">
+                                    <option value="" selected>Select status</option>
+                                    <option value="sat">SAT</option>
+                                    <option value="unsat">UNSAT</option>
+                                  </select>
+                              </div>
+                          </td>
+                          <td>
+                              <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="vlu_compartments_remarks" rows="1"></textarea>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>SAM Converter Room</td>
+                          <td>
+                              <div class="radio-stack">
+                                  <select class="form-control" name="sam_converter_room_status">
+                                    <option value="" selected>Select status</option>
+                                    <option value="sat">SAT</option>
+                                    <option value="unsat">UNSAT</option>
+                                  </select>
+                              </div>
+                          </td>
+                          <td>
+                              <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="sam_converter_room_remarks" rows="1"></textarea>
+                          </td>
+                      </tr>
+
+                      <!-- Fwd SPA rows -->
+                      <tr>
+                          <td class="serial-col" rowspan="7">12</td>
+                          <td colspan="3">
+                              <strong>Fwd SPA (</strong>
+                              <input type="text" class="form-control table-inline-input" name="fwd_spa_name" style="display:inline-block;width:150px;">
+                              <strong>)</strong>
+                          </td>
+                          
+                      </tr>
+                      <tr>
+                          <td>
+                              <div style="display:flex; align-items:center; gap:6px;">
+                                  Running Hrs: <input type="text" class="form-control table-inline-input" name="fwd_spa_running_hours" placeholder="Enter running hours">
+                              </div>
+                          </td>
+                          <td>
+                              <div class="radio-stack">
+                                  <select class="form-control" name="fwd_spa_status" required>
+                                    <option value="" selected>Select status</option>
+                                    <option value="sat">SAT</option>
+                                    <option value="unsat">UNSAT</option>
+                                  </select>
+                              </div>
+                          </td>
+                          <td>
+                              <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="fwd_spa_remarks" rows="1"></textarea>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>Status of CLA</td>
+                          <td>
+                              <div class="radio-stack">
+                                  <select class="form-control" name="fwd_spa_cla_status">
+                                    <option value="" selected>Select status</option>
+                                    <option value="sat">SAT</option>
+                                    <option value="unsat">UNSAT</option>
+                                  </select>
+                              </div>
+                          </td>
+                          <td>
+                              <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="fwd_spa_cla_remarks" rows="1"></textarea>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>Status of FLIR</td>
+                          <td>
+                              <div class="radio-stack">
+                                  <select class="form-control" name="fwd_spa_flir_status">
+                                    <option value="" selected>Select status</option>
+                                    <option value="sat">SAT</option>
+                                    <option value="unsat">UNSAT</option>
+                                  </select>
+                              </div>
+                          </td>
+                          <td>
+                              <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="fwd_spa_flir_remarks" rows="1"></textarea>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>Status of LRF</td>
+                          <td>
+                              <div class="radio-stack">
+                                  <select class="form-control" name="fwd_spa_lrf_status">
+                                    <option value="" selected>Select status</option>
+                                    <option value="sat">SAT</option>
+                                    <option value="unsat">UNSAT</option>
+                                  </select>
+                              </div>
+                          </td>
+                          <td>
+                              <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="fwd_spa_lrf_remarks" rows="1"></textarea>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>Condition of connectors</td>
+                          <td>
+                              <div class="radio-stack">
+                                  <select class="form-control" name="fwd_spa_connectors_status">
+                                    <option value="" selected>Select status</option>
+                                    <option value="sat">SAT</option>
+                                    <option value="unsat">UNSAT</option>
+                                  </select>
+                              </div>
+                          </td>
+                          <td>
+                              <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="fwd_spa_connectors_remarks" rows="1"></textarea>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>
+                              <div style="display:flex; align-items:center; gap:6px;">
+                                  Nitrogen purging last carried out by SS on
+                                  <input type="date" class="form-control table-inline-input" name="fwd_spa_nitrogen_purging_date">
+                              </div>
+                          </td>
+                          <td></td>
+                          <td></td>
+                      </tr>
+
+                      <!-- Aft SPA rows -->
+                      <tr>
+                          <td class="serial-col" rowspan="7">13</td>
+                          <td colspan="3">
+                              <strong>Aft SPA (</strong>
+                              <input type="text" class="form-control table-inline-input" name="aft_spa_name" style="display:inline-block;width:150px;">
+                              <strong>)</strong>
+                          </td>
+                          
+                      </tr>
+                      <tr>
+                          <td>
+                              <div style="display:flex; align-items:center; gap:6px;">
+                                  Running Hrs: <input type="text" class="form-control table-inline-input" name="aft_spa_running_hours" placeholder="Enter running hours">
+                              </div>
+                          </td>
+                          <td>
+                              <div class="radio-stack">
+                                  <select class="form-control" name="aft_spa_status" required>
+                                    <option value="" selected>Select status</option>
+                                    <option value="sat">SAT</option>
+                                    <option value="unsat">UNSAT</option>
+                                  </select>
+                              </div>
+                          </td>
+                          <td>
+                              <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="aft_spa_remarks" rows="1"></textarea>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>Status of CLA</td>
+                          <td>
+                              <div class="radio-stack">
+                                  <select class="form-control" name="aft_spa_cla_status">
+                                    <option value="" selected>Select status</option>
+                                    <option value="sat">SAT</option>
+                                    <option value="unsat">UNSAT</option>
+                                  </select>
+                              </div>
+                          </td>
+                          <td>
+                              <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="aft_spa_cla_remarks" rows="1"></textarea>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>Status of FLIR</td>
+                          <td>
+                              <div class="radio-stack">
+                                  <select class="form-control" name="aft_spa_flir_status">
+                                    <option value="" selected>Select status</option>
+                                    <option value="sat">SAT</option>
+                                    <option value="unsat">UNSAT</option>
+                                  </select>
+                              </div>
+                          </td>
+                          <td>
+                              <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="aft_spa_flir_remarks" rows="1"></textarea>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>Status of LRF</td>
+                          <td>
+                              <div class="radio-stack">
+                                  <select class="form-control" name="aft_spa_lrf_status">
+                                    <option value="" selected>Select status</option>
+                                    <option value="sat">SAT</option>
+                                    <option value="unsat">UNSAT</option>
+                                  </select>
+                              </div>
+                          </td>
+                          <td>
+                              <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="aft_spa_lrf_remarks" rows="1"></textarea>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>Condition of connectors</td>
+                          <td>
+                              <div class="radio-stack">
+                                  <select class="form-control" name="aft_spa_connectors_status">
+                                    <option value="" selected>Select status</option>
+                                    <option value="sat">SAT</option>
+                                    <option value="unsat">UNSAT</option>
+                                  </select>
+                              </div>
+                          </td>
+                          <td>
+                              <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="aft_spa_connectors_remarks" rows="1"></textarea>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>
+                              <div style="display:flex; align-items:center; gap:6px;">
+                                  Nitrogen purging last carried out by SS on
+                                  <input type="date" class="form-control table-inline-input" name="aft_spa_nitrogen_purging_date">
+                              </div>
+                          </td>
+                          <td></td>
+                          <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════════
+                  SECTION 14: BIT and Maintenance Checks
+                  ══════════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset mt-4">
+                  <legend class="legend-custom text-uppercase">14) BIT &amp; Maintenance Checks</legend>
+                  <div class="table-responsive" style="margin-top: 8px;">
+                      <table class="table table-bordered custom_tbl param-check-table">
+                          <thead>
+                              <tr>
+                                  <th class="serial-col">Ser No.</th>
+                                  <th>Unit Name</th>
+                                  <th class="status-col">Sat/Unsat</th>
+                                  <th class="remarks-col">Remarks</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+
+                              <!-- Initiated BIT checks rows -->
+                              <tr>
+                                  <td class="serial-col" rowspan="6">1</td>
+                                  <td colspan="3"><strong>Initiated BIT checks</strong></td>
+                                  
+                              </tr>
+                              <tr>
+                                  <td>MU A &amp; B</td>
+                                  <td>
+                                      <div class="radio-stack">
+                                          <select class="form-control" name="bit_mu_ab_status">
+                                            <option value="" selected>Select status</option>
+                                            <option value="sat">SAT</option>
+                                            <option value="unsat">UNSAT</option>
+                                          </select>
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="bit_mu_ab_remarks" rows="1"></textarea>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>GCU 1, 2 &amp; 3</td>
+                                  <td>
+                                      <div class="radio-stack">
+                                          <select class="form-control" name="bit_gcu_123_status">
+                                            <option value="" selected>Select status</option>
+                                            <option value="sat">SAT</option>
+                                            <option value="unsat">UNSAT</option>
+                                          </select>
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="bit_gcu_123_remarks" rows="1"></textarea>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>LCU 1 – 4</td>
+                                  <td>
+                                      <div class="radio-stack">
+                                          <select class="form-control" name="bit_lcu_14_status">
+                                            <option value="" selected>Select status</option>
+                                            <option value="sat">SAT</option>
+                                            <option value="unsat">UNSAT</option>
+                                          </select>
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="bit_lcu_14_remarks" rows="1"></textarea>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>SBDL (STNC) 1 &amp; 2</td>
+                                  <td>
+                                      <div class="radio-stack">
+                                          <select class="form-control" name="bit_sbdl_12_status">
+                                            <option value="" selected>Select status</option>
+                                            <option value="sat">SAT</option>
+                                            <option value="unsat">UNSAT</option>
+                                          </select>
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="bit_sbdl_12_remarks" rows="1"></textarea>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>EOD 1 &amp; 2</td>
+                                  <td>
+                                      <div class="radio-stack">
+                                          <select class="form-control" name="bit_eod_12_status">
+                                            <option value="" selected>Select status</option>
+                                            <option value="sat">SAT</option>
+                                            <option value="unsat">UNSAT</option>
+                                          </select>
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="bit_eod_12_remarks" rows="1"></textarea>
+                                  </td>
+                              </tr>
+
+                              <!-- LCS Tests rows -->
+                              <tr>
+                                  <td class="serial-col" rowspan="5">2</td>
+                                  <td colspan="3"><strong>LCS Tests in maintenance mode</strong></td>
+                            
+                              </tr>
+                              <tr>
+                                  <td>LCU 1</td>
+                                  <td>
+                                      <div class="radio-stack">
+                                          <select class="form-control" name="lcs_lcu1_status">
+                                            <option value="" selected>Select status</option>
+                                            <option value="sat">SAT</option>
+                                            <option value="unsat">UNSAT</option>
+                                          </select>
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="lcs_lcu1_remarks" rows="1"></textarea>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>LCU 2</td>
+                                  <td>
+                                      <div class="radio-stack">
+                                          <select class="form-control" name="lcs_lcu2_status">
+                                            <option value="" selected>Select status</option>
+                                            <option value="sat">SAT</option>
+                                            <option value="unsat">UNSAT</option>
+                                          </select>
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="lcs_lcu2_remarks" rows="1"></textarea>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>LCU 3</td>
+                                  <td>
+                                      <div class="radio-stack">
+                                          <select class="form-control" name="lcs_lcu3_status">
+                                            <option value="" selected>Select status</option>
+                                            <option value="sat">SAT</option>
+                                            <option value="unsat">UNSAT</option>
+                                          </select>
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="lcs_lcu3_remarks" rows="1"></textarea>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>LCU 4</td>
+                                  <td>
+                                      <div class="radio-stack">
+                                          <select class="form-control" name="lcs_lcu4_status">
+                                            <option value="" selected>Select status</option>
+                                            <option value="sat">SAT</option>
+                                            <option value="unsat">UNSAT</option>
+                                          </select>
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="lcs_lcu4_remarks" rows="1"></textarea>
+                                  </td>
+                              </tr>
+
+                              <!-- Status of drain plugs rows -->
+                              <tr>
+                                  <td class="serial-col" rowspan="5">3</td>
+                                  <td colspan="3"><strong>Status of drain plugs of GGT</strong></td>
+                                  
+                              </tr>
+                              <tr>
+                                  <td>VLU 1</td>
+                                  <td>
+                                      <div class="radio-stack">
+                                          <select class="form-control" name="ggt_vlu1_status">
+                                            <option value="" selected>Select status</option>
+                                            <option value="sat">SAT</option>
+                                            <option value="unsat">UNSAT</option>
+                                          </select>
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="ggt_vlu1_remarks" rows="1"></textarea>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>VLU 2</td>
+                                  <td>
+                                      <div class="radio-stack">
+                                          <select class="form-control" name="ggt_vlu2_status">
+                                            <option value="" selected>Select status</option>
+                                            <option value="sat">SAT</option>
+                                            <option value="unsat">UNSAT</option>
+                                          </select>
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="ggt_vlu2_remarks" rows="1"></textarea>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>VLU 3</td>
+                                  <td>
+                                      <div class="radio-stack">
+                                          <select class="form-control" name="ggt_vlu3_status">
+                                            <option value="" selected>Select status</option>
+                                            <option value="sat">SAT</option>
+                                            <option value="unsat">UNSAT</option>
+                                          </select>
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="ggt_vlu3_remarks" rows="1"></textarea>
+                                  </td>
+                              </tr>
+                              <tr>
+                                  <td>VLU 4</td>
+                                  <td>
+                                      <div class="radio-stack">
+                                          <select class="form-control" name="ggt_vlu4_status">
+                                            <option value="" selected>Select status</option>
+                                            <option value="sat">SAT</option>
+                                            <option value="unsat">UNSAT</option>
+                                          </select>
+                                      </div>
+                                  </td>
+                                  <td>
+                                      <textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="ggt_vlu4_remarks" rows="1"></textarea>
+                                  </td>
+                              </tr>
+
+                          </tbody>
+                      </table>
+                  </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════════
+                   SECTION 15: Mustering of SPTA
+                   ══════════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset mt-4">
+                <legend class="legend-custom text-uppercase">15) Mustering of SPTA / Test Equipment / Documents</legend>
+                <div class="table-responsive" style="margin-top: 8px;">
+                  <table class="table table-bordered custom_tbl param-check-table">
+                    <thead>
+                      <tr>
+                        <th class="serial-col">Ser No.</th>
+                        <th>Description of Check</th>
+                        <th class="remarks-col">Remarks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-col">1</td>
+                        <td>Mustering of Documents carried out by SS on</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="mustering_documents_remarks" rows="1"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-col">2</td>
+                        <td>Mustering and calibration certificate of all Test equipment carried out by SS on</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="mustering_calibration_certificates_remarks" rows="1"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-col">3</td>
+                        <td>Mustering of SPTA carried out by SS on</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="mustering_spta_remarks" rows="1"></textarea></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════════
+                   SECTION 16: System Constants
+                   ══════════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset mt-4">
+                <legend class="legend-custom text-uppercase">16) System Constants as per last alignment carried on</legend>
+                <div class="table-responsive" style="margin-top: 8px;">
+                  <table class="table table-bordered custom_tbl param-check-table">
+                    <thead>
+                      <tr>
+                        <th class="serial-col">Ser No.</th>
+                        <th></th>
+                        <th class="mini-col">AK 630 (PORT)</th>
+                        <th class="mini-col">AK 630 (STBD)</th>
+                        <th class="mini-col">SRGM</th>
+                        <th class="mini-col">FWD EOD</th>
+                        <th class="mini-col">AFT EOD</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-col">1</td>
+                        <td>Tilt Dir (Deg)</td>
+                        <td><input type="text" class="form-control" name="system_constants_tilt_dir_ak630_port"></td>
+                        <td><input type="text" class="form-control" name="system_constants_tilt_dir_ak630_stbd"></td>
+                        <td><input type="text" class="form-control" name="system_constants_tilt_dir_srgm"></td>
+                        <td><input type="text" class="form-control" name="system_constants_tilt_dir_fwd_eod"></td>
+                        <td><input type="text" class="form-control" name="system_constants_tilt_dir_aft_eod"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-col">2</td>
+                        <td>Tilt Size (mrad)</td>
+                        <td><input type="text" class="form-control" name="system_constants_tilt_size_ak630_port"></td>
+                        <td><input type="text" class="form-control" name="system_constants_tilt_size_ak630_stbd"></td>
+                        <td><input type="text" class="form-control" name="system_constants_tilt_size_srgm"></td>
+                        <td><input type="text" class="form-control" name="system_constants_tilt_size_fwd_eod"></td>
+                        <td><input type="text" class="form-control" name="system_constants_tilt_size_aft_eod"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-col">3</td>
+                        <td>Az Bias (mrad)</td>
+                        <td><input type="text" class="form-control" name="system_constants_az_bias_ak630_port"></td>
+                        <td><input type="text" class="form-control" name="system_constants_az_bias_ak630_stbd"></td>
+                        <td><input type="text" class="form-control" name="system_constants_az_bias_srgm"></td>
+                        <td><input type="text" class="form-control" name="system_constants_az_bias_fwd_eod"></td>
+                        <td><input type="text" class="form-control" name="system_constants_az_bias_aft_eod"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-col">4</td>
+                        <td>El Bias (mrad)</td>
+                        <td><input type="text" class="form-control" name="system_constants_el_bias_ak630_port"></td>
+                        <td><input type="text" class="form-control" name="system_constants_el_bias_ak630_stbd"></td>
+                        <td><input type="text" class="form-control" name="system_constants_el_bias_srgm"></td>
+                        <td><input type="text" class="form-control" name="system_constants_el_bias_fwd_eod"></td>
+                        <td><input type="text" class="form-control" name="system_constants_el_bias_aft_eod"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════════
+                   SECTION 17: Gun Follow up checks
+                   ══════════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset mt-4">
+                <legend class="legend-custom text-uppercase">17) Gun Follow up checks</legend>
+                <div class="table-responsive" style="margin-top: 8px;">
+                  <table class="table table-bordered custom_tbl param-check-table">
+                    <thead>
+                      <tr>
+                        <th class="serial-col">Ser No.</th>
+                        <th>Description</th>
+                        <th class="mini-col">AK 630 (PORT)</th>
+                        <th class="mini-col">AK 630 (STBD)</th>
+                        <th class="mini-col">SRGM</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-col">1</td>
+                        <td>Step</td>
+                        <td><input type="text" class="form-control" name="gun_follow_up_step_ak630_port"></td>
+                        <td><input type="text" class="form-control" name="gun_follow_up_step_ak630_stbd"></td>
+                        <td><input type="text" class="form-control" name="gun_follow_up_step_srgm"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-col">2</td>
+                        <td>Track</td>
+                        <td><input type="text" class="form-control" name="gun_follow_up_track_ak630_port"></td>
+                        <td><input type="text" class="form-control" name="gun_follow_up_track_ak630_stbd"></td>
+                        <td><input type="text" class="form-control" name="gun_follow_up_track_srgm"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-col">3</td>
+                        <td>El sinus</td>
+                        <td><input type="text" class="form-control" name="gun_follow_up_el_sinus_ak630_port"></td>
+                        <td><input type="text" class="form-control" name="gun_follow_up_el_sinus_ak630_stbd"></td>
+                        <td><input type="text" class="form-control" name="gun_follow_up_el_sinus_srgm"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-col">4</td>
+                        <td>Az sinus</td>
+                        <td><input type="text" class="form-control" name="gun_follow_up_az_sinus_ak630_port"></td>
+                        <td><input type="text" class="form-control" name="gun_follow_up_az_sinus_ak630_stbd"></td>
+                        <td><input type="text" class="form-control" name="gun_follow_up_az_sinus_srgm"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════════
+                   SECTION 18: FC contact checks
+                   ══════════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset mt-4">
+                <legend class="legend-custom text-uppercase">18) FC contact Checks</legend>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="radio-stack">
+                      <select class="form-control" name="fc_contact_checks_status" required>
+                        <option value="" selected>Select status</option>
+                        <option value="sat">SAT</option>
+                        <option value="unsat">UNSAT</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════════
+                   SECTION 19: BVU Test
+                   ══════════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset mt-4">
+                <legend class="legend-custom text-uppercase">19) BVU Test</legend>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="radio-stack">
+                      <select class="form-control" name="bvu_test_status" required>
+                        <option value="" selected>Select status</option>
+                        <option value="sat">SAT</option>
+                        <option value="unsat">UNSAT</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════════
+                   SECTION 20: MOBS Tests
+                   ══════════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset mt-4">
+                <legend class="legend-custom text-uppercase">20) MOBS Tests</legend>
+                <div class="row" style="margin-bottom: 6px;">
+                  <div class="col-md-12">
+                    <div class="radio-stack">
+                      <select class="form-control" name="mobs_tests_status" required>
+                        <option value="" selected>Select status</option>
+                        <option value="sat">SAT</option>
+                        <option value="unsat">UNSAT</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="table-responsive" style="margin-top: 8px;">
+                  <table class="table table-bordered custom_tbl param-check-table">
+                    <thead>
+                      <tr>
+                        <th class="serial-col">Cell No</th>
+                        <th class="mini-col">VLU 1</th>
+                        <th class="mini-col">VLU 2</th>
+                        <th class="mini-col">VLU 3</th>
+                        <th class="mini-col">VLU 4</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for i in "12345678" %}
+                      <tr>
+                        <td class="serial-col">{{ forloop.counter }}</td>
+                        <td><input type="text" class="form-control" name="mobs_cell_{{ forloop.counter }}_vlu_1"></td>
+                        <td><input type="text" class="form-control" name="mobs_cell_{{ forloop.counter }}_vlu_2"></td>
+                        <td><input type="text" class="form-control" name="mobs_cell_{{ forloop.counter }}_vlu_3"></td>
+                        <td><input type="text" class="form-control" name="mobs_cell_{{ forloop.counter }}_vlu_4"></td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════════
+                   SECTION 21: External Systems Interface Status
+                   ══════════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset mt-4">
+                <legend class="legend-custom text-uppercase">21) External Systems Interface Status</legend>
+                <div class="table-responsive" style="margin-top: 8px;">
+                  <table class="table table-bordered custom_tbl param-check-table">
+                    <thead>
+                      <tr>
+                        <th class="serial-col">Ser No.</th>
+                        <th>System</th>
+                        <th class="status-col">Sat/Unsat</th>
+                        <th class="remarks-col">Remarks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-col">1</td>
+                        <td>CMS</td>
+                        <td><select class="form-control" name="external_interface_cms_status" required><option value="" selected>Select status</option><option value="sat">SAT</option><option value="unsat">UNSAT</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="external_interface_cms_remarks" rows="1"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-col">2</td>
+                        <td>MFSTAR</td>
+                        <td><select class="form-control" name="external_interface_mfstar_status" required><option value="" selected>Select status</option><option value="sat">SAT</option><option value="unsat">UNSAT</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="external_interface_mfstar_remarks" rows="1"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-col">3</td>
+                        <td>3D ASR</td>
+                        <td><select class="form-control" name="external_interface_3d_asr_status" required><option value="" selected>Select status</option><option value="sat">SAT</option><option value="unsat">UNSAT</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="external_interface_3d_asr_remarks" rows="1"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-col">4</td>
+                        <td>SWISS</td>
+                        <td><select class="form-control" name="external_interface_swiss_status" required><option value="" selected>Select status</option><option value="sat">SAT</option><option value="unsat">UNSAT</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="external_interface_swiss_remarks" rows="1"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-col">5</td>
+                        <td>Kavach</td>
+                        <td><select class="form-control" name="external_interface_kavach_status" required><option value="" selected>Select status</option><option value="sat">SAT</option><option value="unsat">UNSAT</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="external_interface_kavach_remarks" rows="1"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-col">6</td>
+                        <td>RLG</td>
+                        <td><select class="form-control" name="external_interface_rlg_status" required><option value="" selected>Select status</option><option value="sat">SAT</option><option value="unsat">UNSAT</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="external_interface_rlg_remarks" rows="1"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-col">7</td>
+                        <td>Metrology</td>
+                        <td><select class="form-control" name="external_interface_metrology_status" required><option value="" selected>Select status</option><option value="sat">SAT</option><option value="unsat">UNSAT</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="external_interface_metrology_remarks" rows="1"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-col">8</td>
+                        <td>CS</td>
+                        <td><select class="form-control" name="external_interface_cs_status" required><option value="" selected>Select status</option><option value="sat">SAT</option><option value="unsat">UNSAT</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="external_interface_cs_remarks" rows="1"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-col">9</td>
+                        <td>Shakti</td>
+                        <td><select class="form-control" name="external_interface_shakti_status" required><option value="" selected>Select status</option><option value="sat">SAT</option><option value="unsat">UNSAT</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="external_interface_shakti_remarks" rows="1"></textarea></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════════
+                   SECTION 22: RLG Diff test
+                   ══════════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset mt-4">
+                <legend class="legend-custom text-uppercase">22) RLG Diff test</legend>
+                <div class="table-responsive" style="margin-top: 8px;">
+                  <table class="table table-bordered custom_tbl param-check-table">
+                    <thead>
+                      <tr>
+                        <th class="mini-col" rowspan="2">INU</th>
+                        <th class="mini-col" rowspan="2">RLG Change over</th>
+                        <th colspan="3" class="text-center">Diff (0.5 mrad)</th>
+                        <th colspan="2" class="text-center">Position Jump (Location jump 40 m)</th>
+                      </tr>
+                      <tr>
+                        <th class="mini-col">Heading (mrad)</th>
+                        <th class="mini-col">Roll (mrad)</th>
+                        <th class="mini-col">Pitch (mrad)</th>
+                        <th class="mini-col">Lat</th>
+                        <th class="mini-col">Long</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Fwd</td>
+                        <td>Fwd to Aft</td>
+                        <td><input type="text" class="form-control" name="rlg_diff_fwd_heading_mrad"></td>
+                        <td><input type="text" class="form-control" name="rlg_diff_fwd_roll_mrad"></td>
+                        <td><input type="text" class="form-control" name="rlg_diff_fwd_pitch_mrad"></td>
+                        <td><input type="text" class="form-control" name="rlg_diff_fwd_position_lat"></td>
+                        <td><input type="text" class="form-control" name="rlg_diff_fwd_position_long"></td>
+                      </tr>
+                      <tr>
+                        <td>Aft</td>
+                        <td>Aft to Fwd</td>
+                        <td><input type="text" class="form-control" name="rlg_diff_aft_heading_mrad"></td>
+                        <td><input type="text" class="form-control" name="rlg_diff_aft_roll_mrad"></td>
+                        <td><input type="text" class="form-control" name="rlg_diff_aft_pitch_mrad"></td>
+                        <td><input type="text" class="form-control" name="rlg_diff_aft_position_lat"></td>
+                        <td><input type="text" class="form-control" name="rlg_diff_aft_position_long"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════════
+                   SECTION 23: VSWR
+                   ══════════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset mt-4">
+                <legend class="legend-custom text-uppercase">23) VSWR</legend>
+                <div class="table-responsive" style="margin-top: 8px;">
+                  <table class="table table-bordered custom_tbl param-check-table">
+                    <thead>
+                      <tr>
+                        <th class="serial-col">Ser</th>
+                        <th class="mini-col">Frequency (MHz)</th>
+                        <th class="mini-col">Fwd Antenna with Cable</th>
+                        <th class="mini-col">Aft Antenna with Cable</th>
+                        <th class="remarks-col">Remarks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-col">1</td>
+                        <td><input type="text" class="form-control" name="vswr_1_frequency_mhz" value="960"></td>
+                        <td><input type="text" class="form-control" name="vswr_1_fwd_antenna_with_cable"></td>
+                        <td><input type="text" class="form-control" name="vswr_1_aft_antenna_with_cable"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="vswr_1_remarks" rows="1"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-col">2</td>
+                        <td><input type="text" class="form-control" name="vswr_2_frequency_mhz" value="985"></td>
+                        <td><input type="text" class="form-control" name="vswr_2_fwd_antenna_with_cable"></td>
+                        <td><input type="text" class="form-control" name="vswr_2_aft_antenna_with_cable"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="vswr_2_remarks" rows="1"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-col">3</td>
+                        <td><input type="text" class="form-control" name="vswr_3_frequency_mhz" value="1010"></td>
+                        <td><input type="text" class="form-control" name="vswr_3_fwd_antenna_with_cable"></td>
+                        <td><input type="text" class="form-control" name="vswr_3_aft_antenna_with_cable"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea auto-expand-textarea" name="vswr_3_remarks" rows="1"></textarea></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <p class="mt-1"><small>* For the long cable, insertion loss must be lower or equal 1.05 dm</small></p>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════════
+                   SECTION 24: SRFT Attenuation
+                   ══════════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset mt-4">
+                <legend class="legend-custom text-uppercase">24) SRFT Attenuation</legend>
+                <div class="row mt-2">
+                  <div class="col-md-12">
+                    <p>
+                      <strong>SRFT Attenuation</strong> = Spectrum Analyser reading (RF Power-Net 1, FF) –
+                      Spectrum Analyser Reading (SRFT attenuation – Net 1, FF) – Cable Loss
+                    </p>
+                    <div class="d-flex align-items-center mt-2">
+                      <label class="mr-2" style="white-space:nowrap;"><strong>Calculated SRFT Attenuation =</strong></label>
+                      <input type="text" class="form-control" name="srft_attenuation_calculated" style="max-width:200px;" placeholder="dBm">
+                      <span class="ml-2">dBm</span>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════════
+                   SECTION 25: SBDL Parameter Checks
+                   ══════════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset mt-4">
+                <legend class="legend-custom text-uppercase">25) SBDL Parameter Checks</legend>
+                <div class="table-responsive" style="margin-top: 8px;">
+                  <table class="table table-bordered custom_tbl param-check-table">
+                    <thead>
+                      <tr>
+                        <th class="mini-col">SBDL No</th>
+                        <th class="mini-col">Network</th>
+                        <th class="mini-col">Spectrum Analyser Reading (dBm)</th>
+                        <th class="mini-col">Measured Output Power (dBm)</th>
+                        <th class="mini-col">Expected Output Power</th>
+                        <th class="mini-col">Pass/Fail</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- SBDL 1 -->
+                      <tr>
+                        <td rowspan="4">1</td>
+                        <td>1</td>
+                        <td><input type="text" class="form-control" name="sbdl_1_net_1_sa_reading"></td>
+                        <td><input type="text" class="form-control" name="sbdl_1_net_1_measured_output"></td>
+                        <td>&gt;46</td>
+                        <td><div class="radio-stack"><label><input type="radio" name="sbdl_1_net_1_pass_fail" value="pass"> Pass</label><label><input type="radio" name="sbdl_1_net_1_pass_fail" value="fail"> Fail</label></div></td>
+                      </tr>
+                      <tr>
+                        <td>4</td>
+                        <td><input type="text" class="form-control" name="sbdl_1_net_4_sa_reading"></td>
+                        <td><input type="text" class="form-control" name="sbdl_1_net_4_measured_output"></td>
+                        <td>&gt;46</td>
+                        <td><div class="radio-stack"><label><input type="radio" name="sbdl_1_net_4_pass_fail" value="pass"> Pass</label><label><input type="radio" name="sbdl_1_net_4_pass_fail" value="fail"> Fail</label></div></td>
+                      </tr>
+                      <tr>
+                        <td>7</td>
+                        <td><input type="text" class="form-control" name="sbdl_1_net_7_sa_reading"></td>
+                        <td><input type="text" class="form-control" name="sbdl_1_net_7_measured_output"></td>
+                        <td>&gt;46</td>
+                        <td><div class="radio-stack"><label><input type="radio" name="sbdl_1_net_7_pass_fail" value="pass"> Pass</label><label><input type="radio" name="sbdl_1_net_7_pass_fail" value="fail"> Fail</label></div></td>
+                      </tr>
+                      <tr>
+                        <td>FH 1</td>
+                        <td><input type="text" class="form-control" name="sbdl_1_net_fh1_sa_reading"></td>
+                        <td><input type="text" class="form-control" name="sbdl_1_net_fh1_measured_output"></td>
+                        <td>&gt;46</td>
+                        <td><div class="radio-stack"><label><input type="radio" name="sbdl_1_net_fh1_pass_fail" value="pass"> Pass</label><label><input type="radio" name="sbdl_1_net_fh1_pass_fail" value="fail"> Fail</label></div></td>
+                      </tr>
+                      <!-- SBDL 2 -->
+                      <tr>
+                        <td rowspan="4">2</td>
+                        <td>1</td>
+                        <td><input type="text" class="form-control" name="sbdl_2_net_1_sa_reading"></td>
+                        <td><input type="text" class="form-control" name="sbdl_2_net_1_measured_output"></td>
+                        <td>&gt;46</td>
+                        <td><div class="radio-stack"><label><input type="radio" name="sbdl_2_net_1_pass_fail" value="pass"> Pass</label><label><input type="radio" name="sbdl_2_net_1_pass_fail" value="fail"> Fail</label></div></td>
+                      </tr>
+                      <tr>
+                        <td>4</td>
+                        <td><input type="text" class="form-control" name="sbdl_2_net_4_sa_reading"></td>
+                        <td><input type="text" class="form-control" name="sbdl_2_net_4_measured_output"></td>
+                        <td>&gt;46</td>
+                        <td><div class="radio-stack"><label><input type="radio" name="sbdl_2_net_4_pass_fail" value="pass"> Pass</label><label><input type="radio" name="sbdl_2_net_4_pass_fail" value="fail"> Fail</label></div></td>
+                      </tr>
+                      <tr>
+                        <td>7</td>
+                        <td><input type="text" class="form-control" name="sbdl_2_net_7_sa_reading"></td>
+                        <td><input type="text" class="form-control" name="sbdl_2_net_7_measured_output"></td>
+                        <td>&gt;46</td>
+                        <td><div class="radio-stack"><label><input type="radio" name="sbdl_2_net_7_pass_fail" value="pass"> Pass</label><label><input type="radio" name="sbdl_2_net_7_pass_fail" value="fail"> Fail</label></div></td>
+                      </tr>
+                      <tr>
+                        <td>FH 1</td>
+                        <td><input type="text" class="form-control" name="sbdl_2_net_fh1_sa_reading"></td>
+                        <td><input type="text" class="form-control" name="sbdl_2_net_fh1_measured_output"></td>
+                        <td>&gt;46</td>
+                        <td><div class="radio-stack"><label><input type="radio" name="sbdl_2_net_fh1_pass_fail" value="pass"> Pass</label><label><input type="radio" name="sbdl_2_net_fh1_pass_fail" value="fail"> Fail</label></div></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <p class="mt-1"><small>* Measured Output Power = Spectrum Analyzer Reading + 30 (Fixed attenuator) + 1.5 (Cable Loss)</small></p>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════════
+                   SECTION 26: Calibration Phase Test Results
+                   ══════════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset mt-4">
+                <legend class="legend-custom text-uppercase">26) Calibration Phase Test Results</legend>
+                <div class="table-responsive" style="margin-top: 8px;">
+                  <table class="table table-bordered custom_tbl param-check-table">
+                    <thead>
+                      <tr>
+                        <th class="mini-col">SBDL No.</th>
+                        <th class="mini-col">Network</th>
+                        <th>Spectrum Analyser Reading (dBm)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- SBDL 1 -->
+                      <tr>
+                        <td rowspan="4">1</td>
+                        <td>1</td>
+                        <td><input type="text" class="form-control" name="cal_phase_sbdl_1_net_1"></td>
+                      </tr>
+                      <tr>
+                        <td>4</td>
+                        <td><input type="text" class="form-control" name="cal_phase_sbdl_1_net_4"></td>
+                      </tr>
+                      <tr>
+                        <td>7</td>
+                        <td><input type="text" class="form-control" name="cal_phase_sbdl_1_net_7"></td>
+                      </tr>
+                      <tr>
+                        <td>FH-1</td>
+                        <td><input type="text" class="form-control" name="cal_phase_sbdl_1_net_fh1"></td>
+                      </tr>
+                      <!-- SBDL 2 -->
+                      <tr>
+                        <td rowspan="4">2</td>
+                        <td>1</td>
+                        <td><input type="text" class="form-control" name="cal_phase_sbdl_2_net_1"></td>
+                      </tr>
+                      <tr>
+                        <td>4</td>
+                        <td><input type="text" class="form-control" name="cal_phase_sbdl_2_net_4"></td>
+                      </tr>
+                      <tr>
+                        <td>7</td>
+                        <td><input type="text" class="form-control" name="cal_phase_sbdl_2_net_7"></td>
+                      </tr>
+                      <tr>
+                        <td>FH-1</td>
+                        <td><input type="text" class="form-control" name="cal_phase_sbdl_2_net_fh1"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════════
+                   SECTION 27: Sensitivity Test Results
+                   ══════════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset mt-4">
+                <legend class="legend-custom text-uppercase">27) Sensitivity Test Results</legend>
+                <div class="table-responsive" style="margin-top: 8px;">
+                  <table class="table table-bordered custom_tbl param-check-table">
+                    <thead>
+                      <tr>
+                        <th class="mini-col">SBDL No.</th>
+                        <th class="mini-col">Network (Mode, Net No.)</th>
+                        <th class="mini-col">First fail value (dBm)</th>
+                        <th class="mini-col">Measured Rx Sensitivity (dBm)</th>
+                        <th class="mini-col">Required Sensitivity (dBm)</th>
+                        <th class="mini-col">Pass/Fail</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- SBDL 1 - Set A -->
+                      <tr>
+                        <td rowspan="4">1</td>
+                        <td>FF, 1</td>
+                        <td><input type="text" class="form-control" name="sens_sbdl_1_ff1_first_fail"></td>
+                        <td><input type="text" class="form-control" name="sens_sbdl_1_ff1_measured"></td>
+                        <td>≤ -95</td>
+                        <td><div class="radio-stack"><label><input type="radio" name="sens_sbdl_1_ff1_pass_fail" value="pass"> Pass</label><label><input type="radio" name="sens_sbdl_1_ff1_pass_fail" value="fail"> Fail</label></div></td>
+                      </tr>
+                      <tr>
+                        <td>FF, 4</td>
+                        <td><input type="text" class="form-control" name="sens_sbdl_1_ff4_first_fail"></td>
+                        <td><input type="text" class="form-control" name="sens_sbdl_1_ff4_measured"></td>
+                        <td>≤ -95</td>
+                        <td><div class="radio-stack"><label><input type="radio" name="sens_sbdl_1_ff4_pass_fail" value="pass"> Pass</label><label><input type="radio" name="sens_sbdl_1_ff4_pass_fail" value="fail"> Fail</label></div></td>
+                      </tr>
+                      <tr>
+                        <td>FF, 7</td>
+                        <td><input type="text" class="form-control" name="sens_sbdl_1_ff7_first_fail"></td>
+                        <td><input type="text" class="form-control" name="sens_sbdl_1_ff7_measured"></td>
+                        <td>≤ -95</td>
+                        <td><div class="radio-stack"><label><input type="radio" name="sens_sbdl_1_ff7_pass_fail" value="pass"> Pass</label><label><input type="radio" name="sens_sbdl_1_ff7_pass_fail" value="fail"> Fail</label></div></td>
+                      </tr>
+                      <tr>
+                        <td>FH-1</td>
+                        <td><input type="text" class="form-control" name="sens_sbdl_1_fh1_first_fail"></td>
+                        <td><input type="text" class="form-control" name="sens_sbdl_1_fh1_measured"></td>
+                        <td>≤ -95</td>
+                        <td><div class="radio-stack"><label><input type="radio" name="sens_sbdl_1_fh1_pass_fail" value="pass"> Pass</label><label><input type="radio" name="sens_sbdl_1_fh1_pass_fail" value="fail"> Fail</label></div></td>
+                      </tr>
+                      
+                      <!-- SBDL 2 - Set A -->
+                      <tr>
+                        <td rowspan="4">2</td>
+                        <td>FF, 1</td>
+                        <td><input type="text" class="form-control" name="sens_sbdl_2_ff1_first_fail"></td>
+                        <td><input type="text" class="form-control" name="sens_sbdl_2_ff1_measured"></td>
+                        <td>≤ -95</td>
+                        <td><div class="radio-stack"><label><input type="radio" name="sens_sbdl_2_ff1_pass_fail" value="pass"> Pass</label><label><input type="radio" name="sens_sbdl_2_ff1_pass_fail" value="fail"> Fail</label></div></td>
+                      </tr>
+                      <tr>
+                        <td>FF, 4</td>
+                        <td><input type="text" class="form-control" name="sens_sbdl_2_ff4_first_fail"></td>
+                        <td><input type="text" class="form-control" name="sens_sbdl_2_ff4_measured"></td>
+                        <td>≤ -95</td>
+                        <td><div class="radio-stack"><label><input type="radio" name="sens_sbdl_2_ff4_pass_fail" value="pass"> Pass</label><label><input type="radio" name="sens_sbdl_2_ff4_pass_fail" value="fail"> Fail</label></div></td>
+                      </tr>
+                      <tr>
+                        <td>FF, 7</td>
+                        <td><input type="text" class="form-control" name="sens_sbdl_2_ff7_first_fail"></td>
+                        <td><input type="text" class="form-control" name="sens_sbdl_2_ff7_measured"></td>
+                        <td>≤ -95</td>
+                        <td><div class="radio-stack"><label><input type="radio" name="sens_sbdl_2_ff7_pass_fail" value="pass"> Pass</label><label><input type="radio" name="sens_sbdl_2_ff7_pass_fail" value="fail"> Fail</label></div></td>
+                      </tr>
+                      <tr>
+                        <td>FH-1</td>
+                        <td><input type="text" class="form-control" name="sens_sbdl_2_fh1_first_fail"></td>
+                        <td><input type="text" class="form-control" name="sens_sbdl_2_fh1_measured"></td>
+                        <td>≤ -95</td>
+                        <td><div class="radio-stack"><label><input type="radio" name="sens_sbdl_2_fh1_pass_fail" value="pass"> Pass</label><label><input type="radio" name="sens_sbdl_2_fh1_pass_fail" value="fail"> Fail</label></div></td>
+                      </tr>
+                      
+                    </tbody>
+                  </table>
+                  <p class="mt-1"><small>*Receiver Sensitivity = Spectrum Analyser Reading (UUT Attenuation Measurement Test) – SRFT Attenuation – 4(cable loss) – 1(One step before fail value)</small></p>
+                </div>
+              </fieldset>
+
+              <div class="d-flex flex-wrap gap-2 justify-content-center mt-4 mb-3">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const textareas = document.querySelectorAll('.auto-expand-textarea');
+
+    function autoResize(textarea) {
+      textarea.style.height = 'auto';
+      textarea.style.height = textarea.scrollHeight + 'px';
+    }
+
+    textareas.forEach(function (textarea) {
+      autoResize(textarea);
+      textarea.addEventListener('input', function () {
+        autoResize(this);
+      });
+    });
+  });
+</script>
+{% endblock js %}

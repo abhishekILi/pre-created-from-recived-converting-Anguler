@@ -1,0 +1,742 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+	/* .form-md-line-input .form-control {
+		border: none;
+		border-bottom: 1px solid #ced4da;
+		border-radius: 0;
+		padding-left: 0;
+		padding-right: 0;
+		font-size: 14px;
+		background-color: transparent;
+	}
+
+	.form-md-line-input .form-control:focus {
+		border-bottom: 2px solid #0d6efd;
+		box-shadow: none;
+		background-color: transparent;
+	}
+
+	.form-md-floating-label .form_control_1 {
+		position: absolute;
+		left: 0;
+		top: -20px;
+		font-size: 12px;
+		color: #666;
+		font-weight: 500;
+	}
+
+	.help-block {
+		font-size: 11px;
+		color: #999;
+		margin-top: 5px;
+	} */
+
+	.custom_tbl th,
+	.custom_tbl td {
+		vertical-align: top;
+		white-space: normal;
+		word-break: break-word;
+	}
+
+	.custom_tbl th.serial-no,
+	.custom_tbl td.serial-no {
+		width: 56px;
+		text-align: center;
+		vertical-align: middle;
+	}
+
+	.custom_tbl .section-row {
+		font-weight: 700;
+		background: #f7f7f7;
+	}
+
+	.checks-4col {
+		table-layout: fixed;
+		width: 100%;
+	}
+
+	.checks-4col th,
+	.checks-4col td {
+		white-space: normal !important;
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	.checks-4col th:nth-child(1),
+	.checks-4col td:nth-child(1) {
+		width: 7%;
+	}
+
+	.checks-4col th:nth-child(2),
+	.checks-4col td:nth-child(2) {
+		width: 28%;
+	}
+
+	.checks-4col th:nth-child(3),
+	.checks-4col td:nth-child(3) {
+		width: 34%;
+	}
+
+	.checks-4col th:nth-child(4),
+	.checks-4col td:nth-child(4) {
+		width: 31%;
+	}
+
+	#general_checks_tbl {
+		table-layout: fixed;
+		width: 100%;
+	}
+
+	#general_checks_tbl th,
+	#general_checks_tbl td {
+		white-space: normal !important;
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
+
+	#general_checks_tbl th:nth-child(1),
+	#general_checks_tbl td:nth-child(1) {
+		width: 7%;
+	}
+
+	#general_checks_tbl th:nth-child(2),
+	#general_checks_tbl td:nth-child(2) {
+		width: 54%;
+	}
+
+	#general_checks_tbl th:nth-child(3),
+	#general_checks_tbl td:nth-child(3) {
+		width: 39%;
+	}
+
+	.custom_tbl td input.form-control,
+	.custom_tbl td textarea.form-control {  
+		border: 1px solid #ddd;
+		padding: 5px;
+	}
+
+	.custom_tbl td textarea.form-control {
+		min-height: 64px;
+		resize: vertical;
+		overflow: auto;
+	}
+
+	.hdr-note {
+		font-weight: 700;
+		font-size: 15px;
+		margin-bottom: 10px;
+	}
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item" aria-current="page">FTTT</li>
+					<li class="breadcrumb-item active" aria-current="page">Shtil-1 Launcher - Parameter Checks & FMDC</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">Shtil-1 Launcher - Parameter Checks & FMDC
+							
+						</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-3 mb-4">
+					<form method="post" id="parameter_checks_fmdc_shtil_launcher_form">
+						{% csrf_token %}
+						<div class="form-body">
+							 <fieldset class="custom-fieldset">
+                                    <legend class="legend-custom text-uppercase">BASIC INFORMATION</legend>
+                                    <div class="row g-3">
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="system_sub_system" value="Shtil LauncherS" placeholder=" " readonly>
+                                                <label class="form_control_1">1. System/ Sub system</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="part1_job_undertaken" placeholder=" " >
+                                                <label class="form_control_1">2. Job Undertaken</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <!-- <textarea class="form-control wrstg-scroll-textarea" name="reference_documents" rows="2" placeholder=" "></textarea> -->
+                                                 <input type="file" class ="form-control" name="reference_documents">
+                                                <label class="form_control_1">3. Reference Documents</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="authority" placeholder=" ">
+                                                <label class="form_control_1">4. Authority</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="agencies_involved" value="FTTT(Vzg)" placeholder=" " readonly>
+                                                <label class="form_control_1">5. Agencies involved</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="date" class="form-control" name="date_commenced">
+                                                <label class="form_control_1">6. Date Commenced</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="date" class="form-control" name="date_completed">
+                                                <label class="form_control_1">7. Date Completed</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="prepared_by" placeholder=" ">
+                                                <label class="form_control_1">8. Prepared by</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="vetted_by" placeholder=" ">
+                                                <label class="form_control_1">9. Vetted by</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="reference_no" placeholder=" ">
+                                                <label class="form_control_1">10. Reference No.</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="summary_of_observations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">11. Summary of observations</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="operational_limitations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">12. Operational limitations (if any)</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </fieldset>
+
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom">13. Functional checks for Device OP-10Б</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl checks-4col">
+										<thead>
+											<tr>
+												<th class="serial-no">Ser</th>
+												<th>Description of Check</th>
+												<th>Expected Results</th>
+												<th>Remarks</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no">(a)</td>
+												<td>Functioning of indicators and annunciator of device OP-10Б.</td>
+												<td>After pushing the button IND CHECK on OP-10Б all indicators and annunciators of device OP-10Б are lighted up.</td>
+												<td><textarea class="form-control" name="op10b_remark_a" rows="3"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(b)</td>
+												<td>Check of initial states SAMI, SEI, MSI, TGPUI.</td>
+												<td>Indicators SAMI, SEI, MSI, TGPUI are lighted up on device OP-10Б.</td>
+												<td><textarea class="form-control" name="op10b_remark_b" rows="3"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(c)</td>
+												<td>Check of instructions "+27V THERM ON", "+27V LIFT OFF", "+27V MEM", "+27V LI-LCHR", "+27V K", "+27V", A, B, C, (3Ф, 220V, 400 Hz).</td>
+												<td>Indicators THERM, GPU, LI, LO, MEM, K and annunciator GPU are lighted up on device OP-10Б.</td>
+												<td><textarea class="form-control" name="op10b_remark_c" rows="4"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(d)</td>
+												<td>Check passage of signals "+27V ODZ", "+27V OBZ", "+27V HATCH CL".</td>
+												<td>Indicators HATCH CL, ODZ, OBZ are lighted up on OP-10Б.</td>
+												<td><textarea class="form-control" name="op10b_remark_d" rows="3"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(e)</td>
+												<td>Check of passage of signals "Drum1", "Drum2".</td>
+												<td>Indicators "Drum1", "Drum2" are lighted up on OP-10Б.</td>
+												<td><textarea class="form-control" name="op10b_remark_e" rows="3"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(f)</td>
+												<td>Check of instructions "+27V HRG", "+27V HRG", "+27V NRG", "+27V NRG", "+27V MSA", "+27V MSA", "+27V MS", "+27V MS", "+27V AGG", "+27V AGG", "+27V UC" and signal "+27V TGPUR".</td>
+												<td>Indicators HRG, HRG, NRG, NRG, MSA, MSA, MS, MS, AGG, AGG, UC and TGPUR are lighted up on OP-10Б.</td>
+												<td><textarea class="form-control" name="op10b_remark_f" rows="5"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(g)</td>
+												<td>Equipment check in failure mode and EMERGENCY LAUNCH mode after lighting up the annunciator FAILURE on OP-10Б.</td>
+												<td>Only indicators ISI and TGPUI OFF are lighted up. The rest of indicators are off in FAILURE mode. Annunciators FAILURE, MSL SET, LCHR READY are switched on, the rest of annunciators are off. After instructions "+27V Emergency Launch" all the indicators of device OP-7И and the annunciators of device OP-10Б are off.</td>
+												<td><textarea class="form-control" name="op10b_remark_g" rows="7"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(h)</td>
+												<td>Equipment operation check in EMERGENCY LAUNCH if the annunciator DANGER is lighted up on device OP-10Б in LIFT-OFF mode.</td>
+												<td>After instructions "+27V Emergency Launch" all the indicators of device OP-7И and the annunciators of device OP-10Б are off.</td>
+												<td><textarea class="form-control" name="op10b_remark_h" rows="4"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(j)</td>
+												<td>Equipment operation check in EMERGENCY LAUNCH if the annunciator DANGER is lighted up on device OP-10Б in FAILURE to LIFT-OFF mode.</td>
+												<td>All the indicators which have complied to the instructions in case of pushing the button EML on console ПКБ OP-10 are lighted up on devices OP-7И, OP-10Б under failure to lift off.</td>
+												<td><textarea class="form-control" name="op10b_remark_j" rows="5"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(k)</td>
+												<td>Check of instructions "27V PAUG" and "27V RD".</td>
+												<td>Indicators PAUG and RD are lighted up on device OP-10Б; it should be continued during approx. 10 sec.</td>
+												<td><textarea class="form-control" name="op10b_remark_k" rows="3"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(l)</td>
+												<td>Equipment operation check in WT and PT modes.</td>
+												<td>When toggle switch WT-PT on device OP-10Б is set to position PT and signal "TDFU" is absent, annunciator MOD READY on device OP-10Б is not lighted up. When toggle switch WT-PT on device OP-10Б is set to position WT and signal "TDFU" is absent, annunciator MOD READY on device OP-10Б continues to light up.</td>
+												<td><textarea class="form-control" name="op10b_remark_l" rows="7"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(m)</td>
+												<td>Time 3.5 sec check.</td>
+												<td>Counter on console ПКБ OP-10 should indicate (3.5±0.4) sec.</td>
+												<td><textarea class="form-control" name="op10b_remark_m" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(n)</td>
+												<td>Time 14 sec check.</td>
+												<td>Counter on console ПКБ OP-10 should indicate (14±1.4) sec.</td>
+												<td><textarea class="form-control" name="op10b_remark_n" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(p)</td>
+												<td>Time 10 sec check.</td>
+												<td>Counter on console ПКБ OP-10 should indicate (10±1) sec.</td>
+												<td><textarea class="form-control" name="op10b_remark_p" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(q)</td>
+												<td>Time 2.5 sec check.</td>
+												<td>Counter on console ПКБ OP-10 should indicate (2.5±0.3) sec.</td>
+												<td><textarea class="form-control" name="op10b_remark_q" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(r)</td>
+												<td>Time 0.08 sec check.</td>
+												<td>Counter on console ПКБ OP-10 should indicate (0.08±0.025) sec.</td>
+												<td><textarea class="form-control" name="op10b_remark_r" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(s)</td>
+												<td>Time 0.5 sec check.</td>
+												<td>Counter on console ПКБ OP-10 should indicate (0.5±0.075) sec.</td>
+												<td><textarea class="form-control" name="op10b_remark_s" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(t)</td>
+												<td>Time control OVER HEAT.</td>
+												<td>Annunciator OVERHEAT is lighted up on device OP-10Б in (10±1) min after instruction "PD" or "+27V GPU".</td>
+												<td><textarea class="form-control" name="op10b_remark_t" rows="3"></textarea></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom">14. Functional checks for Device OP-10A</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl checks-4col">
+										<thead>
+											<tr>
+												<th class="serial-no">Ser</th>
+												<th>Description of Check</th>
+												<th>Expected Results</th>
+												<th>Remarks</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no">(a)</td>
+												<td>Check of zero shift resources of summing amplifiers and base voltage resources comparator of device OP-10A.</td>
+												<td>The value of zero shift resources of summing amplifiers and base voltage resources on each channel is measured by voltmeter connected with device OP-10A socket.</td>
+												<td><textarea class="form-control" name="op10a_remark_a" rows="4"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(b)</td>
+												<td>Check of signal “READY” by device OP-10A and also accuracy control of instructions “Фa”, “ФH”, “Д”.</td>
+												<td>All indicators of device OP-10A should be lighted up in case of:<br> Фa HaB – Фa Ot р = (±1.0 ±0.2)°<br> ФH HaB – ФH Otр = (±1.0 ±0.2)° <br> Д - Д Otр = (±64.5 ±12.9) m/s.</td>
+												<td><textarea class="form-control" name="op10a_remark_b" rows="5"></textarea></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom">15. Functional checks for Device OP-7И</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl checks-4col">
+										<thead>
+											<tr>
+												<th class="serial-no">Ser</th>
+												<th>Description of Check</th>
+												<th>Expected Results</th>
+												<th>Remarks</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no">(a)</td>
+												<td>Functioning check of indicators of device OP-7И.</td>
+												<td>During switching on the switch key IND CHECK-OFF, all indicators of device OP-7И are lighted up.</td>
+												<td><textarea class="form-control" name="op7i_remark_a" rows="3"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(b)</td>
+												<td>Checking continuity of circuits.</td>
+												<td>Should be +10Ω in close circuit &amp; infinite in open circuit.</td>
+												<td><textarea class="form-control" name="op7i_remark_b" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(c)</td>
+												<td>Functioning check of monitoring circuit of phase sequence and loss with voltage 3Ф, 400Hz, 220V.</td>
+												<td>If phase sequence is correct then PHA should glow. If not then it shouldn’t.</td>
+												<td><textarea class="form-control" name="op7i_remark_c" rows="3"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(d)</td>
+												<td>Check instruction “YКР”.</td>
+												<td>Micro-Ammeter of device OP-7И should indicate current (-10±6) μA during setting the switch key P1 to position YКР and toggle switch COARSE-FINE to COARSE.</td>
+												<td><textarea class="form-control" name="op7i_remark_d" rows="4"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(e)</td>
+												<td>Check of instructions "+27V HRG", "+27V HRG", "+27V NRG", "+27V NRG", "+27V MSA", "+27V MS", "+27V MS", "+27V AGG", "+27V AGG", "+27V UC" and signal "+27V TGPUR".</td>
+												<td>Indicators HRG, HRG, NRG, NRG, MSA, MSA, MS, MS, AGG, AGG, UC, TGPUR, G MINUS, G MINUS, M MINUS and M MINUS are lighted up on OP-7И.</td>
+												<td><textarea class="form-control" name="op7i_remark_e" rows="5"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(f)</td>
+												<td>Equipment check in LO mode.</td>
+												<td>During simulation of LIFT-OFF, all indicators of device OP-7И are off.</td>
+												<td><textarea class="form-control" name="op7i_remark_f" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(g)</td>
+												<td>Check of instructions "27V PAUG" and "27V RD".</td>
+												<td>Indicators PAUG and RD are lighted up on device OP-7И.</td>
+												<td><textarea class="form-control" name="op7i_remark_g" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(h)</td>
+												<td>Equipment operation check in LF (NJ) mode.</td>
+												<td>Set toggle switch LF(NJ) to respective position on device OP-10Б and Micro-Ammeter on device OP-7И should indicate interruption of circuits (“0”) by ΔФa, ΔФH( switch key P1 is in positon ΔФa, ΔФH and toggle switch COARSE-FINE is to position COARSE)</td>
+												<td><textarea class="form-control" name="op7i_remark_h" rows="6"></textarea></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom">16. Functional checks for Device OP-7H</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl checks-4col">
+										<thead>
+											<tr>
+												<th class="serial-no">Ser</th>
+												<th>Description of Check</th>
+												<th>Expected Results</th>
+												<th>Remarks</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no">(a)</td>
+												<td>Checking continuity of circuits.</td>
+												<td>Should be +10Ω in close circuit &amp; infinite in open circuit.</td>
+												<td><textarea class="form-control" name="op7h_remark_a" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(b)</td>
+												<td>Constant voltage 27V check.</td>
+												<td>Voltmeter connected with cleats ±27V of device OP-7H should indicate voltage (27.00 +2.70/-1.35)V.</td>
+												<td><textarea class="form-control" name="op7h_remark_b" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(c)</td>
+												<td>Functioning check of monitoring circuit of phase sequence and loss with voltage 3Ф, 400Hz, 220V.</td>
+												<td>If loss of any phase in the circuit then respective phase indication should not glow on device OP-7И and OP-7H by pressing button 3Ф, 400Hz, 220V.</td>
+												<td><textarea class="form-control" name="op7h_remark_c" rows="4"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(d)</td>
+												<td>Current control by circuits "+27V NRG", "+27V NRG", "+27V HRG", "+27V HRG", "+27V MSA", "+27V MSA", "+27V MS", "+27V MS", "+27V AGG", "+27V AGG" and "+27V UC".</td>
+												<td>Ammeter of device OP-7H should indicate current (4.5±2.0) A.</td>
+												<td><textarea class="form-control" name="op7h_remark_d" rows="4"></textarea></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom">17. Functional checks for Flight Mission data with ПКБ КИ device</legend>
+
+								<div class="hdr-note">(a) Test Parameters required to be fed to FCS (as per TD)</div>
+								<div class="table-responsive mb-4">
+									<table class="custom_tbl">
+										<thead>
+											<tr>
+												<th rowspan="2" class="serial-no">Task No.</th>
+												<th colspan="6" class="text-center">АСПОИ Э1 (FCS)</th>
+												<th colspan="1" class="text-center">Ladoga</th>
+											</tr>
+											<tr>
+												<th class="text-center">D<br>Km</th>
+												<th class="text-center">V<br>m/s</th>
+												<th class="text-center">C<br>deg</th>
+												<th class="text-center">B<br>deg</th>
+												<th class="text-center">A<br>deg</th>
+												<th class="text-center">Ct<br>mils</th>
+												<th class="text-center">P<br>mils</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no">1</td>
+												<td class="text-center">10</td>
+												<td class="text-center">0</td>
+												<td class="text-center">180</td>
+												<td class="text-center">90</td>
+												<td class="text-center">5.9</td>
+												<td class="text-center">270</td>
+												<td class="text-center">80</td>
+											</tr>
+											<tr>
+												<td class="serial-no"><strong>Tolerance</strong></td>
+												<td class="text-center">± 0.1</td>
+												<td class="text-center">± 5</td>
+												<td class="text-center">± 10</td>
+												<td class="text-center">0</td>
+												<td class="text-center">± 0.1</td>
+												<td class="text-center">0</td>
+												<td class="text-center">0</td>
+											</tr>
+											<tr>
+												<td class="serial-no"><strong>Measured Value</strong></td>
+												<td><input type="text" class="form-control" name="fcs_measured_d"></td>
+												<td><input type="text" class="form-control" name="fcs_measured_v"></td>
+												<td><input type="text" class="form-control" name="fcs_measured_c"></td>
+												<td><input type="text" class="form-control" name="fcs_measured_b"></td>
+												<td><input type="text" class="form-control" name="fcs_measured_a"></td>
+												<td><input type="text" class="form-control" name="fcs_measured_ct"></td>
+												<td><input type="text" class="form-control" name="fcs_measured_p"></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+								<div class="hdr-note">(b) Parameters observed on the Launcher &amp; OP 7И</div>
+								<div class="table-responsive mb-4">
+									<table class="custom_tbl">
+										<thead>
+											<tr>
+												<th rowspan="2" class="serial-no">Task No.</th>
+												<th colspan="2" class="text-center">CP(LCHR)</th>
+												<th colspan="4" class="text-center">OP 7И (Simulator)</th>
+											</tr>
+											<tr>
+												<th class="text-center">TTA<br>deg</th>
+												<th class="text-center">TEA<br>deg</th>
+												<th class="text-center">ФA</th>
+												<th class="text-center">ФH</th>
+												<th class="text-center">YКР<br>μA deg</th>
+												<th class="text-center">Д отр<br>m/s</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no">1</td>
+												<td class="text-center">277.7</td>
+												<td class="text-center">18.1</td>
+												<td class="text-center">-3.3</td>
+												<td class="text-center">-13.8</td>
+												<td class="text-center">-20</td>
+												<td class="text-center">0</td>
+											</tr>
+											<tr>
+												<td class="serial-no"><strong>Tolerance</strong></td>
+												<td class="text-center">± 0.65</td>
+												<td class="text-center">± 0.65</td>
+												<td class="text-center">± 1</td>
+												<td class="text-center">± 1</td>
+												<td class="text-center">± 2</td>
+												<td class="text-center">± 40</td>
+											</tr>
+											<tr>
+												<td class="serial-no"><strong>Observed Value</strong></td>
+												<td><input type="text" class="form-control" name="op7i_obs_tta"></td>
+												<td><input type="text" class="form-control" name="op7i_obs_tea"></td>
+												<td><input type="text" class="form-control" name="op7i_obs_fa"></td>
+												<td><input type="text" class="form-control" name="op7i_obs_fh"></td>
+												<td><input type="text" class="form-control" name="op7i_obs_ukr"></td>
+												<td><input type="text" class="form-control" name="op7i_obs_dotr"></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+								<div class="hdr-note">(c) Parameters observed on the Simulator (ПКБ КИ)</div>
+								<div class="table-responsive">
+									<table class="custom_tbl">
+										<thead>
+											<tr>
+												<th rowspan="2" class="serial-no">Task No.</th>
+												<th colspan="8" class="text-center">ПКБ КИ (Flight Mission Checking Device)</th>
+											</tr>
+											<tr>
+												<th class="text-center">ωA<br>deg/s</th>
+												<th class="text-center">ωH<br>deg/s</th>
+												<th class="text-center">V<br>m/s</th>
+												<th class="text-center">R<br>Km</th>
+												<th class="text-center">ОТС</th>
+												<th class="text-center">Теt<br>sec</th>
+												<th class="text-center">ТДВ<br>sec</th>
+												<th class="text-center">Л ИТ</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no">1</td>
+												<td class="text-center">0</td>
+												<td class="text-center">0</td>
+												<td class="text-center">0</td>
+												<td class="text-center">10</td>
+												<td class="text-center">ЭРЭ<br>Э1<br>ASM</td>
+												<td class="text-center">3.78</td>
+												<td class="text-center">5.95</td>
+												<td class="text-center">Л 1 - Л 8</td>
+											</tr>
+											<tr>
+												<td class="serial-no"><strong>Tolerance</strong></td>
+												<td class="text-center">±0.08</td>
+												<td class="text-center">±0.08</td>
+												<td class="text-center">±10</td>
+												<td class="text-center">±0.2</td>
+												<td class="text-center">--</td>
+												<td class="text-center">±0.06</td>
+												<td class="text-center">±0.06</td>
+												<td class="text-center">--</td>
+											</tr>
+											<tr>
+												<td class="serial-no"><strong>Observed Value</strong></td>
+												<td><input type="text" class="form-control" name="pkb_obs_wa"></td>
+												<td><input type="text" class="form-control" name="pkb_obs_wh"></td>
+												<td><input type="text" class="form-control" name="pkb_obs_v"></td>
+												<td><input type="text" class="form-control" name="pkb_obs_r"></td>
+												<td><input type="text" class="form-control" name="pkb_obs_ots"></td>
+												<td><input type="text" class="form-control" name="pkb_obs_tet"></td>
+												<td><input type="text" class="form-control" name="pkb_obs_tdv"></td>
+												<td><input type="text" class="form-control" name="pkb_obs_lit"></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom">18. General Checks</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="general_checks_tbl">
+										<thead>
+											<tr>
+												<th class="serial-no">Ser</th>
+												<th>Check Description</th>
+												<th>Observation</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td class="serial-no">(a)</td><td>Visual inspection of system.</td><td><textarea class="form-control" name="gen_obs_a" rows="2"></textarea></td></tr>
+											<tr><td class="serial-no">(b)</td><td>Check the insulation resistance of the system in accordance with para 6.3 of document 3C-90.00.00.000-03P(AY)2.</td><td><textarea class="form-control" name="gen_obs_b" rows="2"></textarea></td></tr>
+											<tr><td class="serial-no">(c)</td><td>Check the electric connector mechanism of rail guide assembly in accordance with para 6.5 document 3C-90.00.00.000-03P(AY)2.</td><td><textarea class="form-control" name="gen_obs_c" rows="2"></textarea></td></tr>
+											<tr><td class="serial-no">(d)</td><td>Check the launcher position for “on loading angle” in accordance with para 3.3.10 of document 3C-90.00.00.000-03P(AY)1.</td><td><textarea class="form-control" name="gen_obs_d" rows="2"></textarea></td></tr>
+											<tr><td class="serial-no">(e)</td><td>Check the condition of FSD.</td><td><textarea class="form-control" name="gen_obs_e" rows="2"></textarea></td></tr>
+											<tr><td class="serial-no">(f)</td><td>Check the hydraulic oil level and last analysis report of all drives.</td><td><textarea class="form-control" name="gen_obs_f" rows="2"></textarea></td></tr>
+
+											<tr class="section-row"><td colspan="3">Detent Pressure Checks</td></tr>
+											<tr><td class="serial-no">(g)</td><td>Detent Pressure Checks of Launcher with the help of Detent Release Fixture in accordance with para 1 of table 5.6 of document 3C-90.00.00.000-03P(AY)2.</td><td><textarea class="form-control" name="gen_obs_g" rows="2"></textarea></td></tr>
+											<tr><td class="serial-no">(h)</td><td>Check Race detent of rail guide assembly in accordance with s1.2 para 5.3 of document 3C-90.00.00.000-03P(AY)2.</td><td><textarea class="form-control" name="gen_obs_h" rows="2"></textarea></td></tr>
+
+											<tr class="section-row"><td colspan="3">Drive Checks</td></tr>
+											<tr><td class="serial-no">(j)</td><td>Manual operation of Launcher in Training, Elevation and Ramming.</td><td><textarea class="form-control" name="gen_obs_j" rows="2"></textarea></td></tr>
+											<tr><td class="serial-no">(k)</td><td>Manual operation of Drum Turning Mechanism and Local power operation of Drum in accordance with para 8 of table 5.4 document 3C-90.00.00.000-03P(AY)2.</td><td><textarea class="form-control" name="gen_obs_k" rows="2"></textarea></td></tr>
+											<tr><td class="serial-no">(l)</td><td>Proper functioning of interlocks and Micro switches of Launcher in accordance with para 6.9 document 3C-90.00.00.000-03P(AY)2.</td><td><textarea class="form-control" name="gen_obs_l" rows="2"></textarea></td></tr>
+											<tr><td class="serial-no">(m)</td><td>Carriage operation with inner and outer drums at operation and on-loading speeds (with Training Missile).</td><td><textarea class="form-control" name="gen_obs_m" rows="2"></textarea></td></tr>
+											<tr><td class="serial-no">(n)</td><td>Checks of Limit of Danger and Breaking Zone.</td><td><textarea class="form-control" name="gen_obs_n" rows="2"></textarea></td></tr>
+											<tr><td class="serial-no">(p)</td><td>Checks of Ramming angle for inner and outer drums in accordance with para 1 of table 5.4 document 3C-90.00.00.000-03P(AY)2.</td><td><textarea class="form-control" name="gen_obs_p" rows="2"></textarea></td></tr>
+											<tr><td class="serial-no">(q)</td><td>Manual tracking of launcher in accordance with para 3.3.8 document 3C-90.00.00.000-03P(AY)1.</td><td><textarea class="form-control" name="gen_obs_q" rows="2"></textarea></td></tr>
+
+											<tr class="section-row"><td colspan="3">System Checks</td></tr>
+											<tr><td class="serial-no">(r)</td><td>Check the Output Voltage of Power Supply sources in accordance with para 6.4 document 3C-90.00.00.000-03P(AY)2.</td><td><textarea class="form-control" name="gen_obs_r" rows="2"></textarea></td></tr>
+											<tr><td class="serial-no">(s)</td><td>System Checks of Launcher using Simulator OP-7.</td><td><textarea class="form-control" name="gen_obs_s" rows="2"></textarea></td></tr>
+											<tr><td class="serial-no">(t)</td><td>System checks of launchers using Training Missile YДР.</td><td><textarea class="form-control" name="gen_obs_t" rows="2"></textarea></td></tr>
+
+											<tr class="section-row"><td colspan="3">Firing Circuit Checks</td></tr>
+											<tr><td class="serial-no">(u)</td><td>Simulated firing run using Simulator OP-7.</td><td><textarea class="form-control" name="gen_obs_u" rows="2"></textarea></td></tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<div class="d-flex justify-content-center mt-4">
+								<button type="submit" class="btn btn-primary px-4">Submit Parameter Checks</button>
+							</div>
+
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

@@ -1,0 +1,212 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+	
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">WATT</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Limited SATs BFCS</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">LIMITED SATs BFCS</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="limited_sats_bfcs_form">
+						{% csrf_token %}
+						<div class="form-body">
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">Basic Information</legend>
+								<div class="row g-3">
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="limited_sats_bfcs_ship_name" required>
+												<option value="">--Select--</option>
+												{% for option in ship_options %}
+													<option value="{{ option.value }}">{{ option.label }}</option>
+												{% endfor %}
+											</select>
+											<label class="form_control_1">SHIP <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" id="limited_sats_bfcs_department" name="limited_sats_bfcs_department" required>
+												<option value="">-- Select --</option>
+												<option value="GUN" selected>GUN</option>
+												<option value="GUNNERY">GUNNERY</option>
+												<option value="ASW">ASW</option>
+												<option value="COMM">COMM</option>
+												<option value="ND">ND</option>
+											</select>
+											<label class="form_control_1">DEPARTMENT</label>
+										</div>
+									</div>
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" name="limited_sats_bfcs_equipment" value="Limited SATs BFCS" required>
+											<label class="form_control_1">EQUIPMENT</label>
+										</div>
+									</div>
+
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="date" class="form-control" id="limited_sats_bfcs_date" name="limited_sats_bfcs_date">
+											<label class="form_control_1">DATE</label>
+										</div>
+									</div>
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" id="limited_sats_bfcs_nature_of_trials" name="limited_sats_bfcs_nature_of_trials" required>
+												<option value="">--Select--</option>
+												<option value="SATs" selected>SATs</option>
+												<option value="HATS">HATs</option>
+												<option value="OP CHECKS">OP CHECKS</option>
+												<option value="IIS">IIs</option>
+											</select>
+											<label class="form_control_1">NATURE OF TRIAL</label>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<div class="table-responsive">
+									<table class="custom_tbl" id="limited_sats_bfcs_table">
+										<thead class="table-dark-head">
+											<tr>
+												<th >Ser</th>
+												<th >OBSERVATIONS</th>
+												<th >RESULT</th>
+												<th >REMARKS</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td colspan="4">
+													Trials team embarked onboard at <input type="text" class="line-input embarked-hrs" name="embark_time"> on
+													<input type="date" class="line-input embarked-hrs" name="embark_date"> for SATs of BFCS as per approved
+													schedule, BR 4050 and CNO 07/10. Following observed: -
+												</td>
+											</tr>
+
+											<tr>
+												<td>1.</td>
+												<td>Check no.7.1 Power on Checks.</td>
+												<td><input type="text" class="form-control" name="result_1"></td>
+												<td class="text-center"><label><input type="radio" name="status_1" value="SAT"> SAT</label> <label><input type="radio" name="status_1" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>2.</td>
+												<td>Check no.7.1 Power on Checks.</td>
+												<td><input type="text" class="form-control" name="result_2"></td>
+												<td class="text-center"><label><input type="radio" name="status_2" value="SAT"> SAT</label> <label><input type="radio" name="status_2" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>3.</td>
+												<td>Check no.7.2 MINS Data Reception.</td>
+												<td><input type="text" class="form-control" name="result_3"></td>
+												<td class="text-center"><label><input type="radio" name="status_3" value="SAT"> SAT</label> <label><input type="radio" name="status_3" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>4.</td>
+												<td>Check no.7.3 GPS Almanac Data Reception.</td>
+												<td><input type="text" class="form-control" name="result_4"></td>
+												<td class="text-center"><label><input type="radio" name="status_4" value="SAT"> SAT</label> <label><input type="radio" name="status_4" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>5.</td>
+												<td>Check no.7.4 Missile Health CHECKS, SALVO Type A and Salvo of Type B.</td>
+												<td><input type="text" class="form-control" name="result_5"></td>
+												<td class="text-center"><label><input type="radio" name="status_5" value="SAT"> SAT</label> <label><input type="radio" name="status_5" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>6.</td>
+												<td>Check no.7.5 Missile Launch, Salvo of Type A.</td>
+												<td><input type="text" class="form-control" name="result_6"></td>
+												<td class="text-center"><label><input type="radio" name="status_6" value="SAT"> SAT</label> <label><input type="radio" name="status_6" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>7.</td>
+												<td>Check no.7.6 Missile Launch, Salvo of Type B Extended Range Sea Attack.</td>
+												<td><input type="text" class="form-control" name="result_7"></td>
+												<td class="text-center"><label><input type="radio" name="status_7" value="SAT"> SAT</label> <label><input type="radio" name="status_7" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>8.</td>
+												<td>Check no.7.7 Missile Launch, Dual Salvo of Type B Land Attack.</td>
+												<td><input type="text" class="form-control" name="result_8"></td>
+												<td class="text-center"><label><input type="radio" name="status_8" value="SAT"> SAT</label> <label><input type="radio" name="status_8" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>9.</td>
+												<td>Check no.7.8 Missile Launch in Independent Mode with TEM Article.</td>
+												<td><input type="text" class="form-control" name="result_9"></td>
+												<td class="text-center"><label><input type="radio" name="status_9" value="SAT"> SAT</label> <label><input type="radio" name="status_9" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>10.</td>
+												<td>Check no.7.9 BFCS Checks in Main Mode with Land Attack Capability.</td>
+												<td><input type="text" class="form-control" name="result_10"></td>
+												<td class="text-center"><label><input type="radio" name="status_10" value="SAT"> SAT</label> <label><input type="radio" name="status_10" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>11.</td>
+												<td>Check no.7.10 Missile Launch in Main Mode with TEM Article.</td>
+												<td><input type="text" class="form-control" name="result_11"></td>
+												<td class="text-center"><label><input type="radio" name="status_11" value="SAT"> SAT</label> <label><input type="radio" name="status_11" value="UNSAT"> UNSAT</label></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<legend class="legend-custom text-uppercase">Authority</legend>
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" name="presenting_authority" value="Ship's staff" readonly>
+											<label class="form_control_1">Presenting Authority</label>
+										</div>
+									</div>
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" name="inspecting_authority" value="WATT" readonly>
+											<label class="form_control_1">Inspecting Authority</label>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+
+							<div class="form-actions mt-3">
+								<button type="submit" class="btn btn-primary">Submit</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

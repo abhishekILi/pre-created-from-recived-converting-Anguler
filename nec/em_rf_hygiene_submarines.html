@@ -1,0 +1,187 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+	.expandable-text {
+		min-height: 40px;
+		resize: vertical;
+	}
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item" aria-current="page">NEC</li>
+					<li class="breadcrumb-item active" aria-current="page">EM / RF Hygiene Onboard Submarines</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">EM / RF HYGIENE ONBOARD SUBMARINES CHECK OFF LISTS</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="em_rf_hygiene_submarines_form">
+						{% csrf_token %}
+						<div class="form-body">
+							<fieldset class="custom-fieldset">
+                                <div class="row g-3">
+
+                                    <!-- LEFT COLUMN -->
+                                    <div class="col-md-6 col-12">
+
+                                        <!-- Ship -->
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+											<select class="form-control" name="submarine_id" required>
+                                                <option value="">--Select--</option>
+												{% for submarine in submarine_options %}
+												<option value="{{ submarine.value }}">{{ submarine.label }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <label class="form_control_1">Submarine	 <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                    <!-- RIGHT COLUMN -->
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <input type="date" class="form-control" name="submarine_hygiene_audit_date" required>
+                                            <label class="form_control_1">Propsed Date for Audit <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                </div>
+              				</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">1. General Remarks</legend>
+								<div class="row mt-2">
+									<div class="col-md-12 mb-2">
+										<label>(a) When was the last major refit (NR and above) undertaken and pre and post refit survey carried out?</label>
+										<textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_gr_a" rows="2"></textarea>
+									</div>
+									<div class="col-md-12 mb-2">
+										<label>(b) When did Naval EMC Centre undertake the last EMI / EMC survey?</label>
+										<textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_gr_b" rows="2"></textarea>
+									</div>
+									<div class="col-md-12 mb-2">
+										<label>(c) Were any modifications / A's and A's carried out on any electrical / electronic equipment since last survey? If yes, indicate details and authority, and whether NEC comments / recommendations were obtained during feasibility study.</label>
+										<textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_gr_c" rows="2"></textarea>
+									</div>
+									<div class="col-md-12">
+										<label>(d) Any EMI problems encountered since the last survey? If yes, state the EMI problems.</label>
+										<textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_gr_d" rows="2"></textarea>
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">2. Outside Pressure Hull</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="sub_outside_hull_tbl">
+										<thead>
+											<tr>
+												<th class="serial-no">Ser</th>
+												<th>Check Item</th>
+												<th>Yes/No</th>
+												<th>Remarks</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>1</td><td>(a) Loose metallic items inside casing properly secured</td><td><select class="form-control select2_no_placeholder edited" name="sub_oh_a"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_oh_a_r" rows="1"></textarea></td></tr>
+											<tr><td>2</td><td>(b) Cables running inside casing properly routed through conduits</td><td><select class="form-control select2_no_placeholder edited" name="sub_oh_b"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_oh_b_r" rows="1"></textarea></td></tr>
+											<tr><td>3</td><td>(c) Cable screens / conduits bonded 360 degrees at pressure hull penetration point</td><td><select class="form-control select2_no_placeholder edited" name="sub_oh_c"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_oh_c_r" rows="1"></textarea></td></tr>
+											<tr><td>4</td><td>(d) Radar antenna and INMARSAT radomes marked "DO NOT PAINT"</td><td><select class="form-control select2_no_placeholder edited" name="sub_oh_d"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_oh_d_r" rows="1"></textarea></td></tr>
+											<tr><td>5</td><td>(e) All porcelain insulators free from paint, grease and varnish</td><td><select class="form-control select2_no_placeholder edited" name="sub_oh_e"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_oh_e_r" rows="1"></textarea></td></tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">3. Communication System / Radar</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="sub_comm_radar_tbl">
+										<thead>
+											<tr>
+												<th class="serial-no">Ser</th>
+												<th>Check Item</th>
+												<th>Yes/No</th>
+												<th>Remarks</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>1</td><td>(a) RF paint on communication antenna in good condition</td><td><select class="form-control select2_no_placeholder edited" name="sub_cr_a"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_cr_a_r" rows="1"></textarea></td></tr>
+											<tr><td>2</td><td>(b) RF paint on radar antenna in good condition</td><td><select class="form-control select2_no_placeholder edited" name="sub_cr_b"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_cr_b_r" rows="1"></textarea></td></tr>
+											<tr><td>3</td><td>(c) Any RF leakage at wave-guide joints outside radar mast</td><td><select class="form-control select2_no_placeholder edited" name="sub_cr_c"><option value="">-- Select --</option><option value="No">No</option><option value="Yes">Yes</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_cr_c_r" rows="1"></textarea></td></tr>
+											<tr><td>4</td><td>(d) Degradation of VSWR value vis-a-vis previous HATS and SATS measurements</td><td><select class="form-control select2_no_placeholder edited" name="sub_cr_d"><option value="">-- Select --</option><option value="No">No</option><option value="Yes">Yes</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_cr_d_r" rows="1"></textarea></td></tr>
+											<tr><td>5</td><td>(e) All gaskets of RF cabinets in good condition</td><td><select class="form-control select2_no_placeholder edited" name="sub_cr_e"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_cr_e_r" rows="1"></textarea></td></tr>
+											<tr><td>6</td><td>(f) Connectors / wave-guide junctions tight and properly preserved</td><td><select class="form-control select2_no_placeholder edited" name="sub_cr_f"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_cr_f_r" rows="1"></textarea></td></tr>
+											<tr><td>7</td><td>(g) Wave-guides and antenna feeder cables in good physical condition</td><td><select class="form-control select2_no_placeholder edited" name="sub_cr_g"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_cr_g_r" rows="1"></textarea></td></tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">4. Inside Pressure Hull</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="sub_inside_hull_tbl">
+										<thead>
+											<tr>
+												<th class="serial-no">Ser</th>
+												<th>Check Item</th>
+												<th>Yes/No</th>
+												<th>Remarks</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>1</td><td>(a) Equipment / machinery above 30V provided with proper grounding</td><td><select class="form-control select2_no_placeholder edited" name="sub_ih_a"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_ih_a_r" rows="1"></textarea></td></tr>
+											<tr><td>2</td><td>(b) Copper straps provided for steel cabinets/foundations grounding</td><td><select class="form-control select2_no_placeholder edited" name="sub_ih_b"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_ih_b_r" rows="1"></textarea></td></tr>
+											<tr><td>3</td><td>(c) Aluminum alloy straps provided for aluminum cabinets/foundations</td><td><select class="form-control select2_no_placeholder edited" name="sub_ih_c"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_ih_c_r" rows="1"></textarea></td></tr>
+											<tr><td>4</td><td>(d) Braided Type IV ground straps for equipment on shock mounts</td><td><select class="form-control select2_no_placeholder edited" name="sub_ih_d"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_ih_d_r" rows="1"></textarea></td></tr>
+											<tr><td>5</td><td>(e) Bond straps free from corrosion, breakage and loose contacts</td><td><select class="form-control select2_no_placeholder edited" name="sub_ih_e"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_ih_e_r" rows="1"></textarea></td></tr>
+											<tr><td>6</td><td>(f) Bond resistance within limits (less than 10 milli ohms)</td><td><select class="form-control select2_no_placeholder edited" name="sub_ih_f"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_ih_f_r" rows="1"></textarea></td></tr>
+											<tr><td>7</td><td>(g) Portable equipment with three-core cables grounded using third pin</td><td><select class="form-control select2_no_placeholder edited" name="sub_ih_g"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_ih_g_r" rows="1"></textarea></td></tr>
+											<tr><td>8</td><td>(h) Covers / panels of electronic equipment secured</td><td><select class="form-control select2_no_placeholder edited" name="sub_ih_h"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_ih_h_r" rows="1"></textarea></td></tr>
+											<tr><td>9</td><td>(j) If wooden/plastic platforms used, grounding provision provided for fitted equipment</td><td><select class="form-control select2_no_placeholder edited" name="sub_ih_j"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option><option value="NA">NA</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_ih_j_r" rows="1"></textarea></td></tr>
+											<tr><td>10</td><td>(k) Ethernet / LAN cables are STP and not UTP</td><td><select class="form-control select2_no_placeholder edited" name="sub_ih_k"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_ih_k_r" rows="1"></textarea></td></tr>
+											<tr><td>11</td><td>(l) Slip rings, brushes and brush tension proper in DC motors</td><td><select class="form-control select2_no_placeholder edited" name="sub_ih_l"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_ih_l_r" rows="1"></textarea></td></tr>
+											<tr><td>12</td><td>(m) Power line filters for Radio/Radar rooms properly bonded to hull</td><td><select class="form-control select2_no_placeholder edited" name="sub_ih_m"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option><option value="NA">NA</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_ih_m_r" rows="1"></textarea></td></tr>
+											<tr><td>13</td><td>(n) Metallic doors of Cat A compartments make proper all-around contact with frame</td><td><select class="form-control select2_no_placeholder edited" name="sub_ih_n"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option><option value="NA">NA</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_ih_n_r" rows="1"></textarea></td></tr>
+											<tr><td>14</td><td>(p) Pigtail bonds used for grounding of cable screens are in good condition</td><td><select class="form-control select2_no_placeholder edited" name="sub_ih_p"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option><option value="NA">NA</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_ih_p_r" rows="1"></textarea></td></tr>
+											<tr><td>15</td><td>(q) 360 degree cable shield termination inside connectors maintained in good condition</td><td><select class="form-control select2_no_placeholder edited" name="sub_ih_q"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option><option value="NA">NA</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_ih_q_r" rows="1"></textarea></td></tr>
+											<tr><td>16</td><td>(r) Cable shields / pipelines / ventilation ducts penetrating radio room bulkhead grounded at penetration</td><td><select class="form-control select2_no_placeholder edited" name="sub_ih_r"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option><option value="NA">NA</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_ih_r_r" rows="1"></textarea></td></tr>
+											<tr><td>17</td><td>(s) In SSK submarines, power supply lines from suppressor filters to radio room bulkhead routed in flexible metal conduits</td><td><select class="form-control select2_no_placeholder edited" name="sub_ih_s"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option><option value="NA">NA</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_ih_s_r" rows="1"></textarea></td></tr>
+											<tr><td>18</td><td>(t) HF Rx feeder cables routed through narrow band pass filters mounted on radio room bulkhead</td><td><select class="form-control select2_no_placeholder edited" name="sub_ih_t"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option><option value="NA">NA</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_ih_t_r" rows="1"></textarea></td></tr>
+											<tr><td>19</td><td>(u) Feeder cable routing and bonding condition satisfactory</td><td><select class="form-control select2_no_placeholder edited" name="sub_ih_u"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option><option value="NA">NA</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="sub_ih_u_r" rows="1"></textarea></td></tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<div class="form-actions mt-4">
+								<button type="submit" class="btn btn-primary">Save</button>
+								<a href="{% url 'ITTTM:home' %}" class="btn btn-secondary">Cancel</a>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

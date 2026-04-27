@@ -1,0 +1,444 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+  <div class="row">
+    <div class="col-md-12">
+      <!--nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item" aria-current="page">SEG</li>
+          <li class="breadcrumb-item active" aria-current="page">Compatible Backup Form</li>
+        </ol>
+      </nav-->
+    </div>
+  </div>
+
+  <form method="post" id="seg_compatible_backup_form">
+    {% csrf_token %}
+
+    <div class="row" id="search-form-section">
+      <div class="col-md-12">
+        <div class="portlet light bordered">
+          <div class="portlet-title">
+            <div class="caption font-green">
+              <i class="icon-magnifier font-green"></i>
+              <span class="caption-subject bold uppercase">COMPATIBLE BACKUP FORM</span>
+            </div>
+          </div>
+
+          <div class="portlet-body form">
+            <div class="row g-5">
+              <div class="col-md-4 col-12">
+                <div class="form-group form-md-line-input form-md-floating-label mb-4">
+                  <input type="text" class="form-control" name="search_text" placeholder=" ">
+                  <label class="form_control_1">Search</label>
+                </div>
+              </div>
+              <div class="col-md-4 col-12">
+                <div class="form-group form-md-line-input form-md-floating-label mb-4">
+                  <input type="date" class="form-control" name="start_date" value="2024-01-01">
+                  <label class="form_control_1">Start Date</label>
+                </div>
+              </div>
+              <div class="col-md-4 col-12">
+                <div class="form-group form-md-line-input form-md-floating-label mb-4">
+                  <input type="date" class="form-control" name="end_date" value="2024-04-24">
+                  <label class="form_control_1">End Date</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row g-5">
+              <!-- Ship Name Checkbox Dropdown -->
+              <div class="col-md-6 col-12">
+                <label>Ship Name</label>
+                <div class="dropdown w-100">
+                  <button class="btn btn-light w-100 text-start dropdown-toggle" type="button"
+                    id="shipDropdownBtn" data-bs-toggle="dropdown" data-bs-auto-close="outside">
+                    Select Ship
+                  </button>
+                  <div class="dropdown-menu w-100 p-2" style="max-height:200px; overflow-y:auto;">
+                    <label class="dropdown-item"><input type="checkbox" name="ship" value="abhay"> Abhay</label>
+                    <label class="dropdown-item"><input type="checkbox" name="ship" value="aditya"> Aditya</label>
+                    <label class="dropdown-item"><input type="checkbox" name="ship" value="beas"> Beas</label>
+                    <label class="dropdown-item"><input type="checkbox" name="ship" value="betwa"> Betwa</label>
+                    <label class="dropdown-item"><input type="checkbox" name="ship" value="delhi"> Delhi</label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- System Checkbox Dropdown -->
+              <div class="col-md-6 col-12">
+                <label>System</label>
+                <div class="dropdown w-100">
+                  <button class="btn btn-light w-100 text-start dropdown-toggle" type="button"
+                    id="systemDropdownBtn" data-bs-toggle="dropdown" data-bs-auto-close="outside">
+                    Select System
+                  </button>
+                  <div class="dropdown-menu w-100 p-2" style="max-height:200px; overflow-y:auto;">
+                    <label class="dropdown-item"><input type="checkbox" name="system" value="a190"> A190</label>
+                    <label class="dropdown-item"><input type="checkbox" name="system" value="amdr"> AMDR</label>
+                    <label class="dropdown-item"><input type="checkbox" name="system" value="bius"> BIUS</label>
+                    <label class="dropdown-item"><input type="checkbox" name="system" value="mmd"> MMD</label>
+                    <label class="dropdown-item"><input type="checkbox" name="system" value="srgm"> SRGM</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex flex-wrap gap-2 mt-3">
+              <button type="button" class="btn btn-primary">See Compatible</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- IMAGE LIST -->
+    <div class="card">
+      <div class="portlet-body form mt-4 mb-4">
+        <div class="form-body">
+
+          <!-- LIST OF IMAGE -->
+          <fieldset class="custom-fieldset">
+            <legend class="legend-custom text-uppercase">List Of Image</legend>
+            <div class="table-responsive" style="margin-top: 8px;">
+              <table class="custom_tbl">
+                <thead>
+                  <tr>
+                    <th class="serial-no">SER</th>
+                    <th>IMAGE NAME</th>
+                    <th>SIZE</th>
+                    <th class="action">ACTION</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="serial-no">1</td>
+                    <td>Image1_aabc</td>
+                    <td>d_mmd_5gb</td>
+                    <td class="action">
+                      <button type="button" class="btn btn-sm btn-primary add-image-btn"
+                        data-image-name="Image1_aabc"
+                        data-image-size="d_mmd_5gb"
+                        data-media-type="USB"
+                        data-size="5GB"
+                        data-os="Linux"
+                        data-iface="SATA"
+                        data-app-name="MMD Application"
+                        data-app-version="1.0.0"
+                        data-serial-no="SN-001"
+                        data-oem-module="Intel"
+                        data-pattern-no="PTN-001"
+                        data-oem-part="OEM-MB-001">Add</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="serial-no">2</td>
+                    <td>Image1_aabd</td>
+                    <td>d_mmd_5gb</td>
+                    <td class="action">
+                      <button type="button" class="btn btn-sm btn-primary add-image-btn"
+                        data-image-name="Image1_aabd"
+                        data-image-size="d_mmd_5gb"
+                        data-media-type="CD"
+                        data-size="700MB"
+                        data-os="Windows"
+                        data-iface="IDE"
+                        data-app-name="MMD App v2"
+                        data-app-version="2.1.0"
+                        data-serial-no="SN-002"
+                        data-oem-module="AMD"
+                        data-pattern-no="PTN-002"
+                        data-oem-part="OEM-MB-002">Add</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="serial-no">3</td>
+                    <td>Image1_aabe</td>
+                    <td>d_mmd_5gb</td>
+                    <td class="action">
+                      <button type="button" class="btn btn-sm btn-primary add-image-btn"
+                        data-image-name="Image1_aabe"
+                        data-image-size="d_mmd_5gb"
+                        data-media-type="DVD"
+                        data-size="4.7GB"
+                        data-os="Linux"
+                        data-iface="USB 3.0"
+                        data-app-name="SEG Core"
+                        data-app-version="3.0.1"
+                        data-serial-no="SN-003"
+                        data-oem-module="Samsung"
+                        data-pattern-no="PTN-003"
+                        data-oem-part="OEM-MB-003">Add</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </fieldset>
+
+          <!-- VIEW ADDED IMAGES -->
+          <fieldset class="custom-fieldset">
+            <legend class="legend-custom text-uppercase">View Added Images</legend>
+            <div class="table-responsive" style="margin-top: 8px;">
+              <table class="custom_tbl">
+                <thead>
+                  <tr>
+                    <th class="serial-no">SER</th>
+                    <th>IMAGE</th>
+                    <th>ACTION</th>
+                  </tr>
+                </thead>
+                <tbody id="addedImagesList">
+                  <tr id="segEmptyAdded">
+                    <td colspan="3">No image added yet.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="d-flex justify-content-center mt-4 gap-2">
+              <button type="submit" class="btn btn-success px-4">Save</button>
+            </div>
+          </fieldset>
+
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <!-- Catalogue Popup Modal — outside form, Bootstrap 3 syntax -->
+  <div class="modal fade" id="catalogueModal" tabindex="-1" role="dialog" aria-labelledby="catalogueModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title" id="catalogueModalLabel">Catalogue Details</h4>
+        </div>
+        <div class="modal-body">
+          <fieldset class="custom-fieldset">
+            <legend class="legend-custom text-uppercase">SEG Catalogue</legend>
+
+            <div class="row">
+              <div class="col-md-6 col-xs-12">
+                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                  <input type="text" class="form-control" id="modalImageName" readonly placeholder=" ">
+                  <label class="form_control_1">Image Name</label>
+                </div>
+              </div>
+              <div class="col-md-6 col-xs-12">
+                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                  <input type="text" class="form-control" id="modalImageSize" readonly placeholder=" ">
+                  <label class="form_control_1">Image Size</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 col-xs-12">
+                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                  <input type="text" class="form-control" id="modalMediaType" readonly placeholder=" ">
+                  <label class="form_control_1">Media Type</label>
+                </div>
+              </div>
+              <div class="col-md-6 col-xs-12">
+                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                  <input type="text" class="form-control" id="modalSize" readonly placeholder=" ">
+                  <label class="form_control_1">Size</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 col-xs-12">
+                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                  <input type="text" class="form-control" id="modalOS" readonly placeholder=" ">
+                  <label class="form_control_1">Select OS</label>
+                </div>
+              </div>
+              <div class="col-md-6 col-xs-12">
+                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                  <input type="text" class="form-control" id="modalInterface" readonly placeholder=" ">
+                  <label class="form_control_1">Select Interface</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 col-xs-12">
+                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                  <input type="text" class="form-control" id="modalSystemName" readonly placeholder=" ">
+                  <label class="form_control_1">System Name</label>
+                </div>
+              </div>
+              <div class="col-md-6 col-xs-12">
+                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                  <input type="text" class="form-control" id="modalSubSystemName" readonly placeholder=" ">
+                  <label class="form_control_1">Sub System Name</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 col-xs-12">
+                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                  <input type="text" class="form-control" id="modalAppName" readonly placeholder=" ">
+                  <label class="form_control_1">Application Name</label>
+                </div>
+              </div>
+              <div class="col-md-6 col-xs-12">
+                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                  <input type="text" class="form-control" id="modalAppVersion" readonly placeholder=" ">
+                  <label class="form_control_1">Application Version</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 col-xs-12">
+                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                  <input type="text" class="form-control" id="modalSerialNo" readonly placeholder=" ">
+                  <label class="form_control_1">Serial Number</label>
+                </div>
+              </div>
+              <div class="col-md-6 col-xs-12">
+                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                  <input type="text" class="form-control" id="modalOemModule" readonly placeholder=" ">
+                  <label class="form_control_1">Make / OEM of Module</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 col-xs-12">
+                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                  <input type="text" class="form-control" id="modalPatternNo" readonly placeholder=" ">
+                  <label class="form_control_1">Pattern Number of Module</label>
+                </div>
+              </div>
+              <div class="col-md-6 col-xs-12">
+                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                  <input type="text" class="form-control" id="modalOemPart" readonly placeholder=" ">
+                  <label class="form_control_1">OEM Part No of Motherboard</label>
+                </div>
+              </div>
+            </div>
+
+          </fieldset>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock content %}
+
+
+{% block js %}
+<script>
+$(document).ready(function () {
+
+  /* ───────────────────────────────────────────────
+     1. CHECKBOX DROPDOWN — update button label with
+        selected options shown inside the button box
+  ─────────────────────────────────────────────── */
+  $('.dropdown-menu input[type="checkbox"]').on('change', function () {
+    var $dropdown = $(this).closest('.dropdown');
+    var $btn      = $dropdown.find('button.dropdown-toggle');
+
+    // Save the original default label once
+    if (!$btn.data('default-label')) {
+      $btn.data('default-label', $btn.text().trim());
+    }
+
+    // Collect all checked labels in this dropdown
+    var selected = [];
+    $dropdown.find('input[type="checkbox"]:checked').each(function () {
+      selected.push($(this).closest('label').text().trim());
+    });
+
+    // Update button text: show selected items or restore default
+    if (selected.length === 0) {
+      $btn.text($btn.data('default-label'));
+    } else {
+      $btn.text(selected.join(', '));
+    }
+  });
+
+
+  /* ───────────────────────────────────────────────
+     2. ADD IMAGE — add row to "View Added Images"
+  ─────────────────────────────────────────────── */
+  var $addedList  = $('#addedImagesList');
+  var $emptyState = $('#segEmptyAdded');
+  var serial = 1;
+
+  $('.add-image-btn').on('click', function () {
+    var imageName = $(this).data('image-name');
+    var id = 'added_' + imageName.replace(/\s+/g, '_').toLowerCase();
+
+    // Prevent duplicate rows
+    if ($('#' + id).length) return;
+
+    $emptyState.hide();
+
+    // Capture all catalogue data at add-time
+    var rowData = {
+      imageName  : imageName,
+      imageSize  : $(this).data('image-size')  || '',
+      mediaType  : $(this).data('media-type')  || '',
+      size       : $(this).data('size')        || '',
+      os         : $(this).data('os')          || '',
+      iface      : $(this).data('iface')       || '',
+      appName    : $(this).data('app-name')    || '',
+      appVersion : $(this).data('app-version') || '',
+      serialNo   : $(this).data('serial-no')   || '',
+      oemModule  : $(this).data('oem-module')  || '',
+      patternNo  : $(this).data('pattern-no')  || '',
+      oemPart    : $(this).data('oem-part')    || ''
+    };
+
+    // Create View button with closure over rowData
+    var $viewBtn = $('<button type="button" class="btn btn-sm btn-info">View</button>');
+    $viewBtn.on('click', function () {
+      $('#modalImageName').val(rowData.imageName);
+      $('#modalImageSize').val(rowData.imageSize);
+      $('#modalMediaType').val(rowData.mediaType);
+      $('#modalSize').val(rowData.size);
+      $('#modalOS').val(rowData.os);
+      $('#modalInterface').val(rowData.iface);
+      $('#modalSystemName').val(rowData.appName);
+      $('#modalSubSystemName').val(rowData.appVersion);
+      $('#modalAppName').val(rowData.appName);
+      $('#modalAppVersion').val(rowData.appVersion);
+      $('#modalSerialNo').val(rowData.serialNo);
+      $('#modalOemModule').val(rowData.oemModule);
+      $('#modalPatternNo').val(rowData.patternNo);
+      $('#modalOemPart').val(rowData.oemPart);
+
+      // Bootstrap 3 jQuery modal
+      $('#catalogueModal').modal('show');
+    });
+
+    // Build and append the row
+    var $row = $('<tr id="' + id + '"></tr>');
+    $row.append('<td class="serial-no">' + serial++ + '</td>');
+    $row.append('<td>' + imageName + '</td>');
+    $row.append($('<td class="action"></td>').append($viewBtn));
+    $addedList.append($row);
+  });
+
+});
+</script>
+{% endblock js %}

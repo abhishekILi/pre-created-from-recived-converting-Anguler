@@ -1,0 +1,442 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+
+<style>
+  /* Inline table input styling */
+  .custom_tbl td input[type="text"],
+  .custom_tbl td input[type="number"],
+  .custom_tbl td input[type="date"] {
+    display: inline-block;
+    width: 100px;
+    height: 28px;
+    padding: 4px 6px;
+    font-size: 12px;
+    border: 1px solid #d9d9d9;
+    border-radius: 3px;
+    margin: 2px 4px;
+    vertical-align: middle;
+  }
+
+  .custom_tbl td input[type="text"]:focus,
+  .custom_tbl td input[type="number"]:focus,
+  .custom_tbl td input[type="date"]:focus {
+    outline: none;
+    border-color: #0066cc;
+    box-shadow: 0 0 4px rgba(0, 102, 204, 0.4);
+  }
+
+  /* Ensure table cell content stays inline */
+  .custom_tbl td {
+    vertical-align: middle;
+    padding: 8px;
+  }
+</style>
+
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+            <li class="breadcrumb-item active" aria-current="page">WATT</li>
+            <li class="breadcrumb-item active" aria-current="page">SATs</li>
+            <li class="breadcrumb-item active" aria-current="page">DGPS
+               </li>
+          </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">WEAPON ACCEPTANCE TRIALS TEAM VISAKHAPATNAM
+                DAILY SUMMARY OF PROGRESS</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="rlg_sigma_40_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!--HEADER — Ship / Inspection Info-->
+
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Basic Information</legend>
+                <div class="row g-3">
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="name_of_ship_select" name="name_of_ship">
+                          <option value="">-- Select --</option>
+                          <option value="INS_A">INS Alpha</option>
+                          <option value="INS_B">INS Bravo</option>
+                          <option value="INS_C">INS Charlie</option>
+                          <option value="INS_D">INS Delta</option>
+                        </select>
+                        <label class="form_control_1">Name of Ship</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="department_select" name="department">
+                          <option value="">-- Select --</option>
+                          <option value="P15A">ND</option>
+                          <option value="P17">ASW</option>
+                          <option value="P17A">COMM</option>
+                          <option value="P28">GUNNERY</option>
+                        </select>
+                        <label class="form_control_1">Department</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="equipment_select" name="equipment">
+                          <option value="">-- Select --</option>
+                        </select>
+                        <label class="form_control_1">Equipment</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                      <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                        <input type="date" class="form-control" id="date_input" name="date_">
+                        <label class="form_control_1">Date</label>
+                      </div>
+                    </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="nature_trials_select" name="nature_of_trials" required>
+                          <option value="">--Select--</option>
+                          <option value="SATs">SATs</option>
+                          <option value="HATS">HATs</option>
+                          <option value="OP_CHECKS">OP CHECKS</option>
+                          <option value="IIS">IIs</option>
+                        </select>
+                        <label class="form_control_1">Nature of Trial</label>
+                    </div>
+                  </div>
+
+            </div>
+          </fieldset>
+
+          <fieldset class="custom-fieldset">
+            <legend class="legend-custom text-uppercase">Checks</legend>
+            <div class="table-responsive">
+              <table class="custom_tbl">
+                <thead>
+                  <tr class="custom-header-row">
+                    <th>Ser No.</th>
+                    <th style="width: 60px;" >Observation</th>
+                    <th>Remarks</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="3">
+                            Trials team embarked onboard at 
+                            <input type="time" id="embark_time" name="embark_time" class="form-control d-inline-block" style="width: 100px; height: 28px;"> hrs on 
+                            <input type="date" id="embark_date" name="embark_date" class="form-control d-inline-block" style="width: 140px; height: 28px;"> for OP Checks of GPS
+                            <textarea class="form-control wrstg-scroll-textarea" style="width: 280px; font-size: 12px; display: inline-block; vertical-align: middle;" id="test_1_rlg1_velocity" name="test_1_rlg1_velocity"></textarea> as per approved schedule vide IHQ MoD (N) / DSR letter WP / 0642 dated 06 Aug 14. Following observed:-
+                        </td>
+                    </tr>
+                  <!-- Row 1: Structural defects -->
+                  
+
+                  <tr>
+                    <td rowspan="2">1</td>
+                    <td>Check the antenna is fitted at a position on the ship which ensures a clear view of the satellite constellation.
+                   
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio" id="gen_criterion_1_1_sat" name="gen_criterion_1_1" value="SAT">
+                                <label for="gen_criterion_1_1_sat">SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="gen_criterion_1_1_unsat" name="gen_criterion_1_1" value="UNSAT">
+                                <label for="gen_criterion_1_1_unsat">UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    
+                   
+
+                    
+                  </tr>
+
+
+                  <tr>
+                    <td>2</td>
+                    <td>Check for capability of acquiring position to the required accuracy, within 30 min, when there is no valid almanac data.
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio" id="gen_criterion_1_2_sat" name="gen_criterion_1_2" value="SAT">
+                                <label for="gen_criterion_1_2_sat">SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="gen_criterion_1_2_unsat" name="gen_criterion_1_2" value="UNSAT">
+                                <label for="gen_criterion_1_2_unsat">UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+
+                   <tr>
+                    <td>3</td>
+                    <td>Check for capability of acquiring position to the required accuracy, within 5 min, when there is valid almanac data.
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio" id="gen_criterion_1_3_sat" name="gen_criterion_1_3" value="SAT">
+                                <label for="gen_criterion_1_3_sat">SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="gen_criterion_1_3_unsat" name="gen_criterion_1_3" value="UNSAT">
+                                <label for="gen_criterion_1_3_unsat">UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+
+
+                   <tr>
+                    <td>4</td>
+                    <td>Check for capability of re-acquiring position to the required accuracy, within 2 min, when subjected to a power interruption of 60 sec.
+
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio" id="gen_criterion_1_4_sat" name="gen_criterion_1_4" value="SAT">
+                                <label for="gen_criterion_1_4_sat">SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="gen_criterion_1_4_unsat" name="gen_criterion_1_4" value="UNSAT">
+                                <label for="gen_criterion_1_4_unsat">UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+
+
+                  <tr>
+                    <td>5</td>
+                    <td>Check for a minimum resolution of position, i.e latitude and longitude, of 0.001 minutes.
+
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio" id="gen_criterion_1_5_sat" name="gen_criterion_1_5" value="SAT">
+                                <label for="gen_criterion_1_5_sat">SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="gen_criterion_1_5_unsat" name="gen_criterion_1_5" value="UNSAT">
+                                <label for="gen_criterion_1_5_unsat">UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+
+                  
+
+                 
+
+                  
+
+                  
+                  <tr>
+                    
+                    <td colspan="3" class="description-text"><b>Failure Warnings and Status Indications.</b>The equipment should provide indication for following:- </td>
+                    
+                  </tr>
+                  <tr>
+                    <td>6</td>
+                    <td>Check for warning of loss of position.
+
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio" id="gen_criterion_1_6_sat" name="gen_criterion_1_6" value="SAT">
+                                <label for="gen_criterion_1_6_sat">SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="gen_criterion_1_6_unsat" name="gen_criterion_1_6" value="UNSAT">
+                                <label for="gen_criterion_1_6_unsat">UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+
+
+                    <tr>
+                    <td>7</td>
+                    <td>DGPS status indication of the receipt of DGPS signals and whether DGPS corrections are being applied to the indicated ship’s position.
+
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio" id="gen_criterion_1_7_sat" name="gen_criterion_1_7" value="SAT">
+                                <label for="gen_criterion_1_7_sat">SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="gen_criterion_1_7_unsat" name="gen_criterion_1_7" value="UNSAT">
+                                <label for="gen_criterion_1_7_unsat">UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+
+                    <tr>
+                    <td>8</td>
+                    <td>Check for DGPS integrity status and alarm.
+
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio" id="gen_criterion_1_8_sat" name="gen_criterion_1_8" value="SAT">
+                                <label for="gen_criterion_1_8_sat">SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="gen_criterion_1_8_unsat" name="gen_criterion_1_8" value="UNSAT">
+                                <label for="gen_criterion_1_8_unsat">UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+
+
+                    <tr>
+                    <td>9</td>
+                    <td>Check for DGPS text message display.
+
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio" id="gen_criterion_1_9_sat" name="gen_criterion_1_9" value="SAT">
+                                <label for="gen_criterion_1_9_sat">SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="gen_criterion_1_9_unsat" name="gen_criterion_1_9" value="UNSAT">
+                                <label for="gen_criterion_1_9_unsat">UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+
+
+                    <tr>
+                    <td>10</td>
+                    <td>Check for indication within 5 sec if the specified “Horizontal Dilution of Precision” (HDOP) has been exceeded or a new position has not been calculated for more than 1 sec.
+
+
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio" id="gen_criterion_1_10_sat" name="gen_criterion_1_10" value="SAT">
+                                <label for="gen_criterion_1_10_sat">SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="gen_criterion_1_10_unsat" name="gen_criterion_1_10" value="UNSAT">
+                                <label for="gen_criterion_1_10_unsat">UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+
+
+                    <tr>
+                    <td colspan="6"><b>Miscellaneous checks.</b></td></tr>
+                    <tr>
+
+                    <td>11.</td>
+                    <td>Interface checks with other user AIS, ECDIS, RADAR, CTD, Trigun/MDA, Gyro, etc.
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio" id="gen_criterion_1_11_sat" name="gen_criterion_1_11" value="SAT">
+                                <label for="gen_criterion_1_11_sat">SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="gen_criterion_1_11_unsat" name="gen_criterion_1_11" value="UNSAT">
+                                <label for="gen_criterion_1_11_unsat">UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+
+                 
+                    
+                </tbody>
+              </table>
+              </div>
+                    <div style="display: flex; justify-content: center; gap: 300px; margin-bottom: 15px; font-family: sans-serif;">
+                <div>
+                    <strong>Presenting Authority: Ship’s Staff</strong>
+                </div>
+                <div>
+                    <strong>Inspecting Authority:WATT (V) </strong> 
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: center; gap: 270px; margin-bottom: 20px; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 8px; ">
+            <strong>ND:</strong> 
+            <input type="text" style="width: 250px; padding: 4px; outline: none; ">
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <strong>STI / TI:</strong> 
+            <input type="text" style="width: 250px; padding: 4px; outline: none;">
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <strong>STO:</strong> 
+            <input type="text" style="width: 250px; padding: 4px; outline: none;">
+        </div>
+    </div>
+            </div>
+          </fieldset>
+
+          
+
+          </fieldset>
+          
+          <!-- Submit -->
+          <div class="d-flex justify-content-center mt-4 gap-2">
+            <button type="submit" class="btn btn-success px-4">Save</button>
+          </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+
+{% endblock js %}

@@ -1,0 +1,147 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/select2_4.1.0/select2.min.css' %}">
+<link rel="stylesheet" href="{% static 'ems/assets/global/plugins/bootstrap-toastr/toastr.min.css' %}">
+
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Trial</a></li>
+                    <li class="breadcrumb-item"><a href="#">SDN Trials Report</a></li>
+                </ol>
+            </nav>
+          </div>
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                         
+                        <span class="caption-subject bold">SDN TRIALS REPORT</span>
+                    </div>
+                    
+                </div>
+
+                <div class="portlet-body form mt-4 mb-4" style="background-color: transparent;">
+                    <form method="post" id="sdn_trial_report_form">
+                        {% csrf_token %}
+                        <div class="form-body" style="background-color: transparent;">
+                            
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">Information</legend>
+                                <div class="row g-3">
+
+                                    <div class="col-md-4 col-12">
+                                        <div class=" form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control  " name="Equipment_code" required placeholder="Enter Equipment code">
+                                            <label class="form_control_1">Equipment code</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12 ">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control select2_no_placeholder  " id="trials" name="Enter trials" required>
+                                                <option value="">Select Trials</option>
+                                                <option value="trial1">Trial 1</option>
+                                                <option value="trial2">Trial 2</option>
+                                            </select>
+                                            <label class="form_control_1">Trials<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12 ">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control select2_no_placeholder  " id="system_type" name="Enter system_type" required>
+                                                <option value="">Select System Type</option>
+                                                <option value="class1">Class 1</option>
+                                                <option value="class2">Class 2</option>
+                                            </select>
+                                            <label class="form_control_1">System Type<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12 ">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="hidden" name="ship" value="INS KOCHI">
+                                            <input type="text" class="form-control" value="INS KOCHI" placeholder=" " readonly>
+                                            <label class="form_control_1">Ship Name<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class=" form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control  " name="Ship_Wise_Report_No" required placeholder="Enter Ship Wise Report No">
+                                            <label class="form_control_1">Ship Wise Report No.<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class=" form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control  " name="Enter Report No" required placeholder="Enter Report No">
+                                            <label class="form_control_1">Report No.<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class=" form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="date" class="form-control  " name="Enter Date" required>
+                                            <label class="form_control_1">Conducted On<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-4 col-12 ">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control select2_no_placeholder  " id="status" name="Enter status" required>
+                                                <option value="">Select Status</option>
+                                                <option value="pending">Pending</option>
+                                                <option value="completed">Completed</option>
+                                            </select>
+                                            <label class="form_control_1">Status<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                    
+
+                                    <div class="col-md-4 col-12">
+                                        <div class=" form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control  " name="Enter Observations" required placeholder="Enter Observations">
+                                            <label class="form_control_1">Observations<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class=" form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="file" class="form-control  " name="pdf_file" accept=".pdf" required>
+                                            <label class="form_control_1">PDF File<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </fieldset>
+
+
+                            <div class="d-flex justify-content-center mt-4">
+                                <button type="download" class="btn btn-primary px-4">Download</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block pagescripts %}
+<script src="{% static 'js/select2_4.1.0/select2.min.js' %}"></script>
+<script src="{% static 'ems/assets/global/plugins/bootstrap-toastr/toastr.min.js' %}"></script>
+
+
+{% endblock pagescripts %}

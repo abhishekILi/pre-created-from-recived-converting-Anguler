@@ -1,0 +1,379 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item active" aria-current="page">IRL</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">IRL — CHECK OFF LIST (633111)</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="irl_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!-- ══════════════════════════════════════════
+                   HEADER — Ship / Equipment Info
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Trial Header Information</legend>
+                <div class="row g-3">
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="ship" required>
+                        <option value="">-- Select Ship --</option>
+                        {% for ship in ship_options %}
+                        <option value="{{ ship.value }}">{{ ship.label }}</option>
+                        {% endfor %}
+                      </select>
+                      <label class="form_control_1">Name of Ship <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="equipment" value="IRL" readonly placeholder=" ">
+                      <label class="form_control_1">Equipment</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="sno" placeholder=" ">
+                      <label class="form_control_1">S. No.</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="date" class="form-control" name="trial_date" placeholder=" ">
+                      <label class="form_control_1">Date <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="department" required>
+                        <option value="">-- Select Department --</option>
+                        <option value="ND">ND</option>
+                        <option value="Gunnery">Gunnery</option>
+                        <option value="Communication">Communication</option>
+                        <option value="ASW">ASW</option>
+                      </select>
+                      <label class="form_control_1">Department <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="nature_of_trials" required>
+                        <option value="">-- Select Nature of Trials --</option>
+                        <option value="lls">lls</option>
+                        <option value="SATs">SATs</option>
+                        <option value="HATs">HATs</option>
+                        <option value="OP Checks">OP Checks</option>
+                      </select>
+                      <label class="form_control_1">Nature of Trials <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   MAIN CHECKLIST TABLE
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Check Off List</legend>
+                <div class="mb-3">
+    Trials team embarked onboard at 
+    <input type="text" class="form-control d-inline-block w-auto" name="location" placeholder="Location">
+    on 
+    <input type="date" class="form-control d-inline-block w-auto" name="date">
+    for SATs of IRL as per approved schedule, BR 4050 and CNO 07/10. Following observed:-
+  </div>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                        <th class="serial-no">Trial Ser</th>
+                        <th>Check Description as per Schedule</th>
+                        <th>Remarks (Sat)</th>
+                        <th>Remarks (UnSat)</th>
+                        <th>Presenting Authority Remarks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <!-- Section 3.1.1 — Standard Instruments -->
+                      <tr>
+                        <td class="serial-no"><strong>3.1.1</strong></td>
+                        <td colspan="4"><strong>Standard Instruments</strong></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no"></td>
+                        <td>(i) Measuring Tape (5m &amp; 10m)</td>
+                        <td>
+                          <textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no"></td>
+                        <td>(ii) Vernier Calliper (300mm)</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_2_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no"></td>
+                        <td>(iii) Megger 100V</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_3_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                      </tr>
+
+                      <!-- Section 3.1.2 — Special Tools -->
+                      <tr>
+                        <td class="serial-no"><strong>3.1.2</strong></td>
+                        <td>Special Tools</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="special_tools_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                      </tr>
+
+                      <!-- Section 3.1.3 — Power Source -->
+                      <tr>
+                        <td class="serial-no"><strong>3.1.3</strong></td>
+                        <td>Power Source</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="power_source_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                      </tr>
+
+                      <!-- Section 3.2.1 — Barrel Straightness Check -->
+                      <tr>
+                        <td class="serial-no"><strong>3.2.1</strong></td>
+                        <td>Barrel Straightness check</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="barrel_straight_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                      </tr>
+
+                      <!-- Section 3.2.2 — FCM Release Force -->
+                      <tr>
+                        <td class="serial-no"><strong>3.2.2</strong></td>
+                        <td>Front catch mechanism (FCM) release force measurement device</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="fcm_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                      </tr>
+
+                      <!-- Section 3.2.3 — Front & Rear Contact Check -->
+                      <tr>
+                        <td class="serial-no"><strong>3.2.3</strong></td>
+                        <td>Front &amp; Rear Contact check</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="contact_check_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                      </tr>
+
+                      <!-- Section 3.4.1 — Pre Firing Checks -->
+                      <tr>
+                        <td class="serial-no"><strong>3.4.1</strong></td>
+                        <td>Pre Firing Checks</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="pre_firing_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                      </tr>
+
+                      <!-- Section 3.4.2 — Power On Sequence -->
+                      <tr>
+                        <td class="serial-no"><strong>3.4.2</strong></td>
+                        <td>Power On Sequence</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="power_on_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                      </tr>
+
+                      <!-- Section 3.4.3 — Firing Trials (header) -->
+                      <tr>
+                        <td class="serial-no"><strong>3.4.3</strong></td>
+                        <td colspan="4"><strong>Firing Trials</strong></td>
+                      </tr>
+
+                      <!-- Section 3.4.3.1 — Emergency Firing using Rocket Simulator -->
+                      <tr>
+                        <td class="serial-no"><strong>3.4.3.1</strong></td>
+                        <td>Emergency Firing using Rocket Simulator</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="emg_firing_sim_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                      </tr>
+
+                      <!-- Section 3.4.3.2 — Single Firing using Rocket Simulator -->
+                      <tr>
+                        <td class="serial-no"><strong>3.4.3.2</strong></td>
+                        <td>Single Firing check by using Rocket Simulator</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="single_firing_sim_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                      </tr>
+
+                      <!-- Section 3.4.3.3 — Salvo Firing RGB60(P) with Jig -->
+                      <tr>
+                        <td class="serial-no"><strong>3.4.3.3</strong></td>
+                        <td>Salvo Firing of RGB60(P) with salvo firing test Jig</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="salvo_firing_jig_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                      </tr>
+
+                      <!-- Section 3.4.3.4 — Emergency Firing RGB60(P) with PRF -->
+                      <tr>
+                        <td class="serial-no"><strong>3.4.3.4</strong></td>
+                        <td>Emergency Firing of RGB60(P) with PRF</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="emg_firing_prf_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                      </tr>
+
+                      <!-- Section 3.4.3.5 — Single Firing RGB60(P) with PRF -->
+                      <tr>
+                        <td class="serial-no"><strong>3.4.3.5</strong></td>
+                        <td>Single Firing of RGB60(P) with PRF</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="single_firing_prf_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                      </tr>
+
+                      <!-- Section 3.4.3.6 — Single Firing HE Rockets with Fuse -->
+                      <tr>
+                        <td class="serial-no"><strong>3.4.3.6</strong></td>
+                        <td>Single firing of HE Rockets with fuse</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="single_firing_he_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                      </tr>
+
+                      <!-- Section 3.4.3.7 — Salvo Firing RGB60(P) with PRF -->
+                      <tr>
+                        <td class="serial-no"><strong>3.4.3.7</strong></td>
+                        <td>Salvo firing of RGB60(P) with PRF</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="salvo_firing_prf_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                      </tr>
+
+                      <!-- Section 3.4.4 — Post Firing Checks -->
+                      <tr>
+                        <td class="serial-no"><strong>3.4.4</strong></td>
+                        <td>Post Firing Checks</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="post_firing_pa" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="std_inst_1_pa" rows="2"></textarea></td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   REMARKS
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Remarks</legend>
+                <div class="static-section">
+                  <div class="table-responsive">
+                    <table class="custom_tbl" id="remarks_table">
+                      <thead>
+                        <tr>
+                          <th class="serial-no">Sr No</th>
+                          <th>Observations</th>
+                          <th>SS Remarks</th>
+                          <th class="action" style="width: 80px;">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="serial-no">1</td>
+                          <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="observation" rows="2"></textarea></td>
+                          <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="ss_remarks" rows="2"></textarea></td>
+                          <td class="action action-cell-holder">
+                            <div class="action-controls">
+                              <button type="button" class="btn-round btn-add" onclick="addRow('remarks_table')" title="Add Row">+</button>
+                              <!-- <button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'remarks_table')" title="Remove Row">-</button> -->
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   PRESENTING AUTHORITY
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                <div class="row g-3">
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="irl_presenting_authority" name="irl_presenting_authority" required>
+                        <option value="">--Select--</option>
+                        <option value="dockyard">Dockyard</option>
+                        <option value="shipstaff">Shipstaff</option>
+                        <option value="oem">OEM</option>
+                      </select>
+                      <label class="form_control_1" for="irl_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" id="irl_watt" name="irl_watt" value="VZG" placeholder=" ">
+                      <label class="form_control_1" for="irl_watt">WATT</label>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+
+              <!-- Submit -->
+              <div class="d-flex justify-content-center mt-4 gap-2">
+                <button type="submit" class="btn btn-success px-4">Submit</button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

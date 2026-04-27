@@ -1,0 +1,499 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+
+<style>
+  /* Inline table input styling */
+  .custom_tbl td input[type="text"]{
+    display: inline-block;
+    width: 100px;
+    height: 28px;
+    padding: 4px 6px;
+    font-size: 12px;
+    border: 1px solid #d9d9d9;
+    border-radius: 3px;
+    margin: 2px 4px;
+    vertical-align: middle;
+  } 
+
+  .custom_tbl td input[type="text"]:focus {
+    outline: none;
+    border-color: #0066cc;
+    box-shadow: 0 0 4px rgba(0, 102, 204, 0.4);
+  }
+</style>
+
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item active" aria-current="page">WATT</li>
+          <li class="breadcrumb-item active" aria-current="page">SATS</li>
+          <li class="breadcrumb-item active" aria-current="page">NADS-B</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">NADS-B</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="nads_b_op_checks_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!-- HEADER — Ship / Inspection Info -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Basic Information</legend>
+                <div class="row g-3">
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="name_of_ship_select" name="name_of_ship" required>
+                        <option value="">-- Select --</option>
+                        <option value="INS">INS</option>
+                      </select>
+                      <label class="form_control_1">Name of Ship<span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="department_select" name="department" required>
+                        <option value="">-- Select --</option>
+                        <option value="ND">ND</option>
+                        <option value="ASW">ASW</option>
+                        <option value="COMM">COMM</option>
+                        <option value="GUNNERY">GUNNERY</option>
+                      </select>
+                      <label class="form_control_1">Department<span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="equipment" name="equipment" required>
+                          <option value="">Select Equipment</option>
+                          <option value="NADS-B"selected>NADS-B</option>
+                      </select>
+                      <label class="form_control_1">Equipment<span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="date" class="form-control" id="date_input" name="date_" required>
+                      <label class="form_control_1">Date<span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="nature_trials_select" name="nature_of_trials" required>
+                        <option value="">--Select--</option>
+                        <option value="SATs">SATs</option>
+                        <option value="HATS">HATs</option>
+                        <option value="OP_CHECKS">OP CHECKS</option>
+                        <option value="IIS">IIs</option>
+                      </select>
+                      <label class="form_control_1">Nature of Trial<span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                </div>
+              </fieldset>
+
+              <!-- OP CHECKS TABLE -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">OP Checks</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr class="custom-header-row">
+                        <th style="width: 8%;">Ser</th>
+                        <th style="width: 72%;">Observations</th>
+                        <th style="width: 20%;">Remarks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- Embark Info Row -->
+                      <tr>
+                        <td colspan="3">
+                          Trials team embarked onboard at 
+                          <input type="time" id="embark_time" name="embark_time" class="form-control d-inline-block" style="width: 100px; height: 28px;"> hrs on 
+                          <input type="date" id="embark_time" name="embark_time" class="form-control d-inline-block" style="width: 120px; height: 28px;"> for OP Checks of NADS B
+                          as per approved schedule vide 
+                          <textarea class="form-control wrstg-scroll-textarea" style="width: 280px; font-size: 12px; display: inline-block; vertical-align: middle;" id="test_1_rlg1_velocity" name="test_1_rlg1_velocity"></textarea>.
+                          <br>Following observed:-
+                        </td>
+                      </tr>
+
+                      <!-- Test 01 -->
+                      <tr>
+                        <td>3.1</td>
+                        <td>Test 01 - Physical Verification of System</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="test_01_sat" name="test_01" value="SAT" required>
+                              <label for="test_01_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="test_01_unsat" name="test_01" value="UNSAT">
+                              <label for="test_01_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Test 02 -->
+                      <tr>
+                        <td>3.2</td>
+                        <td>Test 02- Powering 'ON' System</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="test_02_sat" name="test_02" value="SAT" required>
+                              <label for="test_02_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="test_02_unsat" name="test_02" value="UNSAT">
+                              <label for="test_02_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Test 03 -->
+                      <tr>
+                        <td>3.3</td>
+                        <td>Test 03- Operating Modes: Login and Start System</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="test_03_sat" name="test_03" value="SAT" required>
+                              <label for="test_03_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="test_03_unsat" name="test_03" value="UNSAT">
+                              <label for="test_03_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Test 04 -->
+                      <tr>
+                        <td>3.4</td>
+                        <td>Test 04- System Status</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="test_04_sat" name="test_04" value="SAT" required>
+                              <label for="test_04_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="test_04_unsat" name="test_04" value="UNSAT">
+                              <label for="test_04_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Test 05 -->
+                      <tr>
+                        <td>3.5</td>
+                        <td>
+                          Test 05- Aircraft I Target Information. Target Range ≥250 km.<br>
+                          Range obtained </b><input type="text" id="test_1_rlg1_velocity" name="test_1_rlg1_velocity"> kts
+                        </td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="test_05_sat" name="test_05" value="SAT" required>
+                              <label for="test_05_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="test_05_unsat" name="test_05" value="UNSAT">
+                              <label for="test_05_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Test 06 -->
+                      <tr>
+                        <td>3.6</td>
+                        <td>Test 06- Selection of Coastline Map or Political Boundary Map with Airspace Boundaries</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="test_06_sat" name="test_06" value="SAT" required>
+                              <label for="test_06_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="test_06_unsat" name="test_06" value="UNSAT">
+                              <label for="test_06_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Test 07 -->
+                      <tr>
+                        <td>3.7</td>
+                        <td>Test 07- Timestamp of ADS-B Target. Check 'UTC' and '1ST' time is displayed at bottom of GUI.</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="test_07_sat" name="test_07" value="SAT" required>
+                              <label for="test_07_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="test_07_unsat" name="test_07" value="UNSAT">
+                              <label for="test_07_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Test 08 -->
+                      <tr>
+                        <td>3.8</td>
+                        <td>Test 08- Target Filters</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="test_08_sat" name="test_08" value="SAT" required>
+                              <label for="test_08_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="test_08_unsat" name="test_08" value="UNSAT">
+                              <label for="test_08_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Test 09 -->
+                      <tr>
+                        <td>3.9</td>
+                        <td>Test 09- Replay Feature</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="test_09_sat" name="test_09" value="SAT" required>
+                              <label for="test_09_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="test_09_unsat" name="test_09" value="UNSAT">
+                              <label for="test_09_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Test 10 -->
+                      <tr>
+                        <td>3.10</td>
+                        <td>Test 10- 360° Coverage</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="test_10_sat" name="test_10" value="SAT" required>
+                              <label for="test_10_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="test_10_unsat" name="test_10" value="UNSAT">
+                              <label for="test_10_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Test 11 -->
+                      <tr>
+                        <td>3.11</td>
+                        <td>Test 11 - System Alarms</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="test_11_sat" name="test_11" value="SAT" required>
+                              <label for="test_11_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="test_11_unsat" name="test_11" value="UNSAT">
+                              <label for="test_11_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Test 12 -->
+                      <tr>
+                        <td>3.12</td>
+                        <td>Test 12- Dual Redundancy: Auto Selection of ADSB1 or ADSB2 Receiver</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="test_12_sat" name="test_12" value="SAT" required>
+                              <label for="test_12_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="test_12_unsat" name="test_12" value="UNSAT">
+                              <label for="test_12_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- Authorities Section -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Authorities</legend>
+                <div class="form-wrapper">
+
+                    <div class="sig-row">
+                        <div class="field-box">
+                            <span class="label-text">Presenting Authority: Ship's Staff</span>
+                            <textarea class="line-field" rows="1"></textarea>
+                        </div>
+                        <div class="field-box">
+                            <span class="label-text">Inspecting Authority: WATT(V/MI)</span>
+                            <textarea class="line-field" rows="1"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="sig-row">
+                        <div class="field-box flex-small">
+                            <span class="label-text">ND:</span>
+                            <textarea class="line-field" rows="1"></textarea>
+                        </div>
+                        <div class="field-box flex-small">
+                            <span class="label-text">STI / TI:</span>
+                            <textarea class="line-field" rows="1"></textarea>
+                        </div>
+                        <div class="field-box flex-small">
+                            <span class="label-text">STO:</span>
+                            <textarea class="line-field" rows="1"></textarea>
+                        </div>
+                    </div>
+
+                </div>
+              </fieldset>
+
+              <!-- Submit -->
+              <div class="d-flex justify-content-center mt-4 gap-2">
+                <button type="submit" class="btn btn-success px-4">Save</button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+
+<script>
+  // Auto-set embark date to match trial date
+  document.getElementById('date_input').addEventListener('change', function() {
+    document.getElementById('embark_date').value = this.value;
+  });
+
+  // Form validation
+  document.getElementById('nads_b_op_checks_form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Check if all required radio buttons are selected
+    let allTestsChecked = true;
+    for (let i = 1; i <= 12; i++) {
+      const testNum = String(i).padStart(2, '0');
+      if (!document.querySelector(`input[name="test_${testNum}"]:checked`)) {
+        allTestsChecked = false;
+        break;
+      }
+    }
+    
+    if (!allTestsChecked) {
+      alert('Please complete all test observations before submitting.');
+      return;
+    }
+    
+    // If validation passes, submit the form
+    this.submit();
+  });
+</script>
+<style>
+    .form-wrapper {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        width: 100%;
+        margin: 20px 0;
+    }
+
+    /* Creates the horizontal row */
+    .sig-row {
+        display: flex;
+        gap: 40px; /* Space between the main columns */
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
+    /* Containers for each Label + Line pair */
+    .field-box {
+        display: flex;
+        align-items: flex-end; /* Aligns text to the bottom line */
+        flex: 1; /* Makes each section take equal width */
+    }
+
+    .label-text {
+        white-space: nowrap;
+        font-weight: bold;
+        margin-right: 10px;
+    }
+
+    /* The underline textarea */
+    .line-field {
+        flex: 1; /* This makes the line stretch to fill the space */
+        border: none;
+        border-bottom: 1px solid black;
+        background: transparent;
+        outline: none;
+        resize: none;
+        height: 1.2em;
+        line-height: 1.2em;
+        overflow: hidden;
+        font-family: inherit;
+        font-size:18px;
+    }
+
+    /* Specific adjustment for the STO section to look like your image */
+    .flex-small { flex: 0.5; }
+    .flex-large { flex: 1.5; }
+
+</style>
+
+{% endblock js %}

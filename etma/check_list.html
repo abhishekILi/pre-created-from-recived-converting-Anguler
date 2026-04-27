@@ -1,0 +1,1009 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">CHECK OFF LIST – SOUND POWERED TELEPHONE / COMMUNICATION SYSTEM</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="spt_system_checks_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+
+                            <!-- ══════════════════════════════════════
+                                HEADER INFORMATION
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <div class="row g-3">
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" name="ship" required>
+                                                <option value="">--Select--</option>
+                                                {% for ship in ship_options %}
+                                                <option value="{{ ship.value }}">{{ ship.label }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <label class="form_control_1">Ship<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" name="Occasion_system" placeholder="">
+                                            <label class="form_control_1">Occasion of Trial</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" name="Present_system" placeholder="">
+                                            <label class="form_control_1">Presented By</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" name="Trial_system" placeholder="">
+                                            <label class="form_control_1">Trial Inspector (Name)</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group mt-2 mb-2">
+                                            <div class="d-flex align-items-center">
+                                                <label class="form_control_1 mb-0">Reference of Trial Documents :<span class="text-danger"></span></label>
+                                                <span class="ml-2 font-weight-bold">EED 50-08 (R1)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 1: Test Equipment
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">1. Test Equipment Used During Trials</legend>
+                                <div class="px-3 py-2">
+                                    <p class="mb-1">Multimeter, Insulation tester, Battery capacity tester, Hydrometer (for lead acid battery)</p>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 2: Date & Time
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">2. Date &amp; Time</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="checklist_general_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser</th>
+                                                <th style="text-align: center;">Activity</th>
+                                                <th style="width:18%;">Date</th>
+                                                <th style="width:22%;">Time</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="serial-no">2.1</td>
+                                                <td>Intimation from Ship</td>
+                                                <td><input type="date" class="form-control" name="dt_intimation_date"></td>
+                                                <td><input type="time" class="form-control" name="dt_intimation_time"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">2.2</td>
+                                                <td>Readiness indicated by Ship</td>
+                                                <td><input type="date" class="form-control" name="dt_readiness_date"></td>
+                                                <td><input type="time" class="form-control" name="dt_readiness_time"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">2.3</td>
+                                                <td>Trial Inspector reported onboard Ship</td>
+                                                <td><input type="date" class="form-control" name="dt_inspector_date"></td>
+                                                <td><input type="time" class="form-control" name="dt_inspector_time"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">2.4</td>
+                                                <td>Trials Completed</td>
+                                                <td><input type="date" class="form-control" name="dt_completed_date"></td>
+                                                <td><input type="time" class="form-control" name="dt_completed_time"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 3: Design Requirements / Documentation
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">3. Design Requirements / Documentation</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="design_req_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser</th>
+                                                <th>Description / Document No. &amp; Date</th>
+                                                <th style="width:30%;">Document Submission Date / Certified By</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="serial-no">3.1</td>
+                                                <td><strong>Manufacturer -</strong></td>
+                                                <td><textarea class="form-control" name="dr_manufacturer" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.2</td>
+                                                <td><strong>Type A/B/C</strong></td>
+                                                <td><textarea class="form-control" name="dr_type" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.3</td>
+                                                <td><strong>Make &amp; Model -</strong></td>
+                                                <td><textarea class="form-control" name="dr_make_model" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.4</td>
+                                                <td><strong>GRAQ-</strong></td>
+                                                <td><textarea class="form-control" name="dr_graq" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.5</td>
+                                                <td><strong>ATP-</strong></td>
+                                                <td><textarea class="form-control" name="dr_atp" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.6</td>
+                                                <td><strong>WLDs-</strong></td>
+                                                <td><textarea class="form-control" name="dr_atp" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.7</td>
+                                                <td><strong>Board Proceeding-</strong></td>
+                                                <td><textarea class="form-control" name="dr_board" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.8</td>
+                                                <td><strong>FATs Report-</strong></td>
+                                                <td><textarea class="form-control" name="dr_fats" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no" rowspan="8">3.9</td>
+                                                <td>
+                                                    <strong>Certification required from OEM</strong><br>
+                                                    
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.9.1 Type testing certification.</td>
+                                                <td><textarea class="form-control" name="dr_doc_3102" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.9.2 Master provide by OEM AsPEr BOM-.</td>
+                                                <td><textarea class="form-control" name="dr_doc_3103" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.9.3 certificate for noise compensated headpone and speaker by OEM</td>
+                                                <td><textarea class="form-control" name="dr_doc_3104" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.9.4 Certification required for facility of having internal system/circuit to amplify the voice signals and able to transmit/recive vice signale bertween other SPTs intalles onboard</td>
+                                                <td><textarea class="form-control" name="dr_doc_3105" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.9.5 MTBF should be more than 50000 hrs while MTTR less than 30 min.</td>
+                                                <td><textarea class="form-control" name="dr_doc_3106" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                            </tr>
+                                            <tr>
+                                                
+                                            {% comment %} <tr>
+                                                <td class="serial-no">3.9</td>
+                                                <td>
+                                                    <strong>Documentation -</strong><br>
+                                                    <span class="pl-3">3.9.1 User hand book (Technical documentation operating instruction Installation checks.</span><br>
+                                                    <span class="pl-3">3.9.2 Servicing and Maintenance Manual.</span><br>
+                                                    <span class="pl-3">3.9.3 Preventive Maintenance routines / repair instructions Manual drawings.</span><br>
+                                                    <span class="pl-3">3.9.3 As fitted drawings.</span>
+                                                </td>
+                                                <td><textarea class="form-control" name="dr_documentation" rows="5"></textarea></td>
+                                            </tr> {% endcomment %}
+                                            <!-- Section 3.10 - Documentation sub-items -->
+                                            <tr>
+                                                <td class="serial-no" rowspan="9">3.10</td>
+                                                <td>
+                                                    <strong>Documentation-</strong><br>
+                                                   
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.10.1 Technical documentation</td>
+                                                <td><textarea class="form-control" name="dr_doc_3102" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.10.2 Technical / functional description including that at PCB and component level.</td>
+                                                <td><textarea class="form-control" name="dr_doc_3102" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.10.3 Operating Instruction Manual.</td>
+                                                <td><textarea class="form-control" name="dr_doc_3103" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.10.4 Preventive maintenance routines / repair instructions Manual along with drawings.</td>
+                                                <td><textarea class="form-control" name="dr_doc_3104" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.10.5 Installation and Test Manual.</td>
+                                                <td><textarea class="form-control" name="dr_doc_3105" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.10.6 Part Identification list and Tools Catalogue.</td>
+                                                <td><textarea class="form-control" name="dr_doc_3106" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.10.7 Test Procedure and Documentation.</td>
+                                                <td><textarea class="form-control" name="dr_doc_3107" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.10.8 List of onboard and B&amp;D spares.</td>
+                                                <td><textarea class="form-control" name="dr_doc_3108" rows="1"></textarea></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 4: IIs Checks
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">4. IIs Checks</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="iis_checks_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser</th>
+                                                <th style="width:18%;">Reference</th>
+                                                <th>Checks</th>
+                                                <th style="width:14%;">SAT / UNSAT</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <!-- 4.1 -->
+                                            <tr>
+                                                <td class="serial-no">4.1</td>
+                                                <td style="font-size:12px;">Para 1(d) of EED 50-08 (R1)</td>
+                                                <td>System should have provision for connecting ships emergency DC supply. (24V/12V).</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                            <div>
+                                                                <input type="radio" id="deg_1_sat" name="deg_1" value="SAT">
+                                                                <label for="deg_1_sat">SAT</label>
+                                                            </div>
+                                                            <div>
+                                                                <input type="radio" id="deg_1_unsat" name="deg_1" value="UNSAT">
+                                                                <label for="deg_1_unsat">UNSAT</label>
+                                                            </div>
+                                                        </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 4.2 -->
+                                            <tr>
+                                                <td class="serial-no">4.2</td>
+                                                <td style="font-size:12px;">Para 1(f) of EED 50-08 (R1)</td>
+                                                <td>System should have audio and visual combined flash alarm unit.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="iis_4_2_sat" name="iis_4_2" value="SAT">
+                                                            <label for="iis_4_2_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="iis_4_2_unsat" name="iis_4_2" value="UNSAT">
+                                                            <label for="iis_4_2_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 4.3 -->
+                                            <tr>
+                                                <td class="serial-no">4.3</td>
+                                                <td style="font-size:12px;">Para 1(h) of EED 50-08 (R1)</td>
+                                                <td>System should have plug/socket box for connecting portable SPTs and portable headsets.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="iis_4_3_sat" name="iis_4_3" value="SAT">
+                                                            <label for="iis_4_3_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="iis_4_3_unsat" name="iis_4_3" value="UNSAT">
+                                                            <label for="iis_4_3_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 4.4 -->
+                                            <tr>
+                                                <td class="serial-no">4.4</td>
+                                                <td style="font-size:12px;">Para 1(l) of EED 50-08 (R1)</td>
+                                                <td>System should have group isolations (Armament, damage control, machinery group)</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="iis_4_4_sat" name="iis_4_4" value="SAT">
+                                                            <label for="iis_4_4_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="iis_4_4_unsat" name="iis_4_4" value="UNSAT">
+                                                            <label for="iis_4_4_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 4.5 -->
+                                            <tr>
+                                                <td class="serial-no">4.5</td>
+                                                <td style="font-size:12px;">Para 1(m) of EED 50-08 (R1)</td>
+                                                <td>System should have screened cable network for interconnections between SPTs.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="iis_4_5_sat" name="iis_4_5" value="SAT">
+                                                            <label for="iis_4_5_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="iis_4_5_unsat" name="iis_4_5" value="UNSAT">
+                                                            <label for="iis_4_5_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 4.6 -->
+                                            <tr>
+                                                <td class="serial-no">4.6</td>
+                                                <td style="font-size:12px;">Para 1(n) of EED 50-08 (R1)</td>
+                                                <td>System accessories should meet Ingress protection on locations where it is going to be fitted. Weather decks – IP 66, Underwater comp. – IP 67, Other locations – IP 55 ratings.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="iis_4_6_sat" name="iis_4_6" value="SAT">
+                                                            <label for="iis_4_6_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="iis_4_6_unsat" name="iis_4_6" value="UNSAT">
+                                                            <label for="iis_4_6_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 4.7 -->
+                                            <tr>
+                                                <td class="serial-no">4.7</td>
+                                                <td style="font-size:12px;">Para 1(p) of EED 50-08 (R1)</td>
+                                                <td>If system is used in hazardous area, all SPTs connected to system shall meet the degree of intrinsic safety required for hazardous area.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="iis_4_7_sat" name="iis_4_7" value="SAT">
+                                                            <label for="iis_4_7_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="iis_4_7_unsat" name="iis_4_7" value="UNSAT">
+                                                            <label for="iis_4_7_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 4.8 -->
+                                            <tr>
+                                                <td class="serial-no">4.8</td>
+                                                <td style="font-size:12px;">Para 1 of Appendix C of EED 50-08</td>
+                                                <td>Where units are connected with ship's mains, fuse protection is to be provided.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="iis_4_8_sat" name="iis_4_8" value="SAT">
+                                                            <label for="iis_4_8_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="iis_4_8_unsat" name="iis_4_8" value="UNSAT">
+                                                            <label for="iis_4_8_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 4.9 -->
+                                            <tr>
+                                                <td class="serial-no">4.9</td>
+                                                <td style="font-size:12px;">Para 1 Appendix C of EED 50-08 (R1)</td>
+                                                <td>All units to be provided by earthing bolts. Where units are connected with ships main supply, fuse protection is to be provided.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="iis_4_9_sat" name="iis_4_9" value="SAT">
+                                                            <label for="iis_4_9_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="iis_4_9_unsat" name="iis_4_9" value="UNSAT">
+                                                            <label for="iis_4_9_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 4.10 -->
+                                            <tr>
+                                                <td class="serial-no">4.10</td>
+                                                <td style="font-size:12px;">Para 4 of Appendix C of EED 50-08 (R1)</td>
+                                                <td>Unit Tallies (for identification).</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="iis_4_10_sat" name="iis_4_10" value="SAT">
+                                                            <label for="iis_4_10_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="iis_4_10_unsat" name="iis_4_10" value="UNSAT">
+                                                            <label for="iis_4_10_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 4.11 -->
+                                            <tr>
+                                                <td class="serial-no">4.11</td>
+                                                <td style="font-size:12px;">Appendix C of EED 50-08 (R1)</td>
+                                                <td>Cables Tallies (cable markings).</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="iis_4_11_sat" name="iis_4_11" value="SAT">
+                                                            <label for="iis_4_11_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="iis_4_11_unsat" name="iis_4_11" value="UNSAT">
+                                                            <label for="iis_4_11_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 4.12 -->
+                                            <tr>
+                                                <td class="serial-no">4.12</td>
+                                                <td style="font-size:12px;">50-08 (R1)</td>
+                                                <td>Metallic Block Diagram of System (should be fitted) Detailed Lay Out Diagram</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="iis_4_12_sat" name="iis_4_12" value="SAT">
+                                                            <label for="iis_4_12_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="iis_4_12_unsat" name="iis_4_12" value="UNSAT">
+                                                            <label for="iis_4_12_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 4.13 -->
+                                            <tr>
+                                                <td class="serial-no">4.13</td>
+                                                <td style="font-size:12px;">Para 5 Appendix C of EED 50-08 (R1)</td>
+                                                <td>Bolted type terminal and crimped socket of electrolytic copper are to be provided for all incoming and outgoing cables.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="iis_4_13_sat" name="iis_4_13" value="SAT">
+                                                            <label for="iis_4_13_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="iis_4_13_unsat" name="iis_4_13" value="UNSAT">
+                                                            <label for="iis_4_13_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 4.14 -->
+                                            <tr>
+                                                <td class="serial-no">4.14</td>
+                                                <td style="font-size:12px;">Para 6 Appendix C of EED 50-08 (R1)</td>
+                                                <td>The equipment should be mounted on shock mounts.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="iis_4_14_sat" name="iis_4_14" value="SAT">
+                                                            <label for="iis_4_14_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="iis_4_14_unsat" name="iis_4_14" value="UNSAT">
+                                                            <label for="iis_4_14_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 4.15 -->
+                                            <tr>
+                                                <td class="serial-no">4.15</td>
+                                                <td style="font-size:12px;">Para 1(l) of EED 50-08 (R1)</td>
+                                                <td>The system should have audio and visual combined flash unit for machinery compartments/noisy compartments (for e.g. Flasher with Yoda light) and will be connected to individual SPTs directly or through relay box.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="iis_4_15_sat" name="iis_4_15" value="SAT">
+                                                            <label for="iis_4_15_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="iis_4_15_unsat" name="iis_4_15" value="UNSAT">
+                                                            <label for="iis_4_15_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 5: OPS Checks – Single Way / Single Way (Portable) / Single Way (IS)
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">5. OPS Checks {Single Way / Single Way (Portable) / Single Way (IS)}</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="ops_sw_tbl">
+                                        <!-- Section 5 thead - UPDATED -->
+                                    <thead class="table-dark-head">
+                                        <tr>
+                                            <th class="serial-no" rowspan="3">Ser</th>
+                                            <th style="width:15%;" rowspan="3">Reference</th>
+                                            <th rowspan="3">Checks</th>
+                                            <th colspan="6" style="text-align:center;">Category</th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="2" style="text-align:center;">SW</th>
+                                            <th colspan="2" style="text-align:center;">SW(P)</th>
+                                            <th colspan="2" style="text-align:center;">SW(IS)</th>
+                                        </tr>
+                                        <tr>
+                                            <th style="width:9%; font-size:11px; text-align:center;">Qty as per WLDS</th>
+                                            <th style="width:9%; font-size:11px; text-align:center;">Qty fitted</th>
+                                            <th style="width:9%; font-size:11px; text-align:center;">Qty as per WLDS</th>
+                                            <th style="width:9%; font-size:11px; text-align:center;">Qty fitted</th>
+                                            <th style="width:9%; font-size:11px; text-align:center;">Qty as per WLDS</th>
+                                            <th style="width:9%; font-size:11px; text-align:center;">Qty fitted</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                            <!-- 5.1 Communication Checks -->
+                                                                                        <!-- 5.1 row - UPDATED (SAT/UNSAT spans both Qty as per WLDS and Qty fitted) -->
+                                            <tr>
+                                                <td class="serial-no">5.1</td>
+                                                <td style="font-size:12px;">Para 1(a) of EED 50-08 (R1)</td>
+                                                <td><strong>Communication Checks</strong> – System should provide loud and clear voice communication.</td>
+
+                                                <!-- SW - Qty as per WLDS & Qty fitted (Common SAT/UNSAT spanning both) -->
+                                                <td colspan="2">
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" id="ops_5_1_sw_sat" name="ops_5_1_sw" value="SAT"><label for="ops_5_1_sw_sat">SAT</label></div>
+                                                        <div><input type="radio" id="ops_5_1_sw_unsat" name="ops_5_1_sw" value="UNSAT"><label for="ops_5_1_sw_unsat">UNSAT</label></div>
+                                                    </div>
+                                                </td>
+
+                                                <!-- SW(P) - Qty as per WLDS & Qty fitted (Common SAT/UNSAT spanning both) -->
+                                                <td colspan="2">
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" id="ops_5_1_swp_sat" name="ops_5_1_swp" value="SAT"><label for="ops_5_1_swp_sat">SAT</label></div>
+                                                        <div><input type="radio" id="ops_5_1_swp_unsat" name="ops_5_1_swp" value="UNSAT"><label for="ops_5_1_swp_unsat">UNSAT</label></div>
+                                                    </div>
+                                                </td>
+
+                                                <!-- SW(IS) - Qty as per WLDS & Qty fitted (Common SAT/UNSAT spanning both) -->
+                                                <td colspan="2">
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" id="ops_5_1_swis_sat" name="ops_5_1_swis" value="SAT"><label for="ops_5_1_swis_sat">SAT</label></div>
+                                                        <div><input type="radio" id="ops_5_1_swis_unsat" name="ops_5_1_swis" value="UNSAT"><label for="ops_5_1_swis_unsat">UNSAT</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="serial-no">5.2</td>
+                                                <td style="font-size:12px;">Para 1(c) of EED 50-08 (R1)</td>
+                                                <td><strong></strong>System should operate independently without ships/external power supply</td>
+
+                                                <!-- SW - Qty as per WLDS & Qty fitted (Common SAT/UNSAT spanning both) -->
+                                                <td colspan="2">
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" id="ops_5_2_sw_sat" name="ops_5_2_sw" value="SAT"><label for="ops_5_2_sw_sat">SAT</label></div>
+                                                        <div><input type="radio" id="ops_5_2_sw_unsat" name="ops_5_2_sw" value="UNSAT"><label for="ops_5_2_sw_unsat">UNSAT</label></div>
+                                                    </div>
+                                                </td>
+
+                                                <!-- SW(P) - Qty as per WLDS & Qty fitted (Common SAT/UNSAT spanning both) -->
+                                                <td colspan="2">
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" id="ops_5_2_swp_sat" name="ops_5_2_swp" value="SAT"><label for="ops_5_2_swp_sat">SAT</label></div>
+                                                        <div><input type="radio" id="ops_5_2_swp_unsat" name="ops_5_2_swp" value="UNSAT"><label for="ops_5_2_swp_unsat">UNSAT</label></div>
+                                                    </div>
+                                                </td>
+
+                                                <!-- SW(IS) - Qty as per WLDS & Qty fitted (Common SAT/UNSAT spanning both) -->
+                                                <td colspan="2">
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" id="ops_5_2_swis_sat" name="ops_5_2_swis" value="SAT"><label for="ops_5_2_swis_sat">SAT</label></div>
+                                                        <div><input type="radio" id="ops_5_2_swis_unsat" name="ops_5_2_swis" value="UNSAT"><label for="ops_5_2_swis_unsat">UNSAT</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 5.3 Audio-Visual Alarm -->
+                                           <tr>
+                                                <td class="serial-no">5.3</td>
+                                                <td style="font-size:12px;">Para 1(f) of EED 50-08 (R1)</td>
+                                                <td><strong>Audio - Visula Alarm</strong>-The and LED indiaction should be prominent till a distance of at least 10 mtrs</td>
+
+                                                <!-- SW - Qty as per WLDS & Qty fitted (Common SAT/UNSAT spanning both) -->
+                                                <td colspan="2">
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" id="ops_5_3_sw_sat" name="ops_5_3_sw" value="SAT"><label for="ops_5_3_sw_sat">SAT</label></div>
+                                                        <div><input type="radio" id="ops_5_3_sw_unsat" name="ops_5_3_sw" value="UNSAT"><label for="ops_5_3_sw_unsat">UNSAT</label></div>
+                                                    </div>
+                                                </td>
+
+                                                <!-- SW(P) - Qty as per WLDS & Qty fitted (Common SAT/UNSAT spanning both) -->
+                                                <td colspan="2">
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" id="ops_5_3_swp_sat" name="ops_5_3_swp" value="SAT"><label for="ops_5_3_swp_sat">SAT</label></div>
+                                                        <div><input type="radio" id="ops_5_3_swp_unsat" name="ops_5_3_swp" value="UNSAT"><label for="ops_5_3_swp_unsat">UNSAT</label></div>
+                                                    </div>
+                                                </td>
+
+                                                <!-- SW(IS) - Qty as per WLDS & Qty fitted (Common SAT/UNSAT spanning both) -->
+                                                <td colspan="2">
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" id="ops_5_3_swis_sat" name="ops_5_3_swis" value="SAT"><label for="ops_5_3_swis_sat">SAT</label></div>
+                                                        <div><input type="radio" id="ops_5_3_swis_unsat" name="ops_5_3_swis" value="UNSAT"><label for="ops_5_3_swis_unsat">UNSAT</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 6: OPS Checks – Multi Way / Multi Way (P) / Multi Way (IS) SPTs and Relay Unit
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">6. OPS Checks {Multi Way / Multi Way (P) / Multi Way (IS) SPTs and Relay Unit}</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="ops_mw_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no" rowspan="3">Ser</th>
+                                                <th style="width:15%;" rowspan="3">Reference</th>
+                                                <th rowspan="3">Checks</th>
+                                                <th colspan="6" style="text-align:center;">Category</th>
+                                            </tr>
+                                            <tr>
+                                                <th colspan="2" style="text-align:center; ">MW</th>
+                                                <th colspan="2" style="text-align:center; ">MW(P)</th>
+                                                <th colspan="2" style="text-align:center; ">MW(IS)</th>
+                                            </tr>
+                                            <tr>
+                                                <th style="width:8%; font-size:11px; text-align:center;">Qty as per WLDS</th>
+                                                <th style="width:8%; font-size:11px; text-align:center;">Qty fitted</th>
+                                                <th style="width:8%; font-size:11px; text-align:center;">Qty as per WLDS</th>
+                                                <th style="width:8%; font-size:11px; text-align:center;">Qty fitted</th>
+                                                <th style="width:8%; font-size:11px; text-align:center;">Qty as per WLDS</th>
+                                                <th style="width:8%; font-size:11px; text-align:center;">Qty fitted</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <!-- 6.1 Communication Checks -->
+                                            <tr>
+                                                <td class="serial-no">6.1</td>
+                                                <td style="font-size:12px;">Para 1(a) of EED 50-08 (R1)</td>
+                                                <td><strong>Communication Checks</strong>– System should provide loud and clear voice communication.</td>
+
+                                                <!-- MW - Qty as per WLDS & Qty fitted (Common SAT/UNSAT spanning both) -->
+                                                <td colspan="2">
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" id="ops_6_1_mw_sat" name="ops_6_1_mw" value="SAT"><label for="ops_6_1_mw_sat">SAT</label></div>
+                                                        <div><input type="radio" id="ops_6_1_mw_unsat" name="ops_6_1_mw" value="UNSAT"><label for="ops_6_1_mw_unsat">UNSAT</label></div>
+                                                    </div>
+                                                </td>
+
+                                                <!-- MW(P) - Qty as per WLDS & Qty fitted (Common SAT/UNSAT spanning both) -->
+                                                <td colspan="2">
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" id="ops_6_1_mwp_sat" name="ops_6_1_mwp" value="SAT"><label for="ops_6_1_mwp_sat">SAT</label></div>
+                                                        <div><input type="radio" id="ops_6_1_mwp_unsat" name="ops_6_1_mwp" value="UNSAT"><label for="ops_6_1_mwp_unsat">UNSAT</label></div>
+                                                    </div>
+                                                </td>
+
+                                                <!-- MW(IS) - Qty as per WLDS & Qty fitted (Common SAT/UNSAT spanning both) -->
+                                                <td colspan="2">
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" id="ops_6_1_mwis_sat" name="ops_6_1_mwis" value="SAT"><label for="ops_6_1_mwis_sat">SAT</label></div>
+                                                        <div><input type="radio" id="ops_6_1_mwis_unsat" name="ops_6_1_mwis" value="UNSAT"><label for="ops_6_1_mwis_unsat">UNSAT</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+
+                                            <!-- 6.2 Independent Operation -->
+                                            <tr>
+                                                <td class="serial-no">6.2</td>
+                                                <td style="font-size:12px;">Para 1(b) of EED 50-08 (R1)</td>
+                                                <td>System should operate independently without ships/external power supply</td>
+
+                                                <!-- MW - Qty as per WLDS & Qty fitted (Common SAT/UNSAT spanning both) -->
+                                                <td colspan="2">
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" id="ops_6_2_mw_sat" name="ops_6_2_mw" value="SAT"><label for="ops_6_2_mw_sat">SAT</label></div>
+                                                        <div><input type="radio" id="ops_6_2_mw_unsat" name="ops_6_2_mw" value="UNSAT"><label for="ops_6_2_mw_unsat">UNSAT</label></div>
+                                                    </div>
+                                                </td>
+
+                                                <!-- MW(P) - Qty as per WLDS & Qty fitted (Common SAT/UNSAT spanning both) -->
+                                                <td colspan="2">
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" id="ops_6_2_mwp_sat" name="ops_6_2_mwp" value="SAT"><label for="ops_6_2_mwp_sat">SAT</label></div>
+                                                        <div><input type="radio" id="ops_6_2_mwp_unsat" name="ops_6_2_mwp" value="UNSAT"><label for="ops_6_2_mwp_unsat">UNSAT</label></div>
+                                                    </div>
+                                                </td>
+
+                                                <!-- MW(IS) - Qty as per WLDS & Qty fitted (Common SAT/UNSAT spanning both) -->
+                                                <td colspan="2">
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" id="ops_6_2_mwis_sat" name="ops_6_2_mwis" value="SAT"><label for="ops_6_2_mwis_sat">SAT</label></div>
+                                                        <div><input type="radio" id="ops_6_2_mwis_unsat" name="ops_6_2_mwis" value="UNSAT"><label for="ops_6_2_mwis_unsat">UNSAT</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 6.3 Audio-Visual Alarm -->
+                                            <tr>
+                                                <td class="serial-no">6.3</td>
+                                                <td style="font-size:12px;">Para 1(f) of EED 50-08 (R1)</td>
+                                                <td><strong>Audio - Visula Alarm</strong>-The and LED indiaction should be prominent till a distance of at least 10 mtrs</td>
+
+                                                <!-- MW - Qty as per WLDS & Qty fitted (Common SAT/UNSAT spanning both) -->
+                                                <td colspan="2">
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" id="ops_6_3_mw_sat" name="ops_6_3_mw" value="SAT"><label for="ops_6_3_mw_sat">SAT</label></div>
+                                                        <div><input type="radio" id="ops_6_3_mw_unsat" name="ops_6_3_mw" value="UNSAT"><label for="ops_6_3_mw_unsat">UNSAT</label></div>
+                                                    </div>
+                                                </td>
+
+                                                <!-- MW(P) - Qty as per WLDS & Qty fitted (Common SAT/UNSAT spanning both) -->
+                                                <td colspan="2">
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" id="ops_6_3_mwp_sat" name="ops_6_3_mwp" value="SAT"><label for="ops_6_3_mwp_sat">SAT</label></div>
+                                                        <div><input type="radio" id="ops_6_3_mwp_unsat" name="ops_6_3_mwp" value="UNSAT"><label for="ops_6_3_mwp_unsat">UNSAT</label></div>
+                                                    </div>
+                                                </td>
+
+                                                <!-- MW(IS) - Qty as per WLDS & Qty fitted (Common SAT/UNSAT spanning both) -->
+                                                <td colspan="2">
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" id="ops_6_3_mwis_sat" name="ops_6_3_mwis" value="SAT"><label for="ops_6_3_mwis_sat">SAT</label></div>
+                                                        <div><input type="radio" id="ops_6_3_mwis_unsat" name="ops_6_3_mwis" value="UNSAT"><label for="ops_6_3_mwis_unsat">UNSAT</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 6.4 Group Isolation -->
+                                            <tr>
+                                                <td class="serial-no">6.4</td>
+                                                <td style="font-size:12px;">Para 1(I) of EED 50-08 (R1)</td>
+                                                <td><strong>Group Isolation</strong>– System should have group isolations and one group should be able to communicate with the SPTs of other groups.</td>
+
+                                                <!-- MW - Qty as per WLDS & Qty fitted (Common SAT/UNSAT spanning both) -->
+                                                <td colspan="2">
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" id="ops_6_4_mw_sat" name="ops_6_4_mw" value="SAT"><label for="ops_6_4_mw_sat">SAT</label></div>
+                                                        <div><input type="radio" id="ops_6_4_mw_unsat" name="ops_6_4_mw" value="UNSAT"><label for="ops_6_4_mw_unsat">UNSAT</label></div>
+                                                    </div>
+                                                </td>
+
+                                                <!-- MW(P) - Qty as per WLDS & Qty fitted (Common SAT/UNSAT spanning both) -->
+                                                <td colspan="2">
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" id="ops_6_4_mwp_sat" name="ops_6_4_mwp" value="SAT"><label for="ops_6_4_mwp_sat">SAT</label></div>
+                                                        <div><input type="radio" id="ops_6_4_mwp_unsat" name="ops_6_4_mwp" value="UNSAT"><label for="ops_6_4_mwp_unsat">UNSAT</label></div>
+                                                    </div>
+                                                </td>
+
+                                                <!-- MW(IS) - Qty as per WLDS & Qty fitted (Common SAT/UNSAT spanning both) -->
+                                                <td colspan="2">
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" id="ops_6_4_mwis_sat" name="ops_6_4_mwis" value="SAT"><label for="ops_6_4_mwis_sat">SAT</label></div>
+                                                        <div><input type="radio" id="ops_6_4_mwis_unsat" name="ops_6_4_mwis" value="UNSAT"><label for="ops_6_4_mwis_unsat">UNSAT</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 6.5 Call Conferencing -->
+                                            <tr>
+                                                <td class="serial-no">6.5</td>
+                                                <td style="font-size:12px;">Para 1(I) of EED 50-08 (R1)</td>
+                                                <td><strong>Call Conferencing </strong>– System should have call conferencing capabilities for up to 08 maximum SPTs.</td>
+
+                                                <!-- MW - Qty as per WLDS & Qty fitted (Common SAT/UNSAT spanning both) -->
+                                                <td colspan="2">
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" id="ops_6_5_mw_sat" name="ops_6_5_mw" value="SAT"><label for="ops_6_5_mw_sat">SAT</label></div>
+                                                        <div><input type="radio" id="ops_6_5_mw_unsat" name="ops_6_5_mw" value="UNSAT"><label for="ops_6_5_mw_unsat">UNSAT</label></div>
+                                                    </div>
+                                                </td>
+
+                                                <!-- MW(P) - Qty as per WLDS & Qty fitted (Common SAT/UNSAT spanning both) -->
+                                                <td colspan="2">
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" id="ops_6_5_mwp_sat" name="ops_6_5_mwp" value="SAT"><label for="ops_6_5_mwp_sat">SAT</label></div>
+                                                        <div><input type="radio" id="ops_6_5_mwp_unsat" name="ops_6_5_mwp" value="UNSAT"><label for="ops_6_5_mwp_unsat">UNSAT</label></div>
+                                                    </div>
+                                                </td>
+
+                                                <!-- MW(IS) - Qty as per WLDS & Qty fitted (Common SAT/UNSAT spanning both) -->
+                                                <td colspan="2">
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" id="ops_6_5_mwis_sat" name="ops_6_5_mwis" value="SAT"><label for="ops_6_5_mwis_sat">SAT</label></div>
+                                                        <div><input type="radio" id="ops_6_5_mwis_unsat" name="ops_6_5_mwis" value="UNSAT"><label for="ops_6_5_mwis_unsat">UNSAT</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td><strong>Relay Unit</strong></td>
+                                                <td colspan="8" style="text-align:center; padding:20px;"><span style="font-size:12px; "></span></td></tr>
+
+                                            <tr>
+                                                <td colspan="3"><strong>Quality as per WLDs-</strong></td>
+                                                <td colspan="6" style="text-align:left; padding:20px;"><span style="font-size:12px; "><strong>Quality fitted-</strong></span></td></tr>
+
+                                            <!-- 6.6 Relay Unit – Audio Visual Alarm -->
+                                            <tr>
+                                                <td class="serial-no">6.6</td>
+                                                <td style="font-size:12px;">Para 1(l) of EED 50-08 (R1)</td>
+                                                <td><strong>Relay Unit – Audio Visual Alarm</strong> – Visual and audio alarm indication to be working on switch command from any SPT in the system.</td>
+                                                <td colspan="6" style="text-align:center; padding:20px;"><span style="font-size:12px; "></span></td>
+                                            </tr>
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            
+                            </fieldset>
+
+                            <div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Save</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .custom_tbl {
+        table-layout: fixed;
+        width: 100%;
+    }
+    .custom_tbl td,
+    .custom_tbl th {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
+        vertical-align: middle;
+        padding: 6px 8px;
+        font-size: 13px;
+    }
+    .serial-no {
+        width: 6%;
+        text-align: center;
+        font-weight: 600;
+    }
+
+    /* Yes/No Radio Container */
+    .yes-no-container {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        align-items: center;
+    }
+    .yes-no-container > div {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 12px;
+    }
+    .yes-no-container label {
+        margin: 0;
+        font-weight: normal;
+        cursor: pointer;
+    }
+
+    /* Smaller Yes/No for multi-column tables */
+    .yes-no-container-sm {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        align-items: flex-start;
+    }
+    .yes-no-container-sm > div {
+        display: flex;
+        align-items: center;
+        gap: 3px;
+        font-size: 11px;
+    }
+    .yes-no-container-sm label {
+        margin: 0;
+        font-weight: normal;
+        cursor: pointer;
+    }
+
+    .input-sm {
+        font-size: 12px;
+        padding: 3px 5px;
+        height: auto;
+    }
+
+    /* Signature block */
+    .sig-block {
+        padding: 10px 20px;
+    }
+    .sig-line {
+        border-top: 1px solid #333;
+        margin-bottom: 4px;
+    }
+    .sig-label {
+        font-size: 12px;
+        margin: 0;
+    }
+</style>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

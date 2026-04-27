@@ -1,0 +1,199 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+/* ✅ Responsive Fix */
+#prcm_table .flex-row-item {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 8px;
+}
+
+@media (min-width: 992px) {
+	#prcm_table .flex-row-item {
+		flex-direction: row;
+		align-items: flex-start;
+	}
+	#prcm_table .flex-label {
+		min-width: 260px;
+		margin-right: 10px;
+	}
+	#prcm_table .flex-input {
+		flex-grow: 1;
+	}
+}
+
+@media (max-width: 768px) {
+	#prcm_table textarea {
+		margin-top: 5px;
+	}
+}
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">WATT</a></li>
+					<li class="breadcrumb-item active">PRCM</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">PRCM</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="prcm_form" action="{% url 'ITTTM:prcm' %}">
+						{% csrf_token %}
+
+						<div class="form-body">
+
+							<!-- BASIC INFO SAME -->
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">Basic Information</legend>
+								<div class="row g-3">
+									<div class="col-md-4 col-12">
+										<select class="form-control" name="prcm_ship_name" required>
+											<option value="">--Select--</option>
+											{% for ship in ship_options %}
+											<option value="{{ ship.value }}">{{ ship.label }}</option>
+											{% endfor %}
+										</select>
+									</div>
+
+									<div class="col-md-4 col-12">
+										<select class="form-control" name="prcm_department">
+											<option value="">-- Select --</option>
+											<option value="ND">ND</option>
+											<option value="ASW">ASW</option>
+											<option value="COMM">COMM</option>
+											<option value="GUNNERY">GUNNERY</option>
+										</select>
+									</div>
+
+									<div class="col-md-4 col-12">
+										<input type="text" class="form-control" name="prcm_equipment" value="PRCM" required>
+									</div>
+
+									<div class="col-md-4 col-12">
+										<input type="date" class="form-control" name="prcm_date">
+									</div>
+
+									<div class="col-md-4 col-12">
+										<select class="form-control" name="prcm_nature_of_trials" required>
+											<option value="">--Select--</option>
+											<option value="SATs">SATs</option>
+											<option value="HATS">HATs</option>
+											<option value="OP_CHECKS">OP CHECKS</option>
+											<option value="IIS">IIs</option>
+										</select>
+									</div>
+								</div>
+							</fieldset>
+
+							<!-- TABLE -->
+							<fieldset class="custom-fieldset mt-4">
+								<div class="table-responsive mt-4">
+									<table class="custom_tbl" id="prcm_table">
+										<thead class="table-dark-head">
+											<tr>
+												<th>SER</th>
+												<th>OBSERVATIONS</th>
+												<th>RESULT</th>
+												<th>REMARKS</th>
+											</tr>
+										</thead>
+
+										<tbody>
+											<tr>
+												<td colspan="4">
+													Trials team embarked onboard at
+													<input type="text" name="prcm_embarked_onboard_at" class="line-input embarked-hrs">
+													on
+													<input type="text" name="prcm_embarked_on_date" class="line-input embarked-hrs">
+													for SATs of PRCM...
+												</td>
+											</tr>
+
+											<tr>
+												<td>1.</td>
+
+												<td>
+													<strong>PRCM checks</strong>
+
+													<div class="flex-row-item">
+														<div class="flex-label">Recording of Raw Data files -</div>
+														<div class="flex-input">
+															<textarea class="form-control wrstg-scroll-textarea" name="prcm_recording_raw_data_files" rows="5"></textarea>
+														</div>
+													</div>
+
+													<div class="flex-row-item">
+														<div class="flex-label">Recording of Audio files -</div>
+														<div class="flex-input">
+															<textarea class="form-control wrstg-scroll-textarea" name="prcm_recording_audio_files" rows="5"></textarea>
+														</div>
+													</div>
+
+													<div class="flex-row-item">
+														<div class="flex-label">Signature analysis in PRCM -</div>
+														<div class="flex-input">
+															<textarea class="form-control wrstg-scroll-textarea" name="prcm_signature_analysis" rows="5"></textarea>
+														</div>
+													</div>
+
+													<div class="flex-row-item">
+														<div class="flex-label">Target Database management in PRCM -</div>
+														<div class="flex-input">
+															<textarea class="form-control wrstg-scroll-textarea" name="prcm_target_database_management" rows="5"></textarea>
+														</div>
+													</div>
+
+												</td>
+
+												<td>
+													<textarea class="form-control wrstg-scroll-textarea" name="prcm_checks_result" rows="5"></textarea>
+												</td>
+
+												<td>
+													<textarea class="form-control wrstg-scroll-textarea" name="prcm_checks_remarks" rows="5"></textarea>
+												</td>
+											</tr>
+
+										</tbody>
+									</table>
+								</div>
+
+								<div class="mt-3">
+									<strong>General Observations</strong>
+									<textarea class="form-control wrstg-scroll-textarea mt-1" name="prcm_general_observations" rows="5"></textarea>
+								</div>
+
+							</fieldset>
+
+							<div class="text-center mt-4">
+								<button type="submit" class="btn btn-success px-4">Save</button>
+							</div>
+
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

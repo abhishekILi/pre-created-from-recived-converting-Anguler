@@ -1,0 +1,303 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item"><a href="#">ETMA</a></li>
+					<li class="breadcrumb-item"><a href="#">Submarines</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Main Battery and Battery Auxiliaries</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">MAIN BATTERY AND BATTERY AUXILIARIES</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="main_battery_and_battery_auxiliaries_form" action="{% url 'ITTTM:main_battery_and_battery_auxiliaries' %}">
+						{% csrf_token %}
+
+						<fieldset class="custom-fieldset">
+							<legend class="legend-custom text-uppercase">Report Details</legend>
+							<div class="row g-3">
+								<div class="col-md-6 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<select class="form-control" id="mbba_submarine" name="mbba_submarine" required>
+											<option value="">-- Select Submarine --</option>
+											{% for submarine in submarine_options %}
+											<option value="{{ submarine.value }}">{{ submarine.label }}</option>
+											{% endfor %}
+										</select>
+										<label class="form_control_1">Submarine <span class="text-danger">*</span></label>
+									</div>
+								</div>
+
+								<div class="col-md-6 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<input type="date" class="form-control" id="mbba_report_date" name="mbba_report_date" required>
+										<label class="form_control_1">Date <span class="text-danger">*</span></label>
+									</div>
+								</div>
+							</div>
+						</fieldset>
+
+						<fieldset class="custom-fieldset mt-4">
+							<legend class="legend-custom text-uppercase">MAIN BATTERY</legend>
+							<div class="table-responsive">
+								<table class="custom_tbl" id="main_battery_table">
+									<thead>
+										<tr>
+											<th style="width: 12%;">TEST SER</th>
+											<th>TEST / NOMINAL VALUE</th>
+											<th style="width: 26%;">ACTUAL VALUE</th>
+											<th style="width: 22%;">REMARKS</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td></td>
+											<td><strong>System Support and Other Checks.</strong></td>
+											<td></td>
+											<td></td>
+										</tr>
+										<tr>
+											<td>101.100</td>
+											<td>General Checks (OK / Not OK)</td>
+											<td>
+												<textarea class="form-control wrstg-scroll-textarea" id="mbba_101_100_actual_value" name="mbba_101_100_actual_value" rows="2"></textarea>
+											</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" id="mbba_101_100_remarks" name="mbba_101_100_remarks" rows="2"></textarea></td>
+										</tr>
+										<tr>
+											<td>101.101</td>
+											<td>Battery Pit Checks (OK / Not OK)</td>
+											<td>
+												<textarea class="form-control wrstg-scroll-textarea" id="mbba_101_101_actual_value" name="mbba_101_101_actual_value" rows="2"></textarea>
+											</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" id="mbba_101_101_remarks" name="mbba_101_101_remarks" rows="2"></textarea></td>
+										</tr>
+										<tr>
+											<td>101.101.a</td>
+											<td>Details of last Battery Pit Painting carried out (Record Date of Paint application)</td>
+											<td>
+												<div>
+													<div class="d-flex align-items-center gap-2 flex-wrap mt-2">
+														<label for="mbba_101_101a_paint_date">Date:</label>
+														<input type="date" class="form-control embarked-hrs" id="mbba_101_101a_paint_date" name="mbba_101_101a_paint_date">
+													</div>
+												</div>
+											</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" id="mbba_101_101a_remarks" name="mbba_101_101a_remarks" rows="2"></textarea></td>
+										</tr>
+										<tr>
+											<td>101.101.b</td>
+											<td>Insulation Checks</td>
+											<td>
+												<textarea class="form-control wrstg-scroll-textarea" id="mbba_101_101b_actual_value" name="mbba_101_101b_actual_value" rows="2"></textarea>
+											</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" id="mbba_101_101b_remarks" name="mbba_101_101b_remarks" rows="2"></textarea></td>
+										</tr>
+										<tr>
+											<td>101.101.d</td>
+											<td>80 mm Vacuum test of Battery pits</td>
+											<td>
+												<textarea class="form-control wrstg-scroll-textarea" id="mbba_101_101d_actual_value" name="mbba_101_101d_actual_value" rows="2"></textarea>
+											</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" id="mbba_101_101d_remarks" name="mbba_101_101d_remarks" rows="2"></textarea></td>
+										</tr>
+										<tr>
+											<td>101.102</td>
+											<td>Checks prior to loading (OK / Not OK)</td>
+											<td>
+												<textarea class="form-control wrstg-scroll-textarea" id="mbba_101_102_actual_value" name="mbba_101_102_actual_value" rows="2"></textarea>
+											</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" id="mbba_101_102_remarks" name="mbba_101_102_remarks" rows="2"></textarea></td>
+										</tr>
+										<tr>
+											<td>101.102.a</td>
+											<td>Record date of last charge. Also record lagging cells, if any.</td>
+											<td>
+												<div>
+													<div class="d-flex align-items-center gap-2 flex-wrap mt-2">
+														<label for="mbba_101_102a_last_charge_date">Date:</label>
+														<input type="date" class="form-control embarked-hrs" id="mbba_101_102a_last_charge_date" name="mbba_101_102a_last_charge_date">
+													</div>
+													<div class="d-flex align-items-center gap-2 flex-wrap mt-2">
+														<label for="mbba_101_102a_lagging_cells">Lagging cells:</label>
+														<input type="text" class="form-control embarked-hrs" id="mbba_101_102a_lagging_cells" name="mbba_101_102a_lagging_cells">
+													</div>
+												</div>
+											</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" id="mbba_101_102a_remarks" name="mbba_101_102a_remarks" rows="2"></textarea></td>
+										</tr>
+										<tr>
+											<td>101.103</td>
+											<td>Checks post loading (OK / Not OK)</td>
+											<td>
+												<textarea class="form-control wrstg-scroll-textarea" id="mbba_101_103_actual_value" name="mbba_101_103_actual_value" rows="2"></textarea>
+											</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" id="mbba_101_103_remarks" name="mbba_101_103_remarks" rows="2"></textarea></td>
+										</tr>
+										<tr>
+											<td>101.104</td>
+											<td>
+												Capacity trials and Hydrogen evolution trials (OK / Not OK). Record capacity obtained in the last capacity trials with date. <br> Also record details of last hydrogen evolution trials undertaken with date and results.
+											</td>
+											<td>
+												<div>
+													<div class="fw-bold text-decoration-underline mt-2">Capacity Trials</div>
+													<div class="d-flex align-items-center gap-2 flex-wrap mt-2">
+														<label for="mbba_capacity_trials_date">Date:</label>
+														<input type="date" class="form-control embarked-hrs" id="mbba_capacity_trials_date" name="mbba_capacity_trials_date">
+													</div>
+													<div class="d-flex align-items-center gap-2 flex-wrap mt-2">
+														<label for="mbba_capacity_trials_capacity">Capacity:</label>
+														<input type="text" class="form-control embarked-hrs" id="mbba_capacity_trials_capacity" name="mbba_capacity_trials_capacity">
+													</div>
+													<div class="fw-bold text-decoration-underline mt-2">H<sub>2</sub> Evolution Trials</div>
+													<div class="d-flex align-items-center gap-2 flex-wrap mt-2">
+														<label for="mbba_h2_evolution_trials_date">Date:</label>
+														<input type="date" class="form-control embarked-hrs" id="mbba_h2_evolution_trials_date" name="mbba_h2_evolution_trials_date">
+													</div>
+													<div class="d-flex align-items-center gap-2 flex-wrap mt-2">
+														<label for="mbba_h2_evolution_trials_results">Results:</label>
+														<input type="text" class="form-control embarked-hrs" id="mbba_h2_evolution_trials_results" name="mbba_h2_evolution_trials_results">
+													</div>
+												</div>
+											</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" id="mbba_101_104_remarks" name="mbba_101_104_remarks" rows="6"></textarea></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+						</fieldset>
+
+						<fieldset class="custom-fieldset mt-4">
+							<legend class="legend-custom text-uppercase">HYDROS 100S (H<sub>2</sub> MEASURING SYSTEM)</legend>
+							<div class="table-responsive">
+								<table class="custom_tbl" id="hydros_100s_table">
+									<thead>
+										<tr>
+											<th style="width: 12%;">TEST SER</th>
+											<th>TEST/NOMINAL VALUE</th>
+											<th style="width: 26%;">ACTUAL VALUE</th>
+											<th style="width: 22%;">REMARKS</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>101.200</td>
+											<td>Visual Checks (OK / Not OK)</td>
+											<td>
+												<textarea class="form-control wrstg-scroll-textarea" id="hydros_101_200_actual_value" name="hydros_101_200_actual_value" rows="2"></textarea>
+											</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" id="hydros_101_200_remarks" name="hydros_101_200_remarks" rows="2"></textarea></td>
+										</tr>
+										<tr>
+											<td>101.201</td>
+											<td>Visual Checks (OK / Not OK)</td>
+											<td>
+												<textarea class="form-control wrstg-scroll-textarea" id="hydros_101_201_actual_value" name="hydros_101_201_actual_value" rows="2"></textarea>
+											</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" id="hydros_101_201_remarks" name="hydros_101_201_remarks" rows="2"></textarea></td>
+										</tr>
+										<tr>
+											<td>101.202</td>
+											<td>Calibration Validity Check (OK / Not OK)</td>
+											<td>
+												<textarea class="form-control wrstg-scroll-textarea" id="hydros_101_202_actual_value" name="hydros_101_202_actual_value" rows="2"></textarea>
+											</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" id="hydros_101_202_remarks" name="hydros_101_202_remarks" rows="2"></textarea></td>
+										</tr>
+										<tr>
+											<td>101.203</td>
+											<td>Functional Check (OK / Not OK)</td>
+											<td>
+												<textarea class="form-control wrstg-scroll-textarea" id="hydros_101_203_actual_value" name="hydros_101_203_actual_value" rows="2"></textarea>
+											</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" id="hydros_101_203_remarks" name="hydros_101_203_remarks" rows="2"></textarea></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+						</fieldset>
+
+						<fieldset class="custom-fieldset mt-4">
+							<legend class="legend-custom text-uppercase">H2 ELIMINATION SYSTEM</legend>
+							<div class="table-responsive">
+								<table class="custom_tbl" id="h2_elimination_table">
+									<thead>
+										<tr>
+											<th style="width: 12%;">TEST SER</th>
+											<th>TEST/NOMINAL VALUE</th>
+											<th style="width: 26%;">ACTUAL VALUE</th>
+											<th style="width: 22%;">REMARKS</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>101.300</td>
+											<td>Visual inspection</td>
+											<td>
+												<textarea class="form-control wrstg-scroll-textarea" id="h2_elimination_101_300_actual_value" name="h2_elimination_101_300_actual_value" rows="2"></textarea>
+											</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" id="h2_elimination_101_300_remarks" name="h2_elimination_101_300_remarks" rows="2"></textarea></td>
+										</tr>
+										<tr>
+											<td>101.301</td>
+											<td>Power Supply Test</td>
+											<td>
+												<textarea class="form-control wrstg-scroll-textarea" id="h2_elimination_101_301_actual_value" name="h2_elimination_101_301_actual_value" rows="2"></textarea>
+											</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" id="h2_elimination_101_301_remarks" name="h2_elimination_101_301_remarks" rows="2"></textarea></td>
+										</tr>
+										<tr>
+											<td>101.302</td>
+											<td>Functional Check</td>
+											<td>
+												<textarea class="form-control wrstg-scroll-textarea" id="h2_elimination_101_302_actual_value" name="h2_elimination_101_302_actual_value" rows="2"></textarea>
+											</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" id="h2_elimination_101_302_remarks" name="h2_elimination_101_302_remarks" rows="2"></textarea></td>
+										</tr>
+										<tr>
+											<td>101.303</td>
+											<td>Functional Check</td>
+											<td>
+												<textarea class="form-control wrstg-scroll-textarea" id="h2_elimination_101_303_actual_value" name="h2_elimination_101_303_actual_value" rows="2"></textarea>
+											</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" id="h2_elimination_101_303_remarks" name="h2_elimination_101_303_remarks" rows="2"></textarea></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+
+						</fieldset>
+
+						<div class="text-center mt-4">
+							<button type="submit" class="btn btn-success px-4">Save</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

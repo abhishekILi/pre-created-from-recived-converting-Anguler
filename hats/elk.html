@@ -1,0 +1,483 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item active" aria-current="page">HATs</li>
+          <li class="breadcrumb-item active" aria-current="page">ELK 7036</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">WEAPON ACCEPTANCE TRIAL TEAM (V) — ELK 7036</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="elk7036_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!-- ══════════════════════════════════════════
+                   HEADER — Basic Information
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Basic Information</legend>
+                <div class="row g-3">
+
+                  <!-- Equipment (fixed per PDF) -->
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="equipment">
+                        <option value="">-- Select --</option>
+                        <option value="ELK_7036_WBD">ELK 7036 WBD</option>
+                      </select>
+                      <label class="form_control_1">Equipment</label>
+                    </div>
+                  </div>
+
+
+                  <!-- Date -->
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="date" class="form-control" name="date_">
+                      <label class="form_control_1">Date</label>
+                    </div>
+                  </div>
+
+                  <!-- Unit -->
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="unit">
+                        <option value="">-- Select Unit (Ship) --</option>
+                        <option value="INS_A">INS Alpha</option>
+                        <option value="INS_B">INS Bravo</option>
+                        <option value="INS_C">INS Charlie</option>
+                        <option value="INS_D">INS Delta</option>
+                      </select>
+                      <label class="form_control_1">Unit</label>
+                    </div>
+                  </div>
+
+                  <!-- Presented By -->
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="presented_by">
+                        <option value="">-- Select --</option>
+                        <option value="Shipstaff">Ship's Staff</option>
+                        <option value="Dockyard">Dockyard</option>
+                        <option value="OEM">OEM</option>
+                      </select>
+                      <label class="form_control_1">Presented By</label>
+                    </div>
+                  </div>
+
+                  <!-- Observation Sheet No -->
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="obs_sheet_no" placeholder=" ">
+                      <label class="form_control_1">Observation Sheet No</label>
+                    </div>
+                  </div>
+
+                </div>
+              </fieldset>
+
+
+              <!-- ══════════════════════════════════════════
+                   MAIN CHECKS TABLE
+                   Columns: Trial Ser | Check Description | Result (SAT/UNSAT) | Presenting Authority Remarks
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">ELK 7036 — Checks</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr class="custom-header-row">
+                        <th class="serial-no">Trial Ser</th>
+                        <th>Check Description as per Schedule</th>
+                        <th>Result (SAT / UNSAT)</th>
+                        <th>Presenting Authority Remarks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <!-- 1.8.1 -->
+                      <tr>
+                        <td class="serial-no">1.8.1</td>
+                        <td class="fixed-label-cell">POWER SUPPLY CHECKS</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t181_sat" name="t181" value="SAT"><label for="t181_sat">SAT</label></div>
+                            <div><input type="radio" id="t181_unsat" name="t181" value="UNSAT"><label for="t181_unsat">UNSAT</label></div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t181_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <!-- 1.8.2 -->
+                      <tr>
+                        <td class="serial-no">1.8.2</td>
+                        <td class="fixed-label-cell">BITE TEST</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t182_sat" name="t182" value="SAT"><label for="t182_sat">SAT</label></div>
+                            <div><input type="radio" id="t182_unsat" name="t182" value="UNSAT"><label for="t182_unsat">UNSAT</label></div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t182_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <!-- 1.8.3 -->
+                      <tr>
+                        <td class="serial-no">1.8.3</td>
+                        <td class="fixed-label-cell">NAV / CMS / CTD INTERFACE</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t183_sat" name="t183" value="SAT"><label for="t183_sat">SAT</label></div>
+                            <div><input type="radio" id="t183_unsat" name="t183" value="UNSAT"><label for="t183_unsat">UNSAT</label></div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t183_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <!-- 1.8.4 -->
+                      <tr>
+                        <td class="serial-no">1.8.4</td>
+                        <td class="fixed-label-cell">DF FREQUENCY RANGE TEST</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t184_sat" name="t184" value="SAT"><label for="t184_sat">SAT</label></div>
+                            <div><input type="radio" id="t184_unsat" name="t184" value="UNSAT"><label for="t184_unsat">UNSAT</label></div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t184_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <!-- 1.8.5 -->
+                      <tr>
+                        <td class="serial-no">1.8.5</td>
+                        <td class="fixed-label-cell">Sensitivity checks</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t185_sat" name="t185" value="SAT"><label for="t185_sat">SAT</label></div>
+                            <div><input type="radio" id="t185_unsat" name="t185" value="UNSAT"><label for="t185_unsat">UNSAT</label></div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t185_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <!-- 1.8.6 -->
+                      <tr>
+                        <td class="serial-no">1.8.6</td>
+                        <td class="fixed-label-cell">DF search rate test</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t186_sat" name="t186" value="SAT"><label for="t186_sat">SAT</label></div>
+                            <div><input type="radio" id="t186_unsat" name="t186" value="UNSAT"><label for="t186_unsat">UNSAT</label></div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t186_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <!-- 1.8.8 (note: 1.8.7 is absent per PDF) -->
+                      <tr>
+                        <td class="serial-no">1.8.8</td>
+                        <td class="fixed-label-cell">Sensitivity monitoring test</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t188_sat" name="t188" value="SAT"><label for="t188_sat">SAT</label></div>
+                            <div><input type="radio" id="t188_unsat" name="t188" value="UNSAT"><label for="t188_unsat">UNSAT</label></div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t188_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <!-- 1.8.9 -->
+                      <tr>
+                        <td class="serial-no">1.8.9</td>
+                        <td class="fixed-label-cell">Blanking input checks</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t189_sat" name="t189" value="SAT"><label for="t189_sat">SAT</label></div>
+                            <div><input type="radio" id="t189_unsat" name="t189" value="UNSAT"><label for="t189_unsat">UNSAT</label></div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t189_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <!-- 1.8.10 -->
+                      <tr>
+                        <td class="serial-no">1.8.10</td>
+                        <td class="fixed-label-cell">Checks of MMI</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t1810_sat" name="t1810" value="SAT"><label for="t1810_sat">SAT</label></div>
+                            <div><input type="radio" id="t1810_unsat" name="t1810" value="UNSAT"><label for="t1810_unsat">UNSAT</label></div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t1810_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <!-- 1.8.11 -->
+                      <tr>
+                        <td class="serial-no">1.8.11</td>
+                        <td class="fixed-label-cell">Demolition mode test</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t1811_sat" name="t1811" value="SAT"><label for="t1811_sat">SAT</label></div>
+                            <div><input type="radio" id="t1811_unsat" name="t1811" value="UNSAT"><label for="t1811_unsat">UNSAT</label></div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t1811_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <!-- 1.8.12 -->
+                      <tr>
+                        <td class="serial-no">1.8.12</td>
+                        <td class="fixed-label-cell">Audio monitoring test</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t1812_sat" name="t1812" value="SAT"><label for="t1812_sat">SAT</label></div>
+                            <div><input type="radio" id="t1812_unsat" name="t1812" value="UNSAT"><label for="t1812_unsat">UNSAT</label></div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t1812_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <!-- 1.8.13 -->
+                      <tr>
+                        <td class="serial-no">1.8.13</td>
+                        <td class="fixed-label-cell">Audio recording test</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t1813_sat" name="t1813" value="SAT"><label for="t1813_sat">SAT</label></div>
+                            <div><input type="radio" id="t1813_unsat" name="t1813" value="UNSAT"><label for="t1813_unsat">UNSAT</label></div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t1813_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <!-- 1.8.14 -->
+                      <tr>
+                        <td class="serial-no">1.8.14</td>
+                        <td class="fixed-label-cell">Audio replay (play back)</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t1814_sat" name="t1814" value="SAT"><label for="t1814_sat">SAT</label></div>
+                            <div><input type="radio" id="t1814_unsat" name="t1814" value="UNSAT"><label for="t1814_unsat">UNSAT</label></div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t1814_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <!-- 1.8.15 -->
+                      <tr>
+                        <td class="serial-no">1.8.15</td>
+                        <td class="fixed-label-cell">Reference library (Monitoring net test)</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t1815_sat" name="t1815" value="SAT"><label for="t1815_sat">SAT</label></div>
+                            <div><input type="radio" id="t1815_unsat" name="t1815" value="UNSAT"><label for="t1815_unsat">UNSAT</label></div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t1815_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <!-- 1.8.16 -->
+                      <tr>
+                        <td class="serial-no">1.8.16</td>
+                        <td class="fixed-label-cell">Pre Set channel test</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t1816_sat" name="t1816" value="SAT"><label for="t1816_sat">SAT</label></div>
+                            <div><input type="radio" id="t1816_unsat" name="t1816" value="UNSAT"><label for="t1816_unsat">UNSAT</label></div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t1816_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <!-- 1.8.17 -->
+                      <tr>
+                        <td class="serial-no">1.8.17</td>
+                        <td class="fixed-label-cell">Protected Channel test</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t1817_sat" name="t1817" value="SAT"><label for="t1817_sat">SAT</label></div>
+                            <div><input type="radio" id="t1817_unsat" name="t1817" value="UNSAT"><label for="t1817_unsat">UNSAT</label></div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t1817_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <!-- 1.8.18 -->
+                      <tr>
+                        <td class="serial-no">1.8.18</td>
+                        <td class="fixed-label-cell">Data interception analysis test</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t1818_sat" name="t1818" value="SAT"><label for="t1818_sat">SAT</label></div>
+                            <div><input type="radio" id="t1818_unsat" name="t1818" value="UNSAT"><label for="t1818_unsat">UNSAT</label></div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t1818_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <!-- 1.8.19 -->
+                      <tr>
+                        <td class="serial-no">1.8.19</td>
+                        <td class="fixed-label-cell">Lan Capability test</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t1819_sat" name="t1819" value="SAT"><label for="t1819_sat">SAT</label></div>
+                            <div><input type="radio" id="t1819_unsat" name="t1819" value="UNSAT"><label for="t1819_unsat">UNSAT</label></div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t1819_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">1.8.20</td>
+                        <td class="fixed-label-cell"></td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t1820_sat" name="t1820" value="SAT"><label for="t1820_sat">SAT</label></div>
+                            <div><input type="radio" id="t1820_unsat" name="t1820" value="UNSAT"><label for="t1820_unsat">UNSAT</label></div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t1820_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">1.8.21</td>
+                        <td class="fixed-label-cell"></td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t1821_sat" name="t1821" value="SAT"><label for="t1821_sat">SAT</label></div>
+                            <div><input type="radio" id="t1821_unsat" name="t1821" value="UNSAT"><label for="t1821_unsat">UNSAT</label></div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t1821_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">1.8.22</td>
+                        <td class="fixed-label-cell"></td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t1822_sat" name="t1822" value="SAT"><label for="t1822_sat">SAT</label></div>
+                            <div><input type="radio" id="t1822_unsat" name="t1822" value="UNSAT"><label for="t1822_unsat">UNSAT</label></div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t1822_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <fieldset class="custom-fieldset mt-4">
+							<legend class="legend-custom text-uppercase">Presenting Authority</legend>
+							<div class="row g-3 mb-3">
+								<div class="col-md-3 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<select class="form-control" id="hats_sdr_tac_1a_presenting_authority" name="hats_sdr_tac_1a_presenting_authority" required>
+											<option value="">--Select--</option>
+											<option value="dockyard">Dockyard</option>
+											<option value="shipstaff">Shipstaff</option>
+											<option value="oem">OEM</option>
+										</select>
+										<label class="form_control_1" for="hats_sdr_tac_1a_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+									</div>
+								</div>
+								<div class="col-md-3 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<input type="text" class="form-control" id="hats_sdr_tac_1a_watt_1_name" name="hats_sdr_tac_1a_watt_1_name">
+										<label class="form_control_1">WATT(1)</label>
+									</div>
+								</div>
+
+								<!-- WATT 2 -->
+								<div class="col-md-3 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<input type="text" class="form-control" id="hats_sdr_tac_1a_watt_2_name" name="hats_sdr_tac_1a_watt_2_name">
+										<label class="form_control_1">WATT(2)</label>
+									</div>
+								</div>
+
+								<!-- WATT 3 -->
+								<div class="col-md-3 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<input type="text" class="form-control" id="hats_sdr_tac_1a_watt_3_name" name="hats_sdr_tac_1a_watt_3_name">
+										<label class="form_control_1">WATT(3)</label>
+									</div>
+								</div>
+							</div>
+
+							<div class="table-responsive mt-4">
+								<table class="custom_tbl " id="hats_sdr_tac_1a_remarks_table">
+									<thead class="table-dark-head">
+										<tr>
+											<th>REMARKS TO BE GIVEN</th>
+											<th>WBA - WILL BE AMENDED</th>
+											<th>WBD - WILL BE DONE</th>
+											<th>WOW - WILL OBTAIN WAIVER</th>
+											<th>COM - COMPLETED</th>
+											<th>N/O - NOT OFFERED</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_remarks_main"></textarea></td>
+											<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_wba"></textarea></td>
+											<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_wbd"></textarea></td>
+											<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_wow"></textarea></td>
+											<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_com"></textarea></td>
+											<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_no"></textarea></td>
+										</tr>
+										<tr>
+											<td><strong>OIC</strong></td>
+											<td><strong>CDR TRIALS</strong></td>
+											<td><strong>STO (G)</strong></td>
+											<td><strong>STO (L)</strong></td>
+											<td colspan="2"><strong>TO (L)</strong></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</fieldset>
+
+              <!-- Submit -->
+              <div class="d-flex justify-content-center mt-4 gap-2">
+                <button type="submit" class="btn btn-success px-4">Save</button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+
+{% endblock js %}

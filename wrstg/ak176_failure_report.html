@@ -1,0 +1,390 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						 
+						<span class="caption-subject bold">AK 176 FAILURE REPORT</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-4 mb-4">
+					<form method="post" id="ak176_failure_form">
+						{% csrf_token %}
+						<div class="form-body">
+							<!-- <div class="mandatory-note">All Fields Marked with * Are Mandatory</div> -->
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">Failure Report</legend>
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" name="failure_report_no" placeholder=" " required>
+											<label class="form_control_1">Failure Report No <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="ship" required>
+												<option value="">--Select--</option>
+												{% for ship in ship_options %}
+												<option value="{{ ship.value }}">{{ ship.label }}</option>
+												{% endfor %}
+											</select>
+											<label class="form_control_1">Ship <span class="text-danger">*</span></label>
+										</div>
+									</div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" name="ship_failure_report_no" placeholder=" " required>
+											<label class="form_control_1">Ship Failure No <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="date" class="form-control" name="fr_date" required>
+											<label class="form_control_1">F.R Date <span class="text-danger">*</span></label>
+										</div>
+									</div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <textarea class="form-control wrstg-scroll-textarea" name="dart_no" placeholder=" " required></textarea>
+											<label class="form_control_1">DART No <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="date" class="form-control" name="defect_date" required>
+                                            <label class="form_control_1">Defect Date <span class="text-danger">*</span></label>
+                                        </div>
+									</div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<textarea type="text" class="form-control wrstg-scroll-textarea" name="defect_time" placeholder=" " required></textarea>
+											<label class="form_control_1">Defect Time <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<textarea type="text" class="form-control wrstg-scroll-textarea" name="total_rounds_fired_till_date" placeholder=" "></textarea>
+											<label class="form_control_1">Total Rounds Fired Till Date</label>
+										</div>
+									</div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" name="system" value="AK176" readonly>
+											<label class="form_control_1">System <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<textarea type="text" class="form-control wrstg-scroll-textarea" name="running_hours" placeholder=" "></textarea>
+											<label class="form_control_1">Running Hours</label>
+										</div>
+									</div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="sub_system" required>
+												<option value="">--Select--</option>
+												<option value="sub_1">Sub System 1</option>
+												<option value="sub_2">Sub System 2</option>
+											</select>
+											<label class="form_control_1">Sub System <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="severity" required>
+												<option value="">--Select--</option>
+												<option value="critical">Critical</option>
+												<option value="major">Major</option>
+												<option value="minor">Minor</option>
+											</select>
+											<label class="form_control_1">Severity <span class="text-danger">*</span></label>
+										</div>
+									</div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<textarea type="text" class="form-control wrstg-scroll-textarea" name="opdef" placeholder=" "></textarea>
+											<label class="form_control_1">OPDEF</label>
+										</div>
+									</div>
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="status" required>
+												<option value="">--Select--</option>
+												<option value="open">Open</option>
+												<option value="rectified">Rectified</option>
+											</select>
+											<label class="form_control_1">Status <span class="text-danger">*</span></label>
+										</div>
+									</div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<textarea class="form-control wrstg-scroll-textarea" name="failure_message" rows="2" placeholder=" "></textarea>
+											<label class="form_control_1">Failure Message <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<textarea class="form-control wrstg-scroll-textarea" name="failure_description" rows="2" placeholder=" "></textarea>
+											<label class="form_control_1">Failure Description <span class="text-danger">*</span></label>
+										</div>
+									</div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<textarea class="form-control wrstg-scroll-textarea" name="brief_repair_action" rows="2" placeholder=" "></textarea>
+											<label class="form_control_1">Brief Repair Action <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-6 col-12">
+										<label class="form_control_1">Repair Under Taken By</label>
+										<div class="checkbox-inline-wrap">
+											<label><input type="checkbox" name="repair_under_taken_by" value="wrstg_mbi"> WRSTG(Mbi)</label>
+											<label><input type="checkbox" name="repair_under_taken_by" value="dockyard"> Dockyard</label>
+											<label><input type="checkbox" name="repair_under_taken_by" value="oem_trade"> OEM/Trade</label>
+											<label><input type="checkbox" name="repair_under_taken_by" value="ships_staff"> Ship's Staff</label>
+										</div>
+									</div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="date" class="form-control" name="date_resolved" required>
+											<label class="form_control_1">Date Resolved (For Rectified/Managed)</label>
+										</div>
+									</div>
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<textarea class="form-control wrstg-scroll-textarea" name="specific_issue_recommended_analysis" rows="2" placeholder=" "></textarea>
+											<label class="form_control_1">Any Specific Issue Recommended For Further Analysis</label>
+										</div>
+									</div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-12 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<textarea class="form-control wrstg-scroll-textarea" name="equipment_code" placeholder=" "></textarea>
+											<label class="form_control_1">Equipment Code</label>
+										</div>
+									</div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<label class="form_control_1">Short fall in Document <span class="text-danger">*</span></label>
+										<div class="radio-inline-wrap">
+											<label><input type="radio" name="short_fall_document_present" value="yes" checked> Yes</label>
+											<label><input type="radio" name="short_fall_document_present" value="no"> No</label>
+										</div>
+									</div>
+									<div class="col-md-6 col-12" id="short_fall_document_section">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<textarea class="form-control wrstg-scroll-textarea" name="short_fall_document" rows="2" placeholder=" "></textarea>
+											<label class="form_control_1">Short fall in Document <span class="text-danger">*</span></label>
+										</div>
+									</div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<label class="form_control_1">Short fall in Skill Training <span class="text-danger">*</span></label>
+										<div class="radio-inline-wrap">
+											<label><input type="radio" name="short_fall_skill_present" value="yes" checked> Yes</label>
+											<label><input type="radio" name="short_fall_skill_present" value="no"> No</label>
+										</div>
+									</div>
+									<div class="col-md-6 col-12" id="short_fall_skill_section">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<textarea class="form-control wrstg-scroll-textarea" name="short_fall_skill_training" rows="2" placeholder=" "></textarea>
+											<label class="form_control_1">Short fall in Skill Training <span class="text-danger">*</span></label>
+										</div>
+									</div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<label class="form_control_1">Short fall in Tools/Test Equipment <span class="text-danger">*</span></label>
+										<div class="radio-inline-wrap">
+											<label><input type="radio" name="short_fall_tools_present" value="yes" checked> Yes</label>
+											<label><input type="radio" name="short_fall_tools_present" value="no"> No</label>
+										</div>
+									</div>
+									<div class="col-md-6 col-12" id="short_fall_tools_section">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<textarea class="form-control wrstg-scroll-textarea" name="short_fall_tools_test_equipment" rows="2" placeholder=" "></textarea>
+											<label class="form_control_1">Short fall in Tools/Test Equipment <span class="text-danger">*</span></label>
+										</div>
+									</div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-12 col-12">
+										<label class="form_control_1">Details of Spare Used</label>
+										<div class="radio-inline-wrap">
+											<label><input type="radio" name="details_spare_used_present" value="yes" checked> Yes</label>
+											<label><input type="radio" name="details_spare_used_present" value="no"> No</label>
+										</div>
+									</div>
+								</div>
+
+								<div class="table-responsive" id="spare_used_table_section">
+									<table class="custom_tbl" id="spare_used_tbl">
+										<thead class="table-dark-head">
+											<tr>
+												<th class="serial-no">SR</th>
+												<th>ITEM</th>
+												<th>PART/PAT NO</th>
+												<th>QUANTITY</th>
+												<th>TAKEN FROM</th>
+												<th>RA RAISED</th>
+												<th class="action">ACTION</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no">1</td>
+												<td><input type="text" class="form-control" data-base-name="spare_item"></td>
+												<td><input type="text" class="form-control" data-base-name="spare_part_no"></td>
+												<td><input type="text" class="form-control" data-base-name="spare_quantity"></td>
+												<td><input type="text" class="form-control" data-base-name="spare_taken_from"></td>
+												<td><input type="text" class="form-control" data-base-name="spare_sr_raised"></td>
+												<td class="action action-cell-holder">
+													<div class="action-controls">
+														<button type="button" class="btn-round btn-add" onclick="addRow('spare_used_tbl')">+</button>
+														<button type="button" class="btn-round btn-remove" onclick="removeRow('spare_used_tbl')">-</button>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+								<div class="row g-3 mt-1">
+									<div class="col-md-12 col-12">
+										<label class="form_control_1">Time For Rectification</label>
+										<div class="radio-inline-wrap">
+											<label><input type="radio" name="time_for_rectification_present" value="yes" checked> Yes</label>
+											<label><input type="radio" name="time_for_rectification_present" value="no"> No</label>
+										</div>
+									</div>
+								</div>
+
+								<div class="table-responsive" id="time_rectification_table_section">
+									<table class="custom_tbl">
+										<thead class="table-dark-head">
+											<tr>
+												<th class="serial-no">SR.</th>
+												<th>FIELD</th>
+												<th>TIME</th>
+												<th>REMARKS</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no">(a)</td>
+												<td class="fixed-row-label">Active Time For Defect Identification</td>
+												<td><input type="text" class="form-control" name="rect_time_a" placeholder="hh:mm"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="rect_remark_a" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(b)</td>
+												<td class="fixed-row-label">Active Time For Defect Rectification</td>
+												<td><input type="text" class="form-control" name="rect_time_b" placeholder="hh:mm"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="rect_remark_b" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(c)</td>
+												<td class="fixed-row-label">Logistic Time Delay in case spare not readily available</td>
+												<td><input type="text" class="form-control" name="rect_time_c" placeholder="hh:mm"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="rect_remark_c" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(d)</td>
+												<td class="fixed-row-label">Expertise time delay in case shore reps/OEM support was sought</td>
+												<td><input type="text" class="form-control" name="rect_time_d" placeholder="hh:mm"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="rect_remark_d" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(e)</td>
+												<td class="fixed-row-label">Time Delay due activities can not be undertaken (no transmission)</td>
+												<td><input type="text" class="form-control" name="rect_time_e" placeholder="hh:mm"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="rect_remark_e" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(f)</td>
+												<td class="fixed-row-label">Off working hours</td>
+												<td><input type="text" class="form-control" name="rect_time_f" placeholder="hh:mm"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="rect_remark_f" rows="1"></textarea></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<div class="d-flex justify-content-center mt-4 gap-2">
+								<button type="submit" class="btn btn-success px-4">Save</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		WRSTGQuarterly.init({
+			extraTableIds: ['spare_used_tbl'],
+			visibilityBindings: [
+				{ radioName: 'short_fall_document_present', sectionId: 'short_fall_document_section', hiddenClass: 'hidden-table-section' },
+				{ radioName: 'short_fall_skill_present', sectionId: 'short_fall_skill_section', hiddenClass: 'hidden-table-section' },
+				{ radioName: 'short_fall_tools_present', sectionId: 'short_fall_tools_section', hiddenClass: 'hidden-table-section' },
+				{ radioName: 'details_spare_used_present', sectionId: 'spare_used_table_section', hiddenClass: 'hidden-table-section' },
+				{ radioName: 'time_for_rectification_present', sectionId: 'time_rectification_table_section', hiddenClass: 'hidden-table-section' }
+			],
+			submitConfirmation: { formId: 'ak176_failure_form' }
+		});
+	});
+</script>
+{% endblock js %}

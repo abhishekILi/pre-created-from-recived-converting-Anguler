@@ -1,0 +1,368 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+  /* Inline table input styling */
+  .custom_tbl td input[type="text"] {
+    display: inline-block;
+    width: 100px;
+    height: 28px;
+    padding: 4px 6px;
+    font-size: 12px;
+    border: 1px solid #d9d9d9;
+    border-radius: 3px;
+    margin: 2px 4px;
+    vertical-align: middle;
+  }
+
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+            <li class="breadcrumb-item active" aria-current="page">WATT</li>
+            <li class="breadcrumb-item active" aria-current="page">Communications</li>
+            <li class="breadcrumb-item active" aria-current="page">Navtex RX Sailor 6004</li>
+          </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">Navtex RX Sailor 6004</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="navtex_sailor_6004_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!--HEADER — Ship / Inspection Info-->
+
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Basic Information</legend>
+                <div class="row g-3">
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                        <select class="form-control" id="sdr_tac_1b_ship_name" name="sdr_tac_1b_ship_name" required>
+                            <option value="">--Select--</option>
+                            {% for ship in ship_options %}
+                            <option value="{{ ship.value }}">{{ ship.label }}</option>
+                            {% endfor %}
+                        </select>
+                        <label class="form_control_1" for="sdr_tac_1b_ship_name">Ship <span class="text-danger">*</span></label>
+                    </div>
+                </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="navtex_sailor_department" name="navtex_sailor_department">
+                          <option value="">-- Select --</option>
+                          <option value="P15A">ND</option>
+                          <option value="P17">ASW</option>
+                          <option value="P17A">COMM</option>
+                          <option value="P28">GUNNERY</option>
+                        </select>
+                        <label class="form_control_1">Department</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="navtex_sailor_equipment" name="navtex_sailor_equipment">
+                          <option value="">-- Select --</option>
+                        </select>
+                        <label class="form_control_1">Equipment</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                      <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                        <input type="date" class="form-control" id="navtex_sailor_date" name="navtex_sailor_date">
+                        <label class="form_control_1">Date</label>
+                      </div>
+                    </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="navtex_sailor_nature_of_trials" name="navtex_sailor_nature_of_trials" required>
+                          <option value="">--Select--</option>
+                          <option value="SATs">SATs</option>
+                          <option value="HATS">HATs</option>
+                          <option value="OP_CHECKS">OP CHECKS</option>
+                          <option value="IIS">IIs</option>
+                        </select>
+                        <label class="form_control_1">Nature of Trial</label>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                        <textarea class="form-control wrstg-scroll-textarea" id="navtex_sailor_serial_number" name="navtex_sailor_serial_number" rows="3" required></textarea>
+                        <label class="form_control_1">Serial Number</label>
+                    </div>
+                  </div>
+
+            </div>
+          </fieldset>
+
+          <fieldset class="custom-fieldset">
+            <legend class="legend-custom text-uppercase">Checks</legend>
+            <div class="table-responsive">
+              <table class="custom_tbl" id="navtex_sailor_checks_table">
+                
+                        <label colspan="3">
+                            Trial team reported onboard for Op Checks of Navtex Rx SAILOR 6004 at 
+                            <input type="time" id="navtex_sailor_embark_time" name="navtex_sailor_embark_time" class="form-control d-inline-block" style="width: 100px; height: 28px;">hrs. The trials carried were out i.a.w. approved scheduled 
+                             
+                            <textarea class="form-control wrstg-scroll-textarea" style="width: 280px; font-size: 12px; display: inline-block; vertical-align: middle;" id="navtex_sailor_schedule" name="navtex_sailor_schedule"></textarea> and CNO. 07/10 are enumerated in succeeding paragraphs :-
+                    
+                <thead>
+                  <tr class="custom-header-row">
+                    <th>Ser No.</th>
+                    <th>Checks</th>
+                    <th>Observation</th>
+                    <th>Remarks</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td colspan="3"><b> Physical checks/Setup</b></td>
+                    </tr>
+                    
+                  
+                  <tr>
+                    <td rowspan="8"></td>
+                    <td>(i)</td>
+                    <td>Fitment of TX/RX unit in Bridge.</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="navtex_sailor_tx_rx_fitment_bridge" value="SAT"><label for="navtex_sailor_tx_rx_fitment_bridge_sat">SAT</label></div>
+                            <div><input type="radio"  name="navtex_sailor_tx_rx_fitment_bridge" value="UNSAT"><label for="navtex_sailor_tx_rx_fitment_bridge_unsat">UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    
+                    <td>(ii)</td>
+                    <td>Fitment of Antenna on<input type="text" name="navtex_sailor_antenna_location"></td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="navtex_sailor_antenna_fitment" value="SAT"><label for="navtex_sailor_antenna_fitment_sat">SAT</label></div>
+                            <div><input type="radio"  name="navtex_sailor_antenna_fitment" value="UNSAT"><label for="navtex_sailor_antenna_fitment_unsat">UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    
+                    <td>(iii)</td>
+                    <td>Antenna connection to  Tx/Rx.</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="navtex_sailor_antenna_connection" value="SAT"><label for="navtex_sailor_antenna_connection_sat">SAT</label></div>
+                            <div><input type="radio"  name="navtex_sailor_antenna_connection" value="UNSAT"><label for="navtex_sailor_antenna_connection_unsat">UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>(iv)</td>
+                    <td>Grounding of Tx/Rx and securing of system.</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="navtex_sailor_grounding_securing" value="SAT"><label for="navtex_sailor_grounding_securing_sat">SAT</label></div>
+                            <div><input type="radio"  name="navtex_sailor_grounding_securing" value="UNSAT"><label for="navtex_sailor_grounding_securing_unsat">UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>(v)</td>
+                    <td>All sub-assemblies are fixed properly.</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="navtex_sailor_subassemblies_fixing" value="SAT"><label for="navtex_sailor_subassemblies_fixing_sat">SAT</label></div>
+                            <div><input type="radio"  name="navtex_sailor_subassemblies_fixing" value="UNSAT"><label for="navtex_sailor_subassemblies_fixing_unsat">UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>(vi)</td>
+                    <td>Securing of connecting cable.</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="navtex_sailor_cable_securing" value="SAT"><label for="navtex_sailor_cable_securing_sat">SAT</label></div>
+                            <div><input type="radio"  name="navtex_sailor_cable_securing" value="UNSAT"><label for="navtex_sailor_cable_securing_unsat">UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>(vii)</td>
+                    <td>Power supply to TX/Rx.</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="navtex_sailor_power_supply" value="SAT"><label for="navtex_sailor_power_supply_sat">SAT</label></div>
+                            <div><input type="radio"  name="navtex_sailor_power_supply" value="UNSAT"><label for="navtex_sailor_power_supply_unsat">UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>(viii)</td>
+                    <td>Check all switches, button, push button, and display if of the equipment.</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="navtex_sailor_switches_buttons_display" value="SAT"><label for="navtex_sailor_switches_buttons_display_sat">SAT</label></div>
+                            <div><input type="radio"  name="navtex_sailor_switches_buttons_display" value="UNSAT"><label for="navtex_sailor_switches_buttons_display_unsat">UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                        <td>2</td>
+                        <td colspan="3"><b>Functional checks</b></td>
+                    </tr>
+                    
+                  
+                  <tr>
+                    <td rowspan="5"></td>
+                    <td>(i)</td>
+                    <td>Check Power ON</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="navtex_sailor_power_on" value="SAT"><label for="navtex_sailor_power_on_sat">SAT</label></div>
+                            <div><input type="radio"  name="navtex_sailor_power_on" value="UNSAT"><label for="navtex_sailor_power_on_unsat">UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    
+                    <td>(ii)</td>
+                    <td>Checks Self-Test</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="navtex_sailor_frequency_setting" value="SAT"><label for="navtex_sailor_frequency_setting_sat">SAT</label></div>
+                            <div><input type="radio"  name="navtex_sailor_frequency_setting" value="UNSAT"><label for="navtex_sailor_frequency_setting_unsat">UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    
+                    <td>(iii)</td>
+                    <td>Check broad cast reception of messages</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="navtex_sailor_message_reception" value="SAT"><label for="navtex_sailor_message_reception_sat">SAT</label></div>
+                            <div><input type="radio"  name="navtex_sailor_message_reception" value="UNSAT"><label for="navtex_sailor_message_reception_unsat">UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>(iv)</td>
+                    <td>Check equipment memory including saving of received messages.</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="navtex_sailor_display_functions" value="SAT"><label for="navtex_sailor_display_functions_sat">SAT</label></div>
+                            <div><input type="radio"  name="navtex_sailor_display_functions" value="UNSAT"><label for="navtex_sailor_display_functions_unsat">UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>(v)</td>
+                    <td>Check for printer connection and print of received message</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="navtex_sailor_alarm_functions" value="SAT"><label for="navtex_sailor_alarm_functions_sat">SAT</label></div>
+                            <div><input type="radio"  name="navtex_sailor_alarm_functions" value="UNSAT"><label for="navtex_sailor_alarm_functions_unsat">UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  
+                </tbody>
+              </table>
+            </div>
+          </fieldset>
+
+          <fieldset class="custom-fieldset">
+<legend class="legend-custom text-uppercase">REMARKS</legend>
+<div class="static-section">
+<div class="table-responsive">
+<table class="custom_tbl" id="navtex_sailor_remarks_table">
+<thead>
+<tr>
+<th class="serial-no">Sr No</th>
+<th>Observations</th>
+<th>SS Remarks</th>
+<th class="action">Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="serial-no">1</td>
+<td><textarea class="form-control wrstg-scroll-textarea" data-base-name="observation" placeholder="" rows="2"></textarea></td>
+<td><textarea class="form-control wrstg-scroll-textarea" data-base-name="ss_remarks" placeholder="" rows="2"></textarea></td>
+<td class="action action-cell-holder">
+<div class="action-controls">
+<button type="button" class="btn-round btn-add" onclick="addRow('navtex_sailor_remarks_table')" title="Add Row">+</button>
+<button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'navtex_sailor_remarks_table')" title="Remove Row">-</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</fieldset>
+
+        <fieldset class="custom-fieldset">
+          <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+          <div class="row g-3">
+            <div class="col-md-4 col-12">
+              <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                <select class="form-control" id="navtex_sailor_presenting_authority" name="navtex_sailor_presenting_authority" required>
+                  <option value="">--Select--</option>
+                  <option value="dockyard">Dockyard</option>
+                  <option value="shipstaff">Shipstaff</option>
+                  <option value="oem">OEM</option>
+                </select>
+                <label class="form_control_1" for="navtex_sailor_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+              </div>
+            </div>
+            <div class="col-md-4 col-12">
+              <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                <input type="text" class="form-control" id="navtex_sailor_watt" name="navtex_sailor_watt" value="VZG" >
+                <label class="form_control_1" for="navtex_sailor_watt">WATT</label>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Submit Button -->
+        <div class="d-flex justify-content-center mt-4 gap-2">
+          <button type="submit" class="btn btn-success px-4">Save</button>
+        </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+
+{% endblock js %}

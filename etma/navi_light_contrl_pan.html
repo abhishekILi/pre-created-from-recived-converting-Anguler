@@ -1,0 +1,761 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">CHECKk OFF LIST - NAVIGATION LIGHT CONTROL PANEL</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="ael_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+
+                            <!-- Header Info -->
+                            <fieldset class="custom-fieldset">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="form-group row align-items-center mb-2">
+                                            <label class="col-sm-4 col-form-label fw-bold">Ship</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" name="ship" placeholder=" ">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row align-items-center mb-2">
+                                            <label class="col-sm-4 col-form-label fw-bold">Presented by</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" name="presented_by" placeholder=" ">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row align-items-center mb-2">
+                                            <label class="col-sm-5 col-form-label fw-bold">Occasion of Trial</label>
+                                            <div class="col-sm-7">
+                                                <input type="text" class="form-control" name="occasion_of_trial" placeholder=" ">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row align-items-center mb-2">
+                                            <label class="col-sm-5 col-form-label fw-bold">Trial Inspector (Name)</label>
+                                            <div class="col-sm-7">
+                                                <input type="text" class="form-control" name="trial_inspector" placeholder=" ">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    <strong>Reference Document for Trial: EED-50-28</strong>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 1 – Test Equipment Used During Trials
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">1. Test Equipment Used During Trials</legend>
+                                <div class="row mb-3">
+                                    <div class="col-md-12">
+                                        <p class="mb-1">Multi-meter</p>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="test_equipment_trials_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser</th>
+                                                <th>Test Equipment Used<br><small>a.</small></th>
+                                                <th class="action">ACTION</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="serial-no">1</td>
+                                                <td><input type="text" class="form-control" data-base-name="trial_equipment"></td>
+                                                <td class="action action-cell-holder">
+                                                    <div class="action-controls">
+                                                        <button type="button" class="btn-round btn-add" onclick="addRow('test_equipment_trials_tbl')">+</button>
+                                                        <button type="button" class="btn-round btn-remove" onclick="removeRow('test_equipment_trials_tbl')">-</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 2 – Date & Time
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">2. Date &amp; Time</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="date_time_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser</th>
+                                                <th>Activity</th>
+                                                <th style="width:20%;">Date</th>
+                                                <th style="width:20%;">Time</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="serial-no">2.1</td>
+                                                <td>Intimation from Ship</td>
+                                                <td><input type="date" class="form-control" name="dt_intimation_date" placeholder=" "></td>
+                                                <td><input type="time" class="form-control" name="dt_intimation_time" placeholder=" "></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">2.2</td>
+                                                <td>Readiness indicated by Ship</td>
+                                                <td><input type="date" class="form-control" name="dt_readiness_date" placeholder=" "></td>
+                                                <td><input type="time" class="form-control" name="dt_readiness_time" placeholder=" "></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">2.3</td>
+                                                <td>Trials Inspector reported onboard Ship</td>
+                                                <td><input type="date" class="form-control" name="dt_inspector_date" placeholder=" "></td>
+                                                <td><input type="time" class="form-control" name="dt_inspector_time" placeholder=" "></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">2.4</td>
+                                                <td>Trials completed</td>
+                                                <td><input type="date" class="form-control" name="dt_completed_date" placeholder=" "></td>
+                                                <td><input type="time" class="form-control" name="dt_completed_time" placeholder=" "></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 3 – Design Requirements / Documentation
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">3. Design Requirements / Documentation</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="design_req_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser</th>
+                                                <th>Description/Document NO.& Date</th>
+                                                <th style="width:30%;">Document Submission date/Certified By</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tbody>
+
+                                            <tr>
+                                                <td class="serial-no">3.1</td>
+                                                <td><strong>Manufacturer –</strong></td>
+                                                <td><textarea class="form-control" rows="1"name="dr_manufacturer"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="serial-no">3.2</td>
+                                                <td><strong>Make & Model –</strong></td>
+                                                <td><textarea class="form-control" rows="1" name="dr_make_model"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="serial-no">3.3</td>
+                                                <td><strong>GRAQ –</strong></td>
+                                                <td><textarea class="form-control" rows="1" name="dr_graq"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="serial-no">3.4</td>
+                                                <td><strong>ATP –</strong></td>
+                                                <td><textarea class="form-control" rows="1" name="dr_atp"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="serial-no">3.5</td>
+                                                <td><strong>Board Proceedings –</strong></td>
+                                                <td><textarea class="form-control" rows="1" name="dr_board"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="serial-no">3.6</td>
+                                                <td><strong>FATs report –</strong></td>
+                                                <td><textarea class="form-control" rows="1" name="dr_fats"></textarea></td>
+                                            </tr>
+
+                                            <!-- 3.7 -->
+                                            <tr>
+                                                <td class="serial-no">3.7</td>
+                                                <td colspan="2"><strong>Certification / Documents required from OEM –</strong></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td></td>
+                                                <td>3.7.1 Visibility Angle (for all types of lights)</td>
+                                                <td><textarea class="form-control" rows="1" name="dr_cert_3_7_1"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td></td>
+                                                <td>3.7.2 Conformance to latest military & ISO Standards</td>
+                                                <td><textarea class="form-control" rows="1" name="dr_cert_3_7_2"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td></td>
+                                                <td>3.7.3 Preventive maintenance routines / repair instructions manual</td>
+                                                <td><textarea class="form-control" rows="1" name="dr_cert_3_7_3"></textarea></td>
+                                            </tr>
+
+                                            <!-- 3.8 -->
+                                            <tr>
+                                                <td class="serial-no">3.8</td>
+                                                <td colspan="2"><strong>Documentation</strong></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td></td>
+                                                <td>3.8.1 Technical and Operating Manual</td>
+                                                <td><textarea class="form-control" rows="1" name="dr_3_8_1"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td></td>
+                                                <td>3.8.2 Onboard Maintenance Manual</td>
+                                                 <td><textarea class="form-control" rows="1" name="dr_3_8_2"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td></td>
+                                                <td>3.8.3 Field and Depot Maintenance Manual</td>
+                                                <td><textarea class="form-control" rows="1" name="dr_3_8_3"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td></td>
+                                                <td>3.8.4 Installation and Testing Manual</td>
+                                                <td><textarea class="form-control" rows="1" name="dr_3_8_4"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td></td>
+                                                <td>3.8.5 Parts and Tools Catalogue</td>
+                                                <td><textarea class="form-control" rows="1" name="dr_3_8_5"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td></td>
+                                                <td>3.8.6 Installation Drawings</td>
+                                                <td><textarea class="form-control" rows="1" name="dr_3_8_6"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td></td>
+                                                <td>3.8.7 As Fitted Drawings</td>
+                                                <td><textarea class="form-control" rows="1" name="dr_3_8_7"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td></td>
+                                                <td>3.8.8 Test Procedure and Documentation</td>
+                                                <td><textarea class="form-control" rows="1" name="dr_3_8_8"></textarea></td>
+                                            </tr>
+
+
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 4 – Installation Checks
+                            ══════════════════════════════════════ -->
+                                <fieldset class="custom-fieldset">
+								<legend class="legend-custom">4. IIs Checks</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl">
+										<thead class="table-dark-head">
+											<tr>
+												<th class="serial-no">Ser</th>
+												<th style="width: 18%;">Reference</th>
+												<th>Checks</th>
+												<th style="width: 14%;">Sat/Unsat</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td class="serial-no">4.1</td>
+                                                <td>Para 12 of EED-Q-262(R1)</td>
+                                                <td>Check Mimic LED diagram with color code for main and emergency lights in control panel.</td>
+                                                <td>
+                                                <div class="sat-unsat"><label><input type="radio" name="iis_4_1" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="iis_4_1" value="UNSAT"> UNSAT</label>
+                                                </div>
+                                                </td>
+                                            </tr>
+											<tr><td class="serial-no">4.2</td><td>Para 12 of EED-Q-262(R1)</td><td>Check talley and Diagram plate .</td><td><div class="sat-unsat"><label><input type="radio" name="iis_4_2" value="SAT"> SAT</label><label><input type="radio" name="iis_4_2" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">4.3</td><td>Para 16 of EED-Q-262(R1)</td><td>Check two Remote mimics consisting of LEDs for both Main and Emergency and remote indication facilities with touch scren fitted in Ops room and bridge.(if applicable)</td><td><div class="sat-unsat"><label><input type="radio" name="iis_4_3" value="SAT"> SAT</label><label><input type="radio" name="iis_4_3" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">4.4</td><td>Para 21 of EED-Q-262(R1)</td><td>Check earthing of control panel and repeater panel.</td><td><div class="sat-unsat"><label><input type="radio" name="iis_4_4" value="SAT"> SAT</label><label><input type="radio" name="iis_4_4" value="UNSAT"> UNSAT</label></div></td></tr>
+											
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 5 – Operational Checks
+                            ══════════════════════════════════════ -->
+                            
+                             <fieldset class="custom-fieldset">
+								<legend class="legend-custom">5. OPS/ functional Checks</legend>
+								<div class="table-responsive">
+                                        <table class="custom_tbl">
+                                                        <thead class="table-dark-head">
+                                                            <tr>
+                                                                <th rowspan="2">Ser</th>
+                                                                <th rowspan="2">Light Description</th>
+                                                                <th rowspan="2">Qty</th>
+                                                                <th rowspan="2">Shade</th>
+                                                                <th rowspan="2">Fitted / Not Fitted</th>
+                                                                <th colspan="2">Operation</th>
+                                                                <th rowspan="2">Special Feature</th>
+                                                                <th rowspan="2">(SAT / UNSAT)</th>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>230V</th>
+                                                                <th>24V</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+
+                                                            <tr>
+                                                                <td>5.1</td>
+                                                                <td>Double Tier Mast Head Light</td>
+                                                                <td>02</td>
+                                                                <td>White</td>
+                                                                <td><input type="text" style="background:white;" onfocus="this.style.background='white'"></td>
+                                                                <td><input type="text" style="background:white;" onfocus="this.style.background='white'"></td>
+                                                                <td><input type="text" style="background:white;" onfocus="this.style.background='white'"></td>
+                                                                <td>Dimmable from 100% to 0%</td>
+                                                                <td>
+                                                                    <input type="radio" name="sat_5_1"> SAT
+                                                                    <input type="radio" name="sat_5_1"> UNSAT
+                                                                </td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td>5.2</td>
+                                                                <td>Double Tier Side Light, Port</td>
+                                                                <td>01</td>
+                                                                <td>Red</td>
+                                                                <td><input type="text" style="background:white;" onfocus="this.style.background='white'"></td>
+                                                                <td><input type="text" style="background:white;" onfocus="this.style.background='white'"></td>
+                                                                <td><input type="text" style="background:white;" onfocus="this.style.background='white'"></td>
+                                                                <td>Dimmable from 100% to 0%</td>
+                                                                <td>
+                                                                    <input type="radio" name="sat_5_2"> SAT
+                                                                    <input type="radio" name="sat_5_2"> UNSAT
+                                                                </td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td>5.3</td>
+                                                                <td>Double Tier Side Light, Stbd</td>
+                                                                <td>01</td>
+                                                                <td>Green</td>
+                                                                <td><input type="text" style="background:white;" onfocus="this.style.background='white'"></td>
+                                                                <td><input type="text" style="background:white;" onfocus="this.style.background='white'"></td>
+                                                                <td><input type="text" style="background:white;" onfocus="this.style.background='white'"></td>
+                                                                <td>Dimmable from 100% to 0%</td>
+                                                                <td>
+                                                                    <input type="radio" name="sat_5_3"> SAT
+                                                                    <input type="radio" name="sat_5_3"> UNSAT
+                                                                </td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td>5.4</td>
+                                                                <td>Double Tier Stern Light</td>
+                                                                <td>01</td>
+                                                                <td>White</td>
+                                                                <td><input type="text" style="background:white;" onfocus="this.style.background='white'"></td>
+                                                                <td><input type="text" style="background:white;" onfocus="this.style.background='white'"></td>
+                                                                <td><input type="text" style="background:white;" onfocus="this.style.background='white'"></td>
+                                                                <td>Dimmable from 100% to 0%</td>
+                                                                <td>
+                                                                    <input type="radio" name="sat_5_4"> SAT
+                                                                    <input type="radio" name="sat_5_4"> UNSAT
+                                                                </td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td>5.5</td>
+                                                                <td>Double Tier Towing Light</td>
+                                                                <td>01</td>
+                                                                <td>Yellow</td>
+                                                                <td><input type="text" style="background:white;" onfocus="this.style.background='white'"></td>
+                                                                <td><input type="text" style="background:white;" onfocus="this.style.background='white'"></td>
+                                                                <td><input type="text" style="background:white;" onfocus="this.style.background='white'"></td>
+                                                                <td>-</td>
+                                                                <td>
+                                                                    <input type="radio" name="sat_5_5"> SAT
+                                                                    <input type="radio" name="sat_5_5"> UNSAT
+                                                                </td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td>5.6</td>
+                                                                <td>Double Tier Anchor Light (Fwd & Aft)</td>
+                                                                <td>01</td>
+                                                                <td>White</td>
+                                                                <td><input type="text" style="background:white;" onfocus="this.style.background='white'"></td>
+                                                                <td><input type="text" style="background:white;" onfocus="this.style.background='white'"></td>
+                                                                <td><input type="text" style="background:white;" onfocus="this.style.background='white'"></td>
+                                                                <td>-</td>
+                                                                <td>
+                                                                    <input type="radio" name="sat_5_6"> SAT
+                                                                    <input type="radio" name="sat_5_6"> UNSAT
+                                                                </td>
+                                                            </tr>
+
+                                                            <!-- 5.7 -->
+                                                            <tr>
+                                                                <td rowspan="3">5.7</td>
+                                                                <td rowspan="3">Double Tier NUC/Aground Light (P&amp;S)</td>
+                                                                <td rowspan="3">04</td>
+                                                                <td rowspan="3">Red</td>
+                                                                <td rowspan="3"><input type="text" style="background:white;" onfocus="this.style.background='white'"></td>
+                                                                <td rowspan="3"><input type="text" style="background:white;" onfocus="this.style.background='white'"></td>
+                                                                <td rowspan="3"><input type="text" style="background:white;" onfocus="this.style.background='white'"></td>
+
+                                                                <td>
+                                                                    5.7.1 Dimmable from 100% to 0% <br>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="radio" name="sat_5_6"> SAT
+                                                                    <input type="radio" name="sat_5_6"> UNSAT
+                                                                </td>
+
+                                                               
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td>
+                                                                    5.7.2 NUC light shall be combined with a special operations (RAS) light and Draught Constraint light.
+                                                                </td>
+                                                                <td>
+                                                                    <input type="radio" name="sat_5_6"> SAT
+                                                                    <input type="radio" name="sat_5_6"> UNSAT
+                                                                </td>
+                                                            </tr>
+
+                                                            <tr>
+                                                                <td>
+                                                                    5.7.3 NUC lights are to be capable of pulsating at 50-60 pulses/min to indicate 'Man overboard'.
+            
+                                                                </td>
+                                                                <td>
+                                                                    <input type="radio" name="sat_5_6"> SAT
+                                                                    <input type="radio" name="sat_5_6"> UNSAT
+                                                                </td>
+                                                                
+                                                            </tr>
+
+                                                        </tbody>
+                                                    </table>
+                                            </fieldset>
+
+                         <!-- 5.OPS/FUNCTIONAL SECOND PART II -->
+                              <fieldset class="custom-fieldset">
+								<legend class="legend-custom">5. OPS/ functional Checks</legend>
+								<div class="table-responsive">
+                                        <table class="custom_tbl">
+                                                        <thead class="table-dark-head">
+                                                            <tr>
+                                                                <th rowspan="2">Ser</th>
+                                                                <th rowspan="2">Light Description</th>
+                                                                <th rowspan="2">Qty</th>
+                                                                <th rowspan="2">Shade</th>
+                                                                <th rowspan="2">Fitted / Not Fitted</th>
+                                                                <th colspan="2">Operation</th>
+                                                                <th rowspan="2">Special Feature</th>
+                                                                <th rowspan="2">(SAT / UNSAT)</th>
+                                                            </tr>
+                                                            <tr>
+                                                                <th>230V</th>
+                                                                <th>24V</th>
+                                                            </tr>
+                                                       </thead>
+                                                    <tbody>
+                                                         <tr>
+                                                            <td>5.8</td>
+                                                            <td>Double Tier Restricted Manoeuvring Light (P&amp;S)</td>
+                                                            <td>02</td>
+                                                            <td>White</td>
+                                                            <td><input type="text" style="background:white;" onfocus="this.style.background='white'"></td>
+                                                            <td></td>
+                                                            <td></td>
+                                                            <td>-</td>
+                                                            <td>
+                                                                <input type="radio" name="sat_5_8"> SAT
+                                                                <input type="radio" name="sat_5_8"> UNSAT
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>5.9</td>
+                                                            <td>Single Tier Mast Head Flashing Light</td>
+                                                            <td>02</td>
+                                                            <td>White</td>
+                                                            <td><input type="text" style="background:white;" onfocus="this.style.background='white'"></td>
+                                                            <td style="text-align:center;">X</td>
+                                                            <td style="text-align:center;">X</td>
+                                                            <td></td>
+                                                            <td>
+                                                                <input type="radio" name="sat_5_9"> SAT
+                                                                <input type="radio" name="sat_5_9"> UNSAT
+                                                            </td>
+                                                        </tr>
+
+                                                        <!-- 5.10 -->
+                                                        <tr>
+                                                            <td rowspan="3">5.10</td>
+                                                            <td rowspan="3">Single Tier Mast Obstruction Light</td>
+                                                            <td rowspan="3">02</td>
+                                                            <td rowspan="3">Red</td>
+                                                            <td rowspan="3"><input type="text" style="background:white;" onfocus="this.style.background='white'"></td>
+                                                            <td rowspan="3" style="text-align:center;">X</td>
+                                                            <td rowspan="3" style="text-align:center;">X</td>
+
+                                                            <td>
+                                                                5.10.1 Dimmable from 100% to 0%.
+                                                            </td>
+
+                                                            <td rowspan="3">
+                                                                <input type="radio" name="sat_5_10"> SAT
+                                                                <input type="radio" name="sat_5_10"> UNSAT
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>
+                                                                5.10.2 Masthead obstruction light shall be capable of being flashed at a rate of more than 30 pulses/min for use in ASW operations.
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>
+                                                                5.10.3 Oscillating operation with a minimum exposure of light of three seconds, for use as an identification aid to helicopters and aircraft.
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>5.11</td>
+                                                            <td>Single Tier Top Light (C.L)</td>
+                                                            <td>01</td>
+                                                            <td>Blue</td>
+                                                            <td><input type="text" style="background:white;" onfocus="this.style.background='white'"></td>
+                                                            <td style="text-align:center;">X</td>
+                                                            <td></td>
+                                                            <td>-</td>
+                                                            <td>
+                                                                <input type="radio" name="sat_5_11"> SAT
+                                                                <input type="radio" name="sat_5_11"> UNSAT
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>5.12</td>
+                                                            <td>Single Tier Underway Operation Light Port (Hoist able)</td>
+                                                            <td>02</td>
+                                                            <td>Red</td>
+                                                            <td><input type="text" style="background:white;" onfocus="this.style.background='white'"></td>
+                                                            <td style="text-align:center;">X</td>
+                                                            <td style="text-align:center;">X</td>
+                                                            <td></td>
+                                                            <td>
+                                                                <input type="radio" name="sat_5_12"> SAT
+                                                                <input type="radio" name="sat_5_12"> UNSAT
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>5.13</td>
+                                                            <td>Single Tier Underway Operation Light Stbd (Hoist able)</td>
+                                                            <td>02</td>
+                                                            <td>Green</td>
+                                                            <td><input type="text" style="background:white;" onfocus="this.style.background='white'"></td>
+                                                            <td style="text-align:center;">X</td>
+                                                            <td style="text-align:center;">X</td>
+                                                            <td></td>
+                                                            <td>
+                                                                <input type="radio" name="sat_5_13"> SAT
+                                                                <input type="radio" name="sat_5_13"> UNSAT
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>5.14</td>
+                                                            <td>Single Tier Station Keeping Light</td>
+                                                            <td>01</td>
+                                                            <td>White</td>
+                                                            <td><input type="text" style="background:white;" onfocus="this.style.background='white'"></td>
+                                                            <td style="text-align:center;">X</td>
+                                                            <td style="text-align:center;">X</td>
+                                                            <td>Dimmable from 100% to 0%</td>
+                                                            <td>
+                                                                <input type="radio" name="sat_5_14"> SAT
+                                                                <input type="radio" name="sat_5_14"> UNSAT
+                                                            </td>
+                                                        </tr>
+
+                                                 </tbody>
+                                            </table>
+                                    </fieldset>
+                                    <!-- PART II -->
+                                          <fieldset class="custom-fieldset">
+                                          <legend class="legend-custom">PART II.</legend>
+                                          <div class="table-responsive">
+                                                <table class="custom_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th>Ser</th>
+                                                <th>Reference</th>
+                                                <th>Checks</th>
+                                                <th>SAT / UNSAT</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+
+                                            <tr>
+                                                <td>5.15</td>
+                                                <td>Para 13 of EED-Q-262 (R1)</td>
+                                                <td>
+                                                    Switch ON Main Navigational lights from respective toggle switches. 
+                                                    Check LED glow in mimic panel and at location of light.
+                                                </td>
+                                                <td>
+                                                    <input type="radio" name="sat_5_15"> SAT
+                                                    <input type="radio" name="sat_5_15"> UNSAT
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>5.16</td>
+                                                <td>Para 7(a) of EED-Q-262 (R1)</td>
+                                                <td>
+                                                    Check that emergency navigational lights are automatically switched ON upon failure of main supply.
+                                                </td>
+                                                <td>
+                                                    <input type="radio" name="sat_5_16"> SAT
+                                                    <input type="radio" name="sat_5_16"> UNSAT
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>5.17</td>
+                                                <td>Para 15 of EED-Q-262 (R1)</td>
+                                                <td>
+                                                    Perform Audio-Visual Alarm test pressing push button.
+                                                </td>
+                                                <td>
+                                                    <input type="radio" name="sat_5_17"> SAT
+                                                    <input type="radio" name="sat_5_17"> UNSAT
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>5.18</td>
+                                                <td>Para 15 of EED-Q-262 (R1)</td>
+                                                <td>
+                                                    Check Mimic Panel LED test by pressing push button.
+                                                </td>
+                                                <td>
+                                                    <input type="radio" name="sat_5_18"> SAT
+                                                    <input type="radio" name="sat_5_18"> UNSAT
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>5.19</td>
+                                                <td>Para 15 of EED-Q-262 (R1)</td>
+                                                <td>
+                                                    Check Alarm Acknowledge push button.
+                                                </td>
+                                                <td>
+                                                    <input type="radio" name="sat_5_19"> SAT
+                                                    <input type="radio" name="sat_5_19"> UNSAT
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>5.20</td>
+                                                <td>Para 15 of EED-Q-262 (R1)</td>
+                                                <td>
+                                                    Check Input voltage by Multimeter in control panel.
+                                                </td>
+                                                <td>
+                                                    <input type="radio" name="sat_5_20"> SAT
+                                                    <input type="radio" name="sat_5_20"> UNSAT
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                                
+								</div>
+							</fieldset>
+
+
+                            <div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Save</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .group-header-cell {
+        background-color: #e9ecef;
+        font-size: 13px;
+        padding: 6px 10px;
+    }
+    .signature-block {
+        padding: 10px;
+    }
+</style>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    WRSTGQuarterly.init({
+        extraTableIds: [
+            'test_equipment_trials_tbl',
+            'summary_checks_tbl',
+            'observations_tbl'
+        ],
+        visibilityBindings: [],
+        submitConfirmation: { formId: 'ael_form' }
+    });
+});
+</script>
+{% endblock js %}

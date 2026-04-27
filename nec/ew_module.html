@@ -1,0 +1,770 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+    :root {
+        --matcdf-tblheader: #6490b6;
+        --matcdf-tblborder: #4a7199;
+    }
+
+    /* ── EW Module Header — uses same colour token as custom-header-row ── */
+    .ew-module-header {
+        background-color: var(--matcdf-tblheader);
+        color: white;
+        font-weight: bold;
+        font-size: 15px;
+        text-align: center;
+        padding: 10px 15px;
+        border-radius: 3px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+    }
+
+    /* ── Fieldset stretches full width ── */
+    .custom-fieldset {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* ── Tighten column padding across ALL fieldset rows ── */
+    .custom-fieldset .row > [class*="col-"] {
+        padding-right: 4px;
+        padding-left: 4px;
+    }
+
+    .custom-fieldset .row.mb-3 {
+        margin-bottom: 0.5rem !important;
+        align-items: center;
+    }
+
+    /* ── Labels: no bottom margin, left-align ── */
+    .custom-fieldset label {
+        margin-bottom: 0;
+        font-size: 13.5px;
+        font-weight: 500;
+        text-align: left;
+        width: 100%;
+        padding-right: 0;
+    }
+
+    /* ── Inputs / selects: full width, fixed height ── */
+    .custom-fieldset .form-control {
+        padding: 4px 8px;
+        height: 32px;
+        font-size: 13.5px;
+        width: 100%;
+    }
+
+    /* ── Info header row (User / Equipment / Code) ── */
+    .info-header-row {
+    background-color: transparent;   /* remove blue */
+    border: none;                    /* remove border */
+    padding: 4px 0;                  /* optional: reduce spacing */
+    margin-bottom: 8px !important;
+}
+    .info-header-row .col-md-4 {
+        display: flex;
+        align-items: center;
+    }
+
+    .info-header-row label {
+        margin-bottom: 0 !important;
+        font-weight: bold;
+        font-size: 13.5px;
+        white-space: nowrap;
+        text-align: left;
+        padding-right: 0;
+        width: auto;
+    }
+
+    .info-header-row span {
+        margin-left: 6px;
+        font-size: 13.5px;
+        color: #333;
+    }
+    .blue-header-box {
+    color: white;
+    background-color: var(--matcdf-tblheader);
+    padding: 10px 15px;
+    border-left: 1px solid var(--matcdf-tblborder);
+    border-right: 1px solid var(--matcdf-tblborder);
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item" aria-current="page">NEC</li>
+					<li class="breadcrumb-item active" aria-current="page">EW Return Module</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">EW RETURN MODULE</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="ew_return_module">
+            {% csrf_token %}
+            <div class="form-body">
+              <fieldset class="custom-fieldset">
+                                <div class="row g-3">
+
+                                    <!-- LEFT COLUMN -->
+                                    <div class="col-md-6 col-12">
+
+                                        <!-- Ship -->
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <select class="form-control" name="ship_id" required>
+                                                <option value="">--Select--</option>
+                                                {% for ship in ship_options %}
+                                                <option value="{{ ship.value }}">{{ ship.label }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <label class="form_control_1">Ship <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+              				</fieldset>
+
+              <!-- ════════════════════════════════════════
+                   FIELDSET 1 : FUSS DATA
+              ════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+  <legend class="legend-custom text-uppercase">Data Form - Fuss</legend>
+
+  <div class="form-body px-3">
+
+    <!-- Equipment Name & Equipment Code — same line, left & right -->
+    <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:13px; margin-bottom:18px;">
+
+      <!-- LEFT: Equipment Name -->
+      <div style="display:flex; align-items:center; gap:4px;">
+        <label style="white-space:nowrap; margin:0; font-weight:600;">Equipment Name:</label>
+        <div style="position:relative; width:220px;">
+          <select class="form-control" name="defect_type" id="defect_type" required
+            style="appearance:none; -webkit-appearance:none; padding-right:30px; width:100%;">
+            <option value="">-- Select --</option>
+            <option value="ellora1">Ellora</option>
+            <option value="ellora2">Ellora 2</option>
+          </select>
+          <span style="position:absolute; right:10px; top:50%; transform:translateY(-50%); pointer-events:none; color:#555;">▾</span>
+        </div>
+      </div>
+
+      <!-- RIGHT: Equipment Code (read-only, value from backend) -->
+      <div style="display:flex; align-items:center; gap:10px;">
+        <label style="white-space:nowrap; margin:0; font-weight:600;">Equipment Code:</label>
+        <input type="hidden" name="equipment_code" value="">
+        <input type="text" value="" readonly
+          style="width:160px; background:#f0f0f0; cursor:not-allowed; border:1px solid #bfc8d6; border-radius:4px; height:36px; font-size:13px; padding:0 10px; color:#555;">
+      </div>
+
+    </div>
+
+    <!-- From Date & To Date -->
+    <div class="row mb-3">
+      <div class="col-md-2"><label>From Date <span class="text-danger">*</span></label></div>
+      <div class="col-md-4"><input type="date" class="form-control" name="from_date"></div>
+      <div class="col-md-2"><label>To Date <span class="text-danger">*</span></label></div>
+      <div class="col-md-4"><input type="date" class="form-control" name="to_date"></div>
+    </div>
+
+    <!-- Type of Return & Sub System -->
+    <div class="row mb-3">
+      <div class="col-md-2"><label>Type of Return</label></div>
+      <div class="col-md-4">
+        <div style="position:relative;">
+          <select class="form-control" name="type_of_return_1"
+            style="appearance:none; -webkit-appearance:none; padding-right:30px;">
+            <option value="Technical">Technical</option>
+            <option value="Non-Technical">Non-Technical</option>
+          </select>
+          <span style="position:absolute; right:10px; top:50%; transform:translateY(-50%); pointer-events:none; color:#555;">▾</span>
+        </div>
+      </div>
+      <div class="col-md-2"><label>Sub System <span class="text-danger">*</span></label></div>
+      <div class="col-md-4">
+        <div style="position:relative;">
+          <select class="form-control" name="sub_system"
+            style="appearance:none; -webkit-appearance:none; padding-right:30px;">
+            <option value="">-- Select --</option>
+            <option value="Sub System 1">Sub System 1</option>
+            <option value="Sub System 2">Sub System 2</option>
+            <option value="Sub System 3">Sub System 3</option>
+          </select>
+          <span style="position:absolute; right:10px; top:50%; transform:translateY(-50%); pointer-events:none; color:#555;">▾</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Routine Type & To be Undertaken by -->
+    <div class="row mb-3">
+      <div class="col-md-2"><label>Routine Type</label></div>
+      <div class="col-md-4">
+        <div style="position:relative;">
+          <select class="form-control" name="frequency_1"
+            style="appearance:none; -webkit-appearance:none; padding-right:30px;">
+            <option value="">-- Select --</option>
+            <option value="Daily">Daily</option>
+            <option value="Weekly">Weekly</option>
+            <option value="Monthly">Monthly</option>
+          </select>
+          <span style="position:absolute; right:10px; top:50%; transform:translateY(-50%); pointer-events:none; color:#555;">▾</span>
+        </div>
+      </div>
+      <div class="col-md-2"><label>To be Undertaken by <span class="text-danger">*</span></label></div>
+      <div class="col-md-4">
+        <div style="position:relative;">
+          <select class="form-control" name="undertaken_by"
+            style="appearance:none; -webkit-appearance:none; padding-right:30px;">
+            <option value="">-- Select --</option>
+            <option value="Other Agents">Other Agents</option>
+            <option value="Internal Team">Internal Team</option>
+          </select>
+          <span style="position:absolute; right:10px; top:50%; transform:translateY(-50%); pointer-events:none; color:#555;">▾</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Due Action & Fuss Raised -->
+    <div class="row mb-3">
+      <div class="col-md-2"><label>Due Action</label></div>
+      <div class="col-md-4"><input type="date" class="form-control" name="action_date_1"></div>
+      <div class="col-md-2"><label>Fuss Raised <span class="text-danger">*</span></label></div>
+      <div class="col-md-4">
+        <div style="position:relative;">
+          <select class="form-control" name="fuss_raised_1"
+            style="appearance:none; -webkit-appearance:none; padding-right:30px;">
+            <option value="">-- Select --</option>
+            <option value="Yes">Yes</option>
+            <option value="No">No</option>
+          </select>
+          <span style="position:absolute; right:10px; top:50%; transform:translateY(-50%); pointer-events:none; color:#555;">▾</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reason -->
+    <div class="row mb-3">
+      <div class="col-md-2"><label>Reason</label></div>
+      <div class="col-md-4">
+        <div style="position:relative;">
+          <select class="form-control" name="reason"
+            style="appearance:none; -webkit-appearance:none; padding-right:30px;">
+            <option value="">-- Select --</option>
+            <option value="Lack of Workforce">Lack of Workforce</option>
+            <option value="Equipment Failure">Equipment Failure</option>
+            <option value="Other">Other</option>
+          </select>
+          <span style="position:absolute; right:10px; top:50%; transform:translateY(-50%); pointer-events:none; color:#555;">▾</span>
+        </div>
+      </div>
+    </div>
+
+    
+
+  </div>
+</fieldset>
+              
+<fieldset class="custom-fieldset">
+  <legend class="legend-custom text-uppercase">DATA FORM - DEFECT</legend>
+  
+  <div class="form-body px-3">
+
+    <!-- Equipment Name & Code — same line -->
+    <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:13px; margin-bottom:18px;">
+
+      <!-- LEFT: Equipment Name -->
+      <div style="display:flex; align-items:center; gap:4px;">
+        <label style="white-space:nowrap; margin:0; font-weight:600;">Equipment Name:</label>
+        <div style="position:relative; width:220px;">
+          <select class="form-control" name="defect_type" id="defect_type" required
+            style="appearance:none; -webkit-appearance:none; padding-right:30px; width:100%;">
+            <option value="">-- Select --</option>
+            <option value="ellora1">Ellora</option>
+            <option value="ellora2">Ellora 2</option>
+          </select>
+          <span style="position:absolute; right:10px; top:50%; transform:translateY(-50%); pointer-events:none; color:#555;">▾</span>
+        </div>
+      </div>
+
+      <!-- RIGHT: Equipment Code (read-only, value from backend) -->
+      <div style="display:flex; align-items:center; gap:10px;">
+        <label style="white-space:nowrap; margin:0; font-weight:600;">Equipment Code:</label>
+        <input type="hidden" name="equipment_code" value="">
+        <input type="text" value="" readonly
+          style="width:160px; background:#f0f0f0; cursor:not-allowed; border:1px solid #bfc8d6; border-radius:4px; height:36px; font-size:13px; padding:0 10px; color:#555;">
+      </div>
+
+    </div>
+
+
+    <!-- From Date & To Date -->
+    <div class="row mb-3">
+      <div class="col-md-2"><label>From Date <span class="text-danger">*</span></label></div>
+      <div class="col-md-4"><input type="date" class="form-control" name="from_date_2"></div>
+      <div class="col-md-2"><label>To Date <span class="text-danger">*</span></label></div>
+      <div class="col-md-4"><input type="date" class="form-control" name="to_date_2"></div>
+    </div>
+
+    <!-- Type of Return & Parameters -->
+    <div class="row mb-3">
+      <div class="col-md-2"><label>Type of Return <span class="text-danger">*</span></label></div>
+      <div class="col-md-4"><input type="text" class="form-control" name="operational" value="operational"></div>
+      <div class="col-md-2"><label>Parameters <span class="text-danger">*</span></label></div>
+      <div class="col-md-4" style="position:relative;">
+        <select class="form-control" name="parameters_2" style="appearance:none; -webkit-appearance:none; padding-right:30px;">
+          <option value="Defect">Defect</option>
+          <option value="working">Working</option>
+        </select>
+        <span style="position:absolute; right:22px; top:50%; transform:translateY(-50%); pointer-events:none; color:#555;">▾</span>
+      </div>
+    </div>
+
+    <!-- Due Rectified & Dart No -->
+    <div class="row mb-3">
+      <div class="col-md-2"><label>Due Rectified</label></div>
+      <div class="col-md-4"><input type="date" class="form-control" name="due_rectified"></div>
+      <div class="col-md-2"><label>Dart No <span class="text-danger">*</span></label></div>
+      <div class="col-md-4"><input type="text" class="form-control" name="cart_no_4" value="cart no4"></div>
+    </div>
+
+    <!-- Defect Summary & Spare Consumed -->
+    <div class="row mb-3">
+      <div class="col-md-2"><label>Defect Summary</label></div>
+      <div class="col-md-4"><input type="text" class="form-control" name="summary_2" value="summary 2"></div>
+      <div class="col-md-2"><label>Spare Consumed <span class="text-danger">*</span></label></div>
+      <div class="col-md-4"><input type="text" class="form-control" name="spare_consumed" value=""></div>
+    </div>
+
+    <!-- Defect Description & Defect Date -->
+    <div class="row mb-3">
+      <div class="col-md-2"><label>Defect Description</label></div>
+      <div class="col-md-4"><input type="text" class="form-control" name="xyz" value="xyz"></div>
+      <div class="col-md-2"><label>Defect Date</label></div>
+      <div class="col-md-4"><input type="date" class="form-control" name="defect_date"></div>
+    </div>
+
+    <!-- Source of Spare & Spare Quality -->
+    <div class="row mb-3">
+      <div class="col-md-2"><label>Source of Spare</label></div>
+      <div class="col-md-4"><input type="text" class="form-control" name="DTM" value="DTM"></div>
+      <div class="col-md-2"><label>Spare Quality</label></div>
+      <div class="col-md-4"><input type="text" class="form-control" name="spare_quality" value="2"></div>
+    </div>
+
+    <!-- Defect Sub System & Defect Rectified By -->
+    <div class="row mb-3">
+      <div class="col-md-2"><label>Defect Sub System</label></div>
+      <div class="col-md-4"><input type="text" class="form-control" name="sub_system_2" value="sub system 2"></div>
+      <div class="col-md-2"><label>Defect Rectified By</label></div>
+      <div class="col-md-4"><input type="text" class="form-control" name="other_system" value="other system"></div>
+    </div>
+
+    <!-- Spare Pattern Number & Type Of Return -->
+    <div class="row mb-3">
+      <div class="col-md-2"><label>Spare Pattern Number</label></div>
+      <div class="col-md-4"><input type="text" class="form-control" name="spare2" value="spare2"></div>
+      <div class="col-md-2"><label>Type Of Return</label></div>
+      <div class="col-md-4"><input type="text" class="form-control" name="ABC" value="ABC"></div>
+    </div>
+
+    <!-- Date Rectified & Defect Related to OPDEF -->
+    <div class="row mb-3">
+      <div class="col-md-2"><label>Date Rectified</label></div>
+      <div class="col-md-4"><input type="date" class="form-control" name="date_rectified"></div>
+      <div class="col-md-2"><label>Defect Related to OPDEF <span class="text-danger">*</span></label></div>
+      <div class="col-md-4" style="position:relative;">
+        <select class="form-control" name="opdef" style="appearance:none; -webkit-appearance:none; padding-right:30px;">
+          <option value="">-- Select --</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+        <span style="position:absolute; right:22px; top:50%; transform:translateY(-50%); pointer-events:none; color:#555;">▾</span>
+      </div>
+    </div>
+
+   
+  </div>
+</fieldset>
+
+
+<!-- FIELDSET 3 : DoA ACCURACY DATA -->
+<fieldset class="custom-fieldset">
+  <legend class="legend-custom text-uppercase">DATA FORM - DoA ACCURACY</legend>
+  
+  <div class="form-body px-3">
+
+    <!-- Equipment Name & Code — same line -->
+    <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:13px; margin-bottom:18px;">
+
+      <!-- LEFT: Equipment Name -->
+      <div style="display:flex; align-items:center; gap:4px;">
+        <label style="white-space:nowrap; margin:0; font-weight:600;">Equipment Name:</label>
+        <div style="position:relative; width:220px;">
+          <select class="form-control" name="defect_type" id="defect_type" required
+            style="appearance:none; -webkit-appearance:none; padding-right:30px; width:100%;">
+            <option value="">-- Select --</option>
+            <option value="ellora1">Ellora</option>
+            <option value="ellora2">Ellora 2</option>
+          </select>
+          <span style="position:absolute; right:10px; top:50%; transform:translateY(-50%); pointer-events:none; color:#555;">▾</span>
+        </div>
+      </div>
+
+      <!-- RIGHT: Equipment Code (read-only, value from backend) -->
+      <div style="display:flex; align-items:center; gap:10px;">
+        <label style="white-space:nowrap; margin:0; font-weight:600;">Equipment Code:</label>
+        <input type="hidden" name="equipment_code" value="">
+        <input type="text" value="" readonly
+          style="width:160px; background:#f0f0f0; cursor:not-allowed; border:1px solid #bfc8d6; border-radius:4px; height:36px; font-size:13px; padding:0 10px; color:#555;">
+      </div>
+
+    </div>
+
+
+    <!-- From Date & To Date -->
+    <div class="row mb-3">
+      <div class="col-md-2"><label>From Date <span class="text-danger">*</span></label></div>
+      <div class="col-md-4"><input type="date" class="form-control" name="from_date_3" required></div>
+      <div class="col-md-2"><label>To Date <span class="text-danger">*</span></label></div>
+      <div class="col-md-4"><input type="date" class="form-control" name="to_date_3" required></div>
+    </div>
+
+    <!-- Type of Return & Parameters -->
+    <div class="row mb-3">
+      <div class="col-md-2"><label>Type of Return <span class="text-danger">*</span></label></div>
+      <div class="col-md-4" style="position:relative;">
+        <select class="form-control" name="type_of_return_3" required style="appearance:none; -webkit-appearance:none; padding-right:30px;">
+          <option value="" disabled selected>Select</option>
+          <option value="operational">Operational</option>
+          <option value="Non-Technical">Non-Technical</option>
+        </select>
+        <span style="position:absolute; right:22px; top:50%; transform:translateY(-50%); pointer-events:none; color:#555;">▾</span>
+      </div>
+      <div class="col-md-2"><label>Parameters <span class="text-danger">*</span></label></div>
+      <div class="col-md-4" style="position:relative;">
+        <select class="form-control" name="parameters_3" required style="appearance:none; -webkit-appearance:none; padding-right:30px;">
+          <option value="" disabled selected>Select</option>
+          <option value="RAF">RAF</option>
+          <option value="working">Working</option>
+        </select>
+        <span style="position:absolute; right:22px; top:50%; transform:translateY(-50%); pointer-events:none; color:#555;">▾</span>
+      </div>
+    </div>
+
+    <!-- Frequency Band & Observed RMS DoA Error (text input) -->
+    <div class="row mb-3">
+      <div class="col-md-2"><label>Frequency Band <span class="text-danger">*</span></label></div>
+      <div class="col-md-4" style="position:relative;">
+        <select class="form-control" name="frequency_3" required style="appearance:none; -webkit-appearance:none; padding-right:30px;">
+          <option value="" disabled selected>Select</option>
+          <option value="LF">LF (30 kHz - 300 kHz)</option>
+          <option value="Weekly">Weekly</option>
+          <option value="Monthly">Monthly</option>
+        </select>
+        <span style="position:absolute; right:22px; top:50%; transform:translateY(-50%); pointer-events:none; color:#555;">▾</span>
+      </div>
+      <div class="col-md-2"><label>Observed RMS DoA Error (in Degree) <span class="text-danger">*</span></label>
+      </div>
+      <div class="col-md-4">
+        <input type="text" class="form-control" name="Observed_RMS_DoA" required placeholder="Enter value in degree">
+      </div>
+    </div>
+
+    <!-- Sector & Remark -->
+    <div class="row mb-3">
+      <div class="col-md-2"><label>Sector <span class="text-danger">*</span></label></div>
+      <div class="col-md-4" style="position:relative;">
+        <select class="form-control" name="sector_3" required style="appearance:none; -webkit-appearance:none; padding-right:30px;">
+          <option value="" disabled selected>Select</option>
+          <option value="south">South</option>
+          <option value="north">North</option>
+        </select>
+        <span style="position:absolute; right:22px; top:50%; transform:translateY(-50%); pointer-events:none; color:#555;">▾</span>
+      </div>
+      <div class="col-md-2"><label>Remark <span class="text-danger">*</span></label></div>
+      <div class="col-md-4"><input type="text" class="form-control" name="remark_3" required></div>
+    </div>
+
+    <div class="d-flex justify-content-end mt-3">
+      <button type="button" class="btn btn-success px-4">Add Frequency Band</button>
+    </div>
+    
+
+  </div>
+</fieldset>
+
+
+<!-- FIELDSET 4 : RAF DATA -->
+<fieldset class="custom-fieldset">
+  <legend class="legend-custom text-uppercase">DATA FORM - RAF</legend>
+  
+  <div class="form-body px-3">
+
+    <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:13px; margin-bottom:18px;">
+
+      <!-- LEFT: Equipment Name -->
+      <div style="display:flex; align-items:center; gap:4px;">
+        <label style="white-space:nowrap; margin:0; font-weight:600;">Equipment Name:</label>
+        <div style="position:relative; width:220px;">
+          <select class="form-control" name="defect_type" id="defect_type" required
+            style="appearance:none; -webkit-appearance:none; padding-right:30px; width:100%;">
+            <option value="">-- Select --</option>
+            <option value="ellora1">Ellora</option>
+            <option value="ellora2">Ellora 2</option>
+          </select>
+          <span style="position:absolute; right:10px; top:50%; transform:translateY(-50%); pointer-events:none; color:#555;">▾</span>
+        </div>
+      </div>
+
+      <!-- RIGHT: Equipment Code (read-only, value from backend) -->
+      <div style="display:flex; align-items:center; gap:10px;">
+        <label style="white-space:nowrap; margin:0; font-weight:600;">Equipment Code:</label>
+        <input type="hidden" name="equipment_code" value="">
+        <input type="text" value="" readonly
+          style="width:160px; background:#f0f0f0; cursor:not-allowed; border:1px solid #bfc8d6; border-radius:4px; height:36px; font-size:13px; padding:0 10px; color:#555;">
+      </div>
+
+    </div>
+
+
+
+     
+
+
+    <!-- From Date & To Date -->
+    <div class="row mb-3">
+      <div class="col-md-2"><label>From Date <span class="text-danger">*</span></label></div>
+      <div class="col-md-4"><input type="date" class="form-control" name="from_date_4" required></div>
+      <div class="col-md-2"><label>To Date <span class="text-danger">*</span></label></div>
+      <div class="col-md-4"><input type="date" class="form-control" name="to_date_4" required></div>
+    </div>
+
+    <!-- Type of Return & Parameters -->
+    <div class="row mb-3">
+      <div class="col-md-2"><label>Type of Return <span class="text-danger">*</span></label></div>
+      <div class="col-md-4" style="position:relative;">
+        <select class="form-control" name="type_of_return_4" required style="appearance:none; -webkit-appearance:none; padding-right:30px;">
+          <option value="" disabled selected>Select</option>
+          <option value="operational">Operational</option>
+          <option value="Non-Technical">Non-Technical</option>
+        </select>
+        <span style="position:absolute; right:22px; top:50%; transform:translateY(-50%); pointer-events:none; color:#555;">▾</span>
+      </div>
+      <div class="col-md-2"><label>Parameters <span class="text-danger">*</span></label></div>
+      <div class="col-md-4" style="position:relative;">
+        <select class="form-control" name="parameters_4" required style="appearance:none; -webkit-appearance:none; padding-right:30px;">
+          <option value="" disabled selected>Select</option>
+          <option value="RAF">RAF</option>
+          <option value="working">Working</option>
+        </select>
+        <span style="position:absolute; right:22px; top:50%; transform:translateY(-50%); pointer-events:none; color:#555;">▾</span>
+      </div>
+    </div>
+
+    <!-- Frequency Band & Observed Average RAF (text input) -->
+    <div class="row mb-3">
+      <div class="col-md-2"><label>Frequency Band <span class="text-danger">*</span></label></div>
+      <div class="col-md-4" style="position:relative;">
+        <select class="form-control" name="frequency_4" required style="appearance:none; -webkit-appearance:none; padding-right:30px;">
+          <option value="" disabled selected>Select</option>
+          <option value="LF">LF (30 kHz - 300 kHz)</option>
+          <option value="Weekly">Weekly</option>
+          <option value="Monthly">Monthly</option>
+        </select>
+        <span style="position:absolute; right:22px; top:50%; transform:translateY(-50%); pointer-events:none; color:#555;">▾</span>
+      </div>
+      <div class="col-md-2"><label>Observed Average RAF <span class="text-danger">*</span></label></div>
+      <div class="col-md-4">
+        <input type="text" class="form-control" name="Observed_RAF" required placeholder="Enter observed average RAF">
+      </div>
+    </div>
+
+    <!-- Sector & Remark -->
+    <div class="row mb-3">
+      <div class="col-md-2"><label>Sector <span class="text-danger">*</span></label></div>
+      <div class="col-md-4" style="position:relative;">
+        <select class="form-control" name="sector_4" required style="appearance:none; -webkit-appearance:none; padding-right:30px;">
+          <option value="" disabled selected>Select</option>
+          <option value="south">South</option>
+          <option value="north">North</option>
+        </select>
+        <span style="position:absolute; right:22px; top:50%; transform:translateY(-50%); pointer-events:none; color:#555;">▾</span>
+      </div>
+      <div class="col-md-2"><label>Remark <span class="text-danger">*</span></label></div>
+      <div class="col-md-4"><input type="text" class="form-control" name="remark_4" required></div>
+    </div>
+
+    <div class="d-flex justify-content-end mt-3">
+      <button type="button" class="btn btn-success px-4">Add Frequency Band</button>
+    </div>
+    
+
+  </div>
+</fieldset>
+
+
+<!-- FIELDSET 5 : JAMMING DATA -->
+<fieldset class="custom-fieldset">
+  <legend class="legend-custom text-uppercase">DATA FORM - JAMMING</legend>
+  
+  <div class="form-body px-3">
+
+    <!-- Equipment Name & Code — same line -->
+    <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:13px; margin-bottom:18px;">
+
+      <!-- LEFT: Equipment Name -->
+      <div style="display:flex; align-items:center; gap:4px;">
+        <label style="white-space:nowrap; margin:0; font-weight:600;">Equipment Name:</label>
+        <div style="position:relative; width:220px;">
+          <select class="form-control" name="defect_type" id="defect_type" required
+            style="appearance:none; -webkit-appearance:none; padding-right:30px; width:100%;">
+            <option value="">-- Select --</option>
+            <option value="ellora1">Ellora</option>
+            <option value="ellora2">Ellora 2</option>
+          </select>
+          <span style="position:absolute; right:10px; top:50%; transform:translateY(-50%); pointer-events:none; color:#555;">▾</span>
+        </div>
+      </div>
+
+      <!-- RIGHT: Equipment Code (read-only, value from backend) -->
+      <div style="display:flex; align-items:center; gap:10px;">
+        <label style="white-space:nowrap; margin:0; font-weight:600;">Equipment Code:</label>
+        <input type="hidden" name="equipment_code" value="">
+        <input type="text" value="" readonly
+          style="width:160px; background:#f0f0f0; cursor:not-allowed; border:1px solid #bfc8d6; border-radius:4px; height:36px; font-size:13px; padding:0 10px; color:#555;">
+      </div>
+
+    </div>
+
+
+    <!-- From Date & To Date -->
+    <div class="row mb-3">
+      <div class="col-md-2"><label>From Date <span class="text-danger">*</span></label></div>
+      <div class="col-md-4"><input type="date" class="form-control" name="from_date_5" required></div>
+      <div class="col-md-2"><label>To Date <span class="text-danger">*</span></label></div>
+      <div class="col-md-4"><input type="date" class="form-control" name="to_date_5" required></div>
+    </div>
+
+    <!-- Type of Return & Parameters -->
+    <div class="row mb-3">
+      <div class="col-md-2"><label>Type of Return <span class="text-danger">*</span></label></div>
+      <div class="col-md-4" style="position:relative;">
+        <select class="form-control" name="type_of_return_5" required style="appearance:none; -webkit-appearance:none; padding-right:30px;">
+          <option value="" disabled selected>Select</option>
+          <option value="operational">Operational</option>
+          <option value="Non-Technical">Non-Technical</option>
+        </select>
+        <span style="position:absolute; right:22px; top:50%; transform:translateY(-50%); pointer-events:none; color:#555;">▾</span>
+      </div>
+      <div class="col-md-2"><label>Parameters <span class="text-danger">*</span></label></div>
+      <div class="col-md-4" style="position:relative;">
+        <select class="form-control" name="parameters_5" required style="appearance:none; -webkit-appearance:none; padding-right:30px;">
+          <option value="" disabled selected>Select</option>
+          <option value="Jamming">Jamming</option>
+          <option value="working">Working</option>
+        </select>
+        <span style="position:absolute; right:22px; top:50%; transform:translateY(-50%); pointer-events:none; color:#555;">▾</span>
+      </div>
+    </div>
+
+    <!-- Frequency Band & Observed Crystal State -->
+    <div class="row mb-3">
+      <div class="col-md-2"><label>Frequency Band <span class="text-danger">*</span></label></div>
+      <div class="col-md-4" style="position:relative;">
+        <select class="form-control" name="frequency_5" required style="appearance:none; -webkit-appearance:none; padding-right:30px;">
+          <option value="" disabled selected>Select</option>
+          <option value="LF">LF (30 kHz - 300 kHz)</option>
+          <option value="Weekly">Weekly</option>
+          <option value="Monthly">Monthly</option>
+        </select>
+        <span style="position:absolute; right:22px; top:50%; transform:translateY(-50%); pointer-events:none; color:#555;">▾</span>
+      </div>
+      <div class="col-md-2"><label>Observed Crystal State <span class="text-danger">*</span></label></div>
+      <div class="col-md-4" style="position:relative;">
+        <select class="form-control" name="Observed_crystal_state" required style="appearance:none; -webkit-appearance:none; padding-right:30px;">
+          <option value="" disabled selected>Select</option>
+          <option value="Green">Green</option>
+        </select>
+        <span style="position:absolute; right:22px; top:50%; transform:translateY(-50%); pointer-events:none; color:#555;">▾</span>
+      </div>
+    </div>
+
+    <!-- Ship Side Engagement -->
+    <div class="row mb-3">
+      <div class="col-md-2"><label>Ship Side Engagement <span class="text-danger">*</span></label></div>
+      <div class="col-md-4" style="position:relative;">
+        <select class="form-control" name="ship_side" required style="appearance:none; -webkit-appearance:none; padding-right:30px;">
+          <option value="" disabled selected>Select</option>
+          <option value="state_board">State Board</option>
+        </select>
+        <span style="position:absolute; right:22px; top:50%; transform:translateY(-50%); pointer-events:none; color:#555;">▾</span>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end mt-3">
+      <button type="button" class="btn btn-success px-4">Add Frequency Band</button>
+    </div>
+    
+
+  </div>
+</fieldset>
+
+<div class="d-flex justify-content-between align-items-center mt-4">
+      <div><button type="button" class="btn btn-success px-4">Previous</button></div>
+      <div><button type="submit" class="btn btn-success px-4">Save As Draft</button></div>
+      <div><button type="submit" class="btn btn-success px-4">Submit</button></div>
+    </div>
+
+             
+             
+            
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    if (window.WRSTGQuarterly) {
+        WRSTGQuarterly.init({
+            formId: 'ew_return_module',
+            sections: [],
+            extraTableIds: [],
+            submitConfirmation: {
+                formId: 'ew_return_module',
+                title: 'Submit EW Return?',
+                text: 'Once submitted, it cannot be edited.',
+                confirmButtonText: 'Yes, submit',
+                cancelButtonText: 'Cancel',
+            }
+        });
+    }
+});
+</script>
+{% endblock js %}

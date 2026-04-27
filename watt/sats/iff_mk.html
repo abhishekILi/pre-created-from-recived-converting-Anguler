@@ -1,0 +1,279 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">WATT</a></li>
+					<li class="breadcrumb-item active" aria-current="page">IFF MK XII (Transponder)</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">IFF MK XII (Transponder)</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="iff_mk_form">
+						{% csrf_token %}
+						<div class="form-body">
+							<fieldset class="custom-fieldset">
+								<div class="row g-3">
+									<div class="col-md-3 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<select class="form-control" name="ship_name" required>
+												<option value="">Select Ship</option>
+												{% for option in ship_options %}
+													<option value="{{ option.value }}">{{ option.label }}</option>
+												{% endfor %}
+											</select>
+											<label class="form_control_1">NAME OF SHIP <span class="text-danger">*</span></label>
+										</div>
+									</div>
+
+									<div class="col-md-3 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<select class="form-control" name="dept" required>
+												<option value="">Select Department</option>
+												<option value="ND">ND</option>
+												<option value="Communication">Communication</option>
+												<option value="Gunnery">Gunnery</option>
+												<option value="ASW">ASW</option>
+											</select>
+											<label class="form_control_1">DEPT <span class="text-danger">*</span></label>
+										</div>
+									</div>
+
+									<div class="col-md-3 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<input type="text" class="form-control" name="equipment" value="IFF MK XII (TRANSPONDER)" required>
+											<label class="form_control_1">EQUIPMENT <span class="text-danger">*</span></label>
+										</div>
+									</div>
+
+									<div class="col-md-3 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<input type="date" class="form-control" name="date" required>
+											<label class="form_control_1">DATE <span class="text-danger">*</span></label>
+										</div>
+									</div>
+
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<select class="form-control" name="nature_of_trials" required>
+												<option value="">Select Nature of Trials</option>
+												<option value="SATs">SATs</option>
+												<option value="OP Checks">OP Checks</option>
+												<option value="IIs">IIs</option>
+											</select>
+											<label class="form_control_1">NATURE OF TRIALS <span class="text-danger">*</span></label>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<div class="table-responsive">
+									<table class="custom_tbl" id="iff_mk_table">
+										<thead class="table-dark-head">
+											<tr>
+												<th class="ser-col">SER</th>
+												<th class="ser-col">TRIAL SER</th>
+												<th class="obs-col" colspan="3">OBSERVATIONS</th>
+												<th class="remarks-col">REMARKS</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr class="embarked-row">
+												<td colspan="6">
+													Trials team embarked onboard at
+													<input type="text" name="embarked_hrs" class="line-input embarked-hrs">
+													hrs on
+													<input type="date" name="embarked_date" class="line-input embarked-date">
+													for SATs of IFF MK XII (Transponder) as per NHQ approved schedule. Following observed:-
+												</td>
+											</tr>
+
+											<tr>
+												<td rowspan="3">1.</td>
+												<td rowspan="3">5.1</td>
+												<td colspan="1"><strong>Range Trial</strong></td>
+                                                <td></td>
+												<td class="text-center"><strong>Observed Range</strong></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>Min Range</td>
+												<td rowspan="2" class="text-center">As per LOS</td>
+												<td><input type="text" class="form-control" name="trial_5_1_min_observed_range"></td>
+												<td class="text-center">
+													<label><input type="radio" name="trial_5_1_min_status" value="SAT"> SAT</label>
+													<label><input type="radio" name="trial_5_1_min_status" value="UNSAT"> UNSAT</label>
+												</td>
+											</tr>
+											<tr>
+												<td>Max Range</td>
+												<td><input type="text" class="form-control" name="trial_5_1_max_observed_range"></td>
+												<td class="text-center">
+													<label><input type="radio" name="trial_5_1_max_status" value="SAT"> SAT</label>
+													<label><input type="radio" name="trial_5_1_max_status" value="UNSAT"> UNSAT</label>
+												</td>
+											</tr>
+
+											<tr>
+												<td rowspan="10">2.</td>
+												<td rowspan="10">5.2</td>
+												<td colspan="3"><strong>Mode 1, Mode 2, Mode 3/A &amp; Mode C Decoding Trials</strong></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td><strong>Mode</strong></td>
+												<td><strong>Code</strong></td>
+												<td><strong>Range</strong></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>Mode 1</td>
+												<td><input type="text" class="form-control" name="mode_1_code"></td>
+												<td><input type="text" class="form-control" name="mode_1_range"></td>
+												<td class="text-center">
+													<label><input type="radio" name="mode_1_status" value="SAT"> SAT</label>
+													<label><input type="radio" name="mode_1_status" value="UNSAT"> UNSAT</label>
+												</td>
+											</tr>
+											<tr>
+												<td>Mode 2</td>
+												<td><input type="text" class="form-control" name="mode_2_code"></td>
+												<td><input type="text" class="form-control" name="mode_2_range"></td>
+												<td class="text-center">
+													<label><input type="radio" name="mode_2_status" value="SAT"> SAT</label>
+													<label><input type="radio" name="mode_2_status" value="UNSAT"> UNSAT</label>
+												</td>
+											</tr>
+											<tr>
+												<td>Mode 3/A</td>
+												<td><input type="text" class="form-control" name="mode_3a_code"></td>
+												<td><input type="text" class="form-control" name="mode_3a_range"></td>
+												<td class="text-center">
+													<label><input type="radio" name="mode_3a_status" value="SAT"> SAT</label>
+													<label><input type="radio" name="mode_3a_status" value="UNSAT"> UNSAT</label>
+												</td>
+											</tr>
+											<tr>
+												<td>Mode C Height<br>(32400 ft / 9.87 ±0.1 Km)</td>
+												<td><input type="text" class="form-control" name="mode_c_code"></td>
+												<td><input type="text" class="form-control" name="mode_c_range"></td>
+												<td class="text-center">
+													<label><input type="radio" name="mode_c_status" value="SAT"> SAT</label>
+													<label><input type="radio" name="mode_c_status" value="UNSAT"> UNSAT</label>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="3">Special Condition Checks</td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>Emergency</td>
+												<td><input type="text" class="form-control" name="emergency_code"></td>
+												<td><input type="text" class="form-control" name="emergency_range"></td>
+												<td class="text-center">
+													<label><input type="radio" name="emergency_status" value="SAT"> SAT</label>
+													<label><input type="radio" name="emergency_status" value="UNSAT"> UNSAT</label>
+												</td>
+											</tr>
+											<tr>
+												<td>Communication Failure</td>
+												<td><input type="text" class="form-control" name="communication_failure_code"></td>
+												<td><input type="text" class="form-control" name="communication_failure_range"></td>
+												<td class="text-center" rowspan="2">
+													<label><input type="radio" name="comm_hijack_status" value="SAT"> SAT</label>
+													<label><input type="radio" name="comm_hijack_status" value="UNSAT"> UNSAT</label>
+												</td>
+											</tr>
+											<tr>
+												<td>Hijack</td>
+												<td><input type="text" class="form-control" name="hijack_code"></td>
+												<td><input type="text" class="form-control" name="hijack_range"></td>
+											</tr>
+
+											<tr>
+												<td>3.</td>
+												<td>5.3</td>
+												<td>ICAO Mode S Trial</td>
+												<td><input type="text" class="form-control" name="trial_5_3_code"></td>
+												<td><input type="text" class="form-control" name="trial_5_3_range"></td>
+												<td class="text-center">
+													<label><input type="radio" name="trial_5_3_status" value="SAT"> SAT</label>
+													<label><input type="radio" name="trial_5_3_status" value="UNSAT"> UNSAT</label>
+												</td>
+											</tr>
+											<tr>
+												<td>4.</td>
+												<td>5.4</td>
+												<td>Mode IS1/4 Trial</td>
+												<td><input type="text" class="form-control" name="trial_5_4_code"></td>
+												<td><input type="text" class="form-control" name="trial_5_4_range"></td>
+												<td class="text-center">
+													<label><input type="radio" name="trial_5_4_status" value="SAT"> SAT</label>
+													<label><input type="radio" name="trial_5_4_status" value="UNSAT"> UNSAT</label>
+												</td>
+											</tr>
+											<tr>
+												<td>5.</td>
+												<td>5.5</td>
+												<td>Mode IS2/5 Trial</td>
+												<td><input type="text" class="form-control" name="trial_5_5_code"></td>
+												<td><input type="text" class="form-control" name="trial_5_5_range"></td>
+												<td class="text-center">
+													<label><input type="radio" name="trial_5_5_status" value="SAT"> SAT</label>
+													<label><input type="radio" name="trial_5_5_status" value="UNSAT"> UNSAT</label>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset footer_text">
+								<div class="row">
+									<div class="col-md-6"><strong>Presenting Authority: Ship’s Staff</strong></div>
+									<div class="col-md-6 text-right"><strong>Inspecting Authority: WATT (V)</strong></div>
+								</div>
+								<div class="row mt-3">
+									<div class="col-md-3"><strong>ND</strong></div>
+									<div class="col-md-3"><strong>STI / TI</strong></div>
+									<div class="col-md-3"></div>
+									<div class="col-md-3"><strong>STO</strong></div>
+								</div>
+							</fieldset>
+
+							<div class="d-flex justify-content-center mt-4 gap-2">
+								<button type="submit" class="btn btn-success px-4">Save</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

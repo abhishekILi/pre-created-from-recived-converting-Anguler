@@ -1,0 +1,362 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">GUNNERY</a></li>
+					<li class="breadcrumb-item active" aria-current="page">CRN 91 611060</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">CRN 91 611060</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="crn_91_611060_form" action="{% url 'ITTTM:crn_91_611060' %}">
+						{% csrf_token %}
+						<div class="form-body">
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">Basic Information</legend>
+								<div class="row g-3">
+
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+												<select class="form-control" name="ship" required>
+													<option value="">--Select--</option>
+													{% for ship in ship_options %}
+													<option value="{{ ship.value }}">{{ ship.label }}</option>
+													{% endfor %}
+												</select>
+												<label class="form_control_1">Ship <span class="text-danger">*</span></label>
+											</div>
+								</div>
+
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+									<select class="form-control" id="department_select" name="department">
+										<option value="">-- Select --</option>
+										<option value="P15A">ND</option>
+										<option value="P17">ASW</option>
+										<option value="P17A">COMM</option>
+										<option value="P28">GUNNERY</option>
+										</select>
+										<label class="form_control_1">Department</label>
+									</div>
+								</div>
+
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+									<select class="form-control" id="equipment_select" name="equipment">
+										<option value="">-- Select --</option>
+										</select>
+										<label class="form_control_1">Equipment</label>
+									</div>
+								</div>
+
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<input type="date" class="form-control" id="date_input" name="date_">
+										<label class="form_control_1">Date</label>
+									</div>
+									</div>
+
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+									<select class="form-control" id="nature_trials_select" name="nature_of_trials" required>
+										<option value="">--Select--</option>
+										<option value="SATs">SATs</option>
+										<option value="HATS">HATs</option>
+										<option value="OP_CHECKS">OP CHECKS</option>
+										<option value="IIS">IIs</option>
+										</select>
+										<label class="form_control_1">Nature of Trial</label>
+									</div>
+								</div>
+
+							</div>
+						</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<div class="table-responsive mt-4">
+									<table class="custom_tbl" id="crn_91_611060_table">
+										<thead class="table-dark-head">
+											<tr>
+												<th class="ser-col">Ser</th>
+												<th>Check.no</th>
+												<th class="obs-col">OBSERVATIONS</th>
+												<th class="remarks-col">RESULT</th>
+												<th class="remarks-col">REMARKS</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td colspan="5">
+													Trials team embarked onboard at
+													<input type="text" name="crn_91_embarked_onboard_at" class="line-input embarked-hrs">
+													on
+													<input type="text" name="crn_91_embarked_on_date" class="line-input embarked-date">
+													for SATs of CRN 91 with SOP as per approved schedule, BR 4050 and CNO 07/10. Following observed:-
+												</td>
+											</tr>
+											<tr>
+												<td>01</td>
+												<td>3.0</td>
+												<td>Functional Test</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="crn_91_3_0_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="crn_91_3_0_status" value="SAT"> SAT</label> <label><input type="radio" name="crn_91_3_0_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>02</td>
+												<td>3.1</td>
+												<td>Prerequisites for SAT</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="crn_91_3_1_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="crn_91_3_1_status" value="SAT"> SAT</label> <label><input type="radio" name="crn_91_3_1_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>03</td>
+												<td>3.2</td>
+												<td>Test Target</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="crn_91_3_2_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="crn_91_3_2_status" value="SAT"> SAT</label> <label><input type="radio" name="crn_91_3_2_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>04</td>
+												<td>3.3</td>
+												<td>Initiation Test</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="crn_91_3_3_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="crn_91_3_3_status" value="SAT"> SAT</label> <label><input type="radio" name="crn_91_3_3_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>05</td>
+												<td>3.4</td>
+												<td>Diagnostic Test</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="crn_91_3_4_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="crn_91_3_4_status" value="SAT"> SAT</label> <label><input type="radio" name="crn_91_3_4_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>06</td>
+												<td>4.0</td>
+												<td>Surface Target Tracking, Ranging &amp; Engagement</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="crn_91_4_0_result" rows="2"></textarea></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>07</td>
+												<td>4.1</td>
+												<td>Firing Test</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="crn_91_4_1_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="crn_91_4_1_status" value="SAT"> SAT</label> <label><input type="radio" name="crn_91_4_1_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>08</td>
+												<td>4.1 (a)</td>
+												<td>With CCD Camera</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="crn_91_4_1a_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="crn_91_4_1a_status" value="SAT"> SAT</label> <label><input type="radio" name="crn_91_4_1a_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>09</td>
+												<td></td>
+												<td></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="crn_91_9_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="crn_91_9_status" value="SAT"> SAT</label> <label><input type="radio" name="crn_91_9_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>10</td>
+												<td></td>
+												<td></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="crn_91_10_result" rows="2"></textarea></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>11</td>
+												<td>4.11</td>
+												<td>PASEOXLR and VNG system Coupling.</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="crn_91_4_11_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="crn_91_4_11_status" value="SAT"> SAT</label> <label><input type="radio" name="crn_91_4_11_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>12</td>
+												<td>4.12</td>
+												<td>EOIRST system Interfaces.</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="crn_91_4_12_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="crn_91_4_12_status" value="SAT"> SAT</label> <label><input type="radio" name="crn_91_4_12_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td rowspan="12">13</td>
+												<td rowspan="12">4.13</td>
+												<td>
+													Functional tests of DRI PASEO-XLR<br>
+													<strong>ZM-TV Channel tests</strong><br>
+													(i) Visual Detection - At least 18.7 Km
+												</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="crn_91_4_13_zmtv_i_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="crn_91_4_13_zmtv_i_status" value="SAT"> SAT</label> <label><input type="radio" name="crn_91_4_13_zmtv_i_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>(ii) Visual recognition - At least 10.6 Km</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="crn_91_4_13_zmtv_ii_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="crn_91_4_13_zmtv_ii_status" value="SAT"> SAT</label> <label><input type="radio" name="crn_91_4_13_zmtv_ii_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>(iii) Visual Identification - At least 6.4 Km</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="crn_91_4_13_zmtv_iii_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="crn_91_4_13_zmtv_iii_status" value="SAT"> SAT</label> <label><input type="radio" name="crn_91_4_13_zmtv_iii_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>
+													<strong>ZM-IR Channel tests</strong><br>
+													(i) Visual Detection - At least 19.5 Km
+												</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="crn_91_4_13_zmir_i_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="crn_91_4_13_zmir_i_status" value="SAT"> SAT</label> <label><input type="radio" name="crn_91_4_13_zmir_i_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>(ii) Visual recognition - At least 10.9 Km</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="crn_91_4_13_zmir_ii_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="crn_91_4_13_zmir_ii_status" value="SAT"> SAT</label> <label><input type="radio" name="crn_91_4_13_zmir_ii_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>(iii) Visual Identification - At least 6.6 Km</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="crn_91_4_13_zmir_iii_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="crn_91_4_13_zmir_iii_status" value="SAT"> SAT</label> <label><input type="radio" name="crn_91_4_13_zmir_iii_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>
+													<strong>SP-TV Channel tests</strong><br>
+													(i) Visual Detection - At least 27.2 Km
+												</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="crn_91_4_13_sptv_i_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="crn_91_4_13_sptv_i_status" value="SAT"> SAT</label> <label><input type="radio" name="crn_91_4_13_sptv_i_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>(ii) Visual recognition - At least 19.4 Km</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="crn_91_4_13_sptv_ii_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="crn_91_4_13_sptv_ii_status" value="SAT"> SAT</label> <label><input type="radio" name="crn_91_4_13_sptv_ii_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>(iii) Visual Identification - At least 13.5 Km</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="crn_91_4_13_sptv_iii_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="crn_91_4_13_sptv_iii_status" value="SAT"> SAT</label> <label><input type="radio" name="crn_91_4_13_sptv_iii_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>
+													<strong>SP-SW Channel tests</strong><br>
+													(i) Visual Detection - At least 24 Km
+												</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="crn_91_4_13_spsw_i_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="crn_91_4_13_spsw_i_status" value="SAT"> SAT</label> <label><input type="radio" name="crn_91_4_13_spsw_i_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>(ii) Visual recognition - At least 16.1 Km</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="crn_91_4_13_spsw_ii_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="crn_91_4_13_spsw_ii_status" value="SAT"> SAT</label> <label><input type="radio" name="crn_91_4_13_spsw_ii_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>(iii) Visual Identification - At least 10.7 Km</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="crn_91_4_13_spsw_iii_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="crn_91_4_13_spsw_iii_status" value="SAT"> SAT</label> <label><input type="radio" name="crn_91_4_13_spsw_iii_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td rowspan="4">14</td>
+												<td rowspan="4">4.14</td>
+                                                <tr>
+                                                    <td>
+													Functional tests of DRI VNG<br>
+													(i) Automatic detection of surface target at least 16 Km.</td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="crn_91_4_14_i_result" rows="2"></textarea></td>
+                                                    <td class="text-center"><label><input type="radio" name="crn_91_4_14_i_status" value="SAT"> SAT</label> <label><input type="radio" name="crn_91_4_14_i_status" value="UNSAT"> UNSAT</label></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>(ii) Automatic detection of rotary wing aircraft targets at least 25 Km.</td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="crn_91_4_14_ii_result" rows="2"></textarea></td>
+                                                    <td class="text-center"><label><input type="radio" name="crn_91_4_14_ii_status" value="SAT"> SAT</label> <label><input type="radio" name="crn_91_4_14_ii_status" value="UNSAT"> UNSAT</label></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>(iii) Automatic detection of fighter aircraft targets at least 35 Km.</td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="crn_91_4_14_iii_result" rows="2"></textarea></td>
+                                                    <td class="text-center"><label><input type="radio" name="crn_91_4_14_iii_status" value="SAT"> SAT</label> <label><input type="radio" name="crn_91_4_14_iii_status" value="UNSAT"> UNSAT</label></td>
+                                                </tr>
+												<!-- <td>
+													Functional tests of DRI VNG<br>
+													(i) Automatic detection of surface target at least 16 Km.<br>
+													(ii) Automatic detection of rotary wing aircraft targets at least 25 Km.<br>
+													(iii) Automatic detection of fighter aircraft targets at least 35 Km.
+												</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="crn_91_4_14_result" rows="4"></textarea></td>
+												<td></td> -->
+											</tr>
+											<tr>
+												<td>15</td>
+												<td>4.15</td>
+												<td>Wear counters PASEO XLR end of tests</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="crn_91_4_15_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="crn_91_4_15_status" value="SAT"> SAT</label> <label><input type="radio" name="crn_91_4_15_status" value="UNSAT"> UNSAT</label></td>
+
+											</tr>
+											<tr>
+												<td>16</td>
+												<td>4.16</td>
+												<td>Wear counters VNG end of tests</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="crn_91_4_16_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="crn_91_4_16_status" value="SAT"> SAT</label> <label><input type="radio" name="crn_91_4_16_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+                            <fieldset class="custom-fieldset">
+                                                        <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                                                        <div class="row g-3">
+                                                                <div class="col-md-4 col-12">
+                                                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+																<select class="form-control" id="crn_91_611060_presenting_authority" name="crn_91_611060_presenting_authority" required>
+                                                                                        <option value="">--Select--</option>
+                                                                                        <option value="dockyard">Dockyard</option>
+                                                                                        <option value="shipstaff">Shipstaff</option>
+                                                                                        <option value="oem">OEM</option>
+                                                                                </select>
+																<label class="form_control_1" for="crn_91_611060_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+                                                                        </div>
+                                                                </div>
+                                                                <div class="col-md-4 col-12">
+                                                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+																<input type="text" class="form-control" id="crn_91_611060_watt" name="crn_91_611060_watt" value="VZG" >
+																<label class="form_control_1" for="crn_91_611060_watt">WATT</label>
+                                                                        </div>
+                                                                </div>
+                                                        </div>
+                                                </fieldset>
+
+							<div class="d-flex justify-content-center mt-4 gap-2">
+								<button type="submit" class="btn btn-success px-4">Save</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

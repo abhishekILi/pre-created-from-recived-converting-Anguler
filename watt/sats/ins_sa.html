@@ -1,0 +1,630 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+
+<style>
+  /* Inline table input styling */
+  .custom_tbl td input[type="text"],
+  .custom_tbl td input[type="time"],
+  .custom_tbl td input[type="date"]{
+    display: inline-block;
+    width: auto;
+    min-width: 100px;
+    height: 28px;
+    padding: 4px 6px;
+    font-size: 12px;
+    border: 1px solid #d9d9d9;
+    border-radius: 3px;
+    margin: 2px 4px;
+    vertical-align: middle;
+  } 
+
+  .custom_tbl td input[type="text"]:focus,
+  .custom_tbl td input[type="time"]:focus,
+  .custom_tbl td input[type="date"]:focus {
+    outline: none;
+    border-color: #0066cc;
+    box-shadow: 0 0 4px rgba(0, 102, 204, 0.4);
+  }
+
+  .nested-table {
+    margin-top: 10px;
+    margin-bottom: 0;
+  }
+
+  .nested-table th {
+    background-color: #e9ecef;
+    font-size: 11px;
+    padding: 5px;
+  }
+</style>
+
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item active" aria-current="page">WATT</li>
+          <li class="breadcrumb-item active" aria-current="page">SATS</li>
+          <li class="breadcrumb-item active" aria-current="page">INS-SA</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">INS-SA</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="ins_sa_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!-- HEADER — Ship / Inspection Info -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Basic Information</legend>
+                <div class="row g-3">
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="ship_name" name="ship_name" required>
+                        <option value="">-- Select --</option>
+                        <option value="INS">INS</option>
+                      </select>
+                      <label class="form_control_1">Name of Ship <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="department" name="department" required>
+                        <option value="">-- Select --</option>
+                        <option value="ND">ND</option>
+                        <option value="ASW">ASW</option>
+                        <option value="Gunnery">Gunnery</option>
+                        <option value="Communication">Communication</option>
+                      </select>
+                      <label class="form_control_1">Department <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="equipment" name="equipment" required>
+                          <option value="">-- Select --</option>
+                          <option value="INS-SA" selected>INS-SA</option>
+                      </select>
+                      <label class="form_control_1">Equipment <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="date" class="form-control" id="trial_date" name="trial_date" required>
+                      <label class="form_control_1">Date <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="nature_of_trials" name="nature_of_trials" required>
+                        <option value="">-- Select --</option>
+                        <option value="HATs">HATs</option>
+                        <option value="SATs">SATs</option>
+                        <option value="OP Checks">OP Checks</option>
+                        <option value="IIs">IIs</option>
+                      </select>
+                      <label class="form_control_1">Nature of Trial <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                </div>
+              </fieldset>
+
+              <!-- MAIN OBSERVATIONS TABLE -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Observations</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr class="custom-header-row">
+                        <th style="width: 6%;">Ser</th>
+                        <th style="width: 74%;">Observations</th>
+                        <th style="width: 20%;">SAT/UNSAT</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- Embark Info Row -->
+                      <tr>
+                        <td colspan="3">
+                          Trials team embarked onboard at 
+                          <input type="time" id="embark_time" name="embark_time" style="width: 100px;"> hrs on 
+                          <input type="date" id="embark_date" name="embark_date" style="width: 150px;"> for SATs of INS SA 
+                          <input type="text" id="ins_sa_name" name="ins_sa_name" placeholder="" style="width: 150px;">
+                          as per IHQ MoD (N) approved schedule. Following observed:-
+                        </td>
+                      </tr>
+
+                      <!-- Check 1 -->
+                      <tr>
+                        <td>1</td>
+                        <td>Check 9.1 Global Performance check</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_1_sat" name="check_1" value="SAT" required>
+                              <label for="check_1_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_1_unsat" name="check_1" value="UNSAT">
+                              <label for="check_1_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 2 -->
+                      <tr>
+                        <td>2</td>
+                        <td>Power supply 230V, 20A, 50 HZ to UPS and UPS 28V 12A supply to INS SA</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_2_sat" name="check_2" value="SAT" required>
+                              <label for="check_2_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_2_unsat" name="check_2" value="UNSAT">
+                              <label for="check_2_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 3 -->
+                      <tr>
+                        <td>3</td>
+                        <td>INS-SA UPS and CDU connectivity</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_3_sat" name="check_3" value="SAT" required>
+                              <label for="check_3_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_3_unsat" name="check_3" value="UNSAT">
+                              <label for="check_3_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 4 -->
+                      <tr>
+                        <td>4</td>
+                        <td>UPS Switched On</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_4_sat" name="check_4" value="SAT" required>
+                              <label for="check_4_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_4_unsat" name="check_4" value="UNSAT">
+                              <label for="check_4_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 5 -->
+                      <tr>
+                        <td>5</td>
+                        <td>Both INS-SA Switched On</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_5_sat" name="check_5" value="SAT" required>
+                              <label for="check_5_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_5_unsat" name="check_5" value="UNSAT">
+                              <label for="check_5_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 6 -->
+                      <tr>
+                        <td>6</td>
+                        <td>Self Test result verified</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_6_sat" name="check_6" value="SAT" required>
+                              <label for="check_6_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_6_unsat" name="check_6" value="UNSAT">
+                              <label for="check_6_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 7 -->
+                      <tr>
+                        <td>7</td>
+                        <td>Pass into Sea Situation by use of CDU</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_7_sat" name="check_7" value="SAT" required>
+                              <label for="check_7_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_7_unsat" name="check_7" value="UNSAT">
+                              <label for="check_7_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 8 -->
+                      <tr>
+                        <td>8</td>
+                        <td>Verify GPS, LOG available</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_8_sat" name="check_8" value="SAT" required>
+                              <label for="check_8_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_8_unsat" name="check_8" value="UNSAT">
+                              <label for="check_8_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 9 -->
+                      <tr>
+                        <td>9</td>
+                        <td>After 30 min in Sea Situation, INS SA is in Navigation Mode on the CDU</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_9_sat" name="check_9" value="SAT" required>
+                              <label for="check_9_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_9_unsat" name="check_9" value="UNSAT">
+                              <label for="check_9_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 10 -->
+                      <tr>
+                        <td>10</td>
+                        <td>Verify that the attitude and heading data are close to the mean Ship's attitude and heading.</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_10_sat" name="check_10" value="SAT" required>
+                              <label for="check_10_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_10_unsat" name="check_10" value="UNSAT">
+                              <label for="check_10_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 11 -->
+                      <tr>
+                        <td>11</td>
+                        <td>
+                          Note the Lat, Long values after 02 hours in both GPS & LOG ON condition
+                          <div class="mt-3">
+                            <table class="table table-sm table-bordered nested-table">
+                              <thead>
+                                <tr>
+                                  <th colspan="2" class="text-center">INS-SA</th>
+                                  <th colspan="2" class="text-center">GPS</th>
+                                  <th class="text-center">ERROR SPECIFIED</th>
+                                  <th class="text-center">OBTAINED</th>
+                                </tr>
+                                <tr>
+                                  <th>Latitude</th>
+                                  <th>Longitude</th>
+                                  <th>Latitude</th>
+                                  <th>Longitude</th>
+                                  <th></th>
+                                  <th></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td><input type="text" class="form-control form-control-sm" name="check_11_ins_lat"></td>
+                                  <td><input type="text" class="form-control form-control-sm" name="check_11_ins_long"></td>
+                                  <td><input type="text" class="form-control form-control-sm" name="check_11_gps_lat"></td>
+                                  <td><input type="text" class="form-control form-control-sm" name="check_11_gps_long"></td>
+                                  <td><input type="text" class="form-control form-control-sm" name="check_11_err_spec"></td>
+                                  <td><input type="text" class="form-control form-control-sm" name="check_11_obtained"></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_11_sat" name="check_11" value="SAT" required>
+                              <label for="check_11_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_11_unsat" name="check_11" value="UNSAT">
+                              <label for="check_11_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 12 -->
+                      <tr>
+                        <td>12</td>
+                        <td>
+                          Now Switch OFF GPS and LOG ON.<br>
+                          (Note the Lat, Long values after 04 hrs in GPS OFF and LOG ON position)
+                          <div class="mt-3">
+                            <table class="table table-sm table-bordered nested-table">
+                              <thead>
+                                <tr>
+                                  <th colspan="2" class="text-center">INS-SA</th>
+                                  <th colspan="2" class="text-center">GPS</th>
+                                  <th class="text-center">ERROR SPECIFIED</th>
+                                  <th class="text-center">OBTAINED</th>
+                                </tr>
+                                <tr>
+                                  <th>Latitude</th>
+                                  <th>Longitude</th>
+                                  <th>Latitude</th>
+                                  <th>Longitude</th>
+                                  <th></th>
+                                  <th></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td><input type="text" class="form-control form-control-sm" name="check_12_ins_lat"></td>
+                                  <td><input type="text" class="form-control form-control-sm" name="check_12_ins_long"></td>
+                                  <td><input type="text" class="form-control form-control-sm" name="check_12_gps_lat"></td>
+                                  <td><input type="text" class="form-control form-control-sm" name="check_12_gps_long"></td>
+                                  <td><input type="text" class="form-control form-control-sm" name="check_12_err_spec"></td>
+                                  <td><input type="text" class="form-control form-control-sm" name="check_12_obtained"></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_12_sat" name="check_12" value="SAT" required>
+                              <label for="check_12_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_12_unsat" name="check_12" value="UNSAT">
+                              <label for="check_12_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 13 -->
+                      <tr>
+                        <td>13</td>
+                        <td>
+                          Now Switch Off Both GPS and LOG and Note the Lat, Long values after 06 hours.
+                          <div class="mt-3">
+                            <table class="table table-sm table-bordered nested-table">
+                              <thead>
+                                <tr>
+                                  <th colspan="2" class="text-center">INS-SA</th>
+                                  <th colspan="2" class="text-center">GPS</th>
+                                  <th class="text-center">ERROR SPECIFIED</th>
+                                  <th class="text-center">OBTAINED</th>
+                                </tr>
+                                <tr>
+                                  <th>Latitude</th>
+                                  <th>Longitude</th>
+                                  <th>Latitude</th>
+                                  <th>Longitude</th>
+                                  <th></th>
+                                  <th></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td><input type="text" class="form-control form-control-sm" name="check_13_ins_lat"></td>
+                                  <td><input type="text" class="form-control form-control-sm" name="check_13_ins_long"></td>
+                                  <td><input type="text" class="form-control form-control-sm" name="check_13_gps_lat"></td>
+                                  <td><input type="text" class="form-control form-control-sm" name="check_13_gps_long"></td>
+                                  <td><input type="text" class="form-control form-control-sm" name="check_13_err_spec"></td>
+                                  <td><input type="text" class="form-control form-control-sm" name="check_13_obtained"></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_13_sat" name="check_13" value="SAT" required>
+                              <label for="check_13_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_13_unsat" name="check_13" value="UNSAT">
+                              <label for="check_13_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- Authorities Section -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Authorities</legend>
+                <div class="form-wrapper">
+
+                    <div class="sig-row">
+                        <div class="field-box">
+                            <span class="label-text">Presenting Authority: Ship's Staff</span>
+                            <textarea class="line-field" name="presenting_authority" rows="1"></textarea>
+                        </div>
+                        <div class="field-box">
+                            <span class="label-text">Inspecting Authority: WATT(V/MI)</span>
+                            <textarea class="line-field" name="inspecting_authority" rows="1"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="sig-row">
+                        <div class="field-box flex-small">
+                            <span class="label-text">ND:</span>
+                            <textarea class="line-field" name="presenting_nd" rows="1"></textarea>
+                        </div>
+                        <div class="field-box flex-small">
+                            <span class="label-text">C:</span>
+                            <textarea class="line-field" name="presenting_c" rows="1"></textarea>
+                        </div>
+                        <div class="field-box flex-small">
+                            <span class="label-text">STI / TI:</span>
+                            <textarea class="line-field" name="inspecting_sti_ti" rows="1"></textarea>
+                        </div>
+                        <div class="field-box flex-small">
+                            <span class="label-text">STO:</span>
+                            <textarea class="line-field" name="inspecting_sto" rows="1"></textarea>
+                        </div>
+                    </div>
+
+                </div>
+              </fieldset>
+
+              <!-- Submit -->
+              <div class="d-flex justify-content-center mt-4 gap-2">
+                <button type="submit" class="btn btn-success px-4">Save</button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+
+<script>
+  // Auto-set embark date to match trial date
+  document.getElementById('trial_date').addEventListener('change', function() {
+    document.getElementById('embark_date').value = this.value;
+  });
+
+  // Form validation
+  document.getElementById('ins_sa_form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Check if all required radio buttons are selected
+    let allChecksComplete = true;
+    for (let i = 1; i <= 13; i++) {
+      if (!document.querySelector(`input[name="check_${i}"]:checked`)) {
+        allChecksComplete = false;
+        break;
+      }
+    }
+    
+    if (!allChecksComplete) {
+      alert('Please complete all check observations before submitting.');
+      return;
+    }
+    
+    // If validation passes, submit the form
+    this.submit();
+  });
+</script>
+
+<style>
+    .form-wrapper {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        width: 100%;
+        margin: 20px 0;
+    }
+
+    /* Creates the horizontal row */
+    .sig-row {
+        display: flex;
+        gap: 40px;
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
+    /* Containers for each Label + Line pair */
+    .field-box {
+        display: flex;
+        align-items: flex-end;
+        flex: 1;
+    }
+
+    .label-text {
+        white-space: nowrap;
+        font-weight: bold;
+        margin-right: 10px;
+    }
+
+    /* The underline textarea */
+    .line-field {
+        flex: 1;
+        border: none;
+        border-bottom: 1px solid black;
+        background: transparent;
+        outline: none;
+        resize: none;
+        height: 1.2em;
+        line-height: 1.2em;
+        overflow: hidden;
+        font-family: inherit;
+        font-size:18px;
+    }
+
+    /* Specific adjustment for smaller fields */
+    .flex-small { flex: 0.5; }
+    .flex-large { flex: 1.5; }
+
+</style>
+
+{% endblock js %}

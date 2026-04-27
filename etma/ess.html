@@ -1,0 +1,858 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">EMERGENCY SUPPLY SYSTEM</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="emergency_supply_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+
+                            <!-- ══════════════════════════════════════
+                                HEADER INFO
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <div class="row mb-3">
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold">Ship</label>
+                                        <input type="text" class="form-control" name="ship" placeholder=" ">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold">Trial Inspector (Name)</label>
+                                        <input type="text" class="form-control" name="trial_inspector" placeholder=" ">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label fw-bold">Occasion of Trial</label>
+                                        <input type="text" class="form-control" name="occasion_of_trial" placeholder=" ">
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 1 – Test Equipment Used During Trials
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">1. Test Equipment Used During Trials</legend>
+                                <div class="row mb-3">
+                                    <div class="col-md-12">
+                                        <p class="mb-1">Insulation Tester, Phase Sequence Meter, Tong Tester</p>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="test_equip_param_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser No.</th>
+                                                <th>Test Equipment Used<br><small>a.</small></th>
+                                                <th style="width:35%;">Checks Undertaken<br><small>b.</small></th>
+                                                <th class="action">ACTION</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="serial-no">1</td>
+                                                <td><input type="text" class="form-control" data-base-name="tep_equipment" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="tep_checks" rows="1" placeholder=" "></textarea></td>
+                                                <td class="action action-cell-holder">
+                                                    <div class="action-controls">
+                                                        <button type="button" class="btn-round btn-add" onclick="addRow('test_equip_param_tbl')">+</button>
+                                                        <button type="button" class="btn-round btn-remove" onclick="removeRow('test_equip_param_tbl')">-</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">2</td>
+                                                <td><input type="text" class="form-control" data-base-name="tep_equipment" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="tep_checks" rows="1" placeholder=" "></textarea></td>
+                                                <td class="action action-cell-holder"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 2 – Date & Time
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">2. Date &amp; Time</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="date_time_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser</th>
+                                                <th>Activity</th>
+                                                <th style="width:20%;">Date</th>
+                                                <th style="width:20%;">Time</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="serial-no">2.1</td>
+                                                <td>Intimation from Ship</td>
+                                                <td><input type="date" class="form-control" name="dt_date_2_1"></td>
+                                                <td><input type="time" class="form-control" name="dt_time_2_1"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">2.2</td>
+                                                <td>Readiness indicated by Ship</td>
+                                                <td><input type="date" class="form-control" name="dt_date_2_2"></td>
+                                                <td><input type="time" class="form-control" name="dt_time_2_2"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">2.3</td>
+                                                <td>Trials Inspector reported onboard Ship</td>
+                                                <td><input type="date" class="form-control" name="dt_date_2_3"></td>
+                                                <td><input type="time" class="form-control" name="dt_time_2_3"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">2.4</td>
+                                                <td>Trials completed</td>
+                                                <td><input type="date" class="form-control" name="dt_date_2_4"></td>
+                                                <td><input type="time" class="form-control" name="dt_time_2_4"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 3 – Design Requirements / Documentation
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">3. Design Requirements / Documentation</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="design_req_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser</th>
+                                                <th>Description</th>
+                                                <th style="width:30%;">Remarks</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="serial-no">3.1</td>
+                                                <td>Manufacturer</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_remarks_3_1" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.2</td>
+                                                <td>Rating</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_remarks_3_2" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.3</td>
+                                                <td>CMMS Code</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_remarks_3_3" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.4</td>
+                                                <td>GRAQ</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_remarks_3_4" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.5</td>
+                                                <td>ATP</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_remarks_3_5" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.6</td>
+                                                <td>Board Proceedings</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_remarks_3_6" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.7</td>
+                                                <td>FATs Rentaion</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_remarks_3_7" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no" rowspan="5">3.8</td>
+                                                <td colspan="2" class="group-header-cell"><strong>Documentation-</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.8.1&nbsp;&nbsp;User handbook including Technical Description &amp; Operating Manual</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_remarks_3_8_1" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.8.2&nbsp;&nbsp;Maintenance Manual</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_remarks_3_8_2" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.8.3&nbsp;&nbsp;Type Test Certificate</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_remarks_3_8_3" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.8.4&nbsp;&nbsp;Emergency Cable Layout Diagram (System wise)</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_remarks_3_8_4" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td>3.8.5&nbsp;&nbsp;Emergency Supply Cable Layout Drawing (deck wise)</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_remarks_3_8_5" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 4 – Installation Checks
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">4. Installation Checks</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="installation_checks_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser</th>
+                                                <th style="width:12%;">Reference</th>
+                                                <th>Checks</th>
+                                                <th style="width:22%;">Remarks</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <!-- ── 4.1 Portable Transformers ── -->
+                                            <tr>
+                                                <td class="serial-no" rowspan="3">4.1</td>
+                                                <td rowspan="3">-</td>
+                                                <td colspan="2" class="group-header-cell"><strong>Portable Transformers.</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.1.1&nbsp;&nbsp;Check the location/ quantity of portable transformer as per approved drawing.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ic_remarks_4_1_1" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.1.2&nbsp;&nbsp;Check the storage arrangement of cables (as per diagram) near portable fuse board.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ic_remarks_4_1_2" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ── 4.2 Portable Connection Panel ── -->
+                                            <tr>
+                                                <td class="serial-no" rowspan="4">4.2</td>
+                                                <td rowspan="4">-</td>
+                                                <td colspan="2" class="group-header-cell"><strong>Portable Connection Panel.</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.2.1&nbsp;&nbsp;Check the availability of portable emergency connection panel with associated length of flexible cable.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ic_remarks_4_2_1" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.2.2&nbsp;&nbsp;Check the location and storage arrangement of panel as per approved drawings.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ic_remarks_4_2_2" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.2.3&nbsp;&nbsp;Check for proper securing with bulkhead.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ic_remarks_4_2_3" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ── 4.3 Cable Storage ── -->
+                                            <tr>
+                                                <td class="serial-no" rowspan="5">4.3</td>
+                                                <td rowspan="5">-</td>
+                                                <td colspan="2" class="group-header-cell"><strong>Cable Storage.</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.3.1&nbsp;&nbsp;Check flexible cables are for storage at designated locations.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ic_remarks_4_3_1" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.3.2&nbsp;&nbsp;Check it only one (upper) bracket is fitted and the lower bracket is omitted (if length of cable is ≤4m)</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ic_remarks_4_3_2" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.3.3&nbsp;&nbsp;Check it only one set of cable is stowed on any one bracket unless specifically approved.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ic_remarks_4_3_3" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.3.4&nbsp;&nbsp;Check the portable fuse board cables are stowed using only single bracket stowage.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ic_remarks_4_3_4" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ── 4.4 Cable Route ── -->
+                                            <tr>
+                                                <td class="serial-no">4.4</td>
+                                                <td>-</td>
+                                                <td><strong>Cable Route.</strong>&nbsp;&nbsp;Check the route of cables for all equipment provided with emergency supply system (as per drawing).</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ic_remarks_4_4" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ── 4.5 Tally Marking / Identification ── -->
+                                            <tr>
+                                                <td class="serial-no">4.5</td>
+                                                <td>-</td>
+                                                <td><strong>Tally Marking/ Identification.</strong>&nbsp;&nbsp;Check it flexible cables are properly tallied as per BR2170 V-II chapter 37, clause 3725.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ic_remarks_4_5" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ── 4.6 Location of Talley ── -->
+                                            <tr>
+                                                <td class="serial-no" rowspan="3">4.6</td>
+                                                <td rowspan="3">-</td>
+                                                <td colspan="2" class="group-header-cell"><strong>Location of Talley.</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.6.1&nbsp;&nbsp;Check tally marking is fitted preferably above the upper bracket of the stowage.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ic_remarks_4_6_1" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.6.2&nbsp;&nbsp;Check it the PVC covers are properly fitted on all emergency cables stowage.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ic_remarks_4_6_2" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ── 4.7 Condition / Accessibility ── -->
+                                            <tr>
+                                                <td class="serial-no" rowspan="2">4.7</td>
+                                                <td rowspan="2">-</td>
+                                                <td>4.7.1&nbsp;&nbsp;Inspect the condition of cable for proper securing, damage (if any).</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ic_remarks_4_7_1" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.7.2&nbsp;&nbsp;Check the accessibility of cable.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ic_remarks_4_7_2" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ── 4.8 Emergency Connection Boxes ── -->
+                                            <tr>
+                                                <td class="serial-no" rowspan="6">4.8</td>
+                                                <td rowspan="6">-</td>
+                                                <td colspan="2" class="group-header-cell"><strong>Emergency Connection Boxes (Record Results in Table 6.1).</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.8.1&nbsp;&nbsp;Check it all ECBs are provided with embossed tally fitted on the bulkhead immediately adjacent.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ic_remarks_4_8_1" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.8.2&nbsp;&nbsp;Check the identification tally of each ECB is placed.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ic_remarks_4_8_2" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.8.3&nbsp;&nbsp;Check the ECBs are fitted as high as possible consistent with either being within reach of a man of average height.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ic_remarks_4_8_3" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.8.4&nbsp;&nbsp;Check the proper earthing of ECBs.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ic_remarks_4_8_4" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.8.5&nbsp;&nbsp;Check it all types of ECBs/ connection points are covered with rubber covers to prevent from rusting/ moisture accumulation/ dust.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ic_remarks_4_8_5" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ── 4.9 Permanent Cables ── -->
+                                            <tr>
+                                                <td class="serial-no" rowspan="5">4.9</td>
+                                                <td rowspan="5">-</td>
+                                                <td colspan="2" class="group-header-cell"><strong>Permanent Cables (Record Results in Table 6.2).</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.9.1&nbsp;&nbsp;Check the insulation resistance of the Emergency connection boxes/ permanent &amp; <br>Flexible cables (insulation value should be ≥ 20 MΩ between each phase and earth.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ic_remarks_4_9_1" rows="3" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.9.2&nbsp;&nbsp;If two ECBs are connected then insulation should be ≥ 10 MΩ)</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ic_remarks_4_9_2" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.9.3&nbsp;&nbsp;Check the continuity of cables.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ic_remarks_4_9_3" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.9.4&nbsp;&nbsp;Check the phase rotation of cables.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ic_remarks_4_9_4" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ── 4.10 Flexible Cables ── -->
+                                            <tr>
+                                                <td class="serial-no" rowspan="4">4.10</td>
+                                                <td rowspan="4">-</td>
+                                                <td colspan="2" class="group-header-cell"><strong>Flexible Cables (Record Results in Table 6.3).</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.10.1&nbsp;&nbsp;Check the flexible cables associated with the ESCB's, important fuse panels and emergency terminals of the main SWBDs are <br>long enough to reach the farthest emergency connection box in the respective compartment.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ic_remarks_4_10_1" rows="3" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.10.2&nbsp;&nbsp;Check the length of cable as per approved drawing.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ic_remarks_4_10_2" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.10.3&nbsp;&nbsp;Check the continuity of cables.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ic_remarks_4_10_3" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ── 4.11 Tools ── -->
+                                            <tr>
+                                                <td class="serial-no" rowspan="3">4.11</td>
+                                                <td rowspan="2">-</td>
+                                                <td colspan="2" class="group-header-cell"><strong>Tools.</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.11.1&nbsp;&nbsp;Check the availability of insulated key in securing clip provided on the box.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ic_remarks_4_11_1" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>FOST Advisory</td>
+                                                <td>4.11.2&nbsp;&nbsp;Provision of insulated 'S' hooks for securing of emergency cables.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ic_remarks_4_11_2" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ── 4.12 Supply Breaker ── -->
+                                            <tr>
+                                                <td class="serial-no">4.12</td>
+                                                <td>-</td>
+                                                <td><strong>Supply Breaker.</strong>&nbsp;&nbsp;Check the capacity of emergency supply breaker (should be ≥ 250A).</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ic_remarks_4_12" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 5 – Operational Checks
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">5. Operational Checks</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="operational_checks_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser</th>
+                                                <th style="width:12%;">Reference</th>
+                                                <th>Checks</th>
+                                                <th style="width:22%;">Remarks</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <!-- ── 5.1 Portable Transformer ── -->
+                                            <tr>
+                                                <td class="serial-no" rowspan="2">5.1</td>
+                                                <td rowspan="2">-</td>
+                                                <td colspan="2">
+                                                    <strong>Portable Transformer.</strong>&nbsp;&nbsp;Check the functionality of portable transformers along with emergency link box and supply distribution board: -
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">
+                                                    <div class="table-responsive">
+                                                        <table class="custom_tbl" id="portable_transformer_tbl">
+                                                            <thead class="table-dark-head">
+                                                                <tr>
+                                                                    <th class="serial-no">Ser</th>
+                                                                    <th>Checks</th>
+                                                                    <th>Portable Transformer No.1</th>
+                                                                    <th>Portable Transformer No.2</th>
+                                                                    <th>Portable Transformer No.3</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td class="serial-no">5.1.1</td>
+                                                                    <td>Location</td>
+                                                                    <td><input type="text" class="form-control" name="pt_loc_1" placeholder=" "></td>
+                                                                    <td><input type="text" class="form-control" name="pt_loc_2" placeholder=" "></td>
+                                                                    <td><input type="text" class="form-control" name="pt_loc_3" placeholder=" "></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="serial-no">5.1.2</td>
+                                                                    <td>I/P cable no. &amp; length</td>
+                                                                    <td><input type="text" class="form-control" name="pt_ip_cable_1" placeholder=" "></td>
+                                                                    <td><input type="text" class="form-control" name="pt_ip_cable_2" placeholder=" "></td>
+                                                                    <td><input type="text" class="form-control" name="pt_ip_cable_3" placeholder=" "></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="serial-no">5.1.3</td>
+                                                                    <td>O/P cable no. &amp; length</td>
+                                                                    <td><input type="text" class="form-control" name="pt_op_cable_1" placeholder=" "></td>
+                                                                    <td><input type="text" class="form-control" name="pt_op_cable_2" placeholder=" "></td>
+                                                                    <td><input type="text" class="form-control" name="pt_op_cable_3" placeholder=" "></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="serial-no">5.1.4</td>
+                                                                    <td>I/P Voltage</td>
+                                                                    <td><input type="text" class="form-control" name="pt_ip_volt_1" placeholder=" "></td>
+                                                                    <td><input type="text" class="form-control" name="pt_ip_volt_2" placeholder=" "></td>
+                                                                    <td><input type="text" class="form-control" name="pt_ip_volt_3" placeholder=" "></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="serial-no">5.1.5</td>
+                                                                    <td>O/P Voltage</td>
+                                                                    <td><input type="text" class="form-control" name="pt_op_volt_1" placeholder=" "></td>
+                                                                    <td><input type="text" class="form-control" name="pt_op_volt_2" placeholder=" "></td>
+                                                                    <td><input type="text" class="form-control" name="pt_op_volt_3" placeholder=" "></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- ── 5.2 Motor ── -->
+                                            <tr>
+                                                <td class="serial-no" rowspan="4">5.2</td>
+                                                <td rowspan="4">-</td>
+                                                <td colspan="2" class="group-header-cell"><strong>Motor.</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td>5.2.1&nbsp;&nbsp;Connect the emergency cable to the equipment as per cable route mentioned in drawing.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="oc_remarks_5_2_1" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>5.2.2&nbsp;&nbsp;Check the insulation of motors/ cables between each phase and earth and record results in table 6.4</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="oc_remarks_5_2_2" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>5.2.3&nbsp;&nbsp;Check the temperature of emergency cable during motor/ system running (cable should overheat).</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="oc_remarks_5_2_3" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 6 – Record of Results
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">6. Record of Results</legend>
+
+                                <!-- ── 6.1 Emergency Connection Boxes ── -->
+                                <h6 class="mt-3 mb-2"><strong>6.1&nbsp;&nbsp;Emergency Connection Boxes (Test Audit Only):</strong></h6>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="ecb_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th>Source</th>
+                                                <th>Location</th>
+                                                <th>ECB &amp; Way<br>(1 way/ 3 way)</th>
+                                                <th>Accessibility<br>(Yes/ No)</th>
+                                                <th>Terminations<br>(Yes/ No)</th>
+                                                <th>Phase/<br>Ter. Indent<br>(Yes/ No)</th>
+                                                <th>Earthing<br>(Yes/ No)</th>
+                                                <th>Tally Plate<br>(Yes/ No)</th>
+                                                <th class="action">ACTION</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="text" class="form-control" data-base-name="ecb_source" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" data-base-name="ecb_location" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" data-base-name="ecb_way" placeholder=" "></td>
+
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" data-base-name="ecb_accessibility" name="ecb_accessibility" value="Yes">
+                                                            <label>Yes</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" data-base-name="ecb_accessibility" name="ecb_accessibility" value="No">
+                                                            <label>No</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" data-base-name="ecb_terminations" name="ecb_terminations" value="Yes">
+                                                            <label>Yes</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" data-base-name="ecb_terminations" name="ecb_terminations" value="No">
+                                                            <label>No</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" data-base-name="ecb_phase_indent" name="ecb_phase_indent" value="Yes">
+                                                            <label>Yes</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" data-base-name="ecb_phase_indent" name="ecb_phase_indent" value="No">
+                                                            <label>No</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" data-base-name="ecb_earthing" name="ecb_earthing" value="Yes">
+                                                            <label>Yes</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" data-base-name="ecb_earthing" name="ecb_earthing" value="No">
+                                                            <label>No</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" data-base-name="ecb_tally_plate" name="ecb_tally_plate" value="Yes">
+                                                            <label>Yes</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" data-base-name="ecb_tally_plate" name="ecb_tally_plate" value="No">
+                                                            <label>No</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                                <td class="action action-cell-holder">
+                                                    <div class="action-controls">
+                                                        <button type="button" class="btn-round btn-add" onclick="addRow('ecb_tbl')">+</button>
+                                                        <button type="button" class="btn-round btn-remove" onclick="removeRow('ecb_tbl')">-</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- ── 6.2 Permanent Cables ── -->
+                                <h6 class="mt-4 mb-2"><strong>6.2&nbsp;&nbsp;Permanent Cables (Test Audit Only):</strong></h6>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="perm_cables_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th colspan="2">From</th>
+                                                <th colspan="2">To</th>
+                                                <th colspan="3">Insulation (≥ 20MΩ)<br>Between Phases</th>
+                                                <th colspan="3">Insulation (≥ 20MΩ)<br>Phase to Earth</th>
+                                                <th>Continuity<br>(Yes/No)</th>
+                                                <th>Phase<br>Rotation</th>
+                                                <th>Service /<br>Cable No.</th>
+                                                <th class="action">ACTION</th>
+                                            </tr>
+                                            <tr>
+                                                <th>ECB</th>
+                                                <th>Location</th>
+                                                <th>ECB</th>
+                                                <th>Location</th>
+                                                <th>R</th>
+                                                <th>Y</th>
+                                                <th>B</th>
+                                                <th>R</th>
+                                                <th>Y</th>
+                                                <th>B</th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="text" class="form-control" data-base-name="pc_from_ecb" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" data-base-name="pc_from_loc" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" data-base-name="pc_to_ecb" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" data-base-name="pc_to_loc" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" data-base-name="pc_ins_bp_r" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" data-base-name="pc_ins_bp_y" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" data-base-name="pc_ins_bp_b" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" data-base-name="pc_ins_pe_r" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" data-base-name="pc_ins_pe_y" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" data-base-name="pc_ins_pe_b" placeholder=" "></td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" data-base-name="pc_continuity" name="pc_continuity" value="Yes">
+                                                            <label>Yes</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" data-base-name="pc_continuity" name="pc_continuity" value="No">
+                                                            <label>No</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><input type="text" class="form-control" data-base-name="pc_phase_rot" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" data-base-name="pc_cable_no" placeholder=" "></td>
+                                                <td class="action action-cell-holder">
+                                                    <div class="action-controls">
+                                                        <button type="button" class="btn-round btn-add" onclick="addRow('perm_cables_tbl')">+</button>
+                                                        <button type="button" class="btn-round btn-remove" onclick="removeRow('perm_cables_tbl')">-</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- ── 6.3 Flexible Cables ── -->
+                                <h6 class="mt-4 mb-2"><strong>6.3&nbsp;&nbsp;Flexible Cables (Test Audit Only):</strong></h6>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="flex_cables_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th>Cable No.</th>
+                                                <th>Stowage Location</th>
+                                                <th colspan="2">Purpose</th>
+                                                <th colspan="3">Insulation</th>
+                                                <th>Tally Plate</th>
+                                                <th>Cable Length (Mtrs)</th>
+                                                <th>Cable Run Check</th>
+                                                <th class="action">ACTION</th>
+                                            </tr>
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                                <th>From</th>
+                                                <th>To</th>
+                                                <th>R</th>
+                                                <th>Y</th>
+                                                <th>B</th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="text" class="form-control" data-base-name="fc_cable_no" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" data-base-name="fc_stow_loc" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" data-base-name="fc_purpose_from" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" data-base-name="fc_purpose_to" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" data-base-name="fc_ins_r" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" data-base-name="fc_ins_y" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" data-base-name="fc_ins_b" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" data-base-name="fc_tally" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" data-base-name="fc_cable_len" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" data-base-name="fc_cable_run" placeholder=" "></td>
+                                                <td class="action action-cell-holder">
+                                                    <div class="action-controls">
+                                                        <button type="button" class="btn-round btn-add" onclick="addRow('flex_cables_tbl')">+</button>
+                                                        <button type="button" class="btn-round btn-remove" onclick="removeRow('flex_cables_tbl')">-</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- ── 6.4 Motor Checks ── -->
+                                <h6 class="mt-4 mb-2"><strong>6.4&nbsp;&nbsp;Motor Checks:</strong></h6>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="motor_checks_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th rowspan="3">Motor</th>
+                                                <th colspan="3">Insulation</th>
+                                                <th colspan="6">Starting Current</th>
+                                                <th colspan="6">Running Current</th>
+                                                <th rowspan="3">Temp. of Cable</th>
+                                                <th rowspan="3" class="action">ACTION</th>
+                                            </tr>
+                                            <tr>
+                                                <th rowspan="2">R</th>
+                                                <th rowspan="2">Y</th>
+                                                <th rowspan="2">B</th>
+                                                <th colspan="3">Normal</th>
+                                                <th colspan="3">Emergency</th>
+                                                <th colspan="3">Normal</th>
+                                                <th colspan="3">Emergency</th>
+                                            </tr>
+                                            <tr>
+                                                <th>R</th><th>Y</th><th>B</th>
+                                                <th>R</th><th>Y</th><th>B</th>
+                                                <th>R</th><th>Y</th><th>B</th>
+                                                <th>R</th><th>Y</th><th>B</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><input type="text" class="form-control" name="mc_motor[]" placeholder=" "></td>
+                                                
+                                                <td><input type="text" class="form-control" name="mc_ins_r[]" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="mc_ins_y[]" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="mc_ins_b[]" placeholder=" "></td>
+                                                
+                                                <td><input type="text" class="form-control" name="mc_sc_n_r[]" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="mc_sc_n_y[]" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="mc_sc_n_b[]" placeholder=" "></td>
+                                                
+                                                <td><input type="text" class="form-control" name="mc_sc_e_r[]" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="mc_sc_e_y[]" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="mc_sc_e_b[]" placeholder=" "></td>
+                                                
+                                                <td><input type="text" class="form-control" name="mc_rc_n_r[]" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="mc_rc_n_y[]" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="mc_rc_n_b[]" placeholder=" "></td>
+                                                
+                                                <td><input type="text" class="form-control" name="mc_rc_e_r[]" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="mc_rc_e_y[]" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="mc_rc_e_b[]" placeholder=" "></td>
+                                                
+                                                <td><input type="text" class="form-control" name="mc_temp[]" placeholder=" "></td>
+                                                
+                                                <td class="action action-cell-holder">
+                                                    <div class="action-controls">
+                                                        <button type="button" class="btn-round btn-add" onclick="addRow('motor_checks_tbl')">+</button>
+                                                        <button type="button" class="btn-round btn-remove" onclick="removeRow(this)">-</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </fieldset>
+
+                            
+                            <div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Save</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .group-header-cell {
+        background-color: #e9ecef;
+        font-size: 13px;
+        padding: 6px 10px;
+    }
+</style>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    WRSTGQuarterly.init({
+        extraTableIds: ['ecb_tbl', 'perm_cables_tbl', 'flex_cables_tbl', 'motor_checks_tbl', 'observations_tbl',],
+        visibilityBindings: [],
+        submitConfirmation: { formId: 'emergency_supply_form' }
+    });
+});
+</script>
+{% endblock js %}

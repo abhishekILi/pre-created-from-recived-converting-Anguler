@@ -1,0 +1,206 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item"><a href="#">ETMA</a></li>
+					<li class="breadcrumb-item"><a href="#">Submarines</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Main DC Network</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">MAIN DC NETWORK</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="main_dc_network_form" action="{% url 'ITTTM:main_dc_network' %}">
+						{% csrf_token %}
+
+						<fieldset class="custom-fieldset">
+							<legend class="legend-custom text-uppercase">Report Details</legend>
+							<div class="row g-3">
+								<div class="col-md-6 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<select class="form-control" id="pot_submarine" name="pot_submarine" required>
+											<option value="">-- Select Submarine --</option>
+											{% for submarine in submarine_options %}
+											<option value="{{ submarine.value }}">{{ submarine.label }}</option>
+											{% endfor %}
+										</select>
+										<label class="form_control_1">Submarine <span class="text-danger">*</span></label>
+									</div>
+								</div>
+
+								<div class="col-md-6 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<input type="date" class="form-control" id="pot_report_date" name="pot_report_date" required>
+										<label class="form_control_1">Date <span class="text-danger">*</span></label>
+									</div>
+								</div>
+							</div>
+						</fieldset>
+
+						<fieldset class="custom-fieldset mt-4">
+							<legend class="legend-custom text-uppercase">Table No. 1</legend>
+							<div class="table-responsive">
+								<table class="custom_tbl" id="main_dc_network_table_1">
+									<thead>
+										<tr>
+											<th>Ser</th>
+											<th>Checks to be performed</th>
+											<th>Result(SAT/UNSAT)</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td colspan="3"><strong>Change Over to "Diving" Configuration</strong></td>
+										</tr>
+										<tr><td>1.1</td><td>Check 'OFF' indication of E1, E2, E5, Dg1 and Dg2 available on BC1</td><td><label class="me-3"><input type="radio" name="mdcn_t1_1_1" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t1_1_1" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>1.2</td><td>Make and Check Dt1 indication available on PEC and switchboard.</td><td><label class="me-3"><input type="radio" name="mdcn_t1_1_2" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t1_1_2" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>1.3</td><td>Check Closing of Dm1 and Dm2 and 'INHIBIT' on BC1 Lamp lit on Propulsion Switch Board</td><td><label class="me-3"><input type="radio" name="mdcn_t1_1_3" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t1_1_3" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>1.4</td><td>Make Db1 and Db2. <br>Check 'Make' indication available on BC1</td><td><label class="me-3"><input type="radio" name="mdcn_t1_1_4" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t1_1_4" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>1.5</td><td>Check 'INHIBIT' indication off for Dm1 and Dm2 on BC1 and Propulsion Switchboard</td><td><label class="me-3"><input type="radio" name="mdcn_t1_1_5" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t1_1_5" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>1.6</td><td>Make Dm1 and Dm2. <br>Check 'Make' indication available on BC1</td><td><label class="me-3"><input type="radio" name="mdcn_t1_1_6" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t1_1_6" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>1.7</td><td>Make Db3 and Db4. <br>Check 'Make' indication available on BC1</td><td><label class="me-3"><input type="radio" name="mdcn_t1_1_7" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t1_1_7" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>1.8</td><td>Drop and Check De1 and De2 breakers 'OFF' indication available on BC1</td><td><label class="me-3"><input type="radio" name="mdcn_t1_1_8" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t1_1_8" value="UNSAT"> UNSAT</label></td></tr>
+
+										<tr>
+											<td colspan="3"><strong>Change Over to "Snorting or Surface" Configuration</strong></td>
+										</tr>
+										<tr><td>1.9</td><td>Check 'Closing Inhibition' indication of Dg1 and Dg2 breakers available on PEC. <br>'INHIBIT' Lamp on Propulsion Switch Board lit.</td><td><label class="me-3"><input type="radio" name="mdcn_t1_1_9" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t1_1_9" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>1.10</td><td>Start Stbd DG. <br>Adjust Op voltage to network voltage <br>Check parameters on BC1</td><td><label class="me-3"><input type="radio" name="mdcn_t1_1_10" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t1_1_10" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>1.11</td><td>Check 'INHIBIT' indication of Dg1 not available</td><td><label class="me-3"><input type="radio" name="mdcn_t1_1_11" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t1_1_11" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>1.12</td><td>Make E5. <br>Check 'INHIBIT' indication ON of Dg1 available</td><td><label class="me-3"><input type="radio" name="mdcn_t1_1_12" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t1_1_12" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>1.13</td><td>Drop E5. <br>Check "INHIBIT" OFF indication of Dg1 not available</td><td><label class="me-3"><input type="radio" name="mdcn_t1_1_13" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t1_1_13" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>1.14</td><td>Put Combinator to "Series" position</td><td><label class="me-3"><input type="radio" name="mdcn_t1_1_14" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t1_1_14" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>1.15</td><td>"INHIBIT" indication of Dg1 available</td><td><label class="me-3"><input type="radio" name="mdcn_t1_1_15" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t1_1_15" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>1.16</td><td>Put Combinator to "Parallel" position.</td><td><label class="me-3"><input type="radio" name="mdcn_t1_1_16" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t1_1_16" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>1.17</td><td>"INHIBIT" indication of Dg1 not available.</td><td><label class="me-3"><input type="radio" name="mdcn_t1_1_17" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t1_1_17" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>1.18</td><td>Make Dg1. <br>Check 'Make' indication available on BC1</td><td><label class="me-3"><input type="radio" name="mdcn_t1_1_18" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t1_1_18" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>1.19</td><td>Start port DG. <br>Adjust Op voltage to network voltage <br>Check parameters on BC1</td><td><label class="me-3"><input type="radio" name="mdcn_t1_1_19" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t1_1_19" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>1.20</td><td>Check "INHIBIT" indication of Dg2 not available</td><td><label class="me-3"><input type="radio" name="mdcn_t1_1_20" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t1_1_20" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>1.21</td><td>Make E5 <br>Check "Closing" inhibition indication of Dg2 available</td><td><label class="me-3"><input type="radio" name="mdcn_t1_1_21" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t1_1_21" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>1.22</td><td>Drop E5</td><td><label class="me-3"><input type="radio" name="mdcn_t1_1_22" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t1_1_22" value="UNSAT"> UNSAT</label></td></tr>
+									</tbody>
+								</table>
+							</div>
+						</fieldset>
+
+						<fieldset class="custom-fieldset mt-4">
+							<legend class="legend-custom text-uppercase">Table No. 2</legend>
+							<div class="table-responsive">
+								<table class="custom_tbl" id="main_dc_network_table_2">
+									<thead>
+										<tr>
+											<th>Ser</th>
+											<th>Checks to be performed</th>
+											<th>Result(SAT/UNSAT)</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr><td>2.1</td><td>Remove load and drop Db2. <br>Check 'Drop' indication on BC1 <br>Check Message on upper area on the PEC Alarms indication "FWD PROPULSION DISCONNECTED". <br>Check Fwd Battery parameters on PEC available.</td><td><label class="me-3"><input type="radio" name="mdcn_t2_2_1" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t2_2_1" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>2.2</td><td>Drop Db4 from PEC. <br>Check 'Drop' indication on BC1. <br>Check Message on upper area on the PEC Alarms indication "FWD AUXILIARY DISCONNECTED"</td><td><label class="me-3"><input type="radio" name="mdcn_t2_2_2" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t2_2_2" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>2.3</td><td>Drop outgoing feeder breakers DD1 to DD4 and DD6 to DD9 remotely (from BC12). <br>Check 'Drop' indications on management mimic BC12 and actual dropping of the breakers at local switch board.</td><td><label class="me-3"><input type="radio" name="mdcn_t2_2_3" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t2_2_3" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>2.4</td><td>Drop Dt1. <br>Check COMBINATOR in "Independent" position.</td><td><label class="me-3"><input type="radio" name="mdcn_t2_2_4" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t2_2_4" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>2.5</td><td>Make E2 fish plate. <br>Check 'Make' indication on BC1.</td><td><label class="me-3"><input type="radio" name="mdcn_t2_2_5" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t2_2_5" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>2.6</td><td>Make Dt1 and put COMBINATOR to "Parallel" position.</td><td><label class="me-3"><input type="radio" name="mdcn_t2_2_6" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t2_2_6" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>2.7</td><td>Make all outgoing feeder breakers DD1 to DD4 and DD6 to DD9. <br>Check 'Make' indication of outgoing breakers on BC12.</td><td><label class="me-3"><input type="radio" name="mdcn_t2_2_7" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t2_2_7" value="UNSAT"> UNSAT</label></td></tr>
+										<tr>
+											<td colspan="3"><strong>Revert back to "Diving" configuration</strong></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</fieldset>
+
+						<fieldset class="custom-fieldset mt-4">
+							<legend class="legend-custom text-uppercase">Table No. 3</legend>
+							<div class="table-responsive">
+								<table class="custom_tbl" id="main_dc_network_table_3">
+									<thead>
+										<tr>
+											<th>Ser</th>
+											<th>Checks to be performed</th>
+											<th>Result(SAT/UNSAT)</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr><td>3.1</td><td>Remove load and drop Db1 from PEC. <br>Check 'Drop' indication on BC1. <br>Check Message on upper area on the PEC Alarms indication "AFT PROPULSION DISCONNECTED". <br>Check Aft Battery parameters on PEC.</td><td><label class="me-3"><input type="radio" name="mdcn_t3_3_1" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t3_3_1" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>3.2</td><td>Drop Db3 from PEC. <br>Check 'Drop' indication on BC1. <br>Check Message on upper area on the PEC Alarms indication "AFT AUXILIARY DISCONNECTED".</td><td><label class="me-3"><input type="radio" name="mdcn_t3_3_2" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t3_3_2" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>3.3</td><td>Drop all outgoing feeder breakers DD1 to DD4 and DD6 to DD10 remotely (from BC11).</td><td><label class="me-3"><input type="radio" name="mdcn_t3_3_3" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t3_3_3" value="UNSAT"> UNSAT</label></td></tr>
+									</tbody>
+								</table>
+							</div>
+						</fieldset>
+
+						<fieldset class="custom-fieldset mt-4">
+							<legend class="legend-custom text-uppercase">Table No. 4</legend>
+							<div class="table-responsive">
+								<table class="custom_tbl" id="main_dc_network_table_4">
+									<thead>
+										<tr>
+											<th>Ser</th>
+											<th>Checks to be performed</th>
+											<th>Result(SAT/UNSAT)</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr><td>4.1</td><td>Additional checks (as per unit SOP / continuation of trial procedure).</td><td><label class="me-3"><input type="radio" name="mdcn_t4_4_1" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t4_4_1" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>4.2</td><td>Additional checks (as per unit SOP / continuation of trial procedure).</td><td><label class="me-3"><input type="radio" name="mdcn_t4_4_2" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t4_4_2" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>4.3</td><td>Additional checks (as per unit SOP / continuation of trial procedure).</td><td><label class="me-3"><input type="radio" name="mdcn_t4_4_3" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t4_4_3" value="UNSAT"> UNSAT</label></td></tr>
+									</tbody>
+								</table>
+							</div>
+						</fieldset>
+
+						<fieldset class="custom-fieldset mt-4">
+							<legend class="legend-custom text-uppercase">Table No. 5</legend>
+							<div class="table-responsive">
+								<table class="custom_tbl" id="main_dc_network_table_5">
+									<thead>
+										<tr>
+											<th>Ser</th>
+											<th>Checks to be performed</th>
+											<th>Result(SAT/UNSAT)</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr><td>5.1</td><td>Make E5 fish plate. <br>Check 'Make' indication (E5) on BC1.</td><td><label class="me-3"><input type="radio" name="mdcn_t5_5_1" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t5_5_1" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>5.2</td><td>Make dt1 from PEC. <br>Check 'Make' indication on BC1.</td><td><label class="me-3"><input type="radio" name="mdcn_t5_5_2" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t5_5_2" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>5.3</td><td>Make Db1 and Db2 from PEC. <br>Check 'Make' indication on BC1. Check DC network insulation.</td><td><label class="me-3"><input type="radio" name="mdcn_t5_5_3" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t5_5_3" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>5.4</td><td>Check Battery Charging parameters and "EB" voltage and current on BC1.</td><td><label class="me-3"><input type="radio" name="mdcn_t5_5_4" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t5_5_4" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>5.5</td><td>After battery charging, Drop Db1 and Db2 from PEC. <br>Check 'Drop' indication on PEC.</td><td><label class="me-3"><input type="radio" name="mdcn_t5_5_5" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t5_5_5" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>5.6</td><td>Drop Dt1 from PEC. <br>Check 'Drop' indication on PEC.</td><td><label class="me-3"><input type="radio" name="mdcn_t5_5_6" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t5_5_6" value="UNSAT"> UNSAT</label></td></tr>
+										<tr><td>5.7</td><td>Put COMBINATOR to "Isolated" position.</td><td><label class="me-3"><input type="radio" name="mdcn_t5_5_7" value="SAT"> SAT</label><label><input type="radio" name="mdcn_t5_5_7" value="UNSAT"> UNSAT</label></td></tr>
+									</tbody>
+								</table>
+							</div>
+						</fieldset>
+
+						<div class="text-center mt-4">
+							<button type="submit" class="btn btn-success px-4">Save</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

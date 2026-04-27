@@ -1,0 +1,355 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:sats_ovnts' %}">ITTTM</a></li>
+          <li class="breadcrumb-item active" aria-current="page">WATT</li>
+          <li class="breadcrumb-item active" aria-current="page">SATs</li>
+          <li class="breadcrumb-item active" aria-current="page">OVNTS — Daily Summary of Progress</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">WEAPON ACCEPTANCE TRIALS TEAM VISAKHAPATNAM — DAILY SUMMARY OF PROGRESS</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="ovnts_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!-- ══════════════════════════════════════════
+                   HEADER FIELDSET
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Basic Information</legend>
+                <div class="row g-3">
+
+                  <!-- Name of Ship -->
+                  <div class="col-md-4 col-12">
+                      <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                          <select class="form-control" name="ship" required>
+                              <option value="">--Select--</option>
+                              {% for ship in ship_options %}
+                              <option value="{{ ship.value }}">{{ ship.label }}</option>
+                              {% endfor %}
+                          </select>
+                          <label class="form_control_1">Ship <span class="text-danger">*</span></label>
+                      </div>
+                  </div>
+
+                  <!-- Dept -->
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="dept">
+                        <option value="">-- Select Dept --</option>
+                        <option value="ND">ND</option>
+                        <option value="Gunnery">Gunnery</option>
+                        <option value="Communication">Communication</option>
+                        <option value="ASW">ASW</option>
+                      </select>
+                      <label class="form_control_1">Dept</label>
+                    </div>
+                  </div>
+
+                  <!-- Equipment -->
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="equipment">
+                        <option value="">-- Select Equipment --</option>
+                        <option value="OVNTS">OVNTS</option>
+                      </select>
+                      <label class="form_control_1">Equipment</label>
+                    </div>
+                  </div>
+
+                  <!-- Date -->
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="date" class="form-control" name="trial_date">
+                      <label class="form_control_1">Date</label>
+                    </div>
+                  </div>
+
+                  <!-- Nature of Trials -->
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="nature_of_trials">
+                        <option value="">-- Select --</option>
+                        <option value="SATs">SATs</option>
+                        <option value="HATs">HATs</option>
+                        <option value="FATs">FATs</option>
+                      </select>
+                      <label class="form_control_1">Nature of Trials</label>
+                    </div>
+                  </div>
+
+                  <!-- Age -->
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="number" class="form-control" name="age" placeholder=" " min="0">
+                      <label class="form_control_1">Age (Numeric)</label>
+                    </div>
+                  </div>
+
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   MAIN TABLE FIELDSET
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">OVNTS — Checks</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr class="custom-header-row">
+                        <th class="serial-no">Ser</th>
+                        <th>Observations</th>
+                        <th>Remarks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <!-- ══ Intro line row ══ -->
+                      <tr>
+                        <td colspan="3">
+                            Trials team embarked onboard at 
+                            <input type="time" id="embark_time" name="embark_time" class="form-control d-inline-block" style="width: 100px; height: 28px;"> hrs on 
+                            <input type="date" id="embark_date" name="embark_date" class="form-control d-inline-block" style="width: 100px; height: 28px;"> for SATs of Colour Tactical Display as per IHQ MoD (navy) approved schedule. Following observations :-
+                        </td>
+                    </tr>
+
+                      <!-- ══ Ser 1 ══ -->
+                      <tr>
+                        <td class="serial-no">1</td>
+                        <td class="fixed-label-cell">Check 6.1.C – Display of Logo at the bottom of Display</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label><input type="radio" name="s1_remarks" value="SAT"> SAT</label>
+                            <label><input type="radio" name="s1_remarks" value="UNSAT"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ Ser 2 ══ -->
+                      <tr>
+                        <td class="serial-no">2</td>
+                        <td class="fixed-label-cell">Check 6.1.d – Time elapsed before 'DET HOT' disappears (&lt;10 Min)</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label><input type="radio" name="s2_remarks" value="SAT"> SAT</label>
+                            <label><input type="radio" name="s2_remarks" value="UNSAT"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ Ser 3 ══ -->
+                      <tr>
+                        <td class="serial-no">3</td>
+                        <td class="fixed-label-cell">Check 6.2.a – Zoom controls (IN / OUT)</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label><input type="radio" name="s3_remarks" value="SAT"> SAT</label>
+                            <label><input type="radio" name="s3_remarks" value="UNSAT"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ Ser 4 ══ -->
+                      <tr>
+                        <td class="serial-no">4</td>
+                        <td class="fixed-label-cell">Check 6.2.b – Focus controls FAR &amp; NEAR</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label><input type="radio" name="s4_remarks" value="SAT"> SAT</label>
+                            <label><input type="radio" name="s4_remarks" value="UNSAT"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ Ser 5 ══ -->
+                      <tr>
+                        <td class="serial-no">5</td>
+                        <td class="fixed-label-cell">Check 6.2.c – Video Polarity</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label><input type="radio" name="s5_remarks" value="SAT"> SAT</label>
+                            <label><input type="radio" name="s5_remarks" value="UNSAT"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ Ser 6 ══ -->
+                      <tr>
+                        <td class="serial-no">6</td>
+                        <td class="fixed-label-cell">Check 6.2.d – Reticule Polarity from "BLK HOT" to "WHT HOT" and vice versa</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label><input type="radio" name="s6_remarks" value="SAT"> SAT</label>
+                            <label><input type="radio" name="s6_remarks" value="UNSAT"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ Ser 7 ══ -->
+                      <tr>
+                        <td class="serial-no">7</td>
+                        <td class="fixed-label-cell">Check 6.2.e – Reticule ON / OFF</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label><input type="radio" name="s7_remarks" value="SAT"> SAT</label>
+                            <label><input type="radio" name="s7_remarks" value="UNSAT"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ Ser 8 ══ -->
+                      <tr>
+                        <td class="serial-no">8</td>
+                        <td class="fixed-label-cell">Check 6.2.f – Video quality (not noisy)</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label><input type="radio" name="s8_remarks" value="SAT"> SAT</label>
+                            <label><input type="radio" name="s8_remarks" value="UNSAT"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ Ser 9: Range Checks — nested table ══ -->
+                      <tr>
+                        <td class="serial-no">9</td>
+                        <td class="fixed-label-cell">
+                              <strong>Check 6.3 – Range Checks</strong>
+
+                              <div class="mt-2">
+
+                                <!-- Detection Table -->
+                                <table class="custom_tbl w-100">
+                                  <thead>
+                                    <tr>
+                                      <th class="text-center">Detection</th>
+                                      <th class="text-center">Specified</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                      <td>Large Ship</td>
+                                      <td class="text-center">7 KM</td>
+                                    </tr>
+                                    <tr>
+                                      <td>Medium Ship</td>
+                                      <td class="text-center">5 KM</td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+
+                                <!-- Recognition Section -->
+                                <!-- Recognition Section -->
+                                <div class="mt-2"><strong>Recognition Checks</strong></div>
+
+                                <table class="custom_tbl w-100">
+                                  <tbody>
+                                     <tr>
+                                        <td colspan="2" style="padding:0;"></td>
+                                      </tr>
+                                    <tr>
+                                      <td>Large Size Ship</td>
+                                      <td class="text-center">4 KM</td>
+                                    </tr>
+                                    <tr>
+                                      <td>Medium Size Ship</td>
+                                      <td class="text-center">2 KM</td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                            <td>
+                              <div class="yes-no-container">
+                                <label><input type="radio" name="s9_remarks" value="SAT"> SAT</label>
+                                <label><input type="radio" name="s9_remarks" value="UNSAT"> UNSAT</label>
+                              </div>
+                            </td>
+                        </tr>
+                      </tr>
+                          <!-- ══ Footer ══ -->
+                      <tr>
+                          <td colspan="3">
+
+                            <!-- Authorities Row -->
+                            <div class="row mt-2">
+                              <div class="col-md-6 col-12 fw-bold">
+                                Presenting Authority: Ship’s Staff
+                              </div>
+                              <div class="col-md-6 col-12 fw-bold text-md-end">
+                                Inspecting Authority: WATT (V)
+                              </div>
+                            </div>
+
+                            <div class="row align-items-center">
+
+                                <!-- ND -->
+                                <div class="col-md-3 d-flex align-items-center">
+                                  <label class="me-2 fw-bold">ND:</label>
+                                  <input type="text" class="form-control border-0 border-bottom" name="field_nd">
+                                </div>
+
+                                <!-- C -->
+                                <div class="col-md-3 d-flex align-items-center">
+                                  <label class="me-2 fw-bold">C:</label>
+                                  <input type="text" class="form-control border-0 border-bottom" name="field_c">
+                                </div>
+
+                                <!-- STI / TI -->
+                                <div class="col-md-3 d-flex align-items-center">
+                                  <label class="me-2 fw-bold">STI / TI:</label>
+                                  <input type="text" class="form-control border-0 border-bottom" name="field_sti_ti">
+                                </div>
+
+                                <!-- STO -->
+                                <div class="col-md-3 d-flex align-items-center">
+                                  <label class="me-2 fw-bold">STO:</label>
+                                  <input type="text" class="form-control border-0 border-bottom" name="field_sto">
+                                </div>
+
+                              </div>
+
+                          </td>
+                        </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+              <!-- Submit -->
+              <div class="d-flex justify-content-center mt-4 gap-2">
+                <button type="submit" class="btn btn-success px-4">Save</button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+
+{% endblock js %}

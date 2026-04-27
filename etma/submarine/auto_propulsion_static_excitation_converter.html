@@ -1,0 +1,370 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+/* Fix table layout */
+.custom_tbl {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Center table headers */
+.custom_tbl thead th {
+    text-align: center;
+    vertical-align: middle;
+    padding: 10px;
+    font-weight: 600;
+}
+
+/* Left align for test nominal value */
+.custom_tbl td.text-start {
+    text-align: left;
+}
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+
+    <!-- Breadcrumb -->
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'ITTTM:home' %}">ITTTM</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'ITTTM:home' %}">ETMA</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'ITTTM:home' %}">SUBMARINES</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        FIRE WARNING AND EXTINGUISHING SYSTEM
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Portlet -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">
+                            FIRE WARNING AND EXTINGUISHING SYSTEM
+                        </span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="nrtp116_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+
+                            <!-- ===== BASIC INFORMATION ===== -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">Basic Information</legend>
+                                <div class="row g-3">
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="date" class="form-control" name="date_of_trials" required>
+                                            <label class="form_control_1">DATE OF TRIALS <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" name="ins">
+                                            <label class="form_control_1">INS</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </fieldset>
+
+                            <!-- ===== RESULT SHEET TABLE ===== -->
+                            <fieldset class="custom-fieldset mt-4">
+                                <legend class="legend-custom text-uppercase">Result Sheet</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="nrtp116_table">
+                                        <thead>
+                                            <tr class="custom-header-row">
+                                                <th>TEST SER</th>
+                                                <th>TEST / NOMINAL VALUE</th>
+                                                <th>OK / NOT OK</th>
+                                                <th>ACTUAL VALUE</th>
+                                                <th>REMARKS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <!-- 116.100 -->
+                                            <tr>
+                                                <td>116.100</td>
+                                                <td class="text-start">
+                                                    Visual Inspection;
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container justify-content-center">
+                                                        <label>
+                                                            <input type="radio" name="status_116100" value="OK"> OK
+                                                        </label>
+                                                        <label>
+                                                            <input type="radio" name="status_116100" value="NOT_OK"> Not OK
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="actual_116100"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_116100"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 116.101 -->
+                                            <tr>
+                                                <td>116.101</td>
+                                                <td class="text-start">
+                                                    Visual Inspection;
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container justify-content-center">
+                                                        <label>
+                                                            <input type="radio" name="status_116101" value="OK"> OK
+                                                        </label>
+                                                        <label>
+                                                            <input type="radio" name="status_116101" value="NOT_OK"> Not OK
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="actual_116101"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_116101"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 116.102 -->
+                                            <tr>
+                                                <td>116.102</td>
+                                                <td class="text-start">
+                                                    Functional Test, Preparation for operation,
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container justify-content-center">
+                                                        <label>
+                                                            <input type="radio" name="status_116102" value="OK"> OK
+                                                        </label>
+                                                        <label>
+                                                            <input type="radio" name="status_116102" value="NOT_OK"> Not OK
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="actual_116102"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_116102"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 116.103 -->
+                                            <tr>
+                                                <td>116.103</td>
+                                                <td class="text-start">
+                                                    Change over to 'Automatic Operation';
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container justify-content-center">
+                                                        <label>
+                                                            <input type="radio" name="status_116103" value="OK"> OK
+                                                        </label>
+                                                        <label>
+                                                            <input type="radio" name="status_116103" value="NOT_OK"> Not OK
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="actual_116103"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_116103"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 116.104 -->
+                                            <tr>
+                                                <td>116.104</td>
+                                                <td class="text-start">
+                                                    Operation in Ahead Step I (Automatic);
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container justify-content-center">
+                                                        <label>
+                                                            <input type="radio" name="status_116104" value="OK"> OK
+                                                        </label>
+                                                        <label>
+                                                            <input type="radio" name="status_116104" value="NOT_OK"> Not OK
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="actual_116104"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_116104"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 116.105 -->
+                                            <tr>
+                                                <td>116.105</td>
+                                                <td class="text-start">
+                                                    Operation in Ahead Step II (Automatic);
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container justify-content-center">
+                                                        <label>
+                                                            <input type="radio" name="status_116105" value="OK"> OK
+                                                        </label>
+                                                        <label>
+                                                            <input type="radio" name="status_116105" value="NOT_OK"> Not OK
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="actual_116105"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_116105"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 116.106 -->
+                                            <tr>
+                                                <td>116.106</td>
+                                                <td class="text-start">
+                                                    Operation in Ahead Step III (Automatic);
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container justify-content-center">
+                                                        <label>
+                                                            <input type="radio" name="status_116106" value="OK"> OK
+                                                        </label>
+                                                        <label>
+                                                            <input type="radio" name="status_116106" value="NOT_OK"> Not OK
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="actual_116106"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_116106"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 116.107 -->
+                                            <tr>
+                                                <td>116.107</td>
+                                                <td class="text-start">
+                                                    Operation in Astern Step I (Automatic);
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container justify-content-center">
+                                                        <label>
+                                                            <input type="radio" name="status_116107" value="OK"> OK
+                                                        </label>
+                                                        <label>
+                                                            <input type="radio" name="status_116107" value="NOT_OK"> Not OK
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="actual_116107"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_116107"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 116.108 -->
+                                            <tr>
+                                                <td>116.108</td>
+                                                <td class="text-start">
+                                                    Operation in Astern Step II (Automatic);
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container justify-content-center">
+                                                        <label>
+                                                            <input type="radio" name="status_116108" value="OK"> OK
+                                                        </label>
+                                                        <label>
+                                                            <input type="radio" name="status_116108" value="NOT_OK"> Not OK
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="actual_116108"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_116108"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 116.109 -->
+                                            <tr>
+                                                <td>116.109</td>
+                                                <td class="text-start">
+                                                    Operation in Astern Step III (Automatic);
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container justify-content-center">
+                                                        <label>
+                                                            <input type="radio" name="status_116109" value="OK"> OK
+                                                        </label>
+                                                        <label>
+                                                            <input type="radio" name="status_116109" value="NOT_OK"> Not OK
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="actual_116109"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_116109"></textarea>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ===== SUBMIT BUTTON ===== -->
+                            <div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Save</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

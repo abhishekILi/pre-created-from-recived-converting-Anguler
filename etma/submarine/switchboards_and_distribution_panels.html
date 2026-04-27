@@ -1,0 +1,158 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item"><a href="#">ETMA</a></li>
+          <li class="breadcrumb-item"><a href="#">Submarines</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Switchboards and Distribution Panels</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">SWITCHBOARDS AND DISTRIBUTION PANELS</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="switchboards_and_distribution_panels_form" action="{% url 'ITTTM:switchboards_and_distribution_panels' %}">
+            {% csrf_token %}
+
+            <fieldset class="custom-fieldset">
+              <legend class="legend-custom text-uppercase">Report Details</legend>
+              <div class="row g-3">
+                <div class="col-md-6 col-12">
+                  <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                    <select class="form-control" id="sdp_submarine" name="sdp_submarine" required>
+                      <option value="">-- Select Submarine --</option>
+                      {% for submarine in submarine_options %}
+                      <option value="{{ submarine.value }}">{{ submarine.label }}</option>
+                      {% endfor %}
+                    </select>
+                    <label class="form_control_1">Submarine <span class="text-danger">*</span></label>
+                  </div>
+                </div>
+                <div class="col-md-6 col-12">
+                  <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                    <input type="date" class="form-control" id="sdp_report_date" name="sdp_report_date" required>
+                    <label class="form_control_1">Date <span class="text-danger">*</span></label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset class="custom-fieldset mt-4">
+              <legend class="legend-custom text-uppercase">SWITCHBOARDS AND DISTRIBUTION PANELS</legend>
+              <div class="table-responsive">
+                <table class="custom_tbl" id="switchboards_distribution_panels_table">
+                  <thead>
+                    <tr>
+                      <th style="width: 12%;">TEST SER</th>
+                      <th>TEST / NOMINAL VALUE</th>
+                      <th style="width: 22%;">ACTUAL VALUE</th>
+                      <th style="width: 22%;">REMARKS</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>103.100</td>
+                      <td>Visual inspection</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="sdp_103_100_actual_value" name="sdp_103_100_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="sdp_103_100_remarks" name="sdp_103_100_remarks" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td>103.101</td>
+                      <td>Visual inspection</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="sdp_103_101_actual_value" name="sdp_103_101_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="sdp_103_101_remarks" name="sdp_103_101_remarks" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td>103.102</td>
+                      <td>Visual inspection</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="sdp_103_102_actual_value" name="sdp_103_102_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="sdp_103_102_remarks" name="sdp_103_102_remarks" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td>103.103</td>
+                      <td>Visual inspection</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="sdp_103_103_actual_value" name="sdp_103_103_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="sdp_103_103_remarks" name="sdp_103_103_remarks" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td>103.104</td>
+                      <td>Visual inspection</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="sdp_103_104_actual_value" name="sdp_103_104_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="sdp_103_104_remarks" name="sdp_103_104_remarks" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td>103.105</td>
+                      <td>Visual inspection</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="sdp_103_105_actual_value" name="sdp_103_105_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="sdp_103_105_remarks" name="sdp_103_105_remarks" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td>103.106</td>
+                      <td>Functional Checks</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="sdp_103_106_actual_value" name="sdp_103_106_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="sdp_103_106_remarks" name="sdp_103_106_remarks" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td>103.107</td>
+                      <td>Functional Checks</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="sdp_103_107_actual_value" name="sdp_103_107_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="sdp_103_107_remarks" name="sdp_103_107_remarks" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td>103.108</td>
+                      <td>Functional Checks</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="sdp_103_108_actual_value" name="sdp_103_108_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="sdp_103_108_remarks" name="sdp_103_108_remarks" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td>103.109</td>
+                      <td>Functional Checks</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="sdp_103_109_actual_value" name="sdp_103_109_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="sdp_103_109_remarks" name="sdp_103_109_remarks" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td>103.110</td>
+                      <td>Functional Checks</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="sdp_103_110_actual_value" name="sdp_103_110_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="sdp_103_110_remarks" name="sdp_103_110_remarks" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td>103.111</td>
+                      <td>Functional Checks</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="sdp_103_111_actual_value" name="sdp_103_111_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="sdp_103_111_remarks" name="sdp_103_111_remarks" rows="2"></textarea></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </fieldset>
+
+            <div class="text-center mt-4">
+              <button type="submit" class="btn btn-success px-4">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

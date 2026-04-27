@@ -1,0 +1,741 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">HATs</a></li>
+					<li class="breadcrumb-item active" aria-current="page">IAC MOD HATs</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">IAC MOD HATs</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="iac_mod_hats_form">
+						{% csrf_token %}
+						<div class="form-body">
+							<fieldset class="custom-fieldset">
+								<div class="row g-3">
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<select class="form-control" name="ship_name" required>
+												<option value="">Select Ship</option>
+												{% for option in ship_options %}
+													<option value="{{ option.value }}">{{ option.label }}</option>
+												{% endfor %}
+											</select>
+											<label class="form_control_1">SHIP <span class="text-danger">*</span></label>
+										</div>
+									</div>
+                                    <div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<select class="form-control" name="department" required>
+												<option value="">Select Dept</option>
+												<option value="ASW">ASW</option>
+												<option value="ND">ND</option>
+												<option value="ELE">ELE</option>
+												<option value="COMMN">COMMN</option>
+											</select>
+											<label class="form_control_1">DEPT <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<input type="text" class="form-control" name="equipment" value="IAC MOD HATs">
+											<label class="form_control_1">EQUIPMENT <span class="text-danger">*</span></label>
+										</div>
+									</div>
+                                    <div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<input type="date" class="form-control" name="date" required>
+											<label class="form_control_1">DATE <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<select class="form-control" name="nature_of_trials" required>
+												<option value="">Select Nature of Trials</option>
+												<option value="SATs">SATs</option>
+												<option value="HATs">HATs</option>
+												<option value="OP CHECKS">OP CHECKS</option>
+												<option value="IIs">IIs</option>
+											</select>
+											<label class="form_control_1">NATURE OF TRIALS <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+                                <legend class="legend-custom text-uppercase">Checks</legend>
+								<div class="table-responsive">
+										<table class="custom_tbl" id="checks_table">
+										<thead class="custom-header-row">
+											<tr>
+												<th>TRIAL SER</th>
+												<th>CHECK DESCRIPTION AS PER SCHEDULE</th>
+												<th>RESULT</th>
+												<th>PRESENTING AUTHORITY REMARKS</th>
+											</tr>
+										</thead>
+										<tbody>
+											
+											<tr>
+												<td><strong>3.0</strong></td>
+												<td colspan="3"><strong>Preliminary checks</strong></td>
+												
+											</tr>
+
+											<tr>
+												<td>3.1.1</td>
+												<td>Power Supply Checks (Table 1)</td>
+												<td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="3.1.1_power_supply" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="3.1.1_power_supply" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="3.1.1_power_supply_remarks"></textarea></td>
+											</tr>
+
+											<tr>
+												<td>3.1.2</td>
+												<td>Anti-Condensation Heater (ACH) checks (Table 2)</td>
+												<td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="3.1.2_anti_condensation_heater" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="3.1.2_anti_condensation_heater" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="3.1.2_anti_condensation_heater_remarks"></textarea></td>
+											</tr>
+
+											<tr>
+												<td>3.1.3</td>
+												<td>Display Checks (Table 3)</td>
+												<td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="3.1.3_display_checks" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="3.1.3_display_checks" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="3.1.3_display_checks_remarks"></textarea></td>
+											</tr>
+
+											<tr>
+												<td>3.1.4</td>
+												<td>MCP Checks (Table 4)</td>
+												<td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="3.1.4_mcp_checks" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="3.1.4_mcp_checks" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="3.1.4_mcp_checks_remarks"></textarea></td>
+											</tr>
+
+											<tr>
+												<td>3.1.5</td>
+												<td>CFP Checks (Table 5)</td>
+												<td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="3.1.5_cfp_checks" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="3.1.5_cfp_checks" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="3.1.5_cfp_checks_remarks"></textarea></td>
+											</tr>
+
+											<tr>
+												<td><strong>4.0</strong></td>
+												<td colspan="3"><strong>Sensor Interface Checks</strong></td>
+												
+											</tr>
+
+											<tr>
+												<td>4.1</td>
+												<td>Link test for IAC MOD C</td>
+												<td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="4.1_link_test" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="4.1_link_test" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="4.1_link_test_remarks"></textarea></td>
+											</tr>
+
+											<tr>
+												<td>4.2</td>
+												<td>HUMSA NG Interface test (Table 6)</td>
+												<td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="4.2_humsa_ng" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="4.2_humsa_ng" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="4.2_humsa_ng_remarks"></textarea></td>
+											</tr>
+
+											<tr>
+												<td>4.3</td>
+												<td>COTs RADAR Interface test (Table 7)</td>
+												<td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="4.3_cots_radar" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="4.3_cots_radar" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="4.3_cots_radar_remarks"></textarea></td>
+										</tr>
+
+										<tr>
+											<td>4.4</td>
+											<td>CMS interface Test (Table 8)</td>
+											<td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="4.4_cms" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="4.4_cms" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="4.4_cms_remarks"></textarea></td>
+										</tr>
+
+										<tr>
+											<td>4.5</td>
+											<td>RLG Interface test (Table 9)</td>
+											<td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="4.5_rlg" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="4.5_rlg" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="4.5_rlg_remarks"></textarea></td>
+										</tr>
+
+										<tr>
+											<td>4.6</td>
+											<td>GPS Interface test (Table 10)</td>
+											<td>NA</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="4.6_gps_remarks"></textarea></td>
+										</tr>
+
+										<tr>
+											<td>4.7</td>
+											<td>Wind Interface test (Table11)</td>
+											<td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="4.7_wind" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="4.7_wind" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="4.7_wind_remarks"></textarea></td>
+										</tr>
+
+										<tr>
+											<td>4.8</td>
+											<td>SWISS Interface test (Table 12)</td>
+											<td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="4.8_swiss" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="4.8_swiss" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="4.8_swiss_remarks"></textarea></td>
+										</tr>
+
+										<tr>
+											<td><strong>5.0</strong></td>
+											<td colspan="3"><strong>CMA Algorithm Evaluation Checks</strong></td>
+											
+										</tr>
+
+										<tr>
+											<td>5.1</td>
+											<td>CMA Algorithm Evaluation</td>
+											<td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="5.1_cma_evaluation" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="5.1_cma_evaluation" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="5.1_cma_evaluation_remarks"></textarea></td>
+										</tr>
+
+										<tr>
+											<td>5.2</td>
+											<td>CMA Evaluation Procedure (Table 13)</td>
+											<td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="5.2_cma_evaluation_procedure" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="5.2_cma_evaluation_procedure" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="5.2_cma_evaluation_procedure_remarks"></textarea></td>
+										</tr>
+
+										<tr>
+											<td><strong>6.0</strong></td>
+											<td colspan="3"><strong>FCS Algorithm Checks for IRL and ITTL</strong></td>
+											
+										</tr>
+
+										<tr>
+											<td>6.1</td>
+											<td>FCS Algorithm Checks for IRL (Table 15A)</td>
+											<td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="6.1_fcs_algorithm_checks" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="6.1_fcs_algorithm_checks" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="6.1_fcs_algorithm_checks_remarks"></textarea></td>
+										</tr>
+
+										<tr>
+											<td>6.2</td>
+											<td>FCS Algorithm Checks for ITTL ( Table 19,20 and 21)</td>
+											<td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="6.2_fcs_algorithm_checks_ittl" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="6.2_fcs_algorithm_checks_ittl" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="6.2_fcs_algorithm_checks_ittl_remarks"></textarea></td>
+										</tr>
+
+										<tr>
+											<td><strong>7.0</strong></td>
+											<td colspan="3"><strong>Weapons Interface Checks</strong></td>
+											
+										</tr>
+
+										<tr>
+											<td>7.1</td>
+											<td>IRL Interface checks(Table 22, 23,24)</td>
+											<td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="7.1_IRL_interface_checks" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="7.1_IRL_interface_checks" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="7.1_IRL_interface_checks_remarks"></textarea></td>
+										</tr>
+
+										<tr>
+											<td>7.1.1</td>
+											<td>FCS parameters and Firing Checks for IRL from ASWC (Table 19,20 and 21)</td>
+											<td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="7.1.1_FCS_parameters" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="7.1.1_FCS_parameters" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="7.1.1_FCS_parameters_remarks"></textarea></td>
+										</tr>
+
+										<tr>
+											<td></td>
+											<td>Firing tell Back at ASWC( Table 38)</td>
+											<td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="7.1.2_firing_tell_back_at_ASWC" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="7.1.2_firing_tell_back_at_ASWC" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="7.1.2_firing_tell_back_at_ASWC_remarks"></textarea></td>
+										</tr>
+
+										<tr>
+											<td>7.1.2</td>
+											<td>FCS parameters and Firing Checks for IRL STBD from FDU R-1 (Table 24 )(Table 39)</td>
+											<td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="7.1.2_FCS_parameters_firing_checks" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="7.1.2_FCS_parameters_firing_checks" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="7.1.2_FCS_parameters_firing_checks_remarks"></textarea></td>
+										</tr>
+
+										<tr>
+											<td>7.1.3</td>
+											<td>FCS parameters and Firing Checks for IRL PORT from FDU R-2 (Table 25 ) (Table 40)</td>
+											<td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="7.1.3_FCS_parameters_firing_checks" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="7.1.3_FCS_parameters_firing_checks" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="7.1.3_FCS_parameters_firing_checks_remarks"></textarea></td>
+										</tr>
+
+										<tr>
+											<td><strong>7.2</strong></td>
+											<td colspan="3"><strong>ITTL Interface Checks</strong></td>
+											
+										</tr>
+
+										<tr>
+											<td><strong>7.2.1</strong></td>
+											<td colspan="3"><strong>Interface Checks from ASWC cabinet:</strong></td>
+											
+										</tr>
+
+										<tr>
+											<td>7.2.1(a)</td>
+											<td>Tube Angle Interface test: (Table 26 & 27)</td>
+											<td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="7.2.1(a)_Tube_Angle_Interface_test" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="7.2.1(a)_Tube_Angle_Interface_test" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="7.2.1(a)_Tube_Angle_Interface_test_remarks"></textarea></td>
+										</tr>
+
+										<tr>
+											<td>7.2.1(b)</td>
+											<td>FCS Parameters Interface test: (Table 28 & 29)</td>
+											<td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="7.2.1(b)_FCS_Parameters_Interface_test" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="7.2.1(b)_FCS_Parameters_Interface_test" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="7.2.1(b)_FCS_Parameters_Interface_test_remarks"></textarea></td>
+										</tr>
+
+										<tr>
+											<td><strong>7.2.2</strong></td>
+											<td colspan="3"><strong>Interface Checks from FDUT cabinet:</strong></td>
+											
+										</tr>
+
+										<tr>
+											<td>7.2.2(a)</td>
+											<td>Tube Angle Interface test: (Table 30 & 31)</td>
+											<td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="7.2.2(a)_Tube_Angle_Interface_test" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="7.2.2(a)_Tube_Angle_Interface_test" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="7.2.2(a)_Tube_Angle_Interface_test_remarks"></textarea></td>
+										</tr>
+
+										<tr>
+											<td>7.2.2(b)</td>
+											<td>FCS Parameters Interface test: (Table 32 & 33)</td>
+											<td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="7.2.2(b)_FCS_Parameters_Interface_test" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="7.2.2(b)_FCS_Parameters_Interface_test" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="7.2.2(b)_FCS_Parameters_Interface_test_remarks"></textarea></td>
+										</tr>
+
+										<tr>
+											<td><strong>8.0</strong></td>
+											<td colspan="3"><strong>ROLL AND PITCH CHECKS</strong></td>
+											
+										</tr>
+
+										<tr>
+											<td>8.1</td>
+											<td>Roll & Pitch checks for IRL (Table 41)</td>
+											<td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="8.1_roll_pitch_checks_irl" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="8.1_roll_pitch_checks_irl" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="8.1_roll_pitch_checks_irl_remarks"></textarea></td>
+										</tr>
+
+										<tr>
+											<td>8.2</td>
+											<td>Roll & Pitch checks for ITTL (Table 43)</td>
+											<td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="8.2_roll_pitch_checks_ittl" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="8.2_roll_pitch_checks_ittl" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="8.2_roll_pitch_checks_ittl_remarks"></textarea></td>
+										</tr>
+
+									</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+                            
+
+                            <fieldset class="custom-fieldset mt-4">
+                                <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                                <div class="row g-3 mb-3">
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" id="iax_mod_hats_presenting_authority" name="iax_mod_hats_presenting_authority" required>
+                                                <option value="">--Select--</option>
+                                                <option value="dockyard">Dockyard</option>
+                                                <option value="shipstaff">Shipstaff</option>
+                                                <option value="oem">OEM</option>
+                                            </select>
+                                            <label class="form_control_1" for="iax_mod_hats_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" id="iax_mod_hats_watt_1_name" name="iax_mod_hats_watt_1_name">
+                                            <label class="form_control_1">WATT(1)</label>
+                                        </div>
+                                    </div>
+
+                                    <!-- WATT 2 -->
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" id="iax_mod_hats_watt_2_name" name="iax_mod_hats_watt_2_name">
+                                            <label class="form_control_1">WATT(2)</label>
+                                        </div>
+                                    </div>
+
+                                    <!-- WATT 3 -->
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" id="iax_mod_hats_watt_3_name" name="iax_mod_hats_watt_3_name">
+                                            <label class="form_control_1">WATT(3)</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="iax_mod_hats_remarks_table">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th>REMARKS TO BE GIVEN</th>
+                                                <th>WBA - WILL BE AMENDED</th>
+                                                <th>WBD - WILL BE DONE</th>
+                                                <th>WOW - WILL OBTAIN WAIVER</th>
+                                                <th>COM - COMPLETED</th>
+                                                <th>N/O - NOT OFFERED</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="iax_mod_hats_remarks_main"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="iax_mod_hats_wba"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="iax_mod_hats_wbd"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="iax_mod_hats_wow"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="iax_mod_hats_com"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="iax_mod_hats_no"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>OIC</strong></td>
+                                                <td><strong>CDR TRIALS</strong></td>
+                                                <td><strong>STO (G)</strong></td>
+                                                <td><strong>STO (L)</strong></td>
+                                                <td colspan="2"><strong>TO (L)</strong></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                           
+							<div class="form-actions mt-3">
+								<button type="submit" class="btn btn-primary">Submit</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

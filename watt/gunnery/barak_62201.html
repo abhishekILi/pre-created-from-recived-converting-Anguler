@@ -1,0 +1,375 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+	.matrix-table-no-gap {
+		margin-bottom: 0;
+		margin-right: 0;
+	}
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">GUNNERY</a></li>
+					<li class="breadcrumb-item active" aria-current="page">BARAK 62201</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">BARAK 62201</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="barak_62201_form" action="{% url 'ITTTM:barak_62201' %}">
+						{% csrf_token %}
+						<div class="form-body">
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">Basic Information</legend>
+								<div class="row g-3">
+
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+												<select class="form-control" name="ship" required>
+													<option value="">--Select--</option>
+													{% for ship in ship_options %}
+													<option value="{{ ship.value }}">{{ ship.label }}</option>
+													{% endfor %}
+												</select>
+												<label class="form_control_1">Ship <span class="text-danger">*</span></label>
+											</div>
+								</div>
+
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+									<select class="form-control" id="department_select" name="department">
+										<option value="">-- Select --</option>
+										<option value="P15A">ND</option>
+										<option value="P17">ASW</option>
+										<option value="P17A">COMM</option>
+										<option value="P28">GUNNERY</option>
+										</select>
+										<label class="form_control_1">Department</label>
+									</div>
+								</div>
+
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+									<select class="form-control" id="equipment_select" name="equipment">
+										<option value="">-- Select --</option>
+										</select>
+										<label class="form_control_1">Equipment</label>
+									</div>
+								</div>
+
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<input type="date" class="form-control" id="date_input" name="date_">
+										<label class="form_control_1">Date</label>
+									</div>
+									</div>
+
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+									<select class="form-control" id="nature_trials_select" name="nature_of_trials" required>
+										<option value="">--Select--</option>
+										<option value="SATs">SATs</option>
+										<option value="HATS">HATs</option>
+										<option value="OP_CHECKS">OP CHECKS</option>
+										<option value="IIS">IIs</option>
+										</select>
+										<label class="form_control_1">Nature of Trial</label>
+									</div>
+								</div>
+
+							</div>
+						</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<div class="table-responsive mt-4">
+									<table class="custom_tbl" id="barak_62201_table">
+										<thead class="table-dark-head">
+											<tr>
+												<th class="ser-col">TRIAL SER</th>
+												<th class="obs-col">OBSERVATIONS</th>
+												<th class="remarks-col">RESULT</th>
+												<th class="remarks-col">REMARKS</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td colspan="4">
+													Trials team embarked onboard at
+													<input type="text" name="barak_embarked_onboard_at" class="line-input embarked-hrs">
+													on
+													<input type="text" name="barak_embarked_on_date" class="line-input embarked-date">
+													for SATs of BARAK as per approved schedule, BR 4050 and CNO 07/10. Following observed:-
+												</td>
+											</tr>
+											<tr>
+												<td>01</td>
+												<td>Check No. 2.1 - General Checks (AAV check, check of system performance against surface and air target including FCR acquisition and tracking).</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="barak_check_2_1_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="barak_check_2_1_status" value="SAT"> SAT</label> <label><input type="radio" name="barak_check_2_1_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>02</td>
+												<td>Check No. 2.2 - FCR manual acquisition checks on a surface target.</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="barak_check_2_2_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="barak_check_2_2_status" value="SAT"> SAT</label> <label><input type="radio" name="barak_check_2_2_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>03</td>
+												<td>Check No. 2.2.1 - Test requirement: test site must be clear of all interfacing obstacles.</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="barak_check_2_2_1_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="barak_check_2_2_1_status" value="SAT"> SAT</label> <label><input type="radio" name="barak_check_2_2_1_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>04</td>
+												<td>Check No. 2.2.2 - FCR manual acquisition mode capability.</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="barak_check_2_2_2_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="barak_check_2_2_2_status" value="SAT"> SAT</label> <label><input type="radio" name="barak_check_2_2_2_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>05</td>
+												<td>Check No. 2.2.3 - FCR auto acquisition and tracking of surface target.</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="barak_check_2_2_3_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="barak_check_2_2_3_status" value="SAT"> SAT</label> <label><input type="radio" name="barak_check_2_2_3_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>06A</td>
+												<td class="p-0 align-top cell-align-top">
+													Check No. 2.2.4 - FCR acquisition of surface target range performance (Maximum Range).<br>
+													<table class="custom_tbl matrix-table-no-gap mb-0" id="barak_62201_surface_max_table">
+														<thead>
+															<tr>
+																<th>Range</th>
+																<th>Bearing</th>
+																<th>Speed</th>
+																<th>time</th>
+																<th class="action">Action</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<td><input type="text" class="form-control" data-base-name="barak_surface_max_range" name="barak_surface_max_range_row_1"></td>
+																<td><input type="text" class="form-control" data-base-name="barak_surface_max_bearing" name="barak_surface_max_bearing_row_1"></td>
+																<td><input type="text" class="form-control" data-base-name="barak_surface_max_speed" name="barak_surface_max_speed_row_1"></td>
+																<td><input type="text" class="form-control" data-base-name="barak_surface_max_time" name="barak_surface_max_time_row_1"></td>
+															</tr>
+														</tbody>
+													</table>
+												</td>
+												<td class="text-center">Maximum Range</td>
+												<td class="text-center"><label><input type="radio" name="barak_check_2_2_4_max_status" value="SAT"> SAT</label> <label><input type="radio" name="barak_check_2_2_4_max_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>06B</td>
+												<td class="p-0 align-top cell-align-top">
+													Check No. 2.2.4 - FCR acquisition of surface target range performance (Minimum Range).<br>
+													<table class="custom_tbl matrix-table-no-gap mb-0" id="barak_62201_surface_min_table">
+														<thead>
+															<tr>
+																<th>Range</th>
+																<th>Bearing</th>
+																<th>Speed</th>
+																<th>time</th>
+																<th class="action">Action</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<td><input type="text" class="form-control" data-base-name="barak_surface_min_range" name="barak_surface_min_range_row_1"></td>
+																<td><input type="text" class="form-control" data-base-name="barak_surface_min_bearing" name="barak_surface_min_bearing_row_1"></td>
+																<td><input type="text" class="form-control" data-base-name="barak_surface_min_speed" name="barak_surface_min_speed_row_1"></td>
+																<td><input type="text" class="form-control" data-base-name="barak_surface_min_time" name="barak_surface_min_time_row_1"></td>
+															</tr>
+														</tbody>
+													</table>
+												</td>
+												<td class="text-center">Maximum Range</textarea></td>
+												<td class="text-center"><label><input type="radio" name="barak_check_2_2_4_min_status" value="SAT"> SAT</label> <label><input type="radio" name="barak_check_2_2_4_min_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>07</td>
+												<td>Check No. 2.2.5 - Gun aiming check on a stationary surface target using FCR.</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="barak_check_2_2_5_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="barak_check_2_2_5_status" value="SAT"> SAT</label> <label><input type="radio" name="barak_check_2_2_5_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>08</td>
+												<td>Check No. 2.2.6 - Gun aiming check on a surface target using EOD (Electro Optical Director).</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="barak_check_2_2_6_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="barak_check_2_2_6_status" value="SAT"> SAT</label> <label><input type="radio" name="barak_check_2_2_6_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>09</td>
+												<td>Check No. 2.2.7 - Missile air target signal.</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="barak_check_2_2_7_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="barak_check_2_2_7_status" value="SAT"> SAT</label> <label><input type="radio" name="barak_check_2_2_7_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>10</td>
+												<td>Check No. 2.2.8 - Track and AMDR surface target.</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="barak_check_2_2_8_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="barak_check_2_2_8_status" value="SAT"> SAT</label> <label><input type="radio" name="barak_check_2_2_8_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>11</td>
+												<td>Check No. 2.3 - Checks on air target.</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="barak_check_2_3_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="barak_check_2_3_status" value="SAT"> SAT</label> <label><input type="radio" name="barak_check_2_3_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>12</td>
+												<td>Check No. 2.3.1 - Antenna alignment verification test.</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="barak_check_2_3_1_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="barak_check_2_3_1_status" value="SAT"> SAT</label> <label><input type="radio" name="barak_check_2_3_1_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>13</td>
+												<td>Check No. 2.3.2 - Test requirement.</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="barak_check_2_3_2_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="barak_check_2_3_2_status" value="SAT"> SAT</label> <label><input type="radio" name="barak_check_2_3_2_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>14</td>
+												<td>Check No. 2.3.3 - FCR automatic acquisition and tracking of air target.</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="barak_check_2_3_3_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="barak_check_2_3_3_status" value="SAT"> SAT</label> <label><input type="radio" name="barak_check_2_3_3_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>15</td>
+												<td class="p-0 align-top cell-align-top">
+													Check No. 2.3.4 - FCR acquisition of air target performance.<br>
+													<table class="custom_tbl matrix-table-no-gap mb-0" id="barak_62201_air_acq_table">
+														<thead>
+															<tr>
+																<th>Range</th>
+																<th>Bearing</th>
+																<th>Speed</th>
+																<th>time</th>
+																<th class="action">Action</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<td><input type="text" class="form-control" data-base-name="barak_air_range" name="barak_air_range_row_1"></td>
+																<td><input type="text" class="form-control" data-base-name="barak_air_bearing" name="barak_air_bearing_row_1"></td>
+																<td><input type="text" class="form-control" data-base-name="barak_air_speed" name="barak_air_speed_row_1"></td>
+																<td><input type="text" class="form-control" data-base-name="barak_air_time" name="barak_air_time_row_1"></td>
+															</tr>
+														</tbody>
+													</table>
+												</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="barak_check_2_3_4_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="barak_check_2_3_4_status" value="SAT"> SAT</label> <label><input type="radio" name="barak_check_2_3_4_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>16</td>
+												<td>Check No. 2.3.5 - FCR air search (message displayed on screen).</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="barak_check_2_3_5_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="barak_check_2_3_5_status" value="SAT"> SAT</label> <label><input type="radio" name="barak_check_2_3_5_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>17</td>
+												<td class="p-0 align-top cell-align-top">
+													Check No. 2.3.6 - Gun aiming checks on moving air target (performed on surface targets due to non-availability of air target).<br>
+													<table class="custom_tbl matrix-table-no-gap mb-0" id="barak_62201_move_air_table">
+														<thead>
+															<tr>
+																<th>Range</th>
+																<th>Bearing</th>
+																<th>Speed</th>
+																<th>time</th>
+																<th class="action">Action</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr>
+																<td><input type="text" class="form-control" data-base-name="barak_move_range" name="barak_move_range_row_1"></td>
+																<td><input type="text" class="form-control" data-base-name="barak_move_bearing" name="barak_move_bearing_row_1"></td>
+																<td><input type="text" class="form-control" data-base-name="barak_move_speed" name="barak_move_speed_row_1"></td>
+																<td><input type="text" class="form-control" data-base-name="barak_move_time" name="barak_move_time_row_1"></td>
+															</tr>
+														</tbody>
+													</table>
+												</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="barak_check_2_3_6_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="barak_check_2_3_6_status" value="SAT"> SAT</label> <label><input type="radio" name="barak_check_2_3_6_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>18</td>
+												<td>Check No. 2.4 - Reaction time test (performed on simulated mode only).</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="barak_check_2_4_result" rows="2"></textarea></td>
+												<td class="text-center"><label><input type="radio" name="barak_check_2_4_status" value="SAT"> SAT</label> <label><input type="radio" name="barak_check_2_4_status" value="UNSAT"> UNSAT</label></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                                <div class="row g-3">
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" id="barak_62201_presenting_authority" name="barak_62201_presenting_authority" required>
+                                                <option value="">--Select--</option>
+                                                <option value="dockyard">Dockyard</option>
+                                                <option value="shipstaff">Shipstaff</option>
+                                                <option value="oem">OEM</option>
+                                            </select>
+
+											<label class="form_control_1" for="barak_62201_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" id="barak_62201_watt" name="barak_62201_watt" value="VZG" >
+											<label class="form_control_1" for="barak_62201_watt">WATT</label>
+                                            </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+							<div class="d-flex justify-content-center mt-4 gap-2">
+								<button type="submit" class="btn btn-success px-4">Save</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+	WRSTGQuarterly.init({
+		extraTableIds: [
+			'barak_62201_surface_max_table',
+			'barak_62201_surface_min_table',
+			'barak_62201_air_acq_table',
+			'barak_62201_move_air_table'
+		]
+	});
+});
+</script>
+{% endblock js %}

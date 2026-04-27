@@ -1,0 +1,892 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">CHECK OFF LIST - MOTORS & STARTERS</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="ael_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+
+                            <!-- Header Info -->
+                            <fieldset class="custom-fieldset">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <div class="form-group row align-items-center mb-2">
+                                            <label class="col-sm-4 col-form-label fw-bold">Ship</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" name="ship" placeholder=" ">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row align-items-center mb-2">
+                                            <label class="col-sm-4 col-form-label fw-bold">Presented by</label>
+                                            <div class="col-sm-8">
+                                                <input type="text" class="form-control" name="presented_by" placeholder=" ">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row align-items-center mb-2">
+                                            <label class="col-sm-5 col-form-label fw-bold">Occasion of Trial</label>
+                                            <div class="col-sm-7">
+                                                <input type="text" class="form-control" name="occasion_of_trial" placeholder=" ">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row align-items-center mb-2">
+                                            <label class="col-sm-5 col-form-label fw-bold">Trial Inspector (Name)</label>
+                                            <div class="col-sm-7">
+                                                <input type="text" class="form-control" name="trial_inspector" placeholder=" ">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    <strong>Reference Document for Trial: EED-50-28</strong>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 1 – Test Equipment Used During Trials
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">1. Test Equipment Used During Trials</legend>
+                                <div class="row mb-3">
+                                    <div class="col-md-12">
+                                        <p class="mb-1">Multi-meter &nbsp; SPM T-30, &nbsp; SPM A-30, &nbsp; Megger, &nbsp; Insulation Tester, &nbsp; EMC meter, &nbsp; ESA</p>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="test_equipment_trials_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser</th>
+                                                <th>Test Equipment Used<br><small>a.</small></th>
+                                                <th class="action">ACTION</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="serial-no">1</td>
+                                                <td><input type="text" class="form-control" data-base-name="trial_equipment"></td>
+                                                <td class="action action-cell-holder">
+                                                    <div class="action-controls">
+                                                        <button type="button" class="btn-round btn-add" onclick="addRow('test_equipment_trials_tbl')">+</button>
+                                                        <button type="button" class="btn-round btn-remove" onclick="removeRow('test_equipment_trials_tbl')">-</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 2 – Date & Time
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">2. Date &amp; Time</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="date_time_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser</th>
+                                                <th>Activity</th>
+                                                <th style="width:20%;">Date</th>
+                                                <th style="width:20%;">Time</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="serial-no">2.1</td>
+                                                <td>Intimation from Ship</td>
+                                                <td><input type="date" class="form-control" name="dt_intimation_date" placeholder=" "></td>
+                                                <td><input type="time" class="form-control" name="dt_intimation_time" placeholder=" "></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">2.2</td>
+                                                <td>Readiness indicated by Ship</td>
+                                                <td><input type="date" class="form-control" name="dt_readiness_date" placeholder=" "></td>
+                                                <td><input type="time" class="form-control" name="dt_readiness_time" placeholder=" "></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">2.3</td>
+                                                <td>Trials Inspector reported onboard Ship</td>
+                                                <td><input type="date" class="form-control" name="dt_inspector_date" placeholder=" "></td>
+                                                <td><input type="time" class="form-control" name="dt_inspector_time" placeholder=" "></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">2.4</td>
+                                                <td>Trials completed</td>
+                                                <td><input type="date" class="form-control" name="dt_completed_date" placeholder=" "></td>
+                                                <td><input type="time" class="form-control" name="dt_completed_time" placeholder=" "></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 3 – Design Requirements / Documentation
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">3. Design Requirements / Documentation</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="design_req_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser</th>
+                                                <th>Description/Document NO.& Date</th>
+                                                <th style="width:30%;">Document Submission date/Certified By</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tbody>
+
+                                            <tr>
+                                                <td class="serial-no">3.1</td>
+                                                <td><strong>Manufacturer –</strong></td>
+                                                <td><textarea class="form-control" rows="1"name="dr_manufacturer"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="serial-no">3.2</td>
+                                                <td><strong>Make & Model & Type–</strong></td>
+                                                <td><textarea class="form-control" rows="1" name="dr_make_model"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="serial-no">3.3</td>
+                                                <td><strong>CMMS Code –</strong></td>
+                                                <td><textarea class="form-control" rows="1" name="dr_cmms_code"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="serial-no">3.4</td>
+                                                <td><strong>GROQ - –</strong></td>
+                                                <td><textarea class="form-control" rows="1" name="dr_groq"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="serial-no">3.5</td>
+                                                <td><strong>ATP - –</strong></td>
+                                                <td><textarea class="form-control" rows="1" name="dr_atp"></textarea></td>
+                                            </tr>
+
+                                            <!-- 3.6 -->
+                                            <tr>
+                                                <td class="serial-no">3.6</td>
+                                                <td colspan="2"><strong>Certification / Documents required from OEM –</strong></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td></td>
+                                                <td>3.6.1 motor data sheet</td>
+                                                <td><textarea class="form-control" rows="1" name="dr_cert_3_6_1"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td></td>
+                                                <td>3.6.2 inspection certificate of DQA</td>
+                                                <td><textarea class="form-control" rows="1" name="dr_cert_3_6_2"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td></td>
+                                                <td>3.6.3  type test certificate</td>
+                                                <td><textarea class="form-control" rows="1" name="dr_cert_3_6_3"></textarea></td>
+                                            </tr>
+
+                                            <!-- 3.7 -->
+                                            <tr>
+                                                <td class="serial-no">3.7</td>
+                                                <td colspan="2"><strong>Documentation</strong></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td></td>
+                                                <td>3.7.1 Technical and Operating Manual</td>
+                                                <td><textarea class="form-control" rows="1" name="dr_3_7_1"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td></td>
+                                                <td>3.7.2 Onboard Maintenance Manual</td>
+                                                 <td><textarea class="form-control" rows="1" name="dr_3_7_2"></textarea></td>
+                                            </tr>
+
+                                            
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 4 – Installation Checks
+                            ══════════════════════════════════════ -->
+                                <fieldset class="custom-fieldset">
+								<legend class="legend-custom">4. Design Technical Requirements/ Documentation</legend>
+								<div class="table-responsive">
+                                         <table class="custom_tbl">
+                                         <thead class="table-dark-head">
+                                            <tr>
+                                                <th>Ser</th>
+                                                <th>Description/Document No. & Date</th>
+                                                <th>Details / Document submission date / Certified By</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+
+                                            <tr>
+                                                <td>4.1</td>
+                                                <td><strong>Manufacturer -</strong></td>
+                                                <td><textarea class="form-control" rows="1"name="dr_manufacturer"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>4.2</td>
+                                                <td><strong>Make, Model & Type -</strong></td>
+                                                <td><textarea class="form-control" rows="1"name="dr_make_model_type"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>4.3</td>
+                                                <td><strong>CMMS CODE -</strong></td>
+                                                <td><textarea class="form-control" rows="1"name="dr_cmms_code"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>4.4</td>
+                                                <td><strong>GRAQ -</strong></td>
+                                                <td><textarea class="form-control" rows="1"name="dr_graq"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>4.5</td>
+                                                <td><strong>ATP -</strong></td>
+                                                <td><textarea class="form-control" rows="1"name="dr_atp"></textarea></td>
+                                            </tr>
+
+                                            <!-- 4.6 -->
+                                            <tr>
+                                                <td>4.6</td>
+                                                <td  >
+                                                    <strong>Certification / Documents required from OEM / Yard -</strong><br><br>
+
+                                                    4.6.1 Inspection certificate of DQA.<br>
+                                                    4.6.2 Calibration Certificates for voltmeter & ammeter.<br>
+                                                    4.6.3 Certificates for protection checks -<br>
+                                                    &nbsp; &nbsp; &nbsp; &nbsp;4.6.3.1 &nbsp; Overload Protection &amp; Values: <input class="form-control d-inline-block w-auto val-input" type="text" name="val_3_11_10_1"><br><br>
+                                                    &nbsp; &nbsp; &nbsp; &nbsp;4.6.3.2 &nbsp; OV/UV Protection &amp; Values: <input class="form-control d-inline-block w-auto val-input" type="text" name="val_3_11_10_2"><br><br>
+                                                    &nbsp; &nbsp; &nbsp; &nbsp;4.6.3.3 &nbsp; Single phasing Protection &amp; Values: <input class="form-control d-inline-block w-auto val-input" type="text" name="val_3_11_10_3"><br><br>
+                                                    &nbsp; &nbsp; &nbsp; &nbsp;4.6.3.4 &nbsp; Thermal Protection &amp; Values: <input class="form-control d-inline-block w-auto val-input" type="text" name="val_3_11_10_4"><br><br>
+                                                    &nbsp; &nbsp; &nbsp; &nbsp;4.6.3.5 &nbsp; Short Circuit Protection &amp; Values: <input class="form-control d-inline-block w-auto val-input" type="text" name="val_3_11_10_5"><br><br>
+                                                    &nbsp; &nbsp; &nbsp; &nbsp;4.6.3.6 &nbsp; Too Many Starts. &amp; Values: <input class="form-control d-inline-block w-auto val-input" type="text" name="val_3_11_10_6"><br><br>
+                                                    &nbsp; &nbsp; &nbsp; &nbsp;4.6.3.7 &nbsp; Stalling .&amp; Values: <input class="form-control d-inline-block w-auto val-input" type="text" name="val_3_11_10_7"><br><br>
+                                                    &nbsp; &nbsp; &nbsp; &nbsp;4.6.3.8 &nbsp; Start Inhibit. &amp; Values: <input class="form-control d-inline-block w-auto val-input" type="text" name="val_3_11_10_8"><br><br>
+
+                                                    4.6.4 Type test certificate.
+                                                </td>
+                                                <td><textarea class="form-control" rows="8"name="dr_type_test_certificate"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>4.7</td>
+                                                <td>
+                                                    <strong>Documentation.</strong>
+                                                    Documents including Technical manual, Installation specifications, As fitted drawings.
+                                                </td>
+                                                <td><textarea class="form-control" rows="1"name="dr_documentation"></textarea></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+									
+                                </div>
+                            </fieldset>
+
+                         
+
+
+                         <!-- 5.IIs motor -->
+                              <fieldset class="custom-fieldset">
+								<legend class="legend-custom">5. IIs (Motors)</legend>
+								<div class="table-responsive">
+                                          <table class="custom_tbl">
+                                                <thead class="table-dark-head">
+                                                    <tr>
+                                                        <th>Ser</th>
+                                                        <th>Reference</th>
+                                                        <th>Checks</th>
+                                                        <th>Remarks</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+
+                                                    <tr>
+                                                        <td>5.1</td>
+                                                        <td>Section V Para 0508(e)</td>
+                                                        <td><strong>Cooling</strong></td>
+                                                        <td><textarea class="form-control" rows="1"name="dr_documentation"></textarea></td>
+                                                    </tr>
+
+                                                    <!-- 5.2 -->
+                                                    <tr>
+                                                        <td rowspan="2">5.2</td>
+                                                        <td rowspan="2">Section V Para 0508(f), 0544</td>
+                                                        <td>
+                                                            <strong>Enclosure Protection</strong><br>
+                                                            5.2.1 IP rating -<br>
+                                                            IP 56 - Motors installed below deck<br>
+                                                            IP 57 - Motors installed on weather deck<br>
+                                                            IP 58 - Submersible motors upto 10 mtrs<br>
+                                                            IP 68 - Submerged beyond 10 mtrs
+                                                        </td>
+                                                        <td><textarea class="form-control" rows="1"name="dr_documentation"></textarea></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>
+                                                            5.2.2 Condition of Motor terminal box.
+                                                        </td>
+                                                        <td><textarea class="form-control" rows="1"name="dr_documentation"></textarea></td>
+                                                    </tr>
+
+                                                    <!-- 5.3 -->
+                                                    <tr>
+                                                        <td>5.3</td>
+                                                        <td>Section V Para 0562</td>
+                                                        <td>
+                                                            <strong>Earthing.</strong><br>
+                                                            Check earthing connected / Not connected.
+                                                        </td>
+                                                        <td><textarea class="form-control" rows="1"name="dr_documentation"></textarea></td>
+                                                    </tr>
+
+                                                    <!-- 5.4 -->
+                                                    <tr>
+                                                        <td>5.4</td>
+                                                        <td>Section V Para 0564</td>
+                                                        <td>
+                                                            <strong>Insulation (&lt; 2MΩ)</strong><br>
+                                                            For Motors - Class 'F' insulated / Class 'H' insulated.
+                                                        </td>
+                                                        <td><textarea class="form-control" rows="1"name="dr_documentation"></textarea></td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                  
+                                             
+                                        
+                                              
+                                    </div>
+                                    </fieldset>
+                                    <!-- IIs (Motors) -->
+                                          <fieldset class="custom-fieldset">
+                                          <legend class="legend-custom">5. IIs (Motors).</legend>
+                                          <div class="table-responsive">
+                                              <!-- SECTION 5 (CONTINUATION) -->
+                                                <table class="custom_tbl">
+                                                    <thead class="table-dark-head">
+                                                        <tr>
+                                                            <th>Ser</th>
+                                                            <th>Reference</th>
+                                                            <th colspan="3">Checks</th>
+                                                            <th>Remarks</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody>
+
+                                                        <!-- 5.5 -->
+                                                        <tr>
+                                                            <td rowspan="4">5.5</td>
+                                                            <td rowspan="4">--</td>
+                                                            <td colspan="3"><strong>Motor Insulation Values (Motor)</strong></td>
+                                                            <td rowspan="4"><input type="text" class="form-control"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>R</td>
+                                                            <td>Y</td>
+                                                            <td>B</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="3"><strong>Winding Inductance (Value)</strong></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>R₁-R₂</td>
+                                                            <td>Y₁-Y₂</td>
+                                                            <td>B₁-B₂</td>
+                                                        </tr>
+
+                                                        <!-- 5.6 -->
+                                                        <tr>
+                                                            <td rowspan="2">5.6</td>
+                                                            <td rowspan="2">Section VII Para 0725</td>
+                                                            <td colspan="3"><strong>Winding Resistance (Value)</strong></td>
+                                                            <td rowspan="2"><input type="text" class="form-control"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>R₁-R₂</td>
+                                                            <td>Y₁-Y₂</td>
+                                                            <td>B₁-B₂</td>
+                                                        </tr>
+
+                                                        <!-- 5.7 -->
+                                                        <tr>
+                                                            <td>5.7</td>
+                                                            <td>Section V Para 0554</td>
+                                                            <td colspan="3">Greasing Point Conditions If available</td>
+                                                            <td><input type="text" class="form-control"></td>
+                                                        </tr>
+
+                                                        <!-- 5.8 -->
+                                                        <tr>
+                                                            <td>5.8</td>
+                                                            <td>Section V Para 0526</td>
+                                                            <td colspan="3">Thermistor connected / not connected</td>
+                                                            <td><input type="text" class="form-control"></td>
+                                                        </tr>
+
+                                                        <!-- 5.9 -->
+                                                        <tr>
+                                                            <td>5.9</td>
+                                                            <td>--</td>
+                                                            <td colspan="3">Checks motor is free to rotate by hand</td>
+                                                            <td><input type="text" class="form-control"></td>
+                                                        </tr>
+
+                                                        <!-- 5.10 -->
+                                                        <tr>
+                                                            <td>5.10</td>
+                                                            <td>Section V Para 0563</td>
+                                                            <td colspan="3">Lifting arrangement</td>
+                                                            <td><input type="text" class="form-control"></td>
+                                                        </tr>
+
+                                                        <!-- 5.11 -->
+                                                        <tr>
+                                                            <td>5.11</td>
+                                                            <td>--</td>
+                                                            <td colspan="3">SPM Log Book available & maintained or not</td>
+                                                            <td><input type="text" class="form-control"></td>
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>
+                                                    </div>
+							           </fieldset>
+
+                        <!-- SECTION 6 (STARTERS) -->
+                           <!-- ================= SECTION 6 ================= -->
+                                        <fieldset class="custom-fieldset">
+                                        <legend class="legend-custom">6. IIs (Starters)</legend>
+                                        <div class="table-responsive">
+
+                                        <table class="custom_tbl">
+
+                                        <thead>
+                                        <tr>
+                                        <th>Ser</th>
+                                        <th>Reference</th>
+                                        <th colspan="3">Checks</th>
+                                        <th>Remarks</th>
+                                        </tr>
+                                        </thead>
+
+                                        <tbody>
+
+                                        <!-- 6.1 -->
+                                        <tr>
+                                        <td>6.1</td>
+                                        <td>Section VI Para 0640 (For starters)</td>
+                                        <td colspan="3"><b>Enclosure Protection - IP 55</b></td>
+                                        <td><input type="text" class="form-control"></td>
+                                        </tr>
+
+                                        <!-- 6.2 -->
+                                        <tr>
+                                        <td>6.2</td>
+                                        <td>Section VI Para 0645 (For starters)</td>
+                                        <td colspan="3">
+                                        <b>Earthing</b><br>
+                                        Check earthing connected / Not connected
+                                        </td>
+                                        <td><input type="text" class="form-control"></td>
+                                        </tr>
+
+                                        <!-- 6.3 -->
+                                        <tr>
+                                        <td rowspan="3">6.3</td>
+                                        <td rowspan="3">Section V Para 0564</td>
+                                        <td colspan="3">
+                                        <b>Insulation & Values</b><br>
+                                        Insulation should be more than 2 MΩ
+                                        </td>
+                                        <td rowspan="3"><input type="text" class="form-control"></td>
+                                        </tr>
+
+                                        <tr>
+                                        <td style="text-align:center;">R</td>
+                                        <td style="text-align:center;">Y</td>
+                                        <td style="text-align:center;">B</td>
+                                        </tr>
+
+                                        <tr>
+                                        <td colspan="3"></td>
+                                        </tr>
+
+                                        <!-- 6.4 -->
+                                        <tr>
+                                        <td>6.4</td>
+                                        <td>Section VI Para 0649 (For starters)</td>
+                                        <td colspan="3">
+                                        <b>Painting</b><br>
+                                        Pebble grey, RAL 7032 epoxy power coated
+                                        </td>
+                                        <td><input type="text" class="form-control"></td>
+                                        </tr>
+
+                                        <!-- 6.5 -->
+                                        <tr>
+                                        <td>6.5</td>
+                                        <td>Section VI Para 0639 (For starters)</td>
+                                        <td colspan="3">Rubber Beading</td>
+                                        <td><input type="text" class="form-control"></td>
+                                        
+                                        </tr>
+
+                                        <!-- 6.6 -->
+                                        <tr>
+                                        <td>6.6</td>
+                                        <td>Section V Para 0526</td>
+                                        <td colspan="3">Thermistor connected / not connected</td>
+                                         <td><input type="text" class="form-control"></td>
+                                        </tr>
+
+                                        </tbody>
+                                        </table>
+                                        </div>
+                                        </fieldset>
+
+                                 <fieldset class="custom-fieldset">
+                                        <legend class="legend-custom">7. OPS Checks</legend>
+
+                                        <div class="table-responsive">  
+                                                  <table class="custom_tbl">
+
+                                        <thead>
+                                        <tr>
+                                        <th>Ser</th>
+                                        <th>Check and Reference</th>
+                                        <th colspan="3">Specified Value</th>
+                                        <th colspan="3">Observed Value</th>
+                                        <th>Remarks</th>
+                                        </tr>
+
+                                        <tr>
+                                        <th></th>
+                                        <th></th>
+                                        <th>R</th><th>Y</th><th>B</th>
+                                        <th>R</th><th>Y</th><th>B</th>
+                                        <th></th>
+                                        </tr>
+                                        </thead>
+
+                                        <tbody>
+
+                                        <!-- 7.1 -->
+                                        <tr>
+                                        <td>7.1</td>
+                                        <td><strong>Line to Line Voltage</strong><br>Section VI Para 0603</td>
+                                        <td><input class="form-control"></td>
+                                        <td><input class="form-control"></td>
+                                        <td><input class="form-control"></td>
+                                        <td><input class="form-control"></td>
+                                        <td><input class="form-control"></td>
+                                        <td><input class="form-control"></td>
+                                        <td><input class="form-control"></td>
+                                        </tr>
+
+                                        <!-- 7.2 -->
+                                        <tr>
+                                        <td>7.2</td>
+                                        <td><strong>Phase sequence</strong><br>Section V Para 0520</td>
+                                        <td colspan="6">Check phase sequence/ desired direction of motor rotation.</td>
+                                        <td><input class="form-control"></td>
+                                        </tr>
+
+                                        <!-- 7.3 -->
+                                        <!-- 7.3 -->
+                                        <tr>
+                                        <td rowspan="3">7.3</td>
+
+                                        <td rowspan="3">
+                                        <strong>Starting Current</strong><br>
+                                        Section V Para 0533
+                                        </td>
+
+                                        <td colspan="6">
+                                        7.2.1 For motors below 75 KW → starting current ≤ 7-8 times full load current.<br>
+                                        7.2.2 For motors above 75 KW → starting current ≤ 4-5 times full load current.
+                                        </td>
+
+                                        <td rowspan="3"><input class="form-control"></td>
+                                        </tr>
+
+                                        <!-- R Y B HEADER -->
+                                        <tr>
+                                        <td align="center"><strong>R</strong></td>
+                                        <td align="center"><strong>Y</strong></td>
+                                        <td align="center"><strong>B</strong></td>
+
+                                        <td align="center"><strong>R</strong></td>
+                                        <td align="center"><strong>Y</strong></td>
+                                        <td align="center"><strong>B</strong></td>
+                                        </tr>
+
+                                        <!-- INPUT ROW -->
+                                        <tr>
+                                        <td><input class="form-control"></td>
+                                        <td><input class="form-control"></td>
+                                        <td><input class="form-control"></td>
+
+                                        <td><input class="form-control"></td>
+                                        <td><input class="form-control"></td>
+                                        <td><input class="form-control"></td>
+                                        </tr>
+
+
+                                        <!-- 7.4 -->
+                                        <tr>
+                                        <td rowspan="3">7.4</td>
+
+                                        <td rowspan="3">
+                                        <strong>Running Current</strong><br>
+                                        As per OEM specifications
+                                        </td>
+
+                                        <td colspan="6"></td>
+
+                                        <td rowspan="3"><input class="form-control"></td>
+                                        </tr>
+
+                                        <!-- R Y B HEADER -->
+                                        <tr>
+                                        <td align="center"><strong>R</strong></td>
+                                        <td align="center"><strong>Y</strong></td>
+                                        <td align="center"><strong>B</strong></td>
+
+                                        <td align="center"><strong>R</strong></td>
+                                        <td align="center"><strong>Y</strong></td>
+                                        <td align="center"><strong>B</strong></td>
+                                        </tr>
+
+                                        <!-- INPUT ROW -->
+                                        <tr>
+                                        <td><input class="form-control"></td>
+                                        <td><input class="form-control"></td>
+                                        <td><input class="form-control"></td>
+
+                                        <td><input class="form-control"></td>
+                                        <td><input class="form-control"></td>
+                                        <td><input class="form-control"></td>
+                                        </tr>
+
+                                        <!-- 7.5 -->
+                                        <!-- 7.4 -->
+                                                            <tr>
+                                                                <td>7.4</td>
+                                                                <td>
+                                                                    <strong>Running Current</strong><br>
+                                                                    As per OEM specifications
+                                                                </td>
+                                                                <td>R</td><td>Y</td><td>B</td>
+                                                                <td>R</td><td>Y</td><td>B</td>
+                                                                <td><input class="form-control"></td>
+                                                            </tr>
+
+                                                            <!-- 7.5 -->
+                                                            <tr>
+                                                                <td>7.5*</td>
+                                                                <td>File Path</td>
+                                                                <td colspan="6">Benchmarking using ESA</td>
+                                                                <td><input class="form-control"></td>
+                                                            </tr>
+
+                                                            <!-- 7.6 -->
+                                                            <tr>
+                                                                <td>7.6*</td>
+                                                                <td>--</td>
+                                                                <td colspan="6">
+                                                                    <strong>Pump Motor System</strong><br>
+                                                                    <table width="100%" border="1">
+                                                                        <tr>
+                                                                            <th>Load</th>
+                                                                            <th>Running Current</th>
+                                                                            <th>Body Temp.</th>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>50%</td>
+                                                                            <td><input class="form-control"></td>
+                                                                            <td><input class="form-control"></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>75%</td>
+                                                                            <td><input class="form-control"></td>
+                                                                            <td><input class="form-control"></td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>100%</td>
+                                                                            <td><input class="form-control"></td>
+                                                                            <td><input class="form-control"></td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                                <td><input class="form-control"></td>
+                                                            </tr>
+
+                                                            <!-- 7.7 -->
+                                                            <tr>
+                                                                <td>7.7</td>
+                                                                <td colspan="8">
+                                                                    <strong>SPM Checks using T-30 / A-30</strong><br><br>
+                                                                    &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; Bearing No. &amp; Values: <input class="form-control d-inline-block w-auto val-input" type="text" name="val_3_11_10_1"><br><br>
+                                                                </td>
+                                                            </tr>
+
+                                                            <!-- 7.8 -->
+                                                            <tr>
+                                                                <td>7.8</td>
+                                                                <td>
+                                                                    <strong>SPM Checks</strong><br>
+                                                                    Section V Para 0554
+                                                                </td>
+                                                                <td colspan="6">
+                                                                    <table width="100%" border="1">
+                                                                        <tr>
+                                                                            <th colspan="2">T-30</th>
+                                                                            <th colspan="2">A-30</th>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th>DE</th>
+                                                                            <th>NDE</th>
+                                                                            <th>DE</th>
+                                                                            <th>NDE</th>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>dbm -</td>
+                                                                            <td>dbm -</td>
+                                                                            <td>Code (A-D) -</td>
+                                                                            <td>Code (A-D) -</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>dbc -</td>
+                                                                            <td>dbc -</td>
+                                                                            <td>Lub (1-4) -</td>
+                                                                            <td>Lub (1-4) -</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>dbi -</td>
+                                                                            <td>dbi -</td>
+                                                                            <td>LR -</td>
+                                                                            <td>LR -</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>Condition -</td>
+                                                                            <td>Condition -</td>
+                                                                            <td>HR -</td>
+                                                                            <td>HR -</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td></td>
+                                                                            <td></td>
+                                                                            <td>Condition (30-40+) -</td>
+                                                                            <td>Condition (30-40+) -</td>
+                                                                        </tr>
+                                                                        
+                                                                             
+                                                                    </table>
+                                                                </td>
+                                                                <td><input class="form-control"></td>
+                                                            </tr>
+                                                            <td>7.9</td>
+                                                            <td>Section VI Para 0660</td>
+
+                                                            <td colspan="6">
+                                                            Anti-condensation heaters should automatically switch ON when the equipment is switched OFF.
+                                                            </td>
+
+                                                              <td><input class="form-control"></td>
+                                                            </tr>
+
+
+                                        </tbody>
+                                        </table>            
+
+                                        
+                                                            
+                                                      
+                                    </div>
+                                        </fieldset>
+                                       
+                                                    
+
+                            <div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Save</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .group-header-cell {
+        background-color: #e9ecef;
+        font-size: 13px;
+        padding: 6px 10px;
+    }
+    .signature-block {
+        padding: 10px;
+    }
+</style>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    WRSTGQuarterly.init({
+        extraTableIds: [
+            'test_equipment_trials_tbl',
+            'summary_checks_tbl',
+            'observations_tbl'
+        ],
+        visibilityBindings: [],
+        submitConfirmation: { formId: 'ael_form' }
+    });
+});
+
+</script>
+{% endblock js %}

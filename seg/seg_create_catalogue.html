@@ -1,0 +1,659 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+    body { font-family: Arial, sans-serif; background: #f8f9fa; }
+    .container-fluid { margin-top: 30px; }
+    .portlet { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); padding: 24px; }
+    .portlet-title { border-bottom: 1px solid #eee; margin-bottom: 16px; }
+    .caption { font-size: 1.3rem; font-weight: 600; color: #1976d2; }
+    .table_wrapper { overflow-x: unset; }
+    .custom_tbl th, .custom_tbl td { vertical-align: middle; }
+    .nav-tabs { border-bottom: 2px solid #1976d2; }
+    .nav-link.active { background: #1976d2; color: #fff !important; }
+    .nav-link { color: #1976d2; font-weight: 500; }
+    .nav-item + .nav-item { margin-left: 8px; }
+
+    .card_seg_catalogue { padding: 15px; }
+
+    .table-hover tbody tr:hover { background: #eef5ff !important; }
+
+    .dt-buttons .btn { margin-right: 4px; }
+
+    .length-menu-container { display: flex; align-items: center; }
+
+    .filter-row th input {
+        width: 100%;
+        font-size: 12px;
+        padding: 3px 6px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .status-approval { font-weight: 600; font-size: 13px; }
+
+    /* ===== MODAL STYLES ===== */
+    .modal-xl { max-width: 900px; }
+
+    .modal-header {
+        background: #1976d2;
+        color: #fff;
+        border-bottom: none;
+        padding: 16px 24px;
+    }
+
+    .modal-header .modal-title {
+        font-weight: 700;
+        font-size: 1.1rem;
+        letter-spacing: 0.5px;
+    }
+
+    .modal-header .btn-close {
+        filter: invert(1) brightness(2);
+    }
+
+    .modal-body { padding: 24px; }
+
+    .modal-footer {
+        border-top: 1px solid #eee;
+        padding: 12px 24px;
+    }
+
+    /* Reuse fieldset styles from wrstg-common if available, else fallback */
+    .custom-fieldset {
+        border: 1px solid #1976d2;
+        border-radius: 8px;
+        padding: 20px 16px 16px;
+        margin-bottom: 0;
+    }
+
+    .legend-custom {
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #1976d2;
+        padding: 0 8px;
+        width: auto;
+    }
+
+    /* ===== MODAL FORM FIELD FIX ===== */
+    #viewCatalogueModal .form-md-floating-label {
+        position: relative;
+        padding-top: 18px;   /* make room for the label above */
+    }
+
+    #viewCatalogueModal .form-md-floating-label .form_control_1 {
+        position: absolute;
+        top: 2px;
+        left: 0;
+        font-size: 12px;
+        font-weight: 600;
+        color: #555;
+        background: transparent;
+        padding: 0;
+        pointer-events: none;
+        white-space: nowrap;
+    }
+
+    #viewCatalogueModal .form-md-floating-label .form-control {
+        display: block;
+        width: 100%;
+        height: 38px;
+        padding: 6px 10px;
+        font-size: 14px;
+        border: 1px solid #ced4da !important;
+        border-bottom: 1px solid #ced4da !important;
+        border-radius: 4px !important;
+        background-color: #fff !important;
+        background-image: none !important;
+        color: #333;
+        box-shadow: none !important;
+    }
+
+    #viewCatalogueModal .form-md-floating-label select.form-control {
+        appearance: auto;
+        -webkit-appearance: auto;
+        cursor: pointer;
+    }
+
+    #viewCatalogueModal .form-md-floating-label .form-control:focus {
+        border-color: #1976d2 !important;
+        box-shadow: 0 0 0 2px rgba(25,118,210,0.15) !important;
+        outline: none;
+    }
+
+    /* SEG Verification — constrained width */
+    .seg-verify-section {
+        max-width: 360px;
+    }
+
+    /* SEG Verification highlight */
+    .seg-verify-section {
+        background: #f0f7ff;
+        border: 1px solid #bbdefb;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 16px;
+    }
+
+    .seg-verify-section label {
+        font-weight: 600;
+        color: #1565c0;
+        margin-bottom: 6px;
+        display: block;
+    }
+
+    .seg-verify-section select {
+        border: 2px solid #1976d2;
+        font-weight: 500;
+    }
+
+    .badge-approved  { background: #e8f5e9; color: #2e7d32; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 12px; }
+    .badge-pending   { background: #fff8e1; color: #f57f17; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 12px; }
+    .badge-rejected  { background: #ffebee; color: #c62828; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 12px; }
+    .badge-verified  { background: #e8f5e9; color: #388e3c; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 12px; }
+</style>
+{% endblock css %}
+
+{% block content %}
+
+<div class="container-fluid">
+
+    <!-- Form Card -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <i class="icon-plus font-green"></i>
+                        <span class="caption-subject bold">SEG-CREATE CATALOGUE</span>
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    <form id="seg-catalogue-form">
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <div class="form-group mb-3">
+                                    <label for="seg_department">Select Department</label>
+                                    <select class="form-control" id="seg_department" name="seg_department" required>
+                                        <option value="">Select Department</option>
+                                        <option value="">L</option>
+                                        <option value="">E</option>
+                                        <option value="">H</option>
+                                        {% for dept in departments %}
+                                            <option value="{{ dept.id }}">{{ dept.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group mb-3">
+                                    <label for="seg_system">Select System</label>
+                                    <select class="form-control" id="seg_system" name="seg_system" required>
+                                        <option value="">Select System</option>
+                                        <option value="">1</option>
+                                        <option value="">2</option>
+                                        <option value="">3</option>
+                                        {% for sys in systems %}
+                                            <option value="{{ sys.id }}">{{ sys.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group mb-3">
+                                    <label for="seg_subsystem">Select Subsystem</label>
+                                    <select class="form-control" id="seg_subsystem" name="seg_subsystem">
+                                        <option value="">Select SubSystem</option>
+                                        <option value="">1</option>
+                                        <option value="">2</option>
+                                        <option value="">3</option>
+                                        {% for sub in subsystems %}
+                                            <option value="{{ sub.id }}">{{ sub.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="{% url 'ITTTM:create_catalogue' %}" class="btn btn-primary">Create Catalogue</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Table Card -->
+    <div class="card card_seg_catalogue">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table_wrapper">
+                    <table id="seg_catalogue_table" class="table table-bordered table-hover custom_tbl">
+                        <thead>
+                            <tr>
+                                <th>Sub System</th>
+                                <th>MMD Type</th>
+                                <th>MMD size</th>
+                                <th>MMD-ID</th>
+                                <th>Status</th>
+                                <th>MMD Serial</th>
+                                <th>SEG verifica</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Dummy Data Rows -->
+                            <tr
+                                data-subsystem="TX-DX Card"
+                                data-mmdtype="EPRO M"
+                                data-mmdsize="64 MB"
+                                data-mmdid="334"
+                                data-status="Active"
+                                data-mmdserial="234344"
+                                data-segverifica="Verified"
+                                data-mediatype=""
+                                data-size=""
+                                data-os=""
+                                data-interface=""
+                                data-appname=""
+                                data-appversion=""
+                                data-serialno=""
+                                data-oem=""
+                                data-pattern=""
+                                data-oempart=""
+                            >
+                                <td>TX-DX Card</td>
+                                <td>EPRO M</td>
+                                <td>64 MB</td>
+                                <td>334</td>
+                                <td>Active</td>
+                                <td>234344</td>
+                                <td><span class="badge-verified">Verified</span></td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-info btn-view-catalogue">
+                                        <i class="bi bi-eye"></i> View
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr
+                                data-subsystem="TX-DX Card"
+                                data-mmdtype="HDD"
+                                data-mmdsize="1GB"
+                                data-mmdid="234"
+                                data-status="Active"
+                                data-mmdserial="NA"
+                                data-segverifica="Pending"
+                                data-mediatype=""
+                                data-size=""
+                                data-os=""
+                                data-interface=""
+                                data-appname=""
+                                data-appversion=""
+                                data-serialno=""
+                                data-oem=""
+                                data-pattern=""
+                                data-oempart=""
+                            >
+                                <td>TX-DX Card</td>
+                                <td>HDD</td>
+                                <td>1GB</td>
+                                <td>234</td>
+                                <td>Active</td>
+                                <td>NA</td>
+                                <td><span class="badge-pending">Pending</span></td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-info btn-view-catalogue">
+                                        <i class="bi bi-eye"></i> View
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr
+                                data-subsystem="RX-CX Card"
+                                data-mmdtype="HDD"
+                                data-mmdsize="1GB"
+                                data-mmdid="253"
+                                data-status="BER"
+                                data-mmdserial="33421"
+                                data-segverifica="Verified"
+                                data-mediatype=""
+                                data-size=""
+                                data-os=""
+                                data-interface=""
+                                data-appname=""
+                                data-appversion=""
+                                data-serialno=""
+                                data-oem=""
+                                data-pattern=""
+                                data-oempart=""
+                            >
+                                <td>RX-CX Card</td>
+                                <td>HDD</td>
+                                <td>1GB</td>
+                                <td>253</td>
+                                <td>BER</td>
+                                <td>33421</td>
+                                <td><span class="badge-verified">Verified</span></td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-info btn-view-catalogue">
+                                        <i class="bi bi-eye"></i> View
+                                    </button>
+                                </td>
+                            </tr>
+
+                            {% for item in catalogue_items %}
+                            <tr
+                                data-subsystem="{{ item.sub_system }}"
+                                data-mmdtype="{{ item.mmd_type }}"
+                                data-mmdsize="{{ item.mmd_size }}"
+                                data-mmdid="{{ item.mmd_id }}"
+                                data-status="{{ item.status }}"
+                                data-mmdserial="{{ item.mmd_serial }}"
+                                data-segverifica="{{ item.seg_verifica }}"
+                            >
+                                <td>{{ item.sub_system }}</td>
+                                <td>{{ item.mmd_type }}</td>
+                                <td>{{ item.mmd_size }}</td>
+                                <td>{{ item.mmd_id }}</td>
+                                <td>{{ item.status }}</td>
+                                <td>{{ item.mmd_serial }}</td>
+                                <td>{{ item.seg_verifica }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-info btn-view-catalogue">
+                                        <i class="bi bi-eye"></i> View
+                                    </button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ===================== VIEW CATALOGUE MODAL ===================== -->
+<div class="modal fade" id="viewCatalogueModal" tabindex="-1" aria-labelledby="viewCatalogueModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewCatalogueModalLabel">
+                    <i class="bi bi-archive me-2"></i> View Catalogue Details
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+                <form id="view_catalogue_modal_form">
+                    {% csrf_token %}
+                    <div class="form-body">
+
+                        
+
+                        <!-- Catalogue Fields (same as create_catalogue, no changes) -->
+                        <fieldset class="custom-fieldset">
+                            <legend class="legend-custom text-uppercase">SEG Catalogue</legend>
+
+                            <div class="row g-3">
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <select class="form-control" id="modal_media_type" name="Select Media Type" required>
+                                            <option value="">--Select Media--</option>
+                                            <option value="">1</option>
+                                            <option value="">2</option>
+                                        </select>
+                                        <label class="form_control_1">Media Type <span class="text-danger">*</span></label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <select class="form-control" id="modal_size" name="select size" required>
+                                            <option value="">--Select--</option>
+                                            <option value="">64MB</option>
+                                            <option value="">1MB</option>
+                                            <option value="">2MB</option>
+                                        </select>
+                                        <label class="form_control_1">Select Size <span class="text-danger">*</span></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-3">
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <select class="form-control" id="modal_os" name="Select OS" required>
+                                            <option value="">--Select OS--</option>
+                                            <option value="">Windows</option>
+                                            <option value="">Linux</option>
+                                        </select>
+                                        <label class="form_control_1">Select OS <span class="text-danger">*</span></label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <select class="form-control" id="modal_interface" name="Select Interface" required>
+                                            <option value="">--Select Interface--</option>
+                                            <option value="">1</option>
+                                            <option value="">2</option>
+                                        </select>
+                                        <label class="form_control_1">Select Interface <span class="text-danger">*</span></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <input type="text" class="form-control" id="modal_app_name" name="application_name" placeholder=" " required>
+                                        <label class="form_control_1">system_name <span class="text-danger">*</span></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <input type="text" class="form-control" id="modal_app_version" name="application_version" placeholder=" " required>
+                                        <label class="form_control_1">Sub_System_name<span class="text-danger">*</span></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-3">
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <input type="text" class="form-control" id="modal_app_name" name="application_name" placeholder=" " required>
+                                        <label class="form_control_1">Enter Application Name <span class="text-danger">*</span></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <input type="text" class="form-control" id="modal_app_version" name="application_version" placeholder=" " required>
+                                        <label class="form_control_1">Enter Application Version <span class="text-danger">*</span></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-3">
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <input type="text" class="form-control" id="modal_serial_no" name="serial_no" placeholder=" ">
+                                        <label class="form_control_1">Enter Serial Number</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <input type="text" class="form-control" id="modal_oem" name="oem_of_module" placeholder=" ">
+                                        <label class="form_control_1">Enter Make / OEM of Module</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <input type="text" class="form-control" id="modal_pattern" name="pattern_number" placeholder=" ">
+                                        <label class="form_control_1">Enter Pattern Number of Module</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <input type="text" class="form-control" id="modal_oempart" name="oem_part" placeholder=" ">
+                                        <label class="form_control_1">Enter OEM Part no of Motherboard</label>
+                                    </div>
+                                </div>
+                                <!-- SEG Verification Section (only in modal) -->
+                        <div class="seg-verify-section mb-4">
+                            <label for="modal_seg_verification">
+                                <i class="bi bi-shield-check me-1"></i> SEG Verification
+                                <span class="text-danger">*</span>
+                            </label>
+                            <select class="form-control" id="modal_seg_verification" name="seg_verification" required>
+                                <option value="">-- Select Verification Status --</option>
+                                <option value="Approved">Approved</option>
+                                <option value="Pending">Pending</option>
+                                <option value="Rejected">Rejected</option>
+                            </select>
+                        </div>
+                            </div>
+
+                        </fieldset>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                
+                <button type="button" class="btn btn-success px-4" id="btn_save_modal">
+                    <i class="bi bi-check-circle me-1"></i> Save
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- ===================== END MODAL ===================== -->
+
+{% endblock content %}
+
+{% block js %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    // ===== INITIALIZE DATATABLE =====
+    let initDataTable = (selector) => {
+        if ($.fn.DataTable.isDataTable(selector)) {
+            $(selector).DataTable().clear().destroy();
+            $(selector + ' thead tr.filter-row').remove();
+        }
+
+        let table = $(selector).DataTable({
+            dom: "<'row'<'col-md-12'B>>rt",
+
+            buttons: [
+                {
+                    extend: 'print',
+                    className: 'btn-outline-dark',
+                    text: '<i class="bi bi-printer" data-bs-toggle="tooltip" title="Print"></i>'
+                },
+                {
+                    extend: 'pdf',
+                    className: 'btn-outline-success',
+                    text: '<i class="bi bi-file-earmark-pdf" data-bs-toggle="tooltip" title="Export to PDF"></i>'
+                },
+                {
+                    extend: 'csv',
+                    className: 'btn-outline-primary',
+                    text: '<i class="bi bi-file-earmark-spreadsheet" data-bs-toggle="tooltip" title="Export to CSV"></i>'
+                },
+                {
+                    extend: 'copy',
+                    className: 'btn-outline-secondary',
+                    text: '<i class="bi bi-clipboard" data-bs-toggle="tooltip" title="Copy"></i>'
+                }
+            ],
+
+            language: {
+                emptyTable: "No data available",
+                zeroRecords: "No matching records found"
+            },
+
+            order: [[0, "asc"]],
+            pageLength: 10,
+            fixedHeader: true,
+            retrieve: true,
+
+            initComplete: function () {
+                $(selector + '_length select').addClass('custom-length');
+                $(selector + '_length').addClass('position-relative d-inline-block');
+            }
+        });
+
+        $(selector).on('draw.dt', function () {
+            $('[data-bs-toggle="tooltip"]').tooltip();
+        });
+
+        return table;
+    };
+
+    let segTable = initDataTable('#seg_catalogue_table');
+
+    // ===== VIEW BUTTON — Open Modal & Populate Data =====
+    document.querySelector('#seg_catalogue_table tbody').addEventListener('click', function (e) {
+        const btn = e.target.closest('.btn-view-catalogue');
+        if (!btn) return;
+
+        const row = btn.closest('tr');
+        const d = row.dataset;
+
+        // Populate SEG Verification dropdown
+        const segVerify = document.getElementById('modal_seg_verification');
+        const verifyVal = d.segverifica || '';
+        // Match option text
+        for (let opt of segVerify.options) {
+            if (opt.value === verifyVal || opt.text === verifyVal) {
+                opt.selected = true;
+                break;
+            }
+        }
+
+        // Populate form fields (read-only view — fill whatever data exists)
+        setVal('modal_app_name',    d.appname    || '');
+        setVal('modal_app_version', d.appversion || '');
+        setVal('modal_serial_no',   d.serialno   || '');
+        setVal('modal_oem',         d.oem        || '');
+        setVal('modal_pattern',     d.pattern    || '');
+        setVal('modal_oempart',     d.oempart    || '');
+
+        // Open modal
+        let modal = new bootstrap.Modal(document.getElementById('viewCatalogueModal'));
+        modal.show();
+    });
+
+    function setVal(id, val) {
+        const el = document.getElementById(id);
+        if (el) el.value = val;
+    }
+
+    // ===== SAVE BUTTON in Modal =====
+    document.getElementById('btn_save_modal').addEventListener('click', function () {
+        const verifySelect = document.getElementById('modal_seg_verification');
+        if (!verifySelect.value) {
+            verifySelect.focus();
+            verifySelect.classList.add('is-invalid');
+            return;
+        }
+        verifySelect.classList.remove('is-invalid');
+
+        // TODO: Hook up to your Django POST endpoint here
+        // e.g., fetch('/your-save-url/', { method: 'POST', body: new FormData(document.getElementById('view_catalogue_modal_form')) })
+
+        alert('Saved successfully!');
+        bootstrap.Modal.getInstance(document.getElementById('viewCatalogueModal')).hide();
+    });
+
+    // Clear invalid state on change
+    document.getElementById('modal_seg_verification').addEventListener('change', function () {
+        this.classList.remove('is-invalid');
+    });
+
+});
+</script>
+{% endblock js %}

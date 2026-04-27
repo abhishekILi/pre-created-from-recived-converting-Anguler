@@ -1,0 +1,1142 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item active" aria-current="page">SDR-NC</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">SDR-NC — CHECK OFF LIST (7140003)</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="sdr_nc_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!-- ══════════════════════════════════════════
+                   HEADER — Ship / Equipment Info
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Trial Header Information</legend>
+                <div class="row g-3">
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="ship" required>
+                        <option value="">-- Select Ship --</option>
+                        {% for ship in ship_options %}
+                        <option value="{{ ship.value }}">{{ ship.label }}</option>
+                        {% endfor %}
+                      </select>
+                      <label class="form_control_1">Name of Ship <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="equipment" value="SDR-NC" readonly placeholder=" ">
+                      <label class="form_control_1">Equipment</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="sno" placeholder=" ">
+                      <label class="form_control_1">S. No.</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="date" class="form-control" name="trial_date" placeholder=" ">
+                      <label class="form_control_1">Date <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="department" required>
+                        <option value="">-- Select Department --</option>
+                        <option value="ND">ND</option>
+                        <option value="Gunnery">Gunnery</option>
+                        <option value="Communication">Communication</option>
+                        <option value="ASW">ASW</option>
+                      </select>
+                      <label class="form_control_1">Department <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="nature_of_trials" required>
+                        <option value="">-- Select Nature of Trials --</option>
+                        <option value="lls">lls</option>
+                        <option value="SATs">SATs</option>
+                        <option value="HATs">HATs</option>
+                        <option value="OP Checks">OP Checks</option>
+                      </select>
+                      <label class="form_control_1">Nature of Trials <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   VISUAL CHECKS
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">1.Visual Checks</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Checks</th>
+                        <th>Observations</th>
+                        <th>Remarks (Sat / Unsat)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-no">a.</td>
+                        <td>
+                          Fitment of equipment rack on shock mount in
+                          <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-1">
+                            <input type="text" class="form-control" name="vis_1_location" placeholder=" ">
+  
+                          </div>
+                        </td>
+                       
+                        <td>
+                          <select class="form-control" name="vis_1_rmk">
+                            <option value="">--</option><option>Sat</option><option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">b.</td>
+                        <td>
+                          Fitment of V/UHF Antenna on
+                          <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-1">
+                            <input type="text" class="form-control" name="vis_2_vuhf_loc" placeholder=" ">
+                            
+                          </div>
+                          and HF on
+                          <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-1">
+                            <input type="text" class="form-control" name="vis_2_hf_loc" placeholder=" ">
+                           
+                          </div>
+                        </td>
+                       
+                        <td>
+                          <select class="form-control" name="vis_2_rmk">
+                            <option value="">--</option><option>Sat</option><option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">c.</td>
+                        <td>Antenna connection to the SDR-NC through feeder cable.</td>
+                        
+                        <td>
+                          <select class="form-control" name="vis_3_rmk">
+                            <option value="">--</option><option>Sat</option><option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">d.</td>
+                        <td>Grounding of Rack / Equipment.</td>
+                       
+                        <td>
+                          <select class="form-control" name="vis_4_rmk">
+                            <option value="">--</option><option>Sat</option><option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">e.</td>
+                        <td>Power supply 230V AC, 50Hz.</td>
+                        
+                        <td>
+                          <select class="form-control" name="vis_5_rmk">
+                            <option value="">--</option><option>Sat</option><option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">f.</td>
+                        <td>Fitment of sub units in cabinet and interconnection.</td>
+                       
+                        <td>
+                          <select class="form-control" name="vis_6_rmk">
+                            <option value="">--</option><option>Sat</option><option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">g.</td>
+                        <td>Functions of all knobs, switches, push buttons and display.</td>
+                       
+                        <td>
+                          <select class="form-control" name="vis_7_rmk">
+                            <option value="">--</option><option>Sat</option><option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   FM - V/UHF WAVEFORM (CH 1 & CH 2)
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">2.FM — V/UHF Waveform Channel 1 and Channel 2</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Checks</th>
+                        <th>Observations</th>
+                      
+                        <th>Remarks (Sat / Unsat)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-no">a.</td>
+                        <td>Ensure proper RF cables are connected with attenuator.</td>
+                        
+                        <td><select class="form-control" name="fm_1_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">b.</td>
+                        <td>Activate FM waveform in Channel 1 with default configuration &amp; Channel 2 with preset 1 configuration.</td>
+                       
+                        <td><select class="form-control" name="fm_2_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">c.</td>
+                        <td>Set the frequency F1 from the table below and Power 10W on both Channel 1 and Channel 2.</td>
+                        
+                        <td><select class="form-control" name="fm_3_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">d.</td>
+                        <td>Adjust the volume knob on the radio to position '3' for both Channels.</td>
+                        
+                        <td><select class="form-control" name="fm_4_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">e.</td>
+                        <td>Check the voice communication between Channel 1 and Channel 2.</td>
+                        
+                        <td><select class="form-control" name="fm_5_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">f.</td>
+                        <td>
+                          Repeat the above steps for below mentioned frequencies.
+                          <!-- FM Frequency Sub-table -->
+                          <div class="table-responsive mt-2">
+                            <table class="custom_tbl">
+                              <thead>
+                                <tr>
+                                  <th class="serial-no">Ser</th>
+                                  <th>Freq (MHz)</th>
+                                  <th>Voice on CH 1 (OK / NOT OK)</th>
+                                  <th>Voice on CH 2 (OK / NOT OK)</th>
+                                  <th>Remarks</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td class="serial-no">(a)</td>
+                                  <td>125</td>
+                                  <td><select class="form-control" name="fm_freq_a_ch1"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                                  <td><select class="form-control" name="fm_freq_a_ch2"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                                  <td><select class="form-control" name="fm_freq_a_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                                </tr>
+                                <tr>
+                                  <td class="serial-no">(b)</td>
+                                  <td>226</td>
+                                  <td><select class="form-control" name="fm_freq_b_ch1"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                                  <td><select class="form-control" name="fm_freq_b_ch2"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                                  <td><select class="form-control" name="fm_freq_b_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                                </tr>
+                                <tr>
+                                  <td class="serial-no">(c)</td>
+                                  <td>361</td>
+                                  <td><select class="form-control" name="fm_freq_c_ch1"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                                  <td><select class="form-control" name="fm_freq_c_ch2"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                                  <td><select class="form-control" name="fm_freq_c_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                                </tr>
+                                <tr>
+                                  <td class="serial-no">(d)</td>
+                                  <td>475</td>
+                                  <td><select class="form-control" name="fm_freq_d_ch1"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                                  <td><select class="form-control" name="fm_freq_d_ch2"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                                  <td><select class="form-control" name="fm_freq_d_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   AM - V/UHF WAVEFORM (CH 1 & CH 2)
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">3.AM — V/UHF Waveform Channel 1 and Channel 2</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Checks</th>
+                        <th>Observations</th>
+                        <th>Remarks (Sat / Unsat)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-no">a.</td>
+                        <td>Ensure proper RF cables are connected with attenuator.</td>
+                       
+                        <td><select class="form-control" name="am_1_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">b.</td>
+                        <td>Activate AM waveform in Channel 1 with default configuration &amp; Channel 2 with preset 1 configuration.</td>
+                       
+                        <td><select class="form-control" name="am_2_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">c.</td>
+                        <td>Set the frequency F1 from the table below and Power 10W on both Channel 1 and Channel 2.</td>
+                        
+                        <td><select class="form-control" name="am_3_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">d.</td>
+                        <td>Adjust the volume knob on the radio to position '3' for both Channels.</td>
+                        
+                        <td><select class="form-control" name="am_4_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">e.</td>
+                        <td>Check the voice communication between Channel 1 and Channel 2.</td>
+                        
+                        <td><select class="form-control" name="am_5_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">f.</td>
+                        <td>
+                          Repeat the above steps for below mentioned frequencies.
+                          <!-- AM Frequency Sub-table -->
+                          <div class="table-responsive mt-2">
+                            <table class="custom_tbl">
+                              <thead>
+                                <tr>
+                                  <th class="serial-no">Ser</th>
+                                  <th>Freq (MHz)</th>
+                                  <th>Voice on CH 1 (OK / NOT OK)</th>
+                                  <th>Voice on CH 2 (OK / NOT OK)</th>
+                                  <th>Remarks</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td class="serial-no">(a)</td>
+                                  <td>125</td>
+                                  <td><select class="form-control" name="am_freq_a_ch1"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                                  <td><select class="form-control" name="am_freq_a_ch2"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                                  <td><select class="form-control" name="am_freq_a_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                                </tr>
+                                <tr>
+                                  <td class="serial-no">(b)</td>
+                                  <td>226</td>
+                                  <td><select class="form-control" name="am_freq_b_ch1"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                                  <td><select class="form-control" name="am_freq_b_ch2"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                                  <td><select class="form-control" name="am_freq_b_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                                </tr>
+                                <tr>
+                                  <td class="serial-no">(c)</td>
+                                  <td>361</td>
+                                  <td><select class="form-control" name="am_freq_c_ch1"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                                  <td><select class="form-control" name="am_freq_c_ch2"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                                  <td><select class="form-control" name="am_freq_c_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                                </tr>
+                                <tr>
+                                  <td class="serial-no">(d)</td>
+                                  <td>475</td>
+                                  <td><select class="form-control" name="am_freq_d_ch1"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                                  <td><select class="form-control" name="am_freq_d_ch2"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                                  <td><select class="form-control" name="am_freq_d_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   IOV - V/UHF WAVEFORM (CH 1 & CH 2)
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">4.IOV — V/UHF Waveform Channel 1 and Channel 2</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Checks</th>
+                        
+                        <th>Observations</th>
+                        <th>Remarks (Sat / Unsat)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-no">a.</td>
+                        <td>Ensure proper RF cables are connected with attenuator.</td>
+                        
+                        <td><select class="form-control" name="iov_1_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">b.</td>
+                        <td>Activate IOV waveform in Channel 1 with default configuration &amp; Channel 2 with preset 1 configuration.</td>
+                       
+                        <td><select class="form-control" name="iov_2_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">c.</td>
+                        <td>Set the frequency F1 from the table below and Power 10W on both Channel 1 and Channel 2.</td>
+                        
+                        <td><select class="form-control" name="iov_3_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">d.</td>
+                        <td>Adjust the volume knob on the radio to position '3' for both Channels.</td>
+                       
+                        <td><select class="form-control" name="iov_4_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">e.</td>
+                        <td>Check the voice communication between Channel 1 and Channel 2.</td>
+                       
+                        <td><select class="form-control" name="iov_5_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">f.</td>
+                        <td>
+                          Repeat the above steps for below mentioned frequencies.
+                          <!-- IOV Frequency Sub-table -->
+                          <div class="table-responsive mt-2">
+                            <table class="custom_tbl">
+                              <thead>
+                                <tr>
+                                  <th class="serial-no">Ser</th>
+                                  <th>Freq (MHz)</th>
+                                  <th>Voice on CH 1 (OK / NOT OK)</th>
+                                  <th>Voice on CH 2 (OK / NOT OK)</th>
+                                  <th>Remarks</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td class="serial-no">(a)</td>
+                                  <td>125</td>
+                                  <td><select class="form-control" name="iov_freq_a_ch1"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                                  <td><select class="form-control" name="iov_freq_a_ch2"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                                  <td><select class="form-control" name="iov_freq_a_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                                </tr>
+                                <tr>
+                                  <td class="serial-no">(b)</td>
+                                  <td>226</td>
+                                  <td><select class="form-control" name="iov_freq_b_ch1"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                                  <td><select class="form-control" name="iov_freq_b_ch2"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                                  <td><select class="form-control" name="iov_freq_b_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                                </tr>
+                                <tr>
+                                  <td class="serial-no">(c)</td>
+                                  <td>361</td>
+                                  <td><select class="form-control" name="iov_freq_c_ch1"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                                  <td><select class="form-control" name="iov_freq_c_ch2"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                                  <td><select class="form-control" name="iov_freq_c_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                                </tr>
+                                <tr>
+                                  <td class="serial-no">(d)</td>
+                                  <td>475</td>
+                                  <td><select class="form-control" name="iov_freq_d_ch1"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                                  <td><select class="form-control" name="iov_freq_d_ch2"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                                  <td><select class="form-control" name="iov_freq_d_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   L2 - FM V/UHF WAVEFORM (CH 1 & CH 2)
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">5.L2 — FM V/UHF Waveform Channel 1 and Channel 2</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Checks</th>
+                       
+                        <th>Observations</th>
+                        <th>Remarks (Sat / Unsat)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-no">a.</td>
+                        <td>Ensure proper RF cables are connected to the antenna.</td>
+                        
+                        <td><select class="form-control" name="l2fm_1_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">b.</td>
+                        <td>Activate Link II waveform on the Channels and set frequency as 125 MHz.</td>
+                       
+                        <td><select class="form-control" name="l2fm_2_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">c.</td>
+                        <td>Send message each from LINK II application. Confirm the DATA reception on the other Ship.</td>
+                       
+                        <td><select class="form-control" name="l2fm_3_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">d.</td>
+                        <td>Repeat the above steps at frequencies 226 MHz and 361 MHz.</td>
+                      
+                        <td><select class="form-control" name="l2fm_4_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">e.</td>
+                        <td>Check the voice communication between Channel 1 and Channel 2.</td>
+                       
+                        <td><select class="form-control" name="l2fm_5_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">f.</td>
+                        <td>
+                          Repeat the above steps for Channel 1 and Channel 2.
+                          <!-- L2-FM Data Reception Sub-table -->
+                          <div class="table-responsive mt-2">
+                            <table class="custom_tbl">
+                              <thead>
+                                <tr>
+                                  <th class="serial-no">Ser</th>
+                                  <th>Freq (MHz)</th>
+                                  <th>Data Reception CH 1 (OK / NOT OK)</th>
+                                  <th>Data Reception CH 2 (OK / NOT OK)</th>
+                                  <th>Remarks</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td class="serial-no">(a)</td>
+                                  <td>125</td>
+                                  <td><select class="form-control" name="l2fm_freq_a_ch1"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                                  <td><select class="form-control" name="l2fm_freq_a_ch2"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                                  <td><select class="form-control" name="l2fm_freq_a_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                                </tr>
+                                <tr>
+                                  <td class="serial-no">(b)</td>
+                                  <td>226</td>
+                                  <td><select class="form-control" name="l2fm_freq_b_ch1"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                                  <td><select class="form-control" name="l2fm_freq_b_ch2"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                                  <td><select class="form-control" name="l2fm_freq_b_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                                </tr>
+                                <tr>
+                                  <td class="serial-no">(c)</td>
+                                  <td>361</td>
+                                  <td><select class="form-control" name="l2fm_freq_c_ch1"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                                  <td><select class="form-control" name="l2fm_freq_c_ch2"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                                  <td><select class="form-control" name="l2fm_freq_c_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   LDR - ECCM V/UHF WAVEFORM (CH 1 & CH 2)
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">6.LDR — ECCM V/UHF Waveform, Channel 1 and Channel 2</legend>
+                <p class="text-muted mt-1 mb-2"><strong>Note:</strong> In the absence of LINK II system at installation site, LDR ECCM test need not be conducted.</p>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Ser</th>
+                        <th>Check Description</th>
+                        <th>CH 1 (OK / NOT OK)</th>
+                        <th>CH 2 (OK / NOT OK)</th>
+                        <th>Remarks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-no">a.</td>
+                        <td>Ensure proper RF cables are connected to Antenna.</td>
+                        <td><select class="form-control" name="ldr_1_ch1"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                        <td><select class="form-control" name="ldr_1_ch2"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                        <td><select class="form-control" name="ldr_1_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">b.</td>
+                        <td>The date and time has to be synchronised between the SDR (NC) system or any other SDR form factor before activation of this waveform.</td>
+                        <td><select class="form-control" name="ldr_2_ch1"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                        <td><select class="form-control" name="ldr_2_ch2"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                        <td><select class="form-control" name="ldr_2_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">c.</td>
+                        <td>Set Hop set 1 and MAC ID as Third octet of ship IP address on both the Radio Sets. Select 50W Power.</td>
+                        <td><select class="form-control" name="ldr_3_ch1"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                        <td><select class="form-control" name="ldr_3_ch2"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                        <td><select class="form-control" name="ldr_3_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">d.</td>
+                        <td>Activate LDR-ECCM waveform on the Channels.</td>
+                        <td><select class="form-control" name="ldr_4_ch1"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                        <td><select class="form-control" name="ldr_4_ch2"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                        <td><select class="form-control" name="ldr_4_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">e.</td>
+                        <td>Send message each from LINK II application and confirm the DATA reception on the other Radio.</td>
+                        <td><select class="form-control" name="ldr_5_ch1"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                        <td><select class="form-control" name="ldr_5_ch2"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                        <td><select class="form-control" name="ldr_5_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   AM-SSB HF WAVEFORM (CH 3)
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+  <legend class="legend-custom text-uppercase">7.AM — SSB HF Waveform Channel 3</legend>
+  <div class="table-responsive">
+    <table class="custom_tbl">
+      <thead>
+        <tr>
+          <th class="serial-no">Checks</th>
+          <th>Observations</th>
+          <th>Remarks (Sat / Unsat)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="serial-no">a.</td>
+          <td>Activate AM-SSB waveform in CH 3.</td>
+          <td><select class="form-control" name="hf_ssb_1_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+        </tr>
+        <tr>
+          <td class="serial-no">b.</td>
+          <td>Connect Antenna 3 to customised SDR(NC) HF Antenna.</td>
+          <td><select class="form-control" name="hf_ssb_2_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+        </tr>
+        <tr>
+          <td class="serial-no">c.</td>
+          <td>Set the BBC frequency and confirm for successful reception.</td>
+          <td><select class="form-control" name="hf_ssb_3_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+        </tr>
+        <!-- User-fillable Note Row -->
+        <tr>
+          <td class="serial-no" style="font-weight: 600;">Note</td>
+          <td colspan="2">
+            <div class="form-group form-md-line-input form-md-floating-label mt-1 mb-1">
+              <textarea class="form-control wrstg-scroll-textarea" name="hf_ssb_note" rows="2" placeholder=" "></textarea>
+              
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="serial-no">d.</td>
+          <td>
+            Transmission test of HF waveforms in Channel 3 is subjected to availability of other Ship's HF Channel.
+          </td>
+          <td>
+            <select class="form-control" name="hf_ssb_4_rmk">
+              <option value="">--</option><option>Sat</option><option>Unsat</option><option>NA</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td class="serial-no">e.</td>
+          <td>
+            Voice communication test:
+            <!-- HF SSB Voice Sub-table -->
+            <div class="table-responsive mt-2">
+              <table class="custom_tbl">
+                <thead>
+                  <tr>
+                    <th class="serial-no">Ser</th>
+                    <th>Freq</th>
+                    <th>HF AM-SSB CH 3 (OK / NOT OK)</th>
+                    <th>Remarks</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="serial-no">(a)</td>
+                    <td>3 MHz</td>
+                    <td><select class="form-control" name="hf_ssb_v_a_ch3"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                    <td><select class="form-control" name="hf_ssb_v_a_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                  </tr>
+                  <tr>
+                    <td class="serial-no">(b)</td>
+                    <td>6 MHz</td>
+                    <td><select class="form-control" name="hf_ssb_v_b_ch3"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                    <td><select class="form-control" name="hf_ssb_v_b_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                  </tr>
+                  <tr>
+                    <td class="serial-no">(c)</td>
+                    <td>14 MHz</td>
+                    <td><select class="form-control" name="hf_ssb_v_c_ch3"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                    <td><select class="form-control" name="hf_ssb_v_c_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                  </tr>
+                  <tr>
+                    <td class="serial-no">(d)</td>
+                    <td>23 MHz</td>
+                    <td><select class="form-control" name="hf_ssb_v_d_ch3"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                    <td><select class="form-control" name="hf_ssb_v_d_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</fieldset>
+              <!-- ══════════════════════════════════════════
+                   L2 - AM HF WAVEFORM
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">8.L2 — AM HF Waveform</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Checks</th>
+                        
+                        <th>Observations</th>
+                        <th>Remarks (Sat / Unsat)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-no">a.</td>
+                        <td>Ensure proper RF cables are connected to Antenna.</td>
+                        
+                        <td><select class="form-control" name="l2hf_1_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">b.</td>
+                        <td>Activate HF Link II - 9.6 Kbps waveform on the Channels and set frequency to 6.8 MHz.</td>
+                        
+                        <td><select class="form-control" name="l2hf_2_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">c.</td>
+                        <td>Send message each from LINK II application. Confirm the DATA reception on the other consort / Ship.</td>
+                        
+                        <td><select class="form-control" name="l2hf_3_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">d.</td>
+                        <td>
+                          Repeat the above steps at frequencies 14.1 MHz and 23.4 MHz.
+                          <!-- L2-HF Data Reception Sub-table -->
+                          <div class="table-responsive mt-2">
+                            <table class="custom_tbl">
+                              <thead>
+                                <tr>
+                                  <th class="serial-no">Ser</th>
+                                  <th>Freq (MHz)</th>
+                                  <th>Data Reception on CH 3 (OK / NOT OK)</th>
+                                  <th>Remarks</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td class="serial-no">(1)</td>
+                                  <td>6.80 MHz</td>
+                                  <td><select class="form-control" name="l2hf_freq_a_ch3"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                                  <td><select class="form-control" name="l2hf_freq_a_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                                </tr>
+                                <tr>
+                                  <td class="serial-no">(2)</td>
+                                  <td>14.10 MHz</td>
+                                  <td><select class="form-control" name="l2hf_freq_b_ch3"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                                  <td><select class="form-control" name="l2hf_freq_b_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                                </tr>
+                                <tr>
+                                  <td class="serial-no">(3)</td>
+                                  <td>23.40 MHz</td>
+                                  <td><select class="form-control" name="l2hf_freq_c_ch3"><option value="">--</option><option>OK</option><option>NOT OK</option></select></td>
+                                  <td><select class="form-control" name="l2hf_freq_c_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   CCS MK II / MK III INTEGRATION TEST
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">9.CCS MK II / MK III Integration Test (As Applicable)</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Checks</th>
+                       
+                        <th>Observations</th>
+                        <th>Remarks (Sat / Unsat)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td></td>
+                        <td>Remote the V/UHF CH 1 and CH 2 in two ITUs and CH 3 AM HF SSB in another ITU.</td>
+                        
+                        <td><select class="form-control" name="ccs_1_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">a.</td>
+                        <td>Check voice communication of CH 1 remoted to ITU on FM / AM / IOV waveform with consort ship.</td>
+                        
+                        <td><select class="form-control" name="ccs_2_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">b.</td>
+                        <td>Check voice communication of CH 2 remoted to ITU on FM / AM / IOV waveform with consort ship.</td>
+                        
+                        <td><select class="form-control" name="ccs_3_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">c.</td>
+                        <td>Check voice communication of CH 3 remoted to ITU on AM HF SSB waveform with consort ship.</td>
+                       
+                        <td><select class="form-control" name="ccs_4_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- CCS ITU Results Table -->
+                <div class="table-responsive mt-3">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th rowspan="2">ITU No.</th>
+                        <th rowspan="2">ITU Local Ckt. No.</th>
+                        <th rowspan="2">Radio Ckt. No.</th>
+                        <th colspan="3"style="text-align: center;" >AT ITUs</th>
+                        <th colspan="3" style="text-align: center;" >AT CCT</th>
+                        <th rowspan="2">Remarks</th>
+                      </tr>
+                      <tr>
+                        <th>LR</th>
+                        <th>LB</th>
+                        <th>COMM</th>
+                        <th>LR</th>
+                        <th>LB</th>
+                        <th>COMM</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-no">05</td>
+                        <td>1</td>
+                        <td>CH 1</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_2_obs" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_2_obs" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_2_obs" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_2_obs" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_2_obs" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_2_obs" rows="2"></textarea></td>
+                        <td><select class="form-control" name="ccs_itu05_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">04</td>
+                        <td>2</td>
+                        <td>CH 2</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_2_obs" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_2_obs" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_2_obs" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_2_obs" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_2_obs" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_2_obs" rows="2"></textarea></td>
+                        <td><select class="form-control" name="ccs_itu04_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">03</td>
+                        <td>3</td>
+                        <td>CH 3</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_3_obs" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_3_obs" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_3_obs" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_3_obs" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_3_obs" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_3_obs" rows="2"></textarea></td>
+                        <td><select class="form-control" name="ccs_itu03_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   ACCS INTEGRATION TEST
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">10.ACCS Integration Test (As Applicable)</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Checks</th>
+                       
+                        <th>Observations</th>
+                        <th>Remarks (Sat / Unsat)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td></td>
+                        <td>Remote the V/UHF CH 1 and CH 2 in two CATs and CH 3 AM HF SSB in another CAT.</td>
+                        
+                        <td><select class="form-control" name="accs_1_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">a.</td>
+                        <td>Check voice communication of CH 1 remoted to CAT on FM / AM / IOV waveform with consort ship.</td>
+                        
+                        <td><select class="form-control" name="accs_2_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">b.</td>
+                        <td>Check voice communication of CH 2 remoted to CAT on FM / AM / IOV waveform with consort ship.</td>
+                       
+                        <td><select class="form-control" name="accs_3_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">c.</td>
+                        <td>Check voice communication of CH 3 remoted to CAT on AM HF SSB waveform with consort ship.</td>
+                       
+                        <td><select class="form-control" name="accs_4_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- ACCS CAT Results Table -->
+                <div class="table-responsive mt-3">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th rowspan="2">CAT No.</th>
+                        <th rowspan="2">CAT Local Ckt. No.</th>
+                        <th rowspan="2">Radio Ckt. No.</th>
+                        <th colspan="3"style="text-align: center;">AT CATs</th>
+                        <th colspan="3"style="text-align: center;">AT CCMT</th>
+                        <th rowspan="2">Remarks</th>
+                      </tr>
+                      <tr>
+                        <th>LR</th>
+                        <th>LB</th>
+                        <th>COMM</th>
+                        <th>LR</th>
+                        <th>LB</th>
+                        <th>COMM</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-no">05</td>
+                        <td>1</td>
+                        <td>CH 1</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_3_obs" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_3_obs" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_3_obs" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_3_obs" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_3_obs" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_3_obs" rows="2"></textarea></td>
+                        <td><select class="form-control" name="accs_cat05_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">04</td>
+                        <td>2</td>
+                        <td>CH 2</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_3_obs" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_3_obs" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_3_obs" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_3_obs" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_3_obs" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_3_obs" rows="2"></textarea></td>
+                        <td><select class="form-control" name="accs_cat04_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">03</td>
+                        <td>3</td>
+                        <td>CH 3</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_3_obs" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_3_obs" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_3_obs" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_3_obs" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_3_obs" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="accs_3_obs" rows="2"></textarea></td>
+                        <td><select class="form-control" name="accs_cat03_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   REMARKS
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Remarks</legend>
+                <div class="static-section">
+                  <div class="table-responsive">
+                    <table class="custom_tbl" id="remarks_table">
+                      <thead>
+                        <tr>
+                          <th class="serial-no">Sr No</th>
+                          <th>Observations</th>
+                          <th>SS Remarks</th>
+                          <th class="action" style="width: 80px;">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="serial-no">1</td>
+                          <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="observation" rows="2"></textarea></td>
+                          <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="ss_remarks" rows="2"></textarea></td>
+                          <td class="action action-cell-holder">
+                            <div class="action-controls">
+                              <button type="button" class="btn-round btn-add" onclick="addRow('remarks_table')" title="Add Row">+</button>
+                              <button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'remarks_table')" title="Remove Row">-</button>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   PRESENTING AUTHORITY
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                <div class="row g-3">
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="sdr_nc_presenting_authority" name="sdr_nc_presenting_authority" required>
+                        <option value="">--Select--</option>
+                        <option value="dockyard">Dockyard</option>
+                        <option value="shipstaff">Shipstaff</option>
+                        <option value="oem">OEM</option>
+                      </select>
+                      <label class="form_control_1" for="sdr_nc_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" id="sdr_nc_watt" name="sdr_nc_watt" value="VZG" placeholder=" ">
+                      <label class="form_control_1" for="sdr_nc_watt">WATT</label>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+
+              <!-- Submit -->
+              <div class="d-flex justify-content-center mt-4 gap-2">
+                <button type="submit" class="btn btn-success px-4">Submit</button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

@@ -1,0 +1,825 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+    .custom_tbl {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .custom_tbl td,
+    .custom_tbl th {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal !important;
+        padding: 8px;
+        vertical-align: middle;
+        border: 1px solid #ddd;
+    }
+    .custom_tbl thead th {
+        background-color: #343a40;
+        color: #fff;
+        text-align: center;
+    }
+    .line-input {
+        border: none;
+        border-bottom: 1px solid #333;
+        background: transparent;
+        min-width: 80px;
+        padding: 2px 4px;
+    }
+    .text-center {
+        text-align: center;
+    }
+    .section-header {
+        background-color: #e8e8e8;
+        font-weight: bold;
+    }
+    .appendix-table {
+        font-size: 12px;
+    }
+    .appendix-table td,
+    .appendix-table th {
+        padding: 6px;
+    }
+    .horizontal-scroll {
+        overflow-x: auto;
+        overflow-y: visible;
+    }
+    .bearing-data-table {
+        min-width: 2500px;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">WATT</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">NTDS</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">NTDS</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="ntds_sat_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+
+                            <!-- ===== HEADER FIELDS ===== -->
+                            <fieldset class="custom-fieldset">
+                                <div class="row g-3">
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="text" class="form-control" name="type" value="SATs" readonly>
+                                            <label class="form_control_1">TYPE</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="date" class="form-control" name="date" required>
+                                            <label class="form_control_1">DATE <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="text" class="form-control" name="equipment" value="NTDS" required>
+                                            <label class="form_control_1">EQUIPMENT <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row g-3 mt-2">
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="text" class="form-control" name="unit" value="INS">
+                                            <label class="form_control_1">UNIT</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <select class="form-control" name="presented_by" required>
+                                                <option value="">--Select--</option>
+                                                
+                                            </select>
+                                            <label class="form_control_1">PRESENTED BY <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <!-- ===== MAIN SAT PROCEDURE TABLE ===== -->
+                            <fieldset class="custom-fieldset mt-4">
+                                <legend class="legend-custom text-uppercase">SAT Procedure</legend>
+                                <div class="table-responsive mt-4">
+                                    <table class="custom_tbl" id="sat_procedure_table">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:10%;">TRIAL SER</th>
+                                                <th>CHECK DESCRIPTION AS PER SCHEDULE</th>
+                                                <th style="width:15%;">RESULT<br>SAT/UNSAT</th>
+                                                <th style="width:25%;">PRESENTING AUTHORITY REMARKS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- SAT PROCEDURE Header -->
+                                            <tr>
+                                                <td class="text-center">5</td>
+                                                <td colspan="3"><strong>SAT PROCEDURE</strong></td>
+                                            </tr>
+
+                                            <!-- Test Case 1 -->
+                                            <tr>
+                                                <td class="text-center">5.1</td>
+                                                <td>Test Case 1 – Preliminary procedure</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="result_5_1" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="result_5_1" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_5_1" placeholder=""></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Test Case 2 -->
+                                            <tr>
+                                                <td class="text-center">5.2</td>
+                                                <td>Test Case 2 – Tow Streaming</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="result_5_2" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="result_5_2" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_5_2" placeholder=""></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Test Case 3 -->
+                                            <tr>
+                                                <td class="text-center">5.3</td>
+                                                <td>Test Case 3 – System Checks</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="result_5_3" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="result_5_3" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_5_3" placeholder=""></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Test Case 4 -->
+                                            <tr>
+                                                <td class="text-center">5.4</td>
+                                                <td>Test Case 4 – Shallow Water Towed Array Checks</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="result_5_4" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="result_5_4" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_5_4" placeholder=""></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Test Case 5 -->
+                                            <tr>
+                                                <td class="text-center">5.5</td>
+                                                <td>Test Case 5 – Synthetic Demonstration and EAD firing</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="result_5_5" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="result_5_5" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_5_5" placeholder=""></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Test Case 6 -->
+                                            <tr>
+                                                <td class="text-center">5.6</td>
+                                                <td>Test Case 6 – Tow Recovery</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="result_5_6" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="result_5_6" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_5_6" placeholder=""></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Test Case 7 -->
+                                            <tr>
+                                                <td class="text-center">5.7</td>
+                                                <td>System Shut Down</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="result_5_7" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="result_5_7" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_5_7" placeholder=""></textarea>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ===== OBSERVATIONS TABLE ===== -->
+                            <fieldset class="custom-fieldset mt-4">
+                                <legend class="legend-custom text-uppercase">Observations</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="observations_table">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:10%;">Check Ser.</th>
+                                                <th>Observation</th>
+                                                <th style="width:15%;">SAT/UNSAT</th>
+                                                <th style="width:25%;">Remarks</th>
+                                                <th style="width:80px;">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="observations_tbody">
+                                            <tr>
+                                                <td class="text-center">1</td>
+                                                <td><input type="text" class="form-control" name="observation_1"></td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="obs_result_1" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="obs_result_1" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td><input type="text" class="form-control" name="obs_remarks_1"></td>
+                                                <td class="text-center">
+                                                    <button type="button" class="btn btn-sm btn-danger" onclick="removeRowObservation(this)">-</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">2</td>
+                                                <td><input type="text" class="form-control" name="observation_2"></td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="obs_result_2" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="obs_result_2" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td><input type="text" class="form-control" name="obs_remarks_2"></td>
+                                                <td class="text-center">
+                                                    <button type="button" class="btn btn-sm btn-danger" onclick="removeRowObservation(this)">-</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">3</td>
+                                                <td><input type="text" class="form-control" name="observation_3"></td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="obs_result_3" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="obs_result_3" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td><input type="text" class="form-control" name="obs_remarks_3"></td>
+                                                <td class="text-center">
+                                                    <button type="button" class="btn btn-sm btn-danger" onclick="removeRowObservation(this)">-</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">4</td>
+                                                <td><input type="text" class="form-control" name="observation_4"></td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="obs_result_4" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="obs_result_4" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td><input type="text" class="form-control" name="obs_remarks_4"></td>
+                                                <td class="text-center">
+                                                    <button type="button" class="btn btn-sm btn-danger" onclick="removeRowObservation(this)">-</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">5</td>
+                                                <td><input type="text" class="form-control" name="observation_5"></td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="obs_result_5" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="obs_result_5" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td><input type="text" class="form-control" name="obs_remarks_5"></td>
+                                                <td class="text-center">
+                                                    <button type="button" class="btn btn-sm btn-danger" onclick="removeRowObservation(this)">-</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="mt-2">
+                                    <button type="button" class="btn btn-sm btn-primary" onclick="addRowObservation()">+ Add Row</button>
+                                </div>
+                            </fieldset>
+
+                            <!-- ===== APPENDIX B: Results from Bearing Checks ===== -->
+                            <fieldset class="custom-fieldset mt-4">
+                                <legend class="legend-custom text-uppercase">APPENDIX B - Results from Bearing Checks</legend>
+                                
+                                <!-- First Table -->
+                                <div class="table-responsive">
+                                    <table class="custom_tbl appendix-table" id="appendix_b_table">
+                                        <thead>
+                                            <tr>
+                                                <th rowspan="2">Tow Ship Name</th>
+                                                <th colspan="3">Radar datum to fairlead datum distances</th>
+                                                <th rowspan="2">Contact Ship name</th>
+                                                <th rowspan="2">Date of Trial</th>
+                                                <th rowspan="2">Approximate location</th>
+                                                <th rowspan="2" style="width:80px;">Action</th>
+                                            </tr>
+                                            <tr>
+                                                <th>FWD to AFT horizontal distance m (aft = +ve)</th>
+                                                <th>Athwartship horizontal distance m (Port = +ve)</th>
+                                                <th>Vertical Plane (up = +ve)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="appendix_b_tbody">
+                                            <tr>
+                                                <td><input type="text" class="form-control" name="tow_ship_name_1"></td>
+                                                <td><input type="text" class="form-control" name="fwd_aft_distance_1"></td>
+                                                <td><input type="text" class="form-control" name="athwart_distance_1"></td>
+                                                <td><input type="text" class="form-control" name="vertical_plane_1"></td>
+                                                <td><input type="text" class="form-control" name="contact_ship_1"></td>
+                                                <td><input type="date" class="form-control" name="trial_date_1"></td>
+                                                <td><input type="text" class="form-control" name="location_1"></td>
+                                                <td class="text-center">
+                                                    <button type="button" class="btn btn-sm btn-danger" onclick="removeRowAppendixB(this)">-</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><input type="text" class="form-control" name="tow_ship_name_2"></td>
+                                                <td><input type="text" class="form-control" name="fwd_aft_distance_2"></td>
+                                                <td><input type="text" class="form-control" name="athwart_distance_2"></td>
+                                                <td><input type="text" class="form-control" name="vertical_plane_2"></td>
+                                                <td><input type="text" class="form-control" name="contact_ship_2"></td>
+                                                <td><input type="date" class="form-control" name="trial_date_2"></td>
+                                                <td><input type="text" class="form-control" name="location_2"></td>
+                                                <td class="text-center">
+                                                    <button type="button" class="btn btn-sm btn-danger" onclick="removeRowAppendixB(this)">-</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><input type="text" class="form-control" name="tow_ship_name_3"></td>
+                                                <td><input type="text" class="form-control" name="fwd_aft_distance_3"></td>
+                                                <td><input type="text" class="form-control" name="athwart_distance_3"></td>
+                                                <td><input type="text" class="form-control" name="vertical_plane_3"></td>
+                                                <td><input type="text" class="form-control" name="contact_ship_3"></td>
+                                                <td><input type="date" class="form-control" name="trial_date_3"></td>
+                                                <td><input type="text" class="form-control" name="location_3"></td>
+                                                <td class="text-center">
+                                                    <button type="button" class="btn btn-sm btn-danger" onclick="removeRowAppendixB(this)">-</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="mt-2 mb-4">
+                                    <button type="button" class="btn btn-sm btn-primary" onclick="addRowAppendixB()">+ Add Row</button>
+                                </div>
+
+                                <!-- Second Table -->
+                                <div class="table-responsive mt-4">
+                                    <table class="custom_tbl appendix-table" id="appendix_b2_table">
+                                        <thead>
+                                            <tr>
+                                                <th rowspan="2">Tow Ship Name</th>
+                                                <th colspan="3">Radar datum to fairlead datum distances</th>
+                                                <th rowspan="2">Contact Ship name</th>
+                                                <th rowspan="2">Date of Trial</th>
+                                                <th rowspan="2">Time elapsed since start</th>
+                                                <th rowspan="2" style="width:80px;">Action</th>
+                                            </tr>
+                                            <tr>
+                                                <th>FWD to AFT horizontal distance m (aft = +ve)</th>
+                                                <th>Athwartship horizontal distance m (Port = +ve)</th>
+                                                <th>Vertical Plane (up = +ve)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="appendix_b2_tbody">
+                                            <tr>
+                                                <td><input type="text" class="form-control" name="tow_ship_name2_1"></td>
+                                                <td><input type="text" class="form-control" name="fwd_aft_distance2_1"></td>
+                                                <td><input type="text" class="form-control" name="athwart_distance2_1"></td>
+                                                <td><input type="text" class="form-control" name="vertical_plane2_1"></td>
+                                                <td><input type="text" class="form-control" name="contact_ship2_1"></td>
+                                                <td><input type="date" class="form-control" name="trial_date2_1"></td>
+                                                <td><input type="text" class="form-control" name="time_elapsed2_1"></td>
+                                                <td class="text-center">
+                                                    <button type="button" class="btn btn-sm btn-danger" onclick="removeRowAppendixB2(this)">-</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><input type="text" class="form-control" name="tow_ship_name2_2"></td>
+                                                <td><input type="text" class="form-control" name="fwd_aft_distance2_2"></td>
+                                                <td><input type="text" class="form-control" name="athwart_distance2_2"></td>
+                                                <td><input type="text" class="form-control" name="vertical_plane2_2"></td>
+                                                <td><input type="text" class="form-control" name="contact_ship2_2"></td>
+                                                <td><input type="date" class="form-control" name="trial_date2_2"></td>
+                                                <td><input type="text" class="form-control" name="time_elapsed2_2"></td>
+                                                <td class="text-center">
+                                                    <button type="button" class="btn btn-sm btn-danger" onclick="removeRowAppendixB2(this)">-</button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><input type="text" class="form-control" name="tow_ship_name2_3"></td>
+                                                <td><input type="text" class="form-control" name="fwd_aft_distance2_3"></td>
+                                                <td><input type="text" class="form-control" name="athwart_distance2_3"></td>
+                                                <td><input type="text" class="form-control" name="vertical_plane2_3"></td>
+                                                <td><input type="text" class="form-control" name="contact_ship2_3"></td>
+                                                <td><input type="date" class="form-control" name="trial_date2_3"></td>
+                                                <td><input type="text" class="form-control" name="time_elapsed2_3"></td>
+                                                <td class="text-center">
+                                                    <button type="button" class="btn btn-sm btn-danger" onclick="removeRowAppendixB2(this)">-</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="mt-2">
+                                    <button type="button" class="btn btn-sm btn-primary" onclick="addRowAppendixB2()">+ Add Row</button>
+                                </div>
+                            </fieldset>
+
+                            <!-- ===== DETAILED BEARING DATA TABLE (Page 3) WITH HORIZONTAL SCROLL ===== -->
+                            <fieldset class="custom-fieldset mt-4">
+                                <legend class="legend-custom text-uppercase">Detailed Bearing Data</legend>
+                                <div class="horizontal-scroll">
+                                    <table class="custom_tbl bearing-data-table" id="bearing_data_table">
+                                        <thead>
+                                            <tr>
+                                                <th rowspan="2">Time elapsed since start of the run (Minutes)</th>
+                                                <th colspan="11">NTDS</th>
+                                                <th colspan="3">Ship's radar</th>
+                                                <th >Page no</th>
+                                                <th></th>
+                                                <th rowspan="2">Action</th>
+                                            </tr>
+                                            <tr>
+                                                <th>Time stmp (GPS) H:M:S</th>
+                                                <th>Ship's head (COG)</th>
+                                                <th>Ship speed (SOG)</th>
+                                                <th>Tow scope</th>
+                                                <th>Array FWD head (FH)</th>
+                                                <th>Array AFT head (AF)</th>
+                                                <th>Array FWD depth (FD)</th>
+                                                <th>Array AFT depth (AD)</th>
+                                                <th>Contact ID</th>
+                                                <th>Contact bearing from array</th>
+                                                <th>Contact status</th>
+                                                <th>Radar timestamp (GPS) H:M:S</th>
+                                                <th>Contact bearing from radar</th>
+                                                <th>Contact range from radar</th>
+                                                <th >Parallax bearing correction factor CFB*</th>
+                                                <th >Bearing difference RADAR+/- towed array +/- CFB</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="bearing_data_tbody">
+                                            {% for i in "12345678" %}
+                                            <tr>
+                                                <td class="text-center">{{ i }}</td>
+                                                <td><input type="time" class="form-control" name="time_gps_{{ i }}" step="1"></td>
+                                                <td><input type="text" class="form-control" name="ship_head_{{ i }}"></td>
+                                                <td><input type="text" class="form-control" name="ship_speed_{{ i }}"></td>
+                                                <td><input type="text" class="form-control" name="tow_scope_{{ i }}"></td>
+                                                <td><input type="text" class="form-control" name="array_fwd_head_{{ i }}"></td>
+                                                <td><input type="text" class="form-control" name="array_aft_head_{{ i }}"></td>
+                                                <td><input type="text" class="form-control" name="array_fwd_depth_{{ i }}"></td>
+                                                <td><input type="text" class="form-control" name="array_aft_depth_{{ i }}"></td>
+                                                <td><input type="text" class="form-control" name="contact_id_{{ i }}"></td>
+                                                <td><input type="text" class="form-control" name="contact_bearing_array_{{ i }}"></td>
+                                                <td><input type="text" class="form-control" name="contact_status_{{ i }}"></td>
+                                                <td><input type="time" class="form-control" name="radar_timestamp_{{ i }}" step="1"></td>
+                                                <td><input type="text" class="form-control" name="contact_bearing_radar_{{ i }}"></td>
+                                                <td><input type="text" class="form-control" name="contact_range_{{ i }}"></td>
+                                                <td><input type="text" class="form-control" name="parallax_cfb_{{ i }}"></td>
+                                                <td><input type="text" class="form-control" name="bearing_diff_{{ i }}"></td>
+                                                <td class="text-center">
+                                                    <button type="button" class="btn btn-sm btn-danger" onclick="removeRowBearing(this)">-</button>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="mt-2">
+                                    <button type="button" class="btn btn-sm btn-primary" onclick="addRowBearing()">+ Add Row</button>
+                                </div>
+                            </fieldset>
+
+                            <!-- ===== NON ACOUSTIC DATA TABLE ===== -->
+                            <fieldset class="custom-fieldset mt-4">
+                                <legend class="legend-custom text-uppercase">Non Acoustic Data</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="non_acoustic_table">
+                                        <thead>
+                                            <tr>
+                                                <th>TIME</th>
+                                                <th colspan="4">NON ACOUSTIC DATA</th>
+                                            </tr>
+                                            <tr>
+                                                <th></th>
+                                                <th>Fore Depth m</th>
+                                                <th>Fore Temp C</th>
+                                                <th>AFT Depth m</th>
+                                                <th>AFT Temp C</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-center"><label >Initial</label></td>
+                                                <td><input type="text" class="form-control" name="initial_fore_depth"></td>
+                                                <td><input type="text" class="form-control" name="initial_fore_temp"></td>
+                                                <td><input type="text" class="form-control" name="initial_aft_depth"></td>
+                                                <td><input type="text" class="form-control" name="initial_aft_temp"></td>
+                                            </tr>
+                                            {% for i in "123456789" %}
+                                            <tr>
+                                                <td><input type="time" class="form-control" name="time_t{{ i }}" step="1"></td>
+                                                <td><input type="text" class="form-control" name="t{{ i }}_fore_depth"></td>
+                                                <td><input type="text" class="form-control" name="t{{ i }}_fore_temp"></td>
+                                                <td><input type="text" class="form-control" name="t{{ i }}_aft_depth"></td>
+                                                <td><input type="text" class="form-control" name="t{{ i }}_aft_temp"></td>
+                                            </tr>
+                                            {% endfor %}
+                                            <tr>
+                                                <td><input type="time" class="form-control" name="time_t10" step="1"></td>
+                                                <td><input type="text" class="form-control" name="t10_fore_depth"></td>
+                                                <td><input type="text" class="form-control" name="t10_fore_temp"></td>
+                                                <td><input type="text" class="form-control" name="t10_aft_depth"></td>
+                                                <td><input type="text" class="form-control" name="t10_aft_temp"></td>
+                                            </tr>
+                                            <tr>
+                                                <td><input type="time" class="form-control" name="time_t11" step="1"></td>
+                                                <td><input type="text" class="form-control" name="t11_fore_depth"></td>
+                                                <td><input type="text" class="form-control" name="t11_fore_temp"></td>
+                                                <td><input type="text" class="form-control" name="t11_aft_depth"></td>
+                                                <td><input type="text" class="form-control" name="t11_aft_temp"></td>
+                                            </tr>
+                                            <tr>
+                                                <td><input type="time" class="form-control" name="time_t12" step="1"></td>
+                                                <td><input type="text" class="form-control" name="t12_fore_depth"></td>
+                                                <td><input type="text" class="form-control" name="t12_fore_temp"></td>
+                                                <td><input type="text" class="form-control" name="t12_aft_depth"></td>
+                                                <td><input type="text" class="form-control" name="t12_aft_temp"></td>
+                                            </tr>
+                                            <tr>
+                                                <td><input type="time" class="form-control" name="time_t13" step="1"></td>
+                                                <td><input type="text" class="form-control" name="t13_fore_depth"></td>
+                                                <td><input type="text" class="form-control" name="t13_fore_temp"></td>
+                                                <td><input type="text" class="form-control" name="t13_aft_depth"></td>
+                                                <td><input type="text" class="form-control" name="t13_aft_temp"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ===== PRESENTING AUTHORITY ===== -->
+                            <fieldset class="custom-fieldset mt-4">
+                                <div class="table-responsive mt-4">
+                                    <table class="custom_tbl" id="presenting_authority_table">
+                                        <tbody>
+                                            <tr>
+                                                <th style="width:20%;">PRESENTING AUTHORITY</th>
+                                                <th style="width:20%;">
+                                                    SHIP'S STAFF<br>
+                                                    <input type="text" style="border:none; border-bottom: 1px solid #131212; background:transparent; width:100%; outline:none;" name="ship_staff">
+                                                </th>
+                                                <th style="width:20%;">
+                                                    WATT(1)<br>
+                                                    <input type="text" style="border:none; border-bottom: 1px solid #131212; background:transparent; width:100%; outline:none;" name="watt_1">
+                                                </th>
+                                                <th style="width:20%;">
+                                                    WATT(2)<br>
+                                                    <input type="text" style="border:none; border-bottom: 1px solid #131212; background:transparent; width:100%; outline:none;" name="watt_2">
+                                                </th>
+                                                <th style="width:20%;">
+                                                    WATT(3)<br>
+                                                    <input type="text" style="border:none; border-bottom: 1px solid #131212; background:transparent; width:100%; outline:none;" name="watt_3">
+                                                </th>
+                                            </tr>
+                                            <!-- REMARKS TO BE GIVEN Row -->
+                                            <tr>
+                                                <td><strong>REMARKS TO BE GIVEN</strong></td>
+                                                <td>
+                                                    WBA-WILL BE AMENDED<br>
+                                                    WBD-WILL BE DONE
+                                                </td>
+                                                <td>
+                                                    WOW-WILL OBTAIN WAIVER<br>
+                                                    COM-COMPLETED
+                                                </td>
+                                                <td>
+                                                    N/O- NOT OFFERED
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                            <!-- OIC Row -->
+                                            <tr>
+                                                <td><strong>OIC</strong></td>
+                                                <td>
+                                                    CDR TRIALS
+                                                </td>
+                                                <td>
+                                                    STO (ASW)
+                                                </td>
+                                                <td>
+                                                    STO(L)
+                                                </td>
+                                                <td>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Empty Row with Asterisks -->
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+                            <div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Save</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    let bearingRowCounter = 8;
+    let observationRowCounter = 5;
+    let appendixBRowCounter = 3;
+    let appendixB2RowCounter = 3;
+
+    // Add row for Observations table
+    function addRowObservation() {
+        observationRowCounter++;
+        const tbody = document.getElementById('observations_tbody');
+        const newRow = document.createElement('tr');
+        
+        newRow.innerHTML = `
+            <td class="text-center">${observationRowCounter}</td>
+            <td><input type="text" class="form-control" name="observation_${observationRowCounter}"></td>
+            <td class="text-center">
+                <label><input type="radio" name="obs_result_${observationRowCounter}" value="SAT"> SAT</label>
+                <label><input type="radio" name="obs_result_${observationRowCounter}" value="UNSAT"> UNSAT</label>
+            </td>
+            <td><input type="text" class="form-control" name="obs_remarks_${observationRowCounter}"></td>
+            <td class="text-center">
+                <button type="button" class="btn btn-sm btn-danger" onclick="removeRowObservation(this)">-</button>
+            </td>
+        `;
+        
+        tbody.appendChild(newRow);
+    }
+
+    // Remove row from Observations table
+    function removeRowObservation(button) {
+        const tbody = document.getElementById('observations_tbody');
+        if (tbody.rows.length > 1) {
+            button.closest('tr').remove();
+            // Renumber rows
+            const rows = tbody.querySelectorAll('tr');
+            rows.forEach((row, index) => {
+                row.cells[0].textContent = index + 1;
+            });
+            observationRowCounter = tbody.rows.length;
+        } else {
+            alert('Cannot remove the last row');
+        }
+    }
+
+    // Add row for Appendix B table (First Table)
+    function addRowAppendixB() {
+        appendixBRowCounter++;
+        const tbody = document.getElementById('appendix_b_tbody');
+        const newRow = document.createElement('tr');
+        
+        newRow.innerHTML = `
+            <td><input type="text" class="form-control" name="tow_ship_name_${appendixBRowCounter}"></td>
+            <td><input type="text" class="form-control" name="fwd_aft_distance_${appendixBRowCounter}"></td>
+            <td><input type="text" class="form-control" name="athwart_distance_${appendixBRowCounter}"></td>
+            <td><input type="text" class="form-control" name="vertical_plane_${appendixBRowCounter}"></td>
+            <td><input type="text" class="form-control" name="contact_ship_${appendixBRowCounter}"></td>
+            <td><input type="date" class="form-control" name="trial_date_${appendixBRowCounter}"></td>
+            <td><input type="text" class="form-control" name="location_${appendixBRowCounter}"></td>
+            <td class="text-center">
+                <button type="button" class="btn btn-sm btn-danger" onclick="removeRowAppendixB(this)">-</button>
+            </td>
+        `;
+        
+        tbody.appendChild(newRow);
+    }
+
+    // Remove row from Appendix B table (First Table)
+    function removeRowAppendixB(button) {
+        const tbody = document.getElementById('appendix_b_tbody');
+        if (tbody.rows.length > 1) {
+            button.closest('tr').remove();
+            appendixBRowCounter = tbody.rows.length;
+        } else {
+            alert('Cannot remove the last row');
+        }
+    }
+
+    // Add row for Appendix B2 table (Second Table)
+    function addRowAppendixB2() {
+        appendixB2RowCounter++;
+        const tbody = document.getElementById('appendix_b2_tbody');
+        const newRow = document.createElement('tr');
+        
+        newRow.innerHTML = `
+            <td><input type="text" class="form-control" name="tow_ship_name2_${appendixB2RowCounter}"></td>
+            <td><input type="text" class="form-control" name="fwd_aft_distance2_${appendixB2RowCounter}"></td>
+            <td><input type="text" class="form-control" name="athwart_distance2_${appendixB2RowCounter}"></td>
+            <td><input type="text" class="form-control" name="vertical_plane2_${appendixB2RowCounter}"></td>
+            <td><input type="text" class="form-control" name="contact_ship2_${appendixB2RowCounter}"></td>
+            <td><input type="date" class="form-control" name="trial_date2_${appendixB2RowCounter}"></td>
+            <td><input type="text" class="form-control" name="time_elapsed2_${appendixB2RowCounter}"></td>
+            <td class="text-center">
+                <button type="button" class="btn btn-sm btn-danger" onclick="removeRowAppendixB2(this)">-</button>
+            </td>
+        `;
+        
+        tbody.appendChild(newRow);
+    }
+
+    // Remove row from Appendix B2 table (Second Table)
+    function removeRowAppendixB2(button) {
+        const tbody = document.getElementById('appendix_b2_tbody');
+        if (tbody.rows.length > 1) {
+            button.closest('tr').remove();
+            appendixB2RowCounter = tbody.rows.length;
+        } else {
+            alert('Cannot remove the last row');
+        }
+    }
+
+    // Add row for Bearing Data table
+    function addRowBearing() {
+        bearingRowCounter++;
+        const tbody = document.getElementById('bearing_data_tbody');
+        const newRow = document.createElement('tr');
+        
+        newRow.innerHTML = `
+            <td class="text-center">${bearingRowCounter}</td>
+            <td><input type="time" class="form-control" name="time_gps_${bearingRowCounter}" step="1"></td>
+            <td><input type="text" class="form-control" name="ship_head_${bearingRowCounter}"></td>
+            <td><input type="text" class="form-control" name="ship_speed_${bearingRowCounter}"></td>
+            <td><input type="text" class="form-control" name="tow_scope_${bearingRowCounter}"></td>
+            <td><input type="text" class="form-control" name="array_fwd_head_${bearingRowCounter}"></td>
+            <td><input type="text" class="form-control" name="array_aft_head_${bearingRowCounter}"></td>
+            <td><input type="text" class="form-control" name="array_fwd_depth_${bearingRowCounter}"></td>
+            <td><input type="text" class="form-control" name="array_aft_depth_${bearingRowCounter}"></td>
+            <td><input type="text" class="form-control" name="contact_id_${bearingRowCounter}"></td>
+            <td><input type="text" class="form-control" name="contact_bearing_array_${bearingRowCounter}"></td>
+            <td><input type="text" class="form-control" name="contact_status_${bearingRowCounter}"></td>
+            <td><input type="time" class="form-control" name="radar_timestamp_${bearingRowCounter}" step="1"></td>
+            <td><input type="text" class="form-control" name="contact_bearing_radar_${bearingRowCounter}"></td>
+            <td><input type="text" class="form-control" name="contact_range_${bearingRowCounter}"></td>
+            <td><input type="text" class="form-control" name="parallax_cfb_${bearingRowCounter}"></td>
+            <td><input type="text" class="form-control" name="bearing_diff_${bearingRowCounter}"></td>
+            <td class="text-center">
+                <button type="button" class="btn btn-sm btn-danger" onclick="removeRowBearing(this)">-</button>
+            </td>
+        `;
+        
+        tbody.appendChild(newRow);
+    }
+
+    // Remove row from Bearing Data table
+    function removeRowBearing(button) {
+        const tbody = document.getElementById('bearing_data_tbody');
+        if (tbody.rows.length > 1) {
+            button.closest('tr').remove();
+            // Renumber rows
+            const rows = tbody.querySelectorAll('tr');
+            rows.forEach((row, index) => {
+                row.cells[0].textContent = index + 1;
+            });
+            bearingRowCounter = tbody.rows.length;
+        } else {
+            alert('Cannot remove the last row');
+        }
+    }
+</script>
+{% endblock content %}
+

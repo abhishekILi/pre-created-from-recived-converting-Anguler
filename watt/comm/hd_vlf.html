@@ -1,0 +1,491 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item active" aria-current="page">HD VLF</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">HD VLF - 7140011</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="ecl_beacon_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!-- ══════════════════════════════════════════
+                   HEADER — Ship / Equipment Info
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <div class="row g-3">
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="ship" required>
+                        <option value="">-- Select Ship --</option>
+                        {% for ship in ship_options %}
+                        <option value="{{ ship.value }}">{{ ship.label }}</option>
+                        {% endfor %}
+                      </select>
+                      <label class="form_control_1">Name of Ship <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="equipment" value="HD VLF/HF RX" readonly placeholder=" ">
+                      <label class="form_control_1">Equipment</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="sno" placeholder=" ">
+                      <label class="form_control_1">S. No.</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="date" class="form-control" name="trial_date" placeholder=" ">
+                      <label class="form_control_1">Date <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="department" required>
+                        <option value="">-- Select Department --</option>
+                        <option value="ND">ND</option>
+                        <option value="Gunnery">Gunnery</option>
+                        <option value="Communication">Communication</option>
+                        <option value="ASW">ASW</option>
+                      </select>
+                      <label class="form_control_1">Department <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="nature_of_trials" required>
+                        <option value="">-- Select Nature of Trials --</option>
+                        <option value="acceptance">Acceptance </option>
+                        <option value="pre_refit">Pre-Refit Trials</option>
+                        <option value="post_refit">Post-Refit Trials</option>
+                        <option value="periodic">Periodic Trials</option>
+                        <option value="defect_investigation">Defect Investigation</option>
+                        <option value="warranty">Warranty Trials</option>
+                      </select>
+                      <label class="form_control_1">Nature of Trials <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                </div>
+
+                <br>
+
+                <p>Trial team reported onboard for Op Checks of VLF-HF Rx at  
+                    <input type="time"
+                    name="vlf_hf_rx_time"
+                    class="form-control d-inline mx-1 p-1"
+                    style="width: 200px; height: 26px;">
+                    hrs. The trials carried were out i.a.w. NHQ approved schedule and CNO. 07/10 are enumerated in succeeding paragraphs: -</p>
+
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no" style="width:60px;">Ser</th>
+                        <th>Checks</th>
+                        <th style="width:140px;">Observations</th>
+                        <th style="width:130px;">Remarks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <tr>
+                        <td>A</td>
+                        <td></td>
+                        <td><strong>Preliminary / Visual Checks</strong></td>
+                        <td></td>
+                      </tr>
+
+                      <!-- (i) -->
+                       
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(i)</td>
+                        <td>Installation of VLF-HF RX into Rx cabinet (Inter connecting cable between Units/Racks/ HDVLF HF Receiver — viz RF Antenna cable and Data Cable)</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="vis_1_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="vis_1_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (ii) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(ii)</td>
+                        <td>Power supply, Earthing of the RX and the overall Air conditioning in the compartment.</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="vis_2_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="vis_2_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (iii) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(iii)</td>
+                        <td>Securing/fitment of RX and interfacing equipment.</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="vis_3_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="vis_3_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (iv) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(iv)</td>
+                        <td>
+                          Fitment of Single Antenna fitted on 
+                          <input type="text"
+                            name="vis_4_antenna_loc"
+                            class="form-control d-inline mx-1 p-1"
+                            style="width: 200px; height: 26px;"> 
+                          and check Antenna connection to RX
+                        </td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="vis_4_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="vis_4_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (v) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(v)</td>
+                        <td>All push buttons/functional rotating knobs/toggle switch.</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="vis_5_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="vis_5_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (vi) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(vi)</td>
+                        <td>Check Interfacing cable connectivity. (each cable separates for data/plot/voice)</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="vis_6_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="vis_6_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (vii) – Interfacing Equipment details -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(vii)</td>
+                        <td>
+                          <strong>Details of Interfacing Equipment:</strong>
+                          <div class="row g-2 mt-1">
+                            <!-- (a) -->
+                            <div class="col-md-6 col-12">
+                              <div class="form-group form-md-line-input form-md-floating-label mt-1 mb-1">
+                                <input type="text" class="form-control" name="intf_a_name" placeholder=" ">
+                                <label class="form_control_1">(a)</label>
+                              </div>
+                            </div>
+                            <div class="col-md-6 col-6">
+                              <div class="form-group form-md-line-input form-md-floating-label mt-1 mb-1">
+                                <input type="text" class="form-control" name="intf_a_sno" placeholder=" ">
+                                <label class="form_control_1">Ser No</label>
+                              </div>
+                            </div>
+
+                            <!-- (b) -->
+                            <div class="col-md-6 col-12">
+                              <div class="form-group form-md-line-input form-md-floating-label mt-1 mb-1">
+                                <input type="text" class="form-control" name="intf_b_name" placeholder=" ">
+                                <label class="form_control_1">(b)</label>
+                              </div>
+                            </div>
+                            <div class="col-md-6 col-6">
+                              <div class="form-group form-md-line-input form-md-floating-label mt-1 mb-1">
+                                <input type="text" class="form-control" name="intf_b_sno" placeholder=" ">
+                                <label class="form_control_1">Ser No</label>
+                              </div>
+                            </div>
+
+                            <!-- (c) -->
+                            <div class="col-md-6 col-12">
+                              <div class="form-group form-md-line-input form-md-floating-label mt-1 mb-1">
+                                <input type="text" class="form-control" name="intf_c_name" placeholder=" ">
+                                <label class="form_control_1">(c)</label>
+                              </div>
+                            </div>
+                            <div class="col-md-6 col-6">
+                              <div class="form-group form-md-line-input form-md-floating-label mt-1 mb-1">
+                                <input type="text" class="form-control" name="intf_c_sno" placeholder=" ">
+                                <label class="form_control_1">Ser No</label>
+                              </div>
+                            </div>
+
+                            <!-- (d) -->
+                            <div class="col-md-6 col-12">
+                              <div class="form-group form-md-line-input form-md-floating-label mt-1 mb-1">
+                                <input type="text" class="form-control" name="intf_d_name" placeholder=" ">
+                                <label class="form_control_1">(d)</label>
+                              </div>
+                            </div>
+                            <div class="col-md-6 col-6">
+                              <div class="form-group form-md-line-input form-md-floating-label mt-1 mb-1">
+                                <input type="text" class="form-control" name="intf_d_sno" placeholder=" ">
+                                <label class="form_control_1">Ser No</label>
+                              </div>
+                            </div>
+
+                            <!-- (e) -->
+                            <div class="col-md-6 col-12">
+                              <div class="form-group form-md-line-input form-md-floating-label mt-1 mb-1">
+                                <input type="text" class="form-control" name="intf_e_name" placeholder=" ">
+                                <label class="form_control_1">(e)</label>
+                              </div>
+                            </div>
+                            <div class="col-md-6 col-6">
+                              <div class="form-group form-md-line-input form-md-floating-label mt-1 mb-1">
+                                <input type="text" class="form-control" name="intf_e_sno" placeholder=" ">
+                                <label class="form_control_1">Ser No</label>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="vis_7_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="vis_7_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td>B</td>
+                        <td></td>
+                        <td><strong>Functional Checks</strong></td>
+                        <td></td>
+                      </tr>
+
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">I.</td>
+                        <td>Power on Self test / Bite test and check all functional push buttons.</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="func_1_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="func_1_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">II.</td>
+                        <td>Security token Authentication test and Changing of modes (VLF/HF data/plot and HF Voice).</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="func_2_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="func_2_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">III.</td>
+                        <td>Changing of frequency manually.</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="func_3_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="func_3_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">IV.</td>
+                        <td>Changing of frequency by scanning.</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="func_4_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="func_4_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">V.</td>
+                        <td>Inserting of frequency in channels.</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="func_5_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="func_5_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">VI.</td>
+                        <td>VLF data/plot reception.</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="func_6_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="func_6_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">VII.</td>
+                        <td>HF data/plot reception.</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="func_7_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="func_7_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">VIII.</td>
+                        <td>HF voice reception.</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="func_8_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="func_8_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+             <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">REMARKS</legend>
+                <div class="static-section">
+                <div class="table-responsive">
+                    <table class="custom_tbl" id="remarks_table">
+                        <thead>
+                            <tr>
+                                <th class="serial-no">Sr No</th>
+                                <th>Observations</th>
+                                <th>SS Remarks</th>
+                                <th class="action">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="serial-no">1</td>
+                                <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="observation" placeholder="" rows="2"></textarea></td>
+                                <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="ss_remarks" placeholder="" rows="2"></textarea></td>
+                                <td class="action action-cell-holder">
+                                    <div class="action-controls">
+                                        <button type="button" class="btn-round btn-add" onclick="addRow('remarks_table')" title="Add Row">+</button>
+                                        <button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'remarks_table')" title="Remove Row">-</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+             </fieldset>
+
+                <!-- ===================== AUTHORITY SECTION ===================== -->
+                <fieldset class="custom-fieldset">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="font-weight-bold my-text">Presenting Authority: Ship's Staff</h6>
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>ND:</label>
+                                        <input type="text" class="form-control" name="presenting_nd"
+                                            placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <h6 class="font-weight-bold my-text">Inspecting Authority: WATT (V)</h6>
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>STI / TI:</label>
+                                        <input type="text" class="form-control" name="inspecting_sti_ti"
+                                            placeholder="">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>STO:</label>
+                                        <input type="text" class="form-control" name="inspecting_sto"
+                                            placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

@@ -1,0 +1,234 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+  <div class="row">
+    <div class="col-md-12">
+      <!--nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item" aria-current="page">SEG</li>
+          <li class="breadcrumb-item active" aria-current="page">Ship Feedback Form</li>
+        </ol>
+      </nav-->
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">SHIP FEEDBACK FORM</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-4 mb-4">
+          <form method="post" id="seg_ship_feedback_form">
+            {% csrf_token %}
+            <div class="form-body">
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Basic Details</legend>
+
+                <div class="row g-5">
+                  <div class="col-md-6 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mb-4">
+                      <input type="text" class="form-control" name="name" placeholder=" " required>
+                      <label class="form_control_1">Name <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mb-4">
+                      <input type="text" class="form-control" name="rank" placeholder=" " required>
+                      <label class="form_control_1">Rank <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+
+              <fieldset class="custom-fieldset status-images-section">
+                <legend class="legend-custom text-uppercase">Status Of Images</legend>
+                <h4 class="status-heading">Mandatory field <span class="text-danger">*</span></h4>
+
+                <div class="row g-">
+  <div class="col-md-12 col-12">
+    <label>1) After loading image in MMD, is MMD working? <span class="text-danger">*</span></label>
+    <div class="yes-no-container">
+      <label><input type="radio" name="mmd_working" value="yes" checked> YES</label>
+      <label><input type="radio" name="mmd_working" value="no"> NO</label>
+    </div>
+  </div>
+</div>
+
+<!-- Move this BELOW -->
+<div class="row g-5 d-none justify-content-left" id="noReasonWrap">
+  <div class="col-md-6 col-12">
+    <div class="form-group form-md-line-input form-md-floating-label mb-4">
+      <textarea class="form-control wrstg-scroll-textarea" name="mmd_not_working_reason" rows="3"></textarea>
+      <label class="form_control_1">If NO, specify reason</label>
+    </div>
+  </div>
+</div>
+
+                <!-- <div class="row g-5">
+                  <div class="col-md-12 col-12">
+                    <div class="mb-2">
+                      <label class="form_control_1 d-block mb-2" style="position: static;">2) SEG service rating? Select between 1 to 5 star <span class="text-danger">*</span></label>
+                      <div class="row row-cols-2 row-cols-md-5 g-3">
+                        <div class="col">
+                          <input type="radio" class="btn-check" name="seg_rating" id="seg_rating_1" value="1" required>
+                          <label class="btn btn-outline-primary w-100 text-center py-3" for="seg_rating_1">
+                            <div style="font-size: 22px; line-height: 1;">&#9734;</div>
+                            <small>unsatisfied</small>
+                          </label>
+                        </div>
+                        <div class="col">
+                          <input type="radio" class="btn-check" name="seg_rating" id="seg_rating_2" value="2">
+                          <label class="btn btn-outline-primary w-100 text-center py-3" for="seg_rating_2">
+                            <div style="font-size: 22px; line-height: 1;">&#9734;</div>
+                            <small>satisfied</small>
+                          </label>
+                        </div>
+                        <div class="col">
+                          <input type="radio" class="btn-check" name="seg_rating" id="seg_rating_3" value="3">
+                          <label class="btn btn-outline-primary w-100 text-center py-3" for="seg_rating_3">
+                            <div style="font-size: 22px; line-height: 1;">&#9734;</div>
+                            <small>ok</small>
+                          </label>
+                        </div>
+                        <div class="col">
+                          <input type="radio" class="btn-check" name="seg_rating" id="seg_rating_4" value="4">
+                          <label class="btn btn-outline-primary w-100 text-center py-3" for="seg_rating_4">
+                            <div style="font-size: 22px; line-height: 1;">&#9734;</div>
+                            <small>good</small>
+                          </label>
+                        </div>
+                        <div class="col">
+                          <input type="radio" class="btn-check" name="seg_rating" id="seg_rating_5" value="5">
+                          <label class="btn btn-outline-primary w-100 text-center py-3" for="seg_rating_5">
+                            <div style="font-size: 22px; line-height: 1;">&#9734;</div>
+                            <small>excellent</small>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+                <div class="row g-5 question-block">
+                  <div class="col-md-12 col-12">
+                    <div class="mb-2">
+                      <label class="form_control_1 d-block mb-2" style="position: static;">
+                        2) SEG service rating? Select between 1 to 5 star <span class="text-danger">*</span>
+                      </label>
+
+                      <div class="seg-rating-wrap">
+                        <input type="radio" class="btn-check" name="seg_rating" id="star1" value="1" required>
+                        <label class="btn btn-outline-primary star-label" for="star1">&#9733;</label>
+
+                        <input type="radio" class="btn-check" name="seg_rating" id="star2" value="2">
+                        <label class="btn btn-outline-primary star-label" for="star2">&#9733;</label>
+
+                        <input type="radio" class="btn-check" name="seg_rating" id="star3" value="3">
+                        <label class="btn btn-outline-primary star-label" for="star3">&#9733;</label>
+
+                        <input type="radio" class="btn-check" name="seg_rating" id="star4" value="4">
+                        <label class="btn btn-outline-primary star-label" for="star4">&#9733;</label>
+
+                        <input type="radio" class="btn-check" name="seg_rating" id="star5" value="5">
+                        <label class="btn btn-outline-primary star-label" for="star5">&#9733;</label>
+                      </div>
+
+                      <small class="text-muted mt-2 d-block" id="ratingText"></small>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row g-5">
+                  <div class="col-md-8 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mb-4">
+                      <textarea class="form-control wrstg-scroll-textarea" name="other_comment" rows="3" required></textarea>
+                      <label class="form_control_1">3) Any other comment <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                </div>
+              </fieldset>
+
+              <div class="d-flex flex-wrap gap-2 justify-content-center mt-3 mb-3">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+
+              
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const radios = document.querySelectorAll('input[name="mmd_working"]');
+    const reasonWrap = document.getElementById('noReasonWrap');
+
+    function toggleReason() {
+      const selected = document.querySelector('input[name="mmd_working"]:checked');
+      if (selected && selected.value === 'no') {
+        reasonWrap.classList.remove('d-none');
+      } else {
+        reasonWrap.classList.add('d-none');
+      }
+    }
+
+    radios.forEach(function (radio) {
+      radio.addEventListener('change', toggleReason);
+    });
+
+    toggleReason();
+
+    const stars = document.querySelectorAll('input[name="seg_rating"]');
+    const labels = document.querySelectorAll('label[for^="star"]');
+    const ratingText = document.getElementById('ratingText');
+
+    const ratingMap = {
+      1: 'Unsatisfied',
+      2: 'Satisfied',
+      3: 'OK',
+      4: 'Good',
+      5: 'Excellent'
+    };
+
+    function updateStars(value) {
+      labels.forEach(function (label, index) {
+        if (index < value) {
+          label.classList.remove('btn-outline-primary');
+          label.classList.add('btn-primary');
+        } else {
+          label.classList.add('btn-outline-primary');
+          label.classList.remove('btn-primary');
+        }
+      });
+
+      if (ratingText) {
+        ratingText.innerText = ratingMap[value] || '';
+      }
+    }
+
+    stars.forEach(function (star) {
+      star.addEventListener('change', function () {
+        updateStars(parseInt(this.value, 10));
+      });
+    });
+  });
+</script>
+{% endblock js %}

@@ -1,0 +1,925 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">NEC</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">NRTP - 105</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">POST NR/MR HATs TRIAL PROTOCOLS NRTP - 105</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="starter_resistor_nrtp_105_result_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+
+                            <!-- ══════════════════════════════════════
+                                HEADER INFORMATION  (id + name both)
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <div class="row g-3">
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="date" class="form-control"
+                                                   id="nrtp105_date_of_trials"
+                                                   name="nrtp105_date_of_trials"
+                                                   required>
+                                            <label class="form_control_1">Date of Trials <span class="text-danger">*</span></label>
+                                            <span class="help-block d-flex"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control"
+                                                   id="nrtp105_ins_designation"
+                                                   name="nrtp105_ins_designation"
+                                                   placeholder="">
+                                            <label class="form_control_1">INS <span class="text-danger">*</span></label>
+                                            <span class="help-block d-flex"></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                RESULT SHEET TABLE  (name only — no id)
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">Result Sheet</legend>
+
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="nrtp105_result_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th>TEST SER</th>
+                                                <th >TEST / NOMINAL VALUE</th>
+                                                <th >OK AND NOT OK</th>
+                                                <th >ACTUAL VALUE</th>
+                                                <th >REMARKS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <!-- ══ 105.100 ══ -->
+                                            <tr>
+                                                <td >105.100</td>
+                                                <td>Visual Inspection (Fuse ratings OK / Not OK)</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <label><input type="radio" name="nrtp105_result_105100" value="OK"> OK</label>
+                                                        </div>
+                                                        <div>
+                                                            <label><input type="radio" name="nrtp105_result_105100" value="NOT_OK"> NOT OK</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                               <td><textarea class="form-control " name="nrtp105_actual_105100" rows="1" placeholder=" "></textarea></td>
+
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105100" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ══ 105.101 ══ -->
+                                            <tr>
+                                                <td >105.101</td>
+                                                <td>Visual Inspection (Hand Wheels OK / Not OK)</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <label><input type="radio" name="nrtp105_result_105101" value="OK"> OK</label>
+                                                        </div>
+                                                        <div>
+                                                            <label><input type="radio" name="nrtp105_result_105101" value="NOT_OK"> NOT OK</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><textarea class="form-control " name="nrtp105_actual_105101" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105101" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ══ 105.102 ══ -->
+                                            <tr>
+                                                <td >105.102</td>
+                                                <td>Visual Inspection (Carbon Brushes of Field Rheostat OK / Not OK)</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <label><input type="radio" name="nrtp105_result_105102" value="OK"> OK</label>
+                                                        </div>
+                                                        <div>
+                                                            <label><input type="radio" name="nrtp105_result_105102" value="NOT_OK"> NOT OK</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><textarea class="form-control " name="nrtp105_actual_105102" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105102" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ══ 105.103 ══ -->
+                                            <tr>
+                                                <td >105.103</td>
+                                                <td>Visual Inspection (Carbon Brushes of 220V Resistor Unit OK / Not OK)</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <label><input type="radio" name="nrtp105_result_105103" value="OK"> OK</label>
+                                                        </div>
+                                                        <div>
+                                                            <label><input type="radio" name="nrtp105_result_105103" value="NOT_OK"> NOT OK</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><textarea class="form-control " name="nrtp105_actual_105103" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105103" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ══ 105.104 ══ -->
+                                            <tr>
+                                                <td >105.104</td>
+                                                <td>Flexible Pull OK / Not OK</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <label><input type="radio" name="nrtp105_result_105104" value="OK"> OK</label>
+                                                        </div>
+                                                        <div>
+                                                            <label><input type="radio" name="nrtp105_result_105104" value="NOT_OK"> NOT OK</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105104" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105104" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ══ 105.105 ══ -->
+                                            <tr>
+                                                <td >105.105</td>
+                                                <td>Visual Inspection (Cleanliness OK / Not OK)</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <label><input type="radio" name="nrtp105_result_105105" value="OK"> OK</label>
+                                                        </div>
+                                                        <div>
+                                                            <label><input type="radio" name="nrtp105_result_105105" value="NOT_OK"> NOT OK</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><textarea class="form-control " name="nrtp105_actual_105105" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105105" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ══ 105.106 ══ -->
+                                            <tr>
+                                                <td >105.106</td>
+                                                <td>Visual Inspection – Polarity of Connections OK / Not OK</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <label><input type="radio" name="nrtp105_result_105106" value="OK"> OK</label>
+                                                        </div>
+                                                        <div>
+                                                            <label><input type="radio" name="nrtp105_result_105106" value="NOT_OK"> NOT OK</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><textarea class="form-control " name="nrtp105_actual_105106" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105106" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ══ 105.107 ══ -->
+                                            <tr>
+                                                <td >105.107</td>
+                                                <td>Visual Inspection – Fitments of Knobs &amp; Hand Wheels OK / Not OK</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <label><input type="radio" name="nrtp105_result_105107" value="OK"> OK</label>
+                                                        </div>
+                                                        <div>
+                                                            <label><input type="radio" name="nrtp105_result_105107" value="NOT_OK"> NOT OK</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105107" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105107" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ══ 105.108 ══ -->
+                                            <tr>
+                                                <td >105.108</td>
+                                                <td>Visual Inspection – Cover Fitment OK / Not OK</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <label><input type="radio" name="nrtp105_result_105108" value="OK"> OK</label>
+                                                        </div>
+                                                        <div>
+                                                            <label><input type="radio" name="nrtp105_result_105108" value="NOT_OK"> NOT OK</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><textarea class="form-control " name="nrtp105_actual_105108" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105108" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ══ 105.109 – Insulation Resistance >= 0.320 MOhm ══ -->
+                                            <tr>
+                                                <td >105.109</td>
+                                                <td colspan="4"><strong>Insulation Resistance &gt;= 0.320 MOhm</strong></td>
+                                            </tr>
+
+                                            <!-- 105.109 sub-items 1–23 -->
+                                            {% with items_109=1|add:0 %}
+                                            <tr>
+                                                <td >1.</td>
+                                                <td>Fresh water Pump – Evaporator</td>
+                                                <td></td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105109_1" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105109_1" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >2.</td>
+                                                <td>Sea water Pump – Evaporator</td>
+                                                <td></td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105109_2" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105109_2" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >3.</td>
+                                                <td>Battery Room Fan</td>
+                                                <td></td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105109_3" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105109_3" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >4.</td>
+                                                <td>Boat Fan</td>
+                                                <td></td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105109_4" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105109_4" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >5.</td>
+                                                <td>Bilge Pump No. 1</td>
+                                                <td></td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105109_5" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105109_5" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >6.</td>
+                                                <td>Bilge Pump No. 2</td>
+                                                <td></td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105109_6" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105109_6" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >7.</td>
+                                                <td>Acid Circulation Compressor Motor No. 1</td>
+                                                <td></td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105109_7" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105109_7" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >8.</td>
+                                                <td>Acid Circulation Compressor Motor No. 2</td>
+                                                <td></td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105109_8" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105109_8" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >9.</td>
+                                                <td>Hydraulic Oil Bypass Pump</td>
+                                                <td></td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105109_9" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105109_9" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >10.</td>
+                                                <td>Chilled Water Pump No. 1</td>
+                                                <td></td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105109_10" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105109_10" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >11.</td>
+                                                <td>Chilled Water Pump No. 2</td>
+                                                <td></td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105109_11" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105109_11" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >12.</td>
+                                                <td>Exciter Convertor Motor</td>
+                                                <td></td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105109_12" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105109_12" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >13.</td>
+                                                <td>Battery Cooling Pump No. 1</td>
+                                                <td></td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105109_13" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105109_13" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >14.</td>
+                                                <td>Battery Cooling Pump No. 2</td>
+                                                <td></td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105109_14" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105109_14" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >15.</td>
+                                                <td>HP Air Compressor No. 1</td>
+                                                <td></td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105109_15" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105109_15" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >16.</td>
+                                                <td>HP Air Compressor No. 2</td>
+                                                <td></td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105109_16" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105109_16" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >17.</td>
+                                                <td>Main Cooling Sea Water Pump</td>
+                                                <td></td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105109_17" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105109_17" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >18.</td>
+                                                <td>Hyd. Oil Pump No. 1</td>
+                                                <td></td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105109_18" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105109_18" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >19.</td>
+                                                <td>Hyd. Oil Pump No. 2</td>
+                                                <td></td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105109_19" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105109_19" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >20.</td>
+                                                <td>Hyd. Oil Pump No. 3</td>
+                                                <td></td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105109_20" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105109_20" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >21.</td>
+                                                <td>Hyd. Oil Pump No. 4</td>
+                                                <td></td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105109_21" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105109_21" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >22.</td>
+                                                <td>Fresh Water Pump</td>
+                                                <td></td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105109_22" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105109_22" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >23.</td>
+                                                <td>Wash Water Pump</td>
+                                                <td></td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105109_23" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105109_23" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- Sub-item 24 – Double Field Rheostat -->
+                                            <tr>
+                                                <td >24.</td>
+                                                <td>Insulation Resistance of Double Field Rheostat &gt;= 0.320 MOhm</td>
+                                                <td></td>
+                                                <td>
+                                                    <div class="d-flex flex-column gap-1">
+                                                        <div class="input-group input-group-sm">
+                                                            <span class="input-group-text">F1</span>
+                                                            <input type="text" class="form-control" name="nrtp105_actual_105109_24_f1" placeholder=" ">
+                                                        </div>
+                                                        <div class="input-group input-group-sm">
+                                                            <span class="input-group-text">F2</span>
+                                                            <input type="text" class="form-control" name="nrtp105_actual_105109_24_f2" placeholder=" ">
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105109_24" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- Sub-item 25 – Insulation of 220V Resistor -->
+                                            <tr>
+                                                <td >25.</td>
+                                                <td>Insulation of 220V RESISTOR</td>
+                                                <td></td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105109_25" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105109_25" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            {% endwith %}
+
+                                            <!-- ══ 105.110 – Function in REMOTE mode of following STARTERS OK / Not OK ══ -->
+                                            <tr>
+                                                <td >105.110</td>
+                                                <td colspan="4">Function in <strong>REMOTE</strong> mode of following <strong>STARTERS</strong> OK / Not OK</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td >1.</td>
+                                                <td>Fresh water Pump – Evaporator</td>
+                                                <td>
+                                                   
+                                                </td>
+                                                 <td><textarea class="form-control" name="nrtp105_actual_105110_1" rows="1" placeholder=" "></textarea></td>
+
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105110_1" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >2.</td>
+                                                <td>Sea water Pump – Evaporator</td>
+                                                <td>
+                                                   
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105110_2" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105110_2" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >3.</td>
+                                                <td>Battery Room Fan</td>
+                                                <td>
+                                                   
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105110_3" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105110_3" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >4.</td>
+                                                <td>Boat Fan</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105110_4" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105110_4" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >5.</td>
+                                                <td>Bilge Pump No. 1</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105110_5" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105110_5" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >6.</td>
+                                                <td>Bilge Pump No. 2</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105110_6" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105110_6" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >7.</td>
+                                                <td>Acid Circulation Compressor Motor No. 1</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105110_7" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105110_7" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >8.</td>
+                                                <td>Acid Circulation Compressor Motor No. 2</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105110_8" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105110_8" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >9.</td>
+                                                <td>Hydraulic Oil Bypass Pump</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105110_9" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105110_9" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >10.</td>
+                                                <td>Chilled Water Pump No. 1</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105110_10" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105110_10" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >11.</td>
+                                                <td>Chilled Water Pump No. 2</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105110_1" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105110_11" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >12.</td>
+                                                <td>Exciter Convertor Motor</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105110_12" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105110_12" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >13.</td>
+                                                <td>Battery Cooling Pump No. 1</td>
+                                                <td>
+                                                   
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105110_13" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105110_13" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >14.</td>
+                                                <td>Battery Cooling Pump No. 2</td>
+                                                <td>
+                                                   
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105110_1" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105110_14" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >15.</td>
+                                                <td>HP Air Compressor No. 1</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105110_15" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105110_15" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >16.</td>
+                                                <td>HP Air Compressor No. 2</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105110_16" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105110_16" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >17.</td>
+                                                <td>Main Cooling Sea Water Pump</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105110_17" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105110_17" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >18.</td>
+                                                <td>Hyd. Oil Pump No. 1</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105110_18" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105110_18" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >19.</td>
+                                                <td>Hyd. Oil Pump No. 2</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105110_19" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105110_19" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >20.</td>
+                                                <td>Hyd. Oil Pump No. 3</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105110_20" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105110_20" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >21.</td>
+                                                <td>Hyd. Oil Pump No. 4</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105110_21" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105110_21" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >22.</td>
+                                                <td>Fresh Water Pump</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105110_22" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105110_22" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >23.</td>
+                                                <td>Wash Water Pump</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105110_23" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105110_23" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ══ 105.111 – Function in MANUAL mode of following STARTERS OK / Not OK ══ -->
+                                            <tr>
+                                                <td >105.111</td>
+                                                <td colspan="4">Function in <strong>MANUAL</strong> mode of following <strong>STARTERS</strong> OK / Not OK</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td >1.</td>
+                                                <td>Fresh water Pump – Evaporator</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105111_1" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105111_1" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >2.</td>
+                                                <td>Sea water Pump – Evaporator</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105111_2" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105111_2" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >3.</td>
+                                                <td>Battery Room Fan</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105111_3" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105111_3" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >4.</td>
+                                                <td>Boat Fan</td>
+                                                <td>
+                                                   
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105111_4" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105111_4" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >5.</td>
+                                                <td>Bilge Pump No. 1</td>
+                                                <td>
+                                                  
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105111_5" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105111_5" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >6.</td>
+                                                <td>Bilge Pump No. 2</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105111_6" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105111_6" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >7.</td>
+                                                <td>Acid Circulation Compressor Motor No. 1</td>
+                                                <td>
+                                                   
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105111_7" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105111_7" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >8.</td>
+                                                <td>Acid Circulation Compressor Motor No. 2</td>
+                                                <td>
+                                                   
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105111_8" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105111_8" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >9.</td>
+                                                <td>Hydraulic Oil Bypass Pump</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105111_9" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105111_9" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >10.</td>
+                                                <td>Chilled Water Pump No. 1</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105111_10" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105111_10" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >11.</td>
+                                                <td>Chilled Water Pump No. 2</td>
+                                                <td>
+                                                   
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105111_11" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105111_11" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >12.</td>
+                                                <td>Exciter Convertor Motor</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105111_12" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105111_12" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >13.</td>
+                                                <td>Battery Cooling Pump No. 1</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105111_13" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105111_13" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >14.</td>
+                                                <td>Battery Cooling Pump No. 2</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105111_14" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105111_14" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >15.</td>
+                                                <td>HP Air Compressor No. 1</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105111_15" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105111_15" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >16.</td>
+                                                <td>HP Air Compressor No. 2</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105111_16" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105111_16" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >17.</td>
+                                                <td>Main Cooling Sea Water Pump</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105111_17" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105111_17" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >18.</td>
+                                                <td>Hyd. Oil Pump No. 1</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105111_18" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105111_18" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >19.</td>
+                                                <td>Hyd. Oil Pump No. 2</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105111_19" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105111_19" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >20.</td>
+                                                <td>Hyd. Oil Pump No. 3</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105111_20" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105111_20" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >21.</td>
+                                                <td>Hyd. Oil Pump No. 4</td>
+                                                <td>
+                                                   
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105111_21" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105111_21" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >22.</td>
+                                                <td>Fresh Water Pump</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105111_22" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105111_22" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td >23.</td>
+                                                <td>Wash Water Pump</td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105111_23" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105111_23" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ══ 105.112 ══ -->
+                                            <tr>
+                                                <td >105.112</td>
+                                                <td>Function of Double Field Rheostat OK / Not OK</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><label><input type="radio" name="nrtp105_result_105112" value="OK"> OK</label></div>
+                                                        <div><label><input type="radio" name="nrtp105_result_105112" value="NOT_OK"> NOT OK</label></div>
+                                                    </div>
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105112_1" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105112" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ══ 105.113 ══ -->
+                                            <tr>
+                                                <td >105.113</td>
+                                                <td>Function of 220V RESISTOR OK / Not OK</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><label><input type="radio" name="nrtp105_result_105113" value="OK"> OK</label></div>
+                                                        <div><label><input type="radio" name="nrtp105_result_105113" value="NOT_OK"> NOT OK</label></div>
+                                                    </div>
+                                                </td>
+                                                <td><textarea class="form-control" name="nrtp105_actual_105113_1" rows="1" placeholder=" "></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="nrtp105_remarks_105113" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Save</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

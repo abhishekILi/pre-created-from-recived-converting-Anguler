@@ -1,0 +1,160 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+	
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">WATT</a></li>
+					<li class="breadcrumb-item active" aria-current="page">LRAD</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">LRAD (PORT &amp; STBD)</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="lrad_form">
+						{% csrf_token %}
+						<div class="form-body">
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">Basic Information</legend>
+								<div class="row g-3">
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="lrad_ship_name" required>
+												<option value="">--Select--</option>
+												{% for option in ship_options %}
+													<option value="{{ option.value }}">{{ option.label }}</option>
+												{% endfor %}
+											</select>
+											<label class="form_control_1">SHIP <span class="text-danger">*</span></label>
+										</div>
+									</div>
+
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" id="lrad_department" name="lrad_department">
+												<option value="">-- Select --</option>
+												<option value="GUN" selected>GUN</option>
+												<option value="GUNNERY">GUNNERY</option>
+												<option value="ASW">ASW</option>
+												<option value="COMM">COMM</option>
+												<option value="ND">ND</option>
+											</select>
+											<label class="form_control_1">DEPARTMENT</label>
+										</div>
+									</div>
+
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" name="lrad_equipment" value="LRAD (PORT &amp; STBD)" required>
+											<label class="form_control_1">EQUIPMENT</label>
+										</div>
+									</div>
+
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="date" class="form-control" id="lrad_date" name="lrad_date">
+											<label class="form_control_1">DATE</label>
+										</div>
+									</div>
+
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" id="lrad_nature_of_trials" name="lrad_nature_of_trials" required>
+												<option value="">--Select--</option>
+												<option value="SATs">SATs</option>
+												<option value="HATS">HATs</option>
+												<option value="OP CHECKS" selected>OP - CHECKS</option>
+												<option value="IIS">IIs</option>
+											</select>
+											<label class="form_control_1">NATURE OF TRIAL</label>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<div class="table-responsive">
+									<table class="custom_tbl" id="lrad_table">
+										<thead class="table-dark-head">
+											<tr>
+												<th>Ser</th>
+												<th>OBSERVATIONS</th>
+												<th>RESULT</th>
+												<th>REMARKS</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td colspan="4">
+													Trials team embarked onboard at <input type="text" class="line-input embarked-hrs" name="lrad_embark_time"> on
+													<input type="date" class="line-input embarked-hrs" name="lrad_embark_date"> for Op Checks of LRAD as per
+													approved schedule, BR 4050 and CNO 07/10. Following observed: -
+												</td>
+											</tr>
+
+											<tr><td>1.</td><td>Control overview</td><td></td><td class="text-center"><label><input type="radio" name="lrad_status_1" value="SAT"> SAT</label> <label><input type="radio" name="lrad_status_1" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>2.</td><td>Built in test</td><td></td><td class="text-center"><label><input type="radio" name="lrad_status_2" value="SAT"> SAT</label> <label><input type="radio" name="lrad_status_2" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>3.</td><td>Test for warning range up to 1000 mtr in voice mode</td><td></td><td class="text-center"><label><input type="radio" name="lrad_status_3" value="SAT"> SAT</label> <label><input type="radio" name="lrad_status_3" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>4.</td><td>Test for direction acoustic energy with ration of back to front energy output</td><td></td><td class="text-center"><label><input type="radio" name="lrad_status_4" value="SAT"> SAT</label> <label><input type="radio" name="lrad_status_4" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>5.</td><td>Test for direction acoustic energy within a beam of + 20&deg;</td><td></td><td class="text-center"><label><input type="radio" name="lrad_status_5" value="SAT"> SAT</label> <label><input type="radio" name="lrad_status_5" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>6.</td><td>Test for configurable power output</td><td></td><td class="text-center"><label><input type="radio" name="lrad_status_6" value="SAT"> SAT</label> <label><input type="radio" name="lrad_status_6" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>7.</td><td>Checks for interfaces with microphone</td><td></td><td class="text-center"><label><input type="radio" name="lrad_status_7" value="SAT"> SAT</label> <label><input type="radio" name="lrad_status_7" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>8.</td><td>Checks for 12/24 V Battery operation</td><td></td><td class="text-center"><label><input type="radio" name="lrad_status_8" value="SAT"> SAT</label> <label><input type="radio" name="lrad_status_8" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>9.</td><td>Test for stand by state for 24x7</td><td></td><td class="text-center"><label><input type="radio" name="lrad_status_9" value="SAT"> SAT</label> <label><input type="radio" name="lrad_status_9" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>10.</td><td>Checks for conversion of English phrases/Command to at least more than 30 national/international languages</td><td></td><td class="text-center"><label><input type="radio" name="lrad_status_10" value="SAT"> SAT</label> <label><input type="radio" name="lrad_status_10" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>11.</td><td>Test for various pre-recorded multilingual nautical commands (more than 50)</td><td></td><td class="text-center"><label><input type="radio" name="lrad_status_11" value="SAT"> SAT</label> <label><input type="radio" name="lrad_status_11" value="UNSAT"> UNSAT</label></td></tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<legend class="legend-custom text-uppercase">Authority</legend>
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" name="presenting_authority" value="Ship's staff" readonly>
+											<label class="form_control_1">Presenting Authority</label>
+										</div>
+									</div>
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" name="inspecting_authority" value="WATT" readonly>
+											<label class="form_control_1">Inspecting Authority</label>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+
+							<div class="form-actions mt-3">
+								<button type="submit" class="btn btn-primary">Submit</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

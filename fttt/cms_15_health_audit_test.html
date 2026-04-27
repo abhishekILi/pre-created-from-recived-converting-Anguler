@@ -1,0 +1,650 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+                    <li class="breadcrumb-item" aria-current="page">FTTT</li>
+                    <li class="breadcrumb-item active" aria-current="page">CMS-15 Health Audit Test</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+<div class="container-fluid" style="background-color: transparent;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">CMS-15 HEALTH AUDIT TEST</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="cms15_health_audit_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+
+                            <!-- ══════════════════════════════════════
+                                HEADER FIELDS
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                
+                                <div class="row mb-3">
+                                    <div class="col-md-4">
+                                        <label class="fw-bold">SHIP: INS</label>
+                                        <input type="text" class="form-control" name="ship_name" placeholder=" ">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="fw-bold">DATE:</label>
+                                        <input type="date" class="form-control" name="audit_date">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="fw-bold">DURATION:</label>
+                                        <input type="text" class="form-control" name="audit_duration" placeholder=" ">
+                                    </div>
+                                </div>
+
+                                <fieldset class="custom-fieldset">
+                                    <legend class="legend-custom text-uppercase">BASIC INFORMATION</legend>
+                                    <div class="row g-3">
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="cms15_system_sub_system" value="SRGM" placeholder=" ">
+                                                <label class="form_control_1">1. System/ Sub system</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="cms15_job_undertaken" value = "Tilt Checks" placeholder=" ">
+                                                <label class="form_control_1">2. Job Undertaken</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <!-- <textarea class="form-control wrstg-scroll-textarea" name="tilt_checks_reference_documents" rows="2" placeholder=" "></textarea> -->
+                                                 <input type="file" class ="form-control" name="cms15_reference_documents">
+                                                <label class="form_control_1">3. Reference Documents</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="cms15_authority" placeholder=" ">
+                                                <label class="form_control_1">4. Authority</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="cms15_agencies_involved" value="FTTT(Vzg)" placeholder=" " readonly>
+                                                <label class="form_control_1">5. Agencies involved</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="date" class="form-control" name="cms15_date_commenced">
+                                                <label class="form_control_1">6. Date Commenced</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="date" class="form-control" name="cms15_date_completed">
+                                                <label class="form_control_1">7. Date Completed</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="cms15_prepared_by" placeholder=" ">
+                                                <label class="form_control_1">8. Prepared by</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="cms15_vetted_by" placeholder=" ">
+                                                <label class="form_control_1">9. Vetted by</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="cms15_reference_no" placeholder=" ">
+                                                <label class="form_control_1">10. Reference No.</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="cms15_summary_of_observations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">11. Summary of observations</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="cms15_operational_limitations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">12. Operational limitations (if any)</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </fieldset>
+                            
+                            <!-- ══════════════════════════════════════
+                                FULL AUDIT TABLE (Ser 1–55)
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                {% comment %} <legend class="legend-custom text-uppercase">CMS-15 Health Audit Checks</legend> {% endcomment %}
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="cms15_audit_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">S.No.</th>
+                                                <th>Test Conducted</th>
+                                                <th style="width:15%;">Status</th>
+                                                <th style="width:28%;">Remarks</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <!-- ── HEALTH CHECKS Group Header ── -->
+                                            <tr>
+                                                <td colspan="4" class="group-header-cell"><strong>HEALTH CHECKS</strong></td>
+                                            </tr>
+
+                                            <!-- 1 -->
+                                            <tr>
+                                                <td class="serial-no">1</td>
+                                                <td>CC-1 CHECKS</td>
+                                                <td><input type="text" class="form-control" name="status_1" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_1" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 2 -->
+                                            <tr>
+                                                <td class="serial-no">2</td>
+                                                <td>CC-2 CHECKS</td>
+                                                <td><input type="text" class="form-control" name="status_2" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_2" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 3 -->
+                                            <tr>
+                                                <td class="serial-no">3</td>
+                                                <td>ESI-1 CHECKS</td>
+                                                <td><input type="text" class="form-control" name="status_3" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_3" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 4 -->
+                                            <tr>
+                                                <td class="serial-no">4</td>
+                                                <td>ESI-2 CHECKS</td>
+                                                <td><input type="text" class="form-control" name="status_4" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_4" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 5 -->
+                                            <tr>
+                                                <td class="serial-no">5</td>
+                                                <td>DMFC-1 CHECKS</td>
+                                                <td><input type="text" class="form-control" name="status_5" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_5" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 6 -->
+                                            <tr>
+                                                <td class="serial-no">6</td>
+                                                <td>DMFC-2 CHECKS</td>
+                                                <td><input type="text" class="form-control" name="status_6" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_6" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 7 -->
+                                            <tr>
+                                                <td class="serial-no">7</td>
+                                                <td>DMFC-3 CHECKS</td>
+                                                <td><input type="text" class="form-control" name="status_7" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_7" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 8 -->
+                                            <tr>
+                                                <td class="serial-no">8</td>
+                                                <td>DMFC-4 CHECKS</td>
+                                                <td><input type="text" class="form-control" name="status_8" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_8" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 9 -->
+                                            <tr>
+                                                <td class="serial-no">9</td>
+                                                <td>DMFC-5 CHECKS</td>
+                                                <td><input type="text" class="form-control" name="status_9" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_9" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 10 -->
+                                            <tr>
+                                                <td class="serial-no">10</td>
+                                                <td>DMFC-6 CHECKS</td>
+                                                <td><input type="text" class="form-control" name="status_10" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_10" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 11 -->
+                                            <tr>
+                                                <td class="serial-no">11</td>
+                                                <td>DMFC-7 CHECKS</td>
+                                                <td><input type="text" class="form-control" name="status_11" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_11" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 12 -->
+                                            <tr>
+                                                <td class="serial-no">12</td>
+                                                <td>DMFC-8 CHECKS</td>
+                                                <td><input type="text" class="form-control" name="status_12" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_12" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 13 -->
+                                            <tr>
+                                                <td class="serial-no">13</td>
+                                                <td>DMFC-9 CHECKS</td>
+                                                <td><input type="text" class="form-control" name="status_13" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_13" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 14 -->
+                                            <tr>
+                                                <td class="serial-no">14</td>
+                                                <td>DMFC-10 CHECKS</td>
+                                                <td><input type="text" class="form-control" name="status_14" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_14" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 15 -->
+                                            <tr>
+                                                <td class="serial-no">15</td>
+                                                <td>SURD-1 CHECKS</td>
+                                                <td><input type="text" class="form-control" name="status_15" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_15" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 16 -->
+                                            <tr>
+                                                <td class="serial-no">16</td>
+                                                <td>VRD-1 CHECKS</td>
+                                                <td><input type="text" class="form-control" name="status_16" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_16" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 17 -->
+                                            <tr>
+                                                <td class="serial-no">17</td>
+                                                <td>SURD-2 CHECKS</td>
+                                                <td><input type="text" class="form-control" name="status_17" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_17" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 18 -->
+                                            <tr>
+                                                <td class="serial-no">18</td>
+                                                <td>VRD-2 CHECKS</td>
+                                                <td><input type="text" class="form-control" name="status_18" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_18" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 19 -->
+                                            <tr>
+                                                <td class="serial-no">19</td>
+                                                <td>SUTV CHECKS</td>
+                                                <td><input type="text" class="form-control" name="status_19" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_19" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 20 -->
+                                            <tr>
+                                                <td class="serial-no">20</td>
+                                                <td>PDS-1 CHECKS</td>
+                                                <td><input type="text" class="form-control" name="status_20" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_20" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 21 -->
+                                            <tr>
+                                                <td class="serial-no">21</td>
+                                                <td>PDS-2 CHECKS</td>
+                                                <td><input type="text" class="form-control" name="status_21" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_21" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 22 -->
+                                            <tr>
+                                                <td class="serial-no">22</td>
+                                                <td>RDDU CHECKS</td>
+                                                <td><input type="text" class="form-control" name="status_22" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_22" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 23 -->
+                                            <tr>
+                                                <td class="serial-no">23</td>
+                                                <td>UPS-1 CHECKS</td>
+                                                <td><input type="text" class="form-control" name="status_23" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_23" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 24 -->
+                                            <tr>
+                                                <td class="serial-no">24</td>
+                                                <td>UPS-2 CHECKS</td>
+                                                <td><input type="text" class="form-control" name="status_24" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_24" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 25 -->
+                                            <tr>
+                                                <td class="serial-no">25</td>
+                                                <td>PRINTER-1 CHECKS</td>
+                                                <td><input type="text" class="form-control" name="status_25" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_25" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 26 -->
+                                            <tr>
+                                                <td class="serial-no">26</td>
+                                                <td>PRINTER-2 CHECKS</td>
+                                                <td><input type="text" class="form-control" name="status_26" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_26" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ── INTERFACE CHECKS Group Header ── -->
+                                            <tr>
+                                                <td colspan="4" class="group-header-cell"><strong>INTERFACE CHECKS</strong></td>
+                                            </tr>
+
+                                            <!-- ── SHHD Sub-Header ── -->
+                                            <tr>
+                                                <td colspan="4" class="group-subheader-cell"><strong>SHHD</strong></td>
+                                            </tr>
+
+                                            <!-- 27 -->
+                                            <tr>
+                                                <td class="serial-no">27</td>
+                                                <td>RLG</td>
+                                                <td><input type="text" class="form-control" name="status_27" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_27" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 28 -->
+                                            <tr>
+                                                <td class="serial-no">28</td>
+                                                <td>LOG</td>
+                                                <td><input type="text" class="form-control" name="status_28" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_28" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 29 -->
+                                            <tr>
+                                                <td class="serial-no">29</td>
+                                                <td>Echo Sounder</td>
+                                                <td><input type="text" class="form-control" name="status_29" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_29" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 30 -->
+                                            <tr>
+                                                <td class="serial-no">30</td>
+                                                <td>Wind Instrument</td>
+                                                <td><input type="text" class="form-control" name="status_30" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_30" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 31 -->
+                                            <tr>
+                                                <td class="serial-no">31</td>
+                                                <td>DGPS</td>
+                                                <td><input type="text" class="form-control" name="status_31" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_31" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 32 -->
+                                            <tr>
+                                                <td class="serial-no">32</td>
+                                                <td>AIS</td>
+                                                <td><input type="text" class="form-control" name="status_32" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_32" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ── RADARS Sub-Header ── -->
+                                            <tr>
+                                                <td colspan="4" class="group-subheader-cell"><strong>RADARS</strong></td>
+                                            </tr>
+
+                                            <!-- 33 -->
+                                            <tr>
+                                                <td class="serial-no">33</td>
+                                                <td>IBS – A Status</td>
+                                                <td><input type="text" class="form-control" name="status_33" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_33" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 34 -->
+                                            <tr>
+                                                <td class="serial-no">34</td>
+                                                <td>IBS – A Tracks availability on CMS</td>
+                                                <td><input type="text" class="form-control" name="status_34" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_34" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 35 -->
+                                            <tr>
+                                                <td class="serial-no">35</td>
+                                                <td>IBS – B Status</td>
+                                                <td><input type="text" class="form-control" name="status_35" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_35" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 36 -->
+                                            <tr>
+                                                <td class="serial-no">36</td>
+                                                <td>IBS – B Tracks availability on CMS</td>
+                                                <td><input type="text" class="form-control" name="status_36" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_36" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 37 -->
+                                            <tr>
+                                                <td class="serial-no">37</td>
+                                                <td>RAWL Status</td>
+                                                <td><input type="text" class="form-control" name="status_37" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_37" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 38 -->
+                                            <tr>
+                                                <td class="serial-no">38</td>
+                                                <td>RAWL Tracks availability on CMS</td>
+                                                <td><input type="text" class="form-control" name="status_38" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_38" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 39 -->
+                                            <tr>
+                                                <td class="serial-no">39</td>
+                                                <td>FREGAT Status</td>
+                                                <td><input type="text" class="form-control" name="status_39" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_39" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 40 -->
+                                            <tr>
+                                                <td class="serial-no">40</td>
+                                                <td>FREGAT Tracks availability on CMS</td>
+                                                <td><input type="text" class="form-control" name="status_40" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_40" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 41 -->
+                                            <tr>
+                                                <td class="serial-no">41</td>
+                                                <td>SSR Status</td>
+                                                <td><input type="text" class="form-control" name="status_41" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_41" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 42 -->
+                                            <tr>
+                                                <td class="serial-no">42</td>
+                                                <td>SSR Tracks availability on CMS</td>
+                                                <td><input type="text" class="form-control" name="status_42" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_42" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 43 -->
+                                            <tr>
+                                                <td class="serial-no">43</td>
+                                                <td>ADS-B Status</td>
+                                                <td><input type="text" class="form-control" name="status_43" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_43" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 44 -->
+                                            <tr>
+                                                <td class="serial-no">44</td>
+                                                <td>ADS-B Tracks availability on CMS</td>
+                                                <td><input type="text" class="form-control" name="status_44" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_44" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ── OTHER EQUIPMENTS Group Header ── -->
+                                            <tr>
+                                                <td colspan="4" class="group-header-cell"><strong>OTHER EQUIPMENTS</strong></td>
+                                            </tr>
+
+                                            <!-- 45 -->
+                                            <tr>
+                                                <td class="serial-no">45</td>
+                                                <td>LYNX – U1</td>
+                                                <td><input type="text" class="form-control" name="status_45" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_45" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 46 -->
+                                            <tr>
+                                                <td class="serial-no">46</td>
+                                                <td>BWCS</td>
+                                                <td><input type="text" class="form-control" name="status_46" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_46" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 47 -->
+                                            <tr>
+                                                <td class="serial-no">47</td>
+                                                <td>BRAHMOS</td>
+                                                <td><input type="text" class="form-control" name="status_47" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_47" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 48 -->
+                                            <tr>
+                                                <td class="serial-no">48</td>
+                                                <td>KAVACH</td>
+                                                <td><input type="text" class="form-control" name="status_48" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_48" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 49 -->
+                                            <tr>
+                                                <td class="serial-no">49</td>
+                                                <td>HUMSA (NG)</td>
+                                                <td><input type="text" class="form-control" name="status_49" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_49" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 50 -->
+                                            <tr>
+                                                <td class="serial-no">50</td>
+                                                <td>IAC Mod 'C'</td>
+                                                <td><input type="text" class="form-control" name="status_50" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_50" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 51 -->
+                                            <tr>
+                                                <td class="serial-no">51</td>
+                                                <td>ELLORA</td>
+                                                <td><input type="text" class="form-control" name="status_51" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_51" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 52 -->
+                                            <tr>
+                                                <td class="serial-no">52</td>
+                                                <td>ELK</td>
+                                                <td><input type="text" class="form-control" name="status_52" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_52" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 53 -->
+                                            <tr>
+                                                <td class="serial-no">53</td>
+                                                <td>DATA LINK</td>
+                                                <td><input type="text" class="form-control" name="status_53" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_53" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ── FTS CHECKS Group Header ── -->
+                                            <tr>
+                                                <td colspan="4" class="group-header-cell"><strong>FTS CHECKS</strong></td>
+                                            </tr>
+
+                                            <!-- 54 -->
+                                            <tr>
+                                                <td class="serial-no">54</td>
+                                                <td>FTS (CC)</td>
+                                                <td><input type="text" class="form-control" name="status_54" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_54" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- 55 -->
+                                            <tr>
+                                                <td class="serial-no">55</td>
+                                                <td>FTS (ESI)</td>
+                                                <td><input type="text" class="form-control" name="status_55" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="remarks_55" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                GENERAL OBSERVATIONS / RECOMMENDATIONS
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">General Observations / Recommendations</legend>
+
+                                <!-- BEL WFS Observations -->
+                                <div class="mb-4">
+                                    <label class="fw-bold text-decoration-underline mb-2">BEL WFS OBSERVATIONS/RECOMMENDATIONS:</label>
+                                    <textarea class="form-control wrstg-scroll-textarea" name="bel_wfs_observations" rows="6" placeholder=" "></textarea>
+                                </div>
+
+                                <!-- Ship Staff Observations -->
+                                <div class="mb-4">
+                                    <label class="fw-bold text-decoration-underline mb-2">SHIP STAFF OBSERVATIONS/RECOMMENDATIONS:</label>
+                                    <textarea class="form-control wrstg-scroll-textarea" name="ship_staff_observations" rows="6" placeholder=" "></textarea>
+                                </div>
+
+                            </fieldset>
+
+                            <div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Save</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .group-header-cell {
+        background-color: #d5d8dc;
+        font-size: 13px;
+        padding: 8px 10px;
+        text-align: left;
+    }
+    .group-subheader-cell {
+        background-color: #e9ecef;
+        font-size: 13px;
+        padding: 6px 10px 6px 20px;
+        text-align: left;
+    }
+</style>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    WRSTGQuarterly.init({
+        extraTableIds: [],
+        visibilityBindings: [],
+        submitConfirmation: { formId: 'cms15_health_audit_form' }
+    });
+});
+</script>
+{% endblock js %}

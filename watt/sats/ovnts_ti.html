@@ -1,0 +1,398 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+
+<!--  -->
+
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+            <li class="breadcrumb-item active" aria-current="page">WATT</li>
+            <li class="breadcrumb-item active" aria-current="page">SATs</li>
+            <li class="breadcrumb-item active" aria-current="page">OVNTS TI</li>
+          </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">OVNTS TI</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="rlg_sigma_40_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!--HEADER — Ship / Inspection Info-->
+
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Basic Information</legend>
+                <div class="row g-3">
+
+                  <div class="col-md-4 col-12">
+                      <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                          <select class="form-control" name="ship" required>
+                              <option value="">--Select--</option>
+                              {% for ship in ship_options %}
+                              <option value="{{ ship.value }}">{{ ship.label }}</option>
+                              {% endfor %}
+                          </select>
+                          <label class="form_control_1">Ship <span class="text-danger">*</span></label>
+                      </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="department_select" name="department">
+                          <option value="">-- Select --</option>
+                          <option value="P15A">ND</option>
+                          <option value="P17">ASW</option>
+                          <option value="P17A">COMM</option>
+                          <option value="P28">GUNNERY</option>
+                        </select>
+                        <label class="form_control_1">Department</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="equipment_select" name="equipment">
+                          <option value="">-- Select --</option>
+                        </select>
+                        <label class="form_control_1">Equipment</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                      <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                        <input type="date" class="form-control" id="date_input" name="date_">
+                        <label class="form_control_1">Date</label>
+                      </div>
+                    </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="nature_trials_select" name="nature_of_trials" required>
+                          <option value="">--Select--</option>
+                          <option value="SATs">SATs</option>
+                          <option value="HATS">HATs</option>
+                          <option value="OP_CHECKS">OP CHECKS</option>
+                          <option value="IIS">IIs</option>
+                        </select>
+                        <label class="form_control_1">Nature of Trial</label>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                        <textarea class="form-control wrstg-scroll-textarea" id="offered_no" name="offered_no" rows="3" required></textarea>
+                        <label class="form_control_1">AGE</label>
+                    </div>
+                  </div>
+
+            </div>
+          </fieldset>
+
+          <fieldset class="custom-fieldset">
+            <legend class="legend-custom text-uppercase">Checks</legend>
+            <div class="table-responsive">
+              <table class="custom_tbl">
+                <thead>
+                  <tr class="custom-header-row">
+                    <th>Ser No.</th>
+                    <th>Observation</th>
+                    <th>Remarks</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="3">
+                            Trials team embarked onboard at 
+                            <input type="time"  name="embark_time" class="form-control d-inline-block" style="width: 100px; height: 28px;"> hrs on 
+                            <input type="date"  name="embark_date" class="form-control d-inline-block" style="width: 140px; height: 28px;"> for SATs of OVNTS TI 
+                            <textarea class="form-control wrstg-scroll-textarea" style="width: 280px; font-size: 12px; display: inline-block; vertical-align: middle;" id="test_1_rlg1_velocity" name="test_1_rlg1_velocity"></textarea> as per  IHQ MoD (N) approved schedule. Following observed:-
+                        </td>
+                    </tr>
+                  
+                  <tr>
+                    <td>1</td>
+                    <td>Check 4.1 – Surface finish of the sight flange seating onboard ship</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="check_1" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="check_1" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>Check 4.2 – Completeness of the sight</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="check_2" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="check_2" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>3</td>
+                    <td>Check 4.3 – Sight installation quality</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="check_3" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="check_3" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>4</td>
+                    <td>Check 4.4 – Deviation of checking platform</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="check_4" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="check_4" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>5</td>
+                    <td>Check 4.5 – Power supply to the sight</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="check_5" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="check_5" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>6</td>
+                    <td>Check 4.6 – Insulation resistance of electric circuit</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="check_6" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="check_6" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>7</td>
+                    <td>Check 4.7 – Hermicity of the sight</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="check_7" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="check_7" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>8</td>
+                    <td>Check 4.8 – Direction of the line of sight</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="check_8" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="check_8" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>9</td>
+                    <td>Check 4.9 – Matching of the sight bearing dials with gyro compass</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="check_9" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="check_9" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>10</td>
+                    <td>Check 4.10 – Matching of the sight's own course indicator</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="check_10" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="check_10" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>11</td>
+                    <td>Check 4.11 – Working of Training and Elevation</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="check_11" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="check_11" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>12</td>
+                    <td>Check 4.12 – Clarity of field vision</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="check_12" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="check_12" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>13</td>
+                    <td>Check 4.13 – Lighting of angular grid marking</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="check_13" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="check_13" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>14</td>
+                    <td>Check 4.14 – Dial lighting</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="check_14" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="check_14" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>15</td>
+                    <td>Check 4.15 – Working of elevation mechanism</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="check_15" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="check_15" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>16</td>
+                    <td>Check 4.16 – Working of Training mechanism</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="check_16" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="check_16" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>17</td>
+                    <td>Check 4.17 – Working of mechanism</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="check_17" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="check_17" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>18</td>
+                    <td>Check 4.18 – Working of Glass wiper</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="check_18" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="check_18" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>19</td>
+                    <td>Check 4.19 – Contact resistance should be: <br> Max 600 μΩ – between the sight body and earthing element; <br> Max 600 μΩ – between the remote unit and the element</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="check_19" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="check_19" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="3"><b>TI Operational Checks:-</b></td>
+                  </tr>
+                  <tr>
+                    <td>20</td>
+                    <td>Operate the zoom controls Zoom Out and Zoom In</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="check_20" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="check_20" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>21</td>
+                    <td>Operate the Focus controls Focus Far and Focus Near</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="check_21" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="check_21" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>22</td>
+                    <td>Operate the BLK/ WHT HOT push button switch and observe the video polarity changes</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="check_22" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="check_22" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>23</td>
+                    <td>Operate the RET B/W button and observe the polarity of the reticule changes</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="check_23" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="check_23" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>24</td>
+                    <td>Operate the RET ON/ OFF button and observe that the reticule is displayed ON & OFF</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div><input type="radio"  name="check_24" value="SAT"><label >SAT</label></div>
+                            <div><input type="radio"  name="check_24" value="UNSAT"><label >UNSAT</label></div>
+                        </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </fieldset>
+
+          
+
+          <!-- Submit -->
+          <div class="d-flex justify-content-center mt-4 gap-2">
+            <button type="submit" class="btn btn-success px-4">Submit</button>
+          </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+
+{% endblock js %}

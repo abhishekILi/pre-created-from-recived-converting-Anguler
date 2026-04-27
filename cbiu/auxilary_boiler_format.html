@@ -1,0 +1,179 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid bg-transparent">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+                    <li class="breadcrumb-item"><a href="#">CBIU</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Auxiliary Boiler Format</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold text-uppercase">Auxiliary Boiler Format</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="aux_boiler_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+
+                            <!-- ══════════ TRIAL HEADER  ══════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">Report Details</legend>
+                                <div class="row g-3">
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" name="equipment"
+                                                value="Auxiliary Boiler" readonly placeholder=" ">
+                                            <label class="form_control_1">Equipment</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" name="report_month" class="form-control" required
+                                                placeholder=" ">
+                                            <label class="form_control_1">Reporting Month <span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="date" name="report_date" class="form-control" required>
+                                            <label class="form_control_1">Date of Report <span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <!-- ══════════ OBSERVATIONS / DATA ══════════ -->
+                                <fieldset class="custom-fieldset mt-4">
+
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl" id="boiler_table">
+                                            <thead>
+                                                <tr>
+                                                    <th rowspan="2">Ser</th>
+                                                    <th rowspan="2">Boiler Name/No.</th>
+                                                    <th rowspan="2">Alkalinity (ppm)</th>
+                                                    <th rowspan="2">Salinity</th>
+                                                    <th rowspan="2">Phosphate</th>
+                                                    <th rowspan="2">Ph</th>
+                                                    <th rowspan="2">Hardness</th>
+                                                    <th rowspan="2">TDS</th>
+                                                    <th rowspan="2">DO content</th>
+                                                    <th colspan="4">Steaming Hours</th>
+                                                    <th rowspan="2">Remarks along with state of Boiler</th>
+                                                    <th rowspan="2" class="no-print">Action</th>
+                                                </tr>
+                                                <tr>
+                                                    <th>Since Last External Cleaning</th>
+                                                    <th>Since Last Internal Cleaning</th>
+                                                    <th>Since Last Re-tubing</th>
+                                                    <th>Since Installation</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="serial-no text-center">1</td>
+                                                    <td><input type="text" name="boiler_name_row_1"
+                                                            class="form-control">
+                                                    </td>
+                                                    <td><input type="text" name="alkalinity_row_1" class="form-control">
+                                                    </td>
+                                                    <td><input type="text" name="salinity_row_1" class="form-control">
+                                                    </td>
+                                                    <td><input type="text" name="phosphate_row_1" class="form-control">
+                                                    </td>
+                                                    <td><input type="text" name="ph_row_1" class="form-control"></td>
+                                                    <td><input type="text" name="hardness_row_1" class="form-control">
+                                                    </td>
+                                                    <td><input type="text" name="tds_row_1" class="form-control"></td>
+                                                    <td><input type="text" name="do_content_row_1" class="form-control">
+                                                    </td>
+                                                    <td><input type="text" name="ext_cleaning_row_1"
+                                                            class="form-control">
+                                                    </td>
+                                                    <td><input type="text" name="int_cleaning_row_1"
+                                                            class="form-control">
+                                                    </td>
+                                                    <td><input type="text" name="re_tubing_row_1" class="form-control">
+                                                    </td>
+                                                    <td><input type="text" name="installation_row_1"
+                                                            class="form-control">
+                                                    </td>
+                                                    <td><textarea name="remarks_state_row_1" class="form-control"
+                                                            rows="2"></textarea></td>
+                                                    <td class="no-print text-center">
+                                                        <button type="button" class="btn btn-primary btn-sm"
+                                                            onclick="addRow('boiler_table', 1)">+</button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div class="mt-4">
+                                        <label class="fw-bold">SS Remarks/ observation: -</label>
+                                        <textarea name="ss_remarks" class="form-control" rows="5"
+                                            placeholder="Enter remarks here..."></textarea>
+                                    </div>
+
+                                    <div class="note-section small mb-2 mt-2">
+                                        (NOTE- Parameters which are not applicable to be filled with NA.)
+                                    </div>
+                                </fieldset>
+
+                                <!-- ══════════ SIGN OFF ══════════ -->
+                                <!-- <fieldset class="custom-fieldset mt-4">
+                                    <legend class="legend-custom text-uppercase">Sign Off</legend>
+                                    <div class="row g-3">
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="presenting_authority"
+                                                    value="Ship's Staff" placeholder=" ">
+                                                <label class="form_control_1">Presenting Authority</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="inspecting_authority"
+                                                    value="WATT" placeholder=" ">
+                                                <label class="form_control_1">Inspecting Authority</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset> -->
+
+                                <div class="d-flex justify-content-center mt-4 gap-2">
+                                    <button type="submit" class="btn btn-success px-4">Submit</button>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/trial_common.js' %}"></script>
+{% endblock js %}

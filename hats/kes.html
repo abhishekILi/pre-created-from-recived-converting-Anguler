@@ -1,0 +1,218 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item active" aria-current="page">WATT</li>
+          <li class="breadcrumb-item active" aria-current="page">HATs</li>
+          <li class="breadcrumb-item active" aria-current="page">LRSAM</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">Keltron Echo Sounder – HATS SCHEDULE
+</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="keltron_echo_hats_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!-- HEADER — Basic Info -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Basic Information</legend>
+                <div class="row g-3">
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="keltron_echo_name_of_ship" name="keltron_echo_name_of_ship">
+                        <option value="">-- Select --</option>
+                        {% for ship in ship_options %}
+                          <option value="{{ ship.value }}">{{ ship.label }}</option>
+                        {% endfor %}
+                      </select>
+                      <label class="form_control_1">Name of Ship</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="keltron_echo_equipment" name="keltron_echo_equipment">
+                        <option value="">-- Select --</option>
+                        <option value="LRSAM_HATS">keltron HATs</option>
+                      </select>
+                      <label class="form_control_1">Equipment</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="date" class="form-control" id="keltron_echo_date" name="date_keltron_echo">
+                      <label class="form_control_1">Date</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="keltron_echo_unit" name="keltron_echo_units">
+                        <option value="">-- Select --</option>
+                        <option value="YARD_12651">YARD 12651</option>
+                      </select>
+                      <label class="form_control_1">Units</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" id="keltron_echo_presented_by" name="keltron_echo_presented_by" placeholder=" ">
+                      <label class="form_control_1">Presented By</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" id="keltron_echo_obs_sheet_no" name="keltron_echo_sheet_no" placeholder=" ">
+                      <label class="form_control_1">Observation Sheet No </label>
+                    </div>
+                  </div>
+
+                </div>
+              </fieldset>
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Checks</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr class="custom-header-row">
+                        <th rowspan='2'>Ser </th>
+                        <th rowspan='2' style=" white-space:nowrap;">TRIAL SER.</th>
+                        <th rowspan='2' >Description </th>
+                        <th colspan='2'>Remarks</th>
+                        
+                      </tr>
+                      <tr>
+                        <th style="text-align: center;">WATT</th>
+                        <th style="text-align: center;">DYD/OEM/WO</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+{% comment %} Macro for a SAT/UNSAT row {% endcomment %}
+{% comment %} 4. Test Preparation {% endcomment %}
+
+                      <!-- 4. Test Preparation -->
+                      <tr>
+                        <td>1</td>
+                        <td>5.2</td>
+                        <td>
+                         Inspection of Transducer for 33 KHZ Transducer
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea"  name="kes_remark_1"></textarea></td>
+                       <td><textarea class="form-control wrstg-scroll-textarea"  name="kes_remark_2"></textarea></td>
+  
+                    </tr>
+
+                    
+                      <tr>
+                        <td>2</td>
+                        <td>5.3</td>
+                        <td>
+                          Initial Setting
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea"  name="kes_remark_3"></textarea></td>
+                       <td><textarea class="form-control wrstg-scroll-textarea"  name="kes_remark_4"></textarea></td>
+                        </tr>
+
+                      <tr>
+                        <td>3</td>
+                        <td>5.3.1</td>
+                        <td>
+                          Master Display Unit
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea"  name="kes_remark_5"></textarea></td>
+                       <td><textarea class="form-control wrstg-scroll-textarea"  name="kes_remark_6"></textarea></td>
+                        </tr>
+
+                   
+                      <tr>
+                        <td>4</td>
+                        <td>5.3.2</td>
+                        <td>
+                         Processor Unit
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea"  name="kes_remark_7"></textarea></td>
+                       <td><textarea class="form-control wrstg-scroll-textarea"  name="kes_remark_8"></textarea></td>
+                        </tr>
+
+                      <tr>
+                        <td>5</td>
+                        <td>5.4</td>
+                        <td>
+                         Functional check 
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea"  name="kes_remark_9"></textarea></td>
+                       <td><textarea class="form-control wrstg-scroll-textarea"  name="kes_remark_10"></textarea></td>
+                        </tr>
+
+                        <tr>
+                        <td>6</td>
+                        <td></td>
+                        <td>
+                         Serial (1-30)
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea"  name="kes_remark_11"></textarea></td>
+                       <td><textarea class="form-control wrstg-scroll-textarea"  name="kes_remark_12"></textarea></td>
+                        </tr>
+
+
+                        <tr>
+                        <td>7</td>
+                        <td></td>
+                        <td>
+                         Table 7 
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea"  name="kes_remark_13"></textarea></td>
+                       <td><textarea class="form-control wrstg-scroll-textarea"  name="kes_remark_14"></textarea></td>
+                        </tr>
+                     
+                      
+                      </tbody>
+                  </table>
+                </div>
+                    </fieldset>
+
+               
+
+              <div class="d-flex justify-content-center mt-4 gap-2">
+                <button type="submit" class="btn btn-success px-4">Save</button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

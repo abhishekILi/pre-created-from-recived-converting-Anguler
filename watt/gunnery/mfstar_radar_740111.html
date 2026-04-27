@@ -1,0 +1,505 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+
+<!--  -->
+
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+            <li class="breadcrumb-item active" aria-current="page">WATT</li>
+            <li class="breadcrumb-item active" aria-current="page">Gunnery</li>
+            <li class="breadcrumb-item active" aria-current="page">MFSTAR Radar 740111</li>
+          </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">MFSTAR RADAR 740111</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="mfstar_radar_740111_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!--HEADER — Ship / Inspection Info-->
+
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Basic Information</legend>
+                <div class="row g-3">
+
+                  <div class="col-md-4 col-12">
+                      <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                          <select class="form-control" name="ship" required>
+                              <option value="">--Select--</option>
+                              {% for ship in ship_options %}
+                              <option value="{{ ship.value }}">{{ ship.label }}</option>
+                              {% endfor %}
+                          </select>
+                          <label class="form_control_1">Ship <span class="text-danger">*</span></label>
+                      </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="department_select" name="department">
+                          <option value="">-- Select --</option>
+                          <option value="P15A">ND</option>
+                          <option value="P17">ASW</option>
+                          <option value="P17A">COMM</option>
+                          <option value="P28">GUNNERY</option>
+                        </select>
+                        <label class="form_control_1">Department</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="equipment_select" name="equipment">
+                          <option value="">-- Select --</option>
+                          <option value="MFSTAR_RADAR">MFSTAR Radar </option>
+                        </select>
+                        <label class="form_control_1">Equipment</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                      <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                        <input type="date" class="form-control" id="date_input" name="date_">
+                        <label class="form_control_1">Date</label>
+                      </div>
+                    </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="nature_trials_select" name="nature_of_trials" required>
+                          <option value="">--Select--</option>
+                          <option value="SATs">SATs</option>
+                          <option value="HATS">HATs</option>
+                          <option value="OP_CHECKS">OP CHECKS</option>
+                          <option value="IIS">IIs</option>
+                        </select>
+                        <label class="form_control_1">Nature of Trial</label>
+                    </div>
+                  </div>
+
+            </div>
+          </fieldset>
+
+          <fieldset class="custom-fieldset">
+            <legend class="legend-custom text-uppercase">Checks</legend>
+            <div class="table-responsive">
+              <table class="custom_tbl">
+                <thead>
+                  <tr class="custom-header-row">
+                    <th>Ser No.</th>
+                    <th>Observation</th>
+                    <th>Result</th>
+                    <th>Remarks</th>
+
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="4">
+                            Trials team embarked onboard at 
+                            <input type="time"  name="embark_time" class="form-control d-inline-block" style="width: 100px; height: 28px;">  on 
+                            <input type="date"  name="embark_date" class="form-control d-inline-block" style="width: 140px; height: 28px;"> for SATs of MFSTAR as per approved schedule, BR 4050 and CNO 07/10. Following observed:-
+                            
+                        </td>
+                    </tr>
+                  <!-- Row 1: Structural defects -->
+                  <tr>
+                    
+                    <td colspan="4" class="description-text"><b>Check No.</b></td>
+                  </tr>
+
+                  <tr>
+                    <td >1</td>
+                    <td>Check No. 3.1 System Environment</td>
+                    <td><textarea class="form-control wrstg-scroll-textarea" name="check_no._3.1_remarks" rows="1"></textarea></td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="check_no._3.1_result" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="check_no._3.1_result" value="UNSAT">
+                                <label >UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                 
+
+
+                  <tr>
+                    <td >2</td>
+                    <td>Check No. 4.1 General Checks</td>
+                    <td><textarea class="form-control wrstg-scroll-textarea" name="check_no._4.1_remarks" rows="1"></textarea></td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="check_no._4.1_result" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="check_no._4.1_result" value="UNSAT">
+                                <label>UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                    <td >3</td>
+                    <td>Check No. 4.2 Hardware Test- System level</td>
+                    <td><textarea class="form-control wrstg-scroll-textarea" name="check_no._4.2_remarks" rows="1"></textarea></td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="check_no._4.2_result" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="check_no._4.2_result" value="UNSAT">
+                                <label>UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                    <td >4</td>
+                    <td>Check No. 4.3 Configuration Test</td>
+                    <td><textarea class="form-control wrstg-scroll-textarea" name="check_no._4.3_remarks" rows="1"></textarea></td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="check_no._4.3_result" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="check_no._4.3_result" value="UNSAT">
+                                <label>UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td >5</td>
+                    <td>Check No. 4.4 System Activation Test</td>
+                    <td><textarea class="form-control wrstg-scroll-textarea" name="check_no._4.4_remarks" rows="1"></textarea></td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="check_no._4.4_result" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="check_no._4.4_result" value="UNSAT">
+                                <label>UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                <tr>
+                  <td >6</td>
+                  <td>Check No. 4.5 Safety Test</td>
+                  <td><textarea class="form-control wrstg-scroll-textarea" name="check_no._4.5_remarks" rows="1"></textarea></td>
+                  <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="check_no._4.5_result" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="check_no._4.5_result" value="UNSAT">
+                                <label>UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                    <td >7</td>
+                    <td>Check No. 6 Hardware List</td>
+                    <td><textarea class="form-control wrstg-scroll-textarea" name="check_no._6_remarks" rows="1"></textarea></td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="check_no._6_result" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="check_no._6_result" value="UNSAT">
+                                <label>UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                    <td >8</td>
+                    <td>Check No. 7.1 Test S1 MFSTAR Accuracies</td>
+                    <td><textarea class="form-control wrstg-scroll-textarea" name="check_no._7.1_remarks" rows="1"></textarea></td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="check_no._7.1_result" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="check_no._7.1_result" value="UNSAT">
+                                <label>UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                    <td >9</td>
+                    <td>Check No. 7.2 Test S2 MFSTAR ATI Range</td>
+                    <td><textarea class="form-control wrstg-scroll-textarea" name="check_no._7.2_remarks" rows="1"></textarea></td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="check_no._7.2_result" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="check_no._7.2_result" value="UNSAT">
+                                <label>UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                    <td >10</td>
+                    <td>Check No. 7.3 Test S3 MFSTAR Manoeuvring Target</td>
+                    <td><textarea class="form-control wrstg-scroll-textarea" name="check_no._7.3_remarks" rows="1"></textarea></td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="check_no._7.3_result" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="check_no._7.3_result" value="UNSAT">
+                                <label>UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                    <td >11</td>
+                    <td>Check No. 7.4 Test S4 MFSTAR Range Resolution</td>
+                    <td><textarea class="form-control wrstg-scroll-textarea" name="check_no._7.4_remarks" rows="1"></textarea></td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="check_no._7.4_result" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="check_no._7.4_result" value="UNSAT">
+                                <label>UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                    <td >12</td>
+                    <td>Check No. 7.5 Test S5 MFSTAR Surface Target Detection Range</td>
+                    <td><textarea class="form-control wrstg-scroll-textarea" name="check_no._7.5_remarks" rows="1"></textarea></td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="check_no._7.5_result" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="check_no._7.5_result" value="UNSAT">
+                                <label>UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                    <td >13</td>
+                    <td>Check No. 7.6 Test S6 MFSTAR Surface Target Range Resolution</td>
+                    <td><textarea class="form-control wrstg-scroll-textarea" name="check_no._7.6_remarks" rows="1"></textarea></td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="check_no._7.6_result" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="check_no._7.6_result" value="UNSAT">
+                                <label>UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td >14</td>
+                    <td>Check No. 7.7 Test S7 MFSTAR False Track Initiation</td>
+                    <td><textarea class="form-control wrstg-scroll-textarea" name="check_no._7.7_remarks" rows="1"></textarea></td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="check_no._7.7_result" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="check_no._7.7_result" value="UNSAT">
+                                <label>UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td >15</td>
+                    <td>Check No. 7.8 Test S8 MFSTAR Low Altitude Target Tracking</td>
+                    <td><textarea class="form-control wrstg-scroll-textarea" name="check_no._7.8_remarks" rows="1"></textarea></td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="check_no._7.8_result" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="check_no._7.8_result" value="UNSAT">
+                                <label>UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td >16</td>
+                    <td>Check No. 7.9 Test S9 Helicopter Scenario</td>
+                    <td><textarea class="form-control wrstg-scroll-textarea" name="check_no._7.9_remarks" rows="1"></textarea></td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="check_no._7.9_result" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="check_no._7.9_result" value="UNSAT">
+                                <label>UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td >17</td>
+                    <td>Check No. 7.10 Test S10 MFSTAR SLC</td>
+                    <td><textarea class="form-control wrstg-scroll-textarea" name="check_no._7.10_remarks" rows="1"></textarea></td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="check_no._7.10_result" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="check_no._7.10_result" value="UNSAT">
+                                <label>UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td >18</td>
+                    <td>Check No. 7.11 Test S11 MFSTAR TOJ</td>
+                    <td><textarea class="form-control wrstg-scroll-textarea" name="check_no._7.11_remarks" rows="1"></textarea></td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="check_no._7.11_result" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="check_no._7.11_result" value="UNSAT">
+                                <label>UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+
+                  
+                </tbody>
+              </table>
+            </div>
+            
+          </fieldset>
+
+          <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                                <div class="row g-3">
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" id="mfstar_radar_presenting_authority" name="mfstar_radar_presenting_authority" required>
+                                                <option value="">--Select--</option>
+                                                <option value="dockyard">Dockyard</option>
+                                                <option value="shipstaff">Shipstaff</option>
+                                                <option value="oem">OEM</option>
+                                                </select>
+                                                <label class="form_control_1" for="mfstar_radar_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" id="mfstar_radar_inspecting_authority" name="mfstar_radar_inspecting_authority">
+                                            <label class="form_control_1" for="mfstar_radar_inspecting_authority">Inspecting Authority</label>
+                                        </div>
+                                    </div> 
+                                </div>
+                            </fieldset>
+
+          <!-- Submit -->
+          <div class="d-flex justify-content-center mt-4 gap-2">
+            <button type="submit" class="btn btn-success px-4">Submit</button>
+          </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+
+{% endblock js %}

@@ -1,0 +1,877 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+  .check-answer {
+    display: inline-block;
+    min-width: 120px;
+    border-bottom: 1px solid #999;
+    margin-left: 8px;
+    vertical-align: bottom;
+    padding: 2px 4px;
+  }
+  .question-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 14px;
+    line-height: 1.6;
+  }
+  .question-label {
+    min-width: 32px;
+    font-weight: 600;
+    color: #333;
+    padding-top: 2px;
+  }
+  .question-text {
+    flex: 1;
+    font-size: 14px;
+    color: #222;
+  }
+  .question-answer {
+    min-width: 160px;
+  }
+  .question-answer input[type="text"],
+  .question-answer select,
+  .question-answer textarea {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #888;
+    background: transparent;
+    font-size: 14px;
+    padding: 2px 4px;
+    outline: none;
+  }
+  .question-answer input[type="text"]:focus,
+  .question-answer select:focus {
+    border-bottom: 2px solid #5a7c9d;
+  }
+  .sub-questions {
+    margin-left: 28px;
+    margin-top: 8px;
+  }
+  .section-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #0d1f3c;
+    margin: 18px 0 12px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #5a7c9d;
+    letter-spacing: 0.04em;
+  }
+  .sub-section-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #345678;
+    margin: 14px 0 10px;
+    padding: 6px 10px;
+    background: rgba(52,86,120,0.08);
+    border-left: 3px solid #5a7c9d;
+    border-radius: 0 4px 4px 0;
+  }
+
+  /* ── Section 2 block ── */
+  .location-block {
+    border: 1px solid #c1cdd8;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    background: #ffffff;
+    position: relative;
+  }
+  .location-block-header {
+    display: flex;
+    align-items: flex-end;
+    gap: 20px;
+    margin-bottom: 0;
+    flex-wrap: wrap;
+  }
+  .location-block-header .field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    min-width: 200px;
+  }
+  .location-block-header label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #42495a;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .location-block-header select {
+    border: none;
+    border-bottom: 2px solid #9aa3b0;
+    background: transparent;
+    font-size: 14px;
+    padding: 5px 2px;
+    outline: none;
+    width: 100%;
+    color: #0d1f3c;
+    cursor: pointer;
+  }
+  .location-block-header select:focus {
+    border-bottom: 2.5px solid #607d99;
+  }
+  .location-block-header textarea {
+    border: none;
+    border-bottom: 2px solid #9aa3b0;
+    background: transparent;
+    font-size: 14px;
+    padding: 5px 2px;
+    outline: none;
+    width: 100%;
+    min-height: 42px;
+    resize: vertical;
+    color: #0d1f3c;
+  }
+  .location-block-header textarea:focus {
+    border-bottom: 2.5px solid #607d99;
+  }
+
+  /* pending hint shown before both dropdowns are selected */
+  .block-pending-hint {
+    margin-top: 14px;
+    padding: 10px 14px;
+    background: rgba(136,146,168,0.12);
+    border: 1px dashed #9ea8b8;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #4b5a6a;
+    text-align: center;
+    letter-spacing: 0.02em;
+  }
+
+  /* questions wrapper inside a block */
+  .antenna-questions-wrapper {
+    margin-top: 18px;
+    border-top: 1px solid #c5e4df;
+    padding-top: 14px;
+  }
+
+  .btn-remove-block {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: #f8d7da;
+    border: none;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    font-size: 16px;
+    line-height: 1;
+    color: #d63b3b;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+  }
+  .btn-remove-block:hover { background: #f5c6cb; }
+
+  .btn-add-block {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: 2px dashed #9ea8b8;
+    border-radius: 8px;
+    padding: 10px 20px;
+    color: #4b5a6a;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background 0.15s;
+    width: 100%;
+    justify-content: center;
+  }
+  .btn-add-block:hover { background: rgba(152,160,176,0.06); }
+  .btn-add-block .plus-icon {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  /* inline yes/no radio */
+  .yn-radio { display: flex; gap: 14px; align-items: center; }
+  .yn-radio label { font-size: 14px; font-weight: 500; cursor: pointer; }
+  .yn-radio input { margin-right: 3px; }
+
+  /* sub-table */
+  .sub-table-wrap { margin: 8px 0 4px; }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">NEC</a></li>
+          <li class="breadcrumb-item active" aria-current="page">EMI/EMC Part A Induction Survey</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">EMI/EMC INDUCTION SURVEY - PART A</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="emi_emc_form">
+            {% csrf_token %}
+            <div class="form-body">
+              <fieldset class="custom-fieldset">
+                                <div class="row g-3">
+
+                                    <!-- LEFT COLUMN -->
+                                    <div class="col-md-6 col-12">
+
+                                        <!-- Ship -->
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <select class="form-control" name="ship_id" required>
+                                                <option value="">--Select--</option>
+                                                {% for ship in ship_options %}
+                                                <option value="{{ ship.value }}">{{ ship.label }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <label class="form_control_1">Ship <span class="text-danger">*</span></label>
+                                        </div>
+
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <input type="text" class="form-control" name="partA_wot" placeholder=" " required>
+                                            <label class="form_control_1">WOT<span class="text-danger">*</span></label>
+                                        </div>
+
+
+                                        <!-- Header: Proposed Post-refit Dates -->
+                                        <!-- <div class="mt-3 mb-2">
+                                            <label class="form_control_1 fw-bold">
+                                                Proposed / Tentative Dates of Post-refit Survey
+                                            </label>
+                                        </div> -->
+
+                                        <!-- Harbour Trials Date -->
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <input type="date" class="form-control" name="partA_harbour_trials_date" required>
+                                            <label class="form_control_1">Harbour Trials <span class="text-danger">*</span></label>
+                                        </div>
+
+                                    </div>
+
+                                    <!-- RIGHT COLUMN -->
+                                    <div class="col-md-6 col-12">
+
+                                
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <input type="text" class="form-control" name="partA_yard" placeholder=" " required>
+                                            <label class="form_control_1">Yard<span class="text-danger">*</span></label>
+                                        </div>
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <input type="date" class="form-control" name="partA_proposed_survey_date" required>
+                                            <label class="form_control_1">Propsed Date for Survey <span class="text-danger">*</span></label>
+                                        </div>
+                                        
+
+                                        <!-- Blank opposite Header (matches height) -->
+                                        <!-- <div class="mt-3 mb-2" style="visibility: hidden;">
+                                            <label class="form_control_1 fw-bold">
+                                                Proposed / Tentative Dates of Post-refit Survey
+                                            </label>
+                                        </div> -->
+
+                                        <!-- Sea / Anchorage Trials Date (aligned with Harbour Trials) -->
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <input type="date" class="form-control" name="partA_sea_anchorage_trials_date" required>
+                                            <label class="form_control_1">Sea / Anchorage Trials <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   1. TOP DECK CHECKS
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">1. Check and Confirm the following with regard to Top Deck</legend>
+
+                <!-- (a) -->
+                <div class="question-row">
+                  <span class="question-label">(a)</span>
+                  <span class="question-text">Are all movable/hinged structures like hatches and doors bonded with Type I Bond Straps (i.e. bond straps that are welded on both sides)?</span>
+                </div>
+                <div class="sub-questions">
+                  <p class="mb-1" style="font-size:13px; color:#555;">Door/Hatches detail table:</p>
+                  <div class="table-responsive sub-table-wrap">
+                    <table class="custom_tbl" id="q1a_table">
+                      <thead>
+                        <tr>
+                          <th class="serial-no">Ser</th>
+                          <th>Location</th>
+                          <th>Door/Hatches</th>
+                          <th>Bond Strap</th>
+                          <th>Welded on Both Sides (Yes/No)</th>
+                          <th>Remarks</th>
+                          <th class="action">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="serial-no">1</td>
+                          <td><input type="text" class="form-control" name="q1a_loc_1"></td>
+                          <td><input type="text" class="form-control" name="q1a_door_1"></td>
+                          <td><input type="text" class="form-control" name="q1a_bond_1"></td>
+                          <td><select class="form-control" name="q1a_welded_1"><option value="">--</option><option>Yes</option><option>No</option></select></td>
+                          <td><input type="text" class="form-control" name="q1a_rem_1"></td>
+                          <td class="action action-cell-holder">
+                            <div class="action-controls">
+                              <button type="button" class="btn-round btn-add" onclick="addRow('q1a_table')" title="Add Row">+</button>
+                              <button type="button" class="btn-round btn-remove" onclick="removeRow(this,'q1a_table')" disabled title="Remove Row">-</button>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <!-- (b) -->
+                <div class="question-row mt-3">
+                  <span class="question-label">(b)</span>
+                  <span class="question-text">Are all type I bond straps free from rust &amp; corrosion?</span>
+                  <div class="question-answer">
+                    <div class="yn-radio">
+                      <label><input type="radio" name="q1b" value="yes"> Yes</label>
+                      <label><input type="radio" name="q1b" value="no"> No</label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- (c) -->
+                <div class="question-row">
+                  <span class="question-label">(c)</span>
+                  <span class="question-text">Are all removable/collapsible structures like stanchions/ladders/guard rails bonded to the deck using type II bonds (i.e. those bonds that are welded on one side and bolted on the other)?</span>
+                </div>
+                <div class="sub-questions">
+                  <div class="table-responsive sub-table-wrap">
+                    <table class="custom_tbl" id="q1c_table">
+                      <thead>
+                        <tr>
+                          <th class="serial-no">Ser</th>
+                          <th>Location (Compt/Ship Name)</th>
+                          <th>Removable/Collapsible</th>
+                          <th>Stanchions/Ladders/Guard</th>
+                          <th>Bond Strap (I,II,III,IV)</th>
+                          <th>Welded on Both Sides (Yes/No)</th>
+                          <th>Remarks</th>
+                          <th class="action">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="serial-no">1</td>
+                          <td><input type="text" class="form-control" name="q1c_loc_1"></td>
+                          <td><input type="text" class="form-control" name="q1c_rem_1"></td>
+                          <td><input type="text" class="form-control" name="q1c_stan_1"></td>
+                          <td><select class="form-control" name="q1c_bond_1"><option value="">--</option><option>I</option><option>II</option><option>III</option><option>IV</option></select></td>
+                          <td><select class="form-control" name="q1c_welded_1"><option value="">--</option><option>Yes</option><option>No</option></select></td>
+                          <td><input type="text" class="form-control" name="q1c_rmk_1"></td>
+                          <td class="action action-cell-holder">
+                            <div class="action-controls">
+                              <button type="button" class="btn-round btn-add" onclick="addRow('q1c_table')" title="Add Row">+</button>
+                              <button type="button" class="btn-round btn-remove" onclick="removeRow(this,'q1c_table')" disabled title="Remove Row">-</button>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <!-- (d) -->
+                <div class="question-row mt-3">
+                  <span class="question-label">(d)</span>
+                  <span class="question-text">Are all type II bond straps free of rust and corrosion?</span>
+                  <div class="question-answer">
+                    <div class="yn-radio">
+                      <label><input type="radio" name="q1d" value="yes"> Yes</label>
+                      <label><input type="radio" name="q1d" value="no"> No</label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- (e) -->
+                <div class="question-row">
+                  <span class="question-label">(e)</span>
+                  <span class="question-text">Have all metallic boxes like stowage boxes on the top deck been bonded to the deck?</span>
+                </div>
+                <div class="sub-questions">
+                  <div class="table-responsive sub-table-wrap">
+                    <table class="custom_tbl" id="q1e_table">
+                      <thead>
+                        <tr>
+                          <th class="serial-no">Ser</th>
+                          <th>Location</th>
+                          <th>Bond Strap (I,II,III,IV)</th>
+                          <th>Remarks</th>
+                          <th class="action">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="serial-no">1</td>
+                          <td><input type="text" class="form-control" name="q1e_loc_1"></td>
+                          <td><select class="form-control" name="q1e_bond_1"><option value="">--</option><option>I</option><option>II</option><option>III</option><option>IV</option></select></td>
+                          <td><input type="text" class="form-control" name="q1e_rmk_1"></td>
+                          <td class="action action-cell-holder">
+                            <div class="action-controls">
+                              <button type="button" class="btn-round btn-add" onclick="addRow('q1e_table')" title="Add Row">+</button>
+                              <button type="button" class="btn-round btn-remove" onclick="removeRow(this,'q1e_table')" disabled title="Remove Row">-</button>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <!-- (f) -->
+                <div class="question-row mt-3">
+                  <span class="question-label">(f)</span>
+                  <span class="question-text">Are all unscreened cables running on the top deck routed through metallic conduits/wire way trunks?</span>
+                </div>
+                <div class="sub-questions">
+                  <div class="table-responsive sub-table-wrap">
+                    <table class="custom_tbl" id="q1f_table">
+                      <thead>
+                        <tr>
+                          <th class="serial-no">Ser</th>
+                          <th>Location</th>
+                          <th>Yes/No</th>
+                          <th>Remarks</th>
+                          <th class="action">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="serial-no">1</td>
+                          <td><input type="text" class="form-control" name="q1f_loc_1"></td>
+                          <td><select class="form-control" name="q1f_yn_1"><option value="">--</option><option>Yes</option><option>No</option></select></td>
+                          <td><input type="text" class="form-control" name="q1f_rmk_1"></td>
+                          <td class="action action-cell-holder">
+                            <div class="action-controls">
+                              <button type="button" class="btn-round btn-add" onclick="addRow('q1f_table')" title="Add Row">+</button>
+                              <button type="button" class="btn-round btn-remove" onclick="removeRow(this,'q1f_table')" disabled title="Remove Row">-</button>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <!-- (g) -->
+                <div class="question-row mt-3">
+                  <span class="question-label">(g)</span>
+                  <span class="question-text">Have the cable screens/conduits been bonded 360 degrees at their point of penetration into the bulk head/deck head?</span>
+                </div>
+                <div class="sub-questions">
+                  <div class="table-responsive sub-table-wrap">
+                    <table class="custom_tbl" id="q1g_table">
+                      <thead>
+                        <tr>
+                          <th class="serial-no">Ser</th>
+                          <th>Location</th>
+                          <th>Screen/Conduits</th>
+                          <th>Bulk Head/Deck Head</th>
+                          <th>Remarks</th>
+                          <th class="action">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="serial-no">1</td>
+                          <td><input type="text" class="form-control" name="q1g_loc_1"></td>
+                          <td><input type="text" class="form-control" name="q1g_screen_1"></td>
+                          <td><input type="text" class="form-control" name="q1g_bulk_1"></td>
+                          <td><input type="text" class="form-control" name="q1g_rmk_1"></td>
+                          <td class="action action-cell-holder">
+                            <div class="action-controls">
+                              <button type="button" class="btn-round btn-add" onclick="addRow('q1g_table')" title="Add Row">+</button>
+                              <button type="button" class="btn-round btn-remove" onclick="removeRow(this,'q1g_table')" disabled title="Remove Row">-</button>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <!-- (h) -->
+                <div class="question-row mt-3">
+                  <span class="question-label">(h)</span>
+                  <span class="question-text">If MCT glands have been used for entry of upper deck cables into below deck areas or superstructure, are the MCT glands 'EMI resistant', and have the cable screens been grounded at the point of entry?</span>
+                </div>
+                <div class="sub-questions">
+                  <div class="table-responsive sub-table-wrap">
+                    <table class="custom_tbl" id="q1h_table">
+                      <thead>
+                        <tr>
+                          <th class="serial-no">Ser</th>
+                          <th>Compartment</th>
+                          <th>Location</th>
+                          <th>MCT Glands</th>
+                          <th>Upper Deck into Below Deck</th>
+                          <th>Below Deck Areas</th>
+                          <th>EMI Resistance</th>
+                          <th>Cable Screen Grounded</th>
+                          <th>Remarks</th>
+                          <th class="action">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="serial-no">1</td>
+                          <td><input type="text" class="form-control" name="q1h_compt_1"></td>
+                          <td><input type="text" class="form-control" name="q1h_loc_1"></td>
+                          <td><input type="text" class="form-control" name="q1h_mct_1"></td>
+                          <td><input type="text" class="form-control" name="q1h_upper_1"></td>
+                          <td><input type="text" class="form-control" name="q1h_below_1"></td>
+                          <td><select class="form-control" name="q1h_emi_1"><option value="">--</option><option>Yes</option><option>No</option></select></td>
+                          <td><select class="form-control" name="q1h_grnd_1"><option value="">--</option><option>Yes</option><option>No</option></select></td>
+                          <td><input type="text" class="form-control" name="q1h_rmk_1"></td>
+                          <td class="action action-cell-holder">
+                            <div class="action-controls">
+                              <button type="button" class="btn-round btn-add" onclick="addRow('q1h_table')" title="Add Row">+</button>
+                              <button type="button" class="btn-round btn-remove" onclick="removeRow(this,'q1h_table')" disabled title="Remove Row">-</button>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <!-- (j) -->
+                <div class="question-row mt-3">
+                  <span class="question-label">(j)</span>
+                  <span class="question-text">Are clips, bottle screw, swivel eyes, shackles, links etc. free from rust and are bonded with type II bonds?</span>
+                </div>
+                <div class="sub-questions">
+                  <div class="table-responsive sub-table-wrap">
+                    <table class="custom_tbl" id="q1j_table">
+                      <thead>
+                        <tr>
+                          <th class="serial-no">Ser</th>
+                          <th>Compartment</th>
+                          <th>Location</th>
+                          <th>Bonded with Type II (Yes/No)</th>
+                          <th>Remarks</th>
+                          <th class="action">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="serial-no">1</td>
+                          <td><input type="text" class="form-control" name="q1j_compt_1"></td>
+                          <td><input type="text" class="form-control" name="q1j_loc_1"></td>
+                          <td><select class="form-control" name="q1j_bond_1"><option value="">--</option><option>Yes</option><option>No</option></select></td>
+                          <td><input type="text" class="form-control" name="q1j_rmk_1"></td>
+                          <td class="action action-cell-holder">
+                            <div class="action-controls">
+                              <button type="button" class="btn-round btn-add" onclick="addRow('q1j_table')" title="Add Row">+</button>
+                              <button type="button" class="btn-round btn-remove" onclick="removeRow(this,'q1j_table')" disabled title="Remove Row">-</button>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <!-- (k) -->
+                <div class="question-row mt-2">
+                  <span class="question-label">(k)</span>
+                  <span class="question-text">Are halyards/out hauls of wire ropes neatly coiled and the wire ropes bonded to structure near the cleat?</span>
+                </div>
+                <div class="sub-questions">
+                  <div class="table-responsive sub-table-wrap">
+                    <table class="custom_tbl" id="q1k_table">
+                      <thead>
+                        <tr>
+                          <th class="serial-no">Ser</th>
+                          <th>Compartment</th>
+                          <th>Location</th>
+                          <th>Halyards/Out Hauls (Yes/No)</th>
+                          <th>Remarks</th>
+                          <th class="action">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="serial-no">1</td>
+                          <td><input type="text" class="form-control" name="q1k_compt_1"></td>
+                          <td><input type="text" class="form-control" name="q1k_loc_1"></td>
+                          <td><select class="form-control" name="q1k_hal_1"><option value="">--</option><option>Yes</option><option>No</option></select></td>
+                          <td><input type="text" class="form-control" name="q1k_rmk_1"></td>
+                          <td class="action action-cell-holder">
+                            <div class="action-controls">
+                              <button type="button" class="btn-round btn-add" onclick="addRow('q1k_table')" title="Add Row">+</button>
+                              <button type="button" class="btn-round btn-remove" onclick="removeRow(this,'q1k_table')" disabled title="Remove Row">-</button>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+
+                <!-- (l) -->
+                <div class="question-row mt-2">
+                  <span class="question-label">(l)</span>
+                  <span class="question-text">List of CAT 'A' Compartments</span>
+                </div>
+                <div class="sub-questions">
+                  <div class="table-responsive sub-table-wrap">
+                    <table class="custom_tbl" id="q1l_table">
+                      <thead>
+                        <tr>
+                          <th class="serial-no">Ser</th>
+                          <th>Compartment</th>
+                          <th>Location</th>
+                          <!-- <th>Halyards/Out Hauls (Yes/No)</th> -->
+                          <th>Remarks</th>
+                          <th class="action">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="serial-no">1</td>
+                          <td><input type="text" class="form-control" name="q1l_compt_1"></td>
+                          <td><input type="text" class="form-control" name="q1l_loc_1"></td>
+                          <!-- <td><select class="form-control" name="q1l_hal_1"><option value="">--</option><option>Yes</option><option>No</option></select></td> -->
+                          <td><input type="text" class="form-control" name="q1l_rmk_1"></td>
+                          <td class="action action-cell-holder">
+                            <div class="action-controls">
+                              <button type="button" class="btn-round btn-add" onclick="addRow('q1l_table')" title="Add Row">+</button>
+                              <button type="button" class="btn-round btn-remove" onclick="removeRow(this,'q1l_table')" disabled title="Remove Row">-</button>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   2. ANTENNAS / COMMUNICATION / RADAR
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">2. Check and Confirm the following with regard to Antennas / Communication / Radar Systems</legend>
+
+                <div id="antenna_blocks_container"></div>
+
+                <button type="button" class="btn-add-block" id="btn_add_antenna_block">
+                  <span class="plus-icon">+</span> Add Location / Equipment
+                </button>
+
+              </fieldset>
+
+              <!-- Submit -->
+              <div class="d-flex justify-content-center mt-4 gap-2">
+                <button type="submit" class="btn btn-success px-4">Save</button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+// ── Section 2: Dynamic Location/Equipment blocks ──────────────────────
+let blockCount = 0;
+
+const EQUIPMENT_OPTIONS = [
+  'Wire Aerials',
+  'Whip Aerials',
+  'V/UHF Antennas',
+  'Radar Systems',
+  'Other',
+];
+
+function buildSelectOptions(optionsArr, fieldName) {
+  const opts = optionsArr.map(o => `<option value="${o}">${o}</option>`).join('');
+  return `
+    <select name="${fieldName}" onchange="checkBlockReady(this)">
+      <option value="">-- Select --</option>
+      ${opts}
+    </select>`;
+}
+
+function buildLocationInput(fieldName) {
+  return `
+    <textarea name="${fieldName}" rows="2" oninput="checkBlockReady(this)" placeholder="Enter location"></textarea>`;
+}
+
+function createAntennaBlock() {
+  blockCount++;
+  const idx = blockCount;
+
+  const block = document.createElement('div');
+  block.className = 'location-block';
+  block.id = `antenna_block_${idx}`;
+
+  block.innerHTML = `
+    <button type="button" class="btn-remove-block" onclick="removeAntennaBlock(${idx})" title="Remove">×</button>
+
+    <!-- Location + Equipment dropdowns -->
+    <div class="location-block-header">
+      <div class="field-group">
+        <label>Location</label>
+        ${buildLocationInput(`ant_location_${idx}`)}
+      </div>
+      <div class="field-group">
+        <label>Equipment</label>
+        ${buildSelectOptions(EQUIPMENT_OPTIONS, `ant_equipment_${idx}`)}
+      </div>
+    </div>
+
+    <!-- Hint: shown until both dropdowns selected -->
+    <div class="block-pending-hint" id="ant_hint_${idx}">
+      &#9432;&nbsp; Please select both <strong>Location</strong> and <strong>Equipment</strong> above to load the checklist.
+    </div>
+
+    <!-- All questions: hidden until both dropdowns selected -->
+    <div class="antenna-questions-wrapper" id="ant_questions_${idx}" style="display:none;">
+
+      <div style="font-weight: bold;">(a) Wire Aerials</div>
+      ${makeCheckList('wire', idx, [
+        ['wire_i',   '(i) Wire ropes are free of kinks and are not frayed.'],
+        ['wire_ii',  '(ii) Bonding straps installed and intact.'],
+        ['wire_iii', '(iii) Antenna wire properly stressed.'],
+        ['wire_iv',  '(iv) Insulators free of grease, paint and salt.'],
+        ['wire_vi',  '(vi) Cables secured with cable clamps.'],
+        ['wire_vii', '(vii) Antenna matching network covered, properly secured &amp; bonded.'],
+        ['wire_viii','(viii) Surrounding area (50 sq ft) free of loose metallic objects.'],
+        ['wire_ix',  '(ix) Feed point preserved and weather proofed.'],
+      ])}
+
+      <div style="margin-top:18px; font-weight: bold;">(b) Whip Aerials</div>
+      ${makeCheckList('whip', idx, [
+        ['whip_i',  '(i) Insulators free of cracks and contamination.'],
+        ['whip_ii', '(ii) Antenna Base Tuner bonded with type III straps.'],
+        ['whip_iii','(iii) Antenna tuner pressurized if reqd.'],
+        ['whip_iv', '(iv) Feed point preserved &amp; weather proofed.'],
+        ['whip_v',  '(v) Surrounding area (50 sq.ft) free of loose metallic objects.'],
+      ])}
+
+      <div style="margin-top:18px; font-weight: bold;">(c) V/UHF Antennas</div>
+      ${makeCheckList('vuhf', idx, [
+        ['vuhf_i',       '(i) Free from dust contamination.'],
+        ['vuhf_ii',      '(ii) RF paint in good condition.'],
+        ['vuhf_iii',     '(iii) Are cable connectors at antenna end properly terminated?'],
+      ])}
+
+      <div style="margin-top:18px; font-weight: bold;">(d) Radar Systems</div>
+      ${makeCheckList('radar', idx, [
+        ['radar_i',     '(i) Are the radomes, radar elements and antenna dishes in a dust and contamination free state?'],
+        ['radar_ii',    '(ii) The radar absorbent material (if used) on mast is not cracked and bulging.'],
+        ['radar_iii',   '(iii) Is the bonding of antenna pedestal &amp; motor in good condition?'],
+        ['radar_iv_aa', '(iv-aa) Wave Guides: Free from denting, bulging and cracks.'],
+        ['radar_iv_ab', '(iv-ab) Wave Guides: Are rubber sections free of cracks.'],
+        ['radar_iv_ac', '(iv-ac) Wave Guides: Adequate pressurisation and silica gel in good condition.'],
+        ['radar_v',     '(v) RF paint of radome/antenna in proper condition?'],
+        ['radar_vi',    '(vi) RF gaskets of RF cabinets in good condition.'],
+        ['vuhf_vii',     '(vii) Proper metal to metal contact between door and door frame of upper deck RF compartments.'],
+        ['vuhf_viii_aa', '(viii-aa) Waveguides marked "DO NOT STRIKE"'],
+        ['vuhf_viii_ab', '(viii-ab) Antenna radomes marked "DO NOT PAINT"'],
+      ])}
+       
+      ${makeCheckList('vuhf_e', idx, [
+  ['check', '<strong>(e) Are Multicouplers/Filters/Pre-selectors installed in Tx/Rxchains and are connected as per design?</strong>'],
+])}
+
+${makeCheckList('vuhf_f', idx, [
+  ['check', '<strong>(f) All RF cables shields properly terminated into their connectors.</strong>'],
+])}
+
+${makeCheckList('vuhf_g', idx, [
+  ['check', '<strong>(g) Paint,grease and varnish present on porcelain and rubber insulators have been removed.</strong>'],
+])}
+
+${makeCheckList('vuhf_h', idx, [
+  ['check', '<strong>(h) Ethernet/LAN Cables(if used) are Shielded Twisted Pair(STP).</strong>'],
+])}
+    </div><!-- /antenna-questions-wrapper -->
+  `;
+
+  document.getElementById('antenna_blocks_container').appendChild(block);
+}
+
+function makeCheckList(prefix, idx, items) {
+  return items.map(([key, label]) => `
+    <div class="question-row">
+      <span class="question-text">${label}</span>
+      <div class="question-answer" style="min-width:160px;">
+        <div class="yn-radio">
+          <label><input type="radio" name="${prefix}_${key}_${idx}" value="yes"> Yes</label>
+          <label><input type="radio" name="${prefix}_${key}_${idx}" value="no"> No</label>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// Called on every dropdown change — reveals questions only when BOTH are selected
+function checkBlockReady(selectEl) {
+  const block = selectEl.closest('.location-block');
+  if (!block) return;
+
+  const locationField = block.querySelector('[name^="ant_location_"]');
+  const equipmentField = block.querySelector('[name^="ant_equipment_"]');
+  const allSelected = !!(locationField && locationField.value.trim()) && !!(equipmentField && equipmentField.value !== '');
+
+  const hint      = block.querySelector('.block-pending-hint');
+  const questions = block.querySelector('.antenna-questions-wrapper');
+
+  if (allSelected) {
+    if (hint)      hint.style.display      = 'none';
+    if (questions) questions.style.display = 'block';
+  } else {
+    if (hint)      hint.style.display      = 'block';
+    if (questions) questions.style.display = 'none';
+  }
+}
+
+function removeAntennaBlock(idx) {
+  const block = document.getElementById(`antenna_block_${idx}`);
+  if (block) block.remove();
+}
+
+document.getElementById('btn_add_antenna_block').addEventListener('click', createAntennaBlock);
+
+// Create first block automatically on load
+createAntennaBlock();
+</script>
+{% endblock js %}

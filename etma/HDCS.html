@@ -1,0 +1,267 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">HELO DECK COMMUNICATION SYSTEM (HDCS)</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="hdcs_form">
+						{% csrf_token %}
+						<div class="form-body">
+
+							<fieldset class="custom-fieldset">
+								<div class="row mb-3">
+									<div class="col-md-6">
+										<label class="form-label fw-bold">Ship</label>
+										<select class="form-control" name="ship" required>
+											<option value="" selected disabled>Select Ship</option>
+											{% for ship in ship_options %}
+											<option value="{{ ship.value }}">{{ ship.label }}</option>
+											{% endfor %}
+										</select>
+									</div>
+									<div class="col-md-6">
+										<label class="form-label fw-bold">Occasion of Trial</label>
+										<select class="form-control" name="occasion_of_trial" required>
+											<option value="" selected disabled>Select Occasion</option>
+											<option value="HARBOUR_TRIAL">Harbour Trial</option>
+											<option value="SEA_TRIAL">Sea Trial</option>
+											<option value="POST_REFIT_TRIAL">Post Refit Trial</option>
+											<option value="DEFECT_RECTIFICATION_TRIAL">Defect Rectification Trial</option>
+										</select>
+									</div>
+								</div>
+								<div class="row mb-3">
+									<div class="col-md-6">
+										<label class="form-label fw-bold">Presented by</label>
+										<select class="form-control" name="presented_by" required>
+											<option value="" selected disabled>Select Presented By</option>
+											<option value="SHIP_STAFF">Ship Staff</option>
+											<option value="OEM_REPRESENTATIVE">OEM Representative</option>
+											<option value="YARD_REPRESENTATIVE">Yard Representative</option>
+											<option value="TRIAL_TEAM">Trial Team</option>
+										</select>
+									</div>
+									<div class="col-md-6">
+										<label class="form-label fw-bold">Trial Inspector (Name)</label>
+										<input type="text" class="form-control" name="trial_inspector_name" placeholder=" ">
+									</div>
+								</div>
+								<div class="row mb-1">
+									<div class="col-md-12">
+										<label class="form-label fw-bold mb-0">Reference Document for Trial: EED-51-09</label>
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">1. Date &amp; Time</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="hdcs_design_tbl">
+										<thead class="table-dark-head">
+											<tr>
+												<th class="serial-no">Ser</th>
+												<th>Activity</th>
+												<th style="width:20%;">Date</th>
+												<th style="width:20%;">Time</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td class="serial-no">1.1</td><td>Intimation from Ship</td><td><input type="date" class="form-control" name="dt_1_1_date"></td><td><input type="time" class="form-control" name="dt_1_1_time"></td></tr>
+											<tr><td class="serial-no">1.2</td><td>Readiness indicated by Ship</td><td><input type="date" class="form-control" name="dt_1_2_date"></td><td><input type="time" class="form-control" name="dt_1_2_time"></td></tr>
+											<tr><td class="serial-no">1.3</td><td>Person reported onboard Ship</td><td><input type="date" class="form-control" name="dt_1_3_date"></td><td><input type="time" class="form-control" name="dt_1_3_time"></td></tr>
+											<tr><td class="serial-no">1.4</td><td>Trials completed</td><td><input type="date" class="form-control" name="dt_1_4_date"></td><td><input type="time" class="form-control" name="dt_1_4_time"></td></tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">2. Design Requirements / Documentation</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="hdcs_design_tbl">
+										<thead class="table-dark-head">
+											<tr>
+												<th class="serial-no">Ser</th>
+												<th>Description / Document No. &amp; Date</th>
+												<th style="width:30%;">Document submission date / Certified By</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td class="serial-no">2.1</td><td>Manufacturer</td><td><input type="text" class="form-control" name="dr_2_1"></td></tr>
+											<tr><td class="serial-no">2.2</td><td>Configuration</td><td><input type="text" class="form-control" name="dr_2_2"></td></tr>
+											<tr><td class="serial-no">2.3</td><td>Make &amp; Model</td><td><input type="text" class="form-control" name="dr_2_3"></td></tr>
+											<tr><td class="serial-no">2.4</td><td>GRAQ</td><td><input type="text" class="form-control" name="dr_2_4"></td></tr>
+											<tr><td class="serial-no">2.5</td><td>ATP</td><td><input type="text" class="form-control" name="dr_2_5"></td></tr>
+											<tr><td class="serial-no">2.6</td><td>Board Proceedings</td><td><input type="text" class="form-control" name="dr_2_6"></td></tr>
+											<tr><td class="serial-no">2.7</td><td>FATs report</td><td><input type="text" class="form-control" name="dr_2_7"></td></tr>
+
+											<tr><td class="serial-no" rowspan="15">2.8</td><td class="group-header-cell"><strong>Certification required from OEM</strong></td><td><input type="text" class="form-control" name="dr_2_8_header"></td></tr>
+											<tr><td>2.8.1 Type testing certificate.</td><td><input type="text" class="form-control" name="dr_2_8_1"></td></tr>
+											<tr><td>2.8.2 Material provided by OEM as per BoM.</td><td><input type="text" class="form-control" name="dr_2_8_2"></td></tr>
+											<tr><td>2.8.3 Certification for noise compensated headset having noise suppression mechanism to suppress ambient noise level at about 150db to a safe limit of 80 db or better.</td><td><textarea class="form-control wrstg-scroll-textarea" name="dr_2_8_3" rows="2"></textarea></td></tr>
+											<tr><td>2.8.4 <strong>Future Expansion.</strong> System should have scalability provision for addition of further 03 fixed and 06 handsfree positions in future.</td><td><textarea class="form-control wrstg-scroll-textarea" name="dr_2_8_4" rows="2"></textarea></td></tr>
+											<tr><td>2.8.5 MTBF should be more than 30000 Hrs, while MTTR less than 15 min.</td><td><input type="text" class="form-control" name="dr_2_8_5"></td></tr>
+											<tr><td>2.8.6 <strong>Helmets.</strong> The helmet should have following features:</td><td><input type="text" class="form-control" name="dr_2_8_6"></td></tr>
+											<tr><td>2.8.6.1 It should be impact resistant and should provide protection against burns due to flash.</td><td><input type="text" class="form-control" name="dr_2_8_6_1"></td></tr>
+											<tr><td>2.8.6.2 It should provide electric shock protection.</td><td><input type="text" class="form-control" name="dr_2_8_6_2"></td></tr>
+											<tr><td>2.8.6.3 It should have integrated glare visors to provide sun, wind and dust protection.</td><td><input type="text" class="form-control" name="dr_2_8_6_3"></td></tr>
+											<tr><td>2.8.6.4 Should be fire protection and NBC clothing compatible.</td><td><input type="text" class="form-control" name="dr_2_8_6_4"></td></tr>
+											<tr><td>2.8.7 <strong>Headphones.</strong> The headphones should have following features:</td><td><input type="text" class="form-control" name="dr_2_8_7"></td></tr>
+											<tr><td>2.8.7.1 It should be integrated with wireless based communication equipment through noise cancelling microphones.</td><td><input type="text" class="form-control" name="dr_2_8_7_1"></td></tr>
+											<tr><td>2.8.7.2 Should provide double hearing protection.</td><td><input type="text" class="form-control" name="dr_2_8_7_2"></td></tr>
+											<tr><td>2.8.8 <strong>Security of Transmission.</strong> System should be of low power to ensure minimum radiation. Power level should be HERO and HERP safe for use on helo deck during refueling and ammunition.</td><td><textarea class="form-control wrstg-scroll-textarea" name="dr_2_8_8" rows="3"></textarea></td></tr>
+
+											<tr><td class="serial-no" rowspan="9">2.9</td><td class="group-header-cell"><strong>Documentation</strong></td><td><input type="text" class="form-control" name="dr_2_9_header"></td></tr>
+											<tr><td>2.9.1 Technical documentation</td><td><input type="text" class="form-control" name="dr_2_9_1"></td></tr>
+											<tr><td>2.9.2 Technical / functional description including that at PCB and component level</td><td><input type="text" class="form-control" name="dr_2_9_2"></td></tr>
+											<tr><td>2.9.3 Operating Instruction Manual</td><td><input type="text" class="form-control" name="dr_2_9_3"></td></tr>
+											<tr><td>2.9.4 Preventive maintenance routines / repair instructions Manual with drawings</td><td><input type="text" class="form-control" name="dr_2_9_4"></td></tr>
+											<tr><td>2.9.5 Installation and Test Manual</td><td><input type="text" class="form-control" name="dr_2_9_5"></td></tr>
+											<tr><td>2.9.6 Part Identification list and Tools Catalogue</td><td><input type="text" class="form-control" name="dr_2_9_6"></td></tr>
+											<tr><td>2.9.7 Test Procedure and Documentation</td><td><input type="text" class="form-control" name="dr_2_9_7"></td></tr>
+											<tr><td>2.9.8 List of onboard and B&amp;D spares</td><td><input type="text" class="form-control" name="dr_2_9_8"></td></tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">3. IIs Checks</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="hdcs_iis_tbl">
+										<thead class="table-dark-head">
+											<tr>
+												<th class="serial-no">Ser</th>
+												<th style="width:20%;">Reference</th>
+												<th>Checks</th>
+												<th style="width:14%;">Sat/Unsat</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td class="serial-no">3.1</td><td>Para 2.6 of EED 51-09</td><td>Unit Tallies (for identification)<br>Cables Tallies (Indicating details of line number)<br>Unit Diagram Plate (Indicating details of connection)<br>Block Connection Diagram of System (should be fitted) Detailed lay out diagram of all sub units.</td><td><div class="sat-unsat"><label><input type="radio" name="iis_3_1" value="SAT"> SAT</label><label><input type="radio" name="iis_3_1" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">3.2</td><td>Para 1.2(b) of EED 51-09</td><td>Fixed Station in LSO should have speaker with facility to plug in headphones.</td><td><div class="sat-unsat"><label><input type="radio" name="iis_3_2" value="SAT"> SAT</label><label><input type="radio" name="iis_3_2" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">3.3</td><td>Para 1.5(a) of EED 51-09</td><td>3.3.1 System Configuration (As Applicable)<br>3.3.2 LSO Cabin – 01 fixed station<br>3.3.3 Bridge – 01 fixed station<br>3.3.4 Helo Deck – Handsfree<br>3.3.5 Aircraft maintenance &amp; control org. (AMCO) – 01 fixed<br>3.3.6 Hangar control post – 02 fixed &amp; facility to support hands free equip of the CFD &amp; air handlers in the hangar<br>3.3.7 Damage control party adjacent to hangar – 01 fixed<br>3.3.8 OPS room – 01 fixed<br>3.3.9 Air crew room – hands-free – 01<br>3.3.10 Spare handsfree – 01</td><td><div class="sat-unsat"><label><input type="radio" name="iis_3_3" value="SAT"> SAT</label><label><input type="radio" name="iis_3_3" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">3.4</td><td>Para 1.6 of EED 51-09</td><td><strong>Portable Units.</strong><br>3.4.1 Helmet may be corded with max cord length of 6ft.<br>3.4.2 System should be cordless.<br>3.4.3 Mobile units should be compact, lightweight and powered by rechargeable batteries with following usable time:-<br>Stand by time - 12 hrs or more.<br>Talk mode - 02 hrs or more.</td><td><div class="sat-unsat"><label><input type="radio" name="iis_3_4" value="SAT"> SAT</label><label><input type="radio" name="iis_3_4" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">3.5</td><td>Para 1.7 of EED 51-09</td><td>At least 04 battery sets should be provided for each mobile user.</td><td><div class="sat-unsat"><label><input type="radio" name="iis_3_5" value="SAT"> SAT</label><label><input type="radio" name="iis_3_5" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">3.6</td><td>Para 1.7 of EED 51-09</td><td>At least 02 battery charging stations with provision to simultaneously charge batteries for up to all 16 mobile users should be supplied as part of equipment.</td><td><div class="sat-unsat"><label><input type="radio" name="iis_3_6" value="SAT"> SAT</label><label><input type="radio" name="iis_3_6" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">3.7</td><td>Para 1.8 of EED 51-09</td><td><strong>Fixed.</strong> Units should have both inbuilt speakers and pluggable headsets.</td><td><div class="sat-unsat"><label><input type="radio" name="iis_3_7" value="SAT"> SAT</label><label><input type="radio" name="iis_3_7" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">3.8</td><td>Para 1.4(b) of EED 51-09</td><td><strong>Reliability.</strong> The system should have full redundancy in terms of failure of Base Station and Switch.</td><td><div class="sat-unsat"><label><input type="radio" name="iis_3_8" value="SAT"> SAT</label><label><input type="radio" name="iis_3_8" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">3.9</td><td>Para 2.7 of EED 51-09</td><td><strong>Lifting Arrangements.</strong> Units weighing more than 40 Kgs shall be provided with collar eyebolts or suitable lifting lugs/arrangements.</td><td><div class="sat-unsat"><label><input type="radio" name="iis_3_9" value="SAT"> SAT</label><label><input type="radio" name="iis_3_9" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">3.10</td><td>Para 2.8 of EED 51-09</td><td><strong>Terminal.</strong> Bolted type terminal and crimped socket of electrolytic copper are to be provided for all incoming and outgoing cables.</td><td><div class="sat-unsat"><label><input type="radio" name="iis_3_10" value="SAT"> SAT</label><label><input type="radio" name="iis_3_10" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">3.11</td><td>Para 2.9 of EED 51-09</td><td><strong>Anti-condensation Heating.</strong> Wherever necessary, equipment shall be provided with anti-condensation heating elements, which are to be switched on automatically when the equipment is switched off.</td><td><div class="sat-unsat"><label><input type="radio" name="iis_3_11" value="SAT"> SAT</label><label><input type="radio" name="iis_3_11" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">3.12</td><td>Para 2.11 of EED 51-09</td><td><strong>Safety Standards.</strong> All units to be provided with earthing bolts. Each unit which is connected to ships mains are to be provided with fuse protection.</td><td><div class="sat-unsat"><label><input type="radio" name="iis_3_12" value="SAT"> SAT</label><label><input type="radio" name="iis_3_12" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">3.13</td><td>Para 2.14 of EED 51-09</td><td><strong>Cabinet Cooling.</strong> Sufficient cooling and circulation of air should be provided for the system cabinets.</td><td><div class="sat-unsat"><label><input type="radio" name="iis_3_13" value="SAT"> SAT</label><label><input type="radio" name="iis_3_13" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">3.14</td><td>Para 2.15 of EED 51-09</td><td><strong>Mounting Arrangement.</strong> The equipment would be mounted on shock mounts onboard ship.</td><td><div class="sat-unsat"><label><input type="radio" name="iis_3_14" value="SAT"> SAT</label><label><input type="radio" name="iis_3_14" value="UNSAT"> UNSAT</label></div></td></tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">4. OPS Checks</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="hdcs_ops_tbl">
+										<thead class="table-dark-head">
+											<tr>
+												<th class="serial-no">Ser</th>
+												<th style="width:20%;">Reference</th>
+												<th>Checks</th>
+												<th style="width:14%;">Sat/Unsat</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td class="serial-no">4.1</td><td>Para 2.1 of EED 51-09</td><td><strong>Power supply</strong> - 230V/115V, 1 phase, 50/60 Hz, System should also have provision for operating on 24V DC supply in case of emergency.</td><td><div class="sat-unsat"><label><input type="radio" name="ops_4_1" value="SAT"> SAT</label><label><input type="radio" name="ops_4_1" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">4.2</td><td>Para 1.3 of EED 51-09</td><td>Freq range – V/UHF 100-400 Mhz.<br>Channels – At least 03 channels catering for 16 wireless positions.</td><td><div class="sat-unsat"><label><input type="radio" name="ops_4_2" value="SAT"> SAT</label><label><input type="radio" name="ops_4_2" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">4.3</td><td>Para 1.5(b) of EED 51-09</td><td><strong>Priorities</strong> - Priorities of positions in HDCS would be as follows: I- LSO, II- CFD, III- Bridge/Ops room, IV- Hangar. Rest of the positions can be put on the lowermost rung of hierarchy.</td><td><div class="sat-unsat"><label><input type="radio" name="ops_4_3" value="SAT"> SAT</label><label><input type="radio" name="ops_4_3" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">4.4</td><td>Para 1.5(e) of EED 51-09</td><td>Switching between channels is to be provided.</td><td><div class="sat-unsat"><label><input type="radio" name="ops_4_4" value="SAT"> SAT</label><label><input type="radio" name="ops_4_4" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">4.5</td><td>Para 1.1 of EED 51-09</td><td>System should be capable of handsfree operation on helo deck and hangar.</td><td><div class="sat-unsat"><label><input type="radio" name="ops_4_5" value="SAT"> SAT</label><label><input type="radio" name="ops_4_5" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">4.6</td><td>Para 1.9 of EED 51-09</td><td><strong>Warning Indications.</strong><br>4.6.1 Suitable audio, visual and vibrate warning should be available to warn user of incoming calls when on different channel.<br>4.6.2 Audio and visual warning for low battery should be provided.</td><td><div class="sat-unsat"><label><input type="radio" name="ops_4_6" value="SAT"> SAT</label><label><input type="radio" name="ops_4_6" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">4.7</td><td>Para 1.12 of EED 51-09</td><td><strong>Recording.</strong> The system should have recording facility with the following provisions:<br>4.7.1 Record and playback of all Helo deck and aviation related communications.<br>4.7.2 Recording and replay facilities of all channels for at least 24-hrs with time tags and should be transferable to secondary storage devices like CDs and DVDs.<br>4.7.3 The format of recording should be of that type that can be replayed in COTS device or PCs. It should be able to synchronise the timings of helo deck CCTV system.</td><td><div class="sat-unsat"><label><input type="radio" name="ops_4_7" value="SAT"> SAT</label><label><input type="radio" name="ops_4_7" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">4.8</td><td>Para 2.23 of EED 51-09</td><td><strong>BITE.</strong> The system should have capability for on line and off-line maintenance diagnostics.</td><td><div class="sat-unsat"><label><input type="radio" name="ops_4_8" value="SAT"> SAT</label><label><input type="radio" name="ops_4_8" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">4.9</td><td>Para 3.17 of EED 51-09</td><td><strong>Interface.</strong> Supplier is responsible for interfacing and integration of HDCS with following ship system: 4.9.1 VCS Mk III; 4.9.2 Main broadcast; 4.9.3 Aviation broadcast.</td><td><div class="sat-unsat"><label><input type="radio" name="ops_4_9" value="SAT"> SAT</label><label><input type="radio" name="ops_4_9" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">4.10</td><td>-</td><td>4.10.1 Voice calls between portable handsets radios and fixed station<br>4.10.2 Full duplex call test<br>4.10.3 Simplex call / Semi duplex call test<br>4.10.4 Group call test</td><td><div class="sat-unsat"><label><input type="radio" name="ops_4_10" value="SAT"> SAT</label><label><input type="radio" name="ops_4_10" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">4.11</td><td>-</td><td>Provision of AIE secure calls.</td><td><div class="sat-unsat"><label><input type="radio" name="ops_4_11" value="SAT"> SAT</label><label><input type="radio" name="ops_4_11" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">4.12</td><td>-</td><td>Switching of audio input to three multiple output using junction box.</td><td><div class="sat-unsat"><label><input type="radio" name="ops_4_12" value="SAT"> SAT</label><label><input type="radio" name="ops_4_12" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">4.13</td><td>-</td><td>Calls between fixed unit and portable units handset radio is 50 meter apart from antenna.</td><td><div class="sat-unsat"><label><input type="radio" name="ops_4_13" value="SAT"> SAT</label><label><input type="radio" name="ops_4_13" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">4.14</td><td>-</td><td>System Battery backup test (UPS) ≥15 min.</td><td><div class="sat-unsat"><label><input type="radio" name="ops_4_14" value="SAT"> SAT</label><label><input type="radio" name="ops_4_14" value="UNSAT"> UNSAT</label></div></td></tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<div class="d-flex justify-content-center mt-4 gap-2">
+								<button type="submit" class="btn btn-success px-4">Save</button>
+							</div>
+
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+	.group-header-cell {
+		background-color: #e9ecef;
+		font-size: 13px;
+		padding: 6px 10px;
+	}
+	#hdcs_design_tbl,
+	#hdcs_iis_tbl,
+	#hdcs_ops_tbl {
+		table-layout: fixed;
+		width: 100%;
+	}
+	#hdcs_design_tbl th,
+	#hdcs_design_tbl td,
+	#hdcs_iis_tbl th,
+	#hdcs_iis_tbl td,
+	#hdcs_ops_tbl th,
+	#hdcs_ops_tbl td {
+		white-space: normal;
+		overflow-wrap: anywhere;
+		word-break: break-word;
+		vertical-align: top;
+	}
+	.sat-unsat {
+		display: flex;
+		gap: 10px;
+		align-items: center;
+		flex-wrap: wrap;
+	}
+	.sat-unsat label {
+		margin: 0;
+		display: inline-flex;
+		align-items: center;
+		gap: 5px;
+		font-weight: 600;
+	}
+</style>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+	WRSTGQuarterly.init({
+		extraTableIds: [],
+		visibilityBindings: [],
+		submitConfirmation: { formId: 'hdcs_form' }
+	});
+});
+</script>
+{% endblock js %}

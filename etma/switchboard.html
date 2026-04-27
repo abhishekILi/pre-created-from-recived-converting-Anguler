@@ -1,0 +1,753 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">CHECK OFF LIST – SWITCHBOARD</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="spt_system_checks_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+
+                            <!-- ══════════════════════════════════════
+                                HEADER INFORMATION
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <div class="row g-3">
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" name="ship" required>
+                                                <option value="">--Select--</option>
+                                                <option value="">INS KOCHI</option>
+                                                <option value="">INS VIKRANT</option>
+                                                {% for ship in ship_options %}
+                                                <option value="{{ ship.value }}">{{ ship.label }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <label class="form_control_1">Ship<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" name="Occasion_system" placeholder="">
+                                            <label class="form_control_1">Occasion of Trial</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" name="Location_swbd" placeholder="">
+                                            <label class="form_control_1">Location of SWBD</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" name="Present_system">
+                                                <option value="">--Select--</option>
+                                                <option value="Ship's Crew">Ship's Crew</option>
+                                                <option value="Contractor">Contractor</option>
+                                                <option value="OEM">OEM</option>
+                                                <option value="Naval Dockyard">Naval Dockyard</option>
+                                                <option value="Shipyard">Shipyard</option>
+                                            </select>
+                                            <label class="form_control_1">Presented By</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" name="Trial equipment">
+                                                <option value="">--Select--</option>
+                                                <option value="Ship's Crew">Ship's Crew</option>
+                                                <option value="Contractor">Contractor</option>
+                                                <option value="OEM">OEM</option>
+                                                <option value="Naval Dockyard">Naval Dockyard</option>
+                                                <option value="Shipyard">Shipyard</option>
+                                            </select>
+                                            <label class="form_control_1">Trails Equipment used during Trial</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group mt-2 mb-2">
+                                            <div class="d-flex align-items-center">
+                                                <label class="form_control_1 mb-0">Reference Document :</label>
+                                                <span class="ml-2 font-weight-bold">EED-Q-264</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 1: Test Equipment
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">1. Test Equipment Used During Trials</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="test_equipment_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser</th>
+                                                <th>Test Equipment</th>
+                                                <th style="width:50%;">Remarks</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="serial-no">1</td>
+                                                <td></td>
+                                                <td></td>
+                                                <td class="action action-cell-holder">
+                                                    
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 2: Date & Time
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">2. Date &amp; Time</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="checklist_general_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser</th>
+                                                <th style="text-align: center;">Activity</th>
+                                                <th style="width:18%;">Date</th>
+                                                <th style="width:22%;">Time</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="serial-no">2.1</td>
+                                                <td>Intimation from Ship</td>
+                                                <td><input type="date" class="form-control" name="dt_intimation_date"></td>
+                                                <td><input type="time" class="form-control" name="dt_intimation_time"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">2.2</td>
+                                                <td>Readiness indicated by Ship</td>
+                                                <td><input type="date" class="form-control" name="dt_readiness_date"></td>
+                                                <td><input type="time" class="form-control" name="dt_readiness_time"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">2.3</td>
+                                                <td>Trial Inspector reported onboard Ship</td>
+                                                <td><input type="date" class="form-control" name="dt_inspector_date"></td>
+                                                <td><input type="time" class="form-control" name="dt_inspector_time"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">2.4</td>
+                                                <td>Trials Completed</td>
+                                                <td><input type="date" class="form-control" name="dt_completed_date"></td>
+                                                <td><input type="time" class="form-control" name="dt_completed_time"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 3: Design Requirements / Documentation
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">3. Design Requirements / Documentation</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="design_req_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser</th>
+                                                <th>Description</th>
+                                                <th style="width:30%;">Remarks</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="serial-no">3.1</td>
+                                                <td><strong>Manufacturer -</strong></td>
+                                                <td><textarea class="form-control" name="dr_manufacturer" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.2</td>
+                                                <td><strong>Make &amp; Model -</strong></td>
+                                                <td><textarea class="form-control" name="dr_make_model" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.3</td>
+                                                <td><strong>Equipment Serial Number -</strong></td>
+                                                <td><textarea class="form-control" name="dr_serial_no" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.4</td>
+                                                <td><strong>CMMS Code -</strong></td>
+                                                <td><textarea class="form-control" name="dr_cmms" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.5</td>
+                                                <td><strong>GRAQ -</strong></td>
+                                                <td><textarea class="form-control" name="dr_graq" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.6</td>
+                                                <td><strong>ATP -</strong></td>
+                                                <td><textarea class="form-control" name="dr_atp" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.7</td>
+                                                <td><strong>Board Proceedings -</strong></td>
+                                                <td><textarea class="form-control" name="dr_board" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.8</td>
+                                                <td><strong>FATs Report -</strong></td>
+                                                <td><textarea class="form-control" name="dr_fats" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.9</td>
+                                                <td><strong>As &amp; As (if any) -</strong></td>
+                                                <td><textarea class="form-control" name="dr_as_as" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.10</td>
+                                                <td><strong>APMS Configured in Switchboard -</strong></td>
+                                                <td><textarea class="form-control" name="dr_apms" rows="1"></textarea></td>
+                                            </tr>
+                                            <!-- Section 3.11 - Documentation / Certificate from OEM -->
+                                            <tr>
+                                                <td class="serial-no" rowspan="14">3.11</td>
+                                                <td><strong>Documentation / Certificate from OEM -</strong></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.11.1&nbsp;&nbsp; Technical documentation.</td>
+                                                <td><textarea class="form-control" name="dr_doc_31101" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.11.2&nbsp;&nbsp; Technical / functional description including that at PCB and component level.</td>
+                                                <td><textarea class="form-control" name="dr_doc_31102" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.11.3&nbsp;&nbsp; Operating Instruction Manual.</td>
+                                                <td><textarea class="form-control" name="dr_doc_31103" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.11.4&nbsp;&nbsp; Preventive maintenance routines / repair instructions Manual along with Drawings (as per EED-Q-264 Section 5 (0503)).</td>
+                                                <td><textarea class="form-control" name="dr_doc_31104" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.11.5&nbsp;&nbsp; Installation and Test Manual.</td>
+                                                <td><textarea class="form-control" name="dr_doc_31105" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.11.6&nbsp;&nbsp; Part Identification list and Tools Catalogue.</td>
+                                                <td><textarea class="form-control" name="dr_doc_31106" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.11.7&nbsp;&nbsp; Test Procedure and Documentation.</td>
+                                                <td><textarea class="form-control" name="dr_doc_31107" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.11.8&nbsp;&nbsp; List of onboard and B&amp;D spares.</td>
+                                                <td><textarea class="form-control" name="dr_doc_31108" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.11.9&nbsp;&nbsp; List of Instrumentation.</td>
+                                                <td><textarea class="form-control" name="dr_doc_31109" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.11.10&nbsp; Calibration Certificates of Instruments.</td>
+                                                <td><textarea class="form-control" name="dr_doc_31110" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.11.11&nbsp; Calibration and test Certificates of Breakers.</td>
+                                                <td><textarea class="form-control" name="dr_doc_31111" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>3.11.12&nbsp; Report and certificates (Section VI Para 0659)</strong></td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div>3.11.12.1&nbsp; Temperature Rise as per NES511.</div>
+                                                    <div>3.11.12.2&nbsp; Short Circuit as per BS 5486 Part I.</div>
+                                                    <div>3.11.12.3&nbsp; Through fault as per BS 5486 Part I.</div>
+                                                    <div>3.11.12.4&nbsp; Operation of Protective Devices as per SOTRs with values (to be listed in Certificate).</div>
+                                                    <div>3.11.12.5&nbsp; Ingress Protection as per NES 1004.</div>
+                                                    <div>3.11.12.6&nbsp; Voltage Withstand as per NES 511.</div>
+                                                    <div>3.11.12.7&nbsp; Insulation Resistance as per NES 511.</div>
+                                                    <div>3.11.12.8&nbsp; Millivolt drop as per NES 511.</div>
+                                                </td>
+                                                <td><textarea class="form-control" name="dr_doc_31112" rows="5"></textarea></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 4: Installation Checks
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">4. Installation Checks</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="installation_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser</th>
+                                                <th style="width:20%;">Reference</th>
+                                                <th>Checks</th>
+                                                <th style="width:20%;">Remarks</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- 4.1 Pre-Power Up Checks -->
+                                            <tr>
+                                                <td class="serial-no" rowspan="7" >4.1</td>
+                                                <td colspan="3"><strong>Pre-Power Up Checks.</strong></td>
+                                            </tr>
+                                            <tr>
+                                               
+                                                <td rowspan="2">EED-Q-264 (IP-55) Section 6 para (0624)</td>
+                                                <td>4.1.1 Switchboard area is clean, dry, no water ingress.</td>
+                                                <td><textarea class="form-control" name="ic_411" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                
+                                                <td>4.1.2 No Cables / Pipelines is Passed above switchboard.</td>
+                                                <td><textarea class="form-control" name="ic_412" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td>EED-Q-261 (Illumination levels Page 31)</td>
+                                                <td>4.1.3 Luminosity checks of SWBD room (&gt;150 lumens).</td>
+                                                <td><textarea class="form-control" name="ic_413" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                              
+                                                <td>Section 6 &amp; 8 Para 0630, 0631 &amp; 0810</td>
+                                                <td>4.1.4 Check for any loose tools/material around.</td>
+                                                <td><textarea class="form-control" name="ic_414" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td>NHQ/DEE EE/03/9712 dated 31 May 19</td>
+                                                <td>4.1.5 Check Material state of HV Rubber Mats (in good condition).</td>
+                                                <td><textarea class="form-control" name="ic_415" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                               
+                                                <td>EED-Q-264 Section 07 Para (0725-0731)</td>
+                                                <td>4.1.6 Check for proper ventilation of SWBD.</td>
+                                                <td><textarea class="form-control" name="ic_416" rows="1"></textarea></td>
+                                            </tr>
+                                            <!-- 4.2 Physical Condition Checks -->
+                                            <tr>
+                                                <td class="serial-no" rowspan="8">4.2</td>
+                                                <td colspan="3"><strong>Physical Condition Checks.</strong></td>
+                                            </tr>
+                                            <tr>
+                                               
+                                                <td rowspan="3">EED-Q-264 Section 07 Para (0725-0731)</td>
+                                                <td>4.2.1 Check for doors and Panels Screws and Handles.</td>
+                                                <td><textarea class="form-control" name="ic_421" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                               
+                                                
+                                                <td>4.2.2 Check proper operation of Hinges/Locks.</td>
+                                                <td><textarea class="form-control" name="ic_422" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                
+                                                <td>4.2.3 Check availability of Talley plates and labelling.</td>
+                                                <td><textarea class="form-control" name="ic_423" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                               
+                                                <td>EED-Q-264 Section 08 &amp; 06 Para (0812-0815) &amp; (0653-0656)</td>
+                                                <td>4.2.4 Check for Cable termination (Insulation Bear/tear/damage).</td>
+                                                <td><textarea class="form-control" name="ic_424" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td>EED-Q-264 Section 06 Para (0639-0643)</td>
+                                                <td>4.2.5 Check if bus-bar is covered with shrouds.</td>
+                                                <td><textarea class="form-control" name="ic_425" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                              
+                                                <td>EED-Q-264 (IP-55) Para (0639-0643)</td>
+                                                <td>4.2.6 Check if MCCBs/ACBs are free to move on railing for maintenance.</td>
+                                                <td><textarea class="form-control" name="ic_426" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                               
+                                                <td>EED-Q-264 Section 13 Para (1309-1310)</td>
+                                                <td>4.2.7 Check if healthy indication of Protection relays (if possible).</td>
+                                                <td><textarea class="form-control" name="ic_427" rows="1"></textarea></td>
+                                            </tr>
+                                            <!-- 4.3 Instrumentation -->
+                                            <tr>
+                                                <td class="serial-no" rowspan="8">4.3</td>
+                                                <td colspan="3"><strong>Instrumentation.</strong></td>
+                                            </tr>
+                                            <tr>
+                                            
+                                                <td rowspan="7" style="vertical-align:middle;">EED-Q-264 Section 09 Para (0913-0912)</td>
+                                                <td>4.3.1 Check operational availability of all Voltmeters.</td>
+                                                <td><textarea class="form-control" name="ic_431" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td>4.3.2 Check operational availability of all Ammeters.</td>
+                                                <td><textarea class="form-control" name="ic_432" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td>4.3.3 Check operational availability of all Frequency meters.</td>
+                                                <td><textarea class="form-control" name="ic_433" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                               
+                                                <td>4.3.4 Check operational availability of all Power factor meters.</td>
+                                                <td><textarea class="form-control" name="ic_434" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td>4.3.5 Check Synchronising panel lamps &amp; synchroscope.</td>
+                                                <td><textarea class="form-control" name="ic_435" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                               
+                                                <td>4.3.6 Check operational availability of all Meter selector switches working.</td>
+                                                <td><textarea class="form-control" name="ic_436" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td>4.3.7 Check operational availability of all insulation meters.</td>
+                                                <td><textarea class="form-control" name="ic_437" rows="1"></textarea></td>
+                                            </tr>
+                                            <!-- 4.4 Bus Bar Condition -->
+                                            <tr>
+                                                <td class="serial-no" rowspan="3">4.4</td>
+                                                <td colspan="3"><strong>Bus Bar Condition.</strong></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td rowspan="2" style="vertical-align:middle;">EED-Q-264 Section 06 Para (0639-0643)</td>
+                                                <td>4.4.1 Check Bus bar insulation &gt;10MΩ.</td>
+                                                <td><textarea class="form-control" name="ic_441" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                               
+                                                <td>4.4.2 Check Indication of LIVE/DEAD busbar on SWBD Panel.</td>
+                                                <td><textarea class="form-control" name="ic_442" rows="1"></textarea></td>
+                                            </tr>
+                                            <!-- 4.5 Cable Checks -->
+                                            <tr>
+                                                <td class="serial-no" rowspan="4">4.5</td>
+                                                <td colspan="3"><strong>Cable Checks.</strong></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td rowspan="3" style="vertical-align:middle;">EED-Q-264 Section 08 &amp; 06 Para (0812-0815) &amp; (0653-0656)</td>
+                                                <td>4.5.1 Check cable gland fitting. Cables should be passed via heat shrink glands.</td>
+                                                <td><textarea class="form-control" name="ic_451" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td>4.5.2 Check for temperature of cables inside SWBD panel using temperature gun.</td>
+                                                <td><textarea class="form-control" name="ic_452" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td>4.5.3 Check Phase sequence.</td>
+                                                <td><textarea class="form-control" name="ic_453" rows="1"></textarea></td>
+                                            </tr>
+                                            <!-- 4.6 Earthing Checks -->
+                                            <tr>
+                                                <td class="serial-no">4.6</td>
+                                                <td colspan="3"><strong>Earthing Checks.</strong> Check earthing of SWBD properly connected.</td>
+                                            </tr>
+                                            <!-- 4.7 Safety Checks -->
+                                            <tr>
+                                                <td class="serial-no" rowspan="3">4.7</td>
+                                                <td rowspan="3" style="vertical-align:middle;">NHQ DNO letter OP/SAFETY/5106/EQPT dated 25/04/25</td>
+                                                <td>4.7.1 Checks if Fire Extinguisher CO2 available near switchboard.</td>
+                                                <td><textarea class="form-control" name="ic_471" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                               
+                                                <td>4.7.2 Checks for the availability of Electric shock rescue Hook.</td>
+                                                <td><textarea class="form-control" name="ic_472" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                               
+                                                <td>4.7.3 Checks if No flammable items is stored nearby SWBD.</td>
+                                                <td><textarea class="form-control" name="ic_473" rows="1"></textarea></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 5: Operational Checks
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">5. Operational Checks</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="operational_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser</th>
+                                                <th style="width:20%;">Reference</th>
+                                                <th>Checks</th>
+                                                <th style="width:20%;">Remarks</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="serial-no" rowspan="20">5.1</td>
+                                                <td colspan="3"><strong>Operational Checks.</strong></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td rowspan="11">EED-Q-264 Section 13 Para (1309)</td>
+                                                <td>5.1.1 Checks manual load transfer between DA/GTG/TA.</td>
+                                                <td><textarea class="form-control" name="oc_511" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td>5.1.2 Undertake attended paralleling between DA/GTG/TAs (as applicable).</td>
+                                                <td><textarea class="form-control" name="oc_512" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td>5.1.3 Check proportional sharing of load between parallel machines.</td>
+                                                <td><textarea class="form-control" name="oc_513" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td>5.1.4 Check Reverse power protection by simulating motoring effect.</td>
+                                                <td><textarea class="form-control" name="oc_514" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td>5.1.5 Check Shore supply breaker ratings and condition.</td>
+                                                <td><textarea class="form-control" name="oc_515" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td>5.1.6 Check supply breaker ratings and condition.</td>
+                                                <td><textarea class="form-control" name="oc_516" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td>5.1.7 Check Inter connector breaker rating and condition.</td>
+                                                <td><textarea class="form-control" name="oc_517" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                               
+                                                <td>5.1.8 Check Feeder breakers (AC, Aux Supply) rating and condition.</td>
+                                                <td><textarea class="form-control" name="oc_518" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td>5.1.9 Check bus bar linking breaker rating and condition.</td>
+                                                <td><textarea class="form-control" name="oc_519" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td>5.1.10 Check of Earth trip protection (if provision).</td>
+                                                <td><textarea class="form-control" name="oc_5110" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td>5.1.11 Check if Spring charging motor is working through handle. (check if EOM available).</td>
+                                                <td><textarea class="form-control" name="oc_5111" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td></td>
+                                                <td >5.1.12 Check operational availability of EOM (if provisioned).</td>
+                                                <td><textarea class="form-control" name="oc_5112" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td rowspan="7">EED-Q-264 Section 11 Para (1102)</td>
+                                                <td>5.1.13 Check operational availability of Phase failure protection (single Phasing).</td>
+                                                <td><textarea class="form-control" name="oc_5113" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td>5.1.14 Check operational availability of Phase current asymmetry protection (if provisioned).</td>
+                                                <td><textarea class="form-control" name="oc_5114" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td>5.1.15 Check operational availability of overload protection.</td>
+                                                <td><textarea class="form-control" name="oc_5115" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td>5.1.16 Check operational availability of overvoltage and undervoltage protection.</td>
+                                                <td><textarea class="form-control" name="oc_5116" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td>5.1.17 Check operational availability of over frequency and under frequency protection.</td>
+                                                <td><textarea class="form-control" name="oc_5117" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td>5.1.18 Check operational availability Synchronising unit and synchronising in auto mode.</td>
+                                                <td><textarea class="form-control" name="oc_5118" rows="1"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td>5.1.19 Check synchronisation between generators, Bus coupler and inter-connector.</td>
+                                                <td><textarea class="form-control" name="oc_5119" rows="1"></textarea></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 6: Observations
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">6. Observations</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="defects_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser</th>
+                                                <th>Description of Defects / Deficiencies</th>
+                                                <th style="width:50%;">Remarks</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="serial-no">1</td>
+                                                <td><textarea class="form-control" name="obs_1_desc" rows="2"></textarea></td>
+                                                <td><textarea class="form-control" name="obs_1_remarks" rows="2"></textarea></td>
+                                                <td class="action action-cell-holder">
+                                                    <div class="action-controls">
+                                                        <button type="button" class="btn-round btn-add" onclick="addRow('defects_tbl')" title="Add Row">+</button>
+                                                        <button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'defects_tbl')" title="Remove Row">-</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            
+                            <div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Save</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .custom_tbl {
+        table-layout: fixed;
+        width: 100%;
+    }
+    .custom_tbl td,
+    .custom_tbl th {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
+        vertical-align: middle;
+        padding: 6px 8px;
+        font-size: 13px;
+    }
+    .serial-no {
+        width: 6%;
+        text-align: center;
+        font-weight: 600;
+    }
+    .yes-no-container {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        align-items: center;
+    }
+    .yes-no-container > div {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 12px;
+    }
+    .yes-no-container label {
+        margin: 0;
+        font-weight: normal;
+        cursor: pointer;
+    }
+    .yes-no-container-sm {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        align-items: flex-start;
+    }
+    .yes-no-container-sm > div {
+        display: flex;
+        align-items: center;
+        gap: 3px;
+        font-size: 11px;
+    }
+    .yes-no-container-sm label {
+        margin: 0;
+        font-weight: normal;
+        cursor: pointer;
+    }
+    .input-sm {
+        font-size: 12px;
+        padding: 3px 5px;
+        height: auto;
+    }
+    .sig-block {
+        padding: 10px 20px;
+    }
+    .sig-line {
+        border-top: 1px solid #333;
+        margin-bottom: 4px;
+    }
+    .sig-label {
+        font-size: 12px;
+        margin: 0;
+    }
+</style>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

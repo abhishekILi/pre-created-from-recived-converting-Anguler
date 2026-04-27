@@ -1,0 +1,242 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+    /* .container-fluid {
+        background-color: transparent;
+    }
+    .custom_tbl {
+        table-layout: fixed;
+        width: 100%;
+    } */
+    .custom_tbl td,
+    .custom_tbl th {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal !important;
+    }
+</style>
+{% endblock css %}
+
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">WATT</a></li>
+					<li class="breadcrumb-item active" aria-current="page">V/UHF HAND HELD RADIO SET</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">V/UHF HAND HELD RADIO SET</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="vuhf_handheld_form">
+						{% csrf_token %}
+						<div class="form-body">
+							<fieldset class="custom-fieldset">
+								<div class="row g-3">
+									<div class="col-md-3 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<select class="form-control" name="ship_name" required>
+												<option value="">Select Ship</option>
+												{% for option in ship_options %}
+													<option value="{{ option.value }}">{{ option.label }}</option>
+												{% endfor %}
+											</select>
+											<label class="form_control_1">NAME OF SHIP <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<input type="text" class="form-control" name="equipment" value="V/UHF HAND HELD RADIO SET" required>
+											<label class="form_control_1">EQUIPMENT <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-2 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<input type="text" class="form-control" name="sno">
+											<label class="form_control_1">SNo</label>
+										</div>
+									</div>
+								</div>
+
+								<div class="row g-3 mt-2">
+									<div class="col-md-2 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<input type="date" class="form-control" name="date" required>
+											<label class="form_control_1">DATE</label>
+										</div>
+									</div>
+									<div class="col-md-3 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<select class="form-control" name="department" required>
+												<option value="">Select Department</option>
+												<option value="ND">ND</option>
+												<option value="Communication">Communication</option>
+												<option value="Gunnery">Gunnery</option>
+												<option value="ASW">ASW</option>
+											</select>
+											<label class="form_control_1">DEPARTMENT <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-3 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<select class="form-control" name="nature_of_trials" required>
+												<option value="">Select Nature of Trials</option>
+												<option value="SATs">SATs</option>
+												<option value="HATs">HATs</option>
+												<option value="OP Checks">OP Checks</option>
+												<option value="IIs">IIs</option>
+											</select>
+											<label class="form_control_1">NATURE OF TRIALS <span class="text-danger">*</span></label>
+										</div>
+									</div>
+								</div>
+                            </fieldset>
+                            <fieldset class="custom-fieldset mt-4">
+								<div class="table-responsive mt-4">
+									<table class="custom_tbl" id="vuhf_handheld_table">
+										<thead class="table-dark-head">
+											<tr>
+												<th class="ser-col">SNo</th>
+												<th class="obs-col">OBSERVATIONS</th>
+												<th class="remarks-col">REMARKS</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<!-- <td></td> -->
+												<td colspan="2">
+													Trial team reported onboard for Op Checks of VHF Hand held set at
+													<input type="text" name="reported_hrs" class="line-input embarked-hrs"> hrs.
+													Checks and trials carried out IAW CNO 07/10, NHQ/DNS letter CM/0301/OPS dated 31 Jul 24 and HQENC/SOC(C)
+													letter CM/3070/29A dated 31 Jul 24 are enumerated in succeeding paragraphs:-
+												</td>
+												<td></td>
+											</tr>
+
+											<tr>
+												<td><strong>(A)</strong></td>
+												<td><strong><u>Physical checks:-</u></strong></td>
+												<td></td>
+											</tr>
+											<tr>
+												<td>1.</td>
+												<td>Check the set is supplied with all accessories (Battery pack, battery charger, antenna, water proof cover, hands free kit etc).</td>
+												<td class="text-center"><label><input type="radio" name="status_1" value="SAT"> SAT</label> <label><input type="radio" name="status_1" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>2.</td>
+												<td>Check all the buttons, knobs of radio are physically okay.</td>
+												<td class="text-center"><label><input type="radio" name="status_2" value="SAT"> SAT</label> <label><input type="radio" name="status_2" value="UNSAT"> UNSAT</label></td>
+											</tr>
+											<tr>
+												<td>3.</td>
+												<td>Check battery status of set prior starting functional checks.</td>
+												<td class="text-center"><label><input type="radio" name="status_3" value="SAT"> SAT</label> <label><input type="radio" name="status_3" value="UNSAT"> UNSAT</label></td>
+											</tr>
+
+											<tr>
+												<td><strong>(B)</strong></td>
+												<td><strong><u>Functional Checks:-</u></strong></td>
+												<td></td>
+											</tr>
+											<tr><td>1.</td><td><strong>Powering On:</strong> Check whether set is powered ON by rotating (power/volume) knob.</td><td class="text-center"><label><input type="radio" name="status_4" value="SAT"> SAT</label> <label><input type="radio" name="status_4" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>2.</td><td><strong>Signal strength Indicator:</strong> Check the set for signal strength bar or digital read out (as applicable).</td><td class="text-center"><label><input type="radio" name="status_5" value="SAT"> SAT</label> <label><input type="radio" name="status_5" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>3.</td><td><strong>Battery Status:</strong> Check whether the battery status is visible on display.</td><td class="text-center"><label><input type="radio" name="status_6" value="SAT"> SAT</label> <label><input type="radio" name="status_6" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>4.</td><td><strong>Volume Adjustment:</strong> Check the set for volume adjustment by rotating Power/ Volume button (as applicable).</td><td class="text-center"><label><input type="radio" name="status_7" value="SAT"> SAT</label> <label><input type="radio" name="status_7" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>5.</td><td><strong>Selecting channel:</strong> Check by rotating the channel switch knob for changing the channels. Check display whether selected channel is displayed on screen.</td><td class="text-center"><label><input type="radio" name="status_8" value="SAT"> SAT</label> <label><input type="radio" name="status_8" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>6.</td><td><strong>GPS:</strong> Check set for inbuilt GPS Rx &amp; its operations. (if applicable).</td><td class="text-center"><label><input type="radio" name="status_9" value="SAT"> SAT</label> <label><input type="radio" name="status_9" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>7.</td><td><strong>Bluetooth:</strong> Check set for integrated Bluetooth &amp; its operations.</td><td class="text-center"><label><input type="radio" name="status_10" value="SAT"> SAT</label> <label><input type="radio" name="status_10" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>8.</td><td><strong>Making Calls:</strong> Check communication on channels by pressing PTT button on at least 10 random frequency with in VHF (136-174 MHz) or UHF (400-470 MHz) as per the declared capability of set.</td><td class="text-center"><label><input type="radio" name="status_11" value="SAT"> SAT</label> <label><input type="radio" name="status_11" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>9.</td><td><strong>Receiving Calls:</strong> Set desired channels for receiving the call and check for reception of call. Reception should be check on at least 10 random frequency with in VHF (136 – 174 MHz) or UHF (400-470 MHz) as per the declared capability of set.</td><td class="text-center"><label><input type="radio" name="status_12" value="SAT"> SAT</label> <label><input type="radio" name="status_12" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>10.</td><td><strong>Emergency SOS/ SIREN:</strong> Check generation of SOS/ SIREN in set by pressing Emergency Alarm Key/ button (if applicable).</td><td class="text-center"><label><input type="radio" name="status_13" value="SAT"> SAT</label> <label><input type="radio" name="status_13" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>11.</td><td><strong>VOX:</strong> Check optimum functioning of set with VOX or similar system provided for hands free operations.</td><td class="text-center"><label><input type="radio" name="status_14" value="SAT"> SAT</label> <label><input type="radio" name="status_14" value="UNSAT"> UNSAT</label></td></tr>
+										</tbody>
+									</table>
+								</div>
+
+							</fieldset>
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">REMARKS</legend>
+                                <div class="static-section">
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="remarks_table">
+                                        <thead>
+                                            <tr>
+                                                <th class="serial-no">Sr No</th>
+                                                <th>Observations</th>
+                                                <th>SS Remarks</th>
+                                                <th class="action">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="serial-no">1</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="observation" placeholder="" rows="2"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="ss_remarks" placeholder="" rows="2"></textarea></td>
+                                                <td class="action action-cell-holder">
+                                                    <div class="action-controls">
+                                                        <button type="button" class="btn-round btn-add" onclick="addRow('remarks_table')" title="Add Row">+</button>
+                                                        <button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'remarks_table')" title="Remove Row">-</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                </div>
+                            </fieldset>
+                            <fieldset class="custom-fieldset">
+                                                        <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                                                        <div class="row g-3">
+                                                                <div class="col-md-4 col-12">
+                                                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                                                <select class="form-control" id="dmr_16a_presenting_authority" name="dmr_16a_presenting_authority" required>
+                                                                                        <option value="">--Select--</option>
+                                                                                        <option value="dockyard">Dockyard</option>
+                                                                                        <option value="shipstaff">Shipstaff</option>
+                                                                                        <option value="oem">OEM</option>
+                                                                                </select>
+                                                                                <label class="form_control_1" for="dmr_16a_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+                                                                        </div>
+                                                                </div>
+                                                                <div class="col-md-4 col-12">
+                                                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                                                <input type="text" class="form-control" id="dmr_16a_watt" name="dmr_16a_watt" value="VZG" >
+                                                                                <label class="form_control_1" for="dmr_16a_watt">WATT</label>
+                                                                        </div>
+                                                                </div>
+                                                        </div>
+                                                </fieldset>
+
+							<div class="d-flex justify-content-center mt-4 gap-2">
+								<button type="submit" class="btn btn-success px-4">Save</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

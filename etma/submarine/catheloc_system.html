@@ -1,0 +1,179 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+	
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item active" aria-current="page">ETMA</li>
+					<li class="breadcrumb-item active" aria-current="page">Submarine</li>
+					<li class="breadcrumb-item active" aria-current="page">CATHELOC System</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">CATHELOC SYSTEM - RESULT SHEET</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="catheloc_system_form">
+						{% csrf_token %}
+						<div class="form-body">
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">Basic Information</legend>
+								<div class="row g-3">
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="date" class="form-control" name="date_of_trials" required>
+											<label class="form_control_1">DATE OF TRIALS <span class="text-danger">*</span></label>
+										</div>
+									</div>
+
+									<div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="submarine_id" required>
+                                                <option value="">--Select--</option>
+												{% for submarine in submarine_options %}
+												<option value="{{ submarine.value }}">{{ submarine.label }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <label class="form_control_1">Submarine	 <span class="text-danger">*</span></label>
+                                        </div>
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<div class="table-responsive">
+									<table class="custom_tbl" id="catheloc_checks_table">
+										<thead class="table-dark-head">
+											<tr>
+												<th style="width:12%;">TEST SER</th>
+												<th style="width:22%;">TEST/NOMINAL VALUE</th>
+												<th colspan="3" style="width:33%;">ACTUAL VALUE/ REM</th>
+												<th colspan="2" style="width:33%;">ARKS</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>111.100</td>
+												<td>Visual inspection</td>
+												<td colspan="3"><input type="text" class="form-control" name="val_111_100"></td>
+												<td colspan="2"><input type="text" class="form-control" name="arks_111_100"></td>
+											</tr>
+											<tr>
+												<td>111.101</td>
+												<td>Functional Checks</td>
+												<td colspan="3"><input type="text" class="form-control" name="val_111_101"></td>
+												<td colspan="2"><input type="text" class="form-control" name="arks_111_101"></td>
+											</tr>
+											<tr>
+												<td>111.102</td>
+												<td>Functional Checks<br>VOLTAGE 6 V DC</td>
+												<td colspan="3"><input type="text" class="form-control" name="val_111_102"></td>
+												<td colspan="2"><input type="text" class="form-control" name="arks_111_102"></td>
+											</tr>
+											<tr>
+												<td>111.103.a</td>
+												<td>Functional Checks</td>
+												<td colspan="3"><input type="text" class="form-control" name="val_111_103a"></td>
+												<td colspan="2"><input type="text" class="form-control" name="arks_111_103a"></td>
+											</tr>
+											<tr>
+												<td>111.103.b</td>
+												<td>Functional Checks</td>
+												<td colspan="3"><input type="text" class="form-control" name="val_111_103b"></td>
+												<td colspan="2"><input type="text" class="form-control" name="arks_111_103b"></td>
+											</tr>
+
+											<tr>
+												<td rowspan="5">111.103.c</td>
+												<td rowspan="5">Functional Checks<br>MG = 0.8 AMPS<br>TC = 0.65 AMPS</td>
+												<td><strong>CKT</strong></td>
+												<td colspan="2" class="text-center"><strong>MANUAL</strong><br>MG &nbsp;&nbsp;&nbsp; TC</td>
+												<td colspan="2" class="text-center"><strong>AUTOMATIC</strong><br>MG &nbsp;&nbsp;&nbsp; TC</td>
+											</tr>
+											<tr>
+												<td><strong>MSW</strong></td>
+												<td><input type="text" class="form-control" name="msw_manual_mg"></td>
+												<td><input type="text" class="form-control" name="msw_manual_tc"></td>
+												<td><input type="text" class="form-control" name="msw_auto_mg"></td>
+												<td><input type="text" class="form-control" name="msw_auto_tc"></td>
+											</tr>
+											<tr>
+												<td><strong>FREEING&amp;<br>COMP.C/R</strong></td>
+												<td><input type="text" class="form-control" name="compcr_manual_mg"></td>
+												<td><input type="text" class="form-control" name="compcr_manual_tc"></td>
+												<td><input type="text" class="form-control" name="compcr_auto_mg"></td>
+												<td><input type="text" class="form-control" name="compcr_auto_tc"></td>
+											</tr>
+											<tr>
+												<td><strong>BATT.<br>COOLING</strong></td>
+												<td><input type="text" class="form-control" name="batt_manual_mg"></td>
+												<td><input type="text" class="form-control" name="batt_manual_tc"></td>
+												<td><input type="text" class="form-control" name="batt_auto_mg"></td>
+												<td><input type="text" class="form-control" name="batt_auto_tc"></td>
+											</tr>
+                                            <tr>
+                                                <td><strong>FREEING&amp; COMP.T/R</strong></td>
+												<td><input type="text" class="form-control" name="tr_manual_mg"></td>
+												<td><input type="text" class="form-control" name="tr_manual_tc"></td>
+												<td><input type="text" class="form-control" name="tr_auto_mg"></td>
+												<td><input type="text" class="form-control" name="tr_auto_tc"></td>
+                                            </tr>
+
+											<tr>
+												<td>111.103.d</td>
+												<td>Functional Checks</td>
+                                                <td colspan="3"><input type="text" class="form-control" name="val_111_103d"></td>
+												<td colspan="2"><input type="text" class="form-control" name="arks_111_103d"></td>
+												<!-- <td><strong>FREEING&amp; COMP.T/R</strong></td>
+												<td><input type="text" class="form-control" name="tr_manual_mg"></td>
+												<td><input type="text" class="form-control" name="tr_manual_tc"></td>
+												<td><input type="text" class="form-control" name="tr_auto_mg"></td>
+												<td><input type="text" class="form-control" name="tr_auto_tc"></td> -->
+											</tr>
+
+											<tr>
+												<td>111.103.e</td>
+												<td>Functional Checks</td>
+												<td colspan="3"><input type="text" class="form-control" name="val_111_103e"></td>
+												<td colspan="2"><input type="text" class="form-control" name="arks_111_103e"></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<div class="d-flex justify-content-center mt-4">
+								<button type="submit" class="btn btn-success px-4">Save</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

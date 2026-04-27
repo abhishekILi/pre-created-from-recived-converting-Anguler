@@ -1,0 +1,622 @@
+    {% extends 'itttm/trials_base.html' %}
+    {% load static %}
+
+    {% block css %}
+    <link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+    {% endblock css %}
+
+    {% block content %}
+    <div class="container-fluid" style="background-color: transparent;">
+        <div class="row">
+            <div class="col-md-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+                        <li class="breadcrumb-item" aria-current="page">FTTT</li>
+                        <li class="breadcrumb-item active" aria-current="page">Brahmos SSM Parameter Checks - P15</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid" style="background-color: transparent;">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="portlet light bordered">
+                    <div class="portlet-title">
+                        <div class="caption font-green">
+                            <!-- <i class="icon-plus font-green"></i> -->
+                            <span class="caption-subject bold">Brahmos SSM Parameter Checks - P15 </span>
+                        </div>
+                    </div>
+
+                    <div class="portlet-body form mt-2 mb-4">
+                        <form method="post" id="brahmos_fcs_form">
+                            {% csrf_token %}
+                            <div class="form-body">
+
+                                <fieldset class="custom-fieldset">
+                                    <legend class="legend-custom text-uppercase">BASIC INFORMATION</legend>
+                                    <div class="row g-3">
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="system_sub_system" value="Brahmos System" placeholder=" " readonly>
+                                                <label class="form_control_1">1. System/ Sub system</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="job_undertaken" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">2. Job Undertaken</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <!-- <textarea class="form-control wrstg-scroll-textarea" name="reference_documents" rows="2" placeholder=" "></textarea> -->
+                                                 <input type="file" class ="form-control" name="reference_documents">
+                                                <label class="form_control_1">3. Reference Documents</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="authority" placeholder=" ">
+                                                <label class="form_control_1">4. Authority</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="agencies_involved" value="FTTT(Vzg)" placeholder=" " readonly>
+                                                <label class="form_control_1">5. Agencies involved</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="date" class="form-control" name="date_commenced">
+                                                <label class="form_control_1">6. Date Commenced</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="date" class="form-control" name="date_completed">
+                                                <label class="form_control_1">7. Date Completed</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="prepared_by" placeholder=" ">
+                                                <label class="form_control_1">8. Prepared by</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="vetted_by" placeholder=" ">
+                                                <label class="form_control_1">9. Vetted by</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="reference_no" placeholder=" ">
+                                                <label class="form_control_1">10. Reference No.</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="summary_of_observations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">11. Summary of observations</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="operational_limitations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">12. Operational limitations (if any)</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </fieldset>
+
+                                <!-- ══════════════════════════════════════
+                                    SECTION 13 – Brahmos Launcher and FCS Checks
+                                ══════════════════════════════════════ -->
+                                <fieldset class="custom-fieldset">
+                                    <legend class="legend-custom text-uppercase">13. Brahmos Launcher and FCS Checks</legend>
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl" id="brahmos_fcs_tbl">
+                                            <thead class="table-dark-head">
+                                                <tr>
+                                                    <th class="serial-no">Ser</th>
+                                                    <th style="text-align: center;">Description of Checks<br><small>a.</small></th>
+                                                    <th style="width:12%;">Criterion<br><small>b.</small></th>
+                                                    <th style="width:22%;">Remarks<br><small>c.</small></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <!-- ── General Checks ── -->
+                                                <tr>
+                                                    <td rowspan="2" class="serial-no">1</td>
+                                                    <td colspan="4" class="group-header-cell"><strong>General Checks</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    
+                                                    <td>
+                                                        Visual inspection of devices and electrical connections.
+                                                        Law Para 1.2.2.1 of Maintenance Instruction {INBR 2063 (II) (3)}.
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-control" name="gen_criterion_1">
+                                                            <option value="" selected>Select status</option>
+                                                            <option value="SAT">SAT</option>
+                                                            <option value="UNSAT">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control wrstg-scroll-textarea" name="gen_remarks_1" rows="2" placeholder=" "></textarea>
+                                                    </td>
+                                                </tr>
+
+                                                <!-- ── Power Supply Checks ── -->
+                                                <tr>
+                                                    <td class="serial-no" rowspan="5">2</td>
+                                                    <td colspan="4" class="group-header-cell"><strong>Power Supply Checks</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    
+                                                    <td>2.1&nbsp;&nbsp;Output of PSU 1</td>
+                                                    <td>
+                                                        <select class="form-control" name="psu_criterion_2_1">
+                                                            <option value="" selected>Select status</option>
+                                                            <option value="SAT">SAT</option>
+                                                            <option value="UNSAT">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="psu_remarks_2_1" rows="1" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2.2&nbsp;&nbsp;Output of PSU 2</td>
+                                                    <td>
+                                                        <select class="form-control" name="psu_criterion_2_2">
+                                                            <option value="" selected>Select status</option>
+                                                            <option value="SAT">SAT</option>
+                                                            <option value="UNSAT">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="psu_remarks_2_2" rows="1" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2.3&nbsp;&nbsp;ACOS operation</td>
+                                                    <td>
+                                                        <select class="form-control" name="psu_criterion_2_3">
+                                                            <option value="" selected>Select status</option>
+                                                            <option value="SAT">SAT</option>
+                                                            <option value="UNSAT">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="psu_remarks_2_3" rows="1" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2.4&nbsp;&nbsp;Emergency supply from battery for BFCS</td>
+                                                    <td>
+                                                        <select class="form-control" name="psu_criterion_2_4">
+                                                            <option value="" selected>Select status</option>
+                                                            <option value="SAT">SAT</option>
+                                                            <option value="UNSAT">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="psu_remarks_2_4" rows="1" placeholder=" "></textarea></td>
+                                                </tr>
+
+                                                <!-- ── Control & Switching Unit Checks ── -->
+                                                <tr>
+                                                    <td class="serial-no" rowspan="3">3</td>
+                                                    <td colspan="4" class="group-header-cell"><strong>Control &amp; Switching unit checks</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    
+                                                    <td>
+                                                        3.1&nbsp;&nbsp;System Health Status/Functional check.
+                                                        Law Para 1.2.2.5 of Maintenance Instruction {INBR 2063 (II) (3)}.
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-control" name="csw_criterion_3_1">
+                                                            <option value="" selected>Select status</option>
+                                                            <option value="SAT">SAT</option>
+                                                            <option value="UNSAT">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="csw_remarks_3_1" rows="2" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        3.2&nbsp;&nbsp;Power supply change over to battery.
+                                                        Law Para 1.2.2.6 of Maintenance Instruction {INBR 2063 (II) (3)}.
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-control" name="csw_criterion_3_2">
+                                                            <option value="" selected>Select status</option>
+                                                            <option value="SAT">SAT</option>
+                                                            <option value="UNSAT">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="csw_remarks_3_2" rows="2" placeholder=" "></textarea></td>
+                                                </tr>
+
+                                                <!-- ── Firing in Combat Mode ── -->
+                                                <tr>
+                                                    <td class="serial-no" rowspan="3">4</td>
+                                                    <td colspan="4" class="group-header-cell"><strong>Firing in combat mode</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    
+                                                    <td>
+                                                        4.1&nbsp;&nbsp;Checks with Technical Missile (TEM article)
+                                                        <ul style="margin: 4px 0 0 16px; padding: 0; list-style: disc;">
+                                                            <li>Missile Health Checks</li>
+                                                            <li>Firing checks</li>
+                                                            <li>Emergency Launch Checks</li>
+                                                        </ul>
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-control" name="fcm_criterion_4_1">
+                                                            <option value="" selected>Select status</option>
+                                                            <option value="SAT">SAT</option>
+                                                            <option value="UNSAT">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="fcm_remarks_4_1" rows="3" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        4.2&nbsp;&nbsp;Performance check with MES/MLS as per chapter 6 of
+                                                        Overhauling and Reconditioning Instruction (INCB 229).
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-control" name="fcm_criterion_4_2">
+                                                            <option value="" selected>Select status</option>
+                                                            <option value="SAT">SAT</option>
+                                                            <option value="UNSAT">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="fcm_remarks_4_2" rows="2" placeholder=" "></textarea></td>
+                                                </tr>
+
+                                                <!-- ── Simulation Checks ── -->
+                                                <tr>
+                                                    <td class="serial-no" rowspan="8">5</td>
+                                                    <td colspan="4" class="group-header-cell"><strong>Simulation Checks</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    
+                                                    <td>5.1&nbsp;&nbsp;Health checks of all Simulated Missile in Training Mode.</td>
+                                                    <td>
+                                                        <select class="form-control" name="sim_criterion_5_1">
+                                                            <option value="" selected>Select status</option>
+                                                            <option value="SAT">SAT</option>
+                                                            <option value="UNSAT">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="sim_remarks_5_1" rows="1" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>5.2&nbsp;&nbsp;Missile launch in Single Salvo in Independent mode</td>
+                                                    <td>
+                                                        <select class="form-control" name="sim_criterion_5_2">
+                                                            <option value="" selected>Select status</option>
+                                                            <option value="SAT">SAT</option>
+                                                            <option value="UNSAT">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="sim_remarks_5_2" rows="1" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>5.3&nbsp;&nbsp;Missile launch in Dual Salvo in Independent mode</td>
+                                                    <td>
+                                                        <select class="form-control" name="sim_criterion_5_3">
+                                                            <option value="" selected>Select status</option>
+                                                            <option value="SAT">SAT</option>
+                                                            <option value="UNSAT">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="sim_remarks_5_3" rows="1" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>5.4&nbsp;&nbsp;Missile launch in Single Salvo in Main mode</td>
+                                                    <td>
+                                                        <select class="form-control" name="sim_criterion_5_4">
+                                                            <option value="" selected>Select status</option>
+                                                            <option value="SAT">SAT</option>
+                                                            <option value="UNSAT">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="sim_remarks_5_4" rows="1" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>5.5&nbsp;&nbsp;Missile launch in Dual Salvo in Main mode</td>
+                                                    <td>
+                                                        <select class="form-control" name="sim_criterion_5_5">
+                                                            <option value="" selected>Select status</option>
+                                                            <option value="SAT">SAT</option>
+                                                            <option value="UNSAT">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="sim_remarks_5_5" rows="1" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        5.6&nbsp;&nbsp;Launching of 02 combat missile with emergency supply
+                                                        (Battery) for BFCS CCU GUI
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-control" name="sim_criterion_5_6">
+                                                            <option value="" selected>Select status</option>
+                                                            <option value="SAT">SAT</option>
+                                                            <option value="UNSAT">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="sim_remarks_5_6" rows="2" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        5.7&nbsp;&nbsp;Firing circuit checks in EMERGENCY mode (Emergency Ejection)
+                                                        for all 08 missiles. Law Para 7.5 of User Hand Book (INCB 228).
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-control" name="sim_criterion_5_7">
+                                                            <option value="" selected>Select status</option>
+                                                            <option value="SAT">SAT</option>
+                                                            <option value="UNSAT">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="sim_remarks_5_7" rows="2" placeholder=" "></textarea></td>
+                                                </tr>
+
+                                                <!-- ── External Interface Checks ── -->
+                                                <tr>
+                                                    <td class="serial-no" rowspan="5">6</td>
+                                                    <td colspan="4" class="group-header-cell"><strong>External Interface Checks</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    
+                                                    <td>6.1&nbsp;&nbsp;Data from INS-SA</td>
+                                                    <td>
+                                                        <select class="form-control" name="ext_criterion_6_1">
+                                                            <option value="" selected>Select status</option>
+                                                            <option value="SAT">SAT</option>
+                                                            <option value="UNSAT">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="ext_remarks_6_1" rows="1" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>6.2&nbsp;&nbsp;Blokirovka Interface</td>
+                                                    <td>
+                                                        <select class="form-control" name="ext_criterion_6_2">
+                                                            <option value="" selected>Select status</option>
+                                                            <option value="SAT">SAT</option>
+                                                            <option value="UNSAT">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="ext_remarks_6_2" rows="1" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>6.3&nbsp;&nbsp;TD checks from CMS</td>
+                                                    <td>
+                                                        <select class="form-control" name="ext_criterion_6_3">
+                                                            <option value="" selected>Select status</option>
+                                                            <option value="SAT">SAT</option>
+                                                            <option value="UNSAT">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="ext_remarks_6_3" rows="1" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>6.4&nbsp;&nbsp;TD checks from SSR</td>
+                                                    <td>
+                                                        <select class="form-control" name="ext_criterion_6_4">
+                                                            <option value="" selected>Select status</option>
+                                                            <option value="SAT">SAT</option>
+                                                            <option value="UNSAT">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="ext_remarks_6_4" rows="1" placeholder=" "></textarea></td>
+                                                </tr>
+
+                                                <!-- ── Insulation Checks ── -->
+                                                <tr>
+                                                    <td class="serial-no" rowspan="11">7</td>
+                                                    <td colspan="4" class="group-header-cell"><strong>Insulation Checks</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    
+                                                    <td colspan="3">
+                                                        7.1&nbsp;&nbsp;Missile Connector and Cables. Law Para 1.2.2.7 (a) of
+                                                        Maintenance Instruction {INBR 2063 (II) (3)}.
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>M1</td>
+                                                    <td>
+                                                        <select class="form-control" name="ins_criterion_m1">
+                                                            <option value="" selected>Select status</option>
+                                                            <option value="SAT">SAT</option>
+                                                            <option value="UNSAT">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="ins_remarks_m1" rows="1" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>M2</td>
+                                                    <td>
+                                                        <select class="form-control" name="ins_criterion_m2">
+                                                            <option value="" selected>Select status</option>
+                                                            <option value="SAT">SAT</option>
+                                                            <option value="UNSAT">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="ins_remarks_m2" rows="1" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>M3</td>
+                                                    <td>
+                                                        <select class="form-control" name="ins_criterion_m3">
+                                                            <option value="" selected>Select status</option>
+                                                            <option value="SAT">SAT</option>
+                                                            <option value="UNSAT">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="ins_remarks_m3" rows="1" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>M4</td>
+                                                    <td>
+                                                        <select class="form-control" name="ins_criterion_m4">
+                                                            <option value="" selected>Select status</option>
+                                                            <option value="SAT">SAT</option>
+                                                            <option value="UNSAT">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="ins_remarks_m4" rows="1" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>M5</td>
+                                                    <td>
+                                                        <select class="form-control" name="ins_criterion_m5">
+                                                            <option value="" selected>Select status</option>
+                                                            <option value="SAT">SAT</option>
+                                                            <option value="UNSAT">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="ins_remarks_m5" rows="1" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>M6</td>
+                                                    <td>
+                                                        <select class="form-control" name="ins_criterion_m6">
+                                                            <option value="" selected>Select status</option>
+                                                            <option value="SAT">SAT</option>
+                                                            <option value="UNSAT">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="ins_remarks_m6" rows="1" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>M7</td>
+                                                    <td>
+                                                        <select class="form-control" name="ins_criterion_m7">
+                                                            <option value="" selected>Select status</option>
+                                                            <option value="SAT">SAT</option>
+                                                            <option value="UNSAT">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="ins_remarks_m7" rows="1" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>M8</td>
+                                                    <td>
+                                                        <select class="form-control" name="ins_criterion_m8">
+                                                            <option value="" selected>Select status</option>
+                                                            <option value="SAT">SAT</option>
+                                                            <option value="UNSAT">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="ins_remarks_m8" rows="1" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        7.2&nbsp;&nbsp;System power cables (ACOS&gt;SFU&gt;BBU). Law Para 1.2.2.7 (b)
+                                                        of Maintenance Instruction {INBR 2063 (II) (3)}.
+                                                    </td>
+                                                    <td>
+                                                        <select class="form-control" name="ins_criterion_7_2">
+                                                            <option value="" selected>Select status</option>
+                                                            <option value="SAT">SAT</option>
+                                                            <option value="UNSAT">UNSAT</option>
+                                                        </select>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="ins_remarks_7_2" rows="2" placeholder=" "></textarea></td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </fieldset>
+
+                                <!-- ══════════════════════════════════════
+                                    SECTION 14 – Test Equipment Used
+                                ══════════════════════════════════════ -->
+                                <fieldset class="custom-fieldset">
+                                    <legend class="legend-custom text-uppercase">14. Test Equipment Used</legend>
+
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl" id="test_equipment_tbl">
+                                            <thead class="table-dark-head">
+                                                <tr>
+                                                    <th class="serial-no">Ser</th>
+                                                    <th>Test Equipment Used<br><small>a.</small></th>
+                                                    <th style="width:35%;">Checks Undertaken<br><small>b.</small></th>
+                                                    <th class="action">ACTION</th>
+                                        
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="serial-no">1</td>
+                                                    <td><input type="text" class="form-control" data-base-name="te_equipment" placeholder=" "></td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="te_checks" rows="1" placeholder=" "></textarea></td>
+                                                    <td class="action action-cell-holder">
+                                                    <div class="action-controls">
+                                                        <button type="button" class="btn-round btn-add" onclick="addRow('test_equipment_tbl')">+</button>
+                                                        <button type="button" class="btn-round btn-remove" onclick="removeRow('test_equipment_tbl')">-</button>
+                                                    </div>
+                                                </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </fieldset>
+
+                                <div class="d-flex justify-content-center mt-4 gap-2">
+                                    <button type="submit" class="btn btn-success px-4">Save</button>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .group-header-cell {
+            background-color: #e9ecef;
+            font-size: 13px;
+            padding: 6px 10px;
+        }
+    </style>
+    {% endblock content %}
+
+    {% block js %}
+    <script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        WRSTGQuarterly.init({
+            extraTableIds: ['test_equipment_tbl'],
+            visibilityBindings: [],
+            submitConfirmation: { formId: 'brahmos_fcs_form' }
+        });
+    });
+</script>
+    {% endblock js %}

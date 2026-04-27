@@ -1,0 +1,396 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+	
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">GUNNERY</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">SRCG 6110003</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">SRCG 6110003</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="srcg_sats_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+
+                            <!-- ===== HEADER FIELDS ===== -->
+                            <fieldset class="custom-fieldset">
+                                <div class="row g-3">
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="text" class="form-control" name="ship" required>
+                                            <label class="form_control_1">SHIP <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="text" class="form-control" value="GUN">
+                                            <label class="form_control_1">DEPT</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="text" class="form-control" value="SRCG">
+                                            <label class="form_control_1">EQUIPMENT</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row g-3 mt-2">
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="date" class="form-control" name="date" required>
+                                            <label class="form_control_1">DATE <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="text" class="form-control" value="SATs">
+                                            <label class="form_control_1">NATURE OF TRIALS</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <!-- ===== OBSERVATIONS TABLE ===== -->
+                            <fieldset class="custom-fieldset mt-4">
+                                <legend class="legend-custom text-uppercase">Observations</legend>
+                                <div class="table-responsive mt-4">
+                                    <table class="custom_tbl" id="observations_table">
+                                        <thead>
+                                            <tr>
+                                                <th >Ser</th>
+                                                <th >OBSERVATIONS</th>
+                                                <th >RESULT</th>
+                                                <th >REMARKS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="observations_tbody">
+                                            <!-- First Row - Intro Paragraph -->
+                                            <tr>
+                                                <td colspan="4">
+                                                    <p>
+                                                        Trials team embarked onboard at <input type="text" class="line-input  embarked-hrs" name="embarked_location"> 
+                                                        on <input type="text" class="line-input  embarked-hrs" name="embarked_date"> 
+                                                        for SATs of SRCG as per approved schedule, BR 4050 and CNO 07/10. Following observed:-
+                                                    </p>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Section 5: SAT ATP Testing -->
+                                            <tr>
+                                                <td  colspan="4" >
+                                                   <strong>5: SAT ATP Testing</strong>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Check 5.1 -->
+                                            <tr>
+                                                <td class="text-center">5.1</td>
+                                                <td>Mechanical testing</td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="result_5_1" placeholder=""></textarea>
+                                                </td>
+                                                <td class="text-center">
+                                                    <label ><input type="radio" name="remarks_5_1" value="SAT"> SAT</label>
+                                                    <label ><input type="radio" name="remarks_5_1" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Check 5.2 -->
+                                            <tr>
+                                                <td class="text-center">5.2</td>
+                                                <td>Start up and system status report test</td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="result_5_2" placeholder=""></textarea>
+                                                </td>
+                                                <td class="text-center">
+                                                    <label ><input type="radio" name="remarks_5_2" value="SAT"> SAT</label>
+                                                    <label ><input type="radio" name="remarks_5_2" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Check 5.3 -->
+                                            <tr>
+                                                <td class="text-center">5.3</td>
+                                                <td>Pedestal motion test</td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="result_5_3" placeholder=""></textarea>
+                                                </td>
+                                                <td class="text-center">
+                                                    <label ><input type="radio" name="remarks_5_3" value="SAT"> SAT</label>
+                                                    <label ><input type="radio" name="remarks_5_3" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Check 5.4 -->
+                                            <tr>
+                                                <td class="text-center">5.4</td>
+                                                <td>Movement limits test</td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="result_5_4" placeholder=""></textarea>
+                                                </td>
+                                                <td class="text-center">
+                                                    <label ><input type="radio" name="remarks_5_4" value="SAT"> SAT</label>
+                                                    <label ><input type="radio" name="remarks_5_4" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Check 5.5 -->
+                                            <tr>
+                                                <td class="text-center">5.5</td>
+                                                <td>POD Test</td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="result_5_5" placeholder=""></textarea>
+                                                </td>
+                                                <td class="text-center">
+                                                    <label ><input type="radio" name="remarks_5_5" value="SAT"> SAT</label>
+                                                    <label ><input type="radio" name="remarks_5_5" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Check 5.6 -->
+                                            <tr>
+                                                <td class="text-center">5.6</td>
+                                                <td>DSS Test</td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="result_5_6" placeholder=""></textarea>
+                                                </td>
+                                                <td class="text-center">
+                                                    <label ><input type="radio" name="remarks_5_6" value="SAT"> SAT</label>
+                                                    <label ><input type="radio" name="remarks_5_6" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Check 5.7 -->
+                                            <tr>
+                                                <td class="text-center">5.7</td>
+                                                <td>SCP Test</td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="result_5_7" placeholder=""></textarea>
+                                                </td>
+                                                <td class="text-center">
+                                                    <label ><input type="radio" name="remarks_5_7" value="SAT"> SAT</label>
+                                                    <label ><input type="radio" name="remarks_5_7" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Check 5.8 -->
+                                            <tr>
+                                                <td class="text-center">5.8</td>
+                                                <td>MFDU Test</td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="result_5_8" placeholder=""></textarea>
+                                                </td>
+                                                <td class="text-center">
+                                                    <label ><input type="radio" name="remarks_5_8" value="SAT"> SAT</label>
+                                                    <label ><input type="radio" name="remarks_5_8" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Check 5.9 -->
+                                            <tr>
+                                                <td class="text-center">5.9</td>
+                                                <td>Integration with ships system</td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="result_5_9" placeholder=""></textarea>
+                                                </td>
+                                                <td class="text-center">
+                                                    <label ><input type="radio" name="remarks_5_9" value="SAT"> SAT</label>
+                                                    <label ><input type="radio" name="remarks_5_9" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Check 5.10 -->
+                                            <tr>
+                                                <td class="text-center">5.10</td>
+                                                <td>Gun operation test</td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="result_5_10" placeholder=""></textarea>
+                                                </td>
+                                                <td class="text-center">
+                                                    <label ><input type="radio" name="remarks_5_10" value="SAT"> SAT</label>
+                                                    <label ><input type="radio" name="remarks_5_10" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Section 6: SAT firing Test -->
+                                            <tr>
+                                                <td colspan="4">
+                                                   <strong> 6: SAT firing Test</strong>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Check 6.1 -->
+                                            <tr>
+                                                <td class="text-center">6.1</td>
+                                                <td>Sea condition for test</td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="result_6_1" placeholder=""></textarea>
+                                                </td>
+                                                <td class="text-center">
+                                                    <label ><input type="radio" name="remarks_6_1" value="SAT"> SAT</label>
+                                                    <label ><input type="radio" name="remarks_6_1" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Check 6.2 -->
+                                            <tr>
+                                                <td class="text-center">6.2</td>
+                                                <td>Target for firing test</td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="result_6_2" placeholder=""></textarea>
+                                                </td>
+                                                <td class="text-center">
+                                                    <label ><input type="radio" name="remarks_6_2" value="SAT"> SAT</label>
+                                                    <label ><input type="radio" name="remarks_6_2" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Check 6.3 -->
+                                            <tr>
+                                                <td class="text-center">6.3</td>
+                                                <td>Safety instruction</td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="result_6_3" placeholder=""></textarea>
+                                                </td>
+                                                <td class="text-center">
+                                                    <label ><input type="radio" name="remarks_6_3" value="SAT"> SAT</label>
+                                                    <label ><input type="radio" name="remarks_6_3" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Check 6.4 -->
+                                            <tr>
+                                                <td class="text-center">6.4</td>
+                                                <td>General instruction</td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="result_6_4" placeholder=""></textarea>
+                                                </td>
+                                                <td class="text-center">
+                                                    <label ><input type="radio" name="remarks_6_4" value="SAT"> SAT</label>
+                                                    <label ><input type="radio" name="remarks_6_4" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Check 6.5 -->
+                                            <tr>
+                                                <td class="text-center">6.5</td>
+                                                <td>Firing procedure</td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="result_6_5" placeholder=""></textarea>
+                                                </td>
+                                                <td class="text-center">
+                                                    <label ><input type="radio" name="remarks_6_5" value="SAT"> SAT</label>
+                                                    <label ><input type="radio" name="remarks_6_5" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Check 6.5 (a) -->
+                                            <tr>
+                                                <td class="text-center"></td>
+                                                <td>
+                                                    <strong>(a) Total No of rounds fire – 33</strong>
+                                                    <ul >
+                                                        <li>Warm up shot – 03 rds</li>
+                                                        <li>Single shot – 10 rds</li>
+                                                        <li>Slow burst – 20 rds</li>
+                                                    </ul>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="result_6_5_a" placeholder=""></textarea>
+                                                </td>
+                                                <td class="text-center">
+                                                    <label ><input type="radio" name="remarks_6_5_a" value="SAT"> SAT</label>
+                                                    <label ><input type="radio" name="remarks_6_5_a" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Check 6.5 (b) -->
+                                            <tr>
+                                                <td class="text-center"></td>
+                                                <td>
+                                                    <strong>(b) Position the vessel and the SRCG at a distance of 800 – 1200 meter from the floating target</strong>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="result_6_5_b" placeholder=""></textarea>
+                                                </td>
+                                                <td class="text-center">
+                                                    <label ><input type="radio" name="remarks_6_5_b" value="SAT"> SAT</label>
+                                                    <label ><input type="radio" name="remarks_6_5_b" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Check 6.5 (c) -->
+                                            <tr>
+                                                <td class="text-center"></td>
+                                                <td>
+                                                    <strong>(c) Count the target firing hits (10% of hits – mark all hits before starting new firing scenario</strong>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="result_6_5_c" placeholder=""></textarea>
+                                                </td>
+                                                <td class="text-center">
+                                                    <label ><input type="radio" name="remarks_6_5_c" value="SAT"> SAT</label>
+                                                    <label ><input type="radio" name="remarks_6_5_c" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ===== PRESENTING & INSPECTING AUTHORITY ===== -->
+                            <fieldset class="custom-fieldset mt-4">
+								<legend class="legend-custom text-uppercase">Authority</legend>
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" name="presenting_authority" value="Ship's staff" readonly>
+											<label class="form_control_1">Presenting Authority</label>
+										</div>
+									</div>
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" name="inspecting_authority" value="WATT" readonly>
+											<label class="form_control_1">Inspecting Authority</label>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+                            <!-- ===== SUBMIT BUTTON ===== -->
+                            <div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Save</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

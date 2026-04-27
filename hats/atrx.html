@@ -1,0 +1,305 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+    .custom_tbl td,
+    .custom_tbl th {
+        vertical-align: top;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal !important;
+    }
+
+    .form-time-cell {
+        min-width: 90px;
+    }
+
+    .form-time-cell input {
+        min-width: 80px;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">HATS</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">HATS ATRX-1000</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">HATS ATRX-1000</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="hats_atrx_1000_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+
+                            <!-- ===== HEADER FIELDS ===== -->
+                            <fieldset class="custom-fieldset">
+                                <div class="row g-3">
+                                    <div class="row g-3 mt-2">
+
+                                        <div class="col-md-3 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label">
+                                                <input type="text" class="form-control" name="equipment"
+                                                    value="ATRX 1000">
+                                                <label class="form_control_1">EQUIPMENT</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label">
+                                                <input type="text" class="form-control" name="obs_sheet_no">
+                                                <label class="form_control_1">OBSERVATION SHEET NO</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label">
+                                                <input type="text" class="form-control" name="units">
+                                                <label class="form_control_1">UNITS</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label">
+                                                <select class="form-control" name="nature_of_trials" required>
+                                                    <option value="">Select Nature of Trials</option>
+                                                    <option value="SATs">SATs</option>
+                                                    <option value="HATs">HATs</option>
+                                                    <option value="OP CHECKS">OP CHECKS</option>
+                                                    <option value="IIs">IIs</option>
+                                                </select>
+                                                <label class="form_control_1">NATURE OF TRIALS <span
+                                                        class="text-danger">*</span></label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label">
+                                                <input type="date" class="form-control" name="date" required>
+                                                <label class="form_control_1">DATE <span
+                                                        class="text-danger">*</span></label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row g-3 mt-2">
+                                        <div class="col-md-3 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label">
+                                                <input type="text" class="form-control" name="presented_by">
+                                                <label class="form_control_1">PRESENTED BY</label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </fieldset>
+
+                            <!-- ===== TRIAL CHECKS TABLE ===== -->
+                            <fieldset class="custom-fieldset mt-4">
+                                <div class="table-responsive mt-3">
+                                    <table class="custom_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th>TRIAL SER</th>
+                                                <th>CHECK DESCRIPTION AS PER SCHEDULE</th>
+                                                <th>RESULT<br>SAT/UNSAT</th>
+                                                <th>PRESENTING AUTHORITY REMARKS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr>
+                                                <td><strong>8.1</strong></td>
+                                                <td>Visual Inspection checks</td>
+                                                <td>
+                                                    <label><input type="radio" name="ch_8_1" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="ch_8_1" value="UNSAT">
+                                                        UNSAT</label>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                        name="ch_8_1_remarks"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td><strong>8.2</strong></td>
+                                                <td>Bite checks</td>
+                                                <td>
+                                                    <label><input type="radio" name="ch_8_2" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="ch_8_2" value="UNSAT">
+                                                        UNSAT</label>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                        name="ch_8_2_remarks"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td><strong>8.3</strong></td>
+                                                <td>Power Consumption checks</td>
+                                                <td>
+                                                    <label><input type="radio" name="ch_8_3" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="ch_8_3" value="UNSAT">
+                                                        UNSAT</label>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                        name="ch_8_3_remarks"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td><strong>8.4</strong></td>
+                                                <td>Frequency checks</td>
+                                                <td>
+                                                    <label><input type="radio" name="ch_8_4" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="ch_8_4" value="UNSAT">
+                                                        UNSAT</label>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                        name="ch_8_4_remarks"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td><strong>8.5</strong></td>
+                                                <td>Power output in CW</td>
+                                                <td>
+                                                    <label><input type="radio" name="ch_8_5" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="ch_8_5" value="UNSAT">
+                                                        UNSAT</label>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                        name="ch_8_5_remarks"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td><strong>8.6</strong></td>
+                                                <td>Receiver sensitivity Checks</td>
+                                                <td>
+                                                    <label><input type="radio" name="ch_8_6" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="ch_8_6" value="UNSAT">
+                                                        UNSAT</label>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                        name="ch_8_6_remarks"></textarea></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ===== PRESENTING AUTHORITY ===== -->
+                            <fieldset class="custom-fieldset mt-4">
+                                <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                                <div class="row g-3 mb-3">
+
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" id="hats_atrx_1000_presenting_authority"
+                                                name="hats_atrx_1000_presenting_authority" required>
+                                                <option value="">--Select--</option>
+                                                <option value="dockyard">Dockyard</option>
+                                                <option value="shipstaff">Ship's Staff</option>
+                                                <option value="oem">OEM</option>
+                                            </select>
+                                            <label class="form_control_1" for="hats_atrx_1000_presenting_authority">
+                                                Presenting Authority <span class="text-danger">*</span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <!-- WATT 1 -->
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" id="hats_atrx_1000_watt_1_name"
+                                                name="hats_atrx_1000_watt_1_name">
+                                            <label class="form_control_1">WATT(1)</label>
+                                        </div>
+                                    </div>
+
+                                    <!-- WATT 2 -->
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" id="hats_atrx_1000_watt_2_name"
+                                                name="hats_atrx_1000_watt_2_name">
+                                            <label class="form_control_1">WATT(2)</label>
+                                        </div>
+                                    </div>
+
+                                    <!-- WATT 3 -->
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" id="hats_atrx_1000_watt_3_name"
+                                                name="hats_atrx_1000_watt_3_name">
+                                            <label class="form_control_1">WATT(3)</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="table-responsive mt-4">
+                                    <table class="custom_tbl" id="hats_atrx_1000_remarks_table">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th>REMARKS TO BE GIVEN</th>
+                                                <th>WBA - WILL BE AMENDED</th>
+                                                <th>WBD - WILL BE DONE</th>
+                                                <th>WOW - WILL OBTAIN WAIVER</th>
+                                                <th>COM - COMPLETED</th>
+                                                <th>N/O - NOT OFFERED</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                        name="hats_atrx_1000_remarks_main"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                        name="hats_atrx_1000_wba"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                        name="hats_atrx_1000_wbd"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                        name="hats_atrx_1000_wow"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                        name="hats_atrx_1000_com"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                        name="hats_atrx_1000_no"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>OIC</strong></td>
+                                                <td><strong>CDR TRIALS</strong></td>
+                                                <td><strong>STO (G)</strong></td>
+                                                <td><strong>STO (L)</strong></td>
+                                                <td colspan="2"><strong>TO (L)</strong></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Save</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

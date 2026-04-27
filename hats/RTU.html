@@ -1,0 +1,236 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item active" aria-current="page">WATT</li>
+          <li class="breadcrumb-item active" aria-current="page">HATs</li>
+          <li class="breadcrumb-item active" aria-current="page">KELTRON EM LOG RTU</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">KELTRON EM LOG RTU – HATS SCHEDULE</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="keltron_em_log_rtu_hats_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!-- HEADER — Basic Info -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Basic Information</legend>
+                <div class="row g-3">
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control"  name="keltron_em_log_rtu_name_of_ship">
+                        <option value="">-- Select --</option>
+                        {% for ship in ship_options %}
+                          <option value="{{ ship.value }}">{{ ship.label }}</option>
+                        {% endfor %}
+                      </select>
+                      <label class="form_control_1">Name of Ship</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control"  name="keltron_em_log_rtu_equipment">
+                        <option value="">-- Select --</option>
+                        <option value="KELTRON_EM_LOG_RTU_HATS">Keltron EM Log RTU HATs</option>
+                      </select>
+                      <label class="form_control_1">Equipment</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="date" class="form-control" name="keltron_em_log_rtu_date">
+                      <label class="form_control_1">Date</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control"  name="keltron_em_log_rtu_units">
+                        <option value="">-- Select --</option>
+                        <option value="YARD_12651">YARD 12651</option>
+                      </select>
+                      <label class="form_control_1">Units</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control"  name="keltron_em_log_rtu_presented_by" placeholder=" ">
+                      <label class="form_control_1">Presented By</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control"  name="keltron_em_log_rtu_sheet_no" placeholder=" ">
+                      <label class="form_control_1">Observation Sheet No</label>
+                    </div>
+                  </div>
+
+                </div>
+              </fieldset>
+
+              <!-- CHECKS TABLE -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Checks</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr class="custom-header-row">
+                        <th rowspan="2">Ser</th>
+                        <th rowspan="2" style="white-space:nowrap;">TRIAL SER.</th>
+                        <th rowspan="2" style="width:30%">Description</th>
+                        <th colspan="2">Remarks</th>
+                      </tr>
+                      <tr>
+                        <th style="text-align: center; ">WATT</th>
+                        <th style="text-align: center;">DYD/OEM/WOT</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <!-- Ser 1 -->
+                      <tr>
+                        <td rowspan="4">1</td>
+                        <td>2.5</td>
+                        <td>
+                          Test procedures for RTU<br>
+                         
+                        </td>
+                        <td ><textarea class="form-control wrstg-scroll-textarea"  name="keltron_em_log_rtu_remark_1"></textarea></td>
+                        <td ><textarea class="form-control wrstg-scroll-textarea"  name="keltron_em_log_rtu_remark_2"></textarea></td>
+                      </tr>
+                      <tr>
+                       
+                        <td>2.5.1</td>
+                        <td>Power check</td>
+                        <td ><textarea class="form-control wrstg-scroll-textarea" name="keltron_em_log_rtu_remark_3"></textarea></td>
+                        <td ><textarea class="form-control wrstg-scroll-textarea"  name="keltron_em_log_rtu_remark_4"></textarea></td>
+
+                      </tr>
+
+                      <tr>
+                        
+                        <td></td>
+                        <td>Table 2.1</td>
+                        <td ><textarea class="form-control wrstg-scroll-textarea"  name="keltron_em_log_rtu_remark_5"></textarea></td>
+                        <td ><textarea class="form-control wrstg-scroll-textarea"  name="keltron_em_log_rtu_remark_6"></textarea></td>
+
+                      </tr>
+
+                      <tr>
+                       
+                        <td></td>
+                        <td>Ser No(2.1.1 to 2.1.8)</td>
+                        <td ><textarea class="form-control wrstg-scroll-textarea"  name="keltron_em_log_rtu_remark_7"></textarea></td>
+                        <td ><textarea class="form-control wrstg-scroll-textarea"  name="keltron_em_log_rtu_remark_8"></textarea></td>
+
+                      </tr>
+
+                      <!-- Ser 2 -->
+                      <tr>
+                        <td rowspan="3">2</td>
+                        <td >2.5.2</td>
+                        <td>
+                          Test for LED Status check
+                        
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea"  name="keltron_em_log_rtu_remark_9"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea"  name="keltron_em_log_rtu_remark_10"></textarea></td>
+                      </tr>
+                      <tr>
+                        
+                        <td></td>
+                        <td>
+                         Table 2.2
+                        
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea"  name="keltron_em_log_rtu_remark_11"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea"  name="keltron_em_log_rtu_remark_12"></textarea></td>
+                      </tr>
+                      <tr>
+                        
+                        <td></td>
+                        <td>
+                          Ser No(2.2.1 to 2.2.9)
+                        
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea"  name="keltron_em_log_rtu_remark_13"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea"  name="keltron_em_log_rtu_remark_14"></textarea></td>
+                      </tr>
+
+                      <!-- Ser 3 -->
+                      <tr>
+                        <td rowspan="3"> 3</td>
+                        <td>2.5.3</td>
+                        <td>
+                          Test for Display module
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea"  name="keltron_em_log_rtu_remark_15"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea"  name="keltron_em_log_rtu_remark_16"></textarea></td>
+                      </tr>
+                      <tr>
+                       
+                        <td></td>
+                        <td>
+                         Table 2.3
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea"  name="keltron_em_log_rtu_remark_15"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea"  name="keltron_em_log_rtu_remark_16"></textarea></td>
+                      </tr>
+                      <tr>
+                       
+                        <td></td>
+                        <td>
+                         Ser No(2.3.1-2.3.4)
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea"  name="keltron_em_log_rtu_remark_15"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea"  name="keltron_em_log_rtu_remark_16"></textarea></td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <div class="d-flex justify-content-center mt-4 gap-2">
+                <button type="submit" class="btn btn-success px-4">Save</button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

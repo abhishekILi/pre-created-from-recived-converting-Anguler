@@ -1,0 +1,467 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+                    <li class="breadcrumb-item" aria-current="page">FTTT</li>
+                    <li class="breadcrumb-item active" aria-current="page">LYNX U2 Parameter Checks</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+<div class="container-fluid" style="background-color: transparent;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">LYNX U2 Parameter Checks</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="lynx_system_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+                             <fieldset class="custom-fieldset">
+                                    <legend class="legend-custom text-uppercase">BASIC INFORMATION</legend>
+                                    <div class="row g-3">
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="system_sub_system" value="LYNX U2 MOD" placeholder=" " readonly>
+                                                <label class="form_control_1">1. System/ Sub system</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="job_undertaken" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">2. Job Undertaken</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <!-- <textarea class="form-control wrstg-scroll-textarea" name="reference_documents" rows="2" placeholder=" "></textarea> -->
+                                                 <input type="file" class ="form-control" name="reference_documents">
+                                                <label class="form_control_1">3. Reference Documents</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="authority" placeholder=" ">
+                                                <label class="form_control_1">4. Authority</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="agencies_involved" value="FTTT(Vzg)" placeholder=" " readonly>
+                                                <label class="form_control_1">5. Agencies involved</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="date" class="form-control" name="date_commenced">
+                                                <label class="form_control_1">6. Date Commenced</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="date" class="form-control" name="date_completed">
+                                                <label class="form_control_1">7. Date Completed</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="prepared_by" placeholder=" ">
+                                                <label class="form_control_1">8. Prepared by</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="vetted_by" placeholder=" ">
+                                                <label class="form_control_1">9. Vetted by</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="reference_no" placeholder=" ">
+                                                <label class="form_control_1">10. Reference No.</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="summary_of_observations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">11. Summary of observations</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="operational_limitations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">12. Operational limitations (if any)</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 14 – Parameters Checks:
+                                Visual Inspection and System Checks
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">14. Parameters Checks – Visual Inspection and System Checks</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="params_checks_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser</th>
+                                                <th style="text-align: center;">Description of Check</th>
+                                                <th style="width:30%;">Remarks</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <!-- ── 1. Inspection of Antenna assembly ── -->
+                                            <tr>
+                                                <td class="serial-no" rowspan="6">1</td>
+                                                <td colspan="2" class="group-header-cell"><strong>Inspection of Antenna assembly: -</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Greasing of 3 Axis gearings</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ant_remarks_1_1" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Oil level/ functioning of β-bumper</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ant_remarks_1_2" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Status of ATVC/ Own TV camera connectors</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ant_remarks_1_3" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Operation of Antenna Mechanical Locks</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ant_remarks_1_4" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Antenna safety interlock checks</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="ant_remarks_1_5" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ── 2. Power supply checks at Power Distribution Panel Transformer Unit:── -->
+                                            <tr>
+                                                <td class="serial-no" rowspan="5">2</td>
+                                                <td colspan="2" class="group-header-cell"><strong>Power supply checks at Power Distribution Panel: -</strong></td>
+                                                
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2" class="group-header-cell"><strong>Transformer Unit: -</strong></td>
+                                            </tr>
+                                            <tr>
+                                                
+                                                <td>2.1&nbsp;&nbsp;115V, 3Ph, 50Hz for ACH</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pwr_remarks_2_1" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>2.2&nbsp;&nbsp;200 V, 3Ph, 50 Hz</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pwr_remarks_2_2" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>2.3&nbsp;&nbsp;230 V, 3Ph, 50 Hz</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pwr_remarks_2_3" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ── 3. Voltage converter (400 Hz) ── -->
+                                            <tr>
+                                                <td class="serial-no" rowspan="2">3</td>
+                                                <td>Voltage converter (400 Hz): - 115 V, 1Ph, 400 Hz</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="vc_remarks_3" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Transformer Unit: - 115 V, 3Ph, 50 Hz</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="vc_remarks_3" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ── 4. Transformer Unit / Status of ACH ── -->
+                                
+                                            <tr>
+                                                <td class="serial-no">4</td>
+                                                <td>Status of ACH of sub units</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="tu_remarks_4_1" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <!-- ── 5. Lynx Compartments ── -->
+                                            <tr>
+                                                 <td class="serial-no" rowspan="3">5</td>
+                                                 <td colspan="2" class="group-header-cell"><strong>Status of Cooling - critical compartments: </strong></td> 
+                                            </tr>
+                                            <tr>
+                                                <td>Lynx Control Post</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="lynx_remarks_5_1" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Lynx Equipment Room</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="lynx_remarks_5_2" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">6.</td>
+                                                <td>Status of Cables/ Connectors</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="status_remarks_6" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">7.</td>
+                                                <td>Availability of Main/ Standby power supply</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="status_remarks_7" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">8.</td>
+                                                <td>Backup status of Alignment Data (Factory/ Coarse/ Fine Alignment data)</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="status_remarks_8" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 15 – Operation Checks
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">15. Operational Checks</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="operation_checks_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser</th>
+                                                <th style="text-align: center;">Checks Description</th>
+                                                <th style="width:30%;">Remarks</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="serial-no">1.</td>
+                                                <td>Visual Inspection</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="op_remarks_1" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">2.</td>
+                                                <td>Checking of transfer of TD from VM</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="op_remarks_2" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ── 3. System health status ── -->
+                                            <tr>
+                                                <td class="serial-no" rowspan="5">3.</td>
+                                                <td colspan="2" class="group-header-cell"><strong>System health status at: -</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.1&nbsp;&nbsp;WCC</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="op_remarks_3_1" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.2&nbsp;&nbsp;TCC</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="op_remarks_3_2" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.3&nbsp;&nbsp;TSC</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="op_remarks_3_3" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.4&nbsp;&nbsp;DRES</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="op_remarks_3_4" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="serial-no">4.</td>
+                                                <td>Checking of Raw video from Radar RAWL</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="op_remarks_4" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">5.</td>
+                                                <td>Checking of transfer of TD from Radar SSR</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="op_remarks_5" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">6.</td>
+                                                <td>TD from Surveillance Radar (fetched from CMMS database)</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="op_remarks_6" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">7.</td>
+                                                <td>Checking of transfer of TD from CMS</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="op_remarks_7" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">8.</td>
+                                                <td>Checking of Video tracking in Surface Mode</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="op_remarks_8" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">9.</td>
+                                                <td>Checking of X-band radar Tracking in Harbor</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="op_remarks_9" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">10.</td>
+                                                <td>SR Gun mount follow up checks</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="op_remarks_10" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">11.</td>
+                                                <td>MR Gun Mount follow up checks</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="op_remarks_11" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">12.</td>
+                                                <td>Checking of LRF</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="op_remarks_12" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">13.</td>
+                                                <td>Checking of IR Camera video</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="op_remarks_13" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">14.</td>
+                                                <td>Checking of TV Camera video</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="op_remarks_14" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">15.</td>
+                                                <td>Recording of TCC and WCC</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="op_remarks_15" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ── 14. Checks of input SHHD data ── -->
+                                            <tr>
+                                                <td class="serial-no" rowspan="3">16.</td>
+                                                <td colspan="2" class="group-header-cell"><strong>Checks of input SHHD data: -</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td>16.1&nbsp;&nbsp;Gyro/LRS</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="op_remarks_16_1" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>16.2&nbsp;&nbsp;Log</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="op_remarks_16_2" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 16 – Power Output Checks
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">16. Power Output Checks</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="power_output_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser</th>
+                                                <th style="text-align: center;">Power Output</th>
+                                                <th style="width:15%;">Specified Value</th>
+                                                <th style="width:15%;">Measured Value</th>
+                                                <th style="width:25%;">Remarks</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="serial-no">1.</td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="po_description_1" placeholder=" ">
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="po_specified_1" value="&gt; 220 W" placeholder=" ">
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="po_measured_1" placeholder=" ">
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="po_remarks_1" rows="1" placeholder=" "></textarea>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    
+
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl" id="test_equipment_tbl">
+                                            <thead class="table-dark-head">
+                                                <tr>
+                                                    <th class="serial-no">Ser</th>
+                                                    <th>Test Equipment Used<br><small>a.</small></th>
+                                                    <th style="width:35%;">Checks Undertaken<br><small>b.</small></th>
+                                                    <th class="action">ACTION</th>
+                                        
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="serial-no">1</td>
+                                                    <td><input type="text" class="form-control" data-base-name="te_equipment" placeholder=" "></td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="te_checks" rows="1" placeholder=" "></textarea></td>
+                                                    <td class="action action-cell-holder">
+                                                    <div class="action-controls">
+                                                        <button type="button" class="btn-round btn-add" onclick="addRow('test_equipment_tbl')">+</button>
+                                                        <button type="button" class="btn-round btn-remove" onclick="removeRow('test_equipment_tbl')">-</button>
+                                                    </div>
+                                                </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                        </fieldset>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .group-header-cell {
+        background-color: #e9ecef;
+        font-size: 13px;
+        padding: 6px 10px;
+    }
+</style>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        WRSTGQuarterly.init({
+            extraTableIds: ['test_equipment_tbl'],
+            visibilityBindings: [],
+            submitConfirmation: { formId: 'brahmos_fcs_form' }
+        });
+    });
+    </script>
+{% endblock js %}
+

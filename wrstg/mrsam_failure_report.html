@@ -1,0 +1,599 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">MRSAM FAILURE REPORT</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="mrsam_failure_form">
+						{% csrf_token %}
+						<div class="form-body">
+
+							<!-- FAILURE REPORT HEADER -->
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">Failure Report</legend>
+								<!-- <div class="help-block d-flex mb-2" style="font-size:12px; font-weight:600; color:#1f3a56;">All Fields Marked with * Are Mandatory</div> -->
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="ship" required>
+												<option value="">--Select--</option>
+												{% for ship in ship_options %}
+												<option value="{{ ship.value }}">{{ ship.label }}</option>
+												{% endfor %}
+											</select>
+											<label class="form_control_1">Ship <span class="text-danger">*</span></label>
+										</div>
+									</div>
+
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="system" required>
+												<option value="">--Select--</option>
+												<option value="MRSAM" selected>MRSAM</option>
+											</select>
+											<label class="form_control_1">System <span class="text-danger">*</span></label>
+										</div>
+									</div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" name="ship_failure_report_no" placeholder=" " required>
+                                            <label class="form_control_1">Ship Failure Report No <span class="text-danger">*</span></label>
+                                        </div>
+									</div>
+
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" name="failure_report_no" placeholder=" " required>
+                                            <label class="form_control_1">Failure Report No <span class="text-danger">*</span></label>
+                                        </div>
+									</div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<textarea class="form-control wrstg-scroll-textarea" name="dart_no" rows="3" required></textarea>
+											<label class="form_control_1">DART Ref <span class="text-danger">*</span></label>
+										</div>
+									</div>
+
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<textarea class="form-control wrstg-scroll-textarea" name="offered_no" rows="3" required></textarea>
+											<label class="form_control_1">OPDEF Ref <span class="text-danger">*</span></label>
+										</div>
+									</div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="report_prepared_by" required>
+												<option value="">--Select--</option>
+												<option value="user1">User 1</option>
+												<option value="user2">User 2</option>
+											</select>
+											<label class="form_control_1">Report Prepared By <span class="text-danger">*</span></label>
+										</div>
+									</div>
+
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="report_approved_by" required>
+												<option value="">--Select--</option>
+												<option value="approver1">Approver 1</option>
+												<option value="approver2">Approver 2</option>
+											</select>
+											<label class="form_control_1">Report Approved By <span class="text-danger">*</span></label>
+										</div>
+									</div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="date" class="form-control" name="date_of_issue" required>
+											<label class="form_control_1">Date Of Issue Of Report <span class="text-danger">*</span></label>
+											<span class="help-block d-flex">DD/MM/YYYY</span>
+										</div>
+									</div>
+
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="date" class="form-control" name="failure_date_pied_occurrence" required>
+											<label class="form_control_1">Failure Date (First Occurrence) <span class="text-danger">*</span></label>
+											<span class="help-block d-flex">DD/MM/YYYY</span>
+										</div>
+									</div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="time" class="form-control" name="time_first_occurrence" placeholder="" required>
+											<label class="form_control_1">Time Of First Occurrence <span class="text-danger">*</span></label>
+										</div>
+									</div>
+
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<textarea class="form-control wrstg-scroll-textarea" name="operating_hours_reading" rows="3" required></textarea>
+											<label class="form_control_1">Operating Hours Reading <span class="text-danger">*</span></label>
+										</div>
+									</div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="doa_proof_time_failure" required>
+												<option value="">--Select--</option>
+												<option value="yes">Yes</option>
+												<option value="no">No</option>
+											</select>
+											<label class="form_control_1">DOA (First Time Use Failure) <span class="text-danger">*</span></label>
+										</div>
+									</div>
+
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" name="equipment_code" placeholder=" ">
+                                            <label class="form_control_1">Equipment Code</label>
+                                        </div>
+									</div>
+								</div>
+							</fieldset>
+
+							<!-- FAILURE BASIC DATA -->
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">Failure Basic Data</legend>
+								<div class="static-section">
+								<div class="table-responsive">
+									<table class="custom_tbl" id="failure_basic_data_tbl">
+										<thead>
+											<tr>
+												<th class="serial-no">SR NO</th>
+												<th>SUB SYSTEM</th>
+												<th>FAILURE TITLE (SHORT DESCRIPTION & ERROR CODE IF APPLICABLE)</th>
+												<th class="action">ACTION</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no">1</td>
+												<td><select class="form-control" data-base-name="failure_sub_system"><option value="">--Select--</option></select></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" data-base-name="failure_title" placeholder="" rows="2"></textarea></td>
+												<td class="action action-cell-holder">
+													<div class="action-controls">
+														<button type="button" class="btn-round btn-add" onclick="addRow('failure_basic_data_tbl')" title="Add Row">+</button>
+														<button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'failure_basic_data_tbl')" title="Remove Row">-</button>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								</div>
+							</fieldset>
+
+							<!-- STEP BY STEP ANALYSIS -->
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">Step by Step Analysis</legend>
+								<div class="static-section">
+								<div class="row g-3 mb-3">
+									<div class="col-md-5 col-12">
+										<div class="form-group form-md-line-input detailed-explanation-group mt-2 mb-2">
+											<label class="detailed-explanation-label">Detailed Explanation about Action Undertaken</label>
+											<textarea class="form-control detailed-explanation-box wrstg-scroll-textarea" name="detailed_explanation" placeholder="" rows="3"></textarea>
+										</div>
+									</div>
+								</div>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="step_analysis_tbl">
+										<thead>
+											<tr>
+												<th class="serial-no">SR NO</th>
+												<th>OBSERVATION ON SYSTEM</th>
+												<th>BIT/ERROR CODE/ANY INDICATIONS</th>
+												<th>ACTION</th>
+                                                <TH>ACTION BY </TH>
+												<th class="action">ACTION</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no">1</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" data-base-name="step_description" placeholder="" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" data-base-name="step_error_action" placeholder="" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" data-base-name="step_action" placeholder="" rows="2"></textarea></td>
+                                                <td>
+                                                    <label class="me-2">
+                                                        <input type="checkbox" name="action_by_1" value="1"> SS
+                                                    </label>
+
+                                                    <label class="me-2">
+                                                        <input type="checkbox" name="action_by_2" value="2"> Local Team
+                                                    </label>
+
+                                                    <label class="me-2">
+                                                        <input type="checkbox" name="action_by_3" value="3"> WRSTG
+                                                    </label>
+
+                                                    <label>
+                                                        <input type="checkbox" name="action_by_4" value="4"> OEM
+                                                    </label>
+                                                </td>
+												<td class="action action-cell-holder">
+													<div class="action-controls">
+														<button type="button" class="btn-round btn-add" onclick="addRow('step_analysis_tbl')" title="Add Row">+</button>
+														<button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'step_analysis_tbl')" title="Remove Row">-</button>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								</div>
+							</fieldset>
+
+							<!-- ITEM FOUND DEFECTIVE -->
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">Item Found Defective</legend>
+								<div class="static-section">
+								<div class="table-responsive">
+									<table class="custom_tbl" id="item_defective_tbl">
+										<thead>
+											<tr>
+												<th class="serial-no">SR NO</th>
+												<th>MODULE NAME</th>
+												<th>PART NO</th>
+												<th>SERIAL NO</th>
+												<th>NEXT HIGHER ASSEMBLY</th>
+												<th>REPLACED S.N</th>
+                                                <th>TAKEN FORM</th>
+												<th class="action">ACTION</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no">1</td>
+												<td><input type="text" class="form-control" data-base-name="module_name" placeholder=""></td>
+												<td><input type="text" class="form-control" data-base-name="part_no" placeholder=""></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" data-base-name="serial_no" placeholder="" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" data-base-name="next_higher_assembly" placeholder="" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" data-base-name="replaced_sn" placeholder="" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" data-base-name="taken_from" placeholder="" rows="2"></textarea></td>
+												<td class="action action-cell-holder">
+													<div class="action-controls">
+														<button type="button" class="btn-round btn-add" onclick="addRow('item_defective_tbl')" title="Add Row">+</button>
+														<button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'item_defective_tbl')" title="Remove Row">-</button>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								</div>
+							</fieldset>
+
+							<!-- FAILURE OPERATIONAL DATA -->
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">Failure Operational Data</legend>
+								<div class="static-section">
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="failure_operational_status" required>
+												<option value="">--Select--</option>
+												<option value="open">Open</option>
+												<option value="rectified">Rectified</option>
+												<option value="under_observation">Under Observation</option>
+											</select>
+											<label class="form_control_1">Status <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="failure_category" required>
+												<option value="">--Select--</option>
+												<option value="critical">Critical</option>
+												<option value="major">Major</option>
+												<option value="minor">Minor</option>
+											</select>
+											<label class="form_control_1">Failure Category <span class="text-danger">*</span></label>
+										</div>
+									</div>
+								</div>
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="failure_frequency" required>
+												<option value="">--Select--</option>
+												<option value="frequent">Frequent</option>
+												<option value="intermittent">Intermittent</option>
+												<option value="rare">Rare</option>
+											</select>
+											<label class="form_control_1">Failure Frequency <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="date" class="form-control" name="rectification_date" required>
+											<label class="form_control_1">Rectification Date</label>
+										</div>
+									</div>
+								</div>
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<textarea class="form-control wrstg-scroll-textarea" name="rectification_time" placeholder="" rows="2"></textarea>
+											<label class="form_control_1">Rectification Time</label>
+										</div>
+									</div>
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<textarea class="form-control wrstg-scroll-textarea" name="additional_information" rows="2" placeholder=""></textarea>
+											<label class="form_control_1">Additional Information <span class="text-danger">*</span></label>
+										</div>
+									</div>
+								</div>
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" name="rc_time_during_defect_occurrence" placeholder="" required>
+											<label class="form_control_1">RC Time During Defect Occurrence<span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" name="zipped_packing_file_name" placeholder="">
+											<label class="form_control_1">Zipped Packing File Name</label>
+										</div>
+									</div>
+								</div>
+								<div class="section-note">
+									Note: In case of failure in MPMS Module specify how many total modules present in concerned drawer and mention serial numbers of defective ones in Additional Information.
+								</div>
+								</div>
+							</fieldset>
+
+							<!-- ENVIRONMENTAL CONDITIONS -->
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">Environmental Conditions</legend>
+								<div class="static-section">
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<textarea class="form-control wrstg-scroll-textarea" name="relative_humidity" placeholder="" rows="2" required></textarea>
+											<label class="form_control_1">Relative Humidity <span class="text-danger">*</span></label>
+										</div>
+									</div>
+
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<textarea class="form-control wrstg-scroll-textarea" name="sea_state" placeholder="" rows="2" required></textarea>
+											<label class="form_control_1">Sea State <span class="text-danger">*</span></label>
+										</div>
+									</div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="ship_status" required>
+												<option value="">--Select--</option>
+												<option value="at_anchor">At Anchor</option>
+												<option value="at_sea">At Sea</option>
+												<option value="harbour">Harbour</option>
+											</select>
+											<label class="form_control_1">Ship Status <span class="text-danger">*</span></label>
+										</div>
+									</div>
+
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="ship_af" required>
+												<option value="">--Select--</option>
+												<option value="af_1">AF-1</option>
+												<option value="af_2">AF-2</option>
+											</select>
+											<label class="form_control_1">Ship AF <span class="text-danger">*</span></label>
+										</div>
+									</div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<textarea class="form-control wrstg-scroll-textarea" name="outside_temperature" placeholder="" rows="2" required></textarea>
+											<label class="form_control_1">Outside Temperature <span class="text-danger">*</span></label>
+										</div>
+									</div>
+
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<textarea class="form-control wrstg-scroll-textarea" name="compartment_temperature" placeholder="" rows="2" required></textarea>
+											<label class="form_control_1">Compartment Temperature <span class="text-danger">*</span></label>
+										</div>
+									</div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<textarea class="form-control wrstg-scroll-textarea" name="coolant_temperature" placeholder="" rows="2" required></textarea>
+											<label class="form_control_1">Coolant Temperature <span class="text-danger">*</span></label>
+										</div>
+									</div>
+
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="source_of_system_supply" required>
+												<option value="">--Select--</option>
+												<option value="main">Main</option>
+												<option value="alternate">Alternate</option>
+											</select>
+											<label class="form_control_1">Source of System Supply <span class="text-danger">*</span></label>
+										</div>
+									</div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="rain_splash_of_water" required>
+												<option value="">--Select--</option>
+												<option value="yes">Yes</option>
+												<option value="no">No</option>
+											</select>
+											<label class="form_control_1">Rain/ Splash of Water <span class="text-danger">*</span></label>
+										</div>
+									</div>
+
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<textarea class="form-control wrstg-scroll-textarea" name="other_irregular_phenomenon" placeholder="" rows="2"></textarea>
+											<label class="form_control_1">Other Irregular Phenomenon<span class="text-danger">*</span></label>
+										</div>
+									</div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group mt-2 mb-2">
+											<label class="form_control_1">Supply Changeover During Operation <span class="text-danger">*</span></label>
+											<div class="d-flex align-items-center gap-3 mt-2">
+												<label class="mb-0"><input type="radio" name="supply_changeover_during_operation" value="yes"> Yes</label>
+												<label class="mb-0"><input type="radio" name="supply_changeover_during_operation" value="no"> No</label>
+											</div>
+										</div>
+									</div>
+								</div>
+								</div>
+							</fieldset>
+
+							<!-- SHORTFALLS -->
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">Shortfalls</legend>
+								<div class="static-section">
+								<div class="table-responsive">
+									<table class="custom_tbl" id="shortfalls_tbl">
+										<thead>
+											<tr>
+												<th class="serial-no">SR NO</th>
+												<th>SHORTFALL NATURE</th>
+												<th>REMARKS</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no">1</td>
+												<td class="fixed-label-cell">Shortfall in Document</td>
+													<td><textarea class="form-control wrstg-scroll-textarea" name="shortfall_remarks_1" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">2</td>
+												<td class="fixed-label-cell">Shortfall in Skill/Training</td>
+													<td><textarea class="form-control wrstg-scroll-textarea" name="shortfall_remarks_2" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">3</td>
+												<td class="fixed-label-cell">Shortfall in Tools/Test Equipment</td>
+													<td><textarea class="form-control wrstg-scroll-textarea" name="shortfall_remarks_3" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">4</td>
+												<td class="fixed-label-cell">Shortfall in BIT effectiveness</td>
+													<td><textarea class="form-control wrstg-scroll-textarea" name="shortfall_remarks_4" rows="1"></textarea></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								</div>
+							</fieldset>
+
+							<!-- TIME FOR RECTIFICATION -->
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">Time for Rectification</legend>
+								<div class="static-section">
+								<div class="table-responsive">
+									<table class="custom_tbl" id="time_rectification_tbl">
+										<thead>
+											<tr>
+												<th class="serial-no">SR NO</th>
+												<th>CATEGORY</th>
+												<th>TIME (HRS)</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no">1</td>
+												<td class="fixed-label-cell">Active Time for defect identification /Rectification</td>
+													<td><textarea class="form-control wrstg-scroll-textarea" name="time_hrs_1" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">2</td>
+												<td class="fixed-label-cell">Time delay due to spare availability</td>
+													<td><textarea class="form-control wrstg-scroll-textarea" name="time_hrs_2" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">3</td>
+												<td class="fixed-label-cell">Time to avail shore Reps/OEM intervention</td>
+													<td><textarea class="form-control wrstg-scroll-textarea" name="time_hrs_3" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">4</td>
+												<td class="fixed-label-cell">Time for awaiting trials etc</td>
+													<td><textarea class="form-control wrstg-scroll-textarea" name="time_hrs_4" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">5</td>
+												<td class="fixed-label-cell">Other time including after working hours</td>
+													<td><textarea class="form-control wrstg-scroll-textarea" name="time_hrs_5" rows="1"></textarea></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								</div>
+							</fieldset>
+
+							<div class="d-flex justify-content-center mt-4 gap-2">
+								<button type="submit" class="btn btn-success px-4">Save</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		WRSTGQuarterly.init({
+			extraTableIds: ['failure_basic_data_tbl', 'step_analysis_tbl', 'item_defective_tbl'],
+			submitConfirmation: { formId: 'mrsam_failure_form' }
+		});
+	});
+</script>
+{% endblock js %}

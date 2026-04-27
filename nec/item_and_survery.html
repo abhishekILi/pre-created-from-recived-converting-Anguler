@@ -1,0 +1,285 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item" aria-current="page">FTTT</li>
+					<li class="breadcrumb-item active" aria-current="page">ITEM AND SURVERY</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">ITEM AND SURVERY</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="item_and_survery_form">
+						{% csrf_token %}
+						<div class="form-body">
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">Survey</legend>
+								<div class="row">
+									<div class="col-md-6">
+										<label class="fw-semibold">Proposed/ tentative dates of Post refit survey:</label>
+									</div>
+								</div>
+								<div class="row mt-2">
+									<div class="col-md-6">
+										<div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+											<input type="date" class="form-control" name="harbour_trials_date" required>
+											<label class="form_control_1">(a) Harbour Trials <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+											<input type="date" class="form-control" name="sea_anchorage_trials_date" required>
+											<label class="form_control_1">(b) Sea/ Anchorage Trials <span class="text-danger">*</span></label>
+										</div>
+									</div>
+								</div>
+
+								<div class="row mt-3">
+									<div class="col-md-8">
+										<label>1. It is confirmed that all electrical/ electronic equipment fitted onboard are operational. List of equipment non-operational is as below :</label>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group form-md-line-input form-md-floating-label mb-2">
+											<select name="non_operational_equipment" class="form-control select2_no_placeholder ">
+												<option value="">-- Select Equipment --</option>
+												<option value="equipment_1" {% if form.non_operational_equipment == "equipment_1" %}selected{% endif %}>Equipment 1</option>
+												<option value="equipment_2" {% if form.non_operational_equipment == "equipment_2" %}selected{% endif %}>Equipment 2</option>
+											</select>
+											<label class="form_control_1">Select Equipments</label>
+											{% if errors.non_operational_equipment %}<div class="text-danger">{{ errors.non_operational_equipment }}</div>{% endif %}
+										</div>
+									</div>
+								</div>
+
+								<div class="row mt-3">
+									<div class="col-md-8">
+										<label>2. It is confirmed that STW &amp; HATS of all equipment fitted onboard has been completed and cleared. List of equipment for which HATS have not been successfully cleared is as below :</label>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group form-md-line-input form-md-floating-label mb-2">
+											<select name="hats_not_cleared_equipment" class="form-control select2_no_placeholder ">
+												<option value="">-- Select Equipment --</option>
+												<option value="equipment_1" {% if form.hats_not_cleared_equipment == "equipment_1" %}selected{% endif %}>Equipment 1</option>
+												<option value="equipment_2" {% if form.hats_not_cleared_equipment == "equipment_2" %}selected{% endif %}>Equipment 2</option>
+											</select>
+											<label class="form_control_1">Select Equipments</label>
+											{% if errors.hats_not_cleared_equipment %}<div class="text-danger">{{ errors.hats_not_cleared_equipment }}</div>{% endif %}
+										</div>
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">3. Portable / Mobile Transmitter Units</legend>
+								<div class="static-section">
+									<div class="table-responsive">
+										<table class="custom_tbl" id="portable_transmitter_tbl">
+											<thead>
+												<tr>
+													<th class="serial-no">Sl</th>
+													<th>Portable / Mobile Transmitter Unit</th>
+													<th>Locations/ Areas of ship where used</th>
+													<th>Max Power O/P</th>
+													<th>Frequency</th>
+													<th class="action">Action</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td class="serial-no">1</td>
+													<td><input type="text" class="form-control" data-base-name="transmitter_unit"></td>
+													<td><input type="text" class="form-control" data-base-name="location_used"></td>
+													<td><input type="text" class="form-control" data-base-name="max_power"></td>
+													<td><input type="text" class="form-control" data-base-name="frequency"></td>
+													<td class="action action-cell-holder">
+														<div class="action-controls">
+															<button type="button" class="btn-round btn-add" onclick="addRow('portable_transmitter_tbl')" title="Add Row">+</button>
+															<button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'portable_transmitter_tbl')" title="Remove Row">-</button>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">4. Blanking / Interference Suppression Units</legend>
+								<p>
+									The following blanking/ interference suppression units are installed onboard and it is confirmed that they are operational and interfaced with the concerned TXs / RXs as per design (give names of blanking units). Further give scheme / matrix of blanking i.e. receiver blanked &amp; names of transmitters whose pulses have been used to blank that receiver in the table below.
+								</p>
+								<div class="static-section">
+									<div class="table-responsive">
+										<table class="custom_tbl" id="blanking_units_tbl">
+											<thead>
+												<tr>
+													<th class="serial-no">S. No.</th>
+													<th>Receiver Blanked</th>
+													<th>Transmitter</th>
+													<th class="action">Action</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td class="serial-no">1</td>
+													<td>
+														<select class="form-control select2_no_placeholder edited" data-base-name="receiver_blanked">
+															<option value="">-- Select Receiver --</option>
+															{% for i in "12"|make_list %}
+															<option value="equipment_{{ forloop.counter }}">Equipment {{ forloop.counter }}</option>
+															{% endfor %}
+														</select>
+													</td>
+													<td>
+														<select class="form-control select2_no_placeholder edited" data-base-name="transmitter">
+															<option value="">-- Select Transmitter --</option>
+															{% for i in "12"|make_list %}
+															<option value="equipment_{{ forloop.counter }}">Equipment {{ forloop.counter }}</option>
+															{% endfor %}
+														</select>
+													</td>
+													<td class="action action-cell-holder">
+														<div class="action-controls">
+															<button type="button" class="btn-round btn-add" onclick="addRow('blanking_units_tbl')" title="Add Row">+</button>
+															<button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'blanking_units_tbl')" title="Remove Row">-</button>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">5. Ship Power Supply Confirmation</legend>
+								<p>It is confirmed that ships own power supply is available for the duration of the trials.</p>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">6. Results of HATS on RF TXs &amp; RXs</legend>
+								<div class="static-section">
+									<div class="table-responsive">
+										<table class="custom_tbl" id="hats_results_tbl">
+											<thead>
+												<tr>
+													<th class="serial-no">Sl</th>
+													<th>Name of RF Tx or Rx (All communication, EW, radar, DF equipment)</th>
+													<th>If Rx, then Sensitivity (dBm or µV) If Tx, then Max Power Output (dBm or Watts) (as measured during HATS)</th>
+													<th class="action">Action</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td class="serial-no">1</td>
+													<td>
+														<select class="form-control select2_no_placeholder edited" data-base-name="rf_tx_rx_name">
+															<option value="">-- Select Equipment --</option>
+															{% for i in "12"|make_list %}
+															<option value="equipment_{{ forloop.counter }}">Equipment {{ forloop.counter }}</option>
+															{% endfor %}
+														</select>
+													</td>
+													<td><input type="text" class="form-control" data-base-name="rf_sensitivity_power"></td>
+													<td class="action action-cell-holder">
+														<div class="action-controls">
+															<button type="button" class="btn-round btn-add" onclick="addRow('hats_results_tbl')" title="Add Row">+</button>
+															<button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'hats_results_tbl')" title="Remove Row">-</button>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">7. RF Receiver IF Frequencies</legend>
+								<div class="static-section">
+									<div class="table-responsive">
+										<table class="custom_tbl" id="if_frequencies_tbl">
+											<thead>
+												<tr>
+													<th class="serial-no">Sl</th>
+													<th>Name of RF Receiver (All communication, EW, radar, DF equipment)</th>
+													<th>IF Frequency (MHz) [if more than one IF stages used pls list all IFs]</th>
+													<th class="action">Action</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td class="serial-no">1</td>
+													<td>
+														<select class="form-control select2_no_placeholder edited" data-base-name="rf_receiver_name">
+															<option value="">-- Select Receiver --</option>
+															{% for i in "12"|make_list %}
+															<option value="equipment_{{ forloop.counter }}">Equipment {{ forloop.counter }}</option>
+															{% endfor %}
+														</select>
+													</td>
+													<td><input type="text" class="form-control" data-base-name="if_frequency"></td>
+													<td class="action action-cell-holder">
+														<div class="action-controls">
+															<button type="button" class="btn-round btn-add" onclick="addRow('if_frequencies_tbl')" title="Add Row">+</button>
+															<button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'if_frequencies_tbl')" title="Remove Row">-</button>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">8. List of known EMI problems (if any)</legend>
+								<textarea class="form-control wrstg-scroll-textarea" rows="3" name="known_emi_problems"></textarea>
+							</fieldset>
+
+							<div class="form-actions mt-4">
+								<button type="submit" class="btn btn-primary">Save</button>
+								<a href="{% url 'ITTTM:home' %}" class="btn btn-secondary">Cancel</a>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		WRSTGQuarterly.init({
+			extraTableIds: ['portable_transmitter_tbl', 'blanking_units_tbl', 'hats_results_tbl', 'if_frequencies_tbl'],
+			submitConfirmation: { formId: 'item_and_survery_form' }
+		});
+	});
+</script>
+{% endblock js %}

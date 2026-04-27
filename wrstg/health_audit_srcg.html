@@ -1,0 +1,400 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/select2_4.1.0/select2.min.css' %}">
+<link rel="stylesheet" href="{% static 'ems/assets/global/plugins/bootstrap-toastr/toastr.min.css' %}">
+
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Trails</a></li>
+                    <li class="breadcrumb-item"><a href="#">Health Audit - SRCG</a></li>
+                </ol>
+            </nav>
+        </div>
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                         
+                        <span class="caption-subject bold">HEALTH AUDIT REPORT</span>
+                    </div>
+                    
+                </div>
+
+                <div class="portlet-body form mt-4 mb-4" style="background-color: transparent;">
+                    <form method="post" id="health_audit_srcg_form">
+                        {% csrf_token %}
+                        <div class="form-body" style="background-color: transparent;">
+                            
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">Information</legend>
+                                <div class="row g-3">
+                                    
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <select class="form-control" name="ship" required>
+                                            <option value="">--Select--</option>
+                                            {% for ship in ship_options %}
+                                            <option value="{{ ship.value }}">{{ ship.label }}</option>
+                                            {% endfor %}
+                                        </select>
+                                            <label class="form_control_1">Ship <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group form-md-line-input form-md-floating-label mb-4">
+                                            <input type="text" class="form-control edited" name="name_of_subsystem" required placeholder="Enter no. of guns fitted">
+                                            <label class="form_control_1">No. of  Guns Fitted<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group form-md-line-input form-md-floating-label mb-4">
+                                            <input type="date" class="form-control edited" name="expected_date_of_tagin" required>
+                                            <label class="form_control_1">Date<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </fieldset>
+
+                            
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">Part A — Status Check</legend>
+                                <div class="table-responsive">
+                                    <table id="Pre_Ranging_Table_1" class="custom_tbl">
+                                        <thead>
+                                            <th>Ser</th>
+                                            <th>Description</th>
+                                            <th>Status</th>
+                                            <th>Remarks</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td class="description-text">Inspection of the SRCG gun mount, pedestal assembly, pin ball, lock wire rope</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="srcg_status_1">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="srcg_remarks_1"></textarea>
+                                                </td>
+                                            </tr>
+                                              <tr>
+                                                  <td>2</td>
+                                                  <td class="description-text">DSS (for any salt contents) and functioning of locking handles.</td>
+                                                  <td>
+                                                      <select class="form-control status-dropdown" name="srcg_status_2">
+                                                          <option value="">Select Status</option>
+                                                          <option value="pass">SAT</option>
+                                                          <option value="fail">UNSAT</option>
+                                                          <option value="pending">NA</option>
+                                                      </select>
+                                                  </td>
+                                                  <td>
+                                                      <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="srcg_remarks_2"></textarea>
+                                                  </td>
+                                              </tr>
+                                              <tr>
+                                                  <td>3</td>
+                                                  <td class="description-text">Inspection of the electrical units, cameras, WNH1, WNH3 cable and LRF.</td>
+                                                  <td>
+                                                      <select class="form-control status-dropdown" name="srcg_status_3">
+                                                          <option value="">Select Status</option>
+                                                          <option value="pass">SAT</option>
+                                                          <option value="fail">UNSAT</option>
+                                                          <option value="pending">NA</option>
+                                                      </select>
+                                                  </td>
+                                                  <td>
+                                                      <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="srcg_remarks_3"></textarea>
+                                                  </td> 
+                                              </tr>
+                                              <tr>
+                                                  <td>4</td>
+                                                  <td class="description-text">Inspection of humidity indicator plug for any moisture ingress.</td>
+                                                  <td>
+                                                      <select class="form-control status-dropdown" name="srcg_status_4">
+                                                          <option value="">Select Status</option>
+                                                          <option value="pass">SAT</option>
+                                                          <option value="fail">UNSAT</option>
+                                                          <option value="pending">NA</option>
+                                                      </select>
+                                                  </td>
+                                                  <td>
+                                                      <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="srcg_remarks_4"></textarea>
+                                                  </td>
+                                              </tr>
+                                              <tr>
+                                                <td>5</td>
+                                                <td class="description-text">Check lubrication on all moving parts, locking lever, exposed parts, sealants on all connectors and joints.</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="srcg_status_5">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="srcg_remarks_5"></textarea>
+                                                </td>
+                                            </tr>
+                                              <tr>
+                                                  <td>6</td>
+                                                  <td class="description-text">Check availability of power supply 230V/115V AC and indications available.</td>
+                                                  <td>
+                                                      <select class="form-control status-dropdown" name="srcg_status_6">
+                                                          <option value="">Select Status</option>
+                                                          <option value="pass">SAT</option>
+                                                          <option value="fail">UNSAT</option>
+                                                          <option value="pending">NA</option>
+                                                      </select>
+                                                  </td>
+                                                  <td>
+                                                      <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="srcg_remarks_6"></textarea>
+                                                  </td>
+                                              </tr>
+                                              <tr>
+                                                  <td>7</td>
+                                                  <td class="description-text">Switch on system and check system functionality of solenoid shot, cocking mechanism, firing pin and breech block assemblies. (Ensure Mount is empty)</td>
+                                                  <td>
+                                                      <select class="form-control status-dropdown" name="srcg_status_7">
+                                                          <option value="">Select Status</option>
+                                                          <option value="pass">SAT</option>
+                                                          <option value="fail">UNSAT</option>
+                                                          <option value="pending">NA</option>
+                                                      </select>
+                                                  </td>
+                                                  <td>
+                                                      <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="srcg_remarks_7"></textarea>
+                                                  </td> 
+                                              </tr>
+                                              <tr>
+                                                  <td>8</td>
+                                                  <td class="description-text">Carry out BIT test of EMU and pedestal assembly.</td>
+                                                  <td>
+                                                      <select class="form-control status-dropdown" name="srcg_status_8">
+                                                          <option value="">Select Status</option>
+                                                          <option value="pass">SAT</option>
+                                                          <option value="fail">UNSAT</option>
+                                                          <option value="pending">NA</option>
+                                                      </select>
+                                                  </td>
+                                                  <td>
+                                                      <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="srcg_remarks_8"></textarea>
+                                                  </td>
+                                              </tr>
+                                              <tr>
+                                                <td>9</td>
+                                                <td class="description-text">Carry out functionality test of DSS, SCP, MFDU, cameras, LRF, Pod assembly.</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="srcg_status_9">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="srcg_remarks_9"></textarea>
+                                                </td>
+                                            </tr>
+                                              <tr>
+                                                  <td>10</td>
+                                                  <td class="description-text">Check the follow up of the system from SCP (gun should align with the POD) and verify electrical and mechanical limit.</td>
+                                                  <td>
+                                                      <select class="form-control status-dropdown" name="srcg_status_10">
+                                                          <option value="">Select Status</option>
+                                                          <option value="pass">SAT</option>
+                                                          <option value="fail">UNSAT</option>
+                                                          <option value="pending">NA</option>
+                                                      </select>
+                                                  </td>
+                                                  <td>
+                                                      <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="srcg_remarks_10"></textarea>
+                                                  </td>
+                                              </tr>
+                                              <tr>
+                                                  <td>11</td>
+                                                  <td class="description-text">Smooth operation of Training / Elevation drives.</td>
+                                                  <td>
+                                                      <select class="form-control status-dropdown" name="srcg_status_11">
+                                                          <option value="">Select Status</option>
+                                                          <option value="pass">SAT</option>
+                                                          <option value="fail">UNSAT</option>
+                                                          <option value="pending">NA</option>
+                                                      </select>
+                                                  </td>
+                                                  <td>
+                                                      <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="srcg_remarks_11"></textarea>
+                                                  </td> 
+                                              </tr>
+                                              <tr>
+                                                  <td>12</td>
+                                                  <td class="description-text">Operability of Deck safety switch (DSS). When DSS / SAFE switch is inactive, verify that there is no ELV/TRV gun motion or ELV POD motion on MFDU.</td>
+                                                  <td>
+                                                      <select class="form-control status-dropdown" name="srcg_status_12">
+                                                          <option value="">Select Status</option>
+                                                          <option value="pass">SAT</option>
+                                                          <option value="fail">UNSAT</option>
+                                                          <option value="pending">NA</option>
+                                                      </select>
+                                                  </td>
+                                                  <td>
+                                                      <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="srcg_remarks_12"></textarea>
+                                                  </td>
+                                              </tr>
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">Part B — Status Check</legend>
+                                <div class="table-responsive">
+                                    <table id="Pre_Ranging_Table_1" class="custom_tbl">
+                                        <thead>
+                                            <th>Ser</th>
+                                            <th>Description</th>
+                                            <th>Status</th>
+                                            <th>Remarks</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td class="description-text">Availability of desiccant bag and nitrogen purging kit.</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="srcg_status_13">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">Yes</option>
+                                                        <option value="fail">No</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="srcg_remarks_13"></textarea>
+                                                </td>
+                                            </tr>
+                                              <tr>
+                                                  <td>2</td>
+                                                  <td class="description-text">Availability of authorised OBS Held on-board.</td>
+                                                  <td>
+                                                      <select class="form-control status-dropdown" name="srcg_status_14">
+                                                          <option value="">Select Status</option>
+                                                          <option value="pass">Yes</option>
+                                                          <option value="fail">No</option>
+                                                      </select>
+                                                  </td>
+                                                  <td>
+                                                      <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="srcg_remarks_14"></textarea>
+                                                  </td>
+                                              </tr>
+                                              <tr>
+                                                  <td>3</td>
+                                                  <td class="description-text">Availability of "GO" / "NO GO" gauge.</td>
+                                                  <td>
+                                                      <select class="form-control status-dropdown" name="srcg_status_15">
+                                                          <option value="">Select Status</option>
+                                                          <option value="pass">Yes</option>
+                                                          <option value="fail">No</option>
+                                                      </select>
+                                                  </td>
+                                                  <td>
+                                                      <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="srcg_remarks_15"></textarea>
+                                                  </td> 
+                                              </tr>
+                                              <tr>
+                                                <td>
+                                                    4
+                                                
+                                                </td>
+                                                <td colspan="4" class="section-heading fw-semibold text-uppercase text-center">
+                                                    Available of _check off lists
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                  <td class="description-text">(a)Switching ON/OFF procedure</td>
+                                                  <td>
+                                                      <select class="form-control status-dropdown" name="srcg_status_16">
+                                                          <option value="">Select Status</option>
+                                                          <option value="pass">Yes</option>
+                                                          <option value="fail">No</option>
+                                                          
+                                                      </select>
+                                                  </td>
+                                                  <td>
+                                                      <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="srcg_remarks_16"></textarea>
+                                                  </td> 
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                  <td class="description-text">(b)Power supply diagram</td>
+                                                  <td>
+                                                      <select class="form-control status-dropdown" name="srcg_status_17">
+                                                          <option value="">Select Status</option>
+                                                          <option value="pass">Yes</option>
+                                                          <option value="fail">No</option>
+                                                          
+                                                      </select>
+                                                  </td>
+                                                  <td>
+                                                      <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="srcg_remarks_17"></textarea>
+                                                  </td> 
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td class="description-text">Sea and action and firing SOP</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="srcg_status_18">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">Yes</option>
+                                                        <option value="fail">No</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control remarks-field" placeholder="Enter remarks..." rows="1" name="srcg_remarks_18"></textarea>
+                                                </td> 
+                                            </tr>
+                                              
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+
+
+                            <div class="d-flex justify-content-center mt-4">
+                                <button type="submit" class="btn btn-primary px-4">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block pagescripts %}
+<script src="{% static 'js/select2_4.1.0/select2.min.js' %}"></script>
+<script src="{% static 'ems/assets/global/plugins/bootstrap-toastr/toastr.min.js' %}"></script>
+
+
+{% endblock pagescripts %}

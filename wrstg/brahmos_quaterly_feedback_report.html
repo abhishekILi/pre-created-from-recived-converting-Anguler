@@ -1,0 +1,385 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						 
+						<span class="caption-subject bold">BRAHMOS QUARTERLY FEEDBACK REPORT</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-4 mb-4">
+					<form method="post" id="brahmos_feedback_form">
+						{% csrf_token %}
+						<div class="form-body">
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">Basic Information</legend>
+
+								<div class="row g-3">
+									<div class="col-md-3 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<!-- <select class="form-control" name="ship_class" required>
+												<option value="" selected disabled>Select Ship Class</option>
+												<option value="destroyer">Destroyer</option>
+												<option value="frigate">Frigate</option>
+												<option value="corvette">Corvette</option>
+											</select>
+											<label class="form_control_1">Ship Class <span class="text-danger">*</span></label>
+											<span class="help-block d-flex">Select ship class...</span> -->
+                                            <input type="text" class="form-control" name="ship_class" value="DESTROYER" readonly>
+											<label class="form_control_1">Ship Class</label>
+											<span class="help-block d-flex">DESTROYER</span>
+										</div>
+									</div>
+
+									<div class="col-md-3 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="ship_name" required>
+												<option value="">--Select--</option>
+												{% for ship in ship_options %}
+												<option value="{{ ship.value }}">{{ ship.label }}</option>
+												{% endfor %}
+											</select>
+											<label class="form_control_1">Ship Name <span class="text-danger">*</span></label>
+										</div>
+									</div>
+
+									<div class="col-md-3 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="date" class="form-control" name="period_from" required>
+											<label class="form_control_1">Period From <span class="text-danger">*</span></label>
+											<span class="help-block d-flex">Select start date...</span>
+										</div>
+									</div>
+
+									<div class="col-md-3 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="date" class="form-control" name="period_to" required>
+											<label class="form_control_1">Period To <span class="text-danger">*</span></label>
+											<span class="help-block d-flex">Select end date...</span>
+										</div>
+									</div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" name="ship_feedback_report_no" placeholder="">
+											<label class="form_control_1">Ship Quarterly Feedback Report No</label>
+											<span class="help-block d-flex">Enter ship feedback report number...</span>
+										</div>
+									</div>
+
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" name="quarterly_feedback_report_no" placeholder="">
+											<label class="form_control_1">Quarterly Feedback Report No</label>
+											<span class="help-block d-flex">Enter quarterly feedback report number...</span>
+										</div>
+									</div>
+
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" name="equipment_code" placeholder="">
+											<label class="form_control_1">Equipment Code</label>
+											<span class="help-block d-flex">Enter equipment code...</span>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom">Details of Defective Items</legend>
+								<div class="section-header">
+									<div class="yes-no-container">
+										<div>
+											<input type="radio" id="defective_items_yes" name="defective_items" value="yes">
+											<label for="defective_items_yes">Yes</label>
+										</div>
+										<div>
+											<input type="radio" id="defective_items_no" name="defective_items" value="no" checked>
+											<label for="defective_items_no">No</label>
+										</div>
+									</div>
+								</div>
+								<div id="defective_items_section" class="hidden-section">
+									<div class="table-responsive">
+										<table class="custom_tbl" id="defective_items_tbl">
+											<thead>
+												<tr>
+													<th class="serial-no">Ser</th>
+													<th>Failure Report No</th>
+													<th>Desc</th>
+													<th>Patt No</th>
+													<th>Quantity</th>
+													<th>Remarks</th>
+													<th>Action</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td class="serial-no">1</td>
+													<td><input type="text" name="defective_failure_report_no_row_1" data-base-name="defective_failure_report_no" class="form-control" style="border: 1px solid #ddd; padding: 5px;"></td>
+													<td><input type="text" name="defective_desc_row_1" data-base-name="defective_desc" class="form-control" style="border: 1px solid #ddd; padding: 5px;"></td>
+													<td><input type="number" name="defective_patt_no_row_1" data-base-name="defective_patt_no" class="form-control" style="border: 1px solid #ddd; padding: 5px;"></td>
+													<td><input type="text" name="defective_quantity_row_1" data-base-name="defective_quantity" class="form-control" style="border: 1px solid #ddd; padding: 5px;"></td>
+													<td><input type="text" name="defective_remarks_row_1" data-base-name="defective_remarks" class="form-control" style="border: 1px solid #ddd; padding: 5px;"></td>
+													<td class="action action-cell-holder">
+														<div class="action-controls">
+															<button type="button" class="btn-round btn-add" onclick="addRow('defective_items_tbl')" title="Add Row">+</button>
+															<button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'defective_items_tbl')" disabled title="Remove Row">-</button>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom">Details of Demand Receive During Quarter</legend>
+								<div class="section-header">
+									<div class="yes-no-container">
+										<div>
+											<input type="radio" id="demand_receive_yes" name="demand_receive" value="yes">
+											<label for="demand_receive_yes">Yes</label>
+										</div>
+										<div>
+											<input type="radio" id="demand_receive_no" name="demand_receive" value="no" checked>
+											<label for="demand_receive_no">No</label>
+										</div>
+									</div>
+								</div>
+								<div id="demand_receive_section" class="hidden-section">
+									<div class="table-responsive">
+										<table class="custom_tbl" id="demand_receive_tbl">
+											<thead>
+												<tr>
+													<th class="serial-no">Ser</th>
+													<th>Demand No</th>
+													<th>Date</th>
+													<th>Desc</th>
+													<th>Patt No</th>
+													<th>Qty Dem</th>
+													<th>S/N</th>
+													<th>Action</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td class="serial-no">1</td>
+													<td><input type="text" name="demand_no_row_1" data-base-name="demand_no" class="form-control" style="border: 1px solid #ddd; padding: 5px;"></td>
+													<td><input type="date" name="demand_date_row_1" data-base-name="demand_date" class="form-control" style="border: 1px solid #ddd; padding: 5px;"></td>
+													<td><input type="text" name="demand_desc_row_1" data-base-name="demand_desc" class="form-control" style="border: 1px solid #ddd; padding: 5px;"></td>
+													<td><input type="number" name="demand_patt_no_row_1" data-base-name="demand_patt_no" class="form-control" style="border: 1px solid #ddd; padding: 5px;"></td>
+													<td><input type="text" name="demand_qty_dem_row_1" data-base-name="demand_qty_dem" class="form-control" style="border: 1px solid #ddd; padding: 5px;"></td>
+													<td><input type="text" name="demand_sn_row_1" data-base-name="demand_sn" class="form-control" style="border: 1px solid #ddd; padding: 5px;"></td>
+													<td class="action action-cell-holder">
+														<div class="action-controls">
+															<button type="button" class="btn-round btn-add" onclick="addRow('demand_receive_tbl')" title="Add Row">+</button>
+															<button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'demand_receive_tbl')" disabled title="Remove Row">-</button>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom">Detail of Item Surveyed During Quarter</legend>
+								<div class="section-header">
+									<div class="yes-no-container">
+										<div>
+											<input type="radio" id="surveyed_quarter_yes" name="surveyed_quarter" value="yes">
+											<label for="surveyed_quarter_yes">Yes</label>
+										</div>
+										<div>
+											<input type="radio" id="surveyed_quarter_no" name="surveyed_quarter" value="no" checked>
+											<label for="surveyed_quarter_no">No</label>
+										</div>
+									</div>
+								</div>
+								<div id="surveyed_quarter_section" class="hidden-section">
+									<div class="table-responsive">
+										<table class="custom_tbl" id="surveyed_quarter_tbl">
+											<thead>
+												<tr>
+													<th class="serial-no">Ser</th>
+													<th>Desc</th>
+													<th>Patt No</th>
+													<th>S/N</th>
+													<th>Survey Date</th>
+													<th>Survey Ref</th>
+													<th>Failure Report No</th>
+													<th>Action</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td class="serial-no">1</td>
+													<td><input type="text" name="survey_desc_row_1" data-base-name="survey_desc" class="form-control" style="border: 1px solid #ddd; padding: 5px;"></td>
+													<td><input type="number" name="survey_patt_no_row_1" data-base-name="survey_patt_no" class="form-control" style="border: 1px solid #ddd; padding: 5px;"></td>
+													<td><input type="text" name="survey_sn_row_1" data-base-name="survey_sn" class="form-control" style="border: 1px solid #ddd; padding: 5px;"></td>
+													<td><input type="date" name="survey_date_row_1" data-base-name="survey_date" class="form-control" style="border: 1px solid #ddd; padding: 5px;"></td>
+													<td><input type="text" name="survey_ref_row_1" data-base-name="survey_ref" class="form-control" style="border: 1px solid #ddd; padding: 5px;"></td>
+													<td><input type="text" name="survey_failure_report_no_row_1" data-base-name="survey_failure_report_no" class="form-control" style="border: 1px solid #ddd; padding: 5px;"></td>
+													<td class="action action-cell-holder">
+														<div class="action-controls">
+															<button type="button" class="btn-round btn-add" onclick="addRow('surveyed_quarter_tbl')" title="Add Row">+</button>
+															<button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'surveyed_quarter_tbl')" disabled title="Remove Row">-</button>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom">Deficiency</legend>
+								<div class="section-header">
+									<div class="yes-no-container">
+										<div>
+											<input type="radio" id="deficiency_yes" name="deficiency" value="yes">
+											<label for="deficiency_yes">Yes</label>
+										</div>
+										<div>
+											<input type="radio" id="deficiency_no" name="deficiency" value="no" checked>
+											<label for="deficiency_no">No</label>
+										</div>
+									</div>
+								</div>
+								<div id="deficiency_section" class="hidden-section">
+									<div class="table-responsive">
+										<table class="custom_tbl" id="deficiency_tbl">
+											<thead>
+												<tr>
+													<th class="serial-no" rowspan="2">Ser</th>
+													<th rowspan="2">Description</th>
+													<th colspan="3" style="text-align: center;">System</th>
+													<th colspan="3" style="text-align: center;">OBS</th>
+													<th class="action" rowspan="2">Action</th>
+												</tr>
+												<tr>
+													<th>Authorized</th>
+													<th>Fitted</th>
+													<th>Deficient</th>
+													<th>Authorized</th>
+													<th>Fitted</th>
+													<th>Deficient</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td class="serial-no">1</td>
+													<td><input type="text" name="deficiency_description_row_1" data-base-name="deficiency_description" class="form-control" style="border: 1px solid #ddd; padding: 5px;"></td>
+													<td><input type="text" name="system_authorized_row_1" data-base-name="system_authorized" class="form-control" style="border: 1px solid #ddd; padding: 5px;"></td>
+													<td><input type="text" name="system_fitted_row_1" data-base-name="system_fitted" class="form-control" style="border: 1px solid #ddd; padding: 5px;"></td>
+													<td><input type="text" name="system_deficient_row_1" data-base-name="system_deficient" class="form-control" style="border: 1px solid #ddd; padding: 5px;"></td>
+													<td><input type="text" name="obs_authorized_row_1" data-base-name="obs_authorized" class="form-control" style="border: 1px solid #ddd; padding: 5px;"></td>
+													<td><input type="text" name="obs_fitted_row_1" data-base-name="obs_fitted" class="form-control" style="border: 1px solid #ddd; padding: 5px;"></td>
+													<td><input type="text" name="obs_deficient_row_1" data-base-name="obs_deficient" class="form-control" style="border: 1px solid #ddd; padding: 5px;"></td>
+													<td class="action action-cell-holder">
+														<div class="action-controls">
+															<button type="button" class="btn-round btn-add" onclick="addRow('deficiency_tbl')" title="Add Row">+</button>
+															<button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'deficiency_tbl')" disabled title="Remove Row">-</button>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom">Pending Demands (Consumable)</legend>
+								<div class="section-header">
+									<div class="yes-no-container">
+										<div>
+											<input type="radio" id="pending_consumable_yes" name="pending_consumable" value="yes">
+											<label for="pending_consumable_yes">Yes</label>
+										</div>
+										<div>
+											<input type="radio" id="pending_consumable_no" name="pending_consumable" value="no" checked>
+											<label for="pending_consumable_no">No</label>
+										</div>
+									</div>
+								</div>
+								<div id="pending_consumable_section" class="hidden-section">
+									<div class="table-responsive">
+										<table class="custom_tbl" id="pending_consumable_tbl">
+											<thead>
+												<tr>
+													<th class="serial-no">Ser</th>
+													<th>Item</th>
+													<th>Patt No</th>
+													<th>Qty</th>
+													<th>Demand No</th>
+													<th>Demand Date</th>
+													<th>Action</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td class="serial-no">1</td>
+													<td><input type="text" name="pending_item_row_1" data-base-name="pending_item" class="form-control" style="border: 1px solid #ddd; padding: 5px;"></td>
+													<td><input type="number" name="pending_patt_no_row_1" data-base-name="pending_patt_no" class="form-control" style="border: 1px solid #ddd; padding: 5px;"></td>
+													<td><input type="text" name="pending_qty_row_1" data-base-name="pending_qty" class="form-control" style="border: 1px solid #ddd; padding: 5px;"></td>
+													<td><input type="text" name="pending_demand_no_row_1" data-base-name="pending_demand_no" class="form-control" style="border: 1px solid #ddd; padding: 5px;"></td>
+													<td><input type="date" name="pending_demand_date_row_1" data-base-name="pending_demand_date" class="form-control" style="border: 1px solid #ddd; padding: 5px;"></td>
+													<td class="action action-cell-holder">
+														<div class="action-controls">
+															<button type="button" class="btn-round btn-add" onclick="addRow('pending_consumable_tbl')" title="Add Row">+</button>
+															<button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'pending_consumable_tbl')" disabled title="Remove Row">-</button>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</fieldset>
+
+							<div class="d-flex justify-content-center mt-4">
+								<button type="submit" class="btn btn-primary px-4">Submit Feedback Report</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		WRSTGQuarterly.init({
+			sections: [
+				{ radioName: 'defective_items', sectionId: 'defective_items_section', tableId: 'defective_items_tbl' },
+				{ radioName: 'demand_receive', sectionId: 'demand_receive_section', tableId: 'demand_receive_tbl' },
+				{ radioName: 'surveyed_quarter', sectionId: 'surveyed_quarter_section', tableId: 'surveyed_quarter_tbl' },
+				{ radioName: 'deficiency', sectionId: 'deficiency_section', tableId: 'deficiency_tbl' },
+				{ radioName: 'pending_consumable', sectionId: 'pending_consumable_section', tableId: 'pending_consumable_tbl' }
+			]
+		});
+	});
+</script>
+{% endblock js %}

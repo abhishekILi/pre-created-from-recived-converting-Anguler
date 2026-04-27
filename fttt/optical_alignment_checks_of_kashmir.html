@@ -1,0 +1,348 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+
+	/* .custom_tbl td textarea.form-control {
+		resize: vertical;
+		min-height: 40px;
+	} */
+
+
+    </style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item" aria-current="page">FTTT</li>
+		  <li class="breadcrumb-item active" aria-current="page">Kashmir-M Optical Alignment</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">Kashmir-M Optical Alignment</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="optical_alignment_form">
+            {% csrf_token %}
+            <div class="form-body">
+					<fieldset class="custom-fieldset">
+                                    <legend class="legend-custom text-uppercase">BASIC INFORMATION</legend>
+                                    <div class="row g-3">
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="system_sub_system" value="Kashmir-M FCS" placeholder=" " readonly>
+                                                <label class="form_control_1">1. System/ Sub system</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input class="form-control" name="job_undertaken" rows="2"  placeholder=" " >
+                                                <label class="form_control_1">2. Job Undertaken</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <!-- <textarea class="form-control wrstg-scroll-textarea" name="reference_documents" rows="2" placeholder=" "></textarea> -->
+                                                 <input type="file" class ="form-control" name="reference_documents">
+                                                <label class="form_control_1">3. Reference Documents</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="authority" placeholder=" ">
+                                                <label class="form_control_1">4. Authority</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="agencies_involved" value="FTTT(Vzg)" placeholder=" " readonly>
+                                                <label class="form_control_1">5. Agencies involved</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="date" class="form-control" name="date_commenced">
+                                                <label class="form_control_1">6. Date Commenced</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="date" class="form-control" name="date_completed">
+                                                <label class="form_control_1">7. Date Completed</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="prepared_by" placeholder=" ">
+                                                <label class="form_control_1">8. Prepared by</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="vetted_by" placeholder=" ">
+                                                <label class="form_control_1">9. Vetted by</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="reference_no" placeholder=" ">
+                                                <label class="form_control_1">10. Reference No.</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="summary_of_observations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">11. Summary of observations</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="operational_limitations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">12. Operational limitations (if any)</label>
+                                            </div>
+                                        </div>
+
+										 <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="operational_limitations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">13. Recorded Parameters</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </fieldset>
+
+              
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Recorded Parameters</legend>
+                <p class="section-note">
+                  <strong>Reference Datum</strong> – Reference Datum in front of Kashmir-M Launcher.
+                </p>
+
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Ser</th>
+                        <th>Device Description</th>
+                        <th>Final Error (Mills)</th>
+                        <th>Tolerance (Mills)</th>
+                        <th>Remarks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-no">(a)</td>
+                        <td>Illuminator No 1</td>
+                        <td><input type="text" class="form-control" name="ill1_final_error"></td>
+                        <td rowspan="9" class="text-center align-middle">
+                          +/- 10 Mills<br>in afloat<br>condition iaw
+                        </td>
+                        <td><input type="text" class="form-control" name="ill1_remarks"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(b)</td>
+                        <td>Illuminator No 2</td>
+                        <td><input type="text" class="form-control" name="ill2_final_error"></td>
+                        <td><input type="text" class="form-control" name="ill2_remarks"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(c)</td>
+                        <td>Illuminator No 3</td>
+                        <td><input type="text" class="form-control" name="ill3_final_error"></td>
+                        <td><input type="text" class="form-control" name="ill3_remarks"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(d)</td>
+                        <td>Illuminator No 4</td>
+                        <td><input type="text" class="form-control" name="ill4_final_error"></td>
+                        <td><input type="text" class="form-control" name="ill4_remarks"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(e)</td>
+                        <td>Illuminator No 5</td>
+                        <td><input type="text" class="form-control" name="ill5_final_error"></td>
+                        <td><input type="text" class="form-control" name="ill5_remarks"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(f)</td>
+                        <td>Illuminator No 6</td>
+                        <td><input type="text" class="form-control" name="ill6_final_error"></td>
+                        <td><input type="text" class="form-control" name="ill6_remarks"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(g)</td>
+                        <td>TV Optical Sight 1</td>
+                        <td><input type="text" class="form-control" name="tvos1_final_error"></td>
+                        <td><input type="text" class="form-control" name="tvos1_remarks"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(h)</td>
+                        <td>TV Optical Sight 2</td>
+                        <td><input type="text" class="form-control" name="tvos2_final_error"></td>
+                        <td><input type="text" class="form-control" name="tvos2_remarks"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(i)</td>
+                        <td>TV Optical Sight 3</td>
+                        <td><input type="text" class="form-control" name="tvos3_final_error"></td>
+                        <td><input type="text" class="form-control" name="tvos3_remarks"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(j)</td>
+                        <td>TV Optical Sight 4</td>
+                        <td><input type="text" class="form-control" name="tvos4_final_error"></td>
+                        <td><input type="text" class="form-control" name="tvos4_tolerance"></td>
+                        <td><input type="text" class="form-control" name="tvos4_remarks"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <fieldset class="custom-fieldset">
+								<legend class="legend-custom">OPTICAL ALLIGNMENT CHECKS OF KASHMIR-M FCS</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="error_calc_tbl">
+										<tbody>
+											<tr>
+												<th colspan="2" class="text-left">Error Calculation - Illuminator/ TVOS No.
+												</th>
+												<th class="text-left">Ship's Roll angle (θs)=
+													<input type="text" class="form-control small-in top-in mt-1" name="ec_ship_roll_angle">
+												</th>
+												<th colspan="2" class="text-left">
+													<div><strong>H</strong> = <input type="text" class="form-control small-in top-in mt-1" name="ec_h"></div>
+													<div class="mt-2"><strong>B</strong> = <input type="text" class="form-control small-in top-in mt-1" name="ec_b"></div>
+												</th>
+												<th colspan="2" class="text-left">Roll correction (Kr) = θs × T mils
+												</th>
+											</tr>
+
+											<tr>
+												<th rowspan="2">Target No</th>
+												<th rowspan="2">Range (R) Mtrs</th>
+												<th colspan="2">Bearing (Mils)</th>
+												<th rowspan="2">DELTA (Z) = A-B</th>
+												<th rowspan="2">Parallex (P)<br>(*calculation as per formula)</th>
+												<th rowspan="2">Error (Z-P)<br>(Mils)</th>
+											</tr>
+											<tr>
+												<th>LRF Bearing (A) (Avg)</th>
+												<th>Illuminator 1 Bearing (B) (Avg)</th>
+											</tr>
+
+											<tr>
+												<td>1</td>
+												<td><input type="text" class="form-control small-in" name="ec_r_1"></td>
+												<td><input type="text" class="form-control small-in" name="ec_a_1"></td>
+												<td><input type="text" class="form-control small-in" name="ec_bearing_1"></td>
+												<td><input type="text" class="form-control small-in" name="ec_delta_1"></td>
+												<td><input type="text" class="form-control small-in" name="ec_p_1"></td>
+												<td><input type="text" class="form-control small-in" name="ec_error_1"></td>
+											</tr>
+											<tr>
+												<td>2</td>
+												<td><input type="text" class="form-control small-in" name="ec_r_2"></td>
+												<td><input type="text" class="form-control small-in" name="ec_a_2"></td>
+												<td><input type="text" class="form-control small-in" name="ec_bearing_2"></td>
+												<td><input type="text" class="form-control small-in" name="ec_delta_2"></td>
+												<td><input type="text" class="form-control small-in" name="ec_p_2"></td>
+												<td><input type="text" class="form-control small-in" name="ec_error_2"></td>
+											</tr>
+											<tr>
+												<td>3</td>
+												<td><input type="text" class="form-control small-in" name="ec_r_3"></td>
+												<td><input type="text" class="form-control small-in" name="ec_a_3"></td>
+												<td><input type="text" class="form-control small-in" name="ec_bearing_3"></td>
+												<td><input type="text" class="form-control small-in" name="ec_delta_3"></td>
+												<td><input type="text" class="form-control small-in" name="ec_p_3"></td>
+												<td><input type="text" class="form-control small-in" name="ec_error_3"></td>
+											</tr>
+
+											<tr>
+												<td colspan="6" class="text-left"><strong>Error (Avg)</strong></td>
+												<td><input type="text" class="form-control small-in" name="ec_error_avg"></td>
+											</tr>
+											<tr>
+												<td colspan="3" class="text-left"><strong>Final Error</strong></td>
+												<td colspan="3" class="text-left"><strong>Error (Avg) + Roll correction (Kr)</strong></td>
+												<td><input type="text" class="form-control small-in" name="ec_final_error"></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+								<div class="formula-box">
+									<div class="formula-line">
+										<div>
+											<strong>Parallax (P)</strong> =
+											<span class="frac">
+												<span class="num">(a sin A + b cos A) × 955 (mil)</span>
+												<span class="den">R + (a cos A - b sin A)</span>
+											</span>
+										</div>
+										<div>
+											<strong>Ratio of conversion of ship roll value to roll correction (T)</strong> =
+											<span class="frac">
+												<span class="num">0.28 × H</span>
+												<span class="den">√(H<sup>2</sup> + B<sup>2</sup>)</span>
+											</span>
+											= --------
+										</div>
+									</div>
+
+									<ol class="formula-list" type="a">
+										<li><strong>a / aa</strong> - Distance between the LRF and Illuminator/ TV camera along the fore and aft line. ('a' is positive if LRF is placed ahead of TV/Illuminator otherwise it is negative).</li>
+										<li><strong>H</strong> - Height of LRF rod from Foxle datum mark deck.</li>
+										<li><strong>B</strong> - Slant distance from Foxle datum mark to LRF rod.</li>
+										<li><strong>b</strong> - It is the perpendicular distance from the fore and aft line to the Illuminator. ('b' is positive for starboard side and negative for port side).</li>
+										<li><strong>R</strong> - Range of selected landmark/target as measured by LRF.</li>
+										<li><strong>A</strong> - Average bearing of selected landmark/target as measured by the LRF.</li>
+									</ol>
+								</div>
+							</fieldset>
+
+							<div class="d-flex justify-content-center mt-4">
+								<button type="submit" class="btn btn-primary px-4">Submit Optical Alignment Checks</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

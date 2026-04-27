@@ -1,0 +1,658 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item active" aria-current="page">INMARSAT 'C'</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">INMARSAT - C UPDATED - 713711</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="inmarsat_c_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!-- ══════════════════════════════════════════
+                   HEADER — Ship / Equipment Info
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <div class="row g-3">
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="ship" required>
+                        <option value="">-- Select Ship --</option>
+                        {% for ship in ship_options %}
+                        <option value="{{ ship.value }}">{{ ship.label }}</option>
+                        {% endfor %}
+                      </select>
+                      <label class="form_control_1">Name of Ship <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="equipment" value="INMARSAT 'C'" readonly placeholder=" ">
+                      <label class="form_control_1">Equipment</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="sno" placeholder=" ">
+                      <label class="form_control_1">S. No.</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="date" class="form-control" name="trial_date" placeholder=" ">
+                      <label class="form_control_1">Date <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="department" required>
+                        <option value="">-- Select Department --</option>
+                        <option value="ELE/COMMN">ELE/COMMN</option>
+                        <option value="ND">ND</option>
+                        <option value="Gunnery">Gunnery</option>
+                        <option value="Communication">Communication</option>
+                        <option value="ASW">ASW</option>
+                      </select>
+                      <label class="form_control_1">Department <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="nature_of_trials" required>
+                        <option value="">-- Select Nature of Trials --</option>
+                        <option value="acceptance">Acceptance</option>
+                        <option value="pre_refit">Pre-Refit Trials</option>
+                        <option value="post_refit">Post-Refit Trials</option>
+                        <option value="periodic">Periodic Trials</option>
+                        <option value="defect_investigation">Defect Investigation</option>
+                        <option value="warranty">Warranty Trials</option>
+                        <option value="op_checks">Op Checks</option>
+                      </select>
+                      <label class="form_control_1">Nature of Trials <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                </div>
+
+                <br>
+
+                <p>Trial team reported onboard for Op Checks of INMARSAT 'C' at
+                    <input type="time"
+                    name="inmarsat_c_time"
+                    class="form-control d-inline mx-1 p-1"
+                    style="width: 200px; height: 26px;">
+                    hrs. Checks and trials carried out IAW NHQ approved schedule, Communication Acquaint Note 03/24
+                    (NHQ/DNS Letter CM/0301/OPS dated 15 Apr 24) and CNO. 07/10 are enumerated in succeeding paragraphs: -</p>
+
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no" style="width:60px;">Ser</th>
+                        <th>Checks</th>
+                        <th style="width:140px;">Observations</th>
+                        <th style="width:130px;">Remarks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <!-- ══ (A) Visual Checks ══ -->
+                      <tr>
+                        <td>A</td>
+                        <td colspan="3"><strong>Visual Checks</strong></td>
+                      </tr>
+
+                      <!-- (i) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(i)</td>
+                        <td>The condition of all the required interconnecting cables between units / racks of the system.</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="a_vis_1_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="a_vis_1_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (ii) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(ii)</td>
+                        <td>The condition of the power supply, earthing of the units and the overall air conditioning in the compartment.</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="a_vis_2_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="a_vis_2_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (iii) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(iii)</td>
+                        <td>Stability of the power supply to the system.</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="a_vis_3_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="a_vis_3_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (iv) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(iv)</td>
+                        <td>Check IMO compliance / certification for the equipment.</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="a_vis_4_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="a_vis_4_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ (B) Visual Checks ══ -->
+                      <tr>
+                        <td>B</td>
+                        <td colspan="3"><strong>Visual Checks</strong></td>
+                      </tr>
+
+                      <!-- (i) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(i)</td>
+                        <td>
+                          Fitment of Antenna unit fitted on
+                          <input type="text"
+                            name="b_vis_1_antenna_loc"
+                            class="form-control d-inline mx-1 p-1"
+                            style="width: 180px; height: 26px;">
+                          (Model:
+                          <input type="text"
+                            name="b_vis_1_model"
+                            class="form-control d-inline mx-1 p-1"
+                            style="width: 120px; height: 26px;">
+                          S.No.
+                          <input type="text"
+                            name="b_vis_1_sno"
+                            class="form-control d-inline mx-1 p-1"
+                            style="width: 120px; height: 26px;">).
+                        </td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="b_vis_1_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="b_vis_1_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (ii) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(ii)</td>
+                        <td>
+                          Power supply Unit (Model:
+                          <input type="text"
+                            name="b_vis_2_model"
+                            class="form-control d-inline mx-1 p-1"
+                            style="width: 120px; height: 26px;">
+                          S.No.
+                          <input type="text"
+                            name="b_vis_2_sno"
+                            class="form-control d-inline mx-1 p-1"
+                            style="width: 120px; height: 26px;">).
+                        </td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="b_vis_2_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="b_vis_2_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (iii) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(iii)</td>
+                        <td>
+                          Trans-receiver (Model:
+                          <input type="text"
+                            name="b_vis_3_model"
+                            class="form-control d-inline mx-1 p-1"
+                            style="width: 120px; height: 26px;">
+                          S.No.
+                          <input type="text"
+                            name="b_vis_3_sno"
+                            class="form-control d-inline mx-1 p-1"
+                            style="width: 120px; height: 26px;">).
+                        </td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="b_vis_3_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="b_vis_3_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (iv) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(iv)</td>
+                        <td>Processor Unit</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="b_vis_4_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="b_vis_4_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (v) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(v)</td>
+                        <td>
+                          Printer (Model:
+                          <input type="text"
+                            name="b_vis_5_model"
+                            class="form-control d-inline mx-1 p-1"
+                            style="width: 120px; height: 26px;">
+                          S.No.
+                          <input type="text"
+                            name="b_vis_5_sno"
+                            class="form-control d-inline mx-1 p-1"
+                            style="width: 120px; height: 26px;">).
+                        </td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="b_vis_5_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="b_vis_5_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (vi) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(vi)</td>
+                        <td>All sub – assemblies are fixed properly.</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="b_vis_6_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="b_vis_6_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (vii) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(vii)</td>
+                        <td>Securing of connecting cables.</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="b_vis_7_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="b_vis_7_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (viii) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(viii)</td>
+                        <td>Switching over from main power supply to uninterrupted power supply.</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="b_vis_8_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="b_vis_8_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ (C) Installation Completeness ══ -->
+                      <tr>
+                        <td>C</td>
+                        <td colspan="3"><strong>Installation Completeness</strong></td>
+                      </tr>
+
+                      <!-- (i) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(i)</td>
+                        <td>Check the mounting of all units and interconnection wiring as per installation drawing.</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="c_inst_1_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="c_inst_1_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (ii) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(ii)</td>
+                        <td>Check RF grounding of all individual units.</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="c_inst_2_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="c_inst_2_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ (D) Electrical Supply Checks ══ -->
+                      <tr>
+                        <td>D</td>
+                        <td colspan="3"><strong>Electrical Supply Checks</strong></td>
+                      </tr>
+
+                      <!-- (i) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(i)</td>
+                        <td>Power Supply 110 / 220V Requisite AC input is available and measured within tolerance level of ±10 %.</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="d_elec_1_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="d_elec_1_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (ii) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(ii)</td>
+                        <td>The output of Power Supply Unit Measured at 24–28 V DC.</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="d_elec_2_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="d_elec_2_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ (E) Functional Checks ══ -->
+                      <tr>
+                        <td>E</td>
+                        <td colspan="3"><strong>Functional Checks</strong></td>
+                      </tr>
+
+                      <!-- (i) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(i)</td>
+                        <td>Switch on main power supply and check indication and SAT C monitor (terminal).</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="e_func_1_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="e_func_1_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (ii) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(ii)</td>
+                        <td>Check and verify key and menu function.</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="e_func_2_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="e_func_2_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (iii) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(iii)</td>
+                        <td>Check present position data available.</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="e_func_3_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="e_func_3_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (iv) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(iv)</td>
+                        <td>Check facility to disable GPS feed.</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="e_func_4_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="e_func_4_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (v) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(v)</td>
+                        <td>Check and verify system self-tests.</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="e_func_5_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="e_func_5_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (vi) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(vi)</td>
+                        <td>Check login normal.</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="e_func_6_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="e_func_6_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (vii) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(vii)</td>
+                        <td>Verify operation using PV test.</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="e_func_7_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="e_func_7_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (viii) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(viii)</td>
+                        <td>Check operation by loopback test.</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="e_func_8_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="e_func_8_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (ix) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(ix)</td>
+                        <td>Check operation with any shore address.</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="e_func_9_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="e_func_9_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (x) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(x)</td>
+                        <td>Check message printouts.</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="e_func_10_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="e_func_10_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (xi) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(xi)</td>
+                        <td>Check EGC message reception.</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="e_func_11_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="e_func_11_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (xii) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(xii)</td>
+                        <td>Check the operation in DC power.</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="e_func_12_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="e_func_12_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   REMARKS
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">REMARKS</legend>
+                <div class="static-section">
+                  <div class="table-responsive">
+                    <table class="custom_tbl" id="remarks_table">
+                      <thead>
+                        <tr>
+                          <th class="serial-no">Sr No</th>
+                          <th>Observations</th>
+                          <th>SS Remarks</th>
+                          <th class="action">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="serial-no">1</td>
+                          <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="observation" placeholder="" rows="2"></textarea></td>
+                          <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="ss_remarks" placeholder="" rows="2"></textarea></td>
+                          <td class="action action-cell-holder">
+                            <div class="action-controls">
+                              <button type="button" class="btn-round btn-add" onclick="addRow('remarks_table')" title="Add Row">+</button>
+                              <button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'remarks_table')" title="Remove Row">-</button>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   AUTHORITY SECTION
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <div class="row">
+                  <div class="col-md-6">
+                    <h6 class="font-weight-bold my-text">Presenting Authority: Ship's Staff</h6>
+                    <div class="row mt-3">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>ND:</label>
+                          <input type="text" class="form-control" name="presenting_nd" placeholder="">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <h6 class="font-weight-bold my-text">Inspecting Authority: WATT (V)</h6>
+                    <div class="row mt-3">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>STI / TI:</label>
+                          <input type="text" class="form-control" name="inspecting_sti_ti" placeholder="">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>STO:</label>
+                          <input type="text" class="form-control" name="inspecting_sto" placeholder="">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

@@ -1,0 +1,617 @@
+
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+<!-- FORM NUMBER 16 -->
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+
+<style>
+    
+     /* Only data-heavy tables (no SAT/UNSAT) need fixed layout */
+    .custom_tbl.fixed-layout {
+        table-layout: fixed !important;
+    }
+
+    .custom_tbl td,
+    .custom_tbl th,
+    .sub-checks-table td,
+    .sub-checks-table th {
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        white-space: normal !important;
+    }
+
+    .page-header-note {
+        font-size: 12px;
+        color: #555;
+        font-style: italic;
+        margin-bottom: 8px;
+    }
+
+    */
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">WEAPON ACCEPTANCE TRIALS TEAM VISAKHAPATNAM
+                            DAILY SUMMARY OF PROGRESS</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="ecdis_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+
+                            <!--  HEADER -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">Basic Information</legend>
+                                <div class="row g-3">
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" id="name_of_ship_select" name="name_of_ship">
+                                                <option value="">-- Select --</option>
+                                                <option value="INS_A">INS Alpha</option>
+                                                <option value="INS_B">INS Bravo</option>
+                                                <option value="INS_C">INS Charlie</option>
+                                                <option value="INS_D">INS Delta</option>
+                                            </select>
+                                            <label class="form_control_1">Name of Ship</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" id="department_select" name="department">
+                                                <option value="">-- Select --</option>
+                                                <option value="ND">ND</option>
+                                                <option value="ASW">ASW</option>
+                                                <option value="COMM">COMM</option>
+                                                <option value="GUNNERY">GUNNERY</option>
+                                            </select>
+                                            <label class="form_control_1">Department</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" id="equipment_select" name="equipment">
+                                                <option value="">-- Select --</option>
+                                                <option value="ECDIS">ECDIS</option>
+                                            </select>
+                                            <label class="form_control_1">Equipment</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="date" class="form-control" id="date_input" name="date_">
+                                            <label class="form_control_1">Date</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" id="nature_trials_select"
+                                                name="nature_of_trials" required>
+                                                <option value="">--Select--</option>
+                                                <option value="SATs">SATs</option>
+                                                <option value="HATS">HATs</option>
+                                                <option value="OP_CHECKS">OP CHECKS</option>
+                                                <option value="IIS">IIs</option>
+                                            </select>
+                                            <label class="form_control_1">Nature of Trial</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">Observations</legend>
+
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" style="width:100%; border-collapse: collapse;">
+                                        <thead>
+                                            <tr class="custom-header-row">
+                                                <th >Ser</th>
+                                                <th>OBSERVATIONS</th>
+                                                <th >REMARKS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr>
+                                                <td colspan="3">
+                                                    Trials team embarked onboard at
+                                                    <input type="time" id="embark_time" name="embark_time"
+                                                        class="form-control d-inline-block"
+                                                        style="width: 100px; height: 28px;">
+                                                    hrs on
+                                                    <input type="date" id="embark_date" name="embark_date"
+                                                        class="form-control d-inline-block"
+                                                        style="width: 140px; height: 28px;">
+                                                    for OP Checks of ECDIS
+                                                    <textarea class="form-control wrstg-scroll-textarea"
+                                                        style="width: 200px; font-size: 12px; display: inline-block; vertical-align: middle;"
+                                                        id="ecdis_model"
+                                                        name="ecdis_model"></textarea>
+                                                    as per approved schedule vide IHQ MoD (N) / DSR letter WP / 0642 dated 06 Aug 14.
+                                                    <br>
+                                                     Following observed:-
+                                                </td>
+                                            </tr>
+
+                                            <!-- PHYSICAL CHECKS heading -->
+                                            <tr>
+                                                <td colspan="3" class="description-text">
+                                                    <b><u>PHYSICAL CHECKS</u></b>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 1 — rowspan for all sub-items -->
+                                            <tr>
+                                                <td rowspan="10">1.</td>
+                                                <td><b>Check the following fundamental features:-</b><br>(a) Colour vector chart presentation.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="ser1_a_sat" name="ser1_a" value="SAT">
+                                                            <label for="ser1_a_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="ser1_a_unsat" name="ser1_a" value="UNSAT">
+                                                            <label for="ser1_a_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>(b) Multi chart loading.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="ser1_b_sat" name="ser1_b" value="SAT">
+                                                            <label for="ser1_b_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="ser1_b_unsat" name="ser1_b" value="UNSAT">
+                                                            <label for="ser1_b_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>(c) Display, update and manage fully digitised and / or raster scan electronic charts as approved by International Hydrographic Organisation.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="ser1_c_sat" name="ser1_c" value="SAT">
+                                                            <label for="ser1_c_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="ser1_c_unsat" name="ser1_c" value="UNSAT">
+                                                            <label for="ser1_c_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>(d) Review (chart scrolling).</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="ser1_d_sat" name="ser1_d" value="SAT">
+                                                            <label for="ser1_d_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="ser1_d_unsat" name="ser1_d" value="UNSAT">
+                                                            <label for="ser1_d_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>(e) Information on any charted element and on the chart itself including lists of lights, sailing directions etc.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="ser1_e_sat" name="ser1_e" value="SAT">
+                                                            <label for="ser1_e_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="ser1_e_unsat" name="ser1_e" value="UNSAT">
+                                                            <label for="ser1_e_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>(f) North Up / True Motion mode presentation.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="ser1_f_sat" name="ser1_f" value="SAT">
+                                                            <label for="ser1_f_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="ser1_f_unsat" name="ser1_f" value="UNSAT">
+                                                            <label for="ser1_f_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>(g) WGS-84 geodic datum.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="ser1_g_sat" name="ser1_g" value="SAT">
+                                                            <label for="ser1_g_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="ser1_g_unsat" name="ser1_g" value="UNSAT">
+                                                            <label for="ser1_g_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>(h) Automatic chart reset and generation of adjacent chart.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="ser1_h_sat" name="ser1_h" value="SAT">
+                                                            <label for="ser1_h_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="ser1_h_unsat" name="ser1_h" value="UNSAT">
+                                                            <label for="ser1_h_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>(j) Chart auto load mode.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="ser1_j_sat" name="ser1_j" value="SAT">
+                                                            <label for="ser1_j_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="ser1_j_unsat" name="ser1_j" value="UNSAT">
+                                                            <label for="ser1_j_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>(k) On screen help function.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="ser1_k_sat" name="ser1_k" value="SAT">
+                                                            <label for="ser1_k_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="ser1_k_unsat" name="ser1_k" value="UNSAT">
+                                                            <label for="ser1_k_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 2 -->
+                                            <tr>
+                                                <td rowspan="2">2.</td>
+                                                <td><b>Check following interfaces:-</b><br>(a) GPS, Gyro, Log, AIS (NMEA Ports)</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="ser2_a_sat" name="ser2_a" value="SAT">
+                                                            <label for="ser2_a_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="ser2_a_unsat" name="ser2_a" value="UNSAT">
+                                                            <label for="ser2_a_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>(b) ARPA &ndash; 1, ARPA &ndash; 2, Echo Sounder, ECDIS Display (COM Ports)</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="ser2_b_sat" name="ser2_b" value="SAT">
+                                                            <label for="ser2_b_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="ser2_b_unsat" name="ser2_b" value="UNSAT">
+                                                            <label for="ser2_b_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 3 -->
+                                            <tr>
+                                                <td>3.</td>
+                                                <td>Check the setting up of the Screen Configuration.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="ser3_sat" name="ser3" value="SAT">
+                                                            <label for="ser3_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="ser3_unsat" name="ser3" value="UNSAT">
+                                                            <label for="ser3_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 4 -->
+                                            <tr>
+                                                <td>4.</td>
+                                                <td>Check setting up of the Chart Panel and check status of update of charts of present harbour.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="ser4_sat" name="ser4" value="SAT">
+                                                            <label for="ser4_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="ser4_unsat" name="ser4" value="UNSAT">
+                                                            <label for="ser4_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 5 -->
+                                            <tr>
+                                                <td>5.</td>
+                                                <td>Check functioning of tools such as ERBL / EBL / VRM, Zoom etc.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="ser5_sat" name="ser5" value="SAT">
+                                                            <label for="ser5_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="ser5_unsat" name="ser5" value="UNSAT">
+                                                            <label for="ser5_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 6 -->
+                                            <tr>
+                                                <td>6.</td>
+                                                <td>Check setting up of Nav Safety parameters and Alarms.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="ser6_sat" name="ser6" value="SAT">
+                                                            <label for="ser6_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="ser6_unsat" name="ser6" value="UNSAT">
+                                                            <label for="ser6_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 7 -->
+                                            <tr>
+                                                <td>7.</td>
+                                                <td>Check setting up of the positioning system and confirm that main GPS is primary positioning system.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="ser7_sat" name="ser7" value="SAT">
+                                                            <label for="ser7_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="ser7_unsat" name="ser7" value="UNSAT">
+                                                            <label for="ser7_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 8 -->
+                                            <tr>
+                                                <td>8.</td>
+                                                <td>Check the functioning of the creating and plotting of user chart objects and also editing of the created charts.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="ser8_sat" name="ser8" value="SAT">
+                                                            <label for="ser8_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="ser8_unsat" name="ser8" value="UNSAT">
+                                                            <label for="ser8_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 9 -->
+                                            <tr>
+                                                <td>9.</td>
+                                                <td>Check the procedure used in handling of routes and schedules. Check the monitoring function on any of the plotted routes.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="ser9_sat" name="ser9" value="SAT">
+                                                            <label for="ser9_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="ser9_unsat" name="ser9" value="UNSAT">
+                                                            <label for="ser9_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 10 -->
+                                            <tr>
+                                                <td>10.</td>
+                                                <td>Check if the contacts of interfaced radar and AIS are painting on the ECDIS. If RIB is available, check raw picture of radar on the ECDIS Display.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="ser10_sat" name="ser10" value="SAT">
+                                                            <label for="ser10_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="ser10_unsat" name="ser10" value="UNSAT">
+                                                            <label for="ser10_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 11 -->
+                                            <tr>
+                                                <td>11.</td>
+                                                <td>Check the operation of the in-built battery by tripping the ECDIS power supply breaker.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="ser11_sat" name="ser11" value="SAT">
+                                                            <label for="ser11_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="ser11_unsat" name="ser11" value="UNSAT">
+                                                            <label for="ser11_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 12 -->
+                                            <tr>
+                                                <td>12.</td>
+                                                <td>Check ECDIS capability to preserve the record of the previous 12 hours and of the voyage track.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="ser12_sat" name="ser12" value="SAT">
+                                                            <label for="ser12_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="ser12_unsat" name="ser12" value="UNSAT">
+                                                            <label for="ser12_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 13 — Advisory only, no SAT/UNSAT as per document -->
+                                            <tr>
+                                                <td>13.</td>
+                                                <td colspan="2">
+                                                    As the ECDIS &lsquo;Operational Checks&rsquo; can be undertaken in harbour,
+                                                    all sensors linked to ECDIS must be running in optimum condition and interfaced with ECDIS.
+                                                </td>
+                                            </tr>
+
+                                            <!-- NOTE -->
+                                            <tr>
+                                                <td colspan="3">
+                                                    <b><u>Note</u>:-</b> The extant IMO regulations may be used for reference, viz
+                                                    <em>IMO Resolution MSC. 232 (82) on performance standards of ECDIS.</em>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ═════════════════════════════════════
+                            AUTHORITY SECTION
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h6 class="font-weight-bold my-text">Presenting Authority: Ship's Staff</h6>
+                                        <div class="row mt-3">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>ND:</label>
+                                                    <input type="text" class="form-control" name="presenting_nd"
+                                                        placeholder="">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>C:</label>
+                                                    <input type="text" class="form-control" name="presenting_c"
+                                                        placeholder="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <h6 class="font-weight-bold my-text">Inspecting Authority: WATT (V)</h6>
+                                        <div class="row mt-3">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>STI / TI:</label>
+                                                    <input type="text" class="form-control" name="inspecting_sti_ti"
+                                                        placeholder="">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>STO:</label>
+                                                    <input type="text" class="form-control" name="inspecting_sto"
+                                                        placeholder="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Save</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        WRSTGQuarterly.init({
+            extraTableIds: [],
+            submitConfirmation: { formId: 'ecdis_form' }
+        });
+    });
+</script>
+{% endblock js %}

@@ -1,0 +1,222 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">HATS</a></li>
+					<li class="breadcrumb-item active" aria-current="page">SDR TAC 1C</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">SDR TAC 1C - OP Checks</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="hats_sdr_tac_1c_form" action="{% url 'ITTTM:hats_sdr_tac_1c' %}">
+						{% csrf_token %}
+						<input type="hidden" id="hats_sdr_tac_1c_form_id" name="hats_sdr_tac_1c_form_id" value="hats_sdr_tac_1c_op_checks">
+						<input type="hidden" id="hats_sdr_tac_1c_form_name" name="hats_sdr_tac_1c_form_name" value="HATS_SDR_TAC_1C_OP_CHECKS">
+						<div class="form-body">
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">Basic Information</legend>
+								<div class="row g-3">
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" id="hats_sdr_tac_1c_ship_name" name="hats_sdr_tac_1c_ship_name" required>
+												<option value="">--Select--</option>
+												{% for ship in ship_options %}
+												<option value="{{ ship.value }}">{{ ship.label }}</option>
+												{% endfor %}
+											</select>
+											<label class="form_control_1" for="hats_sdr_tac_1c_ship_name">Ship <span class="text-danger">*</span></label>
+										</div>
+									</div>
+
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" id="hats_sdr_tac_1c_department" name="hats_sdr_tac_1c_department">
+												<option value="">-- Select --</option>
+												<option value="P15A">ND</option>
+												<option value="P17">ASW</option>
+												<option value="P17A">COMM</option>
+												<option value="P28">GUNNERY</option>
+											</select>
+											<label class="form_control_1" for="hats_sdr_tac_1c_department">Department</label>
+										</div>
+									</div>
+
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" id="hats_sdr_tac_1c_equipment" name="hats_sdr_tac_1c_equipment">
+												<option value="">-- Select --</option>
+											</select>
+											<label class="form_control_1" for="hats_sdr_tac_1c_equipment">Equipment</label>
+										</div>
+									</div>
+
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="date" class="form-control" id="hats_sdr_tac_1c_date" name="hats_sdr_tac_1c_date">
+											<label class="form_control_1" for="hats_sdr_tac_1c_date">Date</label>
+										</div>
+									</div>
+
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" id="hats_sdr_tac_1c_nature_of_trials" name="hats_sdr_tac_1c_nature_of_trials" required>
+												<option value="">--Select--</option>
+												<option value="SATs">SATs</option>
+												<option value="HATS">HATs</option>
+												<option value="OP_CHECKS">OP CHECKS</option>
+												<option value="IIS">IIs</option>
+											</select>
+											<label class="form_control_1" for="hats_sdr_tac_1c_nature_of_trials">Nature of Trial</label>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<div class="table-responsive mt-4">
+									<table class="custom_tbl" id="sdr_tac_1c_table">
+										<thead class="table-dark-head">
+											<tr>
+												<th class="ser-col">TRIAL SER</th>
+												<th class="obs-col">CHECK DESCRIPTION AS PER SCHEDULE</th>
+												<th class="remarks-col">RESULT<br>SAT/UNSAT</th>
+												<th class="remarks-col">PRESENTING AUTHORITY REMARKS</th>
+											</tr>
+										</thead>
+										<tbody>
+											
+											<tr><td>10.1.1</td><td>Receiver test FM waveform of Channel 1</td><td class="text-center"><label><input type="radio" name="sdr_tac_1c_10_1_1_ch1_fm" value="SAT"> SAT</label> <label><input type="radio" name="sdr_tac_1c_10_1_1_ch1_fm" value="UNSAT"> UNSAT</label></td><td><textarea class="form-control wrstg-scroll-textarea" name="sdr_tac_1c_10_1_1_ch1_fm_remarks" rows="2"></textarea></td></tr>
+											<tr><td>10.1.1</td><td>Receiver test AM &amp; ATC waveform of Channel 1</td><td class="text-center"><label><input type="radio" name="sdr_tac_1c_10_1_1_ch1_am_atc" value="SAT"> SAT</label> <label><input type="radio" name="sdr_tac_1c_10_1_1_ch1_am_atc" value="UNSAT"> UNSAT</label></td><td><textarea class="form-control wrstg-scroll-textarea" name="sdr_tac_1c_10_1_1_ch1_am_atc_remarks" rows="2"></textarea></td></tr>
+											<tr><td>10.1.2</td><td>Transmitter test FM waveform and AM waveform of Channel 1</td><td class="text-center"><label><input type="radio" name="sdr_tac_1c_10_1_2_ch1_tx" value="SAT"> SAT</label> <label><input type="radio" name="sdr_tac_1c_10_1_2_ch1_tx" value="UNSAT"> UNSAT</label></td><td><textarea class="form-control wrstg-scroll-textarea" name="sdr_tac_1c_10_1_2_ch1_tx_remarks" rows="2"></textarea></td></tr>
+											<tr><td>10.1.1</td><td>Receiver test FM waveform of Channel 2</td><td class="text-center"><label><input type="radio" name="sdr_tac_1c_10_1_1_ch2_fm" value="SAT"> SAT</label> <label><input type="radio" name="sdr_tac_1c_10_1_1_ch2_fm" value="UNSAT"> UNSAT</label></td><td><textarea class="form-control wrstg-scroll-textarea" name="sdr_tac_1c_10_1_1_ch2_fm_remarks" rows="2"></textarea></td></tr>
+											<tr><td>10.1.1</td><td>Receiver test AM &amp; ATC waveform of Channel 2</td><td class="text-center"><label><input type="radio" name="sdr_tac_1c_10_1_1_ch2_am_atc" value="SAT"> SAT</label> <label><input type="radio" name="sdr_tac_1c_10_1_1_ch2_am_atc" value="UNSAT"> UNSAT</label></td><td><textarea class="form-control wrstg-scroll-textarea" name="sdr_tac_1c_10_1_1_ch2_am_atc_remarks" rows="2"></textarea></td></tr>
+											<tr><td>10.1.2</td><td>Transmitter test FM waveform &amp; AM Waveform of Channel 2</td><td class="text-center"><label><input type="radio" name="sdr_tac_1c_10_1_2_ch2_tx" value="SAT"> SAT</label> <label><input type="radio" name="sdr_tac_1c_10_1_2_ch2_tx" value="UNSAT"> UNSAT</label></td><td><textarea class="form-control wrstg-scroll-textarea" name="sdr_tac_1c_10_1_2_ch2_tx_remarks" rows="2"></textarea></td></tr>
+											<tr><td>10.1.1</td><td>Receiver test FM waveform of Channel 3</td><td class="text-center"><label><input type="radio" name="sdr_tac_1c_10_1_1_ch3_fm" value="SAT"> SAT</label> <label><input type="radio" name="sdr_tac_1c_10_1_1_ch3_fm" value="UNSAT"> UNSAT</label></td><td><textarea class="form-control wrstg-scroll-textarea" name="sdr_tac_1c_10_1_1_ch3_fm_remarks" rows="2"></textarea></td></tr>
+											<tr><td>10.1.1</td><td>Receiver test AM &amp; ATC waveform of Channel 3</td><td class="text-center"><label><input type="radio" name="sdr_tac_1c_10_1_1_ch3_am_atc" value="SAT"> SAT</label> <label><input type="radio" name="sdr_tac_1c_10_1_1_ch3_am_atc" value="UNSAT"> UNSAT</label></td><td><textarea class="form-control wrstg-scroll-textarea" name="sdr_tac_1c_10_1_1_ch3_am_atc_remarks" rows="2"></textarea></td></tr>
+											<tr><td>10.1.2</td><td>Transmitter test FM waveform &amp; AM Waveform of Channel 3</td><td class="text-center"><label><input type="radio" name="sdr_tac_1c_10_1_2_ch3_tx" value="SAT"> SAT</label> <label><input type="radio" name="sdr_tac_1c_10_1_2_ch3_tx" value="UNSAT"> UNSAT</label></td><td><textarea class="form-control wrstg-scroll-textarea" name="sdr_tac_1c_10_1_2_ch3_tx_remarks" rows="2"></textarea></td></tr>
+											<tr><td>10.1.2</td><td>Transmitter test L band 6 mbps waveform of Channel 4</td><td class="text-center"><label><input type="radio" name="sdr_tac_1c_10_1_2_lband" value="SAT"> SAT</label> <label><input type="radio" name="sdr_tac_1c_10_1_2_lband" value="UNSAT"> UNSAT</label></td><td><textarea class="form-control wrstg-scroll-textarea" name="sdr_tac_1c_10_1_2_lband_remarks" rows="2"></textarea></td></tr>
+											<tr><td>11</td><td>Audio output and distortion at RCU for FM waveform</td><td class="text-center"><label><input type="radio" name="sdr_tac_1c_11_audio_output" value="SAT"> SAT</label> <label><input type="radio" name="sdr_tac_1c_11_audio_output" value="UNSAT"> UNSAT</label></td><td><textarea class="form-control wrstg-scroll-textarea" name="sdr_tac_1c_11_audio_output_remarks" rows="2"></textarea></td></tr>
+											<tr><td>11.2</td><td>Frequency deviation and AM depth of modulation at RCU</td><td class="text-center"><label><input type="radio" name="sdr_tac_1c_11_2_frequency_deviation" value="SAT"> SAT</label> <label><input type="radio" name="sdr_tac_1c_11_2_frequency_deviation" value="UNSAT"> UNSAT</label></td><td><textarea class="form-control wrstg-scroll-textarea" name="sdr_tac_1c_11_2_frequency_deviation_remarks" rows="2"></textarea></td></tr>
+											<tr><td colspan="4" class="section-title"><strong>FUNCTIONAL CHECKS B/W Radios</strong></td></tr>
+											<tr><td>12.1</td><td>Voice test of FM wave form for channel 1 &amp; 2 &amp; 3</td><td class="text-center"><label><input type="radio" name="sdr_tac_1c_12_1_voice_fm" value="SAT"> SAT</label> <label><input type="radio" name="sdr_tac_1c_12_1_voice_fm" value="UNSAT"> UNSAT</label></td><td><textarea class="form-control wrstg-scroll-textarea" name="sdr_tac_1c_12_1_voice_fm_remarks" rows="2"></textarea></td></tr>
+											<tr><td>12.2</td><td>Voice test of AM wave form for channel 1 &amp; 2 &amp; 3</td><td class="text-center"><label><input type="radio" name="sdr_tac_1c_12_2_voice_am" value="SAT"> SAT</label> <label><input type="radio" name="sdr_tac_1c_12_2_voice_am" value="UNSAT"> UNSAT</label></td><td><textarea class="form-control wrstg-scroll-textarea" name="sdr_tac_1c_12_2_voice_am_remarks" rows="2"></textarea></td></tr>
+											<tr><td>12.3</td><td>Voice test of ATC wave form for channel 1 &amp; 2 &amp; 3</td><td class="text-center"><label><input type="radio" name="sdr_tac_1c_12_3_voice_atc" value="SAT"> SAT</label> <label><input type="radio" name="sdr_tac_1c_12_3_voice_atc" value="UNSAT"> UNSAT</label></td><td><textarea class="form-control wrstg-scroll-textarea" name="sdr_tac_1c_12_3_voice_atc_remarks" rows="2"></textarea></td></tr>
+											<tr><td>12.4</td><td>Voice test of IOV wave form for channel 1 &amp; 2 &amp; 3</td><td class="text-center"><label><input type="radio" name="sdr_tac_1c_12_4_voice_iov" value="SAT"> SAT</label> <label><input type="radio" name="sdr_tac_1c_12_4_voice_iov" value="UNSAT"> UNSAT</label></td><td><textarea class="form-control wrstg-scroll-textarea" name="sdr_tac_1c_12_4_voice_iov_remarks" rows="2"></textarea></td></tr>
+											<tr><td>12.5</td><td>Data test of LINK II VUHF Wave form for channel 1 &amp; 2 &amp; 3</td><td class="text-center"><label><input type="radio" name="sdr_tac_1c_12_5_link_ii" value="SAT"> SAT</label> <label><input type="radio" name="sdr_tac_1c_12_5_link_ii" value="UNSAT"> UNSAT</label></td><td><textarea class="form-control wrstg-scroll-textarea" name="sdr_tac_1c_12_5_link_ii_remarks" rows="2"></textarea></td></tr>
+											<tr><td>12.6</td><td>Data test of LDR ECCM Waveform for Channel 1 &amp; 2 &amp; 3</td><td class="text-center"><label><input type="radio" name="sdr_tac_1c_12_6_ldr_eccm" value="SAT"> SAT</label> <label><input type="radio" name="sdr_tac_1c_12_6_ldr_eccm" value="UNSAT"> UNSAT</label></td><td><textarea class="form-control wrstg-scroll-textarea" name="sdr_tac_1c_12_6_ldr_eccm_remarks" rows="2"></textarea></td></tr>
+											<tr><td>12.7</td><td>Voice and Data test of HDR UHF ECCM MANET waveform of Channel 1 &amp; 2 &amp; 3</td><td class="text-center"><label><input type="radio" name="sdr_tac_1c_12_7_hdr_uhf_eccm" value="SAT"> SAT</label> <label><input type="radio" name="sdr_tac_1c_12_7_hdr_uhf_eccm" value="UNSAT"> UNSAT</label></td><td><textarea class="form-control wrstg-scroll-textarea" name="sdr_tac_1c_12_7_hdr_uhf_eccm_remarks" rows="2"></textarea></td></tr>
+											<tr><td>12.8</td><td>Data test of HDR UHF MANET waveform of Channel 1 &amp; 2 &amp; 3</td><td class="text-center"><label><input type="radio" name="sdr_tac_1c_12_8_hdr_uhf_manet" value="SAT"> SAT</label> <label><input type="radio" name="sdr_tac_1c_12_8_hdr_uhf_manet" value="UNSAT"> UNSAT</label></td><td><textarea class="form-control wrstg-scroll-textarea" name="sdr_tac_1c_12_8_hdr_uhf_manet_remarks" rows="2"></textarea></td></tr>
+											<tr><td>12.9</td><td>Data test of HDR L Band ECCM MANET waveform channel 4</td><td class="text-center"><label><input type="radio" name="sdr_tac_1c_12_9_hdr_l_band_eccm" value="SAT"> SAT</label> <label><input type="radio" name="sdr_tac_1c_12_9_hdr_l_band_eccm" value="UNSAT"> UNSAT</label></td><td><textarea class="form-control wrstg-scroll-textarea" name="sdr_tac_1c_12_9_hdr_l_band_eccm_remarks" rows="2"></textarea></td></tr>
+											<tr><td>12.10</td><td>Data test of HDR L Band 6 mbps MANET waveform for channel 4</td><td class="text-center"><label><input type="radio" name="sdr_tac_1c_12_10_hdr_l_band_6_mbps" value="SAT"> SAT</label> <label><input type="radio" name="sdr_tac_1c_12_10_hdr_l_band_6_mbps" value="UNSAT"> UNSAT</label></td><td><textarea class="form-control wrstg-scroll-textarea" name="sdr_tac_1c_12_10_hdr_l_band_6_mbps_remarks" rows="2"></textarea></td></tr>
+											<tr><td>13</td><td>Voice test of CCS interface</td><td class="text-center"><label><input type="radio" name="sdr_tac_1c_13_ccs_interface" value="SAT"> SAT</label> <label><input type="radio" name="sdr_tac_1c_13_ccs_interface" value="UNSAT"> UNSAT</label></td><td><textarea class="form-control wrstg-scroll-textarea" name="sdr_tac_1c_13_ccs_interface_remarks" rows="2"></textarea></td></tr>
+									</tbody>
+								</table>
+							</div>
+						</fieldset>
+
+						<fieldset class="custom-fieldset mt-4">
+							<legend class="legend-custom text-uppercase">Presenting Authority</legend>
+							<div class="row g-3 mb-3">
+								<div class="col-md-3 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<select class="form-control" id="hats_sdr_tac_1a_presenting_authority" name="hats_sdr_tac_1a_presenting_authority" required>
+											<option value="">--Select--</option>
+											<option value="dockyard">Dockyard</option>
+											<option value="shipstaff">Shipstaff</option>
+											<option value="oem">OEM</option>
+										</select>
+										<label class="form_control_1" for="hats_sdr_tac_1a_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+									</div>
+								</div>
+								<div class="col-md-3 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<input type="text" class="form-control" id="hats_sdr_tac_1a_watt_1_name" name="hats_sdr_tac_1a_watt_1_name">
+										<label class="form_control_1">WATT(1)</label>
+									</div>
+								</div>
+
+								<!-- WATT 2 -->
+								<div class="col-md-3 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<input type="text" class="form-control" id="hats_sdr_tac_1a_watt_2_name" name="hats_sdr_tac_1a_watt_2_name">
+										<label class="form_control_1">WATT(2)</label>
+									</div>
+								</div>
+
+								<!-- WATT 3 -->
+								<div class="col-md-3 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<input type="text" class="form-control" id="hats_sdr_tac_1a_watt_3_name" name="hats_sdr_tac_1a_watt_3_name">
+										<label class="form_control_1">WATT(3)</label>
+									</div>
+								</div>
+							</div>
+
+							<div class="table-responsive mt-4">
+								<table class="custom_tbl " id="hats_sdr_tac_1a_remarks_table">
+									<thead class="table-dark-head">
+										<tr>
+											<th>REMARKS TO BE GIVEN</th>
+											<th>WBA - WILL BE AMENDED</th>
+											<th>WBD - WILL BE DONE</th>
+											<th>WOW - WILL OBTAIN WAIVER</th>
+											<th>COM - COMPLETED</th>
+											<th>N/O - NOT OFFERED</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_remarks_main"></textarea></td>
+											<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_wba"></textarea></td>
+											<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_wbd"></textarea></td>
+											<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_wow"></textarea></td>
+											<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_com"></textarea></td>
+											<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_no"></textarea></td>
+										</tr>
+										<tr>
+											<td><strong>OIC</strong></td>
+											<td><strong>CDR TRIALS</strong></td>
+											<td><strong>STO (G)</strong></td>
+											<td><strong>STO (L)</strong></td>
+											<td colspan="2"><strong>TO (L)</strong></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</fieldset>
+
+						<div class="d-flex justify-content-center mt-4 gap-2">
+							<button type="submit" class="btn btn-success px-4">Save</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

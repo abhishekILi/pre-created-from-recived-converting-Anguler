@@ -1,0 +1,200 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+
+<style>
+/* Center table headers */
+.custom_tbl thead th {
+    text-align: center;
+    vertical-align: middle;
+    padding: 10px;
+}
+
+/* Keep body aligned nicely */
+.custom_tbl td {
+    text-align: left;
+}
+
+/* Fix table layout */
+.custom_tbl {
+    table-layout: fixed;
+    width: 100%;
+}
+
+/* Remarks column width */
+.remarks-col {
+    min-width: 280px;
+    width: 300px;
+}
+
+/* Make input fill column */
+.remarks-col input,
+.remarks-col textarea {
+    width: 100%;
+}
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+
+    <!-- Breadcrumb -->
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'ITTTM:home' %}">ITTTM</a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        SEA ACCEPTANCE TRIALS - KBG-3D BOILERS
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Portlet -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">
+                            SEA ACCEPTANCE TRIALS FORMAT - KBG-3D BOILERS
+                        </span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <!-- ===== BASIC INFO ===== -->
+                        <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">Basic Information</legend>
+                                <div class="row g-3">
+
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="date" class="form-control" name="trial_date" required>
+                                            <label class="form_control_1">DATE <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" name="draught_fwd" placeholder="">
+                                            <label class="form_control_1">SHIPS DRAUGHT FWD</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" name="draught_aft" placeholder="">
+                                            <label class="form_control_1">SHIPS DRAUGHT AFT</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" name="displacement" placeholder="">
+                                            <label class="form_control_1">SHIP'S DISPLACEMENT</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </fieldset>
+
+                        <!-- ===== TABLE ===== -->
+                        <fieldset class="custom-fieldset mt-4">
+                            <legend class="legend-custom text-uppercase">Trial Data</legend>
+
+                            <div class="table-responsive">
+                                <table class="custom_tbl">
+                                    <thead>
+                                        <tr>
+                                            <th rowspan="2">BOILERS</th>
+                                            <th rowspan="2">LOAD (%)</th>
+                                            <th colspan="2">MTGA 1 (SRPM)</th>
+                                            <th colspan="2">MTGA 2 (SRPM)</th>
+                                            <th colspan="2">MTGA 3 (SRPM)</th>
+                                            <th colspan="2">MTGA 4 (SRPM)</th>
+                                            <th rowspan="2">STEERING PUMP <br>RUDDER ANGLE <br> (P/S)</th>
+                                            <th rowspan="2">REMARKS</th>
+                                        </tr>
+                                        <tr>
+                                            <th>AHEAD</th>
+                                            <th>ASTERN</th>
+                                            <th>AHEAD</th>
+                                            <th>ASTERN</th>
+                                            <th>AHEAD</th>
+                                            <th>ASTERN</th>
+                                            <th>AHEAD</th>
+                                            <th>ASTERN</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        {% for i in "12345678" %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+
+                                            <td><input type="text" name="load_{{i}}" class="form-control line-input embarked-hrs"></td>
+
+                                            <td><input type="text" name="mtga1_ahead_{{i}}" class="form-control line-input embarked-hrs"></td>
+                                            <td><input type="text" name="mtga1_astern_{{i}}" class="form-control line-input embarked-hrs"></td>
+
+                                            <td><input type="text" name="mtga2_ahead_{{i}}" class="form-control line-input embarked-hrs"></td>
+                                            <td><input type="text" name="mtga2_astern_{{i}}" class="form-control line-input embarked-hrs"></td>
+
+                                            <td><input type="text" name="mtga3_ahead_{{i}}" class="form-control line-input embarked-hrs"></td>
+                                            <td><input type="text" name="mtga3_astern_{{i}}" class="form-control line-input embarked-hrs"></td>
+
+                                            <td><input type="text" name="mtga4_ahead_{{i}}" class="form-control line-input embarked-hrs"></td>
+                                            <td><input type="text" name="mtga4_astern_{{i}}" class="form-control line-input embarked-hrs"></td>
+
+                                            <td><input type="text" name="rudder_{{i}}" class="form-control line-input "></td>
+
+
+                                             <td class="remarks-col"><textarea class="form-control wrstg-scroll-textarea" name="remarks_{{i}}"></textarea></td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </fieldset>
+
+                        <!-- ===== CBIU REMARKS ===== -->
+                        <fieldset class="custom-fieldset mt-4">
+                            <legend class="legend-custom text-uppercase">
+                                CBIU Remarks (Not Editable By Ship)
+                            </legend>
+
+                            <div class="form-group mt-2">
+                                    <textarea class="form-control wrstg-scroll-textarea"
+                                        name="cbiu_remarks"
+                                        rows="4"
+                                        placeholder=""></textarea>
+                                </div>
+                        </fieldset>
+
+                        <!-- SUBMIT -->
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-success px-4">Save</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

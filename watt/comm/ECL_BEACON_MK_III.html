@@ -1,0 +1,298 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item active" aria-current="page">ECL Beacon MK III</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">ECL BEACON MK III — CHECK OFF LIST (716102)</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="ecl_beacon_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!-- ══════════════════════════════════════════
+                   HEADER — Ship / Equipment Info
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Trial Header Information</legend>
+                <div class="row g-3">
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="ship" required>
+                        <option value="">-- Select Ship --</option>
+                        {% for ship in ship_options %}
+                        <option value="{{ ship.value }}">{{ ship.label }}</option>
+                        {% endfor %}
+                      </select>
+                      <label class="form_control_1">Name of Ship <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="equipment" value="ECL Beacon MK III" readonly placeholder=" ">
+                      <label class="form_control_1">Equipment</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="sno" placeholder=" ">
+                      <label class="form_control_1">S. No.</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="date" class="form-control" name="trial_date" placeholder=" ">
+                      <label class="form_control_1">Date <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="department" required>
+                        <option value="">-- Select Department --</option>
+                        <option value="ND">ND</option>
+                        <option value="Gunnery">Gunnery</option>
+                        <option value="Communication">Communication</option>
+                        <option value="ASW">ASW</option>
+                      </select>
+                      <label class="form_control_1">Department <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="nature_of_trials" required>
+                        <option value="">-- Select Nature of Trials --</option>
+                        <option value="lls">lls</option>
+                        <option value="SATs">SATs</option>
+                        <option value="HATs">HATs</option>
+                        <option value="OP Checks">OP Checks</option>
+                      </select>
+                      <label class="form_control_1">Nature of Trials <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   PHYSICAL CHECKS
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Physical Checks</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Checks</th>
+                        <th>Observations</th>
+                        <th>Remarks (Sat / Unsat)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-no">1.</td>
+                        <td>Check all Items / accessories as per supply voucher held.</td>
+                        <td><select class="form-control" name="phys_1_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">2.</td>
+                        <td>Connect equipment to AC mains and then switch ON. AC LED on the front panel should glow and prompt for the power-on P/W.</td>
+                        <td><select class="form-control" name="phys_2_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">3.</td>
+                        <td>Connect equipment to +24V DC supply and then switch it ON. DC LED on the front should glow and prompt for the power-On P/W.</td>
+                        <td><select class="form-control" name="phys_3_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">4.</td>
+                        <td>Connect both AC mains and +24V DC supply to equipment. Switch ON the equipment. The equipment should work on AC.</td>
+                        <td><select class="form-control" name="phys_4_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">5.</td>
+                        <td>Switch off AC supply, equipment should shift on DC supply automatically without rebooting.</td>
+                        <td><select class="form-control" name="phys_5_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   FUNCTIONAL CHECKS / CONFIGURATIONS
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Functional Checks / Configurations</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Checks</th>
+                        <th>Observations</th>
+                        <th>Remarks (Sat / Unsat)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-no">1.</td>
+                        <td>BITE test.</td>
+                        <td><select class="form-control" name="func_1_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">2.</td>
+                        <td>USB connectivity between PC and ECL Beacon MK III on <strong>clear side</strong>.</td>
+                        <td><select class="form-control" name="func_2_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">3.</td>
+                        <td>USB connectivity between PC and ECL Beacon MK III on <strong>Crypt side</strong>.</td>
+                        <td><select class="form-control" name="func_3_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">4.</td>
+                        <td>Loading of Keys from SKG to ECL Beacon MK III.</td>
+                        <td><select class="form-control" name="func_4_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">5.</td>
+                        <td>Display of failure codes on screen when keys have been erased from equipment.</td>
+                        <td><select class="form-control" name="func_5_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">6.</td>
+                        <td>"OFFLINE" mode message encryption and decryption.</td>
+                        <td><select class="form-control" name="func_6_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">7.</td>
+                        <td>"OFFLINE" mode file encryption and decryption.</td>
+                        <td><select class="form-control" name="func_7_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">8.</td>
+                        <td>
+                          "ONLINE" mode Message communication using Ethernet / PSTN / RS232 with
+                          <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-1">
+                            <input type="text" class="form-control" name="func_8_with" placeholder=" ">
+                            <label class="form_control_1">Equipment / System Name</label>
+                          </div>
+                        </td>
+                        <td><select class="form-control" name="func_8_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">9.</td>
+                        <td>
+                          "ONLINE" mode File transfer using Ethernet / PSTN / RS232 with
+                          <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-1">
+                            <input type="text" class="form-control" name="func_9_with" placeholder=" ">
+                            <label class="form_control_1">Equipment / System Name</label>
+                          </div>
+                        </td>
+                        <td><select class="form-control" name="func_9_rmk"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   REMARKS
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Remarks</legend>
+                <div class="static-section">
+                  <div class="table-responsive">
+                    <table class="custom_tbl" id="remarks_table">
+                      <thead>
+                        <tr>
+                          <th class="serial-no">Sr No</th>
+                          <th>Observations</th>
+                          <th>SS Remarks</th>
+                          <th class="action" style="width: 80px;">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="serial-no">1</td>
+                          <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="observation" rows="2"></textarea></td>
+                          <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="ss_remarks" rows="2"></textarea></td>
+                          <td class="action action-cell-holder">
+                            <div class="action-controls">
+                              <button type="button" class="btn-round btn-add" onclick="addRow('remarks_table')" title="Add Row">+</button>
+                              <button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'remarks_table')" title="Remove Row">-</button>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset class="custom-fieldset">
+                                                        <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                                                        <div class="row g-3">
+                                                                <div class="col-md-4 col-12">
+                                                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                                                <select class="form-control" id="dmr_16a_presenting_authority" name="dmr_16a_presenting_authority" required>
+                                                                                        <option value="">--Select--</option>
+                                                                                        <option value="dockyard">Dockyard</option>
+                                                                                        <option value="shipstaff">Shipstaff</option>
+                                                                                        <option value="oem">OEM</option>
+                                                                                </select>
+                                                                                <label class="form_control_1" for="dmr_16a_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+                                                                        </div>
+                                                                </div>
+                                                                <div class="col-md-4 col-12">
+                                                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                                                <input type="text" class="form-control" id="dmr_16a_watt" name="dmr_16a_watt" value="VZG" >
+                                                                                <label class="form_control_1" for="dmr_16a_watt">WATT</label>
+                                                                        </div>
+                                                                </div>
+                                                        </div>
+                                                </fieldset>
+ 
+              <!-- Submit -->
+              <div class="d-flex justify-content-center mt-4 gap-2">
+                <button type="submit" class="btn btn-success px-4">Submit</button>
+              </div>
+ 
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

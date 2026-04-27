@@ -1,0 +1,1861 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+    .custom_tbl td,
+    .custom_tbl th {
+        vertical-align: top;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal !important;
+    }
+
+    .form-time-cell {
+        min-width: 90px;
+    }
+
+    .form-time-cell input {
+        min-width: 80px;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ASW SATs</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">HUMSA NG - PHASE 1</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">HUMSA NG SATs - PHASE 2</span>
+                    </div>
+                </div>
+
+                <!-- ===== HEADER FIELDS ===== -->
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="sats_sheets_humsa_phase2">
+                        {% csrf_token %}
+                        <div class="form-body">
+                            <fieldset class="custom-fieldset">
+                                <div class="row g-3">
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <select class="form-control" name="ship_name" required>
+                                                <option value="">Select Ship</option>
+                                                {% for option in ship_options %}
+                                                <option value="{{ option.value }}">{{ option.label }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <label class="form_control_1">NAME OF SHIP <span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="text" class="form-control" name="equipment" value="HUMSA NG"
+                                                required>
+                                            <label class="form_control_1">EQUIPMENT <span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="text" class="form-control" name="unit" value="INS SURAT">
+                                            <label class="form_control_1">UNIT</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="text" class="form-control" name="obs_sheet_no">
+                                            <label class="form_control_1">OBSERVATION SHEET NO</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="date" class="form-control" name="date" required>
+                                            <label class="form_control_1">DATE <span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row g-3 mt-2">
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="text" class="form-control" name="presented_by">
+                                            <label class="form_control_1">PRESENTED BY</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <select class="form-control" name="department" required>
+                                                <option value="">Select Department</option>
+                                                <option value="ND">ND</option>
+                                                <option value="ELE">ELE</option>
+                                                <option value="COMMN">COMMN</option>
+                                                <option value="ASW">ASW</option>
+                                            </select>
+                                            <label class="form_control_1">DEPARTMENT <span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <select class="form-control" name="nature_of_trials" required>
+                                                <option value="">Select Nature of Trials</option>
+                                                <option value="SATs">SATs</option>
+                                                <option value="HATs">HATs</option>
+                                                <option value="OP CHECKS">OP CHECKS</option>
+                                                <option value="IIs">IIs</option>
+                                            </select>
+                                            <label class="form_control_1">NATURE OF TRIALS <span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <!-- ===== TRIAL CHECKS TABLE ===== -->
+                            <fieldset class="custom-fieldset mt-4">
+                                <div class="table-responsive mt-3">
+                                    <table class="custom_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th>TRIAL SER</th>
+                                                <th>CHECK DESCRIPTION AS PER SCHEDULE</th>
+                                                <th>RESULT<br>SAT/UNSAT</th>
+                                                <th>PRESENTING AUTHORITY REMARKS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><strong>CH 8.</strong></td>
+                                                <td><strong>ACTIVE & PASSIVE CLASSIFIER TRIALS
+                                                        TRIALS</strong><br>Active Classifier <br>Passive Classifier
+                                                    Trials</td>
+                                                <td><label><input type="radio" name="ch2" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="ch2" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                        name="ch2_remarks"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>CH 9.</strong></td>
+                                                <td><strong>TORPEDO DETECTION
+                                                        TRAILS</strong><br>Intercept Detection Checks</td>
+                                                <td><label><input type="radio" name="ch3" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="ch3" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                        name="ch3_remarks"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>CH 10.</strong></td>
+                                                <td><strong>Intercept
+                                                        TRIALS</strong><br>Intercept Detection Checks </td>
+                                                <td><label><input type="radio" name="ch4" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="ch4" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                        name="ch4_remarks"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>CH 11.</strong></td>
+                                                <td><strong>UWT TRIALS</strong><br>Voice <br>Pinger Mode <br>Morse Mode
+                                                    <br>CSK Mode <br>OFDM Mode <br>Rx/Respond Mode <br>Transponder Mode
+                                                </td>
+                                                <td><label><input type="radio" name="ch5" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="ch5" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                        name="ch5_remarks"></textarea></td>
+                                            </tr>
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- Table 38: Active Classification Record -->
+
+                                <div class="table-responsive mt-4">
+                                    <h5><u>Table 38: Active Classification Record</u></h5>
+                                    <table class="custom_tbl">
+                                        <thead>
+                                            <tr>
+                                                <th>Ping No</th>
+                                                <th>Class Obtained
+                                                    (Surface/ Submarine)</th>
+                                                <th>Remarks</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td><input type="text" class="form-control" name="t8_mhr_1"></td>
+                                                <td><input type="text" class="form-control" name="t8_imp_1"></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td><input type="text" class="form-control" name="t8_mhr_2"></td>
+                                                <td><input type="text" class="form-control" name="t8_imp_2"></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>3</td>
+                                                <td><input type="text" class="form-control" name="t8_mhr_3"></td>
+                                                <td><input type="text" class="form-control" name="t8_imp_3"></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>4</td>
+                                                <td><input type="text" class="form-control" name="t8_mhr_4"></td>
+                                                <td><input type="text" class="form-control" name="t8_imp_4"></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>5</td>
+                                                <td><input type="text" class="form-control" name="t8_mhr_5"></td>
+                                                <td><input type="text" class="form-control" name="t8_imp_5"></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>6</td>
+                                                <td><input type="text" class="form-control" name="t8_mhr_6"></td>
+                                                <td><input type="text" class="form-control" name="t8_imp_6"></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>7</td>
+                                                <td><input type="text" class="form-control" name="t8_mhr_7"></td>
+                                                <td><input type="text" class="form-control" name="t8_imp_7"></td>
+
+                                            <tr>
+                                                <td>8</td>
+                                                <td><input type="text" class="form-control" name="t8_mhr_8"></td>
+                                                <td><input type="text" class="form-control" name="t8_imp_8"></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>9</td>
+                                                <td><input type="text" class="form-control" name="t8_mhr_9"></td>
+                                                <td><input type="text" class="form-control" name="t8_imp_9"></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>10</td>
+                                                <td><input type="text" class="form-control" name="t8_mhr_10"></td>
+                                                <td><input type="text" class="form-control" name="t8_imp_10"></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>11</td>
+                                                <td><input type="text" class="form-control" name="t8_mhr_11"></td>
+                                                <td><input type="text" class="form-control" name="t8_imp_11"></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>12</td>
+                                                <td><input type="text" class="form-control" name="t8_mhr_12"></td>
+                                                <td><input type="text" class="form-control" name="t8_imp_12"></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>13</td>
+                                                <td><input type="text" class="form-control" name="t8_mhr_13"></td>
+                                                <td><input type="text" class="form-control" name="t8_imp_13"></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>14</td>
+                                                <td><input type="text" class="form-control" name="t8_mhr_14"></td>
+                                                <td><input type="text" class="form-control" name="t8_imp_14"></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>15</td>
+                                                <td><input type="text" class="form-control" name="t8_mhr_15"></td>
+                                                <td><input type="text" class="form-control" name="t8_imp_15"></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>16</td>
+                                                <td><input type="text" class="form-control" name="t8_mhr_16"></td>
+                                                <td><input type="text" class="form-control" name="t8_imp_16"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>17</td>
+                                                <td><input type="text" class="form-control" name="t8_mhr_17"></td>
+                                                <td><input type="text" class="form-control" name="t8_imp_17"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>18</td>
+                                                <td><input type="text" class="form-control" name="t8_mhr_18"></td>
+                                                <td><input type="text" class="form-control" name="t8_imp_18"></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>19</td>
+                                                <td><input type="text" class="form-control" name="t8_mhr_19"></td>
+                                                <td><input type="text" class="form-control" name="t8_imp_19"></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>20</td>
+                                                <td><input type="text" class="form-control" name="t8_mhr_20"></td>
+                                                <td><input type="text" class="form-control" name="t8_imp_20"></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>total no of Correct Classification</td>
+                                                <td colspan="2"><input type="text" class="form-control"
+                                                        name="t8_imp">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="table-responsive mt-4">
+                                    <h5><u>Table 39: Passive Classifier Features</u></h5>
+                                    <table class="custom_tbl">
+                                        <thead>
+                                            <tr>
+                                                <th>Features or Attributes</th>
+                                                <th>Training Phase</th>
+                                                <th>Testing Phase</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Speed of the Target (Knots)</td>
+
+                                                <td><input type="text" class="form-control" name="t8_1"></td>
+                                                <td><input type="text" class="form-control" name="t8_1"></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Shaft RPM</td>
+
+                                                <td><input type="text" class="form-control" name="t8_2"></td>
+                                                <td><input type="text" class="form-control" name="t8_2"></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>No. of Blades</td>
+
+                                                <td><input type="text" class="form-control" name="t8_3"></td>
+                                                <td><input type="text" class="form-control" name="t8_3"></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>Tonals</td>
+                                                <td><input type="text" class="form-control" name="t8_4"></td>
+                                                <td><input type="text" class="form-control" name="t8_4"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- Table 40: Passive Classifier Features -->
+
+                                <div class="table-responsive mt-3">
+                                    <h5><u>Table 40: Passive Classifier Features</u></h5>
+                                    <table class="custom_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th>Desired Broad Vessel Category/ Class</th>
+                                                <th>Whether the obtained broad vessel category matches with Desired
+                                                    (Y/N)</th>
+                                                <th>SAT/UNSAT</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><strong></strong></td>
+                                                <td><label><input type="radio" name="type_1" value="yes"> yes</label>
+                                                    <label><input type="radio" name="type_1" value="no"> no</label>
+                                                </td>
+                                                <td><label><input type="radio" name="chan_1" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="chan_1" value="UNSAT"> UNSAT</label>
+                                                </td>
+
+                                            </tr>
+                                            <tr>
+                                                <td><strong></strong></td>
+                                                <td><label><input type="radio" name="type_2" value="yes"> yes</label>
+                                                    <label><input type="radio" name="type_2" value="no"> no</label>
+                                                </td>
+                                                <td><label><input type="radio" name="chan_2" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="chan_2" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong></strong></td>
+                                                <td><label><input type="radio" name="type_3" value="yes"> yes</label>
+                                                    <label><input type="radio" name="type_3" value="no"> no</label>
+                                                </td>
+                                                <td><label><input type="radio" name="chna_3" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="chan_3" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong></strong></td>
+                                                <td><label><input type="radio" name="type_4" value="yes"> yes</label>
+                                                    <label><input type="radio" name="type_4" value="no"> no</label>
+                                                </td>
+                                                <td><label><input type="radio" name="chan_4" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="chan_4" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong></strong></td>
+                                                <td><label><input type="radio" name="type_5" value="yes"> yes</label>
+                                                    <label><input type="radio" name="type_5" value="no"> no</label>
+                                                </td>
+                                                <td><label><input type="radio" name="chan_5" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="chan_5" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong></strong></td>
+                                                <td><label><input type="radio" name="type_6" value="yes"> yes</label>
+                                                    <label><input type="radio" name="type_6" value="no"> no</label>
+                                                </td>
+                                                <td><label><input type="radio" name="chan_6" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="chan_6" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong></strong></td>
+                                                <td><label><input type="radio" name="type_7" value="yes"> yes</label>
+                                                    <label><input type="radio" name="type_7" value="no"> no</label>
+                                                </td>
+                                                <td><label><input type="radio" name="chan_7" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="chan_7" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong></strong></td>
+                                                <td><label><input type="radio" name="type_8" value="yes"> yes</label>
+                                                    <label><input type="radio" name="type_8" value="no"> no</label>
+                                                </td>
+                                                <td><label><input type="radio" name="chhn_8" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="chan_8" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong></strong></td>
+                                                <td><label><input type="radio" name="type_9" value="yes"> yes</label>
+                                                    <label><input type="radio" name="type_9" value="no"> no</label>
+                                                </td>
+                                                <td><label><input type="radio" name="chan_9" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="chan_9" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong></strong></td>
+                                                <td><label><input type="radio" name="type_10" value="yes"> yes</label>
+                                                    <label><input type="radio" name="type_10" value="no"> no</label>
+                                                </td>
+                                                <td><label><input type="radio" name="chan_11" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="chan_11" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- Table 41: Passive Sonar Torpedo Detection Checks -->
+                                <div class="table-responsive mt-4">
+                                    <h5><u>Table 41: Passive Sonar Torpedo Detection Checks</u></h5>
+                                    <p>
+                                        ESR (Passive) =
+                                        <input type="text" class="form-control d-inline-block w-auto"
+                                            name="esr_passive">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+
+                                        Own Ship Course =
+                                        <input type="text" class="form-control d-inline-block w-auto" name="own_course">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+
+                                        Own Ship Speed =
+                                        <input type="text" class="form-control d-inline-block w-auto" name="own_speed">
+                                    </p>
+
+                                    <table class="custom_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th rowspan="2">Ser</th>
+                                                <th colspan="2">Radar Readings</th>
+                                                <th colspan="5">Sonar Readings</th>
+                                                <th rowspan="2">Remarks</th>
+                                            </tr>
+                                            <tr>
+                                                <th>True Bearing</th>
+                                                <th>Range</th>
+                                                <th>True Bearing</th>
+                                                <th>Tonals</th>
+                                                <th>Modulation Tonals</th>
+                                                <th>Ship Course</th>
+                                                <th>Ship Speed</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td align="center">1</td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t21_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t21_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t21_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t21_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t21_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t21_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t21_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t21_vb_{{ forloop.counter }}" </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">2</td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t22_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t22_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t22_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t22_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t22_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t22_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t22_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t22_vb_{{ forloop.counter }}" </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">3</td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t23_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t23_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t23_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t23_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t23_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t23_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t23_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t23_vb_{{ forloop.counter }}" </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">4</td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t24_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t24_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t24_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t24_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t24_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t24_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t24_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t24_vb_{{ forloop.counter }}" </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">5</td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t25_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t25_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t25_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t25_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t25_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t25_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t25_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t25_vb_{{ forloop.counter }}" </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">6</td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t26_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t26_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t26_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t26_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t26_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t26_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t26_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t26_vb_{{ forloop.counter }}" </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">7</td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t27_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t27_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t27_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t27_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t27_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t27_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t27_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t27_vb_{{ forloop.counter }}" </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">8</td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t28_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t28_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t28_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t28_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t28_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t28_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t28_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t28_vb_{{ forloop.counter }}" </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">9</td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t29_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t29_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t29_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t29_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t29_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t29_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t29_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t29_vb_{{ forloop.counter }}" </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">10</td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t30_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t30_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t30_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t30_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t30_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t30_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t30_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t30_vb_{{ forloop.counter }}" </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">11</td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t31_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t31_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t31_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t31_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t31_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t31_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t31_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t31_vb_{{ forloop.counter }}" </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">12</td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t32_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t32_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t32_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t32_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t32_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t32_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t32_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t32_vb_{{ forloop.counter }}" </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">13</td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t33_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t33_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t33_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t33_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t33_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t33_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t33_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t33_vb_{{ forloop.counter }}" </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">14</td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t34_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t34_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t34_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t34_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t34_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t34_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t34_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t34_vb_{{ forloop.counter }}" </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">15</td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t35_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t35_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t35_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t35_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t35_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t35_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t35_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t35_vb_{{ forloop.counter }}" </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">16</td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t36_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t36_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t36_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t36_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t36_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t36_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t36_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t36_vb_{{ forloop.counter }}" </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">17</td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t37_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t37_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t37_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t37_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t37_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t37_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t37_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t37_vb_{{ forloop.counter }}" </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">18</td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t38_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t38_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t38_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t38_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t38_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t38_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t38_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t38_vb_{{ forloop.counter }}" </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">19</td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t39_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t39_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t39_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t39_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t39_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t39_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t39_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t39_vb_{{ forloop.counter }}" </td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">20</td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t40_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t40_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t40_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t40_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t40_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp; <input type="text" class="form-control"
+                                                        name="t40_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t40_vb_{{ forloop.counter }}" </td>
+                                                <td>&nbsp;<input type="text" class="form-control"
+                                                        name="t40_vb_{{ forloop.counter }}" </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="table-responsive mt-4">
+
+                                    <h5><u>Table 42: Intercept Detection Checks (Settings on consort)</u></h5>
+
+                                    <!-- Top Inputs -->
+                                    <p>
+                                        ESR (Passive) =
+                                        <input type="text" class="form-control d-inline-block w-auto"
+                                            name="esr_passive">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+
+                                        Own Ship Course =
+                                        <input type="text" class="form-control d-inline-block w-auto" name="own_course">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+
+                                        Own Ship Speed =
+                                        <input type="text" class="form-control d-inline-block w-auto" name="own_speed">
+                                    </p>
+
+                                    <!-- TABLE -->
+                                    <table class="custom_tbl">
+
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th rowspan="2">Ser</th>
+                                                <th rowspan="2">Time (IST)</th>
+
+                                                <th colspan="3">Sonar Settings</th>
+                                                <th colspan="2">Radar Readings</th>
+
+                                                <th rowspan="2">Remarks</th>
+                                            </tr>
+
+                                            <tr>
+                                                <th>Transmission Frequency</th>
+                                                <th>Waveform Type</th>
+                                                <th>Source Level</th>
+
+                                                <th>True Brg of Other Ship</th>
+                                                <th>Range of Other Ship (Nm)</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+
+                                            <!-- Row 1 -->
+                                            <tr>
+                                                <td align="center">1</td>
+
+                                                <td>
+                                                    <input type="time" class="form-control" name="time_1">
+                                                </td>
+
+                                                <td>F1=</td>
+                                                <td>CW</td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="source_1">
+                                                </td>
+
+                                                <td>
+                                                    <input type="text" class="form-control" name="bearing_1">
+                                                </td>
+
+                                                <td>
+                                                    <input type="text" class="form-control" name="range_1">
+                                                </td>
+
+                                                <td>
+                                                    <input type="text" class="form-control" name="remarks_1">
+                                                </td>
+                                            </tr>
+
+                                            <!-- Row 2 -->
+                                            <tr>
+                                                <td align="center">2</td>
+
+                                                <td>
+                                                    <input type="time" class="form-control" name="time_2">
+                                                </td>
+
+                                                <td>F2=</td>
+                                                <td>CW</td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="source_2">
+                                                </td>
+
+                                                <td>
+                                                    <input type="text" class="form-control" name="bearing_2">
+                                                </td>
+
+                                                <td>
+                                                    <input type="text" class="form-control" name="range_2">
+                                                </td>
+
+                                                <td>
+                                                    <input type="text" class="form-control" name="remarks_2">
+                                                </td>
+                                            </tr>
+
+                                            <!-- Row 3 -->
+                                            <tr>
+                                                <td align="center">3</td>
+
+                                                <td>
+                                                    <input type="time" class="form-control" name="time_3">
+                                                </td>
+
+                                                <td>F1=</td>
+                                                <td>LFM</td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="source_3">
+                                                </td>
+
+                                                <td>
+                                                    <input type="text" class="form-control" name="bearing_3">
+                                                </td>
+
+                                                <td>
+                                                    <input type="text" class="form-control" name="range_3">
+                                                </td>
+
+                                                <td>
+                                                    <input type="text" class="form-control" name="remarks_3">
+                                                </td>
+                                            </tr>
+
+                                            <!-- Row 4 -->
+                                            <tr>
+                                                <td align="center">4</td>
+
+                                                <td>
+                                                    <input type="time" class="form-control" name="time_4">
+                                                </td>
+
+                                                <td>F2=</td>
+                                                <td>LFM</td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="source_4">
+                                                </td>
+
+                                                <td>
+                                                    <input type="text" class="form-control" name="bearing_4">
+                                                </td>
+
+                                                <td>
+                                                    <input type="text" class="form-control" name="range_4">
+                                                </td>
+
+                                                <td>
+                                                    <input type="text" class="form-control" name="remarks_4">
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+
+                                    </table>
+
+                                    <!-- Bottom Section -->
+                                    <div class="mt-3">
+                                        <p>
+                                            <strong>Own Ship Reading (to be filled for each frequency and waveform
+                                                type)</strong>
+                                        </p>
+
+                                        <p>
+                                            Transmission Frequency at Consort:
+                                            <input type="text" class="form-control d-inline-block w-auto"
+                                                name="consort_freq">
+                                        </p>
+
+                                        <p>
+                                            Transmission Waveform Type at Consort:
+                                            <input type="text" class="form-control d-inline-block w-auto"
+                                                name="consort_waveform">
+                                        </p>
+                                    </div>
+
+                                </div>
+                                <div class="table-responsive mt-4">
+
+                                    <table class="custom_tbl">
+
+                                        <thead class="table-dark-head text-center">
+
+                                            <!-- First Header Row -->
+                                            <tr>
+                                                <th rowspan="2">Ser</th>
+                                                <th rowspan="2">Time (IST)</th>
+                                                <th rowspan="2">Radar True Brg</th>
+
+                                                <th colspan="3">Sonar Readings</th>
+
+                                                <th rowspan="2">Remarks</th>
+                                            </tr>
+
+                                            <!-- Second Header Row -->
+                                            <tr>
+                                                <th>True Brg</th>
+                                                <th>Centre Freq (CF)</th>
+                                                <th>Wave Form Type</th>
+                                            </tr>
+
+                                        </thead>
+
+                                        <tbody>
+
+                                            {% for i in "123456789101112"|make_list %}
+
+                                            <tr>
+                                                <!-- Serial Number -->
+                                                <td align="center">{{ forloop.counter }}</td>
+
+                                                <!-- Time -->
+                                                <td>
+                                                    <input type="time" class="form-control"
+                                                        name="time_{{ forloop.counter }}">
+                                                </td>
+
+                                                <!-- Radar True Bearing -->
+                                                <td>
+                                                    <input type="text" class="form-control"
+                                                        name="radar_brg_{{ forloop.counter }}">
+                                                </td>
+
+                                                <!-- Sonar True Bearing -->
+                                                <td>
+                                                    <input type="text" class="form-control"
+                                                        name="sonar_brg_{{ forloop.counter }}">
+                                                </td>
+
+                                                <!-- Centre Frequency -->
+                                                <td>
+                                                    <input type="text" class="form-control"
+                                                        name="cf_{{ forloop.counter }}">
+                                                </td>
+
+                                                <!-- Waveform -->
+                                                <td>
+                                                    <input type="text" class="form-control"
+                                                        name="waveform_{{ forloop.counter }}">
+                                                </td>
+
+                                                <!-- Remarks -->
+                                                <td>
+                                                    <input type="text" class="form-control"
+                                                        name="remarks_{{ forloop.counter }}">
+                                                </td>
+                                            </tr>
+
+                                            {% endfor %}
+
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+                                <!-- Table 43: Results to be achieved -->
+                                <div class="table-responsive mt-4">
+
+                                    <h5><strong>Table 43: Results to be achieved</strong></h5>
+
+                                    <table class="custom_tbl">
+
+                                        <thead class="table-dark-head text-center">
+                                            <tr>
+                                                <th>Runs</th>
+                                                <th>1</th>
+                                                <th>2</th>
+                                                <th>3</th>
+                                                <th>4</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+
+                                            <!-- Mean value of CF -->
+                                            <tr>
+                                                <td><strong>Mean value of CF</strong></td>
+                                                <td><input type="text" class="form-control" name="mean_cf_1"></td>
+                                                <td><input type="text" class="form-control" name="mean_cf_2"></td>
+                                                <td><input type="text" class="form-control" name="mean_cf_3"></td>
+                                                <td><input type="text" class="form-control" name="mean_cf_4"></td>
+                                            </tr>
+
+                                            <!-- Majority waveform -->
+                                            <tr>
+                                                <td><strong>Majority value of Waveform Type</strong></td>
+                                                <td><input type="text" class="form-control" name="waveform_1"></td>
+                                                <td><input type="text" class="form-control" name="waveform_2"></td>
+                                                <td><input type="text" class="form-control" name="waveform_3"></td>
+                                                <td><input type="text" class="form-control" name="waveform_4"></td>
+                                            </tr>
+
+                                            <!-- Error in mean CF -->
+                                            <tr>
+                                                <td><strong>Error in mean CF</strong></td>
+                                                <td><input type="text" class="form-control" name="error_cf_1"></td>
+                                                <td><input type="text" class="form-control" name="error_cf_2"></td>
+                                                <td><input type="text" class="form-control" name="error_cf_3"></td>
+                                                <td><input type="text" class="form-control" name="error_cf_4"></td>
+                                            </tr>
+
+                                            <!-- CF error ±10% -->
+                                            <tr>
+                                                <td><strong>Is the CF error within ±10 % (Yes/No)</strong></td>
+                                                <td><input type="text" class="form-control" name="cf_check_1"></td>
+                                                <td><input type="text" class="form-control" name="cf_check_2"></td>
+                                                <td><input type="text" class="form-control" name="cf_check_3"></td>
+                                                <td><input type="text" class="form-control" name="cf_check_4"></td>
+                                            </tr>
+
+                                            <!-- Mean error in True Bearing -->
+                                            <tr>
+                                                <td><strong>Mean error in True bearing</strong></td>
+                                                <td><input type="text" class="form-control" name="bearing_error_1"></td>
+                                                <td><input type="text" class="form-control" name="bearing_error_2"></td>
+                                                <td><input type="text" class="form-control" name="bearing_error_3"></td>
+                                                <td><input type="text" class="form-control" name="bearing_error_4"></td>
+                                            </tr>
+
+                                            <!-- Bearing ±20 -->
+                                            <tr>
+                                                <td><strong>Is Mean error in True Bearing within ±20 Degree
+                                                        (Yes/No)</strong></td>
+                                                <td><input type="text" class="form-control" name="bearing_check_1"></td>
+                                                <td><input type="text" class="form-control" name="bearing_check_2"></td>
+                                                <td><input type="text" class="form-control" name="bearing_check_3"></td>
+                                                <td><input type="text" class="form-control" name="bearing_check_4"></td>
+                                            </tr>
+
+                                            <!-- SAT / UNSAT -->
+                                            <tr>
+                                                <td><strong>SAT / UNSAT</strong></td>
+                                                <td><input type="text" class="form-control" name="result_1"></td>
+                                                <td><input type="text" class="form-control" name="result_2"></td>
+                                                <td><input type="text" class="form-control" name="result_3"></td>
+                                                <td><input type="text" class="form-control" name="result_4"></td>
+                                            </tr>
+
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+                                <!-- Table 44: UWT Voice / Pinger / Morse Mode Checks -->
+                                <div class="table-responsive mt-4">
+
+                                    <h5><strong>Table 44: UWT Voice / Pinger / Morse Mode Checks</strong></h5>
+
+                                    <table class="custom_tbl">
+
+                                        <thead class="table-dark-head text-center">
+                                            <tr>
+                                                <th>Ser</th>
+                                                <th>Time</th>
+                                                <th>UWT Mode</th>
+                                                <th>Sector / Omni</th>
+                                                <th>Channel Type (EKM / NATO)</th>
+                                                <th>Distance</th>
+                                                <th>Signal (Good?)</th>
+                                                <th>Remarks</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+
+                                            <!-- Row 1 -->
+                                            <tr>
+                                                <td align="center">1</td>
+                                                <td><input type="time" class="form-control" name="time_1"></td>
+                                                <td><input type="text" class="form-control" name="uwt_mode_1"></td>
+                                                <td><input type="text" class="form-control" name="sector_1"></td>
+                                                <td><input type="text" class="form-control" name="channel_1"></td>
+                                                <td><input type="text" class="form-control" name="distance_1"></td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="distance_5">
+                                                </td>
+                                                <td><input type="text" class="form-control" name="remarks_1"></td>
+                                            </tr>
+
+                                            <!-- Row 2 -->
+                                            <tr>
+                                                <td align="center">2</td>
+                                                <td><input type="time" class="form-control" name="time_2"></td>
+                                                <td><input type="text" class="form-control" name="uwt_mode_2"></td>
+                                                <td><input type="text" class="form-control" name="sector_2"></td>
+                                                <td><input type="text" class="form-control" name="channel_2"></td>
+                                                <td><input type="text" class="form-control" name="distance_2"></td>
+                                                <td>
+
+                                                    <input type="text" class="form-control" name="distance_5">
+                                                </td>
+                                                <td><input type="text" class="form-control" name="remarks_2"></td>
+                                            </tr>
+
+                                            <!-- Row 3 -->
+                                            <tr>
+                                                <td align="center">3</td>
+                                                <td><input type="time" class="form-control" name="time_3"></td>
+                                                <td><input type="text" class="form-control" name="uwt_mode_3"></td>
+                                                <td><input type="text" class="form-control" name="sector_3"></td>
+                                                <td><input type="text" class="form-control" name="channel_3"></td>
+                                                <td><input type="text" class="form-control" name="distance_3"></td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="distance_5">
+                                                </td>
+                                                <td><input type="text" class="form-control" name="remarks_3"></td>
+                                            </tr>
+
+                                            <!-- Row 4 -->
+                                            <tr>
+                                                <td align="center">4</td>
+                                                <td><input type="time" class="form-control" name="time_4"></td>
+                                                <td><input type="text" class="form-control" name="uwt_mode_4"></td>
+                                                <td><input type="text" class="form-control" name="sector_4"></td>
+                                                <td><input type="text" class="form-control" name="channel_4"></td>
+                                                <td><input type="text" class="form-control" name="distance_4"></td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="distance_5">
+                                                </td>
+                                                <td><input type="text" class="form-control" name="remarks_4"></td>
+                                            </tr>
+
+                                            <!-- Row 5 -->
+                                            <tr>
+                                                <td align="center">5</td>
+                                                <td><input type="time" class="form-control" name="time_5"></td>
+                                                <td><input type="text" class="form-control" name="uwt_mode_5"></td>
+                                                <td><input type="text" class="form-control" name="sector_5"></td>
+                                                <td><input type="text" class="form-control" name="channel_5"></td>
+                                                <td><input type="text" class="form-control" name="distance_5"></td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="distance_5">
+                                                </td>
+                                                <td><input type="text" class="form-control" name="remarks_5"></td>
+                                            </tr>
+
+                                            <!-- row -6 -->
+                                            <tr>
+                                                <td align="center">6</td>
+                                                <td><input type="time" class="form-control" name="time_6"></td>
+                                                <td><input type="text" class="form-control" name="uwt_mode_6"></td>
+                                                <td><input type="text" class="form-control" name="sector_6"></td>
+                                                <td><input type="text" class="form-control" name="channel_6"></td>
+                                                <td><input type="text" class="form-control" name="distance_6"></td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="distance_6">
+                                                </td>
+                                                <td><input type="text" class="form-control" name="remarks_6"></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">7</td>
+                                                <td><input type="time" class="form-control" name="time_7"></td>
+                                                <td><input type="text" class="form-control" name="uwt_mode_7"></td>
+                                                <td><input type="text" class="form-control" name="sector_7"></td>
+                                                <td><input type="text" class="form-control" name="channel_7"></td>
+                                                <td><input type="text" class="form-control" name="distance_7"></td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="distance_7">
+                                                </td>
+                                                <td><input type="text" class="form-control" name="remarks_7"></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">8</td>
+                                                <td><input type="time" class="form-control" name="time_8"></td>
+                                                <td><input type="text" class="form-control" name="uwt_mode_8"></td>
+                                                <td><input type="text" class="form-control" name="sector_8"></td>
+                                                <td><input type="text" class="form-control" name="channel_8"></td>
+                                                <td><input type="text" class="form-control" name="distance_8"></td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="distance_8">
+                                                </td>
+                                                <td><input type="text" class="form-control" name="remarks_8"></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">9</td>
+                                                <td><input type="time" class="form-control" name="time_9"></td>
+                                                <td><input type="text" class="form-control" name="uwt_mode_9"></td>
+                                                <td><input type="text" class="form-control" name="sector_9"></td>
+                                                <td><input type="text" class="form-control" name="channel_9"></td>
+                                                <td><input type="text" class="form-control" name="distance_9"></td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="distance_9">
+                                                </td>
+                                                <td><input type="text" class="form-control" name="remarks_9"></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">10</td>
+                                                <td><input type="time" class="form-control" name="time_10"></td>
+                                                <td><input type="text" class="form-control" name="uwt_mode_10"></td>
+                                                <td><input type="text" class="form-control" name="sector_10"></td>
+                                                <td><input type="text" class="form-control" name="channel_10"></td>
+                                                <td><input type="text" class="form-control" name="distance_10"></td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="distance_10">
+                                                </td>
+                                                <td><input type="text" class="form-control" name="remarks_10"></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">11</td>
+                                                <td><input type="time" class="form-control" name="time_11"></td>
+                                                <td><input type="text" class="form-control" name="uwt_mode_11"></td>
+                                                <td><input type="text" class="form-control" name="sector_11"></td>
+                                                <td><input type="text" class="form-control" name="channel_11"></td>
+                                                <td><input type="text" class="form-control" name="distance_11"></td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="distance_11">
+                                                </td>
+                                                <td><input type="text" class="form-control" name="remarks_11"></td>
+                                            </tr>
+
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+                                <!-- Table 45: UWT CSK Mode Checks -->
+                                <div class="table-responsive mt-4">
+
+                                    <h5><strong>Table 45: UWT CSK Mode Checks</strong></h5>
+
+                                    <table class="custom_tbl">
+
+                                        <thead class="table-dark-head text-center">
+                                            <tr>
+                                                <th>Ser</th>
+                                                <th>Time</th>
+                                                <th>Sector / Omni</th>
+                                                <th>Distance</th>
+                                                <th>Message status (Correct / Incorrect)</th>
+                                                <th>Remarks</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+
+                                            <!-- Row 1 -->
+                                            <tr>
+                                                <td align="center">1</td>
+                                                <td><input type="time" class="form-control" name="time1_1"></td>
+                                                <td><input type="text" class="form-control" name="sector1_1"></td>
+                                                <td><input type="text" class="form-control" name="distance1_1"></td>
+                                                <td>
+                                                    <select class="form-control" name="status1_1">
+                                                        <option value="">Select</option>
+                                                        <option value="Correct">Correct</option>
+                                                        <option value="Incorrect">Incorrect</option>
+                                                    </select>
+                                                </td>
+                                                <td><input type="text" class="form-control" name="remarks1_1"></td>
+                                            </tr>
+
+                                            <!-- Row 2 -->
+                                            <tr>
+                                                <td align="center">2</td>
+                                                <td><input type="time" class="form-control" name="time1_2"></td>
+                                                <td><input type="text" class="form-control" name="sector1_2"></td>
+                                                <td><input type="text" class="form-control" name="distance1_2"></td>
+                                                <td>
+                                                    <select class="form-control" name="status1_2">
+                                                        <option value="">Select</option>
+                                                        <option value="Correct">Correct</option>
+                                                        <option value="Incorrect">Incorrect</option>
+                                                    </select>
+                                                </td>
+                                                <td><input type="text" class="form-control" name="remarks1_2"></td>
+                                            </tr>
+
+                                            <!-- Row 3 -->
+                                            <tr>
+                                                <td align="center">3</td>
+                                                <td><input type="time" class="form-control" name="time1_3"></td>
+                                                <td><input type="text" class="form-control" name="sector1_3"></td>
+                                                <td><input type="text" class="form-control" name="distance1_3"></td>
+                                                <td>
+                                                    <select class="form-control" name="status1_3">
+                                                        <option value="">Select</option>
+                                                        <option value="Correct">Correct</option>
+                                                        <option value="Incorrect">Incorrect</option>
+                                                    </select>
+                                                </td>
+                                                <td><input type="text" class="form-control" name="remarks1_3"></td>
+                                            </tr>
+
+                                            <!-- Row 4 -->
+                                            <tr>
+                                                <td align="center">4</td>
+                                                <td><input type="time" class="form-control" name="time1_4"></td>
+                                                <td><input type="text" class="form-control" name="sector1_4"></td>
+                                                <td><input type="text" class="form-control" name="distance1_4"></td>
+                                                <td>
+                                                    <select class="form-control" name="status1_4">
+                                                        <option value="">Select</option>
+                                                        <option value="Correct">Correct</option>
+                                                        <option value="Incorrect">Incorrect</option>
+                                                    </select>
+                                                </td>
+                                                <td><input type="text" class="form-control" name="remarks1_4"></td>
+                                            </tr>
+
+                                            <!-- Row 5 -->
+                                            <tr>
+                                                <td align="center">5</td>
+                                                <td><input type="time" class="form-control" name="time1_5"></td>
+                                                <td><input type="text" class="form-control" name="sector1_5"></td>
+                                                <td><input type="text" class="form-control" name="distance1_5"></td>
+                                                <td>
+                                                    <select class="form-control" name="status1_5">
+                                                        <option value="">Select</option>
+                                                        <option value="Correct">Correct</option>
+                                                        <option value="Incorrect">Incorrect</option>
+                                                    </select>
+                                                </td>
+                                                <td><input type="text" class="form-control" name="remarks1_5"></td>
+                                            </tr>
+
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                                <!-- Table 46: UWT Rx/Respond Mode Checks -->
+                                <div class="table-responsive mt-4">
+                                    <h5><strong>Table 46: UWT Rx/Respond Mode Checks</strong></h5>
+
+                                    <table class="custom_tbl">
+
+                                        <thead class="table-dark-head text-center">
+                                            <tr>
+                                                <th>Ser</th>
+                                                <th>Time</th>
+                                                <th>Sector / Omni</th>
+                                                <th>Distance (Actual Range of the vessel)</th>
+                                                <th>Computed Range of the vessel</th>
+                                                <th>Remarks</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+
+                                            <!-- Row 1 -->
+                                            <tr>
+                                                <td align="center">1</td>
+                                                <td><input type="time" class="form-control" name="time2_1"></td>
+                                                <td><input type="text" class="form-control" name="sector2_1"></td>
+                                                <td><input type="text" class="form-control" name="actual_range_1"></td>
+                                                <td><input type="text" class="form-control" name="computed_range_1">
+                                                </td>
+                                                <td><input type="text" class="form-control" name="remarks2_1"></td>
+                                            </tr>
+
+                                            <!-- Row 2 -->
+                                            <tr>
+                                                <td align="center">2</td>
+                                                <td><input type="time" class="form-control" name="time2_2"></td>
+                                                <td><input type="text" class="form-control" name="sector2_2"></td>
+                                                <td><input type="text" class="form-control" name="actual_range_2"></td>
+                                                <td><input type="text" class="form-control" name="computed_range_2">
+                                                </td>
+                                                <td><input type="text" class="form-control" name="remarks2_2"></td>
+                                            </tr>
+
+                                            <!-- Row 3 -->
+                                            <tr>
+                                                <td align="center">3</td>
+                                                <td><input type="time" class="form-control" name="time2_3"></td>
+                                                <td><input type="text" class="form-control" name="sector2_3"></td>
+                                                <td><input type="text" class="form-control" name="actual_range_3"></td>
+                                                <td><input type="text" class="form-control" name="computed_range_3">
+                                                </td>
+                                                <td><input type="text" class="form-control" name="remarks2_3"></td>
+                                            </tr>
+
+                                            <!-- Row 4 -->
+                                            <tr>
+                                                <td align="center">4</td>
+                                                <td><input type="time" class="form-control" name="time2_4"></td>
+                                                <td><input type="text" class="form-control" name="sector2_4"></td>
+                                                <td><input type="text" class="form-control" name="actual_range_4"></td>
+                                                <td><input type="text" class="form-control" name="computed_range_4">
+                                                </td>
+                                                <td><input type="text" class="form-control" name="remarks2_4"></td>
+                                            </tr>
+
+                                            <!-- Row 5 -->
+                                            <tr>
+                                                <td align="center">5</td>
+                                                <td><input type="time" class="form-control" name="time2_5"></td>
+                                                <td><input type="text" class="form-control" name="sector2_5"></td>
+                                                <td><input type="text" class="form-control" name="actual_range_5"></td>
+                                                <td><input type="text" class="form-control" name="computed_range_5">
+                                                </td>
+                                                <td><input type="text" class="form-control" name="remarks2_5"></td>
+                                            </tr>
+
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+                                <!-- >Table 47: UWT Transponder Mode Checks -->
+                                <div class="table-responsive mt-4">
+
+                                    <h5><strong>Table 47: UWT Transponder Mode Checks</strong></h5>
+
+                                    <table class="custom_tbl">
+
+                                        <thead class="table-dark-head text-center">
+                                            <tr>
+                                                <th>Ser</th>
+                                                <th>Time</th>
+                                                <th>Sector / Omni</th>
+                                                <th>Distance</th>
+                                                <th>Is Transmission Good?</th>
+                                                <th>Is reception good?</th>
+                                                <th>Remarks</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+
+                                            <!-- Row 1 -->
+                                            <tr>
+                                                <td align="center">1</td>
+                                                <td><input type="time" class="form-control" name="time_1"></td>
+                                                <td><input type="text" class="form-control" name="sector_1"></td>
+                                                <td><input type="text" class="form-control" name="distance_1"></td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="distance_5">
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="distance_5">
+                                                </td>
+                                                <td><input type="text" class="form-control" name="remarks_1"></td>
+                                            </tr>
+
+                                            <!-- Row 2 -->
+                                            <tr>
+                                                <td align="center">2</td>
+                                                <td><input type="time" class="form-control" name="time_2"></td>
+                                                <td><input type="text" class="form-control" name="sector_2"></td>
+                                                <td><input type="text" class="form-control" name="distance_2"></td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="distance_5">
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="distance_5">
+                                                </td>
+                                                <td><input type="text" class="form-control" name="remarks_2"></td>
+                                            </tr>
+
+                                            <!-- Row 3 -->
+                                            <tr>
+                                                <td align="center">3</td>
+                                                <td><input type="time" class="form-control" name="time_3"></td>
+                                                <td><input type="text" class="form-control" name="sector_3"></td>
+                                                <td><input type="text" class="form-control" name="distance_3"></td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="distance_5">
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="distance_5">
+                                                </td>
+                                                <td><input type="text" class="form-control" name="remarks_3"></td>
+                                            </tr>
+
+                                            <!-- Row 4 -->
+                                            <tr>
+                                                <td align="center">4</td>
+                                                <td><input type="time" class="form-control" name="time_4"></td>
+                                                <td><input type="text" class="form-control" name="sector_4"></td>
+                                                <td><input type="text" class="form-control" name="distance_4"></td>
+                                                <td><input type="text" class="form-control" name="distance_4"></td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="distance_5">
+                                                </td>
+                                                <td><input type="text" class="form-control" name="remarks_4"></td>
+                                            </tr>
+
+                                            <!-- Row 5 -->
+                                            <tr>
+                                                <td align="center">5</td>
+                                                <td><input type="time" class="form-control" name="time_5"></td>
+                                                <td><input type="text" class="form-control" name="sector_5"></td>
+                                                <td><input type="text" class="form-control" name="distance_5"></td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="distance_5">
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="distance_5">
+                                                </td>
+                                                <td><input type="text" class="form-control" name="remarks_5"></td>
+                                            </tr>
+
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+                                <!-- TRAILS -->
+                                <div class="table-responsive mt-3">
+                                    <table class="custom_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th>TRIAL SER</th>
+                                                <th>CHECK DESCRIPTION AS PER SCHEDULE</th>
+                                                <th>RESULT<br>SAT/UNSAT</th>
+                                                <th>PRESENTING AUTHORITY REMARKS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><strong>CH 7.2</strong></td>
+                                                <td><strong>PASSIVE CMA
+                                                        TRIALS</strong></td>
+                                                <td><label><input type="radio" name="ch2" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="ch2" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                        name="ch2_remarks"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>CH 8.2</strong></td>
+                                                <td><strong>PASSIVE CLASSIFIER
+                                                        TRAILS</strong></td>
+                                                <td><label><input type="radio" name="ch3" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="ch3" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                        name="ch3_remarks"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>CH 9.</strong></td>
+                                                <td><strong>TORPEDO DETECTION
+                                                        TRIALS</strong><br>Torpedo Detection Checks </td>
+                                                <td><label><input type="radio" name="ch4" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="ch4" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                        name="ch4_remarks"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>CH 11.</strong></td>
+                                                <td><strong>UWT TRIALS</strong>
+                                                    <br>CSK Mode <br>Rx/Respond Mode <br>Transponder Mode
+                                                </td>
+                                                <td><label><input type="radio" name="ch5" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="ch5" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                        name="ch5_remarks"></textarea></td>
+                                            </tr>
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+                            </fieldset>
+                            <!-- ===== PRESENTING AUTHORITY ===== -->
+                            <fieldset class="custom-fieldset mt-4">
+                                <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                                <div class="row g-3 mb-3">
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" id="hats_sdr_tac_1a_presenting_authority"
+                                                name="hats_sdr_tac_1a_presenting_authority" required>
+                                                <option value="">--Select--</option>
+                                                <option value="dockyard">Dockyard</option>
+                                                <option value="shipstaff">Shipstaff</option>
+                                                <option value="oem">OEM</option>
+                                                <option value="oem">SHIP’S STAFF</option>
+
+                                            </select>
+                                            <label class="form_control_1"
+                                                for="hats_sdr_tac_1a_presenting_authority">Presenting Authority <span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" id="sats_sheets_humsa_phase2"
+                                                name="hats_sdr_tac_1a_watt_1_name">
+                                            <label class="form_control_1">WATT(1)</label>
+                                        </div>
+                                    </div>
+
+                                    <!-- WATT 2 -->
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" id="hats_sdr_tac_1a_watt_2_name"
+                                                name="hats_sdr_tac_1a_watt_2_name">
+                                            <label class="form_control_1">WATT(2)</label>
+                                        </div>
+                                    </div>
+
+                                    <!-- WATT 3 -->
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" id="hats_sdr_tac_1a_watt_3_name"
+                                                name="hats_sdr_tac_1a_watt_3_name">
+                                            <label class="form_control_1">WATT(3)</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive mt-4">
+                                    <table class="custom_tbl " id="hats_sdr_tac_1a_remarks_table">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th>REMARKS TO BE GIVEN</th>
+                                                <th>WBA - WILL BE AMENDED</th>
+                                                <th>WBD - WILL BE DONE</th>
+                                                <th>WOW - WILL OBTAIN WAIVER</th>
+                                                <th>COM - COMPLETED</th>
+                                                <th>N/O - NOT OFFERED</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                        name="hats_sdr_tac_1a_remarks_main"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                        name="hats_sdr_tac_1a_wba"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                        name="hats_sdr_tac_1a_wbd"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                        name="hats_sdr_tac_1a_wow"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                        name="hats_sdr_tac_1a_com"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                        name="hats_sdr_tac_1a_no"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>OIC</strong></td>
+                                                <td><strong>CDR TRIALS</strong></td>
+                                                <td><strong>STO (G)</strong></td>
+                                                <td><strong>STO (L)</strong></td>
+                                                <td colspan="2"><strong>TO (L)</strong></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

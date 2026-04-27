@@ -1,0 +1,650 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+	.custom_tbl th,
+	.custom_tbl td {
+		border: 1px solid #ddd;
+		padding: 10px;
+		text-align: left;
+	}
+
+	.custom_tbl th {
+		background-color: #f5f5f5;
+		font-weight: 400;
+		color: #333;
+		font-size: 14px;
+	}
+
+	.custom_tbl tbody tr:hover {
+		background-color: #f9f9f9;
+	}
+
+	.custom_tbl tbody tr:hover,
+	.custom_tbl tbody tr:hover td {
+		font-weight: 400 !important;
+	}
+
+	.section-subline {
+		padding: 10px 4px;
+		border-bottom: 1px solid #ececec;
+		font-weight: 500;
+		font-size: 14px;
+	}
+
+	.fixed-label-cell {
+		font-weight: 400;
+		font-size: 14px;
+	}
+
+	#a190_health_audit_form {
+		font-size: 14px;
+	}
+
+	#a190_health_audit_form .form-control,
+	#a190_health_audit_form .form-select,
+	#a190_health_audit_form .custom_tbl th,
+	#a190_health_audit_form .custom_tbl td,
+	#a190_health_audit_form .help-block,
+	#a190_health_audit_form .fixed-label-cell {
+		font-size: 14px;
+	}
+
+	#a190_health_audit_form textarea.wrstg-scroll-textarea {
+		min-height: 42px;
+	}
+
+	#a190_health_audit_form td.achieved-cell textarea,
+	#a190_health_audit_form td.remarks-cell textarea {
+		min-height: 42px;
+	}
+
+	textarea {
+		background: #ffffff !important;
+	}
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-																																																									green">
+						 
+						<span class="caption-subject bold">A 190 HEALTH AUDIT REPORT</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-4 mb-4">
+					<form method="post" id="a190_health_audit_form">
+						{% csrf_token %}
+						<div class="form-body">
+
+							<!-- HEALTH AUDIT REPORT HEADER -->
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">Health Audit Report</legend>
+								<!-- <div class="help-block d-flex mb-2" style="font-size:12px; font-weight:600; color:#1f3a56;">All Fields Marked with * Are Mandatory</div> -->
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="ship" required>
+												<option value="">--Select--</option>
+												{% for ship in ship_options %}
+												<option value="{{ ship.value }}">{{ ship.label }}</option>
+												{% endfor %}
+											</select>
+											<label class="form_control_1">Ship <span class="text-danger">*</span></label>
+										</div>
+									</div>
+
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" name="ship_health_audit_report_no" placeholder=" " required>
+											<label class="form_control_1">Ship Health Audit Report No <span class="text-danger">*</span></label>
+										</div>
+									</div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" name="health_audit_no" placeholder=" " required>
+											<label class="form_control_1">Health Audit No <span class="text-danger">*</span></label>
+										</div>
+									</div>
+
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="health_audit_type" required>
+												<option value="">--Select--</option>
+												<option value="type_1">Type 1</option>
+												<option value="type_2">Type 2</option>
+											</select>
+											<label class="form_control_1">Health Audit Type <span class="text-danger">*</span></label>
+										</div>
+									</div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="health_audit_status" required>
+												<option value="">--Select--</option>
+												<option value="status_1">Status 1</option>
+												<option value="status_2">Status 2</option>
+											</select>
+											<label class="form_control_1">Health Audit Status <span class="text-danger">*</span></label>
+										</div>
+									</div>
+
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="date" class="form-control" name="audit_date" required>
+											<label class="form_control_1">Audit Date <span class="text-danger">*</span></label>
+										</div>
+									</div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" name="equipment_code" readonly value="A190">
+											<label class="form_control_1">Equipment Code</label>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+
+							<!-- TABLE 1: HEALTH AUDIT CHECKS UNDERTAKEN BY WRSTG (MED) ON A190 -->
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">Health Audit Checks Undertaken By WRSTG (MED) On A190</legend>
+
+								<div class="table-responsive">
+									<table id="wrstg_checks_table" class="custom_tbl tbl-fixed-col-2">
+										<thead>
+											<tr>
+												<th class="serial-no">SER</th>
+												<th>CHECKS</th>
+												<th>DESIRED VALUE</th>
+												<th>ACHIEVED VALUE</th>
+												<th>DATE</th>
+												<th>REMARKS</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no">1</td>
+												<td class="fixed-label-cell">Check the insulation resistance</td>
+												<td class="fixed-label-cell">0.5 M ohm</td>
+												<td class="achieved-cell"><textarea class="form-control wrstg-scroll-textarea" name="wrstg_achieved_1" rows="2"></textarea></td>
+												<td><input type="date" class="form-control" name="wrstg_date_1"></td>
+												<td class="remarks-cell"><textarea class="form-control wrstg-scroll-textarea" name="wrstg_remarks_1" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">2</td>
+												<td class="fixed-label-cell">Check functioning of manual drives of elevation and training mechanisms</td>
+												<td class="fixed-label-cell">SAT</td>
+												<td class="achieved-cell"><textarea class="form-control wrstg-scroll-textarea" name="wrstg_achieved_2" rows="2"></textarea></td>
+												<td><input type="date" class="form-control" name="wrstg_date_2"></td>
+												<td class="remarks-cell"><textarea class="form-control wrstg-scroll-textarea" name="wrstg_remarks_2" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">3</td>
+												<td class="fixed-label-cell">Check functioning of loading system when using manual drive and in auto mode</td>
+												<td class="fixed-label-cell">SAT</td>
+												<td class="achieved-cell"><textarea class="form-control wrstg-scroll-textarea" name="wrstg_achieved_3" rows="2"></textarea></td>
+												<td><input type="date" class="form-control" name="wrstg_date_3"></td>
+												<td class="remarks-cell"><textarea class="form-control wrstg-scroll-textarea" name="wrstg_remarks_3" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">4</td>
+												<td class="fixed-label-cell">Check the pressure and oil level of hydraulic system</td>
+												<td class="fixed-label-cell">SAT</td>
+												<td class="achieved-cell"><textarea class="form-control wrstg-scroll-textarea" name="wrstg_achieved_4" rows="2"></textarea></td>
+												<td><input type="date" class="form-control" name="wrstg_date_4"></td>
+												<td class="remarks-cell"><textarea class="form-control wrstg-scroll-textarea" name="wrstg_remarks_4" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">5</td>
+												<td class="fixed-label-cell">Check functioning of coding system</td>
+												<td class="fixed-label-cell">SAT</td>
+												<td class="achieved-cell"><textarea class="form-control wrstg-scroll-textarea" name="wrstg_achieved_5" rows="2"></textarea></td>
+												<td><input type="date" class="form-control" name="wrstg_date_5"></td>
+												<td class="remarks-cell"><textarea class="form-control wrstg-scroll-textarea" name="wrstg_remarks_5" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">6</td>
+												<td class="fixed-label-cell">Check complete functional checks of CA-190</td>
+												<td class="fixed-label-cell">SAT</td>
+												<td><textarea class="form-control" name="wrstg_achieved_6" rows="1"></textarea></td>
+												<td><input type="date" class="form-control" name="wrstg_date_6"></td>
+												<td><textarea class="form-control" name="wrstg_remarks_6" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">7</td>
+												<td class="fixed-label-cell">Carry out Hydraulic system operations using hand pump</td>
+												<td class="fixed-label-cell">SAT</td>
+												<td><textarea class="form-control" name="wrstg_achieved_7" rows="1"></textarea></td>
+												<td><input type="date" class="form-control" name="wrstg_date_7"></td>
+												<td><textarea class="form-control" name="wrstg_remarks_7" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">8</td>
+												<td class="fixed-label-cell">Check operation of locking and unlocking mechanism of tipping unit and rotating part</td>
+												<td class="fixed-label-cell">SAT</td>
+												<td><textarea class="form-control" name="wrstg_achieved_8" rows="1"></textarea></td>
+												<td><input type="date" class="form-control" name="wrstg_date_8"></td>
+												<td><textarea class="form-control" name="wrstg_remarks_8" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">9</td>
+												<td class="fixed-label-cell">Check operation of deflector tray</td>
+												<td class="fixed-label-cell">SAT</td>
+												<td><textarea class="form-control" name="wrstg_achieved_9" rows="1"></textarea></td>
+												<td><input type="date" class="form-control" name="wrstg_date_9"></td>
+												<td><textarea class="form-control" name="wrstg_remarks_9" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">10</td>
+												<td class="fixed-label-cell">Check firing circuit from Post no.6</td>
+												<td class="fixed-label-cell">SAT</td>
+												<td><textarea class="form-control" name="wrstg_achieved_10" rows="1"></textarea></td>
+												<td><input type="date" class="form-control" name="wrstg_date_10"></td>
+												<td><textarea class="form-control" name="wrstg_remarks_10" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">11</td>
+												<td class="fixed-label-cell">Check the actuation of feed system interlocks circuit of GM using БK-4 device</td>
+												<td class="fixed-label-cell">SAT</td>
+												<td><textarea class="form-control" name="wrstg_achieved_11" rows="1"></textarea></td>
+												<td><input type="date" class="form-control" name="wrstg_date_11"></td>
+												<td><textarea class="form-control" name="wrstg_remarks_11" rows="1"></textarea></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<!-- TABLE 2: HEALTH AUDIT CHECKS OF A190 UNDERTAKEN BY NAI (MBU) -->
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">Health Audit Checks Of A190 Undertaken By NAI (MBU)</legend>
+
+								<div class="table-responsive">
+									<table id="nai_checks_table" class="custom_tbl tbl-fixed-col-2">
+										<thead>
+											<tr>
+												<th class="serial-no">SER</th>
+												<th>DESCRIPTION OF OPERATION</th>
+												<th>DESIRED VALUE</th>
+												<th>ACHIEVED VALUE</th>
+												<th>DATE</th>
+												<th>REMARKS</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="sw-sub-header" colspan="6">Barrel</td>
+												<!-- <td></td> -->
+											</tr>
+											<tr>
+												<td class="serial-no">(1)</td>
+												<td class="fixed-label-cell">Check internal condition of barrel (Rust, pitting, carbon deposits especially at chamber)</td>
+												<td class="fixed-label-cell">SAT</td>
+												<td><textarea class="form-control" name="nai_achieved_1" rows="1"></textarea></td>
+												<td><input type="date" class="form-control" name="nai_date_1"></td>
+												<td><textarea class="form-control" name="nai_remarks_1" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(2)</td>
+												<td class="fixed-label-cell">Pass barrel bore wear plug bore gauge</td>
+												<td class="fixed-label-cell">SAT</td>
+												<td><textarea class="form-control" name="nai_achieved_2" rows="1"></textarea></td>
+												<td><input type="date" class="form-control" name="nai_date_2"></td>
+												<td><textarea class="form-control" name="nai_remarks_2" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(3)</td>
+												<td class="fixed-label-cell">Condition of barrel bore and chamber using video boroscope</td>
+												<td class="fixed-label-cell">SAT</td>
+												<td><textarea class="form-control" name="nai_achieved_3" rows="1"></textarea></td>
+												<td><input type="date" class="form-control" name="nai_date_3"></td>
+												<td><textarea class="form-control" name="nai_remarks_3" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(4)</td>
+												<td class="fixed-label-cell">Check hydraulic system pressure</td>
+												<td class="fixed-label-cell">20 to 32 Kgf/cm2 or (2.0 to 3.2) MPa</td>
+												<td><textarea class="form-control" name="nai_achieved_4" rows="1"></textarea></td>
+												<td><input type="date" class="form-control" name="nai_date_4"></td>
+												<td><textarea class="form-control" name="nai_remarks_4" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(5)</td>
+												<td class="fixed-label-cell">Check for leakage in hydraulic buffer</td>
+												<td class="fixed-label-cell">No leak to be observed</td>
+												<td><textarea class="form-control" name="nai_achieved_14" rows="1"></textarea></td>
+												<td><input type="date" class="form-control" name="nai_date_14"></td>
+												<td><textarea class="form-control" name="nai_remarks_14" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(6)</td>
+												<td class="fixed-label-cell">Check level of working fluid in hydraulic buffer by reference to protrusion of the rod beyond the cover and face (size e, fig. 20.1) with the wedge open</td>
+												<td class="fixed-label-cell">Should be 26+/-3 mm</td>
+												<td><textarea class="form-control" name="nai_achieved_15" rows="1"></textarea></td>
+												<td><input type="date" class="form-control" name="nai_date_15"></td>
+												<td><textarea class="form-control" name="nai_remarks_15" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="sw-sub-header" colspan="6">Breech Block</td>
+												<!-- <td></td> -->
+											</tr>
+											<tr>
+												<td class="serial-no">(7)</td>
+												<td class="fixed-label-cell">Check visual condition of the breech block and its components. All components should be free from crack, burns, rust and dents</td>
+												<td class="fixed-label-cell">SAT</td>
+												<td><textarea class="form-control" name="nai_achieved_5" rows="1"></textarea></td>
+												<td><input type="date" class="form-control" name="nai_date_5"></td>
+												<td><textarea class="form-control" name="nai_remarks_5" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(8)</td>
+												<td class="fixed-label-cell">Check the protrusion of firing pin using gauge A.190.71.01.01</td>
+												<td class="fixed-label-cell">3.40 mm to 3.68 mm</td>
+												<td><textarea class="form-control" name="nai_achieved_6" rows="1"></textarea></td>
+												<td><input type="date" class="form-control" name="nai_date_6"></td>
+												<td><textarea class="form-control" name="nai_remarks_6" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="sw-sub-header" colspan="6">TU Hydraulic Buffer</td>
+												<!-- <td></td> -->
+											</tr>
+											<tr>
+												<td class="serial-no">(9)</td>
+												<td class="fixed-label-cell">TU Hydraulic buffer</td>
+												<td class="fixed-label-cell">-</td>
+												<td><textarea class="form-control" name="nai_achieved_7" rows="1"></textarea></td>
+												<td><input type="date" class="form-control" name="nai_date_7"></td>
+												<td><textarea class="form-control" name="nai_remarks_7" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no"></td>
+												<td class="fixed-label-cell">Rammer Cylinder</td>
+												<td class="fixed-label-cell">Within limit</td>
+												<td><textarea class="form-control" name="nai_achieved_8" rows="1"></textarea></td>
+												<td><input type="date" class="form-control" name="nai_date_8"></td>
+												<td><textarea class="form-control" name="nai_remarks_8" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no"></td>
+												<td class="fixed-label-cell">Rammer tray buffer</td>
+												<td class="fixed-label-cell">Within limit</td>
+												<td><textarea class="form-control" name="nai_achieved_9" rows="1"></textarea></td>
+												<td><input type="date" class="form-control" name="nai_date_9"></td>
+												<td><textarea class="form-control" name="nai_remarks_9" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no"></td>
+												<td class="fixed-label-cell">Carriage Hydraulic Buffer</td>
+												<td class="fixed-label-cell">Within limit</td>
+												<td><textarea class="form-control" name="nai_achieved_10" rows="1"></textarea></td>
+												<td><input type="date" class="form-control" name="nai_date_10"></td>
+												<td><textarea class="form-control" name="nai_remarks_10" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no"></td>
+												<td class="fixed-label-cell">Pendulum Hydraulic Buffer</td>
+												<td class="fixed-label-cell">Within limit</td>
+												<td><textarea class="form-control" name="nai_achieved_11" rows="1"></textarea></td>
+												<td><input type="date" class="form-control" name="nai_date_11"></td>
+												<td><textarea class="form-control" name="nai_remarks_11" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="sw-sub-header" colspan="6">Cooling System</td>
+												<!-- <td></td> -->
+											</tr>
+											<tr>
+												<td class="serial-no">(10)</td>
+												<td class="fixed-label-cell">Check Cooling System of This Barrel (Pressure at 170 +/-20 bar)</td>
+												<td class="fixed-label-cell">No leak to be observed</td>
+												<td><textarea class="form-control" name="nai_achieved_12" rows="1"></textarea></td>
+												<td><input type="date" class="form-control" name="nai_date_12"></td>
+												<td><textarea class="form-control" name="nai_remarks_12" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(11)</td>
+												<td class="fixed-label-cell">Check purging system</td>
+												<td class="fixed-label-cell">SAT</td>
+												<td><textarea class="form-control" name="nai_achieved_13" rows="1"></textarea></td>
+												<td><input type="date" class="form-control" name="nai_date_13"></td>
+												<td><textarea class="form-control" name="nai_remarks_13" rows="1"></textarea></td>
+											</tr>
+											
+											<tr>
+												<td class="sw-sub-header" colspan="6">Recuperators</td>
+												<!-- <td></td> -->
+											</tr>
+											<tr>
+												<td class="serial-no">(12)</td>
+												<td class="fixed-label-cell">Check for leak in recuperators</td>
+												<td class="fixed-label-cell">No leak to be observed</td>
+												<td><textarea class="form-control" name="nai_achieved_16" rows="1"></textarea></td>
+												<td><input type="date" class="form-control" name="nai_date_16"></td>
+												<td><textarea class="form-control" name="nai_remarks_16" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(13)</td>
+												<td class="fixed-label-cell">Check nitrogen pressure in recuperators</td>
+												<td class="fixed-label-cell">Should be between (62-70) kgf/cm2</td>
+												<td><textarea class="form-control" name="nai_achieved_17" rows="1"></textarea></td>
+												<td><input type="date" class="form-control" name="nai_date_17"></td>
+												<td><textarea class="form-control" name="nai_remarks_17" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="sw-sub-header" colspan="6">Accumulator</td>
+												<!-- <td></td> -->
+											</tr>
+											<tr>
+												<td class="serial-no">(14)</td>
+												<td class="fixed-label-cell">Check nitrogen pressure in accumulator</td>
+												<td class="fixed-label-cell">SAT</td>
+												<td><textarea class="form-control" name="nai_achieved_18" rows="1"></textarea></td>
+												<td><input type="date" class="form-control" name="nai_date_18"></td>
+												<td><textarea class="form-control" name="nai_remarks_18" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="sw-sub-header" colspan="6">Functional Checks</td>
+												<!-- <td></td> -->
+											</tr>
+											<tr>
+												<td class="serial-no">(15)</td>
+												<td class="fixed-label-cell">Check protrusion of rod 23 of replenisher 22</td>
+												<td class="fixed-label-cell">76 mm+/-1 mm</td>
+												<td><textarea class="form-control" name="nai_achieved_19" rows="1"></textarea></td>
+												<td><input type="date" class="form-control" name="nai_date_19"></td>
+												<td><textarea class="form-control" name="nai_remarks_19" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(16)</td>
+												<td class="fixed-label-cell">Weight of blow checks</td>
+												<td class="fixed-label-cell">Min 0.024 inch</td>
+												<td><textarea class="form-control" name="nai_achieved_20" rows="1"></textarea></td>
+												<td><input type="date" class="form-control" name="nai_date_20"></td>
+												<td><textarea class="form-control" name="nai_remarks_20" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(17)</td>
+												<td class="fixed-label-cell">Load three dummy rounds to check loading ramming smooth ejection and proper impression of firing pin (check from local/remote)</td>
+												<td class="fixed-label-cell">SAT</td>
+												<td><textarea class="form-control" name="nai_achieved_21" rows="1"></textarea></td>
+												<td><input type="date" class="form-control" name="nai_date_21"></td>
+												<td><textarea class="form-control" name="nai_remarks_21" rows="1"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(18)</td>
+												<td class="fixed-label-cell">Carryout misfire drill using 02 in number dummy rounds (Authority: HQWNC / CGO Letter no. GN/0318 dated 02 Sep 20)</td>
+												<td class="fixed-label-cell">SAT</td>
+												<td><textarea class="form-control" name="nai_achieved_22" rows="1"></textarea></td>
+												<td><input type="date" class="form-control" name="nai_date_22"></td>
+												<td><textarea class="form-control" name="nai_remarks_22" rows="1"></textarea></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">  </legend>
+								<!-- <div class="section-subline">CHECKS UNDERTAKEN BY CORE TEAM ON A190</div>
+								<div class="section-subline" style="border-bottom:none;">CHECK UNDERTAKEN BY OPERATOR OF THE CORE TEAM ON A190</div> -->
+
+								<div class="fixed-label-cell mt-3 mb-2">Observation of Core Team Nominated by HQMNA / K-22</div>
+								<div class="form-group col-md-6 col-12">
+									<textarea class="form-control wrstg-scroll-textarea" name="core_team_observation" rows="3" placeholder=""></textarea>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<textarea class="form-control wrstg-scroll-textarea" name="functional_performance" rows="2" placeholder=" "></textarea>
+											<label class="form_control_1">1. Functional Performance of Gun and Limitation If Any</label>
+										</div>
+									</div>
+									<div class="col-md-6 col-12"></div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-12 col-12">
+										<div class="fixed-label-cell mt-2">2. Maintenance</div>
+									</div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<textarea class="form-control wrstg-scroll-textarea" name="overdue_routines" rows="2" placeholder=" "></textarea>
+											<label class="form_control_1">(A) Overdue Routines</label>
+										</div>
+									</div>
+									<div class="col-md-6 col-12"></div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-12 col-12">
+										<div class="fixed-label-cell mt-2">(B) Parts to be Replaced</div>
+									</div>
+								</div>
+
+								<div class="table-responsive mb-3" style="margin-top: 8px;">
+									<table id="parts_replaced_table" class="custom_tbl">
+										<thead>
+											<tr>
+												<th class="serial-no">SER NO</th>
+												<th>DESCRIPTION</th>
+												<th>PART NO</th>
+												<th>QTY</th>
+												<th class="action">ACTION</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no">1</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="parts_desc_1" data-base-name="parts_desc" rows="1"></textarea></td>
+												<td><input type="text" class="form-control" name="parts_no_1" data-base-name="parts_no"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="parts_qty_1" data-base-name="parts_qty" rows="1"></textarea></td>
+												<td class="action action-cell-holder">
+													<div class="action-controls">
+														<button type="button" class="btn-round btn-add" onclick="addRow('parts_replaced_table')">+</button>
+														<button type="button" class="btn-round btn-remove" onclick="removeRow('parts_replaced_table')">-</button>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<textarea class="form-control wrstg-scroll-textarea" name="sok_maintainer_operator" rows="2" placeholder=" "></textarea>
+											<label class="form_control_1">3. SOK of Maintainer/Operator <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-6 col-12"></div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<textarea class="form-control wrstg-scroll-textarea" name="maintenance_books_records" rows="2" placeholder=" "></textarea>
+											<label class="form_control_1">4. Maintenance of Books/Records</label>
+										</div>
+									</div>
+									<div class="col-md-6 col-12"></div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<textarea class="form-control wrstg-scroll-textarea" name="overall_assessment" rows="2" placeholder=" "></textarea>
+											<label class="form_control_1">Overall Assessment <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-6 col-12"></div>
+								</div>
+
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<textarea class="form-control wrstg-scroll-textarea" name="recommendation" rows="2" placeholder=" "></textarea>
+											<label class="form_control_1">Recommendation <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-6 col-12"></div>
+								</div>
+							</fieldset>
+
+							<div class="d-flex justify-content-center mt-4 gap-2">
+								<button type="submit" class="btn btn-success px-4">Save</button>
+								<a href="{% url 'ITTTM:a190_health_audit_report' %}" class="btn btn-secondary px-4">Reset</a>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		document.querySelectorAll('textarea[name^="wrstg_achieved_"], textarea[name^="wrstg_remarks_"], textarea[name^="nai_achieved_"], textarea[name^="nai_remarks_"]').forEach(function(textarea) {
+			textarea.classList.add('wrstg-scroll-textarea');
+			textarea.setAttribute('rows', '2');
+			const cell = textarea.closest('td');
+			if (!cell) return;
+			if (textarea.name.indexOf('achieved') !== -1) {
+				cell.classList.add('achieved-cell');
+			}
+			if (textarea.name.indexOf('remarks') !== -1) {
+				cell.classList.add('remarks-cell');
+			}
+		});
+
+		WRSTGQuarterly.init({
+			extraTableIds: ['parts_replaced_table'],
+			tableOptions: {
+				parts_replaced_table: { namingMode: 'plain' }
+			},
+			submitConfirmation: { formId: 'a190_health_audit_form' }
+		});
+	});
+</script>
+{% endblock js %}

@@ -1,0 +1,1055 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+    <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">NEC</a></li>
+          <li class="breadcrumb-item active" aria-current="page">EW Audit NEC Report</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">EW Audit NEC Report</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="ew_system_checks_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+
+                            <!-- ══════════════════════════════════════
+                                HEADER INFORMATION
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <!-- <div class="row mb-3">
+                                    <div class="col-md-4 col-12">
+											<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="ship_name" required>
+												<option value="">--Select--</option>
+												{% for ship in ship_options %}
+												<option value="{{ ship.value }}">{{ ship.label }}</option>
+												{% endfor %}
+											</select>
+											<label class="form_control_1">Ship Name <span class="text-danger">*</span></label>
+											</div>
+										</div>
+                                        <div class="form-group row mb-2">
+                                            <label class="col-sm-5 col-form-label fw-bold">Date of Installation:</label>
+                                            <div class="col-sm-7">
+                                                <input type="date" class="form-control" name="date_installation">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-2">
+                                            <label class="col-sm-5 col-form-label fw-bold">Date of completion of HATs:</label>
+                                            <div class="col-sm-7">
+                                                <input type="date" class="form-control" name="date_hats">
+                                            </div>
+                                        </div>
+                                    </div> -->
+
+
+                                    <div class="row g-3">
+										<div class="col-md-4 col-12">
+											<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="ship_name" required>
+												<option value="">--Select--</option>
+												{% for ship in ship_options %}
+												<option value="{{ ship.value }}">{{ ship.label }}</option>
+												{% endfor %}
+											</select>
+											<label class="form_control_1">Ship Name <span class="text-danger">*</span></label>
+											</div>
+										</div>
+                                        <div class="col-md-4 col-12">
+											<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+												<input type="text" class="form-control" name="ew_audit_system" placeholder="">
+												<label class="form_control_1">System <span class="text-danger">*</span></label>
+												<span class="help-block d-flex">Enter system...</span>
+											</div>
+										</div>
+										<div class="col-md-4 col-12">
+											<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+												<input type="date" class="form-control" name="ew_audit_installation_date" required>
+												<label class="form_control_1">Select Installation Date <span class="text-danger">*</span></label>
+												<span class="help-block d-flex">Select installation date...</span>
+											</div>
+										</div>
+										<div class="col-md-4 col-12">
+											<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+												<input type="date" class="form-control" name="ew_audit_hat_completion_date" required>
+												<label class="form_control_1">Date of Completion of HATs <span class="text-danger">*</span></label>
+												<span class="help-block d-flex">Select HAT completion date...</span>
+											</div>
+										</div>
+                                        <div class="col-md-4 col-12">
+											<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+												<input type="date" class="form-control" name="ew_audit_sat_completion_date" required>
+												<label class="form_control_1">Date of Completion of SATs <span class="text-danger">*</span></label>
+												<span class="help-block d-flex">Select SAT completion date...</span>
+											</div>
+										</div>
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <select class="form-control" name="ew_audit_system_status" required>
+                                                    <option value="">--Select--</option>
+                                                    <option value="Ops">Ops</option>
+                                                    <option value="Non-ops">Non-ops</option>
+                                                    <option value="Partially Ops">Partially Ops</option>
+                                                </select>
+                                                <label class="form_control_1">System Status <span class="text-danger">*</span></label>
+                                                <span class="help-block d-flex">Select system status...</span>
+                                        </div>
+									</div>
+
+
+
+                                    <!-- <div class="col-md-6">
+                                        <div class="form-group row mb-2">
+                                            <label class="col-sm-5 col-form-label fw-bold">System:</label>
+                                            <div class="col-sm-7">
+                                                <input type="text" class="form-control" name="system_name" placeholder=" ">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-2">
+                                            <label class="col-sm-5 col-form-label fw-bold">Date of completion of SATs:</label>
+                                            <div class="col-sm-7">
+                                                <input type="date" class="form-control" name="date_sats">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row mb-2">
+                                            <label class="col-sm-5 col-form-label fw-bold">System Status:</label>
+                                            <div class="col-sm-7">
+                                                <select class="form-control" name="system_status">
+                                                    <option value="">-- Select --</option>
+                                                    <option value="Ops">Ops</option>
+                                                    <option value="Non-ops">Non-ops</option>
+                                                    <option value="Partially Ops">Partially Ops</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                CHECK LIST – General
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">CHECK LIST</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="checklist_general_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser</th>
+                                                <th style="text-align: center;">Test</th>
+                                                <th style="width:12%;">Satisfactory</th>
+                                                <th style="width:22%;">Remarks (if any)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="4" class="group-header-cell"><strong>General</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">1</td>
+                                                <td>Physical checks for any damages</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="cl_gen_1_sat" name="cl_gen_1" value="SAT">
+                                                            <label for="cl_gen_1_sat">Yes</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="cl_gen_1_unsat" name="cl_gen_1" value="UNSAT">
+                                                            <label for="cl_gen_1_unsat">No</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="cl_gen_remarks_1" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">2</td>
+                                                <td>All connectors intact with units</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="cl_gen_2_sat" name="cl_gen_2" value="SAT">
+                                                            <label for="cl_gen_2_sat">Yes</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="cl_gen_2_unsat" name="cl_gen_2" value="UNSAT">
+                                                            <label for="cl_gen_2_unsat">No</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="cl_gen_remarks_2" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3</td>
+                                                <td>All connectors protection by anticorrosion/ vulcanizing tape</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="cl_gen_3_sat" name="cl_gen_3" value="SAT">
+                                                            <label for="cl_gen_3_sat">Yes</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="cl_gen_3_unsat" name="cl_gen_3" value="UNSAT">
+                                                            <label for="cl_gen_3_unsat">No</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="cl_gen_remarks_3" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">4</td>
+                                                <td>Proper routing of all EW cables on mast and all along its route</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="cl_gen_4_sat" name="cl_gen_4" value="SAT">
+                                                            <label for="cl_gen_4_sat">Yes</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="cl_gen_4_unsat" name="cl_gen_4" value="UNSAT">
+                                                            <label for="cl_gen_4_unsat">No</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="cl_gen_remarks_4" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">5</td>
+                                                <td>AC temperature is maintained during system operation is 18-25 °C</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="cl_gen_5_sat" name="cl_gen_5" value="SAT">
+                                                            <label for="cl_gen_5_sat">Yes</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="cl_gen_5_unsat" name="cl_gen_5" value="UNSAT">
+                                                            <label for="cl_gen_5_unsat">No</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="cl_gen_remarks_5" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">6</td>
+                                                <td>Input supply to isolation transformer is 415 ± 5 V AC</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="cl_gen_6_sat" name="cl_gen_6" value="SAT">
+                                                            <label for="cl_gen_6_sat">Yes</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="cl_gen_6_unsat" name="cl_gen_6" value="UNSAT">
+                                                            <label for="cl_gen_6_unsat">No</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="cl_gen_remarks_6" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">7</td>
+                                                <td>Gyro feed point is same as that during installation (not changed)</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="cl_gen_7_sat" name="cl_gen_7" value="SAT">
+                                                            <label for="cl_gen_7_sat">Yes</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="cl_gen_7_unsat" name="cl_gen_7" value="UNSAT">
+                                                            <label for="cl_gen_7_unsat">No</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="cl_gen_remarks_7" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">8</td>
+                                                <td>Check whether all cables/ PCBs inside processor, LRUs are intact/ fitted properly</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="cl_gen_8_sat" name="cl_gen_8" value="SAT">
+                                                            <label for="cl_gen_8_sat">Yes</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="cl_gen_8_unsat" name="cl_gen_8" value="UNSAT">
+                                                            <label for="cl_gen_8_unsat">No</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="cl_gen_remarks_8" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">9</td>
+                                                <td>Blowers are in running condition during system ON</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="cl_gen_9_sat" name="cl_gen_9" value="SAT">
+                                                            <label for="cl_gen_9_sat">Yes</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="cl_gen_9_unsat" name="cl_gen_9" value="UNSAT">
+                                                            <label for="cl_gen_9_unsat">No</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="cl_gen_remarks_9" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">10</td>
+                                                <td>Pinging checks are OK</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="cl_gen_10_sat" name="cl_gen_10" value="SAT">
+                                                            <label for="cl_gen_10_sat">Yes</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="cl_gen_10_unsat" name="cl_gen_10" value="UNSAT">
+                                                            <label for="cl_gen_10_unsat">No</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="cl_gen_remarks_10" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">11</td>
+                                                <td>Air Filters cleaned</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="cl_gen_11_sat" name="cl_gen_11" value="SAT">
+                                                            <label for="cl_gen_11_sat">Yes</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="cl_gen_11_unsat" name="cl_gen_11" value="UNSAT">
+                                                            <label for="cl_gen_11_unsat">No</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="cl_gen_remarks_11" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">12</td>
+                                                <td>Radar pre-trigger, from each onboard radar, connected to radar blanking interface is OK</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="cl_gen_12_sat" name="cl_gen_12" value="SAT">
+                                                            <label for="cl_gen_12_sat">Yes</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="cl_gen_12_unsat" name="cl_gen_12" value="UNSAT">
+                                                            <label for="cl_gen_12_unsat">No</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="cl_gen_remarks_12" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">BROAD GUIDELINES FOR SYSTEM OP-CHECKS</legend>
+                                <!-- ══════════════════════════════════════
+                                    (I) Power Supply/ Power Supply cards failure
+                                ══════════════════════════════════════ -->
+                                <fieldset class="custom-fieldset">
+                                    <legend class="legend-custom text-uppercase">(I) Power Supply/ Power Supply cards failure</legend>
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl" id="power_supply_tbl">
+                                            <thead class="table-dark-head">
+                                                <tr>
+                                                    <th class="serial-no">Ser</th>
+                                                    <th style="text-align: center;">Checks</th>
+                                                    <th style="width:12%;">Status<br><small>(Sat/ unsat)</small></th>
+                                                    <th style="width:22%;">Remarks</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="serial-no">1</td>
+                                                    <td>In the ESM rack, air filters of the ESM units - E/J Processor (WOR), C/D Band Processor - present at the Front Panel are required to be cleaned by removing the front panel air filter screws. Remove the air filter and clean the same using vacuum cleaner/ air gun or shake the dust off the filter using hand. After cleaning it, place the air filters back to its location and refit the air filter cover with its screws.</td>
+                                                    <td>
+                                                        <div class="yes-no-container">
+                                                            <div>
+                                                                <input type="radio" id="ps_1_sat" name="ps_1" value="SAT">
+                                                                <label for="ps_1_sat">SAT</label>
+                                                            </div>
+                                                            <div>
+                                                                <input type="radio" id="ps_1_unsat" name="ps_1" value="UNSAT">
+                                                                <label for="ps_1_unsat">UNSAT</label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="ps_remarks_1" rows="2" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="serial-no">2</td>
+                                                    <td>An UPS of 10 KVA rating is recommended for the whole system (to power up the ESM racks) to ensure smooth system functioning and to isolate the ship power supply fluctuations/ transients/ abrupt power switching.</td>
+                                                    <td>
+                                                        <div class="yes-no-container">
+                                                            <div>
+                                                                <input type="radio" id="ps_2_sat" name="ps_2" value="SAT">
+                                                                <label for="ps_2_sat">SAT</label>
+                                                            </div>
+                                                            <div>
+                                                                <input type="radio" id="ps_2_unsat" name="ps_2" value="UNSAT">
+                                                                <label for="ps_2_unsat">UNSAT</label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="ps_remarks_2" rows="2" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="serial-no">3</td>
+                                                    <td>Check whether the blowers fixed at the rear of the processor units ESM E/J Processor (WOR), C/D Band Processor are in running condition.</td>
+                                                    <td>
+                                                        <div class="yes-no-container">
+                                                            <div>
+                                                                <input type="radio" id="ps_3_sat" name="ps_3" value="SAT">
+                                                                <label for="ps_3_sat">SAT</label>
+                                                            </div>
+                                                            <div>
+                                                                <input type="radio" id="ps_3_unsat" name="ps_3" value="UNSAT">
+                                                                <label for="ps_3_unsat">UNSAT</label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="ps_remarks_3" rows="2" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="serial-no">4</td>
+                                                    <td>Whenever system is switched OFF and needs to be switched ON again, DO NOT IMMEDIATELY SWITCH ON, and wait for 5 minute. A time gap of at least 5 minute has to be maintained between each switch OFF and switch ON.</td>
+                                                    <td>
+                                                        <div class="yes-no-container">
+                                                            <div>
+                                                                <input type="radio" id="ps_4_sat" name="ps_4" value="SAT">
+                                                                <label for="ps_4_sat">SAT</label>
+                                                            </div>
+                                                            <div>
+                                                                <input type="radio" id="ps_4_unsat" name="ps_4" value="UNSAT">
+                                                                <label for="ps_4_unsat">UNSAT</label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="ps_remarks_4" rows="2" placeholder=" "></textarea></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </fieldset>
+
+                                <!-- ══════════════════════════════════════
+                                    (II) Degradation/ Failure in Front End Electronic components
+                                ══════════════════════════════════════ -->
+                                <fieldset class="custom-fieldset">
+                                    <legend class="legend-custom text-uppercase">(II) Degradation/ Failure in Front End Electronic components</legend>
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl" id="degradation_tbl">
+                                            <thead class="table-dark-head">
+                                                <tr>
+                                                    <th class="serial-no">Ser</th>
+                                                    <th style="text-align: center;">Checks</th>
+                                                    <th style="width:12%;">Status<br><small>(Sat/ unsat)</small></th>
+                                                    <th style="width:22%;">Remarks</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="serial-no">1</td>
+                                                    <td>Avoid exposure of system to high RF radiation when at harbor/ during Sea &amp; Action of other near ships.</td>
+                                                    <td>
+                                                        <div class="yes-no-container">
+                                                            <div>
+                                                                <input type="radio" id="deg_1_sat" name="deg_1" value="SAT">
+                                                                <label for="deg_1_sat">SAT</label>
+                                                            </div>
+                                                            <div>
+                                                                <input type="radio" id="deg_1_unsat" name="deg_1" value="UNSAT">
+                                                                <label for="deg_1_unsat">UNSAT</label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="deg_remarks_1" rows="1" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="serial-no">2</td>
+                                                    <td>Ensure usage of limiters in the Gonio section (DFA) to reduce the future damage of the front end electronic components.</td>
+                                                    <td>
+                                                        <div class="yes-no-container">
+                                                            <div>
+                                                                <input type="radio" id="deg_2_sat" name="deg_2" value="SAT">
+                                                                <label for="deg_2_sat">SAT</label>
+                                                            </div>
+                                                            <div>
+                                                                <input type="radio" id="deg_2_unsat" name="deg_2" value="UNSAT">
+                                                                <label for="deg_2_unsat">UNSAT</label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="deg_remarks_2" rows="1" placeholder=" "></textarea></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </fieldset>
+
+                                <!-- ══════════════════════════════════════
+                                    (III) Discontinuities/ poor contact in EW cables
+                                ══════════════════════════════════════ -->
+                                <fieldset class="custom-fieldset">
+                                    <legend class="legend-custom text-uppercase">(III) Discontinuities/ poor contact in EW cables</legend>
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl" id="discontinuities_tbl">
+                                            <thead class="table-dark-head">
+                                                <tr>
+                                                    <th class="serial-no">Ser</th>
+                                                    <th style="text-align: center;">Checks</th>
+                                                    <th style="width:12%;">Status<br><small>(Sat/ unsat)</small></th>
+                                                    <th style="width:22%;">Remarks</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="serial-no">1</td>
+                                                    <td>Ensure that connectors (RF cables, Control Cables, Power Supply Cables) are intact at all units on mast. Ensure the same at ESM rack top.</td>
+                                                    <td>
+                                                        <div class="yes-no-container">
+                                                            <div>
+                                                                <input type="radio" id="disc_1_sat" name="disc_1" value="SAT">
+                                                                <label for="disc_1_sat">SAT</label>
+                                                            </div>
+                                                            <div>
+                                                                <input type="radio" id="disc_1_unsat" name="disc_1" value="UNSAT">
+                                                                <label for="disc_1_unsat">UNSAT</label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="disc_remarks_1" rows="2" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="serial-no">2</td>
+                                                    <td>Ensure that all the EW cables connectors and unused/ spare connectors on rack top are protected with water resistant tape/ vulcanizing tape to avoid corrosion.</td>
+                                                    <td>
+                                                        <div class="yes-no-container">
+                                                            <div>
+                                                                <input type="radio" id="disc_2_sat" name="disc_2" value="SAT">
+                                                                <label for="disc_2_sat">SAT</label>
+                                                            </div>
+                                                            <div>
+                                                                <input type="radio" id="disc_2_unsat" name="disc_2" value="UNSAT">
+                                                                <label for="disc_2_unsat">UNSAT</label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="disc_remarks_2" rows="2" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="serial-no">3</td>
+                                                    <td>Ensure all cables are properly routed on mast to avoid tread ON/ step ON/ crushing of the cables by ship staff during mast climbing for other maintenance works like painting/ cleaning etc.</td>
+                                                    <td>
+                                                        <div class="yes-no-container">
+                                                            <div>
+                                                                <input type="radio" id="disc_3_sat" name="disc_3" value="SAT">
+                                                                <label for="disc_3_sat">SAT</label>
+                                                            </div>
+                                                            <div>
+                                                                <input type="radio" id="disc_3_unsat" name="disc_3" value="UNSAT">
+                                                                <label for="disc_3_unsat">UNSAT</label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="disc_remarks_3" rows="2" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="serial-no">4</td>
+                                                    <td>Recommended to replace the Radial RF Cable of Radial make with RF cables of Times Microwave.</td>
+                                                    <td>
+                                                        <div class="yes-no-container">
+                                                            <div>
+                                                                <input type="radio" id="disc_4_sat" name="disc_4" value="SAT">
+                                                                <label for="disc_4_sat">SAT</label>
+                                                            </div>
+                                                            <div>
+                                                                <input type="radio" id="disc_4_unsat" name="disc_4" value="UNSAT">
+                                                                <label for="disc_4_unsat">UNSAT</label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="disc_remarks_4" rows="1" placeholder=" "></textarea></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </fieldset>
+
+                                <!-- ══════════════════════════════════════
+                                    (IV) Interface issues (radar blanking, LAN connections, Gyro)
+                                ══════════════════════════════════════ -->
+                                <fieldset class="custom-fieldset">
+                                    <legend class="legend-custom text-uppercase">(IV) Interface issues (radar blanking, LAN connections, Gyro)</legend>
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl" id="interface_issues_tbl">
+                                            <thead class="table-dark-head">
+                                                <tr>
+                                                    <th class="serial-no">Ser</th>
+                                                    <th style="text-align: center;">Checks</th>
+                                                    <th style="width:12%;">Status<br><small>(Sat/ unsat)</small></th>
+                                                    <th style="width:22%;">Remarks</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="serial-no">1</td>
+                                                    <td>Ensure Gyro feed tapping point finalized during the system installation and HATs is not changed or broken. Also, ensure that ship Gyro data is reaching to the input of the interfacing unit by switching on SDN/ Gyro converters as configured for each platform.</td>
+                                                    <td>
+                                                        <div class="yes-no-container">
+                                                            <div>
+                                                                <input type="radio" id="intf_1_sat" name="intf_1" value="SAT">
+                                                                <label for="intf_1_sat">SAT</label>
+                                                            </div>
+                                                            <div>
+                                                                <input type="radio" id="intf_1_unsat" name="intf_1" value="UNSAT">
+                                                                <label for="intf_1_unsat">UNSAT</label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="intf_remarks_1" rows="3" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="serial-no">2</td>
+                                                    <td>
+                                                        Ensure the radar pre-trigger (Pre-Sync) output pulse is reaching the radar blanking junction box (Interface) of the EW System by co-ax cable from the available onboard radars. Make sure that the cable is not broken/ physically damaged/ disturbed. Pre-trigger should meet the following as per MIL 751 A:
+                                                        <ul style="margin: 4px 0 0 16px; padding: 0; list-style: disc;">
+                                                            <li>Pulse Amplitude: 6-28 V across 75 ohm load (Positive Polarity)</li>
+                                                            <li>Pre-trigger Delay: 1μsec (minimum) before Actual Transmission pulse</li>
+                                                            <li>Pulse Width: 1 μsec (minimum)</li>
+                                                        </ul>
+                                                    </td>
+                                                    <td>
+                                                        <div class="yes-no-container">
+                                                            <div>
+                                                                <input type="radio" id="intf_2_sat" name="intf_2" value="SAT">
+                                                                <label for="intf_2_sat">SAT</label>
+                                                            </div>
+                                                            <div>
+                                                                <input type="radio" id="intf_2_unsat" name="intf_2" value="UNSAT">
+                                                                <label for="intf_2_unsat">UNSAT</label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="intf_remarks_2" rows="4" placeholder=" "></textarea></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </fieldset>
+
+                                <!-- ══════════════════════════════════════
+                                    (V) Failure in digital cards/ circuit
+                                ══════════════════════════════════════ -->
+                                <fieldset class="custom-fieldset">
+                                    <legend class="legend-custom text-uppercase">(V) Failure in digital cards/ circuit</legend>
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl" id="digital_cards_tbl">
+                                            <thead class="table-dark-head">
+                                                <tr>
+                                                    <th class="serial-no">Ser</th>
+                                                    <th style="text-align: center;">Checks</th>
+                                                    <th style="width:12%;">Status<br><small>(Sat/ unsat)</small></th>
+                                                    <th style="width:22%;">Remarks</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="serial-no">1</td>
+                                                    <td>Check for any loose cables out of its position, PCBs Loosening. If found so, ensure proper tightening of loose cables, fix cables into their positions, insert PCBs firmly into their slot by pressing on the facial panel of the PCBs and tighten the PCB fixing screws softly (only 3 to 4 turns of the screw in the clockwise direction is sufficient). DO NOT over tighten the PCB fixing screws.</td>
+                                                    <td>
+                                                        <div class="yes-no-container">
+                                                            <div>
+                                                                <input type="radio" id="dc_1_sat" name="dc_1" value="SAT">
+                                                                <label for="dc_1_sat">SAT</label>
+                                                            </div>
+                                                            <div>
+                                                                <input type="radio" id="dc_1_unsat" name="dc_1" value="UNSAT">
+                                                                <label for="dc_1_unsat">UNSAT</label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="dc_remarks_1" rows="3" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="serial-no">2</td>
+                                                    <td>
+                                                        Inspect the following, wherever applicable:-
+                                                        <ul style="margin: 4px 0 0 32px; padding: 0; list-style: lower-alpha;">
+                                                            <li>Position of LRU circuit breaker</li>
+                                                            <li>Position of CYDA switch</li>
+                                                            <li>LEDs in ESM rack</li>
+                                                            <li>LEDs on processor LRUs</li>
+                                                        </ul>
+                                                    </td>
+                                                    <td>
+                                                        <div class="yes-no-container">
+                                                            <div>
+                                                                <input type="radio" id="dc_2_sat" name="dc_2" value="SAT">
+                                                                <label for="dc_2_sat">SAT</label>
+                                                            </div>
+                                                            <div>
+                                                                <input type="radio" id="dc_2_unsat" name="dc_2" value="UNSAT">
+                                                                <label for="dc_2_unsat">UNSAT</label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="dc_remarks_2" rows="3" placeholder=" "></textarea></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </fieldset>
+
+                                <!-- ══════════════════════════════════════
+                                    (VI) System checks (Installation, VME address, off-sets)
+                                ══════════════════════════════════════ -->
+                                <fieldset class="custom-fieldset">
+                                    <legend class="legend-custom text-uppercase">(VI) System checks (Installation, VME address, off-sets)</legend>
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl" id="system_checks_tbl">
+                                            <thead class="table-dark-head">
+                                                <tr>
+                                                    <th class="serial-no">Ser</th>
+                                                    <th style="text-align: center;">Checks</th>
+                                                    <th style="width:12%;">Status<br><small>(Sat/ unsat)</small></th>
+                                                    <th style="width:22%;">Remarks</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td colspan="4" class="group-header-cell"><strong>Checks Under System Power Off Condition:</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="serial-no">1</td>
+                                                    <td>Ensure all system units (ESM Rack, Console, DFS Unit, DFA (starboard), DFA (port), C/D Antenna Radome of mast mount units DFA End unit, Front End unit, Isolation transformer and operation console are properly installed as per the installation manual.</td>
+                                                    <td>
+                                                        <div class="yes-no-container">
+                                                            <div>
+                                                                <input type="radio" id="sc_off_1_sat" name="sc_off_1" value="SAT">
+                                                                <label for="sc_off_1_sat">SAT</label>
+                                                            </div>
+                                                            <div>
+                                                                <input type="radio" id="sc_off_1_unsat" name="sc_off_1" value="UNSAT">
+                                                                <label for="sc_off_1_unsat">UNSAT</label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="sc_off_remarks_1" rows="3" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="serial-no">2</td>
+                                                    <td>
+                                                        Ensure all the Antenna Radome of mast mount units DFA (starboard), DFA (port), C/D Antenna and DFS unit, Front End unit, 18-40 RDF units (if installed) are free from dust and foreign deposits/ bodies. These units need to be cleaned with soft damp cloth.
+                                                        <br><strong>CAUTION: DO NOT PAINT RADOMES/ MAST MOUNT UNITS/ CABLES</strong>
+                                                    </td>
+                                                    <td>
+                                                        <div class="yes-no-container">
+                                                            <div>
+                                                                <input type="radio" id="sc_off_2_sat" name="sc_off_2" value="SAT">
+                                                                <label for="sc_off_2_sat">SAT</label>
+                                                            </div>
+                                                            <div>
+                                                                <input type="radio" id="sc_off_2_unsat" name="sc_off_2" value="UNSAT">
+                                                                <label for="sc_off_2_unsat">UNSAT</label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="sc_off_remarks_2" rows="3" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="serial-no">3</td>
+                                                    <td>For the DFS unit, clean the dust and foreign deposits/ bodies using air gun/ vacuum cleaner so that heat dissipation from the DFS unit happens properly.</td>
+                                                    <td>
+                                                        <div class="yes-no-container">
+                                                            <div>
+                                                                <input type="radio" id="sc_off_3_sat" name="sc_off_3" value="SAT">
+                                                                <label for="sc_off_3_sat">SAT</label>
+                                                            </div>
+                                                            <div>
+                                                                <input type="radio" id="sc_off_3_unsat" name="sc_off_3" value="UNSAT">
+                                                                <label for="sc_off_3_unsat">UNSAT</label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="sc_off_remarks_3" rows="2" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="serial-no">4</td>
+                                                    <td>To ensure that the UPS (<em>Installed only for Operation Console</em>) Batteries do not drain or become dry, switch ON the isolation transformer at least for one hour in a month (especially during ship refits), since the isolation transformer 230 V AC output supplies the power to UPS of Operation Console.</td>
+                                                    <td>
+                                                        <div class="yes-no-container">
+                                                            <div>
+                                                                <input type="radio" id="sc_off_4_sat" name="sc_off_4" value="SAT">
+                                                                <label for="sc_off_4_sat">SAT</label>
+                                                            </div>
+                                                            <div>
+                                                                <input type="radio" id="sc_off_4_unsat" name="sc_off_4" value="UNSAT">
+                                                                <label for="sc_off_4_unsat">UNSAT</label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="sc_off_remarks_4" rows="3" placeholder=" "></textarea></td>
+                                                </tr>
+
+                                                <tr>
+                                                    <td colspan="4" class="group-header-cell"><strong>Checks Under System Power On Condition:</strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="serial-no">5</td>
+                                                    <td>
+                                                        Carry out pinging checks (LAN Interconnectivity checks) from the Operation Console/ Computer with the following IP addresses by typing following commands in the command prompt of the Console, wherever applicable:
+                                                        <br><br>
+                                                        <strong>(a)</strong> For WOR connectivity:
+                                                        <br>
+                                                        <span style="font-family: monospace; font-size: 12px;">
+                                                            ping 192.2.1.116 -t for Central PPG-2C0
+                                                            <br>ping 192.2.1.117 -t for TPP-2C17
+                                                            <br>ping 192.2.1.118 -t for PPG-MCM
+                                                            <br>ping 192.2.1.251 -t for TPP2C14
+                                                        </span>
+                                                        <br><br>
+                                                        <strong>(b)</strong> For C/D connectivity:
+                                                        <br>
+                                                        <span style="font-family: monospace; font-size: 12px;">
+                                                            ping 192.2.1.196 -t for PPG Card
+                                                            <br>ping 192.2.1.197 -t for TPP-2E29
+                                                        </span>
+                                                        <br><br>
+                                                        With the above IP addresses, check for proper pinging/ reply. VME switch settings may be verified if pinging is not OK.
+                                                    </td>
+                                                    <td>
+                                                        <div class="yes-no-container">
+                                                            <div>
+                                                                <input type="radio" id="sc_on_5_sat" name="sc_on_5" value="SAT">
+                                                                <label for="sc_on_5_sat">SAT</label>
+                                                            </div>
+                                                            <div>
+                                                                <input type="radio" id="sc_on_5_unsat" name="sc_on_5" value="UNSAT">
+                                                                <label for="sc_on_5_unsat">UNSAT</label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="sc_on_remarks_5" rows="6" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="serial-no">6</td>
+                                                    <td>Ensure all OB Spares are available at all times and are functionally OK.</td>
+                                                    <td>
+                                                        <div class="yes-no-container">
+                                                            <div>
+                                                                <input type="radio" id="sc_on_6_sat" name="sc_on_6" value="SAT">
+                                                                <label for="sc_on_6_sat">SAT</label>
+                                                            </div>
+                                                            <div>
+                                                                <input type="radio" id="sc_on_6_unsat" name="sc_on_6" value="UNSAT">
+                                                                <label for="sc_on_6_unsat">UNSAT</label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="sc_on_remarks_6" rows="1" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="serial-no">7</td>
+                                                    <td>
+                                                        Power ON / maintenance BITE checks
+                                                        <ul style="margin: 4px 0 0 16px; padding: 0; list-style: lower-alpha;">
+                                                            <li>Verification of BITE logs</li>
+                                                            <li>Problems identified in BITE</li>
+                                                            <li>DFS and DFA video levels according to BITE</li>
+                                                        </ul>
+                                                    </td>
+                                                    <td>
+                                                        <div class="yes-no-container">
+                                                            <div>
+                                                                <input type="radio" id="sc_on_7_sat" name="sc_on_7" value="SAT">
+                                                                <label for="sc_on_7_sat">SAT</label>
+                                                            </div>
+                                                            <div>
+                                                                <input type="radio" id="sc_on_7_unsat" name="sc_on_7" value="UNSAT">
+                                                                <label for="sc_on_7_unsat">UNSAT</label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="sc_on_remarks_7" rows="2" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="serial-no">8</td>
+                                                    <td>Display of tracks in console containing frequency parameter, PW &amp; PRI for available emissions in harbour</td>
+                                                    <td>
+                                                        <div class="yes-no-container">
+                                                            <div>
+                                                                <input type="radio" id="sc_on_8_sat" name="sc_on_8" value="SAT">
+                                                                <label for="sc_on_8_sat">SAT</label>
+                                                            </div>
+                                                            <div>
+                                                                <input type="radio" id="sc_on_8_unsat" name="sc_on_8" value="UNSAT">
+                                                                <label for="sc_on_8_unsat">UNSAT</label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="sc_on_remarks_8" rows="2" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="serial-no">9</td>
+                                                    <td>Are threshold level settings in WOR &amp; CAS as per HATs/ SATs document</td>
+                                                    <td>
+                                                        <div class="yes-no-container">
+                                                            <div>
+                                                                <input type="radio" id="sc_on_9_sat" name="sc_on_9" value="SAT">
+                                                                <label for="sc_on_9_sat">SAT</label>
+                                                            </div>
+                                                            <div>
+                                                                <input type="radio" id="sc_on_9_unsat" name="sc_on_9" value="UNSAT">
+                                                                <label for="sc_on_9_unsat">UNSAT</label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="sc_on_remarks_9" rows="1" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="serial-no">10</td>
+                                                    <td>Are attenuation levels in C/D band as per HATs/ SATs document</td>
+                                                    <td>
+                                                        <div class="yes-no-container">
+                                                            <div>
+                                                                <input type="radio" id="sc_on_10_sat" name="sc_on_10" value="SAT">
+                                                                <label for="sc_on_10_sat">SAT</label>
+                                                            </div>
+                                                            <div>
+                                                                <input type="radio" id="sc_on_10_unsat" name="sc_on_10" value="UNSAT">
+                                                                <label for="sc_on_10_unsat">UNSAT</label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="sc_on_remarks_10" rows="1" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="serial-no">11</td>
+                                                    <td>Are offsets in DDT cards appropriate?</td>
+                                                    <td>
+                                                        <div class="yes-no-container">
+                                                            <div>
+                                                                <input type="radio" id="sc_on_11_sat" name="sc_on_11" value="SAT">
+                                                                <label for="sc_on_11_sat">SAT</label>
+                                                            </div>
+                                                            <div>
+                                                                <input type="radio" id="sc_on_11_unsat" name="sc_on_11" value="UNSAT">
+                                                                <label for="sc_on_11_unsat">UNSAT</label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="sc_on_remarks_11" rows="1" placeholder=" "></textarea></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </fieldset>
+
+                                <!-- ══════════════════════════════════════
+                                    (VII) Miscellaneous information (to be sought from ships staff)
+                                ══════════════════════════════════════ -->
+                                <fieldset class="custom-fieldset">
+                                    <legend class="legend-custom text-uppercase">(VII) Miscellaneous information (to be sought from ships staff)</legend>
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl" id="miscellaneous_tbl">
+                                            <thead class="table-dark-head">
+                                                <tr>
+                                                    <th class="serial-no">Ser</th>
+                                                    <th style="text-align: center;">Description</th>
+                                                    <th style="width:35%;">Details / Remarks</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="serial-no">1</td>
+                                                    <td>Average DOA errors and Radar Advantage Factor </td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="misc_remarks_1" rows="2" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="serial-no">2</td>
+                                                    <td>Existing known defects, if any</td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="misc_remarks_2" rows="2" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="serial-no">3</td>
+                                                    <td>Recurring defects, with implication on system performance</td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="misc_remarks_3" rows="2" placeholder=" "></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="serial-no">4</td>
+                                                    <td>Details of critical modules/ sub-assemblies with high failure rate, warranting augmentation in OBS</td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" name="misc_remarks_4" rows="2" placeholder=" "></textarea></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </fieldset>
+                            </fieldset>
+                            <div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Save</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .group-header-cell {
+        background-color: #e9ecef;
+        font-size: 13px;
+        padding: 6px 10px;
+    }
+    .custom_tbl {
+        table-layout: fixed;
+        width: 100%;
+    }
+    .custom_tbl td,
+    .custom_tbl th {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
+    }
+</style>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+
+{% endblock js %}

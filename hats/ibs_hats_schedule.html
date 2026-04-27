@@ -1,0 +1,1463 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">HATs</a></li>
+					<li class="breadcrumb-item active" aria-current="page">IBS HATS SCHEDULE</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">IBS HATS SCHEDULE</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="humsa_ng_mk2_form">
+						{% csrf_token %}
+						<div class="form-body">
+							<fieldset class="custom-fieldset">
+								<div class="row g-3">
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<select class="form-control" name="ship_name" required>
+												<option value="">Select Ship</option>
+												{% for option in ship_options %}
+													<option value="{{ option.value }}">{{ option.label }}</option>
+												{% endfor %}
+											</select>
+											<label class="form_control_1">SHIP <span class="text-danger">*</span></label>
+										</div>
+									</div>
+                                    <div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<select class="form-control" name="department" required>
+												<option value="">Select Dept</option>
+												<option value="ASW">ASW</option>
+												<option value="ND">ND</option>
+												<option value="ELE">ELE</option>
+												<option value="COMMN">COMMN</option>
+											</select>
+											<label class="form_control_1">DEPT <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<input type="text" class="form-control" name="equipment" value="HUMSA NG MK 2">
+											<label class="form_control_1">EQUIPMENT <span class="text-danger">*</span></label>
+										</div>
+									</div>
+                                    <div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<input type="date" class="form-control" name="date" required>
+											<label class="form_control_1">DATE <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<select class="form-control" name="nature_of_trials" required>
+												<option value="">Select Nature of Trials</option>
+												<option value="SATs">SATs</option>
+												<option value="HATs">HATs</option>
+												<option value="OP CHECKS">OP CHECKS</option>
+												<option value="IIs">IIs</option>
+											</select>
+											<label class="form_control_1">NATURE OF TRIALS <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+                                <legend class="legend-custom text-uppercase">Checks</legend>
+								<div class="table-responsive">
+										<table class="custom_tbl" id="checks_table">
+										<thead class="custom-header-row">
+											<tr>
+												<th>TRIAL SER</th>
+												<th>CHECK DESCRIPTION AS PER SCHEDULE</th>
+												<th>RESULT</th>
+												<th>PRESENTING AUTHORITY REMARKS</th>
+											</tr>
+										</thead>
+										<tbody>
+											
+											<tr ><td colspan="4"><strong>Test for Navigational Radar, MFC & IBS Network</strong></td></tr>
+										
+											<tr>
+												<td>1</td>
+												<td>Test setup Verification – Installation Checks</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="3.2_ac_power_supply" name="3.2_ac_power_supply" value="UNSAT">
+                                                            <label>UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="3.2_ac_power_supply_remarks"></textarea></td>
+											</tr>
+
+											<tr>
+												<td>2</td>
+												<td>MFC – Start Up screen</td>
+												<td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="3.3.1_cabinet1" name="3.3.1_cabinet1" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="3.3.1_cabinet1" name="3.3.1_cabinet1" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="3.3.1_cabinet1_remarks"></textarea></td>
+											</tr>
+
+											<tr>
+												<td>3</td>
+												<td>MFC- Multifunction capability</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="3.3.2_cabinet2" name="3.3.2_cabinet2" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="3.3.2_cabinet2" name="3.3.2_cabinet2" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="3.3.2_cabinet2_remarks"></textarea></td>
+											</tr>
+
+											<tr>
+												<td>4</td>
+												<td>Radar-IBS interface checks</td>
+												<td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="3.3.3_cabinet3" name="3.3.3_cabinet3" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="3.3.3_cabinet3" name="3.3.3_cabinet3" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="3.3.3_cabinet3_remarks"></textarea></td>
+											</tr>
+
+											<tr>
+												<td>5</td>
+												<td>Radar test</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="3.3.4_cabinet4" name="3.3.4_cabinet4" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="3.3.4_cabinet4" name="3.3.4_cabinet4" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="3.3.4_cabinet4_remarks"></textarea></td>
+											</tr>
+
+                                            <tr>
+												
+												<td colspan="4"><strong>(Appendix B)</strong></td>
+												
+											</tr>
+
+                                            <tr>
+												<td></td>
+												<td>Pre-Requisites</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="3.3.6_workstation" name="3.3.6_workstation" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="3.3.6_workstation" name="3.3.6_workstation" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="3.3.6_workstation_remarks"></textarea></td>
+											</tr>
+                                            <tr>
+												<td></td>
+												<td>Inst. Inspection and STW completed</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="3.3.7_cabinet7" name="3.3.7_cabinet7" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="3.3.7_cabinet7" name="3.3.7_cabinet7" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="3.3.7_cabinet7_remarks"></textarea></td>
+											</tr>
+
+                                            <tr>
+												<td></td>
+												<td>Compass System available </td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="3.4_anti_condensation_heater" name="3.4_anti_condensation_heater" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="3.4_anti_condensation_heater" name="3.4_anti_condensation_heater" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="3.4_anti_condensation_heater_remarks"></textarea></td>
+											</tr>
+
+                                            <tr>
+												<td></td>
+												<td>Log system available</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="3.6_uwt_system_check" name="3.6_uwt_system_check" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="3.6_uwt_system_check" name="3.6_uwt_system_check" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="3.6_uwt_system_check_remarks"></textarea></td>
+											</tr>
+										
+											<tr>
+												<td></td>
+												<td>Visual Inspection</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="4.2_pcb_module_health" name="4.2_pcb_module_health" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="4.2_pcb_module_health" name="4.2_pcb_module_health" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="4.2_pcb_module_health_remarks"></textarea></td>
+											</tr>
+
+											<tr>
+                                                <td></td>
+												<td>Satisfactory appearance and general condition of all units</td>
+												<td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="4-2_power_amplifier" name="4-2_power_amplifier" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="4-2_power_amplifier" name="4-2_power_amplifier" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="4.2_power_amplifier_remarks"></textarea></td>
+											</tr>
+
+											<tr>
+                                                <td></td>
+												<td>Satisfactory installation of all units</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="4-3_power_amplifier" name="4-3_power_amplifier" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="4-3_power_amplifier" name="4-3_power_amplifier" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="4-3_power_amplifier_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td></td>
+												<td>Turning Unit</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="5.2_self_noise" name="5.2_self_noise" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="5.2_self_noise" name="5.2_self_noise" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="5.2_self_noise_remarks"></textarea></td>
+												
+											</tr>
+
+											<tr>
+                                                <td></td>
+												<td>Rotation clockwise Rotation rate correct</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="5.2_self_noise_5-1_active" name="5.2_self_noise_5-1_active" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="5.2_self_noise_5-1_active" name="5.2_self_noise_5-1_active" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="5.2_self_noise_5-1_active_remarks"></textarea></td>
+											</tr>
+
+                                            <tr>
+												<td></td>
+												<td>Display Checks</td>
+												<td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="5.2_self_noise_5-2_passive" name="5.2_self_noise_5-2_passive" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="5.2_self_noise_5-2_passive" name="5.2_self_noise_5-2_passive" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="5.2_self_noise_5-2_passive_remarks"></textarea></td>
+											</tr>
+
+                                            <tr>
+												<td></td>
+												<td>Transmit within 4 minutes</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="5.3_frequency_response" name="5.3_frequency_response" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="5.3_frequency_response" name="5.3_frequency_response" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="5.3_frequency_response_remarks"></textarea></td>
+												
+											</tr>
+
+											<tr>
+                                                <td></td>
+												<td>Record system software</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="5.3_active_frequency" name="5.3_active_frequency" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="5.3_active_frequency" name="5.3_active_frequency" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="5.3_active_frequency_remarks"></textarea></td>
+											</tr>
+
+                                            <tr>
+												<td></td>
+												<td>Transceiver tuned for optimum ,AFC picture not degraded</td>
+												<td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="5.3_passive_frequency" name="5.3_passive_frequency" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="5.3_passive_frequency" name="5.3_passive_frequency" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="5.3_passive_frequency_remarks"></textarea></td>
+											</tr>
+
+                                            <tr>
+												<td></td>
+												<td>Gain Control,SEA, RAIN,Auto</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="5.4_agc_check_passive" name="5.4_agc_check_passive" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="5.4_agc_check_passive" name="5.4_agc_check_passive" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="5.4_dynamic_range_remarks"></textarea></td>
+											</tr>
+                                            <tr>
+												<td></td>
+												<td>GPS Input Checks</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="5.4.1_active_agc_checks" name="5.4.1_active_agc_checks" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="5.4.1_active_agc_checks" name="5.4.1_active_agc_checks" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="5.4.1_agc_remarks"></textarea></td>
+											</tr>
+
+                                            <tr>
+												<td></td>
+												<td>Live Radar Demonstrartion</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="5.4.1.1_active_agc_checks" name="5.4.1.1_active_agc_checks" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="5.4.1.1_active_agc_checks" name="5.4.1.1_active_agc_checks" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="5.4.1.1_active_agc_checks_remarks"></textarea></td>
+											</tr>
+
+                                            <tr>
+												<td></td>
+												<td> ECDIS- Screen presentation option</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="5.4.1.2_agc_check_passive" name="5.4.1.2_agc_check_passive" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="5.4.1.2_agc_check_passive" name="5.4.1.2_agc_check_passive" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="5.4.1.2_agc_check_passive_remarks"></textarea></td>
+											</tr>
+
+                                            <tr>
+												<td></td>
+												<td>ECDIS/ Radar –Route Creation</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="5.5_phase_measurement" name="5.5_phase_measurement" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="5.5_phase_measurement" name="5.5_phase_measurement" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="5.5_phase_measurement_remarks"></textarea></td>
+											</tr>
+
+                                            <tr>
+												<td></td>
+												<td>ECDIS-Radar overlay</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="5.5.1_phase_measurement_active" name="5.5.1_phase_measurement_active" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="5.5.1_phase_measurement_active" name="5.5.1_phase_measurement_active" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="5.5.1_phase_measurement_active_remarks"></textarea></td>
+											</tr>
+
+                                            <tr>
+												<td></td>
+												<td>MFC- Conning information display Mode</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="5.5.2_phase_measurement_passive" name="5.5.2_phase_measurement_passive" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="5.5.2_phase_measurement_passive" name="5.5.2_phase_measurement_passive" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="5.5.2_phase_measurement_passive_remarks"></textarea></td>
+											</tr>
+
+                                            
+                                            <tr>
+												<td></td>
+												<td>Checking Sensor failure at RSIU/ Hardwiring checks of MFC</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="6.2_active_transmission_parameters" name="6.2_active_transmission_parameters" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="6.2_active_transmission_parameters" name="6.2_active_transmission_parameters" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="6.2_active_transmission_parameters_remarks"></textarea></td>
+											</tr>
+                                            <tr>
+												<td></td>
+												<td>Network Architecture</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="6.4_power_amplifier_output_checks" name="6.4_power_amplifier_output_checks" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="6.4_power_amplifier_output_checks" name="6.4_power_amplifier_output_checks" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="6.4_power_amplifier_output_checks_remarks"></textarea></td>
+											</tr>
+                                            <tr>
+												<td></td>
+												<td>Redundancy of Network failure at MFC level</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="6.4_table_6_2" name="6.4_table_6_2" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="6.4_table_6_2" name="6.4_table_6_2" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="6.4_table_6_2_remarks"></textarea></td>
+											</tr>
+                                            <tr>
+												<td></td>
+												<td>Redundancy of Network failure at RSIU level</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="6.4_table_6_3" name="6.4_table_6_3" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="6.4_table_6_3" name="6.4_table_6_3" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="6.4_table_6_3_remarks"></textarea></td>
+											</tr>
+                                            <tr>
+												<td></td>
+												<td>Redundancy of Netwok failure at Switch level</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="7.2_active_range_bearing" name="7.2_active_range_bearing" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="7.2_active_range_bearing" name="7.2_active_range_bearing" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="7.2_active_range_bearing_remarks"></textarea></td>
+											</tr>
+                                            <tr>
+												<td></td>
+												<td>Power failure of IBS Network switches</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="7.3_doppler_measurements" name="7.3_doppler_measurements" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="7.3_doppler_measurements" name="7.3_doppler_measurements" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="7.3_doppler_measurements_remarks"></textarea></td>
+											</tr>
+                                           
+                                            <tr>
+												<td></td>
+												<td>Checking failure of Sensor Integrator(PCIO) at RSIU</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="7.4.1_range_bearing_accuracy" name="7.4.1_range_bearing_accuracy" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="7.4.1_range_bearing_accuracy" name="7.4.1_range_bearing_accuracy" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="7.4.1_range_bearing_accuracy_remarks"></textarea></td>
+											</tr>
+
+                                            <tr>
+												<td></td>
+												<td>MFD-Display of MET & Astro page</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="7.5_bi_static_mode" name="7.5_bi_static_mode" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="7.5_bi_static_mode" name="7.5_bi_static_mode" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="7.5_bi_static_mode_remarks"></textarea></td>
+											</tr>
+
+                                            
+
+                                            <tr>
+												<td></td>
+												<td>Display of Navigational Data page</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="8.2.1_bearing_accuracy" name="8.2.1_bearing_accuracy" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="8.2.1_bearing_accuracy" name="8.2.1_bearing_accuracy" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="8.2.1_bearing_accuracy_remarks"></textarea></td>
+											</tr>
+
+                                            <tr>
+												<td></td>
+												<td>MFD- Display Machinary status page</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="8.2.2_bearing_frequency_accuracy" name="8.2.2_bearing_frequency_accuracy" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="8.2.2_bearing_frequency_accuracy" name="8.2.2_bearing_frequency_accuracy" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="8.2.2_bearing_frequency_accuracy_remarks"></textarea></td>
+											</tr>
+
+                                            <tr>
+												<td></td>
+												<td>Verify the display of magnetic heading data on Repeaters</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="8.3_spectrum_information_processor" name="8.3_spectrum_information_processor" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="8.3_spectrum_information_processor" name="8.3_spectrum_information_processor" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="8.3_spectrum_information_processor_remarks"></textarea></td>
+											</tr>
+
+                                            <tr>
+												<td ></td>
+												<td>Validation of TMC Output</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="8.3.1_frequency_checks" name="8.3.1_frequency_checks" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="8.3.1_frequency_checks" name="8.3.1_frequency_checks" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="8.3.1_frequency_checks_remarks"></textarea></td>
+											</tr>
+
+                                            <tr>
+                                                <td></td>
+												<td>DGPS- Basic Start up</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="8.3.2_frequency_checks" name="8.3.2_frequency_checks" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="8.3.2_frequency_checks" name="8.3.2_frequency_checks" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="8.3.2_frequency_checks_remarks"></textarea></td>
+											</tr>
+
+                                            <tr>
+												<td></td>
+												<td>DGPS-Display mode</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="8.4_audio_processor" name="8.4_audio_processor" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="8.4_audio_processor" name="8.4_audio_processor" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="8.4_audio_processor_remarks"></textarea></td>
+											</tr>
+
+                                            <tr>
+												<td></td>
+												<td>Checking of DGPS failure on MFC</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="8.4.1_bearing_discrimination" name="8.4.1_bearing_discrimination" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="8.4.1_bearing_discrimination" name="8.4.1_bearing_discrimination" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="8.4.1_bearing_discrimination_remarks"></textarea></td>
+											</tr>
+                                            <tr>
+												<td></td>
+												<td>NMEA splitter Redundancy Check for DGPS data</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="8.5_torpedo_detection" name="8.5_torpedo_detection" value="SAT">
+                                                            <label >SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="8.5_torpedo_detection" name="8.5_torpedo_detection" value="UNSAT">
+                                                            <label >UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="8.5_torpedo_detection_remarks"></textarea></td>
+											</tr>
+                                            
+
+                                            <tr>
+                                                <td></td>
+												<td>Validation of DGPS Output to ship system</td>
+												
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="SAT">
+                                                            <label>SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="UNSAT">
+                                                            <label>UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="14_uwacs_system_checks_remarks"></textarea></td>
+											</tr>
+
+                                             <tr>
+                                                <td></td>
+												<td>Verification of Main Operating Screens</td>
+												
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="SAT">
+                                                            <label>SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="UNSAT">
+                                                            <label>UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="14_uwacs_system_checks_remarks"></textarea></td>
+											</tr>
+                                             <tr>
+                                                <td></td>
+												<td>Verification of functionality of Target list screen</td>
+												
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="SAT">
+                                                            <label>SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="UNSAT">
+                                                            <label>UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="14_uwacs_system_checks_remarks"></textarea></td>
+											</tr>
+                                             <tr>
+                                                <td></td>
+												<td>Verification of Alarm status of External interface</td>
+												
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="SAT">
+                                                            <label>SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="UNSAT">
+                                                            <label>UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="14_uwacs_system_checks_remarks"></textarea></td>
+											</tr>
+                                             <tr>
+                                                <td></td>
+												<td>Checking of AIS Failure on MFC</td>
+												
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="SAT">
+                                                            <label>SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="UNSAT">
+                                                            <label>UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="14_uwacs_system_checks_remarks"></textarea></td>
+											</tr>
+                                             <tr>
+                                                <td></td>
+												<td>Verify the availability of Sensor Information</td>
+												
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="SAT">
+                                                            <label>SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="UNSAT">
+                                                            <label>UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="14_uwacs_system_checks_remarks"></textarea></td>
+											</tr>
+                                             <tr>
+                                                <td></td>
+												<td>Verify the Display of LOP(lines of position)</td>
+												
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="SAT">
+                                                            <label>SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="UNSAT">
+                                                            <label>UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="14_uwacs_system_checks_remarks"></textarea></td>
+											</tr>
+                                             <tr>
+                                                <td></td>
+												<td>Verify the recording of data</td>
+												
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="SAT">
+                                                            <label>SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="UNSAT">
+                                                            <label>UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="14_uwacs_system_checks_remarks"></textarea></td>
+											</tr>
+                                             <tr>
+                                                <td></td>
+												<td>Verify the Generation of Error status-BITE</td>
+												
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="SAT">
+                                                            <label>SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="UNSAT">
+                                                            <label>UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="14_uwacs_system_checks_remarks"></textarea></td>
+											</tr>
+                                             <tr>
+                                                <td></td>
+												<td>Testing of ICC for chair Functionality</td>
+												
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="SAT">
+                                                            <label>SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="UNSAT">
+                                                            <label>UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="14_uwacs_system_checks_remarks"></textarea></td>
+											</tr>
+                                             <tr>
+                                                <td></td>
+												<td>Display of weather data on MFCR and IBS units</td>
+												
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="SAT">
+                                                            <label>SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="UNSAT">
+                                                            <label>UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="14_uwacs_system_checks_remarks"></textarea></td>
+											</tr>
+                                             <tr>
+                                                <td></td>
+												<td>AWOS-Bite</td>
+												
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="SAT">
+                                                            <label>SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="UNSAT">
+                                                            <label>UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="14_uwacs_system_checks_remarks"></textarea></td>
+											</tr>
+                                             <tr>
+                                                <td></td>
+												<td>Display of cloud information on Data Logger from Ceilometer</td>
+												
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="SAT">
+                                                            <label>SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="UNSAT">
+                                                            <label>UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="14_uwacs_system_checks_remarks"></textarea></td>
+											</tr>
+                                             <tr>
+                                                <td></td>
+												<td>UPS Checks for 30 minutes backup</td>
+												
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="SAT">
+                                                            <label>SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="UNSAT">
+                                                            <label>UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="14_uwacs_system_checks_remarks"></textarea></td>
+											</tr>
+
+                                            <tr>
+                                                <td></td>
+												<td>To Check Trial Manoeuvre Functionality</td>
+												
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="SAT">
+                                                            <label>SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="UNSAT">
+                                                            <label>UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="14_uwacs_system_checks_remarks"></textarea></td>
+											</tr>
+
+                                            <tr>
+                                                <td></td>
+												<td>POU Test</td>
+												
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="SAT">
+                                                            <label>SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="UNSAT">
+                                                            <label>UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="14_uwacs_system_checks_remarks"></textarea></td>
+											</tr>
+                                            <tr>
+                                                <td></td>
+												<td>PDU Test</td>
+												
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="SAT">
+                                                            <label>SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="UNSAT">
+                                                            <label>UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="14_uwacs_system_checks_remarks"></textarea></td>
+											</tr>
+                                            <tr>
+                                                <td></td>
+												<td>ECDIS ONPORTABLE LAPTOP</td>
+												
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="SAT">
+                                                            <label>SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="UNSAT">
+                                                            <label>UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="14_uwacs_system_checks_remarks"></textarea></td>
+											</tr>
+                                            <tr>
+                                                <td></td>
+												<td>Combiner Functionality Check</td>
+												
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="SAT">
+                                                            <label>SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="UNSAT">
+                                                            <label>UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="14_uwacs_system_checks_remarks"></textarea></td>
+											</tr>
+                                            <tr>
+                                                <td></td>
+												<td>Testing of Printer Functionality</td>
+												
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="SAT">
+                                                            <label>SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="UNSAT">
+                                                            <label>UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="14_uwacs_system_checks_remarks"></textarea></td>
+											</tr>
+                                            <tr>
+                                                <td></td>
+												<td>MFC- Time Synchronisation with external Time Server</td>
+												
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="SAT">
+                                                            <label>SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="UNSAT">
+                                                            <label>UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="14_uwacs_system_checks_remarks"></textarea></td>
+											</tr>
+                                            <tr>
+                                                <td></td>
+												<td>MFC & MFD-CCTV Display on Conning Page</td>
+												
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="SAT">
+                                                            <label>SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="UNSAT">
+                                                            <label>UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="14_uwacs_system_checks_remarks"></textarea></td>
+											</tr>
+                                            <tr>
+                                                <td></td>
+												<td>Radar Interface Checks with CMS</td>
+												
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="SAT">
+                                                            <label>SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="UNSAT">
+                                                            <label>UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="14_uwacs_system_checks_remarks"></textarea></td>
+											</tr>
+                                            <tr>
+                                                <td></td>
+												<td>To Check Loading OF MFC Processors</td>
+												
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="SAT">
+                                                            <label>SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="UNSAT">
+                                                            <label>UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="14_uwacs_system_checks_remarks"></textarea></td>
+											</tr>
+                                            <tr>
+                                                <td></td>
+												<td>Test for DDU for RLG</td>
+												
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="SAT">
+                                                            <label>SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="UNSAT">
+                                                            <label>UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="14_uwacs_system_checks_remarks"></textarea></td>
+											</tr>
+                                            <tr>
+                                                <td></td>
+												<td>Test for EM LOG v3(Kelton)</td>
+												
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="SAT">
+                                                            <label>SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="UNSAT">
+                                                            <label>UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="14_uwacs_system_checks_remarks"></textarea></td>
+											</tr>
+                                            <tr>
+                                                <td></td>
+												<td>Test for EM Log RTU (Kelton)</td>
+												
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="SAT">
+                                                            <label>SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="UNSAT">
+                                                            <label>UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="14_uwacs_system_checks_remarks"></textarea></td>
+											</tr>
+                                            <tr>
+                                                <td></td>
+												<td>Test for Echo Sounder (Kelton)</td>
+												
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="SAT">
+                                                            <label>SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="UNSAT">
+                                                            <label>UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="14_uwacs_system_checks_remarks"></textarea></td>
+											</tr>
+                                            <tr>
+                                                <td></td>
+												<td>Test for INSSA(BEL)</td>
+												
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="SAT">
+                                                            <label>SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio"  name="14_uwacs_system_checks" value="UNSAT">
+                                                            <label>UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>												
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="14_uwacs_system_checks_remarks"></textarea></td>
+											</tr>
+                                            
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+                            <fieldset class="custom-fieldset mt-4">
+                                <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                                <div class="row g-3 mb-3">
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" id="ibs_hats_schedule_presenting_authority" name="ibs_hats_schedule_presenting_authority" required>
+                                                <option value="">--Select--</option>
+                                                <option value="dockyard">Dockyard</option>
+                                                <option value="shipstaff">Shipstaff</option>
+                                                <option value="oem">OEM</option>
+                                            </select>
+                                            <label class="form_control_1" for="ibs_hats_schedule_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" id="ibs_hats_schedule_watt_1_name" name="ibs_hats_schedule_watt_1_name">
+                                            <label class="form_control_1">WATT(1)</label>
+                                        </div>
+                                    </div>
+
+                                    <!-- WATT 2 -->
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" id="ibs_hats_schedule_watt_2_name" name="ibs_hats_schedule_watt_2_name">
+                                            <label class="form_control_1">WATT(2)</label>
+                                        </div>
+                                    </div>
+
+                                    <!-- WATT 3 -->
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" id="ibs_hats_schedule_watt_3_name" name="ibs_hats_schedule_watt_3_name">
+                                            <label class="form_control_1">WATT(3)</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="ibs_hats_schedule_remarks_table">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th>REMARKS TO BE GIVEN</th>
+                                                <th>WBA - WILL BE AMENDED</th>
+                                                <th>WBD - WILL BE DONE</th>
+                                                <th>WOW - WILL OBTAIN WAIVER</th>
+                                                <th>COM - COMPLETED</th>
+                                                <th>N/O - NOT OFFERED</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="ibs_hats_schedule_remarks_main"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="ibs_hats_schedule_wba"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="ibs_hats_schedule_wbd"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="ibs_hats_schedule_wow"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="ibs_hats_schedule_com"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="ibs_hats_schedule_no"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>OIC</strong></td>
+                                                <td><strong>CDR TRIALS</strong></td>
+                                                <td><strong>STO (G)</strong></td>
+                                                <td><strong>STO (L)</strong></td>
+                                                <td colspan="2"><strong>TO (L)</strong></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                           
+							<div class="form-actions mt-3">
+								<button type="submit" class="btn btn-primary">Submit</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

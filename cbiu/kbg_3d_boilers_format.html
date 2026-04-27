@@ -1,0 +1,166 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid bg-transparent">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+                    <li class="breadcrumb-item"><a href="#">CBIU</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">KBG-3D Boilers Format</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title bg-light">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold text-uppercase">BASIN TRIALS AND HATs FORMAT - KBG-3D BOILERS
+                            - INS VIKRAMADITYA</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="kbg_3d_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">Report Details</legend>
+
+                                <div class="row g-3 mb-3">
+                                    <div class="col-md-3">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="date" name="trial_date" class="form-control" required>
+                                            <label class="form_control_1">DATE</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="text" name="draught_fwd" class="form-control" placeholder=" ">
+                                            <label class="form_control_1">Ships Draught: FWD</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="text" name="draught_aft" class="form-control" placeholder=" ">
+                                            <label class="form_control_1">Ships Draught:AFT</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="text" name="displacement" class="form-control" placeholder=" ">
+                                            <label class="form_control_1">Ship's Displacement</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive">
+                                    <table class="custom_tbl table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th rowspan="2" class="text-center" style="width: 50px;">BOILER</th>
+                                                <th rowspan="2" class="text-center">LOAD (%)</th>
+                                                <th rowspan="2" class="text-center">Regime (Low/ High)</th>
+                                                <th rowspan="2" class="text-center">Boiler Protection (ON/ OFF)</th>
+                                                <th rowspan="2" class="text-center">Burners In Operation (1,2,3,4 & 5)
+                                                </th>
+                                                <th rowspan="2" class="text-center">Regulator (Auto/ Remote) (WLR/ SPR/
+                                                    AFRR/ FPR/ FPDR)</th>
+                                                <th colspan="2" class="text-center">MTGA 1 (SRPM)</th>
+                                                <th colspan="2" class="text-center">MTGA 2 (SRPM)</th>
+                                                <th colspan="2" class="text-center">MTGA 3 (SRPM)</th>
+                                                <th colspan="2" class="text-center">MTGA 4 (SRPM)</th>
+                                                <th rowspan="2" class="text-center">Remarks</th>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-center">Ahead</th>
+                                                <th class="text-center">Astern</th>
+                                                <th class="text-center">Ahead</th>
+                                                <th class="text-center">Astern</th>
+                                                <th class="text-center">Ahead</th>
+                                                <th class="text-center">Astern</th>
+                                                <th class="text-center">Ahead</th>
+                                                <th class="text-center">Astern</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for i in "12345678"|make_list %}
+                                            <tr>
+                                                <td class="text-center fw-bold">{{ i }}</td>
+                                                <td><input type="text" name="load_{{ i }}"
+                                                        class="form-control text-center px-1"></td>
+                                                <td>
+                                                    <select name="regime_{{ i }}" class="form-control">
+                                                        <option value="">--Select--</option>
+                                                        <option value="Low">Low</option>
+                                                        <option value="High">High</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <select name="protection_{{ i }}" class="form-control">
+                                                        <option value="">--Select--</option>
+                                                        <option value="ON">ON</option>
+                                                        <option value="OFF">OFF</option>
+                                                    </select>
+                                                </td>
+                                                <td><input type="text" name="burners_{{ i }}" class="form-control px-1"
+                                                        placeholder="1...5"></td>
+                                                <td><input type="text" name="regulator_{{ i }}"
+                                                        class="form-control px-1" placeholder="WLR..."></td>
+                                                <td><input type="text" name="mtga1_ahead_{{ i }}"
+                                                        class="form-control text-center px-1"></td>
+                                                <td><input type="text" name="mtga1_astern_{{ i }}"
+                                                        class="form-control text-center px-1"></td>
+                                                <td><input type="text" name="mtga2_ahead_{{ i }}"
+                                                        class="form-control text-center px-1"></td>
+                                                <td><input type="text" name="mtga2_astern_{{ i }}"
+                                                        class="form-control text-center px-1"></td>
+                                                <td><input type="text" name="mtga3_ahead_{{ i }}"
+                                                        class="form-control text-center px-1"></td>
+                                                <td><input type="text" name="mtga3_astern_{{ i }}"
+                                                        class="form-control text-center px-1"></td>
+                                                <td><input type="text" name="mtga4_ahead_{{ i }}"
+                                                        class="form-control text-center px-1"></td>
+                                                <td><input type="text" name="mtga4_astern_{{ i }}"
+                                                        class="form-control text-center px-1"></td>
+                                                <td><textarea name="remarks_{{ i }}" class="form-control"
+                                                        rows="1"></textarea></td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <div class="mt-4">
+                                    <label class="fw-bold">CBIU REMARKS (NOT EDITABLE BY SHIP)</label>
+                                    <textarea name="cbiu_remarks" class="form-control" rows="3"
+                                        placeholder="Remarks area for CBIU personnel..."></textarea>
+                                </div>
+                            </fieldset>
+
+                            <div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Submit</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/trial_common.js' %}"></script>
+{% endblock js %}

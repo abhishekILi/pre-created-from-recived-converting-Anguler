@@ -1,0 +1,695 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+                    <li class="breadcrumb-item" aria-current="page">FTTT</li>
+                    <li class="breadcrumb-item active" aria-current="page">Fregat M2EM Parameter Checks - P17</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>  
+<div class="container-fluid" style="background-color: transparent;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <!-- <i class="icon-plus font-green"></i> -->
+                        <span class="caption-subject bold">Fregat M2EM Parameter Checks - P17</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-4 mb-4">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-body">
+                             <fieldset class="custom-fieldset">
+                                    <legend class="legend-custom text-uppercase">BASIC INFORMATION</legend>
+                                    <div class="row g-3">
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="system_sub_system" value="RADAR FREGAT M2EM" placeholder=" " readonly>
+                                                <label class="form_control_1">1. System/ Sub system</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="job_undertaken" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">2. Job Undertaken</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <!-- <textarea class="form-control wrstg-scroll-textarea" name="reference_documents" rows="2" placeholder=" "></textarea> -->
+                                                 <input type="file" class ="form-control" name="reference_documents">
+                                                <label class="form_control_1">3. Reference Documents</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="authority" placeholder=" ">
+                                                <label class="form_control_1">4. Authority</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="agencies_involved" value="FTTT(Vzg)" placeholder=" " readonly>
+                                                <label class="form_control_1">5. Agencies involved</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="date" class="form-control" name="date_commenced">
+                                                <label class="form_control_1">6. Date Commenced</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="date" class="form-control" name="date_completed">
+                                                <label class="form_control_1">7. Date Completed</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="prepared_by" placeholder=" ">
+                                                <label class="form_control_1">8. Prepared by</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="vetted_by" placeholder=" ">
+                                                <label class="form_control_1">9. Vetted by</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="reference_no" placeholder=" ">
+                                                <label class="form_control_1">10. Reference No.</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="summary_of_observations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">11. Summary of observations</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="operational_limitations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">12. Operational limitations (if any)</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </fieldset>
+                                     
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom">13. VSWR & Noise figure</legend>
+
+                                <div class="table-responsive mt-3">
+                                    <table class="custom_tbl">
+                                        <thead>
+                                            <tr>
+                                                <th rowspan="3" style="text-align:center;">Beam No.</th>
+                                                <th colspan="4" style="text-align:center;">CHANNEL - I</th>
+                                                <th colspan="4" style="text-align:center;">CHANNEL - II</th>
+                                            </tr>
+
+                                            <tr>
+                                                <th colspan="2" style="text-align:center; vertical-align:bottom;" >VSWR<br>( Specified Limit &lt; 3.5)
+                                                      <div   >a.</div>
+                                                </th>
+                                                        <th colspan="2" style="text-align:center; vertical-align:bottom;">
+                                                            Noise Figure<br>
+                                                            (Specified Limit Freq. 1-8 &lt; 4 & Freq. 9-31 &lt; 6)
+                                                            <div   >b.</div>
+                                                        </th>
+
+                                                <th colspan="2" style="text-align:center; vertical-align:bottom;">VSWR<br>( Specified Limit &lt; 3)
+                                                      <div   >c.</div>
+                                                </th>
+                                                <th colspan="3" style="text-align:center; vertical-align:bottom;">Noise Figure<br>( Specified Limit Freq. 1-8 &lt; 4 & Freq. 9-31 &lt; 6)
+                                                      <div   >d.</div>
+                                                </th>
+                                               
+                                            </tr>
+
+                                            <tr>
+                                                <th style="text-align:center;">Last Measured Value </th>
+                                                <th style="text-align:center;">Present Value</th>
+                                                <th style="text-align:center;">Last Measured Value</th>
+                                                <th style="text-align:center;">Present Value</th>
+                                                <th style="text-align:center;">Last Measured Value</th>
+                                                <th style="text-align:center;">Present Value</th>
+                                                <th style="text-align:center;">Last Measured Value</th>
+                                                <th style="text-align:center;">Present Value</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            {% for i in "1234567890123456789012345678901" %}
+                                            <tr>
+                                                <td>{{ forloop.counter }}</td>
+
+                                                <!-- CH1 -->
+                                                <td><input type="text" class="form-control" name="ch1_vswr_last_{{ forloop.counter }}"></td>
+                                                <td><input type="text" class="form-control" name="ch1_vswr_present_{{ forloop.counter }}"></td>
+
+                                                <td><input type="text" class="form-control" name="ch1_nf_last_{{ forloop.counter }}"></td>
+                                                <td><input type="text" class="form-control" name="ch1_nf_present_{{ forloop.counter }}"></td>
+
+                                                <!-- CH2 -->
+                                                <td><input type="text" class="form-control" name="ch2_vswr_last_{{ forloop.counter }}"></td>
+                                                <td><input type="text" class="form-control" name="ch2_vswr_present_{{ forloop.counter }}"></td>
+
+                                                <td><input type="text" class="form-control" name="ch2_nf_last_{{ forloop.counter }}"></td>
+                                                <td><input type="text" class="form-control" name="ch2_nf_present_{{ forloop.counter }}"></td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                    
+                                <fieldset class="custom-fieldset">
+                                    <legend class="legend-custom text-uppercase"> Test Equipment Used</legend>
+
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl" id="test_equipment_tbl_1">
+                                            <thead class="table-dark-head">
+                                                <tr>
+                                                    <th class="serial-no" style="text-align:center;">Ser</th>
+                                                    <th style="text-align:center;">Test Equipment Used<br><small>a.</small></th>
+                                                    <th style="width:35%; text-align:center;">Checks Undertaken<br><small>b.</small></th>
+                                                    <th class="action" style="text-align:center;">ACTION</th>
+                                        
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="serial-no">1</td>
+                                                    <td><input type="text" class="form-control" data-base-name="te_equipment" placeholder=" "></td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="te_checks" rows="1" placeholder=" "></textarea></td>
+                                                    <td class="action action-cell-holder">
+                                                    <div class="action-controls">
+                                                        <button type="button" class="btn-round btn-add" onclick="addRow('test_equipment_tbl_1')">+</button>
+                                                        <button type="button" class="btn-round btn-remove" onclick="removeRow('test_equipment_tbl_1')">-</button>
+                                                    </div>
+                                                </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </fieldset>
+                            </fieldset>
+                            <fieldset class="custom-fieldset">
+                                        <legend class="legend-custom">14. Pulse width - Measured values as tabulated below:-</legend>
+
+                                        <div class="table-responsive">
+                                            <table class="custom_tbl">
+                                                <thead>
+                                                    <tr>
+                                                        <th rowspan="3" style="text-align:center;">Ser</th>
+                                                        <th rowspan="3" style="text-align:center;">Pulse Type <br>a.</th>
+                                                        <th rowspan="3" style="text-align:center;">Specified Value <br>b.</th>
+
+                                                        <th colspan="2" style="text-align:center; vertical-align:bottom;">Pulse Width (µs)<br>Channel - I<br>c. </th>
+                                                        <th colspan="2" style="text-align:center; vertical-align:bottom;">Pulse Width (µs)<br>Channel - II <br>d.</th>
+                                                    </tr>
+                                        
+                                                    <tr>
+                                                        <th style="text-align:center;">Last Measured Value </th>
+                                                        <th style="text-align:center;">Present Value</th>
+                                                        <th style="text-align:center;">Last Measure Value</th>
+                                                        <th style="text-align:center;">Present Value</th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    <tr>
+                                                        <td>1</td>
+                                                        <td>Short</td>
+                                                        <td>20 ± 2 µs</td>
+
+                                                        <td><input type="text" class="form-control" name="pw_ch1_last_1"></td>
+                                                        <td><input type="text" class="form-control" name="pw_ch1_present_1"></td>
+
+                                                        <td><input type="text" class="form-control" name="pw_ch2_last_1"></td>
+                                                        <td><input type="text" class="form-control" name="pw_ch2_present_1"></td>
+                                                    </tr>
+
+                                                    <tr>
+                                                        <td>2</td>
+                                                        <td>Long</td>
+                                                        <td>60 ± 4 µs</td>
+
+                                                        <td><input type="text" class="form-control" name="pw_ch1_last_2"></td>
+                                                        <td><input type="text" class="form-control" name="pw_ch1_present_2"></td>
+
+                                                        <td><input type="text" class="form-control" name="pw_ch2_last_2"></td>
+                                                        <td><input type="text" class="form-control" name="pw_ch2_present_2"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                <fieldset class="custom-fieldset">
+                                    <legend class="legend-custom text-uppercase"> Test Equipment Used</legend>
+
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl" id="test_equipment_tbl_2">
+                                            <thead class="table-dark-head">
+                                                <tr>
+                                                    <th class="serial-no" style="text-align:center;">Ser</th>
+                                                    <th style="text-align:center;">Test Equipment Used<br><small>a.</small></th>
+                                                    <th style="width:35%; text-align:center;">Checks Undertaken<br><small>b.</small></th>
+                                                    <th class="action" style="text-align:center;">ACTION</th>
+                                        
+                                                </tr>
+                                              </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="serial-no">1</td>
+                                                    <td><input type="text" class="form-control" data-base-name="te_equipment" placeholder=" "></td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="te_checks" rows="1" placeholder=" "></textarea></td>
+                                                    
+                                                    <td class="action action-cell-holder">
+													<div class="action-controls">
+                                                        <button type="button" class="btn-round btn-add" onclick="addRow('test_equipment_tbl_2')">+</button>
+                                                        <button type="button" class="btn-round btn-remove" onclick="removeRow('test_equipment_tbl_2')">-</button>
+                                                    </div>
+														<button type="button" class="btn-round btn-add" onclick="addRow('failure_basic_data_tbl')" title="Add Row">+</button>
+														<button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'failure_basic_data_tbl')" title="Remove Row">-</button>
+													</div>
+												</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </fieldset>
+                            </fieldset>
+
+                                    
+                             
+                                  
+                            <fieldset class="custom-fieldset">
+                                            <legend class="legend-custom">15. Pulse repetition time - Measured values as tabulated below:-</legend>
+
+                                            <div class="table-responsive">
+                                                <table class="custom_tbl">
+                                                    <thead>
+                                                        <tr>
+                                                            <th rowspan="3" style="text-align:center;">Ser</th>
+                                                            <th rowspan="3" style="text-align:center;">Pulse Type <br>a.</th>
+                                                            <th rowspan="3" style="text-align:center;">Specified Value<br>b</th>
+                                                            <th colspan="2" style="text-align:center;">PRT Channel - I <br>c.</th>
+                                                            <th colspan="2" style="text-align:center;">PRT Channel - II <br>d.</th>
+                                                        </tr>
+                                                        
+                                                        <tr>
+                                                            <th style="text-align:center;">Last Measured Value</th>
+                                                            <th style="text-align:center;">Present Value</th>
+                                                            <th style="text-align:center;">Last Meaured Value</th>
+                                                            <th style="text-align:center;">Present Value</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                        <tr><td>1</td><td>Long</td><td>2.42 ms</td>
+                                                            <td><input type="text" name="prt1_ch1_last" class="form-control"></td>
+                                                            <td><input type="text" name="prt1_ch1_present" class="form-control"></td>
+                                                            <td><input type="text" name="prt1_ch2_last" class="form-control"></td>
+                                                            <td><input type="text" name="prt1_ch2_present" class="form-control"></td>
+                                                        </tr>
+
+                                                        <tr><td>2</td><td>Short</td><td>800 µs</td>
+                                                            <td><input type="text" name="prt2_ch1_last" class="form-control"></td>
+                                                            <td><input type="text" name="prt2_ch1_present" class="form-control"></td>
+                                                            <td><input type="text" name="prt2_ch2_last" class="form-control"></td>
+                                                            <td><input type="text" name="prt2_ch2_present" class="form-control"></td>
+                                                        </tr>
+
+                                                        <tr><td>3</td><td>Short</td><td>750 µs</td>
+                                                            <td><input type="text" name="prt3_ch1_last" class="form-control"></td>
+                                                            <td><input type="text" name="prt3_ch1_present" class="form-control"></td>
+                                                            <td><input type="text" name="prt3_ch2_last" class="form-control"></td>
+                                                            <td><input type="text" name="prt3_ch2_present" class="form-control"></td>
+                                                        </tr>
+
+                                                        <tr><td>4</td><td>Short</td><td>870 µs</td>
+                                                            <td><input type="text" name="prt4_ch1_last" class="form-control"></td>
+                                                            <td><input type="text" name="prt4_ch1_present" class="form-control"></td>
+                                                            <td><input type="text" name="prt4_ch2_last" class="form-control"></td>
+                                                            <td><input type="text" name="prt4_ch2_present" class="form-control"></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                <fieldset class="custom-fieldset">
+                                    <legend class="legend-custom text-uppercase">Test Equipment Used</legend>
+
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl" id="test_equipment_tbl_3">
+                                            <thead class="table-dark-head">
+                                                <tr>
+                                                    <th class="serial-no" style="text-align:center;">Ser</th>
+                                                    <th style="text-align:center;">Test Equipment Used<br><small>a.</small></th>
+                                                    <th style="width:35%; text-align:center;">Checks Undertaken<br><small>b.</small></th>
+                                                    <th class="action" style="text-align:center;">ACTION</th>
+                                        
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="serial-no">1</td>
+                                                    <td><input type="text" class="form-control" data-base-name="te_equipment" placeholder=" "></td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="te_checks" rows="1" placeholder=" "></textarea></td>
+                                                    <td class="action action-cell-holder">
+                                                    <div class="action-controls">
+                                                        <button type="button" class="btn-round btn-add" onclick="addRow('test_equipment_tbl_3')">+</button>
+                                                        <button type="button" class="btn-round btn-remove" onclick="removeRow('test_equipment_tbl_3')">-</button>
+                                                    </div>
+                                                </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </fieldset>
+                            </fieldset>
+                                    
+                                <fieldset class="custom-fieldset">
+                                            <legend class="legend-custom">16. Power Output - Measured values as tabulated below:-</legend>
+
+                                            <div class="table-responsive">
+                                                <table class="custom_tbl">
+                                                    <thead>
+                                                        <tr>
+                                                            <th style="text-align:center;">Ser</th>
+                                                            <th style="text-align:center;">Type</th>
+
+                                                            <th colspan="3" style="text-align:center;"> Power Output CH I (µA)</th>
+                                                            <th colspan="3" style="text-align:center;">Power Output CH II (µA)</th>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <th style="text-align:center;"></th><th style="text-align:center;"></th>
+                                                            <th style="text-align:center;"> Specified Limit</th><th style="text-align:center;">Last Measured Value</th><th style="text-align:center;">Present Value</th>
+                                                            <th style="text-align:center;"> Specified  Limit</th><th style="text-align:center;">Last Measured Value</th><th style="text-align:center;">Present Value</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <tbody>
+                                                        
+
+                                                            <td>1</td><td>Stage I</td>
+                                                            <td>≥ 40</td>
+                                                            <td><input type="text" name="po1_ch1_last" class="form-control"></td>
+                                                            <td><input type="text" name="po1_ch1_present" class="form-control"></td>
+
+                                                            <td>≥ 40</td>
+                                                            <td><input type="text" name="po1_ch2_last" class="form-control"></td>
+                                                            <td><input type="text" name="po1_ch2_present" class="form-control"></td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>2</td><td>Stage II</td>
+                                                            <td>≥ 60</td>
+                                                            <td><input type="text" name="po2_ch1_last" class="form-control"></td>
+                                                            <td><input type="text" name="po2_ch1_present" class="form-control"></td>
+
+                                                            <td>≥ 60</td>
+                                                            <td><input type="text" name="po2_ch2_last" class="form-control"></td>
+                                                            <td><input type="text" name="po2_ch2_present" class="form-control"></td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td>3</td><td>Stage III</td>
+                                                            <td>≥ 70</td>
+                                                            <td><input type="text" name="po3_ch1_last" class="form-control"></td>
+                                                            <td><input type="text" name="po3_ch1_present" class="form-control"></td>
+
+                                                            <td>≥ 70</td>
+                                                            <td><input type="text" name="po3_ch2_last" class="form-control"></td>
+                                                            <td><input type="text" name="po3_ch2_present" class="form-control"></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                          <fieldset class="custom-fieldset">
+                                    <legend class="legend-custom text-uppercase"> Test Equipment Used</legend>
+
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl" id="test_equipment_tbl_4">
+                                            <thead class="table-dark-head">
+                                                <tr>
+                                                    <th class="serial-no" style="text-align:center;">Ser</th>
+                                                    <th style="text-align:center;">Test Equipment Used<br><small>a.</small></th>
+                                                    <th style="width:35%; text-align:center;">Checks Undertaken<br><small>b.</small></th>
+                                                    <th class="action" style="text-align:center;">ACTION</th>
+                                        
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="serial-no">1</td>
+                                                    <td><input type="text" class="form-control" data-base-name="te_equipment" placeholder=" "></td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="te_checks" rows="1" placeholder=" "></textarea></td>
+                                                    <td class="action action-cell-holder">
+                                                    <div class="action-controls">
+                                                        <button type="button" class="btn-round btn-add" onclick="addRow('test_equipment_tbl_4')">+</button>
+                                                        <button type="button" class="btn-round btn-remove" onclick="removeRow('test_equipment_tbl_4')">-</button>
+                                                    </div>
+                                                </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </fieldset>
+                            </fieldset>
+                                                                                
+                                <fieldset class="custom-fieldset">
+                                                <legend class="legend-custom">17. Visual Inspection</legend>
+
+                                                <div class="table-responsive">
+                                                    <table class="custom_tbl" style="width:100%; border-collapse:collapse;">
+
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="text-align:center;">Ser</th>
+                                                                <th style="text-align:center;">Description of Check</th>
+                                                                <th style="text-align:center;">Remarks</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+
+                                                            <!-- 1 -->
+                                                            <tr>
+                                                                <td rowspan="7" style="text-align:center; vertical-align:top;">1</td>
+                                                                <td>Inspection of Antenna assembly</td>
+                                                                <td><input type="text" class="form-control" name="vi_1"></td>
+                                                            </tr>
+
+                                                            <tr><td>(i) Greasing of gearings</td><td><input type="text" name="vi_1_i" class="form-control"></td></tr>
+                                                            <tr><td>(ii) Antenna safety interlock checks</td><td><input type="text" name="vi_1_ii" class="form-control"></td></tr>
+                                                            <tr><td>(iii) Status of antenna connectors</td><td><input type="text" name="vi_1_iii" class="form-control"></td></tr>
+                                                            <tr><td>(iv) Antenna RPM - Barrier Mode (Specified - 6 RPM)</td><td><input type="text" name="vi_1_iv" class="form-control"></td></tr>
+                                                            <tr><td>(v) Antenna RPM - Temp Mode (Specified - 12 RPM)</td><td><input type="text" name="vi_1_v" class="form-control"></td></tr>
+                                                            <tr><td>(vi) Status of accumulating water in antenna slotted waveguide</td><td><input type="text" name="vi_1_vi" class="form-control"></td></tr>
+
+                                                            <!-- 2 -->
+                                                            <tr>
+                                                                <td rowspan="5" style="text-align:center; vertical-align:top;">2</td>
+                                                                <td><b>Power supply checks of main converters:</b></td>
+                                                                <td></td>
+                                                            </tr>
+
+                                                            <tr><td>(i) 220V, 400 Hz, 3φ (ATT1)</td><td><input type="text" name="vi_2_i" class="form-control"></td></tr>
+                                                            <tr><td>(ii) 230V, 400 Hz, 3φ (ATT2)</td><td><input type="text" name="vi_2_ii" class="form-control"></td></tr>
+                                                            <tr><td>(iii) 230V, 400Hz, 1φ (ATO)</td><td><input type="text" name="vi_2_iii" class="form-control"></td></tr>
+                                                            <tr><td>(iv) 230V, 50 Hz, 3φ (TCBM)</td><td><input type="text" name="vi_2_iv" class="form-control"></td></tr>
+
+                                                            <!-- 3 -->
+                                                            <tr>
+                                                                <td style="text-align:center;">3</td>
+                                                                <td>Inspection of waveguide – material state</td>
+                                                                <td><input type="text" name="vi_3" class="form-control"></td>
+                                                            </tr>
+
+                                                            <!-- 4 -->
+                                                            <tr>
+                                                                <td rowspan="6" style="text-align:center; vertical-align:top;">4</td>
+                                                                <td><b>Status of Cooling - critical compartments:</b></td>
+                                                                <td></td>
+                                                            </tr>
+
+                                                            <tr><td>(i) Fregat HF Room</td><td><input type="text" name="vi_4_i" class="form-control"></td></tr>
+                                                            <tr><td>(ii) Fregat Control Post</td><td><input type="text" name="vi_4_ii" class="form-control"></td></tr>
+                                                            <tr><td>(iii) Fregat Equipment Room</td><td><input type="text" name="vi_4_iii" class="form-control"></td></tr>
+                                                            <tr><td>(iv) Level of distilled water for transmitter cooling</td><td><input type="text" name="vi_4_iv" class="form-control"></td></tr>
+                                                            <tr><td>(v) Status of system ventilation</td><td><input type="text" name="vi_4_v" class="form-control"></td></tr>
+
+                                                            <!-- 5 -->
+                                                            <tr>
+                                                                <td style="text-align:center;">5</td>
+                                                                <td>Checks of Waveguide drier status (Air pressure 0.3 - 0.6 kg/cm²)</td>
+                                                                <td><input type="text" name="vi_5" class="form-control"></td>
+                                                            </tr>
+
+                                                            <!-- 6 -->
+                                                            <tr>
+                                                                <td style="text-align:center;">6</td>
+                                                                <td>Status of Cables/ Connectors of Sub-units</td>
+                                                                <td><input type="text" name="vi_6" class="form-control"></td>
+                                                            </tr>
+
+                                                            <!-- 7 -->
+                                                            <tr>
+                                                                <td style="text-align:center;">7</td>
+                                                                <td>Availability of Main/ Standby power supply (ACOS)</td>
+                                                                <td><input type="text" name="vi_7" class="form-control"></td>
+                                                            </tr>
+
+                                                            <!-- 8 -->
+                                                            <tr>
+                                                                <td style="text-align:center;">8</td>
+                                                                <td>Status of SPTA, Tool Kits and Accessories</td>
+                                                                <td><input type="text" name="vi_8" class="form-control"></td>
+                                                            </tr>
+
+                                                            <!-- 9 -->
+                                                            <tr>
+                                                                <td rowspan="6" style="text-align:center; vertical-align:top;">9</td>
+                                                                <td><b>Record of running hours:</b></td>
+                                                                <td></td>
+                                                            </tr>
+
+                                                            <tr><td>(i) System running hours</td><td><input type="text" name="vi_9_i" class="form-control"></td></tr>
+                                                            <tr><td>(ii) Transmitter Channel 1 (stage 1 & 2)</td><td><input type="text" name="vi_9_ii" class="form-control"></td></tr>
+                                                            <tr><td>(iii) Transmitter Channel 1 (stage 3)</td><td><input type="text" name="vi_9_iii" class="form-control"></td></tr>
+                                                            <tr><td>(iv) Transmitter Channel 2 (stage 1 & 2)</td><td><input type="text" name="vi_9_iv" class="form-control"></td></tr>
+                                                            <tr><td>(v) Transmitter Channel 2 (stage 3)</td><td><input type="text" name="vi_9_v" class="form-control"></td></tr>
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                      </fieldset>
+                                      <fieldset class="custom-fieldset">
+    <legend class="legend-custom">18. Operation Checks</legend>
+
+    <div class="table-responsive">
+        <table class="custom_tbl" style="width:100%; border-collapse:collapse;">
+
+            <thead>
+                <tr>
+                    <th style="text-align:center;">Ser</th>
+                    <th style="text-align:center;">Checks Description</th>
+                    <th style="text-align:center;">Remarks</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <!-- 1 -->
+                <tr>
+                    <td style="text-align:center;">1</td>
+                    <td>Checking of video presentation on B Scope</td>
+                    <td><input type="text" name="op_1" class="form-control"></td>
+                </tr>
+
+                <!-- 2 -->
+                <tr>
+                    <td rowspan="4" style="text-align:center; vertical-align:top;">2</td>
+                    <td><b>Status of RAW Video interface with following systems:</b></td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td>(i) Shtil FCS</td>
+                    <td><input type="text" name="op_2_i" class="form-control"></td>
+                </tr>
+
+                <tr>
+                    <td>(ii) BARAK FCS (only TD)</td>
+                    <td><input type="text" name="op_2_ii" class="form-control"></td>
+                </tr>
+
+                <tr>
+                    <td>(iii) CMS</td>
+                    <td><input type="text" name="op_2_iii" class="form-control"></td>
+                </tr>
+
+                <!-- 3 -->
+                <tr>
+                    <td rowspan="4" style="text-align:center; vertical-align:top;">3</td>
+                    <td><b>Ships House Hold Data (SHHD) Checks:</b></td>
+                    <td></td>
+                </tr>
+
+                <tr>
+                    <td>(i) Weapon Stabiliser (Ladoga)</td>
+                    <td><input type="text" name="op_3_i" class="form-control"></td>
+                </tr>
+
+                <tr>
+                    <td>(ii) Ship's Gyro (RLG)</td>
+                    <td><input type="text" name="op_3_ii" class="form-control"></td>
+                </tr>
+
+                <tr>
+                    <td>(iii) Log</td>
+                    <td><input type="text" name="op_3_iii" class="form-control"></td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+</fieldset>
+                                      
+                                             
+
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		WRSTGQuarterly.init({
+			extraTableIds: ['failure_basic_data_tbl', 'step_analysis_tbl', 'item_defective_tbl'],
+			submitConfirmation: { formId: 'mfstar_failure_form' }
+		});
+	});
+</script>
+{% endblock js %}

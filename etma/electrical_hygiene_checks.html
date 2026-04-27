@@ -1,0 +1,1834 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item active" aria-current="page">ETMA</li>
+          <li class="breadcrumb-item active" aria-current="page">Electrical Hygiene Checks</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">Electrical Hygiene Checks
+            </span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="electrical_hygiene_checks_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+                <div class="row g-3">
+                    <div class="col-md-4 col-12">
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <select class="form-control" id="compartment_selector" name="Compartment_Name">
+                                <option value="">--Select compartment--</option>
+                                <option value="machinery">Machinery Compartment</option>
+                                <option value="switch_boards">Switch Boards</option>
+                                <option value="battery">Battery Charging & Stowage Compartment</option>
+                                <option value="co_pantry">CO Pantry,Ship Gallery & Officers Gallery</option>
+                                <option value="weapons">Weapons Compartments, Magazine & HF Post</option>
+                                <option value="cold_cool">Cold & Cool Room</option>
+                            </select>
+                            <label class="form_control_1">Compartment Name</label>
+                        </div>
+                    </div>
+                </div>
+              
+
+              <!--Standard checks off list-->
+              <fieldset class="custom-fieldset" id="compartment_standard_checklist">
+                <legend class="legend-custom text-uppercase">Standard check off list</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr class="custom-header-row">
+                        <th class="serial-no">Ser</th>
+                        <th colspan="2">Checks</th>
+                        <th>Status</th>
+                        <th>Remarks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- 1. CABLES-->
+                      <tr>
+                        <td rowspan="10" class="serial-no">1.</td>
+                        <td colspan="4"><strong>Cables</strong></td>
+                        
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(a)</td>
+                        <td>Check for broken/ perished cable, without proper termination</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="cable_1a">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="cable_1a_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(b)</td>
+                        <td>No loose cabling/ naked wires/ loose connections/ sparking inside the compartment</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="cable_1b">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="cable_1b_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(c)</td>
+                        <td class="text-wrap">All cables to be routed through cable channels/ trays and to be neatly secured using metallic cable ties/ clips. No cables <br>are sagging or left loose</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="cable_1c">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="cable_1c_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(d)</td>
+                        <td>Cables should only be covered with rigid/ flexible metallic conduit i.a.w IHQ MoD (N) Policy EE/ 03/ 9620 dated 26 Dec 19</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="cable_1d">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="cable_1d_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(e)</td>
+                        <td>Cables are not lying in haphazard manner</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="cable_1e">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="cable_1e_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(f)</td>
+                        <td>Cables that run from one compartment to other are passed through MCT gland</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="cable_1f">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="cable_1f_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(g)</td>
+                        <td>Proper grounding of metal sheaths of cables while using shielded cables</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="cable_1g">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="cable_1g_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(h)</td>
+                        <td>Check for painted cables</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="cable_1h">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="cable_1h_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(i)</td>
+                        <td>Check all unused cables have been removed</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="cable_1i">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="cable_1i_remarks"></textarea></td>
+                      </tr>
+
+                      <!-- 2. LEAD LAMPS -->
+                      <tr>
+                        <td rowspan="7" class="serial-no">2.</td>
+                        <td colspan="4"><strong>Lead Lamps</strong></td>
+                        
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(a)</td>
+                        <td>Check that only 24V lead lamps/ battery operated torch lights are being used for illumination in confined spaces. Only DC lamps to be used</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="lead_2a">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="lead_2a_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(b)</td>
+                        <td>No use of naked lead lamps, metal holders and plugs are being used. The holder is to be properly insulated</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="lead_2b">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="lead_2b_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(c)</td>
+                        <td>Length of lead lamps is as short as practicable and so arranged as to prevent their being chafed and passed off through doors & hatches</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="lead_2c">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="lead_2c_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(d)</td>
+                        <td>The lead lamp must be plugged in the same compartment</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="lead_2d">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="lead_2d_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(e)</td>
+                        <td>Adapter type plug socket (not 2 pin type) is used. No direct connection to DB</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="lead_2e">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="lead_2e_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(f)</td>
+                        <td>The cable termination in lead lamp should be in such a way that it is never under tension when lamp is moved from place to place</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="lead_2f">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="lead_2f_remarks"></textarea></td>
+                      </tr>
+
+                      <!--3. SWITCHES, PLUGS & SOCKETS-->
+                      <tr>
+                        <td rowspan="9" class="serial-no">3.</td>
+                        <td colspan="4"><strong>Switches, Plugs & Sockets</strong></td>
+                        
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(a)</td>
+                        <td>Multiple connections should not be taken from one single point anywhere onboard as this may lead to overloading and heating of point</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="switch_3a">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="switch_3a_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(b)</td>
+                        <td class="text-wrap">Check all switches used on board are marinised double pole (double pole MCBs for 230V) to ensure complete isolation of supplies <br> to the services in switched Off condition</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="switch_3b">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="switch_3b_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(c)</td>
+                        <td >ELCBs/ RCCBs are used for domestic supply</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="switch_3c">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="switch_3c_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(d)</td>
+                        <td>Check for overloading of sockets</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="switch_3d">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="switch_3d_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(e)</td>
+                        <td>Check for earth integrity of all plugs and sockets. Metal case sockets should be properly grounded</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="switch_3e">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="switch_3e_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(f)</td>
+                        <td>No spike guard or extension cords are used</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="switch_3f">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="switch_3f_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(g)</td>
+                        <td>Water tight switch/ socket on weather deck</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="switch_3g">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="switch_3g_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(h)</td>
+                        <td>Commercial switches not to be used unless authorised</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="switch_3h">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="switch_3h_remarks"></textarea></td>
+                      </tr>
+
+                      <!--4. LIGHTING-->
+                      <tr>
+                        <td rowspan="7" class="serial-no">4.</td>
+                        <td colspan="4"><strong>Lighting</strong></td>
+                        
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(a)</td>
+                        <td>Only MIL Grade marinised LED for weather deck. pendant and cabin lights are fitted</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="lighting_4a">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="lighting_4a_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(b)</td>
+                        <td>Light fittings are provided with protective glass in position and properly tightened. No light lamps are without lamp shades. No broken/cracked glass cover</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="lighting_4b">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="lighting_4b_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(c)</td>
+                        <td>All light fittings are properly connected, fixture is steady and not hanging</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="lighting_4c">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="lighting_4c_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(d)</td>
+                        <td>Shock mounts of light fittings are not broken/ perished, and no temporary arrangements are done to hold it at its place</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="lighting_4d">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="lighting_4d_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(e)</td>
+                        <td>Check for operation ability of all lights fitted in the compartment</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="lighting_4e">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="lighting_4e_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(f)</td>
+                        <td>Fitment of light fitting should not affect the maintenance envelope of the equipment</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="lighting_4f">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="lighting_4f_remarks"></textarea></td>
+                      </tr>
+
+                      <!--5. TOOLS & TEST EQUIPMENT-->
+                      <tr>
+                        <td rowspan="4" class="serial-no">5.</td>
+                        <td colspan="4"><strong>Tools & Test Equipment</strong></td>
+                        
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(a)</td>
+                        <td class="text-wrap">All common test equipment viz. multi meters, SPM, meggers etc. are maintained in good working condition and are duly insulated at <br>contact points from user/ handle</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="tools_5a">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="tools_5a_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(b)</td>
+                        <td>Whenever any tool like soldering iron is unattended, power supply of it is isolated and switched off</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="tools_5b">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="tools_5b_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(c)</td>
+                        <td>Use of proper tallies to be placed at work place. 'MEN AT WORK, DONOT SWITCH ON'</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="tools_5c">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="tools_5c_remarks"></textarea></td>
+                      </tr>
+
+                      <!--6. DISTRIBUTION BOX / JUNCTION BOX-->
+                      <tr>
+                        <td rowspan="10" class="serial-no">6.</td>
+                        <td colspan="4"><strong>Distribution Box / Junction Box</strong></td>
+                        
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(a)</td>
+                        <td>Check front and rear panel/ doors for starters, DB's and JB's are dust free, properly closed and fitted with rubber seals</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="db_6a">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="db_6a_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(b)</td>
+                        <td>All nut-bolts/ clips of the panel covers must be in place, bolted with screws, nuts & bolts and no loose items are rested inside or top of the boxes</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="db_6b">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="db_6b_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(c)</td>
+                        <td>Check DBs for loose connections, perished cables, exposed live wiring, and frayed cables</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="db_6c">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="db_6c_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(d)</td>
+                        <td>All equipment/ JBs/ speakers to have correct earthing and grounding arrangement</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="db_6d">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="db_6d_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(e)</td>
+                        <td>All electrical connections are inside the panel box so that no one can touch them accidentally</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="db_6e">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="db_6e_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(f)</td>
+                        <td>All indications, instrumentations and gauges are intact, clean and fully functional in order to facilitate legible reading</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="db_6f">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="db_6f_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(g)</td>
+                        <td>Tightened din rail</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="db_6g">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="db_6g_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(h)</td>
+                        <td>Availability of circuit diagram</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="db_6h">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="db_6h_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(i)</td>
+                        <td>Check condition of cable glands in DBs and JBs</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="db_6i">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="db_6i_remarks"></textarea></td>
+                      </tr>
+
+                      <!--7. GENERAL-->
+                      <tr>
+                        <td rowspan="5" class="serial-no">7.</td>
+                        <td colspan="4"><strong>General</strong></td>
+                        
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(a)</td>
+                        <td>All equipment and sub-units are clean and are free from foreign particles, dust and carbon deposit External area is clear of any obstructing material, <br>fire hazard etc.</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="general_7a">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="general_7a_remarks"></textarea></td>
+                      </tr>
+                       
+                      <tr>
+                        <td class="serial-no">(b)</td>
+                        <td class="text-wrap">Dirt, waste, rags, sawdust and other waste especially if contaminated with oil/ grease may generate heat spontaneously which may be <br>sufficient to ignite flammable mixtures. Such mixtures are stored and disposed off properly</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="general_7c">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="general_7c_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(d)</td>
+                        <td>No flanges/ couplers are directly installed above electrical panels. Water/ POL should not be leaking on to electrical equipment</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="general_7d">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="general_7d_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(e)</td>
+                        <td>Use of placard and notice boards as much as possible to inform others about the ongoing work</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="general_7e">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="general_7e_remarks"></textarea></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- 1. Machinery Compartment-->
+              <fieldset class="custom-fieldset compartment-section" id="compartment_machinery" style="display: none;">
+                <legend class="legend-custom text-uppercase">Machinery Compartment</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl" id="machinery_checks_table">
+                    <thead>
+                      <tr class="custom-header-row">
+                        <th class="serial-no">Ser</th>
+                        <th>Checks</th>
+                        <th>Status</th>
+                        <th>Remarks</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-no">(a)</td>
+                        <td class="text-wrap">Good housekeeping of the machinery compartment (no spillage of lubricant). Wood, paints, spirits, oil drums should not be kept in <br>machinery spaces and steering gear compartment.</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="mech_1a">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="mech_1a_remarks"></textarea></td>
+                        
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(b)</td>
+                        <td class="text-wrap">All rotating & reciprocating parts of electric motors are adequately protected by guards.</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="mech_1b">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="mech_1b_remarks"></textarea></td>
+                        <td>
+                          <div class="action-controls">
+                            <button type="button" class="btn-round btn-add" id="machinery_add_btn" title="Add Row">+</button>
+                          </div>
+                        </td>
+                      </tr>
+                      
+                    </tbody>
+                  </table>
+                </div>
+                <template id="machinery_extra_row_template">
+                  <tr class="machinery-extra-row">
+                    <td class="serial-no"></td>
+                    <td>
+                      <textarea class="form-control wrstg-scroll-textarea" name="mech_additional_checks[]" placeholder="Additional checks"></textarea>
+                    </td>
+                    <td>
+                      <select class="form-control status-dropdown" name="mech_additional_status[]">
+                        <option value="">Select Status</option>
+                        <option value="SAT">SAT</option>
+                        <option value="UNSAT">UNSAT</option>
+                        <option value="NA">NA</option>
+                      </select>
+                    </td>
+                    <td>
+                      <textarea class="form-control wrstg-scroll-textarea" name="mech_additional_remarks[]"></textarea>
+                    </td>
+                    <td>
+                      <div class="action-controls">
+                        <button type="button" class="btn-round btn-remove machinery-remove-btn" title="Remove Row">-</button>
+                      </div>
+                    </td>
+                  </tr>
+                </template>
+              </fieldset>
+
+              <!-- 2. Switch Boards-->
+
+              <fieldset class="custom-fieldset compartment-section" id="compartment_switch_boards" style="display: none;">
+                <legend class="legend-custom text-uppercase">Switch Boards</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl"id="switch_boards_table">
+                    <thead>
+                      <tr class="custom-header-row">
+                        <th class="serial-no">Ser</th>
+                        <th>Checks</th>
+                        <th>Status</th>
+                        <th>Remarks</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-no">(a)</td>
+                        <td >Pipelines not to pass through switchboard compartment.</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="switch_2a">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="switch_2a_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(b)</td>
+                        <td >No paint on cables.</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="switch_2b">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="switch_2b_remarks"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">(c)</td>
+                        <td class="text-wrap">Check supply & feeder breakers are properly connected without any temporary arrangement.</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="switch_2c">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="switch_2c_remarks"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">(d)</td>
+                        <td class="text-wrap">Check for proper colour coding of breaker.</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="switch_2d">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="switch_2d_remarks"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">(e)</td>
+                        <td class="text-wrap">Check availability of HV mats.</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="switch_2e">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="switch_2e_remarks"></textarea></td>
+                        <td>
+                          <div class="action-controls">
+                            <button type="button" class="btn-round btn-add" id="switch_boards_add_btn" title="Add Row">+</button>
+                          </div>
+                        </td>
+                      </tr>
+                      
+                    </tbody>
+                  </table>
+                </div>
+                <template id="switch_boards_extra_row_template">
+                  <tr class="switch-boards-extra-row">
+                    <td class="serial-no"></td>
+                    <td>
+                      <textarea class="form-control wrstg-scroll-textarea" name="switch_boards_additional_checks[]" placeholder="Additional checks"></textarea>
+                    </td>
+                    <td>
+                      <select class="form-control status-dropdown" name="switch_boards_additional_status[]">
+                        <option value="">Select Status</option>
+                        <option value="SAT">SAT</option>
+                        <option value="UNSAT">UNSAT</option>
+                        <option value="NA">NA</option>
+                      </select>
+                    </td>
+                    <td>
+                      <textarea class="form-control wrstg-scroll-textarea" name="switch_boards_additional_remarks[]"></textarea>
+                    </td>
+                    <td>
+                      <div class="action-controls">
+                        <button type="button" class="btn-round btn-remove switch-boards-remove-btn" title="Remove Row">-</button>
+                      </div>
+                    </td>
+                  </tr>
+                </template>
+              </fieldset>
+
+              <!-- 3. Battery Charging & Stowage Compartment -->
+
+              <fieldset class="custom-fieldset compartment-section" id="compartment_battery" style="display: none;">
+                <legend class="legend-custom text-uppercase">Battery Charging & Stowage Compartment</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr class="custom-header-row">
+                        <th class="serial-no">Ser</th>
+                        <th>Checks</th>
+                        <th>Status</th>
+                        <th>Remarks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-no">(a)</td>
+                        <td class="text-wrap">Approved 5A and 15A DP switch sockets to be provided within the battery charging compartment and lighting supply switch is placed outside.</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="battery_3a">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="battery_3a_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(b)</td>
+                        <td class="text-wrap">Double pole switch socket provided for remote charging of motorboat batteries with charging cable in good/healthy condition with <br>
+                            sufficient length and current capacity available</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="battery_3b">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="battery_3b_remarks"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">(c)</td>
+                        <td class="text-wrap">Remote charging cable to be fitted with suitable plug compatible with charging socket. It is to be stowed in a standard and 'not <br>
+                            off the shelf' dedicated stowage within the battery charging compartment.</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="battery_3c">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="battery_3c_remarks"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">(d)</td>
+                        <td class="text-wrap">Light fittings installed should be spark proof mannerised standard and 'not off the shelf</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="battery_3d">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="battery_3d_remarks"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">(e)</td>
+                        <td class="text-wrap">Door switch and red lighting to be provided in the compartment</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="battery_3e">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="battery_3e_remarks"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">(f)</td>
+                        <td class="text-wrap">Alkaline and Lead Acid batteries are kept in separate compartment</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="battery_3f">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="battery_3f_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(g)</td>
+                        <td class="text-wrap">Battery terminals must be covered with petroleum jelly and connections must be tight.</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="battery_3g">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="battery_3g_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(h)</td>
+                        <td class="text-wrap">Metal tools such as spanners, should never be placed on top of batteries. Use insulated hand tools</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="battery_3h">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="battery_3h_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(i)</td>
+                        <td class="text-wrap">No loose batteries to be kept within the compartment.</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="battery_3i">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="battery_3i_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(j)</td>
+                        <td class="text-wrap">Ventilation must be sufficient to remove gases produced during charging process as per NES 102. Check functioning of ventilation fan.</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="battery_3j">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="battery_3j_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(k)</td>
+                        <td class="text-wrap">Battery compartment are painted with special acid resistant rubberised paint to prevent any corrosion</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="battery_3k">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="battery_3k_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(l)</td>
+                        <td class="text-wrap">Cleaning of battery. The acid and formation of copper sulphate on the battery top should be cleaned regularly with cotton, moisturised <br>
+                             with soda solution or distilled water</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="battery_3l">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="battery_3l_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(m)</td>
+                        <td class="text-wrap">Battery terminals and metal supports should be cleaned properly down to bare metal and covered with Vaseline or petroleum jelly</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="battery_3m">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="battery_3m_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(n)</td>
+                        <td class="text-wrap">Emergency wash basin with adequate supply of fresh water and drainage arrangement in case electrolyte splash, to be present in the compartment</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="battery_3n">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="battery_3n_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(o)</td>
+                        <td class="text-wrap">Check that battery vent caps are in place to prevent overflow and spilling of electrolyte.</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="battery_3o">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="battery_3o_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(p)</td>
+                        <td class="text-wrap">Charger is shut off when connecting or disconnecting the battery.</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="battery_3p">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="battery_3p_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(q)</td>
+                        <td class="text-wrap">All common test equipment viz. multi meters, mergers etc are maintained in good working condition and are duly insulated at contact <br>
+                            points from user/hand.</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="battery_3q">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="battery_3q_remarks"></textarea></td>
+                      </tr>
+                    <tr>
+                        <td class="serial-no">(r)</td>
+                        <td class="text-wrap">Battery to be covered with suitable insulating material and battery connections are kept clean, dust free & tight.</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="battery_3r">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="battery_3r_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(s)</td>
+                        <td class="text-wrap">Battery compartment is kept open while charging to vent heat and explosive gases.</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="battery_3s">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="battery_3s_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(t)</td>
+                        <td class="text-wrap">Battery compartment not used as a store for any material or gear not associated. Adequate no. of shelves and trays to be provided <br>within the battery charging room for stowage of all spare motorboat batteries.</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="battery_3t">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="battery_3t_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(u)</td>
+                        <td class="text-wrap">Batteries are transported in upright condition to avoid spillage of electrolyte</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="battery_3u">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="battery_3u_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(v)</td>
+                        <td class="text-wrap">No ventilation trunking/ duct/ fire main coupler should run through battery compartment.</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="battery_3v">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="battery_3v_remarks"></textarea></td>
+                      </tr>
+                      
+                      
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- 4.CO Pantry,Ship Gallery & Officers Gallery -->
+
+              <fieldset class="custom-fieldset compartment-section" id="compartment_co_pantry" style="display: none;">
+                <legend class="legend-custom text-uppercase">CO Pantry, Ship's Galley & Officers Gallery</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl" id="co_pantry_table">
+                    <thead>
+                      <tr class="custom-header-row">
+                        <th class="serial-no">Ser</th>
+                        <th>Checks</th>
+                        <th>Status</th>
+                        <th>Remarks</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-no">(a)</td>
+                        <td>Galley cables to be single length cable without any joint/connection. Cables with joints covered with insulating tapes tends to gradually peel due to <br>presence of oil vapor/heat in the compartment, thus exposing live wires.</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="pantry_4a">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="pantry_4a_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(b)</td>
+                        <td class="text-wrap">All ships to have suitable visual indication for indicating On/Off status of galley hot plates and deep fryer outside galley on the main alleyway.</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="pantry_4b">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="pantry_4b_remarks"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">(c)</td>
+                        <td class="text-wrap">Yellow lamp to indicate availability of power supply to galley range indication panel.</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="pantry_4c">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="pantry_4c_remarks"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">(d)</td>
+                        <td class="text-wrap">Power supply for galley equipment be provided through a breaker located outside galley preferably (single isolation switch). The breaker <br>
+                                              must be switched off prior securing/closing the galley. Indication of status of single isolation switch to be available locally and remotely (at DCHQ).</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="pantry_4d">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="pantry_4d_remarks"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">(e)</td>
+                        <td class="text-wrap">Single isolation switch and MCCBs are to be capable of being key locked in the 'Off' position to prevent any chances of accidental switching <br> on of the galley equipment.</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="pantry_4e">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="pantry_4e_remarks"></textarea></td>
+                      </tr>
+                      
+                      <tr>
+                        <td class="serial-no">(f)</td>
+                        <td class="text-wrap">Ventilation shut down arrangement available outside galley. Crash stop button for galley exhaust marked and painted RED.</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="pantry_4f">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="pantry_4f_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(g)</td>
+                        <td class="text-wrap">Heat/smoke sensors should be operational.</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="pantry_4g">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="pantry_4g_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(h)</td>
+                        <td class="text-wrap">Check for water accumulation around galley equipment.</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="pantry_4h">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="pantry_4h_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(i)</td>
+                        <td class="text-wrap">No thin layer of oil observed on terminals/electrical connections.</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="pantry_4i">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="pantry_4i_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(j)</td>
+                        <td class="text-wrap">All galley equipment are earthed and wires not painted.</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="pantry_4j">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="pantry_4j_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(k)</td>
+                        <td class="text-wrap">Hot plates screwed properly to base plates. No hair line cracks on hot plate which could damage/lead to low insulation of heating element.</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="pantry_4k">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="pantry_4k_remarks"></textarea></td>
+                        <td>
+                          <div class="action-controls">
+                            <button type="button" class="btn-round btn-add" id="co_pantry_add_btn" title="Add Row">+</button>
+                          </div>
+                        </td>
+                      </tr>
+
+
+                    </tbody>
+                  </table>
+                </div>
+                <template id="co_pantry_extra_row_template">
+                  <tr class="co-pantry-extra-row">
+                    <td class="serial-no"></td>
+                    <td>
+                      <textarea class="form-control wrstg-scroll-textarea" name="co_pantry_additional_checks[]" placeholder="Additional checks"></textarea>
+                    </td>
+                    <td>
+                      <select class="form-control status-dropdown" name="co_pantry_additional_status[]">
+                        <option value="">Select Status</option>
+                        <option value="SAT">SAT</option>
+                        <option value="UNSAT">UNSAT</option>
+                        <option value="NA">NA</option>
+                      </select>
+                    </td>
+                    <td>
+                      <textarea class="form-control wrstg-scroll-textarea" name="co_pantry_additional_remarks[]"></textarea>
+                    </td>
+                    <td>
+                      <div class="action-controls">
+                        <button type="button" class="btn-round btn-remove co-pantry-remove-btn" title="Remove Row">-</button>
+                      </div>
+                    </td>
+                  </tr>
+                </template>
+              </fieldset>
+
+              <!-- 5.Weapons Compartments, Magazine & HF Post-->
+
+              <fieldset class="custom-fieldset compartment-section" id="compartment_weapons" style="display: none;">
+                <legend class="legend-custom text-uppercase">Weapons Compartments, Magazines & HF Post</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl" id="weapons_table">
+                    <thead>
+                      <tr class="custom-header-row">
+                        <th class="serial-no">Ser</th>
+                        <th>Checks</th>
+                        <th>Status</th>
+                        <th>Remarks</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-no">(a)</td>
+                        <td class="text-wrap">Bulb shades are explosion/shatter proof. Naked lights are not used.</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="weapons_5a">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="weapons_5a_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(b)</td>
+                        <td class="text-wrap">Light fittings are divided into two groups, each fed from a different source of supply.</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="weapons_5b">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="weapons_5b_remarks"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">(c)</td>
+                        <td class="text-wrap">No battery-operated lamp or electric torches are designed to be stowed/fitted.</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="weapons_5c">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="weapons_5c_remarks"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">(d)</td>
+                        <td class="text-wrap">Emergency lighting other than AEL is provided in the magazine.</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="weapons_5d">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="weapons_5d_remarks"></textarea></td>
+                        <td>
+                          <div class="action-controls">
+                            <button type="button" class="btn-round btn-add" id="weapons_add_btn" title="Add Row">+</button>
+                          </div>
+                        </td>
+                      </tr>
+
+                      
+                    </tbody>
+                  </table>
+                </div>
+                <template id="weapons_extra_row_template">
+                  <tr class="weapons-extra-row">
+                    <td class="serial-no"></td>
+                    <td>
+                      <textarea class="form-control wrstg-scroll-textarea" name="weapons_additional_checks[]" placeholder="Additional checks"></textarea>
+                    </td>
+                    <td>
+                      <select class="form-control status-dropdown" name="weapons_additional_status[]">
+                        <option value="">Select Status</option>
+                        <option value="SAT">SAT</option>
+                        <option value="UNSAT">UNSAT</option>
+                        <option value="NA">NA</option>
+                      </select>
+                    </td>
+                    <td>
+                      <textarea class="form-control wrstg-scroll-textarea" name="weapons_additional_remarks[]"></textarea>
+                    </td>
+                    <td>
+                      <div class="action-controls">
+                        <button type="button" class="btn-round btn-remove weapons-remove-btn" title="Remove Row">-</button>
+                      </div>
+                    </td>
+                  </tr>
+                </template>
+              </fieldset>
+
+              <!-- 6.Cold & Cool Room-->
+
+              <fieldset class="custom-fieldset compartment-section" id="compartment_cold_cool" style="display: none;">
+                <legend class="legend-custom text-uppercase">Cold & Cool Room</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl" id="cold_cool_table">
+                    <thead>
+                      <tr class="custom-header-row">
+                        <th class="serial-no">Ser</th>
+                        <th>Checks</th>
+                        <th>Status</th>
+                        <th>Remarks</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-no">(a)</td>
+                        <td> Incandescent watertight well glass fittings are used in cold/cool room.</td>
+                        <td>
+                          <select class="form-control status-dropdown" name="cold_6a">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="cold_6a_remarks"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">(b)</td>
+                        <td>Independent lighting in every room which cannot be switched off from the outside.</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="cold_6b">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="cold_6b_remarks"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">(c)</td>
+                        <td>Audio visual alarm system to indicate that someone is trapped in any of the cold/cool room is installed with parallel set sited in DCHQ or bridge. <br> 
+                            Alarm to be operatedfrom within the compartment with clearly tallied to state their purpose. Battery backup to alarm is provided to be functional <br>
+                             even when there is power failure.</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="cold_6c">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="cold_6c_remarks"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">(d)</td>
+                        <td>An external warning light in parallel with room illumination light shall be fitted in each cold/ cool room to indicate that internal lighting is on <br>
+                             or someone is trapped inside.</td>
+                         <td>
+                          <select class="form-control status-dropdown" name="cold_6d">
+                            <option value="">Select Status</option>
+                            <option value="SAT">SAT</option>
+                            <option value="UNSAT">UNSAT</option>
+                            <option value="NA">NA</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="cold_6d_remarks"></textarea></td>
+                        <td>
+                          <div class="action-controls">
+                            <button type="button" class="btn-round btn-add" id="cold_cool_add_btn" title="Add Row">+</button>
+                          </div>
+                        </td>
+                      </tr>
+
+                      
+                      
+                    </tbody>
+                  </table>
+                </div>
+                <template id="cold_cool_extra_row_template">
+                  <tr class="cold-cool-extra-row">
+                    <td class="serial-no"></td>
+                    <td>
+                      <textarea class="form-control wrstg-scroll-textarea" name="cold_cool_additional_checks[]" placeholder="Additional checks"></textarea>
+                    </td>
+                    <td>
+                      <select class="form-control status-dropdown" name="cold_cool_additional_status[]">
+                        <option value="">Select Status</option>
+                        <option value="SAT">SAT</option>
+                        <option value="UNSAT">UNSAT</option>
+                        <option value="NA">NA</option>
+                      </select>
+                    </td>
+                    <td>
+                      <textarea class="form-control wrstg-scroll-textarea" name="cold_cool_additional_remarks[]"></textarea>
+                    </td>
+                    <td>
+                      <div class="action-controls">
+                        <button type="button" class="btn-round btn-remove cold-cool-remove-btn" title="Remove Row">-</button>
+                      </div>
+                    </td>
+                  </tr>
+                </template>
+
+              </fieldset>
+              
+              <!-- Submit Button -->
+              <div id="submit_button_container" class="d-flex justify-content-center mt-4 gap-2" style="display: none;">
+                <button type="submit" class="btn btn-success px-4">Submit</button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    WRSTGQuarterly.init({
+      rowRepeaters: [],
+      extraTableIds: [],
+      visibilityBindings: [],
+      submitConfirmation: { formId: 'electrical_hygiene_checks_form' }
+    });
+
+    // Generic function to handle add/remove row functionality for any table
+    const initTableRowManagement = (tableId, addBtnId, templateId, removeButtonClass, rowClass) => {
+      const tableBody = document.querySelector(`#${tableId} tbody`);
+      const addBtn = document.getElementById(addBtnId);
+      const rowTemplate = document.getElementById(templateId);
+
+      const getAlphabeticalSerial = (index) => {
+        let n = index + 1;
+        let label = '';
+        while (n > 0) {
+          const remainder = (n - 1) % 26;
+          label = String.fromCharCode(97 + remainder) + label;
+          n = Math.floor((n - 1) / 26);
+        }
+        return label;
+      };
+
+      const updateTableSerials = () => {
+        if (!tableBody) {
+          return;
+        }
+
+        let serialIndex = 0;
+        const rows = tableBody.querySelectorAll('tr');
+
+        rows.forEach((row) => {
+          const serialCell = row.querySelector('td.serial-no');
+          if (!serialCell) {
+            return;
+          }
+
+          const hasChecklistField = row.querySelector('textarea, select, input');
+          if (!hasChecklistField) {
+            return;
+          }
+
+          serialCell.textContent = getAlphabeticalSerial(serialIndex);
+          serialIndex += 1;
+        });
+      };
+
+      if (tableBody && addBtn && rowTemplate) {
+        updateTableSerials();
+
+        // Add row functionality
+        addBtn.addEventListener('click', function() {
+          const clone = rowTemplate.content.cloneNode(true);
+          tableBody.appendChild(clone);
+          updateTableSerials();
+        });
+
+        // Remove row functionality
+        tableBody.addEventListener('click', function(event) {
+          const removeBtn = event.target.closest(`.${removeButtonClass}`);
+          if (!removeBtn) {
+            return;
+          }
+
+          const row = removeBtn.closest('tr');
+          if (row && row.classList.contains(rowClass)) {
+            row.remove();
+            updateTableSerials();
+          }
+        });
+      }
+    };
+
+    // Initialize all tables with dynamic row management
+    const tables = [
+      {
+        tableId: 'machinery_checks_table',
+        addBtnId: 'machinery_add_btn',
+        templateId: 'machinery_extra_row_template',
+        removeButtonClass: 'machinery-remove-btn',
+        rowClass: 'machinery-extra-row'
+      },
+      {
+        tableId: 'switch_boards_table',
+        addBtnId: 'switch_boards_add_btn',
+        templateId: 'switch_boards_extra_row_template',
+        removeButtonClass: 'switch-boards-remove-btn',
+        rowClass: 'switch-boards-extra-row'
+      },
+
+      {
+        tableId: 'co_pantry_table',
+        addBtnId: 'co_pantry_add_btn',
+        templateId: 'co_pantry_extra_row_template',
+        removeButtonClass: 'co-pantry-remove-btn',
+        rowClass: 'co-pantry-extra-row'
+      },
+      {
+        tableId: 'weapons_table',
+        addBtnId: 'weapons_add_btn',
+        templateId: 'weapons_extra_row_template',
+        removeButtonClass: 'weapons-remove-btn',
+        rowClass: 'weapons-extra-row'
+      },
+      {
+        tableId: 'cold_cool_table',
+        addBtnId: 'cold_cool_add_btn',
+        templateId: 'cold_cool_extra_row_template',
+        removeButtonClass: 'cold-cool-remove-btn',
+        rowClass: 'cold-cool-extra-row'
+      }
+
+
+
+    ];
+    tables.forEach(table => {
+      initTableRowManagement(
+        table.tableId,
+        table.addBtnId,
+        table.templateId,
+        table.removeButtonClass,
+        table.rowClass
+      );
+    });
+
+    const compartmentSelector = document.getElementById('compartment_selector');
+    const standardChecklist = document.getElementById('compartment_standard_checklist');
+    const compartmentSections = document.querySelectorAll('.compartment-section');
+    const submitButtonContainer = document.getElementById('submit_button_container');
+
+    // Map values to section IDs
+    const sectionMap = {
+      'machinery': 'compartment_machinery',
+      'switch_boards': 'compartment_switch_boards',
+      'battery': 'compartment_battery',
+      'co_pantry': 'compartment_co_pantry',
+      'weapons': 'compartment_weapons',
+      'cold_cool': 'compartment_cold_cool'
+    };
+
+    // Initially hide all sections and submit button
+    compartmentSections.forEach(section => {
+      section.style.setProperty('display', 'none', 'important');
+    });
+    standardChecklist.style.setProperty('display', 'none', 'important');
+    submitButtonContainer.style.setProperty('display', 'none', 'important');
+
+    // Handle compartment selection change
+    compartmentSelector.addEventListener('change', function() {
+      const selectedValue = this.value;
+      
+      // Hide all compartment sections and submit button
+      compartmentSections.forEach(section => {
+        section.style.setProperty('display', 'none', 'important');
+      });
+      standardChecklist.style.setProperty('display', 'none', 'important');
+      submitButtonContainer.style.setProperty('display', 'none', 'important');
+
+      // Show standard checklist and selected compartment when option is selected
+      if (selectedValue && selectedValue.trim() !== '') {
+        // Show standard checklist
+        standardChecklist.style.setProperty('display', 'block', 'important');
+        // Show submit button
+        submitButtonContainer.style.setProperty('display', 'flex', 'important');
+        
+        // Show the selected compartment section
+        const selectedSectionId = sectionMap[selectedValue];
+        if (selectedSectionId) {
+          const selectedSection = document.getElementById(selectedSectionId);
+          if (selectedSection) {
+            selectedSection.style.setProperty('display', 'block', 'important');
+          }
+        }
+      }
+    });
+  });
+</script>
+{% endblock js %}

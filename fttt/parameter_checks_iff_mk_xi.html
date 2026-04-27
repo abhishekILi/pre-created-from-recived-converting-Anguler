@@ -1,0 +1,849 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+                    <li class="breadcrumb-item" aria-current="page">FTTT</li>
+                    <li class="breadcrumb-item active" aria-current="page">IFF MK XI Parameter ChecksI</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">IFF MK XI Parameter Checks</span>
+          </div>
+        </div>
+        <div class="portlet-body form mt-4 mb-4">
+    <form method="post" id="brahmos_feedback_form">
+        {% csrf_token %}
+        <div class="form-body">
+             <fieldset class="custom-fieldset">
+                                    <legend class="legend-custom text-uppercase">BASIC INFORMATION</legend>
+                                    <div class="row g-3">
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="system_sub_system" value="IFF MK-XI" placeholder=" " readonly>
+                                                <label class="form_control_1">1. System/ Sub system</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="job_undertaken" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">2. Job Undertaken</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <!-- <textarea class="form-control wrstg-scroll-textarea" name="reference_documents" rows="2" placeholder=" "></textarea> -->
+                                                 <input type="file" class ="form-control" name="reference_documents">
+                                                <label class="form_control_1">3. Reference Documents</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="authority" placeholder=" ">
+                                                <label class="form_control_1">4. Authority</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="agencies_involved" value="FTTT(Vzg)" placeholder=" " readonly>
+                                                <label class="form_control_1">5. Agencies involved</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="date" class="form-control" name="date_commenced">
+                                                <label class="form_control_1">6. Date Commenced</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="date" class="form-control" name="date_completed">
+                                                <label class="form_control_1">7. Date Completed</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="prepared_by" placeholder=" ">
+                                                <label class="form_control_1">8. Prepared by</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="vetted_by" placeholder=" ">
+                                                <label class="form_control_1">9. Vetted by</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="reference_no" placeholder=" ">
+                                                <label class="form_control_1">10. Reference No.</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="summary_of_observations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">11. Summary of observations</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="operational_limitations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">12. Operational limitations (if any)</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </fieldset>
+
+            <!-- ===================== 13. VSWR ===================== -->
+            <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">13. VSWR</legend>
+
+                <div id="vswr_section">
+                    <div class="table-responsive">
+                        <table class="custom_tbl text-center align-middle" id="vswr_tbl">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2">Ser</th>
+                                    <th rowspan="2">Frequency<br>a.</th>
+                                    <th colspan="3">VSWR</th>
+                                    <th rowspan="2">Remarks<br>e.</th>
+                                </tr>
+                                <tr>
+                                    <th>Specified Value<br>b.</th>
+                                    <th>Last Measured Value<br>c.</th>
+                                    <th>Measured Value<br>d.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>F1</td>
+                                    <td>≤ 2.00</td>
+                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="vswr_f1_last_measured" rows="2"></textarea></td>
+                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="vswr_f1_measured" rows="2"></textarea></td>
+                                    <td rowspan="2" id="vswr_tbl_remark">
+                                        <textarea class="form-control wrstg-scroll-textarea" data-base-name="vswr_f1_f2_remarks" rows="4"></textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>F2</td>
+                                    <td>≤ 2.00</td>
+                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="vswr_f2_last_measured" rows="2"></textarea></td>
+                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="vswr_f2_measured" rows="2"></textarea></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <fieldset class="custom-fieldset">
+                        <legend class="legend-custom text-uppercase">Test Equipment Used</legend>
+                        <div class="table-responsive">
+                            <table class="custom_tbl" id="te_vswr_tbl">
+                                <thead class="table-dark-head">
+                                    <tr>
+                                        <th class="serial-no">Ser</th>
+                                        <th>Test Equipment Used<br><small>a.</small></th>
+                                        <th style="width:35%;">Checks Undertaken<br><small>b.</small></th>
+                                        <th class="action">ACTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="te_vswr_tbody">
+                                    <tr>
+                                        <td class="serial-no">1</td>
+                                        <td><input type="text" class="form-control" name="te_vswr_equipment[]" placeholder=" "></td>
+                                        <td><textarea class="form-control wrstg-scroll-textarea" name="te_vswr_checks[]" rows="1" placeholder=" "></textarea></td>
+                                        <td class="action action-cell-holder" id="te_vswr_action_cell" rowspan="1">
+                                            <div class="action-controls">
+                                                <button type="button" class="btn-round btn-add" onclick="addTeRow('te_vswr_tbody', teVswrRowTemplate)">+</button>
+                                                <button type="button" class="btn-round btn-remove" onclick="removeTeRow('te_vswr_tbody')">-</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </fieldset>
+                </div>
+            </fieldset>
+
+            <!-- ===================== 14. Power Output ===================== -->
+            <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">14. Power Output</legend>
+
+                <div id="power_output_section">
+                    <div class="table-responsive">
+                        <table class="custom_tbl" id="power_output_tbl">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2">Peak Power Output<br>a.</th>
+                                    <th>Specified Value<br>b.</th>
+                                    <th>Last Measured Value<br>c.</th>
+                                    <th>Present Value<br>d.</th>
+                                    <th>Remarks<br>e.</th>
+                                    <th rowspan="2" class="action">ACTION</th>
+                                </tr>
+                                <tr>
+                                    <th>1500 W (min)</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="power_output_tbody">
+                                <tr>
+                                    <td><input type="text" class="form-control form-control-sm" name="power_output_label[]" placeholder="Peak Power Output"></td>
+                                    <td><input type="text" class="form-control form-control-sm" name="power_output_specified[]" placeholder="1500 W (min)"></td>
+                                    <td><input type="text" class="form-control form-control-sm" name="power_output_last_measured[]" placeholder="Last Measured"></td>
+                                    <td><input type="text" class="form-control form-control-sm" name="power_output_present[]" placeholder="Present Value"></td>
+                                    <td><input type="text" class="form-control form-control-sm" name="power_output_remarks[]" placeholder="Remarks"></td>
+                                    <td class="action action-cell-holder" id="power_output_action_cell" rowspan="1">
+                                        <div class="action-controls">
+                                            <button type="button" class="btn-round btn-add" onclick="addPowerOutputRow()">+</button>
+                                            <button type="button" class="btn-round btn-remove" onclick="removePowerOutputRow()">-</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <fieldset class="custom-fieldset">
+                        <legend class="legend-custom text-uppercase">Test Equipment Used</legend>
+                        <div class="table-responsive">
+                            <table class="custom_tbl" id="te_power_output_tbl">
+                                <thead class="table-dark-head">
+                                    <tr>
+                                        <th class="serial-no">Ser</th>
+                                        <th>Test Equipment Used<br><small>a.</small></th>
+                                        <th style="width:35%;">Checks Undertaken<br><small>b.</small></th>
+                                        <th class="action">ACTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="te_power_output_tbody">
+                                    <tr>
+                                        <td class="serial-no">1</td>
+                                        <td><input type="text" class="form-control" name="te_power_output_equipment[]" placeholder=" "></td>
+                                        <td><textarea class="form-control wrstg-scroll-textarea" name="te_power_output_checks[]" rows="1" placeholder=" "></textarea></td>
+                                        <td class="action action-cell-holder" id="te_power_output_action_cell" rowspan="1">
+                                            <div class="action-controls">
+                                                <button type="button" class="btn-round btn-add" onclick="addTeRow('te_power_output_tbody', tePowerOutputRowTemplate)">+</button>
+                                                <button type="button" class="btn-round btn-remove" onclick="removeTeRow('te_power_output_tbody')">-</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </fieldset>
+                </div>
+            </fieldset>
+
+            <!-- ===================== 15. Measurement of DC Power Supplies Voltage at Power Supply Module ===================== -->
+            <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">15. Measurement of DC Power Supplies Voltage at Power Supply Module</legend>
+
+                <div id="dc_power_section">
+                    <div class="table-responsive">
+                        <table class="custom_tbl" id="dc_power_tbl">
+                            <thead>
+                                <tr>
+                                    <th>Ser</th>
+                                    <th>Voltage with Tolerance Value<br>a.</th>
+                                    <th>Last Measured Value<br>b.</th>
+                                    <th>Present Value<br>c.</th>
+                                    <th>Remarks<br>d.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>+12V ± 1V</td>
+                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="dc_power_pos12v_last_measured" rows="2"></textarea></td>
+                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="dc_power_pos12v_present" rows="2"></textarea></td>
+                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="dc_power_pos12v_remarks" rows="2"></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>-12V ± 1V</td>
+                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="dc_power_neg12v_last_measured" rows="2"></textarea></td>
+                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="dc_power_neg12v_present" rows="2"></textarea></td>
+                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="dc_power_neg12v_remarks" rows="2"></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>+50V ± 1V</td>
+                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="dc_power_pos50v_last_measured" rows="2"></textarea></td>
+                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="dc_power_pos50v_present" rows="2"></textarea></td>
+                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="dc_power_pos50v_remarks" rows="2"></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>-50V ± 1V</td>
+                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="dc_power_neg50v_last_measured" rows="2"></textarea></td>
+                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="dc_power_neg50v_present" rows="2"></textarea></td>
+                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="dc_power_neg50v_remarks" rows="2"></textarea></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <fieldset class="custom-fieldset">
+                        <legend class="legend-custom text-uppercase">Test Equipment Used</legend>
+                        <div class="table-responsive">
+                            <table class="custom_tbl" id="te_dc_power_tbl">
+                                <thead class="table-dark-head">
+                                    <tr>
+                                        <th class="serial-no">Ser</th>
+                                        <th>Test Equipment Used<br><small>a.</small></th>
+                                        <th style="width:35%;">Checks Undertaken<br><small>b.</small></th>
+                                        <th class="action">ACTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="te_dc_power_tbody">
+                                    <tr>
+                                        <td class="serial-no">1</td>
+                                        <td><input type="text" class="form-control" name="te_dc_power_equipment[]" placeholder=" "></td>
+                                        <td><textarea class="form-control wrstg-scroll-textarea" name="te_dc_power_checks[]" rows="1" placeholder=" "></textarea></td>
+                                        <td class="action action-cell-holder" id="te_dc_power_action_cell" rowspan="1">
+                                            <div class="action-controls">
+                                                <button type="button" class="btn-round btn-add" onclick="addTeRow('te_dc_power_tbody', teDcPowerRowTemplate)">+</button>
+                                                <button type="button" class="btn-round btn-remove" onclick="removeTeRow('te_dc_power_tbody')">-</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </fieldset>
+                </div>
+            </fieldset>
+
+            <!-- ===================== 16. Testing of Transmitting RF Pulse ===================== -->
+            <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">16. Testing of Transmitting RF Pulse</legend>
+
+                <div id="rf_pulse_section">
+                    <div class="table-responsive">
+                        <table class="custom_tbl" id="rf_pulse_tbl">
+                            <thead>
+                                <tr>
+                                    <th>Ser</th>
+                                    <th>Mode<br>a.</th>
+                                    <th>Specified Position w.e.t P1/P3 Interval<br>b.</th>
+                                    <th>Last Measured Value<br>c.</th>
+                                    <th>Present Value<br>d.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>3 μs ± 0.20</td>
+                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="rf_pulse_mode1_last_measured" rows="2"></textarea></td>
+                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="rf_pulse_mode1_present" rows="2"></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>2</td>
+                                    <td>5 μs ± 0.20</td>
+                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="rf_pulse_mode2_last_measured" rows="2"></textarea></td>
+                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="rf_pulse_mode2_present" rows="2"></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>3/A</td>
+                                    <td>8 μs ± 0.20</td>
+                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="rf_pulse_mode3a_last_measured" rows="2"></textarea></td>
+                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="rf_pulse_mode3a_present" rows="2"></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>C</td>
+                                    <td>21 μs ± 0.20</td>
+                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="rf_pulse_modec_last_measured" rows="2"></textarea></td>
+                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="rf_pulse_modec_present" rows="2"></textarea></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <fieldset class="custom-fieldset">
+                        <legend class="legend-custom text-uppercase">Test Equipment Used</legend>
+                        <div class="table-responsive">
+                            <table class="custom_tbl" id="te_rf_pulse_tbl">
+                                <thead class="table-dark-head">
+                                    <tr>
+                                        <th class="serial-no">Ser</th>
+                                        <th>Test Equipment Used<br><small>a.</small></th>
+                                        <th style="width:35%;">Checks Undertaken<br><small>b.</small></th>
+                                        <th class="action">ACTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="te_rf_pulse_tbody">
+                                    <tr>
+                                        <td class="serial-no">1</td>
+                                        <td><input type="text" class="form-control" name="te_rf_pulse_equipment[]" placeholder=" "></td>
+                                        <td><textarea class="form-control wrstg-scroll-textarea" name="te_rf_pulse_checks[]" rows="1" placeholder=" "></textarea></td>
+                                        <td class="action action-cell-holder" id="te_rf_pulse_action_cell" rowspan="1">
+                                            <div class="action-controls">
+                                                <button type="button" class="btn-round btn-add" onclick="addTeRow('te_rf_pulse_tbody', teRfPulseRowTemplate)">+</button>
+                                                <button type="button" class="btn-round btn-remove" onclick="removeTeRow('te_rf_pulse_tbody')">-</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </fieldset>
+                </div>
+            </fieldset>
+
+            <!-- ===================== 17. Video Pulse Check at Control Unit (6J4) ===================== -->
+            <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">17. Video Pulse Check at Control Unit (6J4)</legend>
+
+                <div id="video_pulse_section">
+                    <div class="table-responsive">
+                        <table class="custom_tbl" id="video_pulse_tbl">
+                            <thead>
+                                <tr>
+                                    <th>Ser</th>
+                                    <th>Code Selection at Local Control Panel<br>a.</th>
+                                    <th>Video Pulse Width 10 μs or 1 μs as per Selection<br>b.</th>
+                                    <th>Specified Video Pulse Amplitude<br>c.</th>
+                                    <th>Last Measured Value<br>d.</th>
+                                    <th>Present Value<br>e.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>0000</td>
+                                    <td>10 μs</td>
+                                    <td>≥ 3V</td>
+                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="video_pulse_code0000_last_measured" rows="2"></textarea></td>
+                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="video_pulse_code0000_present" rows="2"></textarea></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <fieldset class="custom-fieldset">
+                        <legend class="legend-custom text-uppercase">Test Equipment Used</legend>
+                        <div class="table-responsive">
+                            <table class="custom_tbl" id="te_video_pulse_tbl">
+                                <thead class="table-dark-head">
+                                    <tr>
+                                        <th class="serial-no">Ser</th>
+                                        <th>Test Equipment Used<br><small>a.</small></th>
+                                        <th style="width:35%;">Checks Undertaken<br><small>b.</small></th>
+                                        <th class="action">ACTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="te_video_pulse_tbody">
+                                    <tr>
+                                        <td class="serial-no">1</td>
+                                        <td><input type="text" class="form-control" name="te_video_pulse_equipment[]" placeholder=" "></td>
+                                        <td><textarea class="form-control wrstg-scroll-textarea" name="te_video_pulse_checks[]" rows="1" placeholder=" "></textarea></td>
+                                        <td class="action action-cell-holder" id="te_video_pulse_action_cell" rowspan="1">
+                                            <div class="action-controls">
+                                                <button type="button" class="btn-round btn-add" onclick="addTeRow('te_video_pulse_tbody', teVideoPulseRowTemplate)">+</button>
+                                                <button type="button" class="btn-round btn-remove" onclick="removeTeRow('te_video_pulse_tbody')">-</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </fieldset>
+                </div>
+            </fieldset>
+
+            <!-- ===================== 18. Receiver Sensitivity ===================== -->
+            <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">18. Receiver Sensitivity</legend>
+
+                <div id="rx_sensitivity_section">
+                    <div class="table-responsive">
+                        <table class="custom_tbl" id="rx_sensitivity_tbl">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2">Receiver Sensitivity</th>
+                                    <th>Specified Value<br>b.</th>
+                                    <th>Last Measured Value<br>c.</th>
+                                    <th>Present Value<br>d.</th>
+                                    <th>Remarks<br>e.</th>
+                                    <th rowspan="2" class="action">ACTION</th>
+                                </tr>
+                                <tr>
+                                    <th>-79 dBm (min)</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="rx_sensitivity_tbody">
+                                <tr>
+                                    <td><input type="text" class="form-control form-control-sm" name="rx_sensitivity_label[]" placeholder="Receiver Sensitivity"></td>
+                                    <td><input type="text" class="form-control form-control-sm" name="rx_sensitivity_specified[]" placeholder="-79 dBm (min)"></td>
+                                    <td><input type="text" class="form-control form-control-sm" name="rx_sensitivity_last_measured[]" placeholder="Last Measured"></td>
+                                    <td><input type="text" class="form-control form-control-sm" name="rx_sensitivity_present[]" placeholder="Present Value"></td>
+                                    <td><input type="text" class="form-control form-control-sm" name="rx_sensitivity_remarks[]" placeholder="Remarks"></td>
+                                    <td class="action action-cell-holder" id="rx_sensitivity_action_cell" rowspan="1">
+                                        <div class="action-controls">
+                                            <button type="button" class="btn-round btn-add" onclick="addRxSensitivityRow()">+</button>
+                                            <button type="button" class="btn-round btn-remove" onclick="removeRxSensitivityRow()">-</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <fieldset class="custom-fieldset">
+                        <legend class="legend-custom text-uppercase">Test Equipment Used</legend>
+                        <div class="table-responsive">
+                            <table class="custom_tbl" id="te_rx_sensitivity_tbl">
+                                <thead class="table-dark-head">
+                                    <tr>
+                                        <th class="serial-no">Ser</th>
+                                        <th>Test Equipment Used<br><small>a.</small></th>
+                                        <th style="width:35%;">Checks Undertaken<br><small>b.</small></th>
+                                        <th class="action">ACTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="te_rx_sensitivity_tbody">
+                                    <tr>
+                                        <td class="serial-no">1</td>
+                                        <td><input type="text" class="form-control" name="te_rx_sensitivity_equipment[]" placeholder=" "></td>
+                                        <td><textarea class="form-control wrstg-scroll-textarea" name="te_rx_sensitivity_checks[]" rows="1" placeholder=" "></textarea></td>
+                                        <td class="action action-cell-holder" id="te_rx_sensitivity_action_cell" rowspan="1">
+                                            <div class="action-controls">
+                                                <button type="button" class="btn-round btn-add" onclick="addTeRow('te_rx_sensitivity_tbody', teRxSensitivityRowTemplate)">+</button>
+                                                <button type="button" class="btn-round btn-remove" onclick="removeTeRow('te_rx_sensitivity_tbody')">-</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </fieldset>
+                </div>
+            </fieldset>
+
+            <!-- ===================== 19. General Checks ===================== -->
+            <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">19. General Checks</legend>
+
+                <div id="general_checks_section">
+                    <div class="table-responsive">
+                        <table class="custom_tbl" id="general_checks_tbl">
+                            <thead>
+                                <tr>
+                                    <th>Ser</th>
+                                    <th>Check<br>a.</th>
+                                    <th>Remarks<br>b.</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Video/Tracks</td>
+                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="general_check_video_remarks" rows="2"></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Code with Height</td>
+                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="general_check_code_height_remarks" rows="2"></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>Availability of Pre-Sync from Primary Radar</td>
+                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="general_check_presync_remarks" rows="2"></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>Status of system ventilation</td>
+                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="general_check_ventilation_remarks" rows="2"></textarea></td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>Status of cables/connectors</td>
+                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="general_check_cables_remarks" rows="2"></textarea></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </fieldset>
+
+        </div>
+    </form>
+        </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+
+<style>
+    .group-header-cell {
+        background-color: #e9ecef;
+        font-size: 13px;
+        padding: 6px 10px;
+    }
+
+    #vswr_tbl th {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    #te_vswr_tbl th {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    #power_output_tbl th {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    #te_power_output_tbl th {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    #dc_power_tbl th {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    #te_dc_power_tbl th {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    #rf_pulse_tbl th {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    #te_rf_pulse_tbl th {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    #video_pulse_tbl th {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    #te_video_pulse_tbl th {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    #rx_sensitivity_tbl th {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    #te_rx_sensitivity_tbl th {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    #general_checks_tbl th {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    #vswr_tbl_remark textarea {
+        height: 100%;
+    }
+
+    #vswr_tbl_remark td[rowspan] textarea {
+        height: calc(100% - 2px);
+    }
+</style>
+
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    WRSTGQuarterly.init({
+        extraTableIds: [],
+        visibilityBindings: [],
+        submitConfirmation: { formId: 'brahmos_feedback_form' }
+    });
+});
+
+/* ════════════════════════════════════════════════════════════
+   SHARED HELPERS
+════════════════════════════════════════════════════════════ */
+
+/** Re-number the Ser (first) cell of every row in a tbody */
+function renumberRows(tbodyId) {
+    var rows = document.getElementById(tbodyId).rows;
+    for (var i = 0; i < rows.length; i++) {
+        rows[i].cells[0].textContent = i + 1;
+    }
+}
+
+/**
+ * The action cell lives only in row 0.
+ * Keep its rowspan equal to the total row count so it
+ * visually covers all rows at all times.
+ */
+function syncActionCellRowspan(tbodyId) {
+    var tbody      = document.getElementById(tbodyId);
+    var actionCell = document.getElementById(tbodyId.replace('_tbody', '_action_cell'));
+    if (actionCell) {
+        actionCell.rowSpan = tbody.rows.length;
+    }
+}
+
+/** Append a new row (no action cell) and update the rowspan */
+function addTeRow(tbodyId, templateFn) {
+    var tbody  = document.getElementById(tbodyId);
+    var newRow = document.createElement('tr');
+    newRow.innerHTML = templateFn();
+    tbody.appendChild(newRow);
+    renumberRows(tbodyId);
+    syncActionCellRowspan(tbodyId);
+}
+
+/** Remove the last row (keep min 1) and update the rowspan */
+function removeTeRow(tbodyId) {
+    var tbody = document.getElementById(tbodyId);
+    if (tbody.rows.length === 1) {
+        alert('At least one row is required.');
+        return;
+    }
+    tbody.deleteRow(tbody.rows.length - 1);
+    renumberRows(tbodyId);
+    syncActionCellRowspan(tbodyId);
+}
+
+/* ════════════════════════════════════════════════════════════
+   TEST EQUIPMENT ROW TEMPLATES  (3 cells only — no action td)
+════════════════════════════════════════════════════════════ */
+
+function teVswrRowTemplate() {
+    return `<td class="serial-no"></td>
+            <td><input type="text" class="form-control" name="te_vswr_equipment[]" placeholder=" "></td>
+            <td><textarea class="form-control wrstg-scroll-textarea" name="te_vswr_checks[]" rows="1" placeholder=" "></textarea></td>`;
+}
+
+function tePowerOutputRowTemplate() {
+    return `<td class="serial-no"></td>
+            <td><input type="text" class="form-control" name="te_power_output_equipment[]" placeholder=" "></td>
+            <td><textarea class="form-control wrstg-scroll-textarea" name="te_power_output_checks[]" rows="1" placeholder=" "></textarea></td>`;
+}
+
+function teDcPowerRowTemplate() {
+    return `<td class="serial-no"></td>
+            <td><input type="text" class="form-control" name="te_dc_power_equipment[]" placeholder=" "></td>
+            <td><textarea class="form-control wrstg-scroll-textarea" name="te_dc_power_checks[]" rows="1" placeholder=" "></textarea></td>`;
+}
+
+function teRfPulseRowTemplate() {
+    return `<td class="serial-no"></td>
+            <td><input type="text" class="form-control" name="te_rf_pulse_equipment[]" placeholder=" "></td>
+            <td><textarea class="form-control wrstg-scroll-textarea" name="te_rf_pulse_checks[]" rows="1" placeholder=" "></textarea></td>`;
+}
+
+function teVideoPulseRowTemplate() {
+    return `<td class="serial-no"></td>
+            <td><input type="text" class="form-control" name="te_video_pulse_equipment[]" placeholder=" "></td>
+            <td><textarea class="form-control wrstg-scroll-textarea" name="te_video_pulse_checks[]" rows="1" placeholder=" "></textarea></td>`;
+}
+
+function teRxSensitivityRowTemplate() {
+    return `<td class="serial-no"></td>
+            <td><input type="text" class="form-control" name="te_rx_sensitivity_equipment[]" placeholder=" "></td>
+            <td><textarea class="form-control wrstg-scroll-textarea" name="te_rx_sensitivity_checks[]" rows="1" placeholder=" "></textarea></td>`;
+}
+
+/* ════════════════════════════════════════════════════════════
+   SECTION 14 – POWER OUTPUT (main table)
+════════════════════════════════════════════════════════════ */
+
+function addPowerOutputRow() {
+    var tbody  = document.getElementById('power_output_tbody');
+    var newRow = document.createElement('tr');
+    newRow.innerHTML = `
+        <td><input type="text" class="form-control form-control-sm" name="power_output_label[]" placeholder="Peak Power Output"></td>
+        <td><input type="text" class="form-control form-control-sm" name="power_output_specified[]" placeholder="1500 W (min)"></td>
+        <td><input type="text" class="form-control form-control-sm" name="power_output_last_measured[]" placeholder="Last Measured"></td>
+        <td><input type="text" class="form-control form-control-sm" name="power_output_present[]" placeholder="Present Value"></td>
+        <td><input type="text" class="form-control form-control-sm" name="power_output_remarks[]" placeholder="Remarks"></td>`;
+    tbody.appendChild(newRow);
+    document.getElementById('power_output_action_cell').rowSpan = tbody.rows.length;
+}
+
+function removePowerOutputRow() {
+    var tbody = document.getElementById('power_output_tbody');
+    if (tbody.rows.length === 1) { alert('At least one row is required.'); return; }
+    tbody.deleteRow(tbody.rows.length - 1);
+    document.getElementById('power_output_action_cell').rowSpan = tbody.rows.length;
+}
+
+/* ════════════════════════════════════════════════════════════
+   SECTION 18 – RECEIVER SENSITIVITY (main table)
+════════════════════════════════════════════════════════════ */
+
+function addRxSensitivityRow() {
+    var tbody  = document.getElementById('rx_sensitivity_tbody');
+    var newRow = document.createElement('tr');
+    newRow.innerHTML = `
+        <td><input type="text" class="form-control form-control-sm" name="rx_sensitivity_label[]" placeholder="Receiver Sensitivity"></td>
+        <td><input type="text" class="form-control form-control-sm" name="rx_sensitivity_specified[]" placeholder="-79 dBm (min)"></td>
+        <td><input type="text" class="form-control form-control-sm" name="rx_sensitivity_last_measured[]" placeholder="Last Measured"></td>
+        <td><input type="text" class="form-control form-control-sm" name="rx_sensitivity_present[]" placeholder="Present Value"></td>
+        <td><input type="text" class="form-control form-control-sm" name="rx_sensitivity_remarks[]" placeholder="Remarks"></td>`;
+    tbody.appendChild(newRow);
+    document.getElementById('rx_sensitivity_action_cell').rowSpan = tbody.rows.length;
+}
+
+function removeRxSensitivityRow() {
+    var tbody = document.getElementById('rx_sensitivity_tbody');
+    if (tbody.rows.length === 1) { alert('At least one row is required.'); return; }
+    tbody.deleteRow(tbody.rows.length - 1);
+    document.getElementById('rx_sensitivity_action_cell').rowSpan = tbody.rows.length;
+}
+</script>
+{% endblock js %}

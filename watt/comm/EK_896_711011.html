@@ -1,0 +1,543 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item active" aria-current="page">EK 896 — VLF-HF Rx</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">CHECK OFF LIST — VLF-HF RECEIVER EK 896 (711011)</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="ek896_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!-- ══════════════════════════════════════════
+                   HEADER — Ship / Trial Info
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Trial Header Information</legend>
+                <div class="row g-3">
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="ship" required>
+                        <option value="">-- Select Ship --</option>
+                        {% for ship in ship_options %}
+                        <option value="{{ ship.value }}">{{ ship.label }}</option>
+                        {% endfor %}
+                      </select>
+                      <label class="form_control_1">Name of Ship <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="equipment" value="EK 896 VLF-HF Rx" readonly placeholder=" ">
+                      <label class="form_control_1">Equipment</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="sno" placeholder=" ">
+                      <label class="form_control_1">S. No.</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="date" class="form-control" name="trial_date" required placeholder=" ">
+                      <label class="form_control_1">Date <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="department" required>
+                        <option value="">-- Select Department --</option>
+                        <option value="ND">ND</option>
+                        <option value="Gunnery">Gunnery</option>
+                        <option value="Communication">Communication</option>
+                        <option value="ASW">ASW</option>
+                      </select>
+                      <label class="form_control_1">Department <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="nature_of_trials" required>
+                        <option value="">-- Select Nature of Trials --</option>
+                        <option value="lls">lls</option>
+                        <option value="SATs">SATs</option>
+                        <option value="HATs">HATs</option>
+                        <option value="OP Checks">OP Checks</option>
+                      </select>
+                      <label class="form_control_1">Nature of Trials <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   PREAMBLE
+              ══════════════════════════════════════════ -->
+              <div class="wrstg-note-box mt-3 mb-3">
+                <span class="wrstg-note-icon">&#9432;</span>
+                Trial team reported onboard for Op Checks of VLF-HF Rx EK 896 at
+                <input type="text" class="wrstg-note-inline-input" name="preamble_time" maxlength="1" placeholder="HH:MM"> hrs.
+                The trials were carried out i.a.w. IHQ MoD (N) approved schedule and CNO. 07/10 are enumerated in succeeding paragraphs&nbsp;:&ndash;
+              </div>
+ 
+              <style>
+                .wrstg-note-box {
+                  display: flex;
+                  align-items: baseline;
+                  gap: 8px;
+                  background: #fffbe6;
+                  border-left: 4px solid #f5a623;
+                  border-radius: 6px;
+                  padding: 10px 16px;
+                  font-size: 13.5px;
+                  color: #5a4000;
+                  line-height: 1.6;
+                  flex-wrap: wrap;
+                }
+                .wrstg-note-icon {
+                  font-size: 16px;
+                  color: #f5a623;
+                  flex-shrink: 0;
+                  margin-top: 1px;
+                }
+                .wrstg-note-inline-input {
+                  width: 64px;
+                  border: none;
+                  border-bottom: 1.5px solid #c9922a;
+                  background: transparent;
+                  font-size: 13.5px;
+                  color: #5a4000;
+                  text-align: center;
+                  outline: none;
+                  padding: 0 2px 1px;
+                  font-family: inherit;
+                }
+                .wrstg-note-inline-input:focus {
+                  border-bottom: 2px solid #f5a623;
+                }
+                .wrstg-note-inline-input::placeholder {
+                  color: #c9922a;
+                  opacity: 0.7;
+                }
+              </style>
+
+              <!-- ══════════════════════════════════════════
+                   (A) PHYSICAL CHECKS
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">(A) Physical Checks</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Checks</th>
+                        <th>Observations</th>
+                        <th style="width:140px;">Remarks </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <!-- A1 -->
+                      <tr>
+                        <td class="serial-no">1.</td>
+                        <td>Installation of RX into Rx cabinet.</td>
+                        
+                        <td>
+                          <select class="form-control" name="phys_1_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <!-- A2 -->
+                      <tr>
+                        <td class="serial-no">2.</td>
+                        <td>Securing of RX.</td>
+                        
+                        <td>
+                          <select class="form-control" name="phys_2_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <!-- A3 -->
+                      <tr>
+                        <td class="serial-no">3.</td>
+                        <td>Antenna connection to RX (Single Aerial).</td>
+                        
+                        <td>
+                          <select class="form-control" name="phys_3_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <!-- A4 -->
+                      <tr>
+                        <td class="serial-no">4.</td>
+                        <td>Power supply to RX cabinet.</td>
+                        
+                        <td>
+                          <select class="form-control" name="phys_4_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <!-- A5 -->
+                      <tr>
+                        <td class="serial-no">5.</td>
+                        <td>All push buttons / functional rotating knobs / toggle switch.</td>
+                        
+                        <td>
+                          <select class="form-control" name="phys_5_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <!-- A6 -->
+                      <tr>
+                        <td class="serial-no">6.</td>
+                        <td>Interfacing of HSDM and AVLF Demodulator.</td>
+                       
+                        <td>
+                          <select class="form-control" name="phys_6_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <!-- A7 — Serial Numbers (text inputs, no Sat/Unsat) -->
+                      <tr>
+                        <td class="serial-no">7.</td>
+                        <td><strong>HSDM Ser No.</strong></td>
+                        <td>
+                          <div class="form-group form-md-line-input form-md-floating-label mt-1 mb-1">
+                            <input type="text" class="form-control" name="hsdm_ser_no" placeholder=" ">
+                            
+                          </div>
+                        </td>
+                       
+                      </tr>
+
+                      <!-- A8 -->
+                      <tr>
+                        <td class="serial-no">8.</td>
+                        <td><strong>AVLF Demodulator Ser No.</strong></td>
+                        <td>
+                          <div class="form-group form-md-line-input form-md-floating-label mt-1 mb-1">
+                            <input type="text" class="form-control" name="avlf_ser_no" placeholder=" ">
+                            
+                          </div>
+                        </td>
+                        
+                      </tr>
+
+                      <!-- A9 -->
+                      <tr>
+                        <td class="serial-no">9.</td>
+                        <td><strong>IBA Device Ser No.</strong></td>
+                        <td>
+                          <div class="form-group form-md-line-input form-md-floating-label mt-1 mb-1">
+                            <input type="text" class="form-control" name="iba_ser_no" placeholder=" ">
+                            
+                          </div>
+                        </td>
+                        
+                      </tr>
+
+                      <!-- A10 -->
+                      <tr>
+                        <td class="serial-no">10.</td>
+                        <td><strong>Monitor / Laptop Ser No.</strong></td>
+                        <td>
+                          <div class="form-group form-md-line-input form-md-floating-label mt-1 mb-1">
+                            <input type="text" class="form-control" name="monitor_ser_no" placeholder=" ">
+                            
+                          </div>
+                        </td>
+                        
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   (B) FUNCTIONAL CHECKS
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">(B) Functional Checks</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Checks</th>
+                        <th>Observations</th>
+                        <th style="width:140px;">Remarks </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <!-- B1 -->
+                      <tr>
+                        <td class="serial-no">1.</td>
+                        <td>Functions of all functional push buttons.</td>
+            
+                        <td>
+                          <select class="form-control" name="func_1_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <!-- B2 -->
+                      <tr>
+                        <td class="serial-no">2.</td>
+                        <td>Changing of modes.</td>
+                        
+                        <td>
+                          <select class="form-control" name="func_2_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <!-- B3 -->
+                      <tr>
+                        <td class="serial-no">3.</td>
+                        <td>Changing of frequency manually.</td>
+                       
+                        <td>
+                          <select class="form-control" name="func_3_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <!-- B4 -->
+                      <tr>
+                        <td class="serial-no">4.</td>
+                        <td>Changing of frequency by scanning.</td>
+                        
+                        <td>
+                          <select class="form-control" name="func_4_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <!-- B5 -->
+                      <tr>
+                        <td class="serial-no">5.</td>
+                        <td>Inserting of frequency in channels.</td>
+                        <td>
+                          <select class="form-control" name="func_5_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <!-- B6 -->
+                      <tr>
+                        <td class="serial-no">6.</td>
+                        <td>Scanning of frequency on both receivers.</td>
+                        <td>
+                          <select class="form-control" name="func_6_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <!-- B7 -->
+                      <tr>
+                        <td class="serial-no">7.</td>
+                        <td>Changing of scanning programme.</td>
+                        
+                        <td>
+                          <select class="form-control" name="func_7_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <!-- B8 -->
+                      <tr>
+                        <td class="serial-no">8.</td>
+                        <td>Rx of Voice / CW.</td>
+                        
+                        <td>
+                          <select class="form-control" name="func_8_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <!-- B9 -->
+                      <tr>
+                        <td class="serial-no">9.</td>
+                        <td>Reception of VND through IBA / HSDM.</td>
+                        
+                        <td>
+                          <select class="form-control" name="func_9_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                      <!-- B10 -->
+                      <tr>
+                        <td class="serial-no">10.</td>
+                        <td>Reception of LNX through IBA / AVLF Demodulator.</td>
+                        
+                        <td>
+                          <select class="form-control" name="func_10_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+                             <!-- ══════════════════════════════════════════
+                   REMARKS
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Remarks</legend>
+                <div class="static-section">
+                  <div class="table-responsive">
+                    <table class="custom_tbl" id="remarks_table">
+                      <thead>
+                        <tr>
+                          <th class="serial-no">Sr No</th>
+                          <th>Observations</th>
+                          <th>SS Remarks</th>
+                          <th class="action" style="width: 80px;">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="serial-no">1</td>
+                          <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="observation" rows="2"></textarea></td>
+                          <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="ss_remarks" rows="2"></textarea></td>
+                          <td class="action action-cell-holder">
+                            <div class="action-controls">
+                              <button type="button" class="btn-round btn-add" onclick="addRow('remarks_table')" title="Add Row">+</button>
+                              <button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'remarks_table')" title="Remove Row">-</button>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset class="custom-fieldset">
+                                                        <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                                                        <div class="row g-3">
+                                                                <div class="col-md-4 col-12">
+                                                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                                                <select class="form-control" id="dmr_16a_presenting_authority" name="dmr_16a_presenting_authority" required>
+                                                                                        <option value="">--Select--</option>
+                                                                                        <option value="dockyard">Dockyard</option>
+                                                                                        <option value="shipstaff">Shipstaff</option>
+                                                                                        <option value="oem">OEM</option>
+                                                                                </select>
+                                                                                <label class="form_control_1" for="dmr_16a_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+                                                                        </div>
+                                                                </div>
+                                                                <div class="col-md-4 col-12">
+                                                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                                                <input type="text" class="form-control" id="dmr_16a_watt" name="dmr_16a_watt" value="VZG" >
+                                                                                <label class="form_control_1" for="dmr_16a_watt">WATT</label>
+                                                                        </div>
+                                                                </div>
+                                                        </div>
+                                                </fieldset>
+ 
+              <!-- Submit -->
+              <div class="d-flex justify-content-center mt-4 gap-2">
+                <button type="submit" class="btn btn-success px-4">Submit</button>
+              </div>
+ 
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

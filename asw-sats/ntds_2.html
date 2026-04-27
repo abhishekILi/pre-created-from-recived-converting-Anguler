@@ -1,0 +1,207 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ASW SATs</a></li>
+					<li class="breadcrumb-item active" aria-current="page">NTDS-2</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">NTDS-2</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="ntds_2_form">
+						{% csrf_token %}
+						<div class="form-body">
+							<fieldset class="custom-fieldset">
+								<div class="row g-3">
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<select class="form-control" name="ship_name" required>
+												<option value="">Select Ship</option>
+												{% for option in ship_options %}
+													<option value="{{ option.value }}">{{ option.label }}</option>
+												{% endfor %}
+											</select>
+											<label class="form_control_1">SHIP <span class="text-danger">*</span></label>
+										</div>
+									</div>
+                                    <div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<select class="form-control" name="department" required>
+												<option value="">Select Dept</option>
+												<option value="ASW">ASW</option>
+												<option value="ND">ND</option>
+												<option value="ELE">ELE</option>
+												<option value="COMMN">COMMN</option>
+											</select>
+											<label class="form_control_1">DEPT <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<input type="text" class="form-control" name="equipment" value="NTDS-2" required>
+											<label class="form_control_1">EQUIPMENT <span class="text-danger">*</span></label>
+										</div>
+									</div>
+                                    <div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<input type="date" class="form-control" name="date" required>
+											<label class="form_control_1">DATE <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<select class="form-control" name="nature_of_trials" required>
+												<option value="">Select Nature of Trials</option>
+												<option value="SATs">SATs</option>
+												<option value="HATs">HATs</option>
+												<option value="OP CHECKS">OP CHECKS</option>
+												<option value="IIs">IIs</option>
+											</select>
+											<label class="form_control_1">NATURE OF TRIALS <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+                                <legend class="legend-custom text-uppercase">Checks</legend>
+								<div class="table-responsive">
+										<table class="custom_tbl" >
+										<thead class="table-dark-head">
+											<tr>
+												<th>Ser</th>
+												<th>OBSERVATIONS</th>
+												<th>RESULT</th>
+												<th>REMARKS</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td colspan="4">
+													Trials team embarked onboard at <input type="time" class="line-input embarked-hrs" name="embark_time"> on <input type="text" class="line-input embarked-hrs obs-input"  name = "traps_location">or SATs of NTDS as per approved schedule, BR 4050 and CNO 07/10. Following observed:-
+												</td>
+											</tr>
+											<tr ><td colspan="4"><b>CHECKS</b></td></tr>
+											<tr><td></td><td colspan="3"><b>Area at Sea:</b></td></tr>
+
+											<tr>
+												<td>01</td>
+												<td>Test Case 1 -  Preliminary Procedures</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="Test_Case_1_Preliminary_Procedures_result"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="Test_Case_1_Preliminary_Procedures_remarks"></textarea></td>
+											</tr>
+
+
+											<tr>
+												<td>02</td>
+												<td>Test Case 2 – Tow streaming </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="Test_Case_2_Tow_streaming_result"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="Test_Case_2_Tow_streaming_remarks"></textarea></td>
+											</tr>
+
+											<tr>
+												<td>03</td>
+												<td>Test Case 3 – System Checks</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="Test_Case_3_System_Checks_result"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="Test_Case_3_System_Checks_remarks"></textarea></td>
+											</tr>
+
+											<tr>
+												<td>04</td>
+												<td>Test Case 4 – Shallow water Towed Array Checks</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="Test_Case_4_Shallow_water_Towed_Array_Checks_result"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="Test_Case_4_Shallow_water_Towed_Array_Checks_remarks"></textarea></td>
+											</tr>
+
+											<tr>
+												<td>05</td>
+												<td>Test Case 5 – Synthetic Demonstration and EAD Firing</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="Test_Case_5_Synthetic_Demonstration_and_EAD_Firing_result"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="Test_Case_5_Synthetic_Demonstration_and_EAD_Firing_remarks"></textarea></td>
+											</tr>
+
+											<tr>
+												<td>06</td>
+												<td>Test Case 6 – Tow recovery </td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="Test_Case_6_Tow_recovery_result"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="Test_Case_6_Tow_recovery_remarks"></textarea></td>
+											</tr>
+
+                                            <tr>
+												<td>07</td>
+												<td>Appendix A – Scenario for Detection and Bearing Checks</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="Test_Case_7_Appendix_A_Scenario_for_Detection_and_Bearing_Checks_result"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="Test_Case_7_Appendix_A_Scenario_for_Detection_and_Bearing_Checks_remarks"></textarea></td>
+											</tr>
+
+											<tr>
+												<td colspan="4"><strong>General Observations</strong><textarea class="form-control wrstg-scroll-textarea" rows="8" name="General Observations"></textarea></td>
+												
+											</tr>
+
+											
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                                <div class="row g-3">
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" id="traps_presenting_authority" name="traps_presenting_authority" required>
+                                                <option value="">--Select--</option>
+                                                <option value="dockyard">Dockyard</option>
+                                                <option value="shipstaff">Shipstaff</option>
+                                                <option value="oem">OEM</option>
+                                                </select>
+                                                <label class="form_control_1" for="traps_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" id="traps_inspecting_authority" name="traps_inspecting_authority">
+                                            <label class="form_control_1" for="traps_inspecting_authority">Inspecting Authority</label>
+                                        </div>
+                                    </div> 
+                                </div>
+                            </fieldset>
+
+                           
+							<div class="form-actions mt-3">
+								<button type="submit" class="btn btn-primary">Submit</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

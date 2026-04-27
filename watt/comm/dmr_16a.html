@@ -1,0 +1,240 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+    .sat-unsat {
+        display: inline-flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .sat-unsat label {
+        margin: 0;
+        font-weight: 600;
+    }
+
+    .mini-inline {
+        width: 120px;
+        height: 32px;
+        display: inline-block;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">WATT</a></li>
+                    <li class="breadcrumb-item">Communication</li>
+                    <li class="breadcrumb-item active" aria-current="page">DMR 16A</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">DMR 16A - OP Checks</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-3 mb-4">
+                    <form method="post" id="dmr_16a_form">
+                        {% csrf_token %}
+
+                        <input type="hidden" id="dmr_16a_form_id" name="dmr_16a_form_id" value="dmr_16a_communication_checks">
+                        <input type="hidden" id="dmr_16a_form_name" name="dmr_16a_form_name" value="DMR_16A_OP_CHECKS">
+
+                        <fieldset class="custom-fieldset">
+                            <legend class="legend-custom text-uppercase">Basic Information</legend>
+                            <div class="row g-3">
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <select class="form-control" id="dmr_16a_ship_name" name="dmr_16a_ship_name" required>
+                                            <option value="">--Select--</option>
+                                            {% for ship in ship_options %}
+                                            <option value="{{ ship.value }}">{{ ship.label }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <label class="form_control_1" for="dmr_16a_ship_name">Ship <span class="text-danger">*</span></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <select class="form-control" id="dmr_16a_department" name="dmr_16a_department" required>
+                                            <option value="">-- Select --</option>
+                                            <option value="ND">ND</option>
+                                            <option value="ASW">ASW</option>
+                                            <option value="COMM">COMM</option>
+                                            <option value="GUNNERY">GUNNERY</option>
+                                        </select>
+                                        <label class="form_control_1" for="dmr_16a_department">Department <span class="text-danger">*</span></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <input type="text" class="form-control" id="dmr_16a_equipment" name="dmr_16a_equipment" value="DMR 16A" required>
+                                        <label class="form_control_1" for="dmr_16a_equipment">Equipment <span class="text-danger">*</span></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <input type="date" class="form-control" id="dmr_16a_date" name="dmr_16a_date" required>
+                                        <label class="form_control_1" for="dmr_16a_date">Date <span class="text-danger">*</span></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12">
+                                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                <select class="form-control" id="nature_trials_select" name="nature_of_trials" required>
+                                    <option value="">--Select--</option>
+                                    <option value="SATs">SATs</option>
+                                    <option value="HATS">HATs</option>
+                                    <option value="OP_CHECKS">OP CHECKS</option>
+                                    <option value="IIS">IIs</option>
+                                    </select>
+                                    <label class="form_control_1">Nature of Trial</label>
+                                </div>
+                            </div>
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="custom-fieldset">
+                            <legend class="legend-custom text-uppercase">Checks</legend>
+
+                            <div class="mb-2">
+                                22 Trial team embarked onboard for Ops Check of DMR 16A at
+                                <input type="time" id="dmr_16a_reported_time" name="dmr_16a_reported_time" class="form-control mini-inline" required>
+                                hrs The trials carried out IAW IHQ, MoD(N)/DNS approved schedule CM/3214 date 12 May 17 and CNO. 07/10 are enumerated in succeeding paragraphs 
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="custom_tbl" id="dmr_16a_checks_table">
+                                    <thead class="table-dark-head">
+                                        <tr>
+                                            <th>Ser</th>
+                                            <th>Checks</th>
+                                            <th>Observations</th>
+                                            <th>Remarks</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td >1.</td>
+                                            <td colspan="2"><strong><u>Physical Checks/Checks Prior Switching ON.</u></strong></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr><td></td><td>(a)</td><td> Check all accessories as per supply voucher</td><td><div class="sat-unsat"><label><input type="radio" name="dmr_16a_1_a" value="SAT" required> Sat</label><label><input type="radio" name="dmr_16a_1_a" value="UNSAT"> Unsat</label></div></td></tr>
+                                        <tr><td></td><td>(b)</td><td> Fitment of equipment on shock mount in compartment</td><td><div class="sat-unsat"><label><input type="radio" name="dmr_16a_1_b" value="SAT" required> Sat</label><label><input type="radio" name="dmr_16a_1_b" value="UNSAT"> Unsat</label></div></td></tr>
+                                        <tr><td></td><td>(c)</td><td> Grounding connected to GND point near aft of the DMR 16A</td><td><div class="sat-unsat"><label><input type="radio" name="dmr_16a_1_c" value="SAT" required> Sat</label><label><input type="radio" name="dmr_16a_1_c" value="UNSAT"> Unsat</label></div></td></tr>
+                                        <tr><td></td><td>(d)</td><td> Securing of connecting cable</td><td><div class="sat-unsat"><label><input type="radio" name="dmr_16a_1_d" value="SAT" required> Sat</label><label><input type="radio" name="dmr_16a_1_d" value="UNSAT"> Unsat</label></div></td></tr>
+                                        <tr><td></td><td>(e)</td><td> Check AC mains supply 200V - 260V, 50 Hz</td><td><div class="sat-unsat"><label><input type="radio" name="dmr_16a_1_e" value="SAT" required> Sat</label><label><input type="radio" name="dmr_16a_1_e" value="UNSAT"> Unsat</label></div></td></tr>
+                                        <tr><td></td><td>(f)</td><td> Voltage difference between earthing points of the compartment and the ground point of AC main socket, should be almost zero.</td><td><div class="sat-unsat"><label><input type="radio" name="dmr_16a_1_f" value="SAT" required> Sat</label><label><input type="radio" name="dmr_16a_1_f" value="UNSAT"> Unsat</label></div></td></tr>
+
+                                        <tr>
+                                            <td>2.</td>
+                                            <td colspan="2"><strong><u>Switch on Tests.</u></strong></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr><td></td><td>(a)</td><td> Switch ON DMR-16A by pressing power ON/OFF button.</td><td><div class="sat-unsat"><label><input type="radio" name="dmr_16a_2_a" value="SAT" required> Sat</label><label><input type="radio" name="dmr_16a_2_a" value="UNSAT"> Unsat</label></div></td></tr>
+                                        <tr><td></td><td>(b)</td><td> Check function of front panel, switches, LED and functional keys.</td><td><div class="sat-unsat"><label><input type="radio" name="dmr_16a_2_b" value="SAT" required> Sat</label><label><input type="radio" name="dmr_16a_2_b" value="UNSAT"> Unsat</label></div></td></tr>
+                                        <tr><td></td><td>(c)</td><td> Check operational function of touch screen.</td><td><div class="sat-unsat"><label><input type="radio" name="dmr_16a_2_c" value="SAT" required> Sat</label><label><input type="radio" name="dmr_16a_2_c" value="UNSAT"> Unsat</label></div></td></tr>
+                                        <tr><td></td><td>(d)</td><td> Check operational function of USB Key Board and Mouse.</td><td><div class="sat-unsat"><label><input type="radio" name="dmr_16a_2_d" value="SAT" required> Sat</label><label><input type="radio" name="dmr_16a_2_d" value="UNSAT"> Unsat</label></div></td></tr>
+                                        <tr><td></td><td>(e)</td><td> Check outlet fans are working fine.</td><td><div class="sat-unsat"><label><input type="radio" name="dmr_16a_2_e" value="SAT" required> Sat</label><label><input type="radio" name="dmr_16a_2_e" value="UNSAT"> Unsat</label></div></td></tr>
+
+                                        <tr>
+                                            <td>3.</td>
+                                            <td colspan="2"><strong><u>Checks Connecting Audio Signals to DMR 16A</u></strong></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr><td></td><td>(a)</td><td> Check the input audio signal(s) routed through shielded co-axial cable to type RG 48(preferable) between source to DMR 16A.</td><td><div class="sat-unsat"><label><input type="radio" name="dmr_16a_3_a" value="SAT" required> Sat</label><label><input type="radio" name="dmr_16a_3_a" value="UNSAT"> Unsat</label></div></td></tr>
+                                        <tr><td></td><td>(b)</td><td> Check the audio signals, to be recorded, using Multimeter/Oscilloscope audio value should be between -9V to +9V.</td><td><div class="sat-unsat"><label><input type="radio" name="dmr_16a_3_b" value="SAT" required> Sat</label><label><input type="radio" name="dmr_16a_3_b" value="UNSAT"> Unsat</label></div></td></tr>
+                                        <tr><td></td><td>(c)</td><td> The input audio signal should be connected to any channel under "Analog Input" via BNC connectors at the rear of the equipment.</td><td><div class="sat-unsat"><label><input type="radio" name="dmr_16a_3_c" value="SAT" required> Sat</label><label><input type="radio" name="dmr_16a_3_c" value="UNSAT"> Unsat</label></div></td></tr>
+
+                                        <tr>
+                                            <td>4.</td>
+                                            <td colspan="2"><strong><u>Recording and Live Monitoring of Signals in DMR-16A</u></strong></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr><td></td><td>(a)</td><td> DMR 16A has been interfaced with PAE 3060, EK 896, HF Tx/Rx MBR T 5022/6222/ FM8900s and CCS MK II///ACCS Connecting to ITU Number <input type="text" class="form-control embarked-hrs" id="dmr_16a_4_a_itu_no" name="dmr_16a_4_a_itu_no"> for recording of Helo communication.</td><td><div class="sat-unsat"><label><input type="radio" name="dmr_16a_4_a" value="SAT" required> Sat</label><label><input type="radio" name="dmr_16a_4_a" value="UNSAT"> Unsat</label></div></td></tr>
+                                        <tr><td></td><td>(b)</td><td> Bridge Kastan interfaced for recording of Bridge communication (CON 1 and CON 2).</td><td><div class="sat-unsat"><label><input type="radio" name="dmr_16a_4_b" value="SAT" required> Sat</label><label><input type="radio" name="dmr_16a_4_b" value="UNSAT"> Unsat</label></div></td></tr>
+                                        <tr><td></td><td>(c)</td><td> Check audio input wave (bar) on screen while recording each channel.</td><td><div class="sat-unsat"><label><input type="radio" name="dmr_16a_4_c" value="SAT" required> Sat</label><label><input type="radio" name="dmr_16a_4_c" value="UNSAT"> Unsat</label></div></td></tr>
+                                        <tr><td></td><td>(d)</td><td> Check functioning of all 16 channels by recording through each channel and playing of recorded input audio into the built-in speaker.</td><td><div class="sat-unsat"><label><input type="radio" name="dmr_16a_4_d" value="SAT" required> Sat</label><label><input type="radio" name="dmr_16a_4_d" value="UNSAT"> Unsat</label></div></td></tr>
+                                        <tr><td></td><td>(e)</td><td> Insert audio jack plug of the headphone into the AUDIO port and listen to the audio. This time built-in speaker is cut-off.</td><td><div class="sat-unsat"><label><input type="radio" name="dmr_16a_4_e" value="SAT" required> Sat</label><label><input type="radio" name="dmr_16a_4_e" value="UNSAT"> Unsat</label></div></td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">REMARKS</legend>
+								<div class="static-section">
+								<div class="table-responsive">
+									<table class="custom_tbl" id="remarks_table">
+										<thead>
+											<tr>
+												<th class="serial-no">Sr No</th>
+												<th>Observations</th>
+												<th>SS Remarks</th>
+												<th class="action">Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no">1</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" data-base-name="observation" placeholder="" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" data-base-name="ss_remarks" placeholder="" rows="2"></textarea></td>
+												<td class="action action-cell-holder">
+													<div class="action-controls">
+														<button type="button" class="btn-round btn-add" onclick="addRow('remarks_table')" title="Add Row">+</button>
+														<button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'remarks_table')" title="Remove Row">-</button>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								</div>
+							</fieldset>
+
+                        <fieldset class="custom-fieldset">
+                            <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                            <div class="row g-3">
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <select class="form-control" id="dmr_16a_presenting_authority" name="dmr_16a_presenting_authority" required>
+                                            <option value="">--Select--</option>
+                                            <option value="dockyard">Dockyard</option>
+                                            <option value="shipstaff">Shipstaff</option>
+                                            <option value="oem">OEM</option>
+                                        </select>
+                                        <label class="form_control_1" for="dmr_16a_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <input type="text" class="form-control" id="dmr_16a_watt" name="dmr_16a_watt" value="VZG" >
+                                        <label class="form_control_1" for="dmr_16a_watt">WATT</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+                        <div class="d-flex justify-content-center mt-4">
+                            <button type="submit" class="btn btn-success px-4">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

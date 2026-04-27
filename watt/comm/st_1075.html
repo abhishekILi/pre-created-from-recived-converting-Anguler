@@ -1,0 +1,230 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+	.checks-text-input {
+		width: 140px !important;
+		min-width: 140px !important;
+		max-width: 140px !important;
+		height: 34px;
+		box-sizing: border-box;
+	}
+
+	.inline-middle {
+		vertical-align: middle;
+	}
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" >
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">WATT</a></li>
+					<li class="breadcrumb-item">Communication</li>
+					<li class="breadcrumb-item active" aria-current="page">ST-1075</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">ST-1075 - OP Checks</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-3 mb-4">
+					<form method="post" id="st_1075_form">
+						{% csrf_token %}
+
+						<input type="hidden" id="st_1075_form_id" name="st_1075_form_id" value="st_1075_communication_checks">
+						<input type="hidden" id="st_1075_form_name" name="st_1075_form_name" value="ST_1075_OP_CHECKS">
+
+						<fieldset class="custom-fieldset">
+							<legend class="legend-custom text-uppercase">Basic Information</legend>
+							<div class="row g-3">
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<select class="form-control" id="st_1075_ship_name" name="st_1075_ship_name" required>
+											<option value="">--Select--</option>
+											{% for ship in ship_options %}
+											<option value="{{ ship.value }}">{{ ship.label }}</option>
+											{% endfor %}
+										</select>
+										<label class="form_control_1" for="st_1075_ship_name">Ship <span class="text-danger">*</span></label>
+									</div>
+								</div>
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<select class="form-control" id="st_1075_department" name="st_1075_department" required>
+											<option value="">-- Select --</option>
+											<option value="ND">ND</option>
+											<option value="ASW">ASW</option>
+											<option value="COMM">COMM</option>
+											<option value="GUNNERY">GUNNERY</option>
+										</select>
+										<label class="form_control_1" for="st_1075_department">Department <span class="text-danger">*</span></label>
+									</div>
+								</div>
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<input type="text" class="form-control" id="st_1075_equipment" name="st_1075_equipment" value="ST-1075" required>
+										<label class="form_control_1" for="st_1075_equipment">Equipment <span class="text-danger">*</span></label>
+									</div>
+								</div>
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<input type="date" class="form-control" id="st_1075_date" name="st_1075_date" required>
+										<label class="form_control_1" for="st_1075_date">Date <span class="text-danger">*</span></label>
+									</div>
+								</div>
+								<div class="col-md-4 col-12">
+                                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                <select class="form-control" id="st_1075_nature_of_trials" name="st_1075_nature_of_trials" required>
+                                    <option value="">--Select--</option>
+                                    <option value="SATs">SATs</option>
+                                    <option value="HATS">HATs</option>
+                                    <option value="OP_CHECKS">OP CHECKS</option>
+                                    <option value="IIS">IIs</option>
+                                    </select>
+                                    <label class="form_control_1">Nature of Trial</label>
+                                </div>
+                            </div>
+							</div>
+						</fieldset>
+
+						<fieldset class="custom-fieldset">
+							<legend class="legend-custom text-uppercase">Checks</legend>
+
+							<div class="mb-2">
+								Trial team reported onboard for ops check of HF TX/RX ST - 1075 at
+								<input type="time" id="st_1075_reported_time" name="st_1075_reported_time" class="form-control d-inline-block checks-text-input" required>
+								hrs. The trials carried out IAW IHQ approved schedule and CNO 07/10 are enumerated in succeeding paragraphs :-
+							</div>
+
+							<div class="table-responsive">
+								<table class="custom_tbl" id="st_1075_checks_table">
+									<thead class="table-dark-head">
+										<tr>
+											<th>Ser</th>
+											<th class="checks-col">Checks</th>
+											<th class="obs-col">Observations</th>
+											<th class="remarks-col">Remarks (SAT / UNSAT)</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>(A)</td>
+											<td colspan="3"><strong><u>Visual Checks</u></strong></td>
+										</tr>
+										<tr>
+											<td></td>
+											<td>(i)</td>
+											<td>Fitment of equipment rack on shock mount in <textarea id="st_1075_a_i_location" name="st_1075_a_i_location" rows="1" class="form-control d-inline-block wrstg-scroll-textarea embarked-hrs checks-text-input inline-middle"></textarea>.</td>
+											<td><div class="SAT-UNSAT"><label><input type="radio" id="st_1075_a_i_SAT" name="st_1075_a_i" value="SAT" required> SAT</label><label><input type="radio" id="st_1075_a_i_UNSAT" name="st_1075_a_i" value="UNSAT"> UNSAT</label></div></td>
+										</tr>
+										<tr><td></td><td>(ii)</td><td>Fitment of antenna on <textarea id="st_1075_a_ii_location" name="st_1075_a_ii_location" rows="1" class="form-control d-inline-block wrstg-scroll-textarea embarked-hrs checks-text-input inline-middle"></textarea>.</td><td><div class="SAT-UNSAT"><label><input type="radio" id="st_1075_a_ii_SAT" name="st_1075_a_ii" value="SAT" required> SAT</label><label><input type="radio" id="st_1075_a_ii_UNSAT" name="st_1075_a_ii" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>(iii)</td><td>Antenna connection to the TX through feeder cable.</td><td><div class="SAT-UNSAT"><label><input type="radio" id="st_1075_a_iii_SAT" name="st_1075_a_iii" value="SAT" required> SAT</label><label><input type="radio" id="st_1075_a_iii_UNSAT" name="st_1075_a_iii" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>(iv)</td><td>Grounding of Rack/Equipment</td><td><div class="SAT-UNSAT"><label><input type="radio" id="st_1075_a_iv_SAT" name="st_1075_a_iv" value="SAT" required> SAT</label><label><input type="radio" id="st_1075_a_iv_UNSAT" name="st_1075_a_iv" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>(v)</td><td>Power supply to the Transmitter</td><td><div class="SAT-UNSAT"><label><input type="radio" id="st_1075_a_v_SAT" name="st_1075_a_v" value="SAT" required> SAT</label><label><input type="radio" id="st_1075_a_v_UNSAT" name="st_1075_a_v" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>(vi)</td><td>Fitment of TX Exciter unit PA unit and PSU into cabinet and interconnection.</td><td><div class="SAT-UNSAT"><label><input type="radio" id="st_1075_a_vi_SAT" name="st_1075_a_vi" value="SAT" required> SAT</label><label><input type="radio" id="st_1075_a_vi_UNSAT" name="st_1075_a_vi" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>(vii)</td><td>Functions of all knobs, switches, push buttons and display.</td><td><div class="SAT-UNSAT"><label><input type="radio" id="st_1075_a_vii_SAT" name="st_1075_a_vii" value="SAT" required> SAT</label><label><input type="radio" id="st_1075_a_vii_UNSAT" name="st_1075_a_vii" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>(viii)</td><td>Power supply voltage.</td><td><div class="SAT-UNSAT"><label><input type="radio" id="st_1075_a_viii_SAT" name="st_1075_a_viii" value="SAT" required> SAT</label><label><input type="radio" id="st_1075_a_viii_UNSAT" name="st_1075_a_viii" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>(ix)</td><td>Front panel control check.</td><td><div class="SAT-UNSAT"><label><input type="radio" id="st_1075_a_ix_SAT" name="st_1075_a_ix" value="SAT" required> SAT</label><label><input type="radio" id="st_1075_a_ix_UNSAT" name="st_1075_a_ix" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>(x)</td><td>BITE test power ON.</td><td><div class="SAT-UNSAT"><label><input type="radio" id="st_1075_a_x_SAT" name="st_1075_a_x" value="SAT" required> SAT</label><label><input type="radio" id="st_1075_a_x_UNSAT" name="st_1075_a_x" value="UNSAT"> UNSAT</label></div></td></tr>
+
+										<tr>
+											<td>(B)</td>
+											<td colspan="3"><strong><u>RCU CHECKS</u></strong></td>
+										</tr>
+										<tr><td></td><td>(i)</td><td>Installation RCU PC &amp; system software.</td><td><div class="SAT-UNSAT"><label><input type="radio" id="st_1075_b_i_SAT" name="st_1075_b_i" value="SAT" required> SAT</label><label><input type="radio" id="st_1075_b_i_UNSAT" name="st_1075_b_i" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>(ii)</td><td>Interfacing of RCU PC with TX.</td><td><div class="SAT-UNSAT"><label><input type="radio" id="st_1075_b_ii_SAT" name="st_1075_b_ii" value="SAT" required> SAT</label><label><input type="radio" id="st_1075_b_ii_UNSAT" name="st_1075_b_ii" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>(iii)</td><td>Setting and configuration</td><td><div class="SAT-UNSAT"><label><input type="radio" id="st_1075_b_iii_SAT" name="st_1075_b_iii" value="SAT" required> SAT</label><label><input type="radio" id="st_1075_b_iii_UNSAT" name="st_1075_b_iii" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>(iv)</td><td>03 Text messages transmitted from RCU PC successfully and both messages received in VND PC using RX EK 896 with HSDM correctly.</td><td><div class="SAT-UNSAT"><label><input type="radio" id="st_1075_b_iv_SAT" name="st_1075_b_iv" value="SAT" required> SAT</label><label><input type="radio" id="st_1075_b_iv_UNSAT" name="st_1075_b_iv" value="UNSAT"> UNSAT</label></div></td></tr>
+
+										<tr>
+											<td>(C)</td>
+											<td colspan="3"><strong><u>Functional Checks</u></strong></td>
+										</tr>
+										<tr><td></td><td>(i)</td><td>Tuning of TX on random frequency from 2 to 24 MHZ.</td><td><div class="SAT-UNSAT"><label><input type="radio" id="st_1075_c_i_SAT" name="st_1075_c_i" value="SAT" required> SAT</label><label><input type="radio" id="st_1075_c_i_UNSAT" name="st_1075_c_i" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>(ii)</td><td>Changing of mode USB/LSB/DATA/CW</td><td><div class="SAT-UNSAT"><label><input type="radio" id="st_1075_c_ii_SAT" name="st_1075_c_ii" value="SAT" required> SAT</label><label><input type="radio" id="st_1075_c_ii_UNSAT" name="st_1075_c_ii" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>(iii)</td><td>Changing of power output 1/4 %, 1/2 % and 100 %.</td><td><div class="SAT-UNSAT"><label><input type="radio" id="st_1075_c_iii_SAT" name="st_1075_c_iii" value="SAT" required> SAT</label><label><input type="radio" id="st_1075_c_iii_UNSAT" name="st_1075_c_iii" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>(iv)</td><td>TX on voice carried out on random frequency from 2 to 24 MHZ and reception of same from RS (VZG).</td><td><div class="SAT-UNSAT"><label><input type="radio" id="st_1075_c_iv_SAT" name="st_1075_c_iv" value="SAT" required> SAT</label><label><input type="radio" id="st_1075_c_iv_UNSAT" name="st_1075_c_iv" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>(v)</td><td>Remoting of set through CCS MKII to ITUs.</td><td><div class="SAT-UNSAT"><label><input type="radio" id="st_1075_c_v_SAT" name="st_1075_c_v" value="SAT" required> SAT</label><label><input type="radio" id="st_1075_c_v_UNSAT" name="st_1075_c_v" value="UNSAT"> UNSAT</label></div></td></tr>
+									</tbody>
+								</table>
+							</div>
+						</fieldset>
+
+						<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">REMARKS</legend>
+								<div class="static-section">
+								<div class="table-responsive">
+									<table class="custom_tbl" id="remarks_table">
+										<thead>
+											<tr>
+												<th class="serial-no">Sr No</th>
+												<th>Observations</th>
+												<th>SS Remarks</th>
+												<th class="action">Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no">1</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" data-base-name="observation" placeholder="" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" data-base-name="ss_remarks" placeholder="" rows="2"></textarea></td>
+												<td class="action action-cell-holder">
+													<div class="action-controls">
+														<button type="button" class="btn-round btn-add" onclick="addRow('remarks_table')" title="Add Row">+</button>
+														<button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'remarks_table')" title="Remove Row">-</button>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								</div>
+							</fieldset>
+						<fieldset class="custom-fieldset">
+                            <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                            <div class="row g-3">
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<select class="form-control" id="st_1075_presenting_authority" name="st_1075_presenting_authority" required>
+                                            <option value="">--Select--</option>
+                                            <option value="dockyard">Dockyard</option>
+                                            <option value="shipstaff">Shipstaff</option>
+                                            <option value="oem">OEM</option>
+                                        </select>
+										<label class="form_control_1" for="st_1075_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<input type="text" class="form-control" id="st_1075_watt" name="st_1075_watt" value="VZG" readonly>
+										<label class="form_control_1" for="st_1075_watt">WATT</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+						<div class="d-flex justify-content-center mt-4">
+							<button type="submit" class="btn btn-success px-4">Save</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

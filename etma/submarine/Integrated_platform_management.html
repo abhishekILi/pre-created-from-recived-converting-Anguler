@@ -1,0 +1,1547 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">NEC</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">INTEGRATED PLATFORM MANAGEMENT</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">HARBOUR ACCEPTANCE TRIALS INTEGRATED PLATFORM MANAGEMENT</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="nec_trials_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+
+                            <!-- ============================================================ -->
+                            <!-- TABLE No 1 (PEP)                                            -->
+                            <!-- ============================================================ -->
+                            {% comment %} <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">mance of Trials </legend> {% endcomment %}
+                                <p>Table No 1 (PEP)
+
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="pep_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th>Ser</th>
+                                                <th>Initial Conditions</th>
+                                                <th>Actions</th>
+                                                <th>Expected Results</th>
+                                                <th>Results (Y/N)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1.1</td>
+                                                <td rowspan="2">PEP panel has no power supply.</td>
+                                                <td>Energise the PEP panel by positioning &ldquo;115V/60 Hz NORMAL POWER SUPPLY&rdquo; changeover switch to &ldquo;On&rdquo; position.</td>
+                                                <td>Check 115V 60 Hz &amp; 28V NORMAL indicator lamp is On.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="pep_r1" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="pep_r1" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>1.2</td>
+                                                
+                                                <td>Acknowledge the alarms by pressing &ldquo;ALARM ACKNOWLEDGE&rdquo;</td>
+                                                <td>Check Alarms is acknowledged and buzzer gets off.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="pep_r2" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="pep_r2" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>1.3</td>
+                                                <td rowspan="2">28 V Normal power supply is provided from 115V 60 Hz.</td>
+                                                <td>Turn on the PEP indicator lamps by pressing &ldquo;LAMP TEST&rdquo;</td>
+                                                <td>Check all the indicator lamps are On.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="pep_r3" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="pep_r3" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>1.4</td>
+                                            
+                                                <td>Turn Off the PEP indicator lamps by depressing &ldquo;LAMP TEST&rdquo;</td>
+                                                <td>Check all the indicator lamps are Off, except the voltage-present indicator lamps.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="pep_r4" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="pep_r4" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td >1.5</td>
+                                                <td rowspan="4">28 V Normal power supply is provided from Emergency network.</td>
+                                                <td>Turn On the PEP warning lights by pressing &ldquo;ALARM TEST&rdquo;</td>
+                                                <td>Check that syntheses and channels on all the warning light are On</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="pep_r5" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="pep_r5" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>1.6</td>
+                                                
+                                                <td>Turn Off the PEP warning lights by depressing &ldquo;ALARM TEST&rdquo;</td>
+                                                <td>Check that syntheses and channels on all the warning light are Off</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="pep_r6" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="pep_r6" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>1.7</td>
+                                              
+                                                <td>Check that the PEP buzzer is working by pressing and holding &ldquo;BUZZER TEST&rdquo;</td>
+                                                <td>The Buzzer is heard</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="pep_r7" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="pep_r7" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>1.8</td>
+                                           
+                                                <td>Release the buzzer buttons</td>
+                                                <td>The Buzzer is Off</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="pep_r8" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="pep_r8" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            
+
+                            <!-- ============================================================ -->
+                            <!-- TABLE No 2 (DSC)                                            -->
+                            <!-- ============================================================ -->
+                            <p>Table No 2 (DSC)</p>
+
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="dsc_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th>Ser</th>
+                                                <th>Initial Conditions</th>
+                                                <th>Actions</th>
+                                                <th>Expected Results</th>
+                                                <th>Results (Y/N)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>2.1</td>
+                                                <td rowspan="2">The DSC console is stopped and PLCs are on RUN mode.</td>
+                                                <td>Energise DSC console by positioning the DSC &ldquo;115V/60 Hz POWER SUPPLY&rdquo; changeover switch to &ldquo;On&rdquo; position.</td>
+                                                <td>Check 115 V 60 Hz DSC indicator lamp is On, console is initialised and background screen displayed with a progress bar.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="dsc_r1" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="dsc_r1" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>2.2</td>
+                                           
+                                                <td>Acknowledge the alarms by pressing &ldquo;ALARM ACKNOWLEDGE&rdquo;</td>
+                                                <td>Check Alarms is acknowledged and buzzer gets off.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="dsc_r2" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="dsc_r2" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>2.3</td>
+                                                <td rowspan="2">The DSC console is operational</td>
+                                                <td>Verify the presence of tabs</td>
+                                                <td>Check &ldquo;ELECTRICITY&rdquo;, &ldquo;AUXILIARY&rdquo;, &ldquo;STABILITY&rdquo;, &ldquo;SAFETIES&rdquo;, &ldquo;PROPULSION&rdquo; &amp; &ldquo;SYSTEM&rdquo; tabs are present and displayed.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="dsc_r3" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="dsc_r3" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>2.4</td>
+                                             
+                                                <td>Verify the presence of control buttons</td>
+                                                <td>Check &ldquo;LOGBOOK&rdquo;, &ldquo;ALARMS&rdquo; &amp; &ldquo;UTILITIES&rdquo; buttons are present.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="dsc_r4" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="dsc_r4" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>2.5</td>
+                                                <td>The OO1 mimic is displayed on the left screen</td>
+                                                <td>Verify the status of DSC console on the OO1 mimic</td>
+                                                <td>DSC symbol is displayed green</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="dsc_r5" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="dsc_r5" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                          
+
+                            <!-- ============================================================ -->
+                            <!-- TABLE No 3 (DSP)                                            -->
+                            <!-- ============================================================ -->
+                            <p>Table No 3 (DSP)</p>
+
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="dsp_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th>Ser</th>
+                                                <th>Initial Conditions</th>
+                                                <th>Actions</th>
+                                                <th>Expected Results</th>
+                                                <th>Results (Y/N)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>3.1</td>
+                                                <td rowspan="2">DSP panel is deenergised</td>
+                                                <td>Energise the DSP panel by positioning &ldquo;115V/60 Hz NORMAL POWER SUPPLY&rdquo; <br>changeover switch to &ldquo;On&rdquo; position.</td>
+                                                <td>Check 115V 60 Hz &amp; 28V NORMAL indicator lamp is On.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="dsp_r1" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="dsp_r1" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.2</td>
+                                               
+                                                <td>Acknowledge the alarms by pressing &ldquo;ALARM ACKNOWLEDGE&rdquo;</td>
+                                                <td>Check Alarms is acknowledged and buzzer gets off.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="dsp_r2" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="dsp_r2" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.3</td>
+                                                <td>28V Normal power supply is from 115V 60 Hz</td>
+                                                <td>Turn on the DSP indicator lamps by pressing &ldquo;LAMP TEST&rdquo;</td>
+                                                <td>Check all the indicator lamps are On.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="dsp_r3" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="dsp_r3" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.4</td>
+                                                <td></td>
+                                                <td>Turn Off the DSP indicator lamps by depressing &ldquo;LAMP TEST&rdquo;</td>
+                                                <td>Check all the indicator lamps are Off, except the voltage-present indicator lamps.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="dsp_r4" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="dsp_r4" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.5</td>
+                                                <td rowspan="4"></td>
+                                                <td>Turn On the DSP warning lights by pressing &ldquo;ALARM TEST&rdquo;</td>
+                                                <td>Check that syntheses and channels on all the warning light are On</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="dsp_r5" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="dsp_r5" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.6</td>
+                                            
+                                                <td>Turn Off the DSP warning lights by depressing &ldquo;ALARM TEST&rdquo;</td>
+                                                <td>Check that syntheses and channels on all the warning light are Off</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="dsp_r6" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="dsp_r6" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.7</td>
+                                               
+                                                <td>Check that the DSP buzzer is working by pressing and holding &ldquo;BUZZER TEST&rdquo;</td>
+                                                <td>The Buzzer is heard</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="dsp_r7" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="dsp_r7" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.8</td>
+                                              
+                                                <td>Release the buzzer buttons</td>
+                                                <td>The Buzzer goes Off</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="dsp_r8" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="dsp_r8" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.9</td>
+                                                <td rowspan="4">DSP panel is receiving 115V 60 Hz (28V normal) power supply</td>
+                                                <td rowspan="3">Energise the DSP panel with emergency 28V by positioning the DSP 28V <br>EMERGENCY POWER SUPPLY changeover switch on ON and the DSP<br> 115V/60Hz NORMAL POWER SUPPLY changeover switch on OFF</td>
+                                                <td>DSP 115V/60Hz &amp; 28V Normal indicator lamp is Off</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="dsp_r9" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="dsp_r9" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.10</td>
+                                                <td>DSP 28V EMERGENCY indicator lamp is On</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="dsp_r10" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="dsp_r10" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.11</td>
+                                                <td>&ldquo;SNORTING ALERT&rdquo; synthesis &amp; &ldquo;115V FAILURE&rdquo; channel flash red</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="dsp_r11" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="dsp_r11" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.12</td>
+                                             
+                                                <td>Acknowledge the alarm by pressing &ldquo;ALARM ACKNOWLEDGE&rdquo;</td>
+                                                <td>Synthesis and Channel not flashing and buzzer gets Off</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="dsp_r12" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="dsp_r12" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.13</td>
+                                                <td>28V power supply is from Emergency 28V.</td>
+                                                <td>Turn on the DSP indicator lamps by pressing &ldquo;LAMP TEST&rdquo;</td>
+                                                <td>Check all the indicator lamps are On.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="dsp_r13" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="dsp_r13" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.14</td>
+                                                <td></td>
+                                                <td>Turn Off the DSP indicator lamps by depressing &ldquo;LAMP TEST&rdquo;</td>
+                                                <td>Check all the indicator lamps are Off, except the voltage-present indicator lamps.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="dsp_r14" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="dsp_r14" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.15</td>
+                                                <td rowspan="3">The &ldquo;SNORTING ALERT&rdquo; warning light and &ldquo;115V<br> FAILURE&rdquo; channel are Red and not flashing</td>
+                                                <td>Turn On the DSP warning lights by pressing &ldquo;ALARM TEST&rdquo;</td>
+                                                <td>Check that syntheses and channels on all the warning light are On</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="dsp_r15" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="dsp_r15" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.16</td>
+                                                <td>Turn Off the DSP warning lights by depressing &ldquo;ALARM TEST&rdquo;</td>
+                                                <td>Check that syntheses on all the warning light are Off except &ldquo;SNORTING ALERT&rdquo; synthesis</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="dsp_r16" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="dsp_r16" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.17</td>
+                                                <td></td>
+                                                <td>Check that channels on all the warning light are Off except &ldquo;115V FAILURE&rdquo; channel</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="dsp_r17" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="dsp_r17" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.18</td>
+                                                <td></td>
+                                                <td>Perform the DSP buzzer test by pressing and holding BUZZER TEST</td>
+                                                <td>The Buzzers sound are heard</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="dsp_r18" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="dsp_r18" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                             <tr>
+                                                <td>3.19</td>
+                                                <td></td>
+                                                <td>Release the BUZZER TEST </td>
+                                                <td>The Buzzers goes Off</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="dsp_r19" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="dsp_r19" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                          
+
+                            <!-- ============================================================ -->
+                            <!-- TABLE No 4 (PEC)                                            -->
+                            <!-- ============================================================ -->
+                           <p>Table No 4 (PEC)</p>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="pec_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th>Ser</th>
+                                                <th>Initial Conditions</th>
+                                                <th>Actions</th>
+                                                <th>Expected Results</th>
+                                                <th>Results (Y/N)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>4.1</td>
+                                                <td rowspan="2">The PEC console is stopped and the PLCs are on RUN mode.</td>
+                                                <td rowspan="2">Energise PEC console by positioning the PEC &ldquo;115V/60 Hz POWER SUPPLY&rdquo;<br> changeover switch to &ldquo;On&rdquo; position.</td>
+                                                <td>Check 115 V 60 Hz PEC indicator lamp is On, console is initialised<br> and background screen displayed with a progress bar.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="pec_r1" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="pec_r1" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.2</td>
+                                                <td>OO1 mimic is displayed on left and BC1 on right screen</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="pec_r2" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="pec_r2" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.3</td>
+                                                <td rowspan="2">The PEC console is operational</td>
+                                                <td>Verify the presence of tabs</td>
+                                                <td>Check &ldquo;ELECTRICITY&rdquo;, &ldquo;AUXILIARY&rdquo;, &ldquo;STABILITY&rdquo;, &ldquo;SAFETIES&rdquo;,<br> &ldquo;PROPULSION&rdquo; &amp; &ldquo;SYSTEM&rdquo; tabs are present and displayed.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="pec_r3" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="pec_r3" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.4</td>
+                                               
+                                                <td>Verify the presence of control buttons</td>
+                                                <td>Check &ldquo;LOGBOOK&rdquo;, &ldquo;ALARMS&rdquo; &amp; &ldquo;UTILITIES&rdquo; buttons are present.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="pec_r4" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="pec_r4" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.5</td>
+                                                <td>The OO1 mimic is displayed on the left screen</td>
+                                                <td>Verify the status of PEC console on the OO1 mimic</td>
+                                                <td>PEC symbol is displayed green</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="pec_r5" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="pec_r5" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                           
+
+                            <!-- ============================================================ -->
+                            <!-- TABLE No 5 (SOWS)                                           -->
+                            <!-- ============================================================ -->
+                         <p> Table No 5 (SOWS)</p>
+
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="sows_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th>Ser</th>
+                                                <th>Initial Conditions</th>
+                                                <th>Actions</th>
+                                                <th>Expected Results</th>
+                                                <th>Results (Y/N)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>5.1</td>
+                                                <td rowspan="2">The SSO Large Screen is stopped and the PLCs are on RUN mode.</td>
+                                                <td rowspan="2">Energise the SSO Large Screen by positioning the Large screen <br>&ldquo;115V/60 Hz POWER SUPPLY&rdquo; changeover switch to &ldquo;On&rdquo; position.</td>
+                                                <td>Check 115 V 60 Hz Large Screen indicator lamp is On, Console is initialised <br>and Background screen displayed with a progress bar.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="sows_r1" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="sows_r1" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>5.2</td>
+                                                <td>OO1 mimic is displayed on left and BC1 on right screen</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="sows_r2" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="sows_r2" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>5.3</td>
+                                                <td rowspan="2">The SSO Large Screen is operational</td>
+                                                <td>Verify the presence of tabs</td>
+                                                <td>Check &ldquo;ELECTRICITY&rdquo;, &ldquo;AUXILIARY&rdquo;, &ldquo;STABILITY&rdquo;, &ldquo;SAFETIES&rdquo;,<br> &ldquo;PROPULSION&rdquo; &amp; &ldquo;SYSTEM&rdquo; tabs are present and displayed.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="sows_r3" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="sows_r3" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>5.4</td>
+                                               
+                                                <td>Verify the presence of control buttons</td>
+                                                <td>Check &ldquo;LOGBOOK&rdquo;, &ldquo;ALARMS&rdquo; &amp; &ldquo;UTILITIES&rdquo; buttons are present.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="sows_r4" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="sows_r4" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>5.5</td>
+                                                <td>The OO2 mimic is displayed on the left screen</td>
+                                                <td>Verify the status of SSO Large</td>
+                                                <td>SSO symbol is displayed green.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="sows_r5" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="sows_r5" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                         
+
+                            <!-- ============================================================ -->
+                            <!-- TABLE No 6 (IPMS – Verification of General Characteristics) -->
+                            <!-- ============================================================ -->
+                             <p> <b>(b) Verification of the General Characteristics of IPMS</b>
+                                <br>The purpose of this test is to verify the access to management mimics from consoles and to verify the IPMS&rsquo;s response time.</p>
+                            <p>Table No 6</p>
+
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="ipms_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th>Ser</th>
+                                                <th>Initial Conditions</th>
+                                                <th>Actions</th>
+                                                <th>Expected Results</th>
+                                                <th>Results (Y/N)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>6.1</td>
+                                                <td rowspan="2">Supervision has been started. The PLCs are in RUN mode. <br>The test is performed at the PEC console. The OO1 mimic<br> is displayed on left screen and BC mimic on right screen</td>
+                                                <td>Verify that the access to other domains is possible only in <strong>Monitoring Mode</strong>.</td>
+                                                <td>-</td>
+                                                <td>
+                                                   -
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>6.2</td>
+                                                <td>
+                                                    &bull; Click on AUXILIARY tab and then GF system.<br>
+                                                    &bull; Verify that the GF mimic the access to control buttons.
+                                                </td>
+                                                <td>
+                                                    &bull; List of systems is displayed and then GF mimic is displayed.<br>
+                                                    &bull; Control buttons is &lsquo;Inhibited&rsquo;.
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="ipms_r2" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="ipms_r2" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>6.3</td>
+                                                <td></td>
+                                                <td>
+                                                    &bull; Click on STABILITY tab and then DM system.<br>
+                                                    &bull; Verify that the DM mimic the access to control buttons.
+                                                </td>
+                                                <td>
+                                                    &bull; List of systems is displayed and then DM mimic is displayed.<br>
+                                                    &bull; Control buttons is &lsquo;Inhibited&rsquo;.
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="ipms_r3" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="ipms_r3" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>6.4</td>
+                                                <td>Supervision has been started. The PLCs are in RUN mode.The test is performed on PEC. <br> The installation is on standby, the local/remote changeover switch for DG1 preheating pump is<br> on remote mode</td>
+                                                <td>
+                                                    &bull; Verify on the BD1 mimic with preheating pump on remote.<br>
+                                                    &bull; Put the changeover switch to local and observe on BD1 mimic the symbol of preheating pump.<br>
+                                                    &bull; The time taken &lt; 2 sec when black frame appears.
+                                                </td>
+                                                <td>
+                                                    &bull; No black frame around the preheating pump symbol.<br>
+                                                    &bull; The preheating pump has black frame around it.
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="ipms_r4" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="ipms_r4" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>6.5</td>
+                                                <td>Supervision has been started. The PLCs are in RUN mode. The test is performed on DSC. <br>The installation is on standby, the local/remote changeover switch for the cruise pump <br>is on remote. The local/remote change over switch for the cruise pump is on remote</td>
+                                                <td>
+                                                    &bull; Verify on the DT mimic with preheating pump on remote.<br>
+                                                    &bull; Put the changeover switch to local and observe on DT mimic the symbol of preheating pump.<br>
+                                                    &bull; The time taken &lt; 2 sec when black frame appears.
+                                                </td>
+                                                <td>
+                                                    &bull; No black frame around the cruise pump symbol.<br>
+                                                    &bull; The cruise pump has black frame around it.
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="ipms_r5" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="ipms_r5" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>6.6</td>
+                                                <td></td>
+                                                <td><strong><u>Issuing a Command Order</u></strong><br>
+                                                 &bull; On the BC02500 switchboard status of the greeen LED for 0004012 channels</td>
+                                                <td>
+                                                    &bull; On the BC02500 switchboard, Status of the green LED for OO04012 channels<br>
+                                                    &bull; D 2.8.1 green LED is OFF<br>
+                                                    &bull; D 2.8.5 green LED is ON
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="ipms_r6" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="ipms_r6" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>6.7</td>
+                                                <td>The test is performed on PEC on right screen the BC mimic is not displayed on PEC.</td>
+                                                <td>
+                                                    &bull; Click on ELECTRICITY tab and then BC system.
+                                                </td>
+                                                <td>
+                                                    &bull; List of system is displayed and then BC mimic is displayed.<br>
+                                                    &bull; Dm2 is displayed in OFF state.
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="ipms_r7" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="ipms_r7" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>6.8</td>
+                                                <td>Dm2 is open &ndash; (OFF position)</td>
+                                                <td>
+                                                    &bull; Click on Dm2 and Click ON and Validate it.<br>
+                                                    &bull; Time taken for the status of green LED for OO04012 channel D 2.8.1 changes to Off position is &lt; 2 Sec.
+                                                </td>
+                                                <td>
+                                                    &bull; Order window is closed.<br>
+                                                    &bull; D2.8.1 LED turns green.<br>
+                                                    &bull; Dm2 displayed, on-state to OFF on BC mimic.
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="ipms_r8" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="ipms_r8" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                      
+
+                            <!-- ============================================================ -->
+                            <!-- TABLE No 7 (Reconfiguration / Supervision Network)          -->
+                            <!-- ============================================================ -->
+                            <p><b>(c)
+Verification of MCMS reconfiguration in the event of failure of the other .</b></p>
+                            <p>Table No 7</p>
+
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="tbl7_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th>Ser</th>
+                                                <th>Initial Conditions</th>
+                                                <th>Actions</th>
+                                                <th>Expected Results</th>
+                                                <th>Results (Y/N)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>7.1</td>
+                                                <td>Supervision has been started. The PLCs are in RUN mode. The switches are working and the <br>OO1 mimic is displayed on the PEC and DSC consoles. The power cut off is made for the PEC.</td>
+                                                <td>Open the circuit breaker on BF02552 switchboard for OO02502 PEC power supply.</td>
+                                                <td>
+                                                    &bull; Circuit Breaker open.<br>
+                                                    &bull; Both PEC screen are OFF. PEC 115V POWER SUPPLY indicator is OFF.<br>
+                                                    &bull; Switch 1 &ldquo;P&rdquo; (power supply indicator lamp is OFF).<br>
+                                                    &bull; Switch 1 FAULT LED lit red.
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl7_r1" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl7_r1" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>7.2</td>
+                                                <td>The operator is positioned on DSC console in front of OO1 mimic</td>
+                                                <td>Verify the status of the supervision network in mimic.</td>
+                                                <td>
+                                                    &bull; PEC symbol is displayed in red.<br>
+                                                    &bull; Switch 1 symbol displayed in yellow.<br>
+                                                    &bull; &ldquo;PEC NOT AVAILABLE&rdquo; defect message displayed.
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl7_r2" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl7_r2" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>7.3</td>
+                                                <td rowspan="2">The &ldquo;DSC reconfiguration&rdquo; key changeover switch is on OFF position.<br> The OO1 mimic is displayed on DSC console.</td>
+                                                <td>
+                                                    <strong><u>Reconfiguration of the DSC console</u></strong><br>
+                                                    &bull; Put RECONFIGURATION DSC to ON position.<br>
+                                                    &bull; Right click on CONFIGURATION menu.
+                                                </td>
+                                                <td>CONFIGURATION window is displayed.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl7_r3" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl7_r3" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>7.4</td>
+                                                <td>Check the DSC control right status on table</td>
+                                                <td>All &ldquo;SAFETIES&rdquo;, &ldquo;STABILITY&rdquo; &amp; &ldquo;AUXILIARY&rdquo; systems are ticked (green background).</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl7_r4" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl7_r4" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>7.5</td>
+                                                <td></td>
+                                                <td>Check the DSC monitoring right status on table</td>
+                                                <td>&ldquo;SYSTEM&rdquo; is displayed on background colour (selection box not ticked).</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl7_r5" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl7_r5" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>7.6</td>
+                                                <td>The operator is positioned at the DSC console. The EG mimic is displayed on DSC console.</td>
+                                                <td>
+                                                    &bull; Verify configuration on the DSC.<br>
+                                                    &bull; Click on PROPULSION tab.<br>
+                                                    &bull; Click on ME system.<br>
+                                                    &bull; Click on EG system.<br>
+                                                    &bull; Verify on the EG mimic the access to control buttons.
+                                                </td>
+                                                <td>
+                                                    &bull; List of system displayed.<br>
+                                                    &bull; ME mimic is displayed.<br>
+                                                    &bull; EG mimic is displayed.<br>
+                                                    &bull; Access possible to at least one control button.
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl7_r6" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl7_r6" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>7.7</td>
+                                                <td>The operator is position at the PEC console</td>
+                                                <td>Turn on the power supply to the PEC console by closing the circuit breaker on BF02552 switchboard for <br>OO02502 PEC power supply.</td>
+                                                <td>
+                                                    &bull; Circuit Breaker is closed.<br>
+                                                    &bull; PEC console is ON.<br>
+                                                    &bull; PEC 115V POWER SUPPLY indicator is ON.<br>
+                                                    &bull; Switch 1 &ldquo;P&rdquo; (power supply) lit green.<br>
+                                                    &bull; OO1 Mimic is displayed on left screen and BC1 is displayed on right screen.
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl7_r7" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl7_r7" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>7.8</td>
+                                                <td>The operator is positioned at DSC console in front of OO1 mimic</td>
+                                                <td>Verify the status of supervision network on OO1 mimic.</td>
+                                                <td>
+                                                    &bull; PEC symbol displayed in green.<br>
+                                                    &bull; Switch 1, Optical lines between switch 1 and 9 &amp; Optical lines between switch 1 and 2 symbols are displayed in green.<br>
+                                                    &bull; &ldquo;SWITCH 1&rdquo; defect message has disappeared.
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl7_r8" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl7_r8" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>7.9</td>
+                                                <td></td>
+                                                <td>Verify that the PEC has recovered its nominal configuration with monitoring only.</td>
+                                                <td>-</td>
+                                                <td>
+                                                    -
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>7.10</td>
+                                                <td></td>
+                                                <td>Check PEC monitoring right status on table</td>
+                                                <td>ELECTRICITY, PROPULSION SYSTEM is displayed on background colour (selection box not ticked).</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl7_r10" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl7_r10" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>7.11</td>
+                                                <td>The PEC RECONFIGURATION key changeover switch is ON</td>
+                                                <td>Recover the control rights for the ELECTRICITY domain by right click to CONFIGURATION menu and<br> then Click on &ldquo;CONTROL&rdquo; right selection box for each ELECTRICITY domain. Click Apply.</td>
+                                                <td>
+                                                    &bull; CONFIGURATION window is displayed.<br>
+                                                    &bull; All ELECTRICITY systems are ticked.<br>
+                                                    &bull; Actions are performed.
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl7_r11" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl7_r11" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>7.12</td>
+                                                <td>Supervision has been started. The PLCs are in RUN mode. The switches are working and the <br>OO1 mimic is displayed on the PEC and DSC consoles. The power cut off is made for the DSC.</td>
+                                                <td>Open the circuit breaker on BF02552 switchboard for OO02512 DSC power supply.</td>
+                                                <td>
+                                                    &bull; Circuit Breaker open.<br>
+                                                    &bull; Both DSC screens are OFF. DSC 115V POWER SUPPLY indicator is OFF.<br>
+                                                    &bull; Switch 2 &ldquo;P&rdquo; (power supply indicator lamp is OFF).<br>
+                                                    &bull; Switch 2 FAULT LED lit red.
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl7_r12" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl7_r12" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>7.13</td>
+                                                <td>The operator is positioned on DSC console in front of OO1 mimic</td>
+                                                <td>Verify the status of the supervision network in mimic.</td>
+                                                <td>
+                                                    &bull; DSC symbol is displayed in red.<br>
+                                                    &bull; Switch 2 symbol displayed in yellow.<br>
+                                                    &bull; &ldquo;DSC NOT AVAILABLE&rdquo; defect message displayed.
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl7_r13" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl7_r13" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>7.14</td>
+                                                <td rowspan="3">The &ldquo;DSC reconfiguration&rdquo; key changeover switch is on OFF position. <br>The OO1 mimic is displayed on PEC console.</td>
+                                                <td>
+                                                    <strong><u>Reconfiguration of the PEC console</u></strong><br>
+                                                    &bull; Put RECONFIGURATION DSC to ON position.<br>
+                                                    &bull; Right click on CONFIGURATION menu.
+                                                </td>
+                                                <td>CONFIGURATION window is displayed.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl7_r14" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl7_r14" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>7.15</td>
+                                                <td>Check the PEC control right status on table</td>
+                                                <td>All &ldquo;SAFETIES&rdquo;, &ldquo;STABILITY&rdquo; &amp; &ldquo;AUXILIARY&rdquo; systems are ticked (green background).</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl7_r15" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl7_r15" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>7.16</td>
+                                                <td>Check the PEC monitoring right status on table</td>
+                                                <td>&ldquo;SYSTEM&rdquo; is displayed on background colour (selection box not ticked).</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl7_r16" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl7_r16" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>7.17</td>
+                                                <td>The operator is positioned at the PEC console. The EG mimic is displayed on PEC console.</td>
+                                                <td>
+                                                    &bull; Verify configuration on the PEC.<br>
+                                                    &bull; Click on PROPULSION tab.<br>
+                                                    &bull; Click on ME system.<br>
+                                                    &bull; Click on EG system.<br>
+                                                    &bull; Verify on the EG mimic the access to control buttons.
+                                                </td>
+                                                <td>
+                                                    &bull; List of system displayed.<br>
+                                                    &bull; ME mimic is displayed.<br>
+                                                    &bull; EG mimic is displayed.<br>
+                                                    &bull; Access possible to at least one control button.
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl7_r17" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl7_r17" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>7.18</td>
+                                                <td>The operator is position at the PEC console</td>
+                                                <td>Turn on the power supply to the DSC console by closing the circuit breaker on BF02552 switchboard for <br>OO02512 DSC power supply.</td>
+                                                <td>
+                                                    &bull; Circuit Breaker is closed.<br>
+                                                    &bull; DSC console is ON.<br>
+                                                    &bull; DSC 115V POWER SUPPLY indicator is ON.<br>
+                                                    &bull; Switch 1 &ldquo;P&rdquo; (power supply) lit green.<br>
+                                                    &bull; OO1 Mimic is displayed on left screen and BC1 is displayed on right screen.
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl7_r18" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl7_r18" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>7.19</td>
+                                                <td>The operator is positioned at PEC console in front of OO1 mimic</td>
+                                                <td>Verify the status of supervision network on OO1 mimic.</td>
+                                                <td>
+                                                    &bull; DSC symbol displayed in green.<br>
+                                                    &bull; Switch 1, Optical lines between switch 1 and 9 &amp; Optical lines between switch 1 and 2 symbols are displayed in green.
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl7_r19" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl7_r19" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>7.20</td>
+                                                <td>The operator is positioned at PEC console in front of OO1 mimic</td>
+                                                <td>Verify that the DSC has recovered its nominal configruation with monitoring only..</td>
+                                                <td>
+                                                    -
+                                                </td>
+                                                <td>-</td>
+                                                 
+                                            </tr>
+
+
+                                            <tr>
+                                                <td>7.21</td>
+                                                <td>The operator is positioned at PEC console in front of OO1 mimic</td>
+                                                <td>Check DSC monitoring right status on table.</td>
+                                                <td>
+                                                    ELECTRICITY,PROPULSION,SYSTEM  is display on background colour(selection box not ticker)
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl7_r21" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl7_r21" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <td>7.22</td>
+                                                <td>The DSC RECONFIGURATION key changeover switch is ON</td>
+                                                <td>Recover the control rights for the ELECTRICITY doamin by right click to CONFIGURATION menu and then <br>click on "CONTROL" right selection box for each ELECTRICITY domain.Click Apply.</td>
+                                                <td>
+                                                    &bull; DSC symbol displayed in green.<br>
+                                                    &bull; Switch 1, Optical lines between switch 1 and 9 &amp; Optical lines between switch 1 and 2 symbols are displayed in green.
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl7_r22" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl7_r22" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                          
+
+                            <!-- ============================================================ -->
+                            <!-- TABLE No 8 (Power Supply Verification)                      -->
+                            <!-- ============================================================ -->
+                           <p><b>(d) Power Failure Test . </b></p>
+                                <p>Table No 8</p>
+
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="tbl8_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th>Ser</th>
+                                                <th>Initial Conditions</th>
+                                                <th>Actions</th>
+                                                <th>Expected Results</th>
+                                                <th>Results (Y/N)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>8.1</td>
+                                                <td rowspan="2">The PEP panel is receiving a 115V/60 Hz power supply</td>
+                                                <td>Verify 115V 60 Hz voltage present</td>
+                                                <td>
+                                                    &bull; PEP &ndash; 115 V 60 Hz NORMAL POWER SUPPLY is ON.<br>
+                                                    &bull; PEP- 115 V 60 Hz NORMAL Indicator Lamp is ON.
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl8_r1" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl8_r1" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>8.2</td>
+                                                <td>Verify 28 V NORMAL voltage is present</td>
+                                                <td>28 V NORMAL indicator is present.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl8_r2" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl8_r2" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>8.3</td>
+                                                <td rowspan="3">The PEP 28 V Emergency Power Supply is in operation</td>
+                                                <td rowspan="3">Verify 28 V EMERGENCY voltage is present</td>
+                                                <td>PEP- 28 V EMERGENCY POWER SUPPLY is ON</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl8_r3" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl8_r3" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>8.4</td>
+                                                <td>PEP- 28 V Indicator Lamp is ON</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl8_r4" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl8_r4" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>8.5</td>
+                                                <td>28 V EMERGENCY Indicator lamp is ON</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl8_r5" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl8_r5" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>8.6</td>
+                                                <td>The DSP panel is receiving a 115V/60 Hz power supply</td>
+                                                <td>Verify 115V 60 Hz voltage present</td>
+                                                <td>
+                                                    &bull; DSP &ndash; 115 V 60 Hz NORMAL POWER SUPPLY is ON.<br>
+                                                    &bull; DSP- 115 V 60 Hz NORMAL Indicator Lamp is ON.
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl8_r6" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl8_r6" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>8.7</td>
+                                                <td></td>
+                                                <td>Verify 28 V NORMAL voltage is present</td>
+                                                <td>28 V NORMAL indicator is present.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl8_r7" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl8_r7" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>8.8</td>
+                                                <td rowspan="3">The DSP 28 V Emergency Power Supply is in operation.<br> Supervision has been started up; PEP and DSC consoles <br>are operational. The PLCs are in RUN mode.</td>
+                                                <td rowspan="3">Verify 28 V EMERGENCY voltage is present</td>
+                                                <td>DSP- 28 V EMERGENCY POWER SUPPLY is ON</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl8_r8" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl8_r8" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>8.9</td>
+                                                <td>DSP- 28 V Indicator Lamp is ON</td>
+                                                <td>
+                                                   -
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>8.10</td>
+                                                <td>28 V EMERGENCY Indicator lamp is ON</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl8_r10" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl8_r10" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>8.11</td>
+                                                <td >The PEC panel is receiving a 115V/60 Hz power supply</td>
+                                                <td>Verify 115V 60 Hz voltage present</td>
+                                                <td>
+                                                    &bull; PEC &ndash; 115 V 60 Hz NORMAL POWER SUPPLY is ON.<br>
+                                                    &bull; PEC- 115 V 60 Hz NORMAL Indicator Lamp is ON.
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl8_r11" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl8_r11" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>8.12</td>
+                                                <td></td>
+                                                <td>Verify the mimic display on both PEC screens</td>
+                                                <td>Mimic displayed on both screens</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl8_r12" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl8_r12" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>8.13</td>
+                                                <td>The DSC console is receiving a 115V/60 Hz power supply</td>
+                                                <td>Verify 115V 60 Hz voltage present</td>
+                                                <td>
+                                                    &bull; DSC &ndash; 115 V 60 Hz NORMAL POWER SUPPLY is ON.<br>
+                                                    &bull; DSC- 115 V 60 Hz NORMAL Indicator Lamp is ON.
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl8_r13" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl8_r13" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>8.14</td>
+                                                <td></td>
+                                                <td>Verify the mimic display on both DSC screens</td>
+                                                <td>Mimic displayed on both screens</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl8_r14" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl8_r14" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>8.15</td>
+                                                <td>The SSO large screen is receiving a 115V/60 Hz power supply</td>
+                                                <td>Verify 115V 60 Hz voltage present</td>
+                                                <td>
+                                                    &bull; SSO Screen &ndash; 115 V 60 Hz NORMAL POWER SUPPLY is ON.<br>
+                                                    &bull; SSO Screen- 115 V 60 Hz NORMAL Indicator Lamp is ON.
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl8_r15" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl8_r15" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>8.16</td>
+                                                <td></td>
+                                                <td>Verify the mimic display on SSO screens</td>
+                                                <td>Mimic displayed on SSO Large screens</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl8_r16" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl8_r16" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>8.17</td>
+                                                <td>The OO1 mimic is displayed on left screens of both consoles</td>
+                                                <td>Verify the status of PEC console on OO1 mimic on DSC console.</td>
+                                                <td>PEC symbol is displayed in green.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl8_r17" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl8_r17" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>8.18</td>
+                                                <td></td>
+                                                <td>Verify the status of DSC console on OO1 mimic on PEC console.</td>
+                                                <td>DSC symbol is displayed in green.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl8_r18" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl8_r18" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>8.19</td>
+                                                <td></td>
+                                                <td>Verify the status of Large Screen on OO1 mimic on PEC console.</td>
+                                                <td>Large Screen symbol is displayed in green.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl8_r19" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl8_r19" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>8.20</td>
+                                                <td></td>
+                                                <td>Verify the status of Large Screen console on OO1 mimic on DSC console.</td>
+                                                <td>Large Screen symbol is displayed in green.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl8_r20" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl8_r20" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>8.21</td>
+                                                <td></td>
+                                                <td>Verify the status of PEC console on OO1 mimic on DSC console.</td>
+                                                <td>Large Screen symbol is displayed in green.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl8_r21" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl8_r21" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>8.22</td>
+                                              
+                                                <td>The PEP panel is receiving a 115V/60 Hz power supply</td>
+                                                <td>Open the circuit breaker on BF02542 for OO02501 PEP</td>
+                                                <td>Circuit breaker is Open.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl8_r22" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl8_r22" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                             <tr>
+                                                <td>8.23</td>
+                                                <td></td>
+                                                <td>Verify the loss of 115V 60 Hz power supply from the PEP</td>
+                                                <td>PEP – 115 V 60 Hz Indicator lamp is OFF.</td>
+                                                
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl8_r23" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl8_r23" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>8.24</td>
+                                                <td></td>
+                                                <td>Verify the EMERGENCY power supply for the digital displays</td>
+                                                <td>
+                                                    &bull; PEP -28 V EMERGENCY indicator lamo is ON.<br>
+                                                    &bull; 28 V EMERGENCY Indicator lamp is ON.
+                                                </td>
+                                                
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl8_r24" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl8_r24" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <td>8.25</td>
+                                                <td></td>
+                                                <td>Verify the 28 V EMERGENCY power supply for indicator <br>lamp by pressing and holding LAMP TEST</td>
+                                                <td>PEP – 115 V 60 Hz Indicator lamp is OFF.</td>
+                                                
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl8_r25" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl8_r25" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <td>8.26</td>
+                                                
+                                                <td><u>Emergency opening order for Db4 circuit breaker (FWD Auxiliary)</td>
+                                                <td></td>
+                                                <td>-</td>
+                                                
+                                                <td>
+                                                    -
+                                                </td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <td>8.27</td>
+                                                <td>The Db4 Circuit breaker is closed (OFF indicator lamp unlit and ON<br> indicator lamp is lit)</td>
+                                                <td>Press Db4 on PEP</td>
+                                                <td>
+                                                     &bull; ON indicator lamp is Unlit.<br>
+                                                    &bull; OFF inidicator lamp lit .<br>
+                                                    &bull; Db4 breaker is triggered.
+                                                </td>
+                                                
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div><input type="radio" name="tbl8_r27" value="YES"><label>YES</label></div>
+                                                        <div><input type="radio" name="tbl8_r27" value="NO"><label>NO</label></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- Save Button -->
+                            <div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Save</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

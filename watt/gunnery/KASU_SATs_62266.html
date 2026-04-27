@@ -1,0 +1,450 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid bg-transparent">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">KASU SATs</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">DAILY SUMMARY OF PROGRESS — KASU SATs (62266)</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="kasu_sats_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+
+                            <!-- ══════════ HEADER ══════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">Trial Header</legend>
+                                <div class="row g-3">
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" name="ship" required>
+                                                <option value="">-- Select Ship --</option>
+                                                {% for ship in ship_options %}
+                                                <option value="{{ ship.value }}">{{ ship.label }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <label class="form_control_1">Ship <span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" name="dept" placeholder=" ">
+                                            <label class="form_control_1">Dept</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" name="equipment" value="KASU"
+                                                readonly placeholder=" ">
+                                            <label class="form_control_1">Equipment</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="date" class="form-control" name="trial_date" required>
+                                            <label class="form_control_1">Date <span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" name="nature_of_trials" value="SATs"
+                                                placeholder=" ">
+                                            <label class="form_control_1">Nature of Trials</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="date" class="form-control" name="embarked_date">
+                                            <label class="form_control_1">Trials Team Embarked Onboard On</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════ OBSERVATIONS TABLE ══════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">Observations</legend>
+
+                                <div class="table-responsive">
+                                    <table class="custom_tbl">
+                                        <thead>
+                                            <tr>
+                                                <th class="serial-no">Ser</th>
+                                                <th>OBSERVATIONS</th>
+                                                <th>REMARKS</th>
+                                                <th>RESULTS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr>
+                                                <td colspan="4">
+                                                    Trials team embarked onboard at <input type="text"
+                                                        name="embarked_at"
+                                                        class="form-control form-control-sm d-inline-block w-auto"
+                                                        size="15">
+                                                    on <input type="date" name="embarked_on"
+                                                        class="form-control form-control-sm d-inline-block w-auto">
+                                                    for SATs of KASU as per approved schedule, BR 4050 and
+                                                    CNO 07/10. Following observed:-
+                                                </td>
+                                            </tr>
+
+                                            <!-- ── CHECKS ── -->
+                                            <tr class="section-header-row">
+                                                <td colspan="4"><b>CHECKS</b></td>
+                                            </tr>
+
+                                            <!-- 01 — Check 5.1 -->
+                                            <tr>
+                                                <td class="serial-no fw-bold">01</td>
+                                                <td class="checks-cell">
+                                                    <strong>Checks No. 5.1</strong> Functioning of complex in OI
+                                                    mode
+                                                    with missiles jointly with the supplying system in following modes-
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+
+                                            <!-- (a) SSTI MODE -->
+                                            <tr>
+                                                <td class="text-muted small align-middle"></td>
+                                                <td class="checks-cell">
+                                                    <div class="obs-sub-label"><strong>(a) SSTI MODE</strong> :
+                                                        (Garpun Interface )</div>
+                                                    <span>
+                                                        (Range &amp; Bearing):- <span><input type="text"
+                                                                name="ssti_tgt_count"
+                                                                class="form-control form-control-sm d-inline-block w-auto"
+                                                                size="2"></span>
+                                                        target tracked on SSR and dumped data to kasu.<br>
+                                                        The target parameters are as follows:-
+                                                    </span>
+                                                    <table class="tgt-tbl mt-1">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Tgt no.</th>
+                                                                <th>Range</th>
+                                                                <th>Bearing</th>
+                                                                <th>Course</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for i in "1234567"|make_list %}
+                                                            <tr>
+                                                                <td class="text-center fw-semibold py-1">{{ i }}
+                                                                </td>
+                                                                <td><input type="text" name="ssti_range_{{ i }}"
+                                                                        class="form-control form-control-sm"></td>
+                                                                <td><input type="text" name="ssti_bearing_{{ i }}"
+                                                                        class="form-control form-control-sm"></td>
+                                                                <td><input type="text" name="ssti_course_{{ i }}"
+                                                                        class="form-control form-control-sm"></td>
+                                                            </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                    <div class="mt-2 small">
+                                                        KASU aligned missiles, PLP completed successfully in
+                                                        <input type="text" name="ssti_plp_sec"
+                                                            class="form-control form-control-sm d-inline-block w-auto"
+                                                            size="2">
+                                                        sec. (salvo ready) and
+                                                        <input type="text" name="ssti_fired"
+                                                            class="form-control form-control-sm d-inline-block w-auto"
+                                                            size="2">
+                                                        fired.
+                                                    </div>
+                                                </td>
+                                                <td class="align-middle">
+
+                                                    <select class="form-control mt-1" name="ssti_result">
+                                                        <option value="">--</option>
+                                                        <option>SAT</option>
+                                                        <option>UNSAT</option>
+                                                    </select>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea"
+                                                        name="ssti_remarks" rows="3"></textarea></td>
+                                            </tr>
+
+                                            <!-- (b) RT Range & Bearing -->
+                                            <tr>
+                                                <td class="text-muted small align-middle"></td>
+                                                <td class="checks-cell">
+                                                    <div class="obs-sub-label"><strong>(b) RT (Regime
+                                                            Training)-</strong></div>
+                                                    <span>
+                                                        <strong>Range &amp; Bearing mode -</strong>
+                                                        <input type="text" name="rt_rb_tgt_count"
+                                                            class="form-control form-control-sm d-inline-block w-auto"
+                                                            size="2">
+                                                        Target parameters feeded manually to KASU and assigned
+                                                        missiles, PLP completed in
+                                                        <input type="text" name="rt_rb_plp_sec"
+                                                            class="form-control form-control-sm d-inline-block w-auto"
+                                                            size="2">
+                                                        sec. and fired
+                                                        <input type="text" name="rt_rb_fired"
+                                                            class="form-control form-control-sm d-inline-block w-auto"
+                                                            size="2">
+                                                        missiles. Target parameters as follows:
+                                                    </span>
+                                                    <table class="tgt-tbl mt-1">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Tgt No.</th>
+                                                                <th>Range</th>
+                                                                <th>Bearing</th>
+                                                                <th>Course</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for i in "123"|make_list %}
+                                                            <tr>
+                                                                <td class="text-center fw-semibold py-1">{{ i }}
+                                                                </td>
+                                                                <td><input type="text" name="rt_rb_range_{{ i }}"
+                                                                        class="form-control form-control-sm"></td>
+                                                                <td><input type="text" name="rt_rb_bearing_{{ i }}"
+                                                                        class="form-control form-control-sm"></td>
+                                                                <td><input type="text" name="rt_rb_course_{{ i }}"
+                                                                        class="form-control form-control-sm"></td>
+                                                            </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <select class="form-control mt-1" name="rt_rb_result">
+                                                        <option value="">--</option>
+                                                        <option>SAT</option>
+                                                        <option>UNSAT</option>
+                                                    </select>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea"
+                                                        name="rt_rb_remarks" rows="3"></textarea></td>
+                                            </tr>
+
+                                            <!-- (c) RT Lat-Long -->
+                                            <tr>
+                                                <td class="text-muted small align-middle"></td>
+                                                <td class="checks-cell">
+                                                    <div class="obs-sub-label"><strong>(c) RT (Lat-Long) Mode</strong>
+                                                    </div>
+                                                    <p class="m-0 mb-1 small">
+                                                        Fed Lat-Long of target and own ship values from KASU panels.
+                                                        Assigned a missile and fired (PLP completed in
+                                                        <input type="text" name="rt_ll_plp_sec"
+                                                            class="form-control form-control-sm d-inline-block w-auto">
+                                                        sec.) and missile fired.
+                                                    </p>
+
+                                                    <div class="mt-2">
+                                                        <div class="fw-bold small text-dark mb-1">
+                                                            Target Parameters :</div>
+                                                        <div class="row g-2 align-items-center small mt-1">
+                                                            <div class="col-4"><label class="fw-bold m-0">Lat</label>
+                                                            </div>
+                                                            <div class="col-8"><input type="text"
+                                                                    class="form-control form-control-sm"></div>
+                                                            <div class="col-4"><label class="fw-bold m-0">Long</label>
+                                                            </div>
+                                                            <div class="col-8"><input type="text"
+                                                                    class="form-control form-control-sm"></div>
+                                                            <div class="col-4"><label class="fw-bold m-0">Speed</label>
+                                                            </div>
+                                                            <div class="col-8"><input type="text"
+                                                                    class="form-control form-control-sm"></div>
+                                                            <div class="col-4"><label class="fw-bold m-0">Range</label>
+                                                            </div>
+                                                            <div class="col-8"><input type="text"
+                                                                    class="form-control form-control-sm"></div>
+                                                            <div class="col-4"><label
+                                                                    class="fw-bold m-0">Bearing</label></div>
+                                                            <div class="col-8"><input type="text"
+                                                                    class="form-control form-control-sm"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mt-2">
+                                                        <div class="fw-bold small text-dark mb-1">
+                                                            Ship parameters :</div>
+                                                        <div class="row g-2 align-items-center small mt-1">
+                                                            <div class="col-4"><label class="fw-bold m-0">Lat</label>
+                                                            </div>
+                                                            <div class="col-8"><input type="text"
+                                                                    class="form-control form-control-sm"></div>
+                                                            <div class="col-4"><label class="fw-bold m-0">Long</label>
+                                                            </div>
+                                                            <div class="col-8"><input type="text"
+                                                                    class="form-control form-control-sm"></div>
+                                                            <div class="col-4"><label class="fw-bold m-0">Speed</label>
+                                                            </div>
+                                                            <div class="col-8"><input type="text"
+                                                                    class="form-control form-control-sm"></div>
+                                                            <div class="col-4"><label class="fw-bold m-0">Course</label>
+                                                            </div>
+                                                            <div class="col-8"><input type="text"
+                                                                    class="form-control form-control-sm"></div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <select class="form-control mt-1" name="rt_ll_result">
+                                                        <option value="">--</option>
+                                                        <option>SAT</option>
+                                                        <option>UNSAT</option>
+                                                    </select>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea"
+                                                        name="rt_ll_remarks" rows="3"></textarea></td>
+                                            </tr>
+
+                                            <!-- (d) RP Mode -->
+                                            <tr>
+                                                <td class="text-muted small align-middle"></td>
+                                                <td class="checks-cell">
+                                                    <div class="obs-sub-label"><strong>(d) RP (Regime Principle)
+                                                            Mode</strong> - with Simulator SR 60</div>
+                                                    <p class="m-0 mb-1 small">
+                                                        Connected to simulator from channel 02 &amp; 04 of URAN
+                                                        launcher. Fed target parameters and fired in Single/Salvo modes.
+                                                    </p>
+                                                    <span>
+                                                        <input type="text" name="rp_tgt_count"
+                                                            class="form-control form-control-sm d-inline-block w-auto"
+                                                            size="2">
+                                                        Targets parameters as follows:
+                                                    </span>
+                                                    <table class="tgt-tbl mt-1">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Tgt No.</th>
+                                                                <th>Course</th>
+                                                                <th>Range</th>
+                                                                <th>Bearing</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for i in "12"|make_list %}
+                                                            <tr>
+                                                                <td class="text-center fw-semibold py-1">{{ i }}
+                                                                </td>
+                                                                <td><input type="text" name="rp_course_{{ i }}"
+                                                                        class="form-control form-control-sm"></td>
+                                                                <td><input type="text" name="rp_range_{{ i }}"
+                                                                        class="form-control form-control-sm"></td>
+                                                                <td><input type="text" name="rp_bearing_{{ i }}"
+                                                                        class="form-control form-control-sm"></td>
+                                                            </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <select class="form-control mt-1" name="rp_result">
+                                                        <option value="">--</option>
+                                                        <option>SAT</option>
+                                                        <option>UNSAT</option>
+                                                    </select>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea"
+                                                        name="rp_remarks" rows="3"></textarea></td>
+                                            </tr>
+
+                                            <!-- 02 — Data Dumping -->
+                                            <tr>
+                                                <td class="serial-no fw-bold">02</td>
+                                                <td class="checks-cell">
+                                                    <strong>Data dumping from SSR to KASU.</strong>
+                                                </td>
+                                                <td class="align-middle">
+                                                    <select class="form-control mt-1" name="data_dump_result">
+                                                        <option value="">--</option>
+                                                        <option>SAT</option>
+                                                        <option>UNSAT</option>
+                                                    </select>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea"
+                                                        name="data_dump_remarks" rows="2"></textarea></td>
+                                            </tr>
+
+                                            <!-- SATs Run Down -->
+                                            <tr class="section-header-row">
+                                                <td colspan="4" class="text-center"><b>SATS RUN DOWN</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no"></td>
+                                                <td colspan="3">
+                                                    <textarea class="form-control wrstg-scroll-textarea"
+                                                        name="sats_rundown" rows="4"
+                                                        placeholder="Enter SATs run down summary..."></textarea>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════ SIGN OFF ══════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">Sign Off</legend>
+                                <div class="row g-3">
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" name="presenting_authority"
+                                                value="Ship's Staff" placeholder=" ">
+                                            <label class="form_control_1">Presenting Authority</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" name="inspecting_authority"
+                                                value="WATT" placeholder=" ">
+                                            <label class="form_control_1">Inspecting Authority</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Submit</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

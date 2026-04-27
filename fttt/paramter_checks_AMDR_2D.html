@@ -1,0 +1,778 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+                    <li class="breadcrumb-item" aria-current="page">FTTT</li>
+                    <li class="breadcrumb-item active" aria-current="page">Parameter Checks AMDR 2D</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+<div class="container-fluid" style="background-color: transparent;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">PARAMETER CHECKS AMDR 2D</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="radar_system_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+                            <fieldset class="custom-fieldset">
+                                    <legend class="legend-custom text-uppercase">BASIC INFORMATION</legend>
+                                    <div class="row g-3">
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="system_sub_system" placeholder=" ">
+                                                <label class="form_control_1">1. System/ Sub system</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="job_undertaken" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">2. Job Undertaken</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <!-- <textarea class="form-control wrstg-scroll-textarea" name="reference_documents" rows="2" placeholder=" "></textarea> -->
+                                                 <input type="file" class ="form-control" name="reference_documents">
+                                                <label class="form_control_1">3. Reference Documents</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="authority" placeholder=" ">
+                                                <label class="form_control_1">4. Authority</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="agencies_involved" value="FTTT(Vzg)" placeholder=" " readonly>
+                                                <label class="form_control_1">5. Agencies involved</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="date" class="form-control" name="date_commenced">
+                                                <label class="form_control_1">6. Date Commenced</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="date" class="form-control" name="date_completed">
+                                                <label class="form_control_1">7. Date Completed</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="prepared_by" placeholder=" ">
+                                                <label class="form_control_1">8. Prepared by</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="vetted_by" placeholder=" ">
+                                                <label class="form_control_1">9. Vetted by</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="reference_no" placeholder=" ">
+                                                <label class="form_control_1">10. Reference No.</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="summary_of_observations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">11. Summary of observations</label>
+                                            </div>
+                                        </div>
+
+                                        <!-- <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="operational_limitations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">12. Operational limitations (if any)</label>
+                                            </div>
+                                        </div> -->
+
+                                    </div>
+                                </fieldset>
+                            <!-- ══════════════════════════════════════
+                                SECTION 12 – Parameter Checks
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">12. Parameter Checks</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="param_checks_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser No.</th>
+                                                <th style="text-align: center;">Parameter Description<br><small>a.</small></th>
+                                                <th style="width:14%;">Specified Value<br><small>b.</small></th>
+                                                <th style="width:14%;">Last Measured Value<br><small>c.</small></th>
+                                                <th style="width:14%;">Present Value<br><small>d.</small></th>
+                                                <th style="width:14%;">Remarks<br><small>e.</small></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="serial-no">1</td>
+                                                <td>MO Frequency</td>
+                                                <td>120 MHz±100 Hz</td>
+                                                <td><input type="text" class="form-control" name="pc_last_1" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="pc_present_1" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pc_remarks_1" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">2</td>
+                                                <td>MO Power</td>
+                                                <td>- 23&lt;P&lt;-13 dBm</td>
+                                                <td><input type="text" class="form-control" name="pc_last_2" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="pc_present_2" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pc_remarks_2" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3</td>
+                                                <td>IF 2 Frequency</td>
+                                                <td>1080 MHz</td>
+                                                <td><input type="text" class="form-control" name="pc_last_3" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="pc_present_3" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pc_remarks_3" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">4</td>
+                                                <td>IF 2 Power</td>
+                                                <td>6&lt;P&lt;7 dBm</td>
+                                                <td><input type="text" class="form-control" name="pc_last_4" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="pc_present_4" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pc_remarks_4" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">5</td>
+                                                <td>Synthesizer Frequency</td>
+                                                <td>4310-4700 MHz</td>
+                                                <td><input type="text" class="form-control" name="pc_last_5" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="pc_present_5" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pc_remarks_5" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">6</td>
+                                                <td>Synthesizer Power O/P</td>
+                                                <td>- 20&lt;P&lt;0 dBm</td>
+                                                <td><input type="text" class="form-control" name="pc_last_6" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="pc_present_6" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pc_remarks_6" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">7</td>
+                                                <td>Pulse Width (TAWS)</td>
+                                                <td>3.9±0.2 μs</td>
+                                                <td><input type="text" class="form-control" name="pc_last_7" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="pc_present_7" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pc_remarks_7" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">8</td>
+                                                <td>Pulse Width (LRS)</td>
+                                                <td>7.8±0.5 μs</td>
+                                                <td><input type="text" class="form-control" name="pc_last_8" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="pc_present_8" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pc_remarks_8" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">9</td>
+                                                <td>Power O/P TWT (LRS)</td>
+                                                <td>&gt;69 dBm</td>
+                                                <td><input type="text" class="form-control" name="pc_last_9" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="pc_present_9" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pc_remarks_9" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">10</td>
+                                                <td>Power O/P TWT+CFA (LRS)</td>
+                                                <td>&gt;76 dBm</td>
+                                                <td><input type="text" class="form-control" name="pc_last_10" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="pc_present_10" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pc_remarks_10" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no" rowspan="3">11</td>
+                                                <td>VSWR, F1</td>
+                                                <td rowspan="3">&lt; 1.5</td>
+                                                <td><input type="text" class="form-control" name="pc_last_11_f1" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="pc_present_11_f1" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pc_remarks_11_f1" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>VSWR, F2</td>
+                                                <td><input type="text" class="form-control" name="pc_last_11_f2" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="pc_present_11_f2" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pc_remarks_11_f2" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                               
+                                                <td>VSWR, F3</td>
+                                                <td><input type="text" class="form-control" name="pc_last_12_f3" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="pc_present_12_f3" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pc_remarks_12_f3" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no" rowspan="4">12</td>
+                                                <td>BIT IN</td>
+                                                <td>-</td>
+                                                <td><input type="text" class="form-control" name="pc_last_12_bit" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="pc_present_12_bit" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pc_remarks_12_bit" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Main Channel</td>
+                                                <td>-</td>
+                                                <td><input type="text" class="form-control" name="pc_last_12_main" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="pc_present_12_main" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pc_remarks_12_main" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>SLB Channel</td>
+                                                <td>-</td>
+                                                <td><input type="text" class="form-control" name="pc_last_12_slb" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="pc_present_12_slb" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pc_remarks_12_slb" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 13 – Test Equipment Used for Parameter Checks
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">13. Test Equipment Used for Parameter Checks (mentioned at Para 09)</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="test_equip_param_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser No.</th>
+                                                <th>Test Equipment Used<br><small>a.</small></th>
+                                                <th style="width:35%;">Checks Undertaken<br><small>b.</small></th>
+                                                <th class="action">ACTION</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="serial-no">1</td>
+                                                <td><input type="text" class="form-control" data-base-name="tep_equipment" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="tep_checks" rows="1" placeholder=" "></textarea></td>
+                                                <td class="action action-cell-holder">
+                                                    <div class="action-controls">
+                                                        <button type="button" class="btn-round btn-add" onclick="addRow('test_equip_param_tbl')">+</button>
+                                                        <button type="button" class="btn-round btn-remove" onclick="removeRow('test_equip_param_tbl')">-</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">2</td>
+                                                <td><input type="text" class="form-control" data-base-name="tep_equipment" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="tep_checks" rows="1" placeholder=" "></textarea></td>
+                                                <td class="action action-cell-holder"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 14 – TWT Checks
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">14. TWT Checks</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="twt_checks_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th colspan="6" >TWT checks (with Built in Meter)</th>
+                                            </tr>
+                                            <tr>
+                                                <th colspan="6" >
+                                                    TWT Serial No: <input type="text" class="form-control d-inline-block" name="twt_serial_no" style="width:250px; display:inline-block;" placeholder="Enter TWT Serial No.">
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="serial-no">Ser No.</th>
+                                                <th style="text-align: center;">Parameter Description<br><small>a.</small></th>
+                                                <th style="width:14%;">Specified Value<br><small>b.</small></th>
+                                                <th style="width:14%;">Last Measured Value<br><small>c.</small></th>
+                                                <th style="width:14%;">Present Value<br><small>d.</small></th>
+                                                <th style="width:14%;">Remarks<br><small>e.</small></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="serial-no">1</td>
+                                                <td>TWT Filament V</td>
+                                                <td>6.3 ± 0.3</td>
+                                                <td><input type="text" class="form-control" name="twt_last_1" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="twt_present_1" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="twt_remarks_1" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">2</td>
+                                                <td>+ VG</td>
+                                                <td>266 ± 75V</td>
+                                                <td><input type="text" class="form-control" name="twt_last_2" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="twt_present_2" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="twt_remarks_2" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3</td>
+                                                <td>Cathode V</td>
+                                                <td>-15.9 ±200V</td>
+                                                <td><input type="text" class="form-control" name="twt_last_3" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="twt_present_3" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="twt_remarks_3" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">4</td>
+                                                <td>Collector V</td>
+                                                <td>Green Zone</td>
+                                                <td><input type="text" class="form-control" name="twt_last_4" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="twt_present_4" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="twt_remarks_4" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">5</td>
+                                                <td>Anode V</td>
+                                                <td>2 to 7 KV (Anode scale)</td>
+                                                <td><input type="text" class="form-control" name="twt_last_5" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="twt_present_5" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="twt_remarks_5" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">6</td>
+                                                <td>Cathode PK Current</td>
+                                                <td>&lt; 3.4 A</td>
+                                                <td><input type="text" class="form-control" name="twt_last_6" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="twt_present_6" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="twt_remarks_6" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">7</td>
+                                                <td>Body PK Current</td>
+                                                <td>&lt;1.5 A</td>
+                                                <td><input type="text" class="form-control" name="twt_last_7" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="twt_present_7" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="twt_remarks_7" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">8</td>
+                                                <td>Output Power</td>
+                                                <td>Above Green Zone</td>
+                                                <td><input type="text" class="form-control" name="twt_last_8" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="twt_present_8" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="twt_remarks_8" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">9</td>
+                                                <td>Reflected Power</td>
+                                                <td>Black Zone</td>
+                                                <td><input type="text" class="form-control" name="twt_last_9" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="twt_present_9" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="twt_remarks_9" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 15 – CFA Checks
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">15. CFA Checks</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="cfa_checks_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th colspan="6">CFA checks (with Built in Meter)</th>
+                                            </tr>
+                                            <tr>
+                                                <th colspan="6">
+                                                    CFA Tube Serial No: <input type="text" class="form-control d-inline-block" name="cfa_serial_no" style="width:250px; display:inline-block;" placeholder="Enter CFA Tube Serial No.">
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th class="serial-no">Ser No.</th>
+                                                <th style="text-align: center;">Parameters Description<br><small>a.</small></th>
+                                                <th style="width:14%;">Specified Value<br><small>b.</small></th>
+                                                <th style="width:14%;">Last Measured Value<br><small>c.</small></th>
+                                                <th style="width:14%;">Present Value<br><small>d.</small></th>
+                                                <th style="width:14%;">Remarks<br><small>e.</small></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="serial-no">1</td>
+                                                <td>Screen current</td>
+                                                <td>&lt;40mA</td>
+                                                <td><input type="text" class="form-control" name="cfa_last_1" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="cfa_present_1" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="cfa_remarks_1" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">2</td>
+                                                <td>Ion pump current</td>
+                                                <td>&lt;0.4mA</td>
+                                                <td><input type="text" class="form-control" name="cfa_last_2" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="cfa_present_2" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="cfa_remarks_2" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3</td>
+                                                <td>HVPS Voltage</td>
+                                                <td>Green range</td>
+                                                <td><input type="text" class="form-control" name="cfa_last_3" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="cfa_present_3" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="cfa_remarks_3" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">4</td>
+                                                <td>CFA Avg current</td>
+                                                <td>&lt;500mA</td>
+                                                <td><input type="text" class="form-control" name="cfa_last_4" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="cfa_present_4" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="cfa_remarks_4" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">5</td>
+                                                <td>CFA PK current</td>
+                                                <td>20 ± 3 A</td>
+                                                <td><input type="text" class="form-control" name="cfa_last_5" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="cfa_present_5" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="cfa_remarks_5" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">6</td>
+                                                <td>Output Power</td>
+                                                <td>Green range or above</td>
+                                                <td><input type="text" class="form-control" name="cfa_last_6" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="cfa_present_6" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="cfa_remarks_6" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">7</td>
+                                                <td>CFA Reflected power</td>
+                                                <td>Black range</td>
+                                                <td><input type="text" class="form-control" name="cfa_last_7" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="cfa_present_7" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="cfa_remarks_7" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">8</td>
+                                                <td>ANT Reflected power</td>
+                                                <td>Black range</td>
+                                                <td><input type="text" class="form-control" name="cfa_last_8" placeholder=" "></td>
+                                                <td><input type="text" class="form-control" name="cfa_present_8" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="cfa_remarks_8" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 16 – Visual Inspection
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">16. Visual Inspection</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="visual_inspection_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser No.</th>
+                                                <th style="text-align: center;">Description of Check<br><small>a.</small></th>
+                                                <th style="width:30%;">Remarks<br><small>b.</small></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <!-- ── 1. Inspection of Antenna assembly ── -->
+                                            <tr>
+                                                <td class="serial-no" rowspan="4">1</td>
+                                                <td colspan="2" class="group-header-cell"><strong>Inspection of Antenna assembly: -</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td>(i)&nbsp;&nbsp;Greasing of gearings</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="vi_remarks_1_1" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>(ii)&nbsp;&nbsp;Status of Antenna connectors</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="vi_remarks_1_2" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>(iii)&nbsp;&nbsp;Status of Antenna Paint</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="vi_remarks_1_3" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ── 2. Power supply checks ── -->
+                                            <tr>
+                                                <td class="serial-no" rowspan="2">2</td>
+                                                <td colspan="2" class="group-header-cell"><strong>Power supply checks</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td>440V, 50HZ, 3φ</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="vi_remarks_2" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ── 3. Inspection of waveguide ── -->
+                                            <tr>
+                                                <td class="serial-no">3</td>
+                                                <td>Inspection of waveguide – material state</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="vi_remarks_3" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ── 4. Status of Cooling device and System ventilation ── -->
+                                            <tr>
+                                                <td class="serial-no" rowspan="3">4</td>
+                                                <td colspan="2" class="group-header-cell"><strong>Status of Cooling device and System ventilation: -</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Level of coolant</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="vi_remarks_4_1" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Status of system ventilation</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="vi_remarks_4_2" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="serial-no">5</td>
+                                                <td>Status of Cables/ Connectors</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="vi_remarks_5" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">6</td>
+                                                <td>Status of ACU</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="vi_remarks_6" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">7</td>
+                                                <td>Availability of Main/ Aux power supply</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="vi_remarks_7" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">8</td>
+                                                <td>Status of SPTA, Tool Kits and Accessories required for onboard repairs and maintenance</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="vi_remarks_8" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ── 9. Running Hours (nested table) ── -->
+                                            <tr>
+                                                    <td class="serial-no" rowspan="7">9</td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="1" class="group-header-cell"><strong>Running Hours: -</strong></td>
+                                                    <td>
+                                                        <div style="text-align: center;" class="row">
+                                                            <div class="col-6"><strong>Last Reading</strong></div>
+                                                            <div class="col-6"><strong>Present Reading</strong></div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>System running hours (PDD)</td>
+                                                    <td>
+                                                        <div class="row">
+                                                            <div class="col-6"><input type="text" class="form-control" name="rh_last_pdd" placeholder=" "></div>
+                                                            <div class="col-6"><input type="text" class="form-control" name="rh_present_pdd" placeholder=" "></div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>TWT running hour – Standby</td>
+                                                    <td>
+                                                        <div class="row">
+                                                            <div class="col-6"><input type="text" class="form-control" name="rh_last_twt_standby" placeholder=" "></div>
+                                                            <div class="col-6"><input type="text" class="form-control" name="rh_present_twt_standby" placeholder=" "></div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>TWT running hour – Transmitted</td>
+                                                    <td>
+                                                        <div class="row">
+                                                            <div class="col-6"><input type="text" class="form-control" name="rh_last_twt_transmitted" placeholder=" "></div>
+                                                            <div class="col-6"><input type="text" class="form-control" name="rh_present_twt_transmitted" placeholder=" "></div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>CFA running hour – Standby</td>
+                                                    <td>
+                                                        <div class="row">
+                                                            <div class="col-6"><input type="text" class="form-control" name="rh_last_cfa_standby" placeholder=" "></div>
+                                                            <div class="col-6"><input type="text" class="form-control" name="rh_present_cfa_standby" placeholder=" "></div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>CFA running hour – Transmitted</td>
+                                                    <td>
+                                                        <div class="row">
+                                                            <div class="col-6"><input type="text" class="form-control" name="rh_last_cfa_transmitted" placeholder=" "></div>
+                                                            <div class="col-6"><input type="text" class="form-control" name="rh_present_cfa_transmitted" placeholder=" "></div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 17 – Operation Checks
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">17. Operation Checks</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="operation_checks_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser No.</th>
+                                                <th style="text-align: center;">Checks Description<br><small>a.</small></th>
+                                                <th style="width:30%;">Remarks<br><small>b.</small></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="serial-no">1</td>
+                                                <td>Power up initialization checks</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="oc_remarks_1" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <!-- ── 2. BIT Status ── -->
+                                            <tr>
+                                                <td class="serial-no" rowspan="7">2</td>
+                                                <td colspan="2" class="group-header-cell"><strong>BIT Status</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td>(i)&nbsp;&nbsp;RSPU</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="oc_remarks_2_1" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>(ii)&nbsp;&nbsp;TWT</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="oc_remarks_2_2" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>(iii)&nbsp;&nbsp;RFH</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="oc_remarks_2_3" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>(iv)&nbsp;&nbsp;ACB</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="oc_remarks_2_4" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>(v)&nbsp;&nbsp;LCU</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="oc_remarks_2_5" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>(vi)&nbsp;&nbsp;RCU</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="oc_remarks_2_6" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="serial-no">3</td>
+                                                <td>BIT Test</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="oc_remarks_3" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">4</td>
+                                                <td>LCU/RSPU Communication</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="oc_remarks_4" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">5</td>
+                                                <td>LCU/RCU Communication</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="oc_remarks_5" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">6</td>
+                                                <td>Antenna RPM Checks</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="oc_remarks_6" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">7</td>
+                                                <td>Antenna Servo Motor checks</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="oc_remarks_7" rows="1" placeholder=" "></textarea></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 18 – BIT Status
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">18. BIT Status</legend>
+                                <div class="row mb-3">
+                                    <div class="col-md-12">
+                                        <label class="form-label fw-bold">BIT Status:&nbsp;&nbsp;</label>
+                                        <textarea class="form-control wrstg-scroll-textarea mt-2" name="bit_status_18_remarks" rows="2" placeholder="Remarks..."></textarea>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Save</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .group-header-cell {
+        background-color: #e9ecef;
+        font-size: 13px;
+        padding: 6px 10px;
+    }
+</style>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+
+{% endblock js %}

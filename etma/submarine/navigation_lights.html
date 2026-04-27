@@ -1,0 +1,147 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item" >ETMA</li>
+					<li class="breadcrumb-item" >Submarine</li>
+					<li class="breadcrumb-item active" aria-current="page">Navigation Lights</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">NAVIGATION LIGHTS - RESULT SHEET</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="navigation_lights_form">
+						{% csrf_token %}
+						<div class="form-body">
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">Basic Information</legend>
+								<div class="row g-3">
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="date" class="form-control" name="date_of_trials" required>
+											<label class="form_control_1">DATE OF TRIALS <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="submarine_id" required>
+                                                <option value="">--Select--</option>
+												{% for submarine in submarine_options %}
+												<option value="{{ submarine.value }}">{{ submarine.label }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <label class="form_control_1">Submarine	 <span class="text-danger">*</span></label>
+                                        </div>
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<div class="table-responsive">
+									<table class="custom_tbl" id="navigation_lights_table">
+										<thead class="table-dark-head">
+											<tr>
+												<th >Ser</th>
+												<th >Navigation lights and Adaptors</th>
+												<th >Insulation Expected</th>
+												<th >Measured value</th>
+												<th >Results<br>(Sat/Unsat)</th>
+											</tr>										
+                                        </thead>
+										<tbody>
+											<tr class="section-row">
+												<td colspan="5"><strong>Navigation Lights</strong></td>
+											</tr>
+											<tr>
+												<td class="text-center">1</td>
+												<td>Top light</td>
+												<td rowspan="10" class="text-center align-middle"><strong>&gt;1 MΩ for circuit or<br>&gt;100 MΩ for light alone</strong></td>
+												<td><input type="text" class="form-control" name="measured_1"></td>
+												<td>
+													<div class="results-radio">
+														<label><input type="radio" name="result_1" value="SAT"> SAT</label>
+														<label><input type="radio" name="result_1" value="UNSAT"> UNSAT</label>
+													</div>
+												</td>
+											</tr>
+											<tr><td class="text-center">2</td><td>Backup top light</td><td><input type="text" class="form-control" name="measured_2"></td><td><div class="results-radio"><label><input type="radio" name="result_2" value="SAT"> SAT</label><label><input type="radio" name="result_2" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="text-center">3</td><td>Port side light</td><td><input type="text" class="form-control" name="measured_3"></td><td><div class="results-radio"><label><input type="radio" name="result_3" value="SAT"> SAT</label><label><input type="radio" name="result_3" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="text-center">4</td><td>Emergency port side light</td><td><input type="text" class="form-control" name="measured_4"></td><td><div class="results-radio"><label><input type="radio" name="result_4" value="SAT"> SAT</label><label><input type="radio" name="result_4" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="text-center">5</td><td>Starboard side light</td><td><input type="text" class="form-control" name="measured_5"></td><td><div class="results-radio"><label><input type="radio" name="result_5" value="SAT"> SAT</label><label><input type="radio" name="result_5" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="text-center">6</td><td>Emergency starboard side light</td><td><input type="text" class="form-control" name="measured_6"></td><td><div class="results-radio"><label><input type="radio" name="result_6" value="SAT"> SAT</label><label><input type="radio" name="result_6" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="text-center">7</td><td>Stern light</td><td><input type="text" class="form-control" name="measured_7"></td><td><div class="results-radio"><label><input type="radio" name="result_7" value="SAT"> SAT</label><label><input type="radio" name="result_7" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="text-center">8</td><td>Rudder stern light</td><td><input type="text" class="form-control" name="measured_8"></td><td><div class="results-radio"><label><input type="radio" name="result_8" value="SAT"> SAT</label><label><input type="radio" name="result_8" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="text-center">9</td><td>White marking light</td><td><input type="text" class="form-control" name="measured_9"></td><td><div class="results-radio"><label><input type="radio" name="result_9" value="SAT"> SAT</label><label><input type="radio" name="result_9" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="text-center">10</td><td>Recognition light</td><td><input type="text" class="form-control" name="measured_10"></td><td><div class="results-radio"><label><input type="radio" name="result_10" value="SAT"> SAT</label><label><input type="radio" name="result_10" value="UNSAT"> UNSAT</label></div></td></tr>
+
+											<tr class="section-row">
+												<td colspan="5"><strong>Removable Light Plugs</strong></td>
+											</tr>
+											<tr>
+												<td class="text-center">11</td>
+												<td>Adapting connector upper manoeuvrable vessel</td>
+												<td rowspan="4" class="text-center align-middle"><strong>&gt;1 MΩ for circuit or<br>&gt;100 MΩ for light alone</strong></td>
+												<td><input type="text" class="form-control" name="measured_11"></td>
+												<td><div class="results-radio"><label><input type="radio" name="result_11" value="SAT"> SAT</label><label><input type="radio" name="result_11" value="UNSAT"> UNSAT</label></div></td>
+											</tr>
+											<tr><td class="text-center">12</td><td>Adapting connector lower manoeuvrable vessel</td><td><input type="text" class="form-control" name="measured_12"></td><td><div class="results-radio"><label><input type="radio" name="result_12" value="SAT"> SAT</label><label><input type="radio" name="result_12" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="text-center">13</td><td>Adapting connector forward anchoring light</td><td><input type="text" class="form-control" name="measured_13"></td><td><div class="results-radio"><label><input type="radio" name="result_13" value="SAT"> SAT</label><label><input type="radio" name="result_13" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="text-center">14</td><td>Adapting connector aft anchoring light</td><td><input type="text" class="form-control" name="measured_14"></td><td><div class="results-radio"><label><input type="radio" name="result_14" value="SAT"> SAT</label><label><input type="radio" name="result_14" value="UNSAT"> UNSAT</label></div></td></tr>
+
+											<tr class="section-row">
+												<td colspan="5"><strong>External Plug of Lighting Network</strong></td>
+											</tr>  
+											<tr>
+												<td class="text-center">15</td>
+												<td>Connector for lighting gangway</td>
+												<td rowspan="2" class="text-center align-middle"><strong>&gt;1 MΩ for circuit or<br>&gt;100 MΩ for light alone</strong></td>
+												<td><input type="text" class="form-control" name="measured_15"></td>
+												<td><div class="results-radio"><label><input type="radio" name="result_15" value="SAT"> SAT</label><label><input type="radio" name="result_15" value="UNSAT"> UNSAT</label></div></td>
+											</tr>
+                                            <tr>
+												<td class="text-center">16</td>
+												<td>Connector for map pilot chart table</td>
+												<!-- <td class="text-center align-middle"><strong>&gt;1 MΩ for circuit</strong></td> -->
+												<td><input type="text" class="form-control" name="measured_16"></td>
+												<td><div class="results-radio"><label><input type="radio" name="result_16" value="SAT"> SAT</label><label><input type="radio" name="result_16" value="UNSAT"> UNSAT</label></div></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<div class="d-flex justify-content-center mt-4">
+								<button type="submit" class="btn btn-success px-4">Save</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

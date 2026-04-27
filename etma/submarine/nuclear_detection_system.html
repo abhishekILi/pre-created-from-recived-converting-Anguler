@@ -1,0 +1,139 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item active" aria-current="page">ETMA</li>
+					<li class="breadcrumb-item active" aria-current="page">Submarine</li>
+					<li class="breadcrumb-item active" aria-current="page">Nuclear Detection System</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">NUCLEAR DETECTION SYSTEM - RESULT SHEET</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="nuclear_detection_system_form">
+						{% csrf_token %}
+						<div class="form-body">
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">Basic Information</legend>
+								<div class="row g-3">
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="date" class="form-control" name="date_of_trials" required>
+											<label class="form_control_1">DATE OF TRIALS <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<select class="form-control" id="pot_submarine" name="pot_submarine" required>
+											<option value="">-- Select Submarine --</option>
+											{% for submarine in submarine_options %}
+											<option value="{{ submarine.value }}">{{ submarine.label }}</option>
+											{% endfor %}
+										</select>
+										<label class="form_control_1">Submarine <span class="text-danger">*</span></label>
+									</div>
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<legend class="legend-custom">Simulation Test of Probes Using the Test and Configuration Module</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="nds_table_1">
+										<thead class="table-dark-head">
+											<tr>
+												<th >Ser</th>
+												<th >Sequence to be performed</th>
+												<th >Result expected</th>
+												<th >Test Record<br>(Yes/No)</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr class="section-row"><td colspan="4"><strong><strong>External Probe</strong></td></tr>
+											<tr>
+												<td>1.1</td>
+												<td>Verification of the emission rate display on the DSC and on the test and configuration module for the external probe.</td>
+												<td class="text-center align-middle">Correct</td>
+												<td><div class=" yes-no-container"><label><input type="radio" name="record_1_1" value="YES"> Yes</label><label><input type="radio" name="record_1_1" value="NO"> No</label></div></td>
+											</tr>
+											<tr><td>1.2</td><td>Display of low flux on the DSC.</td><td class="text-center align-middle">Yes</td><td><div class="yes-no-container"><label><input type="radio" name="record_1_2" value="YES"> Yes</label><label><input type="radio" name="record_1_2" value="NO"> No</label></div></td></tr>
+											<tr><td>1.3</td><td>Display of high flux on the DSC.</td><td class="text-center align-middle">Yes</td><td><div class=" yes-no-container"><label><input type="radio" name="record_1_3" value="YES"> Yes</label><label><input type="radio" name="record_1_3" value="NO"> No</label></div></td></tr>
+											<tr><td>1.4</td><td>Incident display and display of the alarm message on the DSC.</td><td class="text-center align-middle">Yes</td><td><div class=" yes-no-container"><label><input type="radio" name="record_1_4" value="YES"> Yes</label><label><input type="radio" name="record_1_4" value="NO"> No</label></div></td></tr>
+
+											<tr class="section-row"><td colspan="4"><strong>Internal Probe</strong></td></tr>
+											<tr>
+												<td>1.5</td>
+												<td>Verification of the emission rate display on the DSC and on the test and configuration module for the external probe.</td>
+												<td class="text-center align-middle">Correct</td>
+												<td><div class=" yes-no-container"><label><input type="radio" name="record_1_5" value="YES"> Yes</label><label><input type="radio" name="record_1_5" value="NO"> No</label></div></td>
+											</tr>
+											<tr><td>1.6</td><td>Display of low flux on DSC.</td><td class="text-center align-middle">Yes</td><td><div class=" yes-no-container"><label><input type="radio" name="record_1_6" value="YES"> Yes</label><label><input type="radio" name="record_1_6" value="NO"> No</label></div></td></tr>
+											<tr><td>1.7</td><td>Display of high flux on DSC.</td><td class="text-center align-middle">Yes</td><td><div class=" yes-no-container"><label><input type="radio" name="record_1_7" value="YES"> Yes</label><label><input type="radio" name="record_1_7" value="NO"> No</label></div></td></tr>
+											<tr><td>1.8</td><td>Incident display and display of the alarm message on DSC.</td><td class="text-center align-middle">Yes</td><td><div class=" yes-no-container"><label><input type="radio" name="record_1_8" value="YES"> Yes</label><label><input type="radio" name="record_1_8" value="NO"> No</label></div></td></tr>
+											<tr><td>1.9</td><td>Performance check of the nuclear detection system.</td><td class="text-center align-middle">Correct</td><td><div class=" yes-no-container"><label><input type="radio" name="record_1_9" value="YES"> Yes</label><label><input type="radio" name="record_1_9" value="NO"> No</label></div></td></tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<legend class="legend-custom">Functional tests with radioactive source</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="nds_table_2">
+										<thead class="table-dark-head">
+											<tr>
+												<th >Ser</th>
+												<th >Sequence to be performed</th>
+												<th >Result Expected</th>
+												<th >Test Record<br>(Yes/No)</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr class="section-row"><td colspan="4"><strong>External Probe</strong></td></tr>
+											<tr><td>2.1</td><td>Display of the emission rate value on the DSC for the external probe.</td><td class="text-center align-middle">Correct</td><td><div class=" yes-no-container"><label><input type="radio" name="record_2_1" value="YES"> Yes</label><label><input type="radio" name="record_2_1" value="NO"> No</label></div></td></tr>
+											<tr><td>2.2</td><td>Incident display and display of the alarm message on the DSC when the 0.01Gy/h threshold is exceeded for the external probe.</td><td class="text-center align-middle">Yes</td><td><div class=" yes-no-container"><label><input type="radio" name="record_2_2" value="YES"> Yes</label><label><input type="radio" name="record_2_2" value="NO"> No</label></div></td></tr>
+											<tr class="section-row"><td colspan="4"><strong>Internal Probe</strong></td></tr>
+											<tr><td>2.3</td><td>Display of the emission rate value on the DSC for the internal probe.</td><td class="text-center align-middle">Correct</td><td><div class=" yes-no-container"><label><input type="radio" name="record_2_3" value="YES"> Yes</label><label><input type="radio" name="record_2_3" value="NO"> No</label></div></td></tr>
+											<tr><td>2.4</td><td>Incident display and display of the alarm message on the DSC when the 0.01Gy/h threshold is exceeded for the internal probe.</td><td class="text-center align-middle">Yes</td><td><div class=" yes-no-container"><label><input type="radio" name="record_2_4" value="YES"> Yes</label><label><input type="radio" name="record_2_4" value="NO"> No</label></div></td></tr>
+											<tr><td>2.5</td><td>Performance check of the nuclear detection system.</td><td class="text-center align-middle">Correct</td><td><div class=" yes-no-container"><label><input type="radio" name="record_2_5" value="YES"> Yes</label><label><input type="radio" name="record_2_5" value="NO"> No</label></div></td></tr>
+											<tr class="end-row"><td colspan="4"><strong>End of the trial.</strong></td></tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<div class="d-flex justify-content-center mt-4">
+								<button type="submit" class="btn btn-success px-4">Save</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

@@ -1,0 +1,475 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+	.inline-middle {
+		vertical-align: middle;
+	}
+
+	.cell-align-top {
+		vertical-align: top;
+	}
+
+	.matrix-table-no-gap {
+		margin-bottom: 0;
+	}
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" >
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">WATT</a></li>
+					<li class="breadcrumb-item">Communication</li>
+					<li class="breadcrumb-item active" aria-current="page">SDR TAC 1C</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">SDR TAC 1C - OP Checks</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-3 mb-4">
+					<form method="post" id="sdr_tac_1c_form">
+						{% csrf_token %}
+
+						<input type="hidden" id="sdr_tac_1c_form_id" name="sdr_tac_1c_form_id" value="sdr_tac_1c_communication_checks">
+						<input type="hidden" id="sdr_tac_1c_form_name" name="sdr_tac_1c_form_name" value="SDR_TAC_1C_OP_CHECKS">
+
+						<fieldset class="custom-fieldset">
+							<legend class="legend-custom text-uppercase">Basic Information</legend>
+							<div class="row g-3">
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<select class="form-control" id="sdr_tac_1c_ship_name" name="sdr_tac_1c_ship_name" required>
+											<option value="">--Select--</option>
+											{% for ship in ship_options %}
+											<option value="{{ ship.value }}">{{ ship.label }}</option>
+											{% endfor %}
+										</select>
+										<label class="form_control_1" for="sdr_tac_1c_ship_name">Ship <span class="text-danger">*</span></label>
+									</div>
+								</div>
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<select class="form-control" id="sdr_tac_1c_department" name="sdr_tac_1c_department" required>
+											<option value="">-- Select --</option>
+											<option value="ND">ND</option>
+											<option value="ASW">ASW</option>
+											<option value="COMM">COMM</option>
+											<option value="GUNNERY">GUNNERY</option>
+										</select>
+										<label class="form_control_1" for="sdr_tac_1c_department">Department <span class="text-danger">*</span></label>
+									</div>
+								</div>
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<input type="text" class="form-control" id="sdr_tac_1c_equipment" name="sdr_tac_1c_equipment" value="SDR TAC 1C" required>
+										<label class="form_control_1" for="sdr_tac_1c_equipment">Equipment <span class="text-danger">*</span></label>
+									</div>
+								</div>
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<input type="date" class="form-control" id="sdr_tac_1c_date" name="sdr_tac_1c_date" required>
+										<label class="form_control_1" for="sdr_tac_1c_date">Date <span class="text-danger">*</span></label>
+									</div>
+								</div>
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<select class="form-control" id="sdr_tac_1c_nature_of_trials" name="sdr_tac_1c_nature_of_trials" required>
+											<option value="">--Select--</option>
+											<option value="SATs">SATs</option>
+											<option value="HATS">HATs</option>
+											<option value="OP_CHECKS">OP CHECKS</option>
+											<option value="IIS">IIs</option>
+										</select>
+										<label class="form_control_1" for="sdr_tac_1c_nature_of_trials">Nature of Trial</label>
+									</div>
+								</div>
+							</div>
+						</fieldset>
+
+						<fieldset class="custom-fieldset">
+							<legend class="legend-custom text-uppercase">Checks</legend>
+
+							<div class="mb-2">
+								Trial team reported onboard for Ops Check of <strong>SDR - TAC 1C</strong> at
+								<textarea id="sdr_tac_1c_reported_time" name="sdr_tac_1c_reported_time" rows="1" class="form-control d-inline-block wrstg-scroll-textarea embarked-hrs inline-middle" required></textarea>
+								hrs. Checks and trials carried out IAW Revised approved schedule vide NHQ/DNS letter 
+								<textarea id="sdr_tac_1c_8a_letter" name="sdr_tac_1c_8a_letter" rows="1" class="form-control d-inline-block wrstg-scroll-textarea embarked-hrs inline-middle"></textarea>
+								are enumerated in succeeding paragraphs :-
+							</div>
+
+							<div class="table-responsive">
+								<table class="custom_tbl " id="sdr_tac_1c_checks_table">
+									<thead class="table-dark-head">
+										<tr>
+											<th class="ser-col">Ser</th>
+											<th>Observations</th>
+											<th class="remarks-col">Remarks</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td colspan="3" class="section-title">8. Visual Checks</td>
+										</tr>
+										<tr>
+											<td></td>
+											<td><strong>(a)</strong> Fitment of equipment rack on shock mount in <textarea id="sdr_tac_1c_8a_location" name="sdr_tac_1c_8a_location" rows="1" class="form-control d-inline-block wrstg-scroll-textarea embarked-hrs inline-middle"></textarea>.</td>
+											<td>
+												<label><input type="radio" name="sdr_tac_1c_8a" value="SAT" required> Sat</label>
+												<label><input type="radio" name="sdr_tac_1c_8a" value="UNSAT"> Unsat</label>
+											</td>
+										</tr>
+										<tr>
+											<td></td>
+											<td><strong>(b)</strong> Fitment of V/UHF Antenna (02) on <textarea id="sdr_tac_1c_8b_location" name="sdr_tac_1c_8b_location" rows="1" class="form-control d-inline-block wrstg-scroll-textarea embarked-hrs inline-middle"></textarea>.</td>
+											<td>
+												<label><input type="radio" name="sdr_tac_1c_8b" value="SAT" required> Sat</label>
+												<label><input type="radio" name="sdr_tac_1c_8b" value="UNSAT"> Unsat</label>
+											</td>
+										</tr>
+										<tr><td></td><td><strong>(c)</strong> Antenna connection to the SDR- TAC through feeder cable.</td><td><label><input type="radio" name="sdr_tac_1c_8c" value="SAT" required> Sat</label> <label><input type="radio" name="sdr_tac_1c_8c" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td><strong>(d)</strong> Grounding of Rack/Equipment</td><td><label><input type="radio" name="sdr_tac_1c_8d" value="SAT" required> Sat</label> <label><input type="radio" name="sdr_tac_1c_8d" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td><strong>(e)</strong> Power supply 230V AC, 50Hz</td><td><label><input type="radio" name="sdr_tac_1c_8e" value="SAT" required> Sat</label> <label><input type="radio" name="sdr_tac_1c_8e" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td><strong>(f)</strong> Fitment of sub units in cabinet and interconnection.</td><td><label><input type="radio" name="sdr_tac_1c_8f" value="SAT" required> Sat</label> <label><input type="radio" name="sdr_tac_1c_8f" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td><strong>(g)</strong> Functions of all knobs, switches, push buttons and display.</td><td><label><input type="radio" name="sdr_tac_1c_8g" value="SAT" required> Sat</label> <label><input type="radio" name="sdr_tac_1c_8g" value="UNSAT"> Unsat</label></td></tr>
+
+										<tr><td colspan="3" class="section-title">9. Operational Checks of SDR TAC wave forms:</td></tr>
+
+										<tr><td>9.1</td><td class="section-title">FM Waveform Voice Test for Channel 1 2 3 4</td><td></td></tr>
+										<tr><td></td><td><strong>Procedure:</strong></td><td></td></tr>
+										<tr><td></td><td><strong>(a)</strong> Ensure that proper RF cables are connected with the attenuator.</td><td><label><input type="radio" name="sdr_tac_1c_9_1_a" value="SAT" required> Sat</label> <label><input type="radio" name="sdr_tac_1c_9_1_a" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td><strong>(b)</strong> SDR-TAC unit is configured for functional voice testing.</td><td><label><input type="radio" name="sdr_tac_1c_9_1_b" value="SAT" required> Sat</label> <label><input type="radio" name="sdr_tac_1c_9_1_b" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td><strong>(c)</strong> Select FM waveform in channel 1 with any pre-set configuration.</td><td><label><input type="radio" name="sdr_tac_1c_9_1_c" value="SAT" required> Sat</label> <label><input type="radio" name="sdr_tac_1c_9_1_c" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td><strong>(d)</strong> Set the frequency 125/ 226/361/475 MHz and Low power mode on both the channels.</td><td><label><input type="radio" name="sdr_tac_1c_9_1_d" value="SAT" required> Sat</label> <label><input type="radio" name="sdr_tac_1c_9_1_d" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td><strong>(e)</strong> Set the volume level to High on the display.</td><td><label><input type="radio" name="sdr_tac_1c_9_1_e" value="SAT" required> Sat</label> <label><input type="radio" name="sdr_tac_1c_9_1_e" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td><strong>(f)</strong> Communicate back to back by pressing handset PTT. Verify the voice strength &amp; Quality</td><td><label><input type="radio" name="sdr_tac_1c_9_1_f" value="SAT" required> Sat</label> <label><input type="radio" name="sdr_tac_1c_9_1_f" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td><strong>(g)</strong> Repeat tests of frequencies 125/ 226/361/475 MHz on other channels 2, 3 &amp; 4</td><td><label><input type="radio" name="sdr_tac_1c_9_1_g" value="SAT" required> Sat</label> <label><input type="radio" name="sdr_tac_1c_9_1_g" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td><strong>(h)</strong> Power on RCU &amp; configure the RCU to control CH 1 with FM waveform.</td><td><label><input type="radio" name="sdr_tac_1c_9_1_h" value="SAT" required> Sat</label> <label><input type="radio" name="sdr_tac_1c_9_1_h" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td><strong>(j)</strong> Communicate back to back by pressing handset PTT on RCU &amp; Channel 2 of Radio, Verify the voice strength &amp; Quality on frequencies 125/ 226/361/475 MHz</td><td><label><input type="radio" name="sdr_tac_1c_9_1_j" value="SAT" required> Sat</label> <label><input type="radio" name="sdr_tac_1c_9_1_j" value="UNSAT"> Unsat</label></td></tr>
+
+										<tr><td></td><td><strong>Voice Test for FM Waveform.</strong></td><td></td></tr>
+										<tr>
+											<td></td>
+											<td class="p-0 align-top cell-align-top">
+												<table class="custom_tbl mb-0 matrix-table-no-gap" id="sdr_tac_1c_9_1_voice_matrix">
+													<tbody>
+														<tr>
+															<td colspan="8"><strong>Voice OK/ NOT OK</strong></td>
+														</tr>
+														<tr class ='custom-header-row'>
+															<th rowspan="2">Ser</th>
+															<th rowspan="2">Freq (in MHz)</th>
+															<th colspan="4">Radio</th>
+															<th colspan="2">With RCU</th>
+														</tr>
+														<tr class = "custom-header-row">
+															<th>CH 1</th>
+															<th>CH 2</th>
+															<th>CH 3</th>
+															<th>CH 4</th>
+															<th>RCU 1</th>
+															<th>RCU 2</th>
+														</tr>
+														<tr>
+															<td>(a)</td>
+															<td>125</td>
+															<td><textarea name="sdr_tac_1c_9_1_voice_a_ch1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td>
+															<td><textarea name="sdr_tac_1c_9_1_voice_a_ch2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td>
+															<td><textarea name="sdr_tac_1c_9_1_voice_a_ch3" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td>
+															<td><textarea name="sdr_tac_1c_9_1_voice_a_ch4" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td>
+															<td><textarea name="sdr_tac_1c_9_1_voice_a_rcu1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td>
+															<td><textarea name="sdr_tac_1c_9_1_voice_a_rcu2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td>
+														</tr>
+														<tr>
+															<td>(b)</td>
+															<td>226</td>
+															<td><textarea name="sdr_tac_1c_9_1_voice_b_ch1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td>
+															<td><textarea name="sdr_tac_1c_9_1_voice_b_ch2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td>
+															<td><textarea name="sdr_tac_1c_9_1_voice_b_ch3" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td>
+															<td><textarea name="sdr_tac_1c_9_1_voice_b_ch4" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td>
+															<td><textarea name="sdr_tac_1c_9_1_voice_b_rcu1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td>
+															<td><textarea name="sdr_tac_1c_9_1_voice_b_rcu2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td>
+														</tr>
+														<tr>
+															<td>(c)</td>
+															<td>361</td>
+															<td><textarea name="sdr_tac_1c_9_1_voice_c_ch1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td>
+															<td><textarea name="sdr_tac_1c_9_1_voice_c_ch2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td>
+															<td><textarea name="sdr_tac_1c_9_1_voice_c_ch3" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td>
+															<td><textarea name="sdr_tac_1c_9_1_voice_c_ch4" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td>
+															<td><textarea name="sdr_tac_1c_9_1_voice_c_rcu1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td>
+															<td><textarea name="sdr_tac_1c_9_1_voice_c_rcu2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td>
+														</tr>
+														<tr>
+															<td>(d)</td>
+															<td>475</td>
+															<td><textarea name="sdr_tac_1c_9_1_voice_d_ch1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td>
+															<td><textarea name="sdr_tac_1c_9_1_voice_d_ch2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td>
+															<td><textarea name="sdr_tac_1c_9_1_voice_d_ch3" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td>
+															<td><textarea name="sdr_tac_1c_9_1_voice_d_ch4" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td>
+															<td><textarea name="sdr_tac_1c_9_1_voice_d_rcu1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td>
+															<td><textarea name="sdr_tac_1c_9_1_voice_d_rcu2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td>
+														</tr>
+													</tbody>
+												</table>
+											</td>
+											<td class="text-center align-middle">
+												<div><strong>Sat/ Unsat</strong></div>
+												<div class="mt-2">
+													<label><input type="radio" name="sdr_tac_1c_9_1_voice_summary" value="SAT" required> Sat</label>
+													<label><input type="radio" name="sdr_tac_1c_9_1_voice_summary" value="UNSAT"> Unsat</label>
+												</div>
+											</td>
+										</tr>
+
+										<tr><td>9.2</td><td class="section-title">AM - WAVEFORM Voice Test for Channel 1 2 3 4</td><td></td></tr>
+										<tr><td></td><td><strong>Procedure:</strong></td><td></td></tr>
+										<tr><td></td><td><strong>(a)</strong> that proper RF cables are connected with the attenuator.</td><td><label><input type="radio" name="sdr_tac_1c_9_2_a" value="SAT" required> Sat</label> <label><input type="radio" name="sdr_tac_1c_9_2_a" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td><strong>(b)</strong> SDR-TAC unit is configured for functional voice testing.</td><td><label><input type="radio" name="sdr_tac_1c_9_2_b" value="SAT" required> Sat</label> <label><input type="radio" name="sdr_tac_1c_9_2_b" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td><strong>(c)</strong> Select FM waveform in channel 1 with any pre-set configuration.</td><td><label><input type="radio" name="sdr_tac_1c_9_2_c" value="SAT" required> Sat</label> <label><input type="radio" name="sdr_tac_1c_9_2_c" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td><strong>(d)</strong> Set the frequency 125/ 226/361/475 MHz and Low power mode on both the channels.</td><td><label><input type="radio" name="sdr_tac_1c_9_2_d" value="SAT" required> Sat</label> <label><input type="radio" name="sdr_tac_1c_9_2_d" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td><strong>(e)</strong> Set the volume level to High on the display.</td><td><label><input type="radio" name="sdr_tac_1c_9_2_e" value="SAT" required> Sat</label> <label><input type="radio" name="sdr_tac_1c_9_2_e" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td><strong>(f)</strong> Communicate back to back by pressing handset PTT. Verify the voice strength &amp; Quality</td><td><label><input type="radio" name="sdr_tac_1c_9_2_f" value="SAT" required> Sat</label> <label><input type="radio" name="sdr_tac_1c_9_2_f" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td><strong>(g)</strong> Repeat tests of frequencies 125/ 226/361/475 MHz on other channels 2, 3 &amp; 4</td><td><label><input type="radio" name="sdr_tac_1c_9_2_g" value="SAT" required> Sat</label> <label><input type="radio" name="sdr_tac_1c_9_2_g" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td><strong>(h)</strong> Power on RCU &amp; configure the RCU to control CH 1 with FM waveform.</td><td><label><input type="radio" name="sdr_tac_1c_9_2_h" value="SAT" required> Sat</label> <label><input type="radio" name="sdr_tac_1c_9_2_h" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td><strong>(j)</strong> Communicate back to back by pressing handset PTT on RCU &amp; Channel 2 of Radio, Verify the voice strength &amp; Quality on frequencies 125/ 226/361/475 MHz</td><td><label><input type="radio" name="sdr_tac_1c_9_2_j" value="SAT" required> Sat</label> <label><input type="radio" name="sdr_tac_1c_9_2_j" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td><strong>Voice Test for AM Waveform.</strong></td><td></td></tr>
+										<tr>
+											<td></td>
+											<td class="p-0 align-top cell-align-top">
+												<table class="custom_tbl mb-0 matrix-table-no-gap" id="sdr_tac_1c_9_2_voice_matrix">
+													<tbody>
+														<tr><td colspan="8"><strong>Voice OK/ NOT OK</strong></td></tr>
+														<tr class="custom-header-row"><th rowspan="2">Ser</th><th rowspan="2">Freq (in MHz)</th><th colspan="4">Radio</th><th colspan="2">RCU</th></tr>
+														<tr class="custom-header-row"><th>CH 1</th><th>CH 2</th><th>CH 3</th><th>CH 4</th><th>RCU 1</th><th>RCU 2</th></tr>
+														<tr><td>(a)</td><td>125</td><td><textarea name="sdr_tac_1c_9_2_voice_a_ch1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_2_voice_a_ch2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_2_voice_a_ch3" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_2_voice_a_ch4" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_2_voice_a_rcu1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_2_voice_a_rcu2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td></tr>
+														<tr><td>(b)</td><td>226</td><td><textarea name="sdr_tac_1c_9_2_voice_b_ch1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_2_voice_b_ch2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_2_voice_b_ch3" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_2_voice_b_ch4" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_2_voice_b_rcu1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_2_voice_b_rcu2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td></tr>
+														<tr><td>(c)</td><td>361</td><td><textarea name="sdr_tac_1c_9_2_voice_c_ch1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_2_voice_c_ch2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_2_voice_c_ch3" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_2_voice_c_ch4" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_2_voice_c_rcu1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_2_voice_c_rcu2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td></tr>
+														<tr><td>(d)</td><td>475</td><td><textarea name="sdr_tac_1c_9_2_voice_d_ch1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_2_voice_d_ch2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_2_voice_d_ch3" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_2_voice_d_ch4" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_2_voice_d_rcu1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_2_voice_d_rcu2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td></tr>
+													</tbody>
+												</table>
+											</td>
+											<td class="text-center"><strong>Sat/ Unsat</strong><div class="mt-2"><label><input type="radio" name="sdr_tac_1c_9_2_voice_summary" value="SAT"> Sat</label> <label><input type="radio" name="sdr_tac_1c_9_2_voice_summary" value="UNSAT"> Unsat</label></div></td>
+										</tr>
+
+										<tr><td>9.3</td><td class="section-title">IOV - WAVEFORM Voice Test for Channel 1 2 3 4</td><td></td></tr>
+										<tr><td></td><td><strong>Procedure:</strong></td><td></td></tr>
+										<tr><td></td><td><strong>(a)</strong> Ensure that proper RF cables are connected with the attenuator.</strong></td><td><label><input type="radio" name="sdr_tac_1c_9_3_a" value="SAT" required> Sat</label> <label><input type="radio" name="sdr_tac_1c_9_3_a" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td><strong>(b)</strong> SDR-TAC unit is configured for functional voice testing.</strong></td><td><label><input type="radio" name="sdr_tac_1c_9_3_b" value="SAT" required> Sat</label> <label><input type="radio" name="sdr_tac_1c_9_3_b" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td><strong>(c)</strong> Select FM waveform in channel 1 with any pre-set configuration.</strong></td><td><label><input type="radio" name="sdr_tac_1c_9_3_c" value="SAT" required> Sat</label> <label><input type="radio" name="sdr_tac_1c_9_3_c" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td><strong>(d)</strong> Set the frequency 125/ 226/361/475 MHz and Low power mode on both the channels.</strong></td><td><label><input type="radio" name="sdr_tac_1c_9_3_d" value="SAT" required> Sat</label> <label><input type="radio" name="sdr_tac_1c_9_3_d" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td><strong>(e)</strong> Set the volume level to High on the display.</strong></td><td><label><input type="radio" name="sdr_tac_1c_9_3_e" value="SAT" required> Sat</label> <label><input type="radio" name="sdr_tac_1c_9_3_e" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td><strong>(f)</strong> Communicate back to back by pressing handset PTT. Verify the voice strength &amp; Quality</strong></td><td><label><input type="radio" name="sdr_tac_1c_9_3_f" value="SAT" required> Sat</label> <label><input type="radio" name="sdr_tac_1c_9_3_f" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td><strong>(g)</strong> Repeat tests of frequencies 125/ 226/361/475 MHz on other channels 2, 3 &amp; 4</td><td><label><input type="radio" name="sdr_tac_1c_9_3_g" value="SAT" required> Sat</label> <label><input type="radio" name="sdr_tac_1c_9_3_g" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td><strong>(h)</strong> Power on RCU &amp; configure the RCU to control CH 1 with FM waveform.</td><td><label><input type="radio" name="sdr_tac_1c_9_3_h" value="SAT" required> Sat</label> <label><input type="radio" name="sdr_tac_1c_9_3_h" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td><strong>(j)</strong> Communicate back to back by pressing handset PTT on RCU &amp; Channel 2 of Radio, Verify the voice strength &amp; Quality on frequencies 125/ 226/361/475 MHz</td><td><label><input type="radio" name="sdr_tac_1c_9_3_j" value="SAT" required> Sat</label> <label><input type="radio" name="sdr_tac_1c_9_3_j" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td></td><td><strong>Voice Test for IOV Waveform.</strong></td><td></td></tr>
+										<tr>
+											<td></td>
+											<td class="p-0 align-top cell-align-top">
+												<table class="custom_tbl mb-0 matrix-table-no-gap" id="sdr_tac_1c_9_3_voice_matrix">
+													<tbody>
+														<tr><td colspan="8"><strong>Voice OK/ NOT OK</strong></td></tr>
+														<tr class="custom-header-row"><th rowspan="2">Ser</th><th rowspan="2">Freq (in MHz)</th><th colspan="4">Radio</th><th colspan="2">RCU</th></tr>
+														<tr class="custom-header-row"><th>CH 1</th><th>CH 2</th><th>CH 3</th><th>CH 4</th><th>RCU 1</th><th>RCU 2</th></tr>
+														<tr><td>(a)</td><td>125</td><td><textarea name="sdr_tac_1c_9_3_voice_a_ch1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_3_voice_a_ch2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_3_voice_a_ch3" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_3_voice_a_ch4" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_3_voice_a_rcu1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_3_voice_a_rcu2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td></tr>
+														<tr><td>(b)</td><td>226</td><td><textarea name="sdr_tac_1c_9_3_voice_b_ch1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_3_voice_b_ch2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_3_voice_b_ch3" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_3_voice_b_ch4" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_3_voice_b_rcu1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_3_voice_b_rcu2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td></tr>
+														<tr><td>(c)</td><td>361</td><td><textarea name="sdr_tac_1c_9_3_voice_c_ch1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_3_voice_c_ch2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_3_voice_c_ch3" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_3_voice_c_ch4" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_3_voice_c_rcu1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_3_voice_c_rcu2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td></tr>
+														<tr><td>(d)</td><td>475</td><td><textarea name="sdr_tac_1c_9_3_voice_d_ch1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_3_voice_d_ch2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_3_voice_d_ch3" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_3_voice_d_ch4" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_3_voice_d_rcu1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_3_voice_d_rcu2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td></tr>
+													</tbody>
+												</table>
+											</td>
+											<td class="text-center"><strong>Sat/ Unsat</strong><div class="mt-2"><label><input type="radio" name="sdr_tac_1c_9_3_voice_summary" value="SAT"> Sat</label> <label><input type="radio" name="sdr_tac_1c_9_3_voice_summary" value="UNSAT"> Unsat</label></div></td>
+										</tr>
+
+										<tr><td>9.4</td><td class="section-title">Data test of LINK II V/UHF - Waveform CH 1, 2, 3 &amp; 4 (with default configuration).</td><td></td></tr>
+										<tr>
+											<td></td>
+											<td class="p-0 align-top cell-align-top">
+												<table class="custom_tbl mb-0 matrix-table-no-gap" id="sdr_tac_1c_9_4_matrix">
+													<tbody>
+														<tr class="custom-header-row"><th rowspan="2">Ser</th><th rowspan="2">Freq (in MHz)</th><th colspan="4">Radio</th></tr>
+														<tr class="custom-header-row"><th>CH 1</th><th>CH 2</th><th>CH 3</th><th>CH 4</th></tr>
+														<tr><td>(a)</td><td>125</td><td><textarea name="sdr_tac_1c_9_4_a_ch1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_4_a_ch2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_4_a_ch3" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_4_a_ch4" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td></tr>
+														<tr><td>(b)</td><td>226</td><td><textarea name="sdr_tac_1c_9_4_b_ch1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_4_b_ch2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_4_b_ch3" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_4_b_ch4" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td></tr>
+														<tr><td>(c)</td><td>361</td><td><textarea name="sdr_tac_1c_9_4_c_ch1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_4_c_ch2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_4_c_ch3" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_4_c_ch4" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td></tr>
+													</tbody>
+												</table>
+											</td>
+											<td class="text-center align-middle">
+												<div><strong>Sat/ Unsat</strong></div>
+												<div class="mt-2">
+													<label><input type="radio" name="sdr_tac_1c_9_4_summary" value="SAT"> Sat</label>
+													<label><input type="radio" name="sdr_tac_1c_9_4_summary" value="UNSAT"> Unsat</label>
+												</div>
+											</td>
+										</tr>
+
+										<tr><td>9.5</td><td class="section-title">Data test for LDR ECCM - Waveform CH 1, 2, 3 &amp; 4 (with default configuration).</td><td></td></tr>
+										<tr>
+											<td></td>
+											<td class="p-0 align-top cell-align-top">
+												<table class="custom_tbl mb-0 matrix-table-no-gap" id="sdr_tac_1c_9_5_matrix">
+													<tbody>
+														<tr class="custom-header-row"><th rowspan="2">Ser</th><th rowspan="2">Hop set No</th><th colspan="2">Radio</th><th colspan="2">RCU</th></tr>
+														<tr class="custom-header-row"><th>CH 1</th><th>CH 2</th><th>CH 1</th><th>CH 2</th></tr>
+														<tr><td>(a)</td><td>01</td><td><textarea name="sdr_tac_1c_9_5_a_radio_ch1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_5_a_radio_ch2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_5_a_rcu_ch1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_5_a_rcu_ch2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td></tr>
+														<tr><td>(b)</td><td>04</td><td><textarea name="sdr_tac_1c_9_5_b_radio_ch1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_5_b_radio_ch2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_5_b_rcu_ch1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_5_b_rcu_ch2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td></tr>
+													</tbody>
+												</table>
+											</td>
+											<td class="text-center align-middle">
+												<div><strong>Sat/ Unsat</strong></div>
+												<div class="mt-2">
+													<label><input type="radio" name="sdr_tac_1c_9_5_summary" value="SAT"> Sat</label>
+													<label><input type="radio" name="sdr_tac_1c_9_5_summary" value="UNSAT"> Unsat</label>
+												</div>
+											</td>
+										</tr>
+
+										<tr><td>9.6</td><td class="section-title">(a) Voice and data test for HDR UHF ECCM MANET Waveform CH 1, 2, 3 &amp; 4 (with default configuration).</td><td></td></tr>
+										<tr>
+											<td></td>
+											<td class="p-0 align-top cell-align-top">
+												<table class="custom_tbl mb-0 matrix-table-no-gap" id="sdr_tac_1c_9_6_matrix">
+													<tbody>
+														<tr class="custom-header-row"><th rowspan="3">Ser</th><th rowspan="3">Hop set No</th><th colspan="4">Data</th><th colspan="2">Voice</th></tr>
+														<tr class="custom-header-row"><th colspan="4">Radio</th><th colspan="2">Radio</th></tr>
+														<tr class="custom-header-row"><th>CH 1</th><th>CH 2</th><th>CH 3</th><th>CH 4</th><th>CH</th><th>CH</th></tr>
+														<tr><td>(i)</td><td>01</td><td><textarea name="sdr_tac_1c_9_6_i_data_ch1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_6_i_data_ch2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_6_i_data_ch3" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_6_i_data_ch4" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_6_i_voice_ch1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_6_i_voice_ch2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td></tr>
+														<tr><td>(ii)</td><td>04</td><td><textarea name="sdr_tac_1c_9_6_ii_data_ch1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_6_ii_data_ch2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_6_ii_data_ch3" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_6_ii_data_ch4" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_6_ii_voice_ch1" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td><td><textarea name="sdr_tac_1c_9_6_ii_voice_ch2" rows="1" class="form-control d-inline-block wrstg-scroll-textarea "></textarea></td></tr>
+													</tbody>
+												</table>
+											</td>
+											<td class="text-center align-middle">
+												<div><strong>Sat/ Unsat</strong></div>
+												<div class="mt-2">
+													<label><input type="radio" name="sdr_tac_1c_9_6_summary" value="SAT"> Sat</label>
+													<label><input type="radio" name="sdr_tac_1c_9_6_summary" value="UNSAT"> Unsat</label>
+												</div>
+											</td>
+										</tr>
+
+										<tr><td>10</td><td class="section-title">HMI and RCU Radio management functions</td><td><label><input type="radio" name="sdr_tac_1c_10" value="SAT"> Sat</label> <label><input type="radio" name="sdr_tac_1c_10" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td>10.1</td><td>User Authentication at HMI</td><td><label><input type="radio" name="sdr_tac_1c_10_1" value="SAT"> Sat</label> <label><input type="radio" name="sdr_tac_1c_10_1" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td>10.2</td><td>Platform Configuration - waveform change from HMI</td><td><label><input type="radio" name="sdr_tac_1c_10_2" value="SAT"> Sat</label> <label><input type="radio" name="sdr_tac_1c_10_2" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td>10.3</td><td>Platform Configuration - Audio Channel Assignment to RCU from HMI</td><td><label><input type="radio" name="sdr_tac_1c_10_3" value="SAT"> Sat</label> <label><input type="radio" name="sdr_tac_1c_10_3" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td>10.4</td><td>Waveform Configuration from HMI</td><td><label><input type="radio" name="sdr_tac_1c_10_4" value="SAT"> Sat</label> <label><input type="radio" name="sdr_tac_1c_10_4" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td>10.5</td><td>POST</td><td><label><input type="radio" name="sdr_tac_1c_10_5" value="SAT"> Sat</label> <label><input type="radio" name="sdr_tac_1c_10_5" value="UNSAT"> Unsat</label></td></tr>
+										<tr><td>10.6</td><td>IBIT from HMI</td><td><label><input type="radio" name="sdr_tac_1c_10_6" value="SAT"> Sat</label> <label><input type="radio" name="sdr_tac_1c_10_6" value="UNSAT"> Unsat</label></td></tr>
+									</tbody>
+								</table>
+							</div>
+						</fieldset>
+
+						<fieldset class="custom-fieldset">
+							<legend class="legend-custom text-uppercase">Presenting Authority</legend>
+							<div class="row g-3">
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<select class="form-control" id="sdr_tac_1c_presenting_authority" name="sdr_tac_1c_presenting_authority" required>
+											<option value="">--Select--</option>
+											<option value="dockyard">Dockyard</option>
+											<option value="shipstaff">Shipstaff</option>
+											<option value="oem">OEM</option>
+										</select>
+										<label class="form_control_1" for="sdr_tac_1c_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+									</div>
+								</div>
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<input type="text" class="form-control" id="sdr_tac_1c_watt" name="sdr_tac_1c_watt" value="VZG" readonly>
+										<label class="form_control_1" for="sdr_tac_1c_watt">WATT</label>
+									</div>
+								</div>
+							</div>
+						</fieldset>
+						<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">REMARKS</legend>
+								<div class="static-section">
+								<div class="table-responsive">
+									<table class="custom_tbl" id="remarks_table">
+										<thead>
+											<tr>
+												<th class="serial-no">Sr No</th>
+												<th>Observations</th>
+												<th>SS Remarks</th>
+												<th class="action">Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no">1</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" data-base-name="observation" placeholder="" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" data-base-name="ss_remarks" placeholder="" rows="2"></textarea></td>
+												<td class="action action-cell-holder">
+													<div class="action-controls">
+														<button type="button" class="btn-round btn-add" onclick="addRow('remarks_table')" title="Add Row">+</button>
+														<button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'remarks_table')" title="Remove Row">-</button>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								</div>
+							</fieldset>
+							<fieldset class="custom-fieldset">
+                            <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                            <div class="row g-3">
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <select class="form-control" id="dmr_16a_presenting_authority" name="dmr_16a_presenting_authority" required>
+                                            <option value="">--Select--</option>
+                                            <option value="dockyard">Dockyard</option>
+                                            <option value="shipstaff">Shipstaff</option>
+                                            <option value="oem">OEM</option>
+                                        </select>
+                                        <label class="form_control_1" for="dmr_16a_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <input type="text" class="form-control" id="dmr_16a_watt" name="dmr_16a_watt" value="VZG" >
+                                        <label class="form_control_1" for="dmr_16a_watt">WATT</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+						<div class="d-flex justify-content-center mt-4">
+							<button type="submit" class="btn btn-success px-4">Save</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		WRSTGQuarterly.init({
+			extraTableIds: [, 'remarks_table',],
+			submitConfirmation: { formId: 'sdr_tac_1c_form' }
+		});
+	});
+</script>
+{% endblock js %}

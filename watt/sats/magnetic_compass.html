@@ -1,0 +1,808 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+
+<!--  -->
+
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+            <li class="breadcrumb-item active" aria-current="page">WATT</li>
+            <li class="breadcrumb-item active" aria-current="page">SATs</li>
+            <li class="breadcrumb-item active" aria-current="page">Magnetic Compass</li>
+          </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">MAGNETIC COMPASS</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="magnetic_compass_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!--HEADER — Ship / Inspection Info-->
+
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Basic Information</legend>
+                <div class="row g-3">
+
+                  <div class="col-md-4 col-12">
+                      <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                          <select class="form-control" name="ship" required>
+                              <option value="">--Select--</option>
+                              {% for ship in ship_options %}
+                              <option value="{{ ship.value }}">{{ ship.label }}</option>
+                              {% endfor %}
+                          </select>
+                          <label class="form_control_1">Ship <span class="text-danger">*</span></label>
+                      </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="department_select" name="department">
+                          <option value="">-- Select --</option>
+                          <option value="P15A">ND</option>
+                          <option value="P17">ASW</option>
+                          <option value="P17A">COMM</option>
+                          <option value="P28">GUNNERY</option>
+                        </select>
+                        <label class="form_control_1">Department</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="equipment_select" name="equipment">
+                          <option value="">-- Select --</option>
+                        </select>
+                        <label class="form_control_1">Equipment</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                      <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                        <input type="date" class="form-control" id="date_input" name="date_">
+                        <label class="form_control_1">Date</label>
+                      </div>
+                    </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="nature_trials_select" name="nature_of_trials" required>
+                          <option value="">--Select--</option>
+                          <option value="SATs">SATs</option>
+                          <option value="HATS">HATs</option>
+                          <option value="OP_CHECKS">OP CHECKS</option>
+                          <option value="IIS">IIs</option>
+                        </select>
+                        <label class="form_control_1">Nature of Trial</label>
+                    </div>
+                  </div>
+
+            </div>
+          </fieldset>
+
+          <fieldset class="custom-fieldset">
+            <legend class="legend-custom text-uppercase">Checks</legend>
+            <div class="table-responsive">
+              <table class="custom_tbl">
+                <thead>
+                  <tr class="custom-header-row">
+                    <th>Ser No.</th>
+                    <th>Observation</th>
+                    <th>Remarks</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="3">
+                            Trials team embarked onboard at 
+                            <input type="time"  name="embark_time" class="form-control d-inline-block" style="width: 100px; height: 28px;"> hrs on 
+                            <input type="date"  name="embark_date" class="form-control d-inline-block" style="width: 140px; height: 28px;"> for OP Checks of Magnetic Compass as per provisionally approved schedule vide 
+                            <textarea class="form-control wrstg-scroll-textarea" style="width: 280px; font-size: 12px; display: inline-block; vertical-align: middle;" id="test_1_rlg1_velocity" name="test_1_rlg1_velocity"></textarea> . <br>Following observed:-
+                        </td>
+                    </tr>
+                  <!-- Row 1: Structural defects -->
+                  <tr>
+                    
+                    <td colspan="3" class="description-text"><b>Physical Checks</b></td>
+                  </tr>
+
+                  <tr>
+                    <td >1</td>
+                    <td>Check that Magnetic Compass is installed on horizontal surface.</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="mcomp_check_1" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="mcomp_check_1" value="UNSAT">
+                                <label >UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                 
+
+
+                  <tr>
+                    <td >2</td>
+                    <td>Completeness of equipment as per order.</td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="mcomp_check_2" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="mcomp_check_2" value="UNSAT">
+                                <label>UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                    <td >3</td>
+                    <td>Check equipment installation for physical damage if any.</td>
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="mcomp_check_3" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="mcomp_check_3" value="UNSAT">
+                                <label>UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                  
+                  <tr>
+                    <td >4</td>
+                    <td>Check the mounting of all units and interconnection wiring (If any existing).</td>
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="mcomp_check_4" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="mcomp_check_4" value="UNSAT">
+                                <label>UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    
+                   
+                    <td >5</td>
+                    <td>Check for clearance of Magnetic Compass all around. No unwanted / loose ferrous materials should be placed in the vicinity of Magnetic Compass.</td>
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="mcomp_check_5" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="mcomp_check_5" value="UNSAT">
+                                <label>UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                <tr>
+                  <td >6</td>
+                    <td>Check the proper grounding for TMC Unit.</td>
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="mcomp_check_6" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="mcomp_check_6" value="UNSAT">
+                                <label>UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td colspan="3" class="description-text"><b>Functional Checks</b></td>
+                  </tr>
+
+                  <tr>
+                    <td>7</td>
+                    <td>Switch on 24V DC and monitor voltage at TMC unit terminal block. It should be within 15V to 40V DC.</td>
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="mcomp_check_7" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="mcomp_check_7" value="UNSAT">
+                                <label>UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>8</td>
+                    <td>Check the functioning of DC / AC dimmers for maximum and minimum illumination.</td>
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="mcomp_check_8" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="mcomp_check_8" value="UNSAT">
+                                <label>UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>9</td>
+                    <td>Check the functions of Gyro and Magnetic Compass Change Over switch Assembly (if existing).</td>
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="mcomp_check_9" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="mcomp_check_9" value="UNSAT">
+                                <label>UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>10</td>
+                    <td>Confirm that all repeater units (if exists) show the heading of Magnetic Compass, when Magnetic Compass selected from Change Over Switch</td>
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="mcomp_check_10" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="mcomp_check_10" value="UNSAT">
+                                <label>UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>11</td>
+                    <td>Slew the Magnetic Compass by taking any ferrous material nearby compass and check the reading on repeaters. All should follow magnetic heading.</td>
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio" id="mcomp_check_11" name="mcomp_check_11" value="SAT">
+                                <label for="mcomp_check_11">SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="mcomp_check_11" name="mcomp_check_11" value="UNSAT">
+                                <label for="mcomp_check_11">UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="3" class="description-text"><b>Sea Checks</b></td>
+                  </tr>
+
+                  <tr>
+                    <td>12</td>
+                    <td>Compass swing of Magnetic Compass to be carried out and to be certified by specialist navigator.</td>
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="mcomp_check_12" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="mcomp_check_12" value="UNSAT">
+                                <label>UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>13.</td>
+                    <td>Check the transit bearings of known objects and verify for correctness of reading.</td>
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="mcomp_check_13" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="mcomp_check_13" value="UNSAT">
+                                <label>UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>14</td>
+                    <td>Confirm the reading on all repeaters units, it should follow magnetic compass (if facility available)</td>
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio"  name="mcomp_check_14" value="SAT">
+                                <label >SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio"  name="mcomp_check_14" value="UNSAT">
+                                <label>UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                    
+                </tbody>
+              </table>
+            </div>
+          </fieldset>
+
+          <fieldset class="custom-fieldset">
+            <legend class="legend-custom fw-semibold text-uppercase">MAGNETIC COMPASS SWING CHECKS READING</legend>
+            <div class="table-responsive">
+              <table id="friction_readings_table" class="custom_tbl">
+                
+                <thead>
+                    <tr class="custom-header-row">
+                    <th>True Course</th>
+                    <th>Gyro Course</th>
+                    <th>Magnetic Heading</th>
+                    <th>Difference</th>
+                    
+                  
+                  
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>000</td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_000_gyro"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_000_true"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_000_mag"></td>
+                  </tr>
+                  <tr>
+                    <td>015</td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_015_gyro"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_015_true"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_015_mag"></td>
+                  </tr>
+                  <tr>
+                    <td>030</td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_030_gyro"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_030_true"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_030_mag"></td>
+                  </tr>
+                  <tr>
+                    <td>045</td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_045_gyro"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_045_true"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_045_mag"></td>
+                  </tr>
+                  <tr>
+                    <td>060</td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_060_gyro"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_060_true"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_060_mag"></td>
+                  </tr>
+                  <tr>
+                    <td>075</td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_075_gyro"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_075_true"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_075_mag"></td>
+                  </tr>
+                  <tr>
+                    <td>090</td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_090_gyro"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_090_true"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_090_mag"></td>
+                  </tr>
+                  <tr>
+                    <td>105</td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_105_gyro"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_105_true"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_105_mag"></td>
+                  </tr>
+                  <tr>
+                    <td>120</td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_120_gyro"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_120_true"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_120_mag"></td>
+                  </tr>
+                  <tr>
+                    <td>135</td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_135_gyro"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_135_true"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_135_mag"></td>
+                  </tr>
+                  <tr>
+                    <td>150</td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_150_gyro"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_150_true"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_150_mag"></td>
+                  </tr>
+                  <tr>
+                    <td>165</td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_165_gyro"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_165_true"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_165_mag"></td>
+                  </tr>
+                  <tr>
+                    <td>180</td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_180_gyro"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_180_true"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_180_mag"></td>
+                  </tr>
+                  <tr>
+                    <td>195</td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_195_gyro"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_195_true"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_195_mag"></td>
+                  </tr>
+                  <tr>
+                    <td>210</td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_210_gyro"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_210_true"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_210_mag"></td>
+                  </tr>
+                  <tr>
+                    <td>225</td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_225_gyro"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_225_true"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_225_mag"></td>
+                  </tr>
+                  <tr>
+                    <td>240</td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_240_gyro"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_240_true"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_240_mag"></td>
+                  </tr>
+                  <tr>
+                    <td>255</td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_255_gyro"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_255_true"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_255_mag"></td>
+                  </tr>
+                  <tr>
+                    <td>270</td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_270_gyro"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_270_true"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_270_mag"></td>
+                  </tr>
+                  <tr>
+                    <td>285</td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_285_gyro"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_285_true"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_285_mag"></td>
+                  </tr>
+                  <tr>
+                    <td>300</td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_300_gyro"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_300_true"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_300_mag"></td>
+                  </tr>
+                  <tr>
+                    <td>315</td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_315_gyro"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_315_true"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_315_mag"></td>
+                  </tr>
+                  <tr>
+                    <td>330</td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_330_gyro"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_330_true"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_330_mag"></td>
+                  </tr>
+                  <tr>
+                    <td>345</td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_345_gyro"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_345_true"></td>
+                    <td><input type="number" class="form-control" name="mcomp_swing_345_mag"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </fieldset>
+
+          <fieldset class="custom-fieldset">
+            <legend class="legend-custom fw-semibold text-uppercase">MAGNETIC COMPASS SWING CHECKS READING</legend>
+            <div class="table-responsive">
+              <table id="friction_readings_table" class="custom_tbl">
+                
+                <thead>
+                    <tr class="custom-header-row">
+                        <th>Gyro Compass Headings</th>
+                        <th >Gyro Error</th>
+                        <th >True Heading</th>
+                        <th >Magnetic Heading</th>
+                        <th>Compass Error</th>
+                        <th>Variation</th>
+                        <th>Deviation</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                  <tr>
+                    <td>000</td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_000_gyro_err">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_000_true">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_000_mag">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_000_comp_err">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_000_variation">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_000_deviation">
+                    </td>
+                    
+                    
+                  </tr>
+                  <tr>
+                    <td>045</td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_045_gyro_err">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_045_true">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_045_mag">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_045_comp_err">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_045_variation">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_045_deviation">
+                    </td>
+                    
+                    
+                  </tr>
+                  <tr>
+                    <td>090</td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_090_gyro_err">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_090_true">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_090_mag">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_090_comp_err">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_090_variation">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_090_deviation">
+                    </td>
+                    
+                    
+                  </tr>
+                  <tr>
+                    <td>135</td>
+                    <td>
+                      <input type="number" class="form-control"   name="mcomp_swing2_135_gyro_err">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_135_true">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_135_mag">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_135_comp_err">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_135_variation">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_135_deviation">
+                    </td>
+                    
+                    
+                  </tr>
+                  <tr>
+                    <td>185</td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_185_gyro_err">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_185_true">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_185_mag">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_185_comp_err">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_185_variation">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_185_deviation">
+                    </td>
+                    
+                    
+                  </tr>
+                  <tr>
+                    <td>225</td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_225_gyro_err">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_225_true">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_225_mag">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_225_comp_err">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_225_variation">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_225_deviation">
+                    </td>
+                    
+                    
+                  </tr>
+                  <tr>
+                    <td>270</td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_270_gyro_err">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_270_true">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_270_mag">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_270_comp_err">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_270_variation">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_270_deviation">
+                    </td>
+                    
+                    
+                  </tr>
+                  <tr>
+                    <td>315</td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_315_gyro_err">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_315_true">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_315_mag">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_315_comp_err">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_315_variation">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_315_deviation">
+                    </td>
+                    
+                    
+                  </tr>
+                  <tr>
+                    <td>000</td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_000_rep_gyro_err">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_000_rep_true">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_000_rep_mag">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_000_rep_comp_err">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_000_rep_variation">
+                    </td>
+                    <td>
+                      <input type="number" class="form-control"  name="mcomp_swing2_000_rep_deviation">
+                    </td>
+                     
+                  </tr>
+
+                  
+                </tbody>
+              </table>
+            </div>
+            
+          </fieldset>
+
+
+
+          
+
+
+          <!-- Submit -->
+          <div class="d-flex justify-content-center mt-4 gap-2">
+            <button type="submit" class="btn btn-success px-4">Submit</button>
+          </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+
+{% endblock js %}

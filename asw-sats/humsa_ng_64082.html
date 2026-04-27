@@ -1,0 +1,270 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+	.custom_tbl td,
+	.custom_tbl th {
+		vertical-align: top;
+		word-wrap: break-word;
+		overflow-wrap: break-word;
+		white-space: normal !important;
+	}
+	.obs-block div {
+		line-height: 1.35;
+	}
+	.obs-input {
+		margin-left: 4px;
+	}
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ASW SATs</a></li>
+					<li class="breadcrumb-item active" aria-current="page">HUMSA NG 64082</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">DATA SUMMARY OF PROGRESS - HUMSA NG</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="humsa_ng_64082_form">
+						{% csrf_token %}
+						<div class="form-body">
+							<fieldset class="custom-fieldset">
+								<div class="row g-3">
+									<div class="col-md-3 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<select class="form-control" name="ship_name" required>
+												<option value="">Select Ship</option>
+												{% for option in ship_options %}
+													<option value="{{ option.value }}">{{ option.label }}</option>
+												{% endfor %}
+											</select>
+											<label class="form_control_1">SHIP <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<input type="text" class="form-control" name="equipment" value="Humsa UG / Humsa NG MK I / MK II" required>
+											<label class="form_control_1">EQUIPMENT <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-2 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<select class="form-control" name="department" required>
+												<option value="">Select Dept</option>
+												<option value="ASW">ASW</option>
+												<option value="ND">ND</option>
+												<option value="ELE">ELE</option>
+												<option value="COMMN">COMMN</option>
+											</select>
+											<label class="form_control_1">DEPT <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-3 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<select class="form-control" name="nature_of_trials" required>
+												<option value="">Select Nature of Trials</option>
+												<option value="SATs">SATs</option>
+												<option value="HATs">HATs</option>
+												<option value="OP CHECKS">OP CHECKS</option>
+												<option value="IIs">IIs</option>
+											</select>
+											<label class="form_control_1">NATURE OF TRIALS <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-2 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<input type="date" class="form-control" name="date" required>
+											<label class="form_control_1">DATE <span class="text-danger">*</span></label>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<div class="table-responsive">
+									<table class="custom_tbl" id="humsa_64082_table">
+										<thead class="table-dark-head">
+											<tr>
+												<th style="width:8%;">Ser</th>
+												<th style="width:56%;">OBSERVATIONS</th>
+												<th style="width:16%;">RESULT</th>
+												<th style="width:20%;">REMARKS</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td colspan="4">
+													Trials team embarked onboard at <input type="time" class="line-input embarked-hrs" name="embark_time"> on <input type="text" class="line-input embarked-hrs obs-input"  name = "humsa_64082_embarked_location">  for SATs of
+                                                    Humsa UG / Humsa NG MK I / MK II as per approved schedule,
+													<!-- <input type="text" class="line-input" name="equip_name_2" value="Humsa UG / Humsa NG MK I / MK II">  -->
+													BR 4050 and CNO 07/10. Following observed:-
+												</td>
+											</tr>
+											<tr><td></td><td><strong>CHECKS</strong></td><td></td><td></td></tr>
+											<tr><td></td><td><strong>Area at Sea:</strong> <input type="text" class="line-input embarked-hrs obs-input" name="area_at_sea"></td><td></td><td></td></tr>
+
+											<tr>
+												<td>01</td>
+												<td class="obs-block">
+													<div><strong>CH No. 2. Active sonar range and bearing accuracy trials.</strong></div>
+													<div>Consort (Sub-surface) – <input type="text" class="line-input embarked-hrs obs-input" name="r01_consort"></div>
+													<div>Depth - <input type="text" class="line-input embarked-hrs obs-input" name="r01_depth"></div>
+													<div>ESR-Time - <input type="text" class="line-input embarked-hrs obs-input" name="r01_esr_time"> &nbsp; A/L - <input type="text" class="line-input embarked-hrs obs-input" name="r01_al"> , B/L- <input type="text" class="line-input embarked-hrs obs-input" name="r01_bl"></div>
+													<div>LD- <input type="text" class="line-input embarked-hrs obs-input" name="r01_ld"></div><br>
+													<div>Run 1 (Port side)- <input type="text" class="line-input embarked-hrs obs-input" name="r01_run1"></div>
+													<div>Run 2 (Stbd side)- <input type="text" class="line-input embarked-hrs obs-input" name="r01_run2"></div>
+													<div>Results to be Achieved</div>
+													<div>Range (&le;200) - <input type="text" class="line-input embarked-hrs obs-input" name="r01_range"></div>
+													<div>Bearing (&le;2) - <input type="text" class="line-input embarked-hrs obs-input" name="r01_bearing"></div>
+												</td>
+												<td class="text-center"><label><input type="radio" name="r01" value="SAT"> SAT</label>/<label><input type="radio" name="r01" value="UNSAT">UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="rem_01"></textarea></td>
+											</tr>
+
+											<tr>
+												<td>02</td>
+												<td class="obs-block">
+													<div><strong>CH No. 3. Active sonar Maximum holding range trials.</strong></div>
+													<div>Consort (Sub-surface) – <input type="text" class="line-input embarked-hrs obs-input" name="r02_consort"></div>
+													<div>Depth- <input type="text" class="line-input embarked-hrs obs-input" name="r02_depth"></div>
+													<div>ESR- Time - <input type="text" class="line-input embarked-hrs obs-input" name="r02_esr_time"> &nbsp; A/L - <input type="text" class="line-input embarked-hrs obs-input" name="r02_al"> , B/L- <input type="text" class="line-input embarked-hrs obs-input" name="r02_bl"></div>
+													<div>LD- <input type="text" class="line-input embarked-hrs obs-input" name="r02_ld"></div><br>
+													<div>Run 1 (Above layer)- <input type="text" class="line-input embarked-hrs obs-input" name="r02_run1"></div>
+													<div>Run 2 (Below Layer)- <input type="text" class="line-input embarked-hrs obs-input" name="r02_run2"></div>
+													<div>Results to be Achieved –90% of ESR</div>
+													<div>Above layer - <input type="text" class="line-input embarked-hrs obs-input" name="r02_above"></div>
+													<div>Below layer - <input type="text" class="line-input embarked-hrs obs-input" name="r02_below"></div>
+												</td>
+												<td class="text-center"><label><input type="radio" name="r02" value="SAT"> SAT</label>/<label><input type="radio" name="r02" value="UNSAT">UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="rem_02"></textarea></td>
+											</tr>
+
+											<tr>
+												<td>03</td>
+												<td class="obs-block"><div><strong>CH No. 4. Active sonar Initial detection range trials.</strong></div><div>Consort (Sub-surface) – <input type="text" class="line-input embarked-hrs obs-input" name="r03_consort"></div><div>Depth - <input type="text" class="line-input embarked-hrs obs-input" name="r03_depth"></div><div>ESR- Time - <input type="text" class="line-input embarked-hrs obs-input" name="r03_esr_time"> &nbsp; A/L - <input type="text" class="line-input embarked-hrs obs-input" name="r03_al"> , B/L- <input type="text" class="line-input embarked-hrs obs-input" name="r03_bl"></div><div>LD- <input type="text" class="line-input embarked-hrs obs-input" name="r03_ld"></div><br><div>Run 1 (Above layer)- <input type="text" class="line-input embarked-hrs obs-input" name="r03_run1"></div><div>Run 2 (Below Layer)- <input type="text" class="line-input embarked-hrs obs-input" name="r03_run2"></div><div>Results to be Achieved –90% of ESR</div><div>Above layer - <input type="text" class="line-input embarked-hrs obs-input" name="r03_above"></div><div>Below layer - <input type="text" class="line-input embarked-hrs obs-input" name="r03_below"></div></td>
+												<td class="text-center"><label><input type="radio" name="r03" value="SAT"> SAT</label>/<label><input type="radio" name="r03" value="UNSAT">UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="rem_03"></textarea></td>
+											</tr>
+
+											<tr>
+												<td>04</td>
+												<td class="obs-block"><div><strong>CH No. 5. Active sonar Doppler accuracy trials.</strong></div><div>Consort (Sub-surface) – <input type="text" class="line-input embarked-hrs obs-input" name="r04_consort"></div><div>Depth- <input type="text" class="line-input embarked-hrs obs-input" name="r04_depth"></div><div>ESR- Time - <input type="text" class="line-input embarked-hrs obs-input" name="r04_esr_time"> &nbsp; A/L - <input type="text" class="line-input embarked-hrs obs-input" name="r04_al"> , B/L- <input type="text" class="line-input embarked-hrs obs-input" name="r04_bl"></div><div>LD- <input type="text" class="line-input embarked-hrs obs-input" name="r04_ld"></div><br><div>Run 1 - <input type="text" class="line-input embarked-hrs obs-input" name="r04_run1"></div><div>Run 2 - <input type="text" class="line-input embarked-hrs obs-input" name="r04_run2"></div><div>Results to be Achieved – SD to be Achieved &le;2 <input type="text" class="line-input embarked-hrs obs-input" name="r04_sd"></div></td>
+												<td class="text-center"><label><input type="radio" name="r04" value="SAT"> SAT</label>/<label><input type="radio" name="r04" value="UNSAT">UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="6" name="rem_04"></textarea></td>
+											</tr>
+
+											<tr>
+												<td>05</td>
+												<td class="obs-block"><div><strong>CH No. 6. Active sonar CMA trials.</strong></div><div>Consort (Sub-surface) – <input type="text" class="line-input embarked-hrs obs-input" name="r05_consort"></div><div>Depth - <input type="text" class="line-input embarked-hrs obs-input" name="r05_depth"></div><div>ESR- Time - <input type="text" class="line-input embarked-hrs obs-input" name="r05_esr_time"> &nbsp; A/L - <input type="text" class="line-input embarked-hrs obs-input" name="r05_al"> , B/L- <input type="text" class="line-input embarked-hrs obs-input" name="r05_bl"></div><div>LD- <input type="text" class="line-input embarked-hrs obs-input" name="r05_ld"></div><br><div>Results to be Achieved –</div><div>Course Error (CE) – 10 degrees – <input type="text" class="line-input embarked-hrs obs-input" name="r05_ce"></div><div>Speed Error (SE) –20% of target speed or 2 knots whichever is higher <input type="text" class="line-input embarked-hrs obs-input" name="r05_se"></div></td>
+												<td class="text-center"><label><input type="radio" name="r05" value="SAT"> SAT</label>/<label><input type="radio" name="r05" value="UNSAT">UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="7" name="rem_05"></textarea></td>
+											</tr>
+
+											<tr>
+												<td>06</td>
+												<td class="obs-block"><div><strong>CH No. 7. Active sonar Classifier trials.</strong></div><div>Consort (Sub-surface) – <input type="text" class="line-input embarked-hrs obs-input" name="r06_consort"></div><div>Depth - <input type="text" class="line-input embarked-hrs obs-input" name="r06_depth"></div><div>ESR- Time - <input type="text" class="line-input embarked-hrs obs-input" name="r06_esr_time"> &nbsp; A/L - <input type="text" class="line-input embarked-hrs obs-input" name="r06_al"> , B/L- <input type="text" class="line-input embarked-hrs obs-input" name="r06_bl"></div><div>LD- <input type="text" class="line-input embarked-hrs obs-input" name="r06_ld"></div><br><div>Results to be Achieved – The Active classification trials is declared ‘SAT’ if more than 10 out of 20 readings shows correct classification. <input type="text" class="line-input embarked-hrs obs-input" name="r06_result"></div></td>
+												<td class="text-center"><label><input type="radio" name="r06" value="SAT"> SAT</label>/<label><input type="radio" name="r06" value="UNSAT">UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="7" name="rem_06"></textarea></td>
+											</tr>
+
+											<tr>
+												<td>07</td>
+												<td class="obs-block"><div><strong>CH No. 8. Passive sonar system trials and MHR trials.</strong></div><div>Consort (surface) – <input type="text" class="line-input embarked-hrs obs-input" name="r07_consort"></div><div>Depth - <input type="text" class="line-input embarked-hrs obs-input" name="r07_depth"></div><div>ESR- Time - <input type="text" class="line-input embarked-hrs obs-input" name="r07_esr_time"> &nbsp; A/L - <input type="text" class="line-input embarked-hrs obs-input" name="r07_al"> , B/L- <input type="text" class="line-input embarked-hrs obs-input" name="r07_bl"></div><div>LD- <input type="text" class="line-input embarked-hrs obs-input" name="r07_ld"></div><div>Run 1 (Port side)- <input type="text" class="line-input embarked-hrs obs-input" name="r07_run1"></div><div>Run 2 (Stbd side)- <input type="text" class="line-input embarked-hrs obs-input" name="r07_run2"></div><div>Results to be Achieved</div><div>Bearing (&le;2) - <input type="text" class="line-input embarked-hrs obs-input" name="r07_bearing"></div><div>MHR - <input type="text" class="line-input embarked-hrs obs-input" name="r07_mhr"></div></td>
+												<td class="text-center"><label><input type="radio" name="r07" value="SAT"> SAT</label>/<label><input type="radio" name="r07" value="UNSAT">UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="7" name="rem_07"></textarea></td>
+											</tr>
+
+											<tr>
+												<td>09</td>
+												<td class="obs-block"><div><strong>CH No. 8. Passive CMA trials.</strong></div><div>Consort (surface) – <input type="text" class="line-input embarked-hrs obs-input" name="r09_consort"></div><div>Depth - <input type="text" class="line-input embarked-hrs obs-input" name="r09_depth"></div><div>ESR- Time - <input type="text" class="line-input embarked-hrs obs-input" name="r09_esr_time"> &nbsp; A/L - <input type="text" class="line-input embarked-hrs obs-input" name="r09_al"> , B/L- <input type="text" class="line-input embarked-hrs obs-input" name="r09_bl"></div><div>LD- <input type="text" class="line-input embarked-hrs obs-input" name="r09_ld"></div><div>Results to be Achieved –</div><div>Range Error (20% of actual range or 01 km whichever is higher) – <input type="text" class="line-input embarked-hrs obs-input" name="r09_range_err"></div><div>Course Error (20 Degrees)– <input type="text" class="line-input embarked-hrs obs-input" name="r09_course_err"></div><div>Speed Error (20% of target speed or 2 Knots whichever is higher) - <input type="text" class="line-input embarked-hrs obs-input" name="r09_speed_err"></div></td>
+												<td class="text-center"><label><input type="radio" name="r09" value="SAT"> SAT</label>/<label><input type="radio" name="r09" value="UNSAT">UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="rem_09"></textarea></td>
+											</tr>
+
+											<tr>
+												<td>11</td>
+												<td class="obs-block"><div><strong>CH No. 8. Passive Classifier trials.</strong></div><div>Consort (surface) – <input type="text" class="line-input embarked-hrs obs-input" name="r11_consort"></div><div>Depth - <input type="text" class="line-input embarked-hrs obs-input" name="r11_depth"></div><div>ESR- Time - <input type="text" class="line-input embarked-hrs obs-input" name="r11_esr_time"> &nbsp; A/L - <input type="text" class="line-input embarked-hrs obs-input" name="r11_al"> , B/L- <input type="text" class="line-input embarked-hrs obs-input" name="r11_bl"></div><div>LD- <input type="text" class="line-input embarked-hrs obs-input" name="r11_ld"></div><div>Results to be Achieved – (Desired broad vessel category/ class and obtained class match) in more than 50% of the cases, then the result is declared SAT - <input type="text" class="line-input embarked-hrs obs-input" name="r11_result"></div></td>
+												<td class="text-center"><label><input type="radio" name="r11" value="SAT"> SAT</label>/<label><input type="radio" name="r11" value="UNSAT">UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="7" name="rem_11"></textarea></td>
+											</tr>
+
+											<tr>
+												<td>12</td>
+												<td class="obs-block"><div><strong>CH No. 11 Torpedo Detection Trials</strong></div><div>Consort (surface) – <input type="text" class="line-input embarked-hrs obs-input" name="r12_consort"></div><div>Depth - <input type="text" class="line-input embarked-hrs obs-input" name="r12_depth"></div><div>ESR- Time - <input type="text" class="line-input embarked-hrs obs-input" name="r12_esr_time"> &nbsp; A/L - <input type="text" class="line-input embarked-hrs obs-input" name="r12_al"> , B/L- <input type="text" class="line-input embarked-hrs obs-input" name="r12_bl"></div><div>LD- <input type="text" class="line-input embarked-hrs obs-input" name="r12_ld"></div><br><div>Results to be Achieved –</div><div>1. Observe TCL of tracks for 10 updates – <input type="text" class="line-input embarked-hrs obs-input" name="r12_tcl1"></div><div>2. If the TCL is seen to be &gt; 30 for more than 5 updates, together with torpedo alarm, then SATs can be considered cleared - <input type="text" class="line-input embarked-hrs obs-input" name="r12_tcl2"></div></td>
+												<td class="text-center"><label><input type="radio" name="r12" value="SAT"> SAT</label>/<label><input type="radio" name="r12" value="UNSAT">UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="rem_12"></textarea></td>
+											</tr>
+
+											<tr>
+												<td>13</td>
+												<td class="obs-block"><div><strong>CH No. 12 Intercept Trials</strong></div><div>Consort (surface) – <input type="text" class="line-input embarked-hrs obs-input" name="r13_consort"></div><div>Depth - <input type="text" class="line-input embarked-hrs obs-input" name="r13_depth"></div><div>ESR- Time - <input type="text" class="line-input embarked-hrs obs-input" name="r13_esr_time"> &nbsp; A/L - <input type="text" class="line-input embarked-hrs obs-input" name="r13_al"> , B/L- <input type="text" class="line-input embarked-hrs obs-input" name="r13_bl"></div><div>LD- <input type="text" class="line-input embarked-hrs obs-input" name="r13_ld"></div><br><div>Results to be Achieved –</div><div>Runs – <input type="text" class="line-input embarked-hrs obs-input" name="r13_runs"></div><div>Mean value of CF – <input type="text" class="line-input embarked-hrs obs-input" name="r13_cf"></div><div>Majority value of waveform type – <input type="text" class="line-input embarked-hrs obs-input" name="r13_wave"></div><div>Error in mean value – <input type="text" class="line-input embarked-hrs obs-input" name="r13_mean_err"></div><div>Is the CF error within &plusmn;10% of CF (Y/N) - <input type="text" class="line-input embarked-hrs obs-input" name="r13_cf_check"></div><div>Is majority Waveform type same as transmitted(Y/N) – <input type="text" class="line-input embarked-hrs obs-input" name="r13_wave_check"></div><div>Mean error in true bearing – <input type="text" class="line-input embarked-hrs obs-input" name="r13_true_brg_err"></div><div>Is mean error in True bearing within &plusmn;20% (Y/N) - <input type="text" class="line-input embarked-hrs obs-input" name="r13_true_brg_check"></div><div>SAT/ UNSAT- <input type="text" class="line-input embarked-hrs obs-input" name="r13_sat_unsat"></div></td>
+												<td class="text-center"><label><input type="radio" name="r13" value="SAT"> SAT</label>/<label><input type="radio" name="r13" value="UNSAT">UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="11" name="rem_13"></textarea></td>
+											</tr>
+
+											<tr>
+												<td>14</td>
+												<td class="obs-block"><div><strong>CH No. 13. BI- Static Trials</strong></div><div>Consort (surface) – <input type="text" class="line-input embarked-hrs obs-input" name="r14_consort"></div><div>Depth - <input type="text" class="line-input embarked-hrs obs-input" name="r14_depth"></div><div>ESR- Time - <input type="text" class="line-input embarked-hrs obs-input" name="r14_esr_time"> &nbsp; A/L - <input type="text" class="line-input embarked-hrs obs-input" name="r14_al"> , B/L- <input type="text" class="line-input embarked-hrs obs-input" name="r14_bl"></div><div>LD- <input type="text" class="line-input embarked-hrs obs-input" name="r14_ld"></div><br><div>Results to be Achieved –</div><div>SD of the range and bearing should be as per – <input type="text" class="line-input embarked-hrs obs-input" name="r14_sd"></div><div>Range (&le;1500 M) – <input type="text" class="line-input embarked-hrs obs-input" name="r14_range"></div><div>Bearing (&le;3) - <input type="text" class="line-input embarked-hrs obs-input" name="r14_bearing"></div></td>
+												<td class="text-center"><label><input type="radio" name="r14" value="SAT"> SAT</label>/<label><input type="radio" name="r14" value="UNSAT">UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="rem_14"></textarea></td>
+											</tr>
+
+											<tr>
+												<td>15</td>
+												<td class="obs-block"><div><strong>CH. 14 UWACS Triton Trials Communication Modes.</strong></div><div>Voice Mode – <input type="text" class="line-input embarked-hrs obs-input" name="r15_voice"></div><div>Pinger Mode – <input type="text" class="line-input embarked-hrs obs-input" name="r15_pinger"></div><div>Morse Mode – <input type="text" class="line-input embarked-hrs obs-input" name="r15_morse"></div><div>CSK Mode – <input type="text" class="line-input embarked-hrs obs-input" name="r15_csk"></div><div>FSK Mode – <input type="text" class="line-input embarked-hrs obs-input" name="r15_fsk"></div><div>Rx/ respond – <input type="text" class="line-input embarked-hrs obs-input" name="r15_rx"></div><div>Transponder – <input type="text" class="line-input embarked-hrs obs-input" name="r15_transponder"></div><br><div>Results to be Achieved – UWACS Triton provides a typical operational range between 3Km and 10Km. - <input type="text" class="line-input embarked-hrs obs-input" name="r15_result"></div></td>
+												<td class="text-center"><label><input type="radio" name="r15" value="SAT"> SAT</label>/<label><input type="radio" name="r15" value="UNSAT">UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="rem_15"></textarea></td>
+											</tr>
+
+											<tr>
+												<td>16</td>
+												<td class="obs-block"><div><strong>Annexure. – XBT &amp; External system Interfaces Trials.</strong></div><div><strong>XBT system trials –</strong></div><div>05 probes launch successful from (HHL or DML) – <input type="text" class="line-input embarked-hrs obs-input" name="r16_xbt_probe"></div><div>Calibration checks of 7&deg;/34&deg; - <input type="text" class="line-input embarked-hrs obs-input" name="r16_xbt_calib"></div><br><div><strong>External system interfaces Trials –</strong></div><div>RLG or SHHD Interface Trials – <input type="text" class="line-input embarked-hrs obs-input" name="r16_rlg"></div><div>Radar Interface Trials - <input type="text" class="line-input embarked-hrs obs-input" name="r16_radar"></div></td>
+												<td class="text-center"><label><input type="radio" name="r16" value="SAT"> SAT</label>/<label><input type="radio" name="r16" value="UNSAT">UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="8" name="rem_16"></textarea></td>
+											</tr>
+
+											<tr>
+												<td>17</td>
+												<td class="obs-block"><div><strong>Appendix IV. PRCM checks.</strong></div><br><div>Recording of Raw Data files – <input type="text" class="line-input embarked-hrs obs-input" name="r17_raw"></div><div>Recording of Audio files – <input type="text" class="line-input embarked-hrs obs-input" name="r17_audio"></div><div>Signature analysis in PRCM – <input type="text" class="line-input embarked-hrs obs-input" name="r17_signature"></div><div>Target Database management in PRCM- <input type="text" class="line-input embarked-hrs obs-input" name="r17_db"></div></td>
+												<td class="text-center"><label><input type="radio" name="r17" value="SAT"> SAT</label>/<label><input type="radio" name="r17" value="UNSAT">UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="6" name="rem_17"></textarea></td>
+											</tr>
+
+											<tr>
+												<td colspan="4"><strong>General Observations.</strong><textarea class="form-control wrstg-scroll-textarea mt-2" rows="8" name="general_observations"></textarea></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<div class="form-actions mt-3">
+								<button type="submit" class="btn btn-primary">Submit</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

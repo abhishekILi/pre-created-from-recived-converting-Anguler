@@ -1,0 +1,495 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+    .custom_tbl {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .custom_tbl td,
+    .custom_tbl th {
+        word-wrap: break-word;
+        overflow: auto;
+        white-space: nowrap;
+        padding: 8px;
+        vertical-align: middle;
+        border: 1px solid #ddd;
+    }
+    .custom_tbl thead th {
+        background-color: #343a40;
+        color: #fff;
+        text-align: center;
+    }
+    .text-center {
+        text-align: center;
+    }
+    .section-header {
+        background-color: #e8e8e8;
+        font-weight: bold;
+    }
+    .nested-table {
+        border: none;
+        margin: 0;
+        width: 100%;
+    }
+    .nested-table td,
+    .nested-table th {
+        border: 1px solid #ddd;
+        padding: 6px;
+        text-align: center;
+    }
+    .launcher-cell-header {
+        background-color: #f5f5f5;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
+    .param-cell {
+        text-align: left !important;
+        padding-left: 12px !important;
+        font-weight: 500;
+    }
+    
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">WATT</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">HATs</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">BRAHMOS UVLM-622070</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">BRAHMOS UVLM-622070</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="vlsrsam_launcher_hats_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+
+                            <!-- ===== HEADER FIELDS ===== -->
+                            <fieldset class="custom-fieldset">
+                                <div class="row g-3">
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="text" class="form-control" name="equipment" value="BRAHMOS UVLM-8" required>
+                                            <label class="form_control_1">EQUIPMENT <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="text" class="form-control" name="type" value="HATs" readonly>
+                                            <label class="form_control_1">TYPE</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="date" class="form-control" name="date" required>
+                                            <label class="form_control_1">DATE <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row g-3 mt-2">
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="text" class="form-control" name="unit" value="">
+                                            <label class="form_control_1">UNIT</label>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="text" class="form-control" name="presented_by" value="">
+                                            <label class="form_control_1">PRESENTED BY <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <select class="form-control" id="observation_sheet_no" name="observation_sheet_no">
+                                                <option value="">--Select--</option>
+                                                <option value="HATS">HATS</option>
+                                                <option value="GUN">GUN</option>
+                                                <option value="BRAHMOS">BRAHMOS</option>
+                                            </select>
+                                            <label class="form_control_1">OBSERVATION SHEET NO</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <!-- ===== MAIN HAT PROCEDURE TABLE ===== -->
+                            <fieldset class="custom-fieldset mt-4">
+                                <div class="table-responsive mt-4">
+                                    <table class="custom_tbl" id="hat_procedure_table">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:10%;">TRIAL SER</th>
+                                                <th colspan="9">CHECK DESCRIPTION AS PER SCHEDULE</th>
+                                                <th >RESULT<br>SAT/UNSAT</th>
+                                                <th>PRESENTING AUTHORITY REMARKS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Test 6.1 -->
+                                            <tr>
+                                                <td class="text-center">6.1</td>
+                                                <td colspan="9">Precaution While Conducting HATs</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="result_6_1" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="result_6_1" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_6_1" rows="2"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Test 6.2 -->
+                                            <tr>
+                                                <td class="text-center">6.2</td>
+                                                <td colspan="9">Loading & Unloading Trials using Dummy Canister Using Missile Handling system</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="result_6_2" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="result_6_2" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_6_2" rows="2"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Test 6.2.4 -->
+                                            <tr>
+                                                <td class="text-center">6.2.4</td>
+                                                <td colspan="9">Test Report Formats</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="result_6_2_4" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="result_6_2_4" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_6_2_4" rows="2"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Observations Section Header -->
+                                            <tr>
+                                                <td></td>
+                                                <td colspan="9" class="text-center">
+                                                    <strong>Observations / results of above test are to be recorded in table</strong>
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+
+                                            <!-- Observation Table Headers -->
+                                            <tr style="background-color: #f5f5f5;">
+                                                <td class="text-center" style="font-weight: bold; " rowspan="4">S.NO</td>
+                                                <td style="font-weight: bold;" rowspan="4">Parameter</td>
+                                                <td colspan="8" class="text-center" style="font-weight: bold;">Observation</td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+                                                <td colspan="8" class="text-center" style="font-weight: bold;">Launcher Cell No.</td>
+                                                <td></td>
+                                                <td></td>
+                                            <tr>
+                                            <!-- Launcher Cell Number Headers -->
+                                            <tr style="background-color: #f5f5f5;">
+                                                <td colspan="8" class="text-center">
+                                                    <div class="d-flex justify-content-around" style="font-weight: 600; font-size: 0.9rem;">
+                                                        <span style="flex: 1; text-align: center;">1</span>
+                                                        <span style="flex: 1; text-align: center;">2</span>
+                                                        <span style="flex: 1; text-align: center;">3</span>
+                                                        <span style="flex: 1; text-align: center;">4</span>
+                                                        <span style="flex: 1; text-align: center;">5</span>
+                                                        <span style="flex: 1; text-align: center;">6</span>
+                                                        <span style="flex: 1; text-align: center;">7</span>
+                                                        <span style="flex: 1; text-align: center;">8</span>
+                                                    </div>
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+
+                                            <!-- Observation Row 1: Interfacing with Vertical and Lateral SAS -->
+                                            <tr>
+                                                <td class="text-center">1</td>
+                                                <td >Interfacing with Vertical and Lateral SAS</td>
+                                                <td colspan="8">
+                                                    <div class="d-flex gap-1">
+                                                        {% for i in "12345678" %}
+                                                        <input type="text" class="form-control form-control-sm" name="obs_1_cell_{{ i }}" style="flex: 1; min-width: 80px; text-align: center;">
+                                                        {% endfor %}
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="parameter_1" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="parameter_1" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="parameter_1" rows="2"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Observation Row 2: Canister Presence Indication -->
+                                            <tr>
+                                                <td class="text-center">2</td>
+                                                <td>Canister Presence Indication</td>
+                                                <td colspan="8">
+                                                    <div class="d-flex gap-1">
+                                                        {% for i in "12345678" %}
+                                                        <input type="text" class="form-control form-control-sm" name="obs_2_cell_{{ i }}" style="flex: 1; min-width: 80px; text-align: center;">
+                                                        {% endfor %}
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="parameter_2" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="parameter_2" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea " name="parameter_2" rows="2" ></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Observation Row 3: Mating with ECM -->
+                                            <tr>
+                                                <td class="text-center">3</td>
+                                                <td>Mating with ECM</td>
+                                                <td colspan="8">
+                                                    <div class="d-flex gap-1">
+                                                        {% for i in "12345678" %}
+                                                        <input type="text" class="form-control form-control-sm" name="obs_3_cell_{{ i }}" style="flex: 1; min-width: 80px; text-align: center;">
+                                                        {% endfor %}
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="parameter_3" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="parameter_3" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="parameter_3" rows="2"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Observation Row 4: Function of VHU -->
+                                            <tr>
+                                                <td class="text-center">4</td>
+                                                <td>Function of VHU</td>
+                                                <td colspan="8">
+                                                    <div class="d-flex gap-1">
+                                                        {% for i in "12345678" %}
+                                                        <input type="text" class="form-control form-control-sm" name="obs_4_cell_{{ i }}" style="flex: 1; min-width: 80px; text-align: center;">
+                                                        {% endfor %}
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="parameter_4" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="parameter_4" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="parameter_4" rows="2"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Observation Row 5: Function of missile handling system -->
+                                            <tr>
+                                                <td class="text-center">5</td>
+                                                <td>Function of missile handling system</td>
+                                                <td colspan="8">
+                                                    <div class="d-flex gap-1">
+                                                        {% for i in "12345678" %}
+                                                        <input type="text" class="form-control form-control-sm" name="obs_5_cell_{{ i }}" style="flex: 1; min-width: 80px; text-align: center;">
+                                                        {% endfor %}
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="parameter_5" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="parameter_5" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="parameter_5" rows="2"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Test 6.3 -->
+                                            <tr>
+                                                <td class="text-center">6.3</td>
+                                                <td colspan="9">Functional Tests for Hydraulic Control System/ Hatch Mechanism</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="result_6_3" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="result_6_3" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_6_3" rows="2"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Additional empty rows for flexibility -->
+                                            {% for i in "1234" %}
+                                            <tr>
+                                                <td class="text-center">
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="trail_ser_{{ i }}" rows="1"></textarea>
+                                                </td>
+                                                <td colspan="9">
+                                                    <textarea style="width:70%;"   class="form-control wrstg-scroll-textarea" name="check_extra_{{ i }}" rows="2" ></textarea>
+                                                </td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="result_extra_{{ i }}" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="result_extra_{{ i }}" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_extra_{{ i }}" rows="2"></textarea>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ===== PRESENTING AUTHORITY ===== -->
+                            <fieldset class="custom-fieldset mt-4">
+                                <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                                <div class="row g-3 mb-3">
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" id="hats_sdr_tac_1a_presenting_authority" name="hats_sdr_tac_1a_presenting_authority" required>
+                                                <option value="">--Select--</option>
+                                                <option value="dockyard">Dockyard</option>
+                                                <option value="shipstaff">Shipstaff</option>
+                                                <option value="oem">OEM</option>
+                                            </select>
+                                            <label class="form_control_1" for="hats_sdr_tac_1a_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" id="hats_sdr_tac_1a_watt_1_name" name="hats_sdr_tac_1a_watt_1_name">
+                                            <label class="form_control_1">WATT(1)</label>
+                                        </div>
+                                    </div>
+
+                                        <!-- WATT 2 -->
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" id="hats_sdr_tac_1a_watt_2_name" name="hats_sdr_tac_1a_watt_2_name">
+                                            <label class="form_control_1">WATT(2)</label>
+                                        </div>
+                                    </div>
+
+                                    <!-- WATT 3 -->
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" id="hats_sdr_tac_1a_watt_3_name" name="hats_sdr_tac_1a_watt_3_name">
+                                            <label class="form_control_1">WATT(3)</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive mt-4">
+                                    <table class="custom_tbl " id="hats_sdr_tac_1a_remarks_table">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th>REMARKS TO BE GIVEN</th>
+                                                <th>WBA - WILL BE AMENDED</th>
+                                                <th>WBD - WILL BE DONE</th>
+                                                <th>WOW - WILL OBTAIN WAIVER</th>
+                                                <th>COM - COMPLETED</th>
+                                                <th>N/O - NOT OFFERED</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_remarks_main"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_wba"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_wbd"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_wow"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_com"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_no"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>OIC</strong></td>
+                                                <td><strong>CDR TRIALS</strong></td>
+                                                <td><strong>STO (G)</strong></td>
+                                                <td><strong>STO (L)</strong></td>
+                                                <td colspan="2"><strong>TO (L)</strong></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+                            <!-- Submit Button -->
+                            <div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Save</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Form submission handler
+    document.getElementById('vlsrsam_launcher_hats_form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Basic validation
+        let isValid = true;
+        const requiredFields = this.querySelectorAll('[required]');
+        
+        requiredFields.forEach(field => {
+            if (!field.value) {
+                isValid = false;
+                field.classList.add('is-invalid');
+            } else {
+                field.classList.remove('is-invalid');
+            }
+        });
+        
+        if (isValid) {
+            // Collect form data
+            const formData = new FormData(this);
+            
+            // Collect observation table data
+            const observationData = {};
+            for (let param = 1; param <= 5; param++) {
+                observationData[`parameter_${param}`] = {};
+                for (let cell = 1; cell <= 8; cell++) {
+                    const input = document.querySelector(`input[name="obs_${param}_cell_${cell}"]`);
+                    if (input && input.value) {
+                        observationData[`parameter_${param}`][`cell_${cell}`] = input.value;
+                    }
+                }
+            }
+            
+            console.log('Form Data:', Object.fromEntries(formData));
+            console.log('Observation Data:', observationData);
+            
+            // Here you would typically send to server
+            // fetch(this.action, { method: 'POST', body: formData })
+            
+            alert('Form submitted successfully!');
+        } else {
+            alert('Please fill all required fields');
+        }
+    });
+</script>
+{% endblock content %}

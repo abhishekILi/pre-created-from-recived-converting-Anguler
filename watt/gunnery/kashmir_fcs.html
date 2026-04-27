@@ -1,0 +1,292 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">WATT</a></li>
+                    <li class="breadcrumb-item">Gunnery</li>
+                    <li class="breadcrumb-item active" aria-current="page">Kashmir FCS</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">Kashmir FCS</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-3 mb-4">
+                    <form method="post" id="kashmir_fcs_form">
+                        {% csrf_token %}
+
+                        <input type="hidden" id="form_id" name="form_id" value="artx_1000_7110012">
+                        <input type="hidden" id="form_name" name="form_name" value="HF_TXR_ATRX_1000_OP_CHECKS">
+
+                        <fieldset class="custom-fieldset">
+                            <legend class="legend-custom text-uppercase">Basic Information</legend>
+                            <div class="row g-3">
+
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <select class="form-control" name="ship" required>
+                                            <option value="">--Select--</option>
+                                            {% for ship in ship_options %}
+                                            <option value="{{ ship.value }}">{{ ship.label }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <label class="form_control_1">Ship <span class="text-danger">*</span></label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <select class="form-control" id="department_select" name="department">
+                                            <option value="">-- Select --</option>
+
+                                            <option value="P28">GUN</option>
+                                        </select>
+                                        <label class="form_control_1">Department</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <input type="text" class="form-control" name="equipment" value="AMDR 2D"
+                                            required>
+                                        <label class="form_control_1">EQUIPMENT <span
+                                                class="text-danger">*</span></label>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <input type="date" class="form-control" id="date_input" name="date_">
+                                        <label class="form_control_1">Date</label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <select class="form-control" id="nature_trials_select" name="nature_of_trials"
+                                            required>
+                                            <option value="">--Select--</option>
+                                            <option value="SATs">SATs</option>
+                                            <option value="HATS">HATs</option>
+                                            <option value="OP_CHECKS">OP CHECKS</option>
+                                            <option value="IIS">IIs</option>
+                                        </select>
+                                        <label class="form_control_1">Nature of Trial</label>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="custom-fieldset">
+                            <legend class="legend-custom text-uppercase">Checks</legend>
+
+
+                            <div class="table-responsive">
+                                <table class="custom_tbl">
+                                    <thead class="table-dark-head">
+                                        <tr>
+                                            <th>SER</th>
+                                            <th>OBSERVATIONS </th>
+                                            <th>RESULT</th>
+                                            <th>REMARKS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="4">Trials team embarked onboard at <input type="text" class="line-input embarked-hrs" name="kashmir_embark_time">on
+                                                <input type="date" class="line-input embarked-hrs" name="kashmir_embark_date">for SATs of
+                                                Kashmir FCS as per approved schedule, BR 4050 and CNO 07/10. Following
+                                                observed: -</td>
+                                        </tr>
+                                       
+
+                                        <!-- ===== TEST 2: SURFACE TARGET ===== -->
+                                        <tr>
+                                            <td><strong>01</strong></td>
+                                            <td>
+                                                Check TD to all OE-4 devices.
+
+                                            </td>
+                                             <td>
+                                                <textarea class="form-control wrstg-scroll-textarea" rows="4"
+                                                    name="ch_test_1_remarks"></textarea>
+                                            </td>
+
+                                             <td class="text-center">
+                                                <label><input type="radio" name="status_5_11" value="SAT">
+                                                    SAT</label>
+                                                <label><input type="radio" name="status_5_11" value="UNSAT">
+                                                    UNSAT</label>
+                                            </td>
+                                           
+                                        </tr>
+
+                                        <!-- ===== TEST 3: AIR TARGET ===== -->
+                                        <tr>
+                                            <td><strong>02</strong></td>
+                                            <td>
+                                                Check assign TV to all tracks and check target appears on TV display.
+                                                
+                                            
+                                            </td>
+                                             <td>
+                                                <textarea class="form-control wrstg-scroll-textarea" rows="4"
+                                                    name="ch_test_2_remarks"></textarea>
+                                            </td>
+
+                                             <td class="text-center">
+                                                <label><input type="radio" name="status_5_12" value="SAT">
+                                                    SAT</label>
+                                                <label><input type="radio" name="status_5_12" value="UNSAT">
+                                                    UNSAT</label>
+                                            </td>
+                                        </tr>
+                                         <tr>
+                                            <td><strong>03</strong></td>
+                                            <td>
+                                                Checking operation in centralized mode.
+                                            
+                                            </td>
+                                             <td>
+                                                <textarea class="form-control wrstg-scroll-textarea" rows="4"
+                                                    name="ch_test_3_remarks"></textarea>
+                                            </td>
+
+                                             <td class="text-center">
+                                                <label><input type="radio" name="status_5_13" value="SAT">
+                                                    SAT</label>
+                                                <label><input type="radio" name="status_5_13" value="UNSAT">
+                                                    UNSAT</label>
+                                            </td>
+                                        </tr>
+                                         <tr>
+                                            <td><strong>04</strong></td>
+                                            <td>
+                                              LFNJ Checks.
+                                            
+                                            </td>
+                                             <td>
+                                                <textarea class="form-control wrstg-scroll-textarea" rows="4"
+                                                    name="ch_test_4_remarks"></textarea>
+                                            </td>
+
+                                             <td class="text-center">
+                                                <label><input type="radio" name="status_5_14" value="SAT">
+                                                    SAT</label>
+                                                <label><input type="radio" name="status_5_14" value="UNSAT">
+                                                    UNSAT</label>
+                                            </td>
+                                        </tr>
+                                         <tr>
+                                            <td><strong>05</strong></td>
+                                            <td>
+                                               Firing checks with training missiles.
+                                            
+                                            </td>
+                                             <td>
+                                                <textarea class="form-control wrstg-scroll-textarea" rows="4"
+                                                    name="ch_test_5_remarks"></textarea>
+                                            </td>
+
+                                             <td class="text-center">
+                                                <label><input type="radio" name="status_5_15" value="SAT">
+                                                    SAT</label>
+                                                <label><input type="radio" name="status_5_15" value="UNSAT">
+                                                    UNSAT</label>
+                                            </td>
+                                        </tr>
+                                         <tr>
+                                            <td><strong>06.</strong></td>
+                                            <td>
+                                              Check multi target engagement on Kashmir FCS.
+                                            
+                                            </td>
+                                             <td>
+                                                <textarea class="form-control wrstg-scroll-textarea" rows="4"
+                                                    name="ch_test_6_remarks"></textarea>
+                                            </td>
+
+                                             <td class="text-center">
+                                                <label><input type="radio" name="status_5_16" value="SAT">
+                                                    SAT</label>
+                                                <label><input type="radio" name="status_5_16" value="UNSAT">
+                                                    UNSAT</label>
+                                            </td>
+                                        </tr>
+                                      
+
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                <div class="row g-3">
+                    <div class="col-md-4 col-12">
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <select class="form-control" id="dmr_16a_presenting_authority"
+                                name="dmr_16a_presenting_authority" required>
+                                <option value="">--Select--</option>
+
+                                <option value="shipstaff">Shipstaff</option>
+
+                            </select>
+                            <label class="form_control_1" for="dmr_16a_presenting_authority">Presenting
+                                Authority <span class="text-danger">*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" id="dmr_16a_watt"
+                                name="dmr_16a_inspecting_authority" value="WATT">
+                            <label class="form_control_1" for="dmr_16a_watt">Inspecting Authority</label>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+            <div class="d-flex justify-content-center mt-4">
+                <button type="submit" class="btn btn-success px-4">Save</button>
+            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        WRSTGQuarterly.init({
+            extraTableIds: [, 'remarks_table',],
+            submitConfirmation: { formId: 'artx_1000_form' }
+        });
+    });
+</script>
+{% endblock js %}

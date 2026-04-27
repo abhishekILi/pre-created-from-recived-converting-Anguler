@@ -1,0 +1,383 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+  /* ── Select2 base control ── */
+  
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item" aria-current="page">FTTT</li>
+          <li class="breadcrumb-item active" aria-current="page">Requestion Form for Issue of STTE</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">Requisition Form for Issue of Special Tools &amp; Test Equipment (STTE)</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="stte_requisition_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <fieldset class="custom-fieldset">
+                                    <legend class="legend-custom text-uppercase">BASIC INFORMATION</legend>
+                                    <div class="row g-3">
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="stte_req__system_sub_system" value="SRGM" placeholder=" ">
+                                                <label class="form_control_1">1. System/ Sub system</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="stte_req__job_undertaken" value = "Tilt Checks" placeholder=" ">
+                                                <label class="form_control_1">2. Job Undertaken</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <!-- <textarea class="form-control wrstg-scroll-textarea" name="tilt_checks_reference_documents" rows="2" placeholder=" "></textarea> -->
+                                                 <input type="file" class ="form-control" name="stte_req__reference_documents">
+                                                <label class="form_control_1">3. Reference Documents</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="stte_req__authority" placeholder=" ">
+                                                <label class="form_control_1">4. Authority</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="stte_req__agencies_involved" value="FTTT(Vzg)" placeholder=" " readonly>
+                                                <label class="form_control_1">5. Agencies involved</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="date" class="form-control" name="stte_req__date_commenced">
+                                                <label class="form_control_1">6. Date Commenced</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="date" class="form-control" name="stte_req__date_completed">
+                                                <label class="form_control_1">7. Date Completed</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="stte_req__prepared_by" placeholder=" ">
+                                                <label class="form_control_1">8. Prepared by</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="stte_req__vetted_by" placeholder=" ">
+                                                <label class="form_control_1">9. Vetted by</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="stte_req__reference_no" placeholder=" ">
+                                                <label class="form_control_1">10. Reference No.</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="stte_req__summary_of_observations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">11. Summary of observations</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="stte_req__operational_limitations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">12. Operational limitations (if any)</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </fieldset>
+
+              
+              <!-- MAIN TABLE STARTS FROM HERE -->
+              <fieldset class="custom-fieldset">
+
+                <!-- 1. SYSTEM -->
+                <div class="mt-4">
+                  <p class="section-title">1. System</p>
+                  <!-- <h5 class="font-weight-bold">1. System</h5> -->
+                  <div class="row">
+                    <div class="col-md-4">
+                      <select class="form-control" name="system" required>
+                        <option value="" disabled selected>-- Select System --</option>
+                        <option value="SRGM">SRGM</option>
+                        <option value="MRSAM">MRSAM</option>
+                        <option value="MFSTAR">MFSTAR</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 2. TEST EQUIPMENT -->
+                <div class="mt-4">
+                  <!-- <h5 class="text-uppercase font-weight-bold">2. Test Equipment</h5> -->
+                   <p class="section-title">2. Test Equipment</p>
+
+                  <div class="row">
+                    <div class="col-md-8">
+                      <!--
+                        dropdownParent: body  → dropdown appends to <body>,
+                        escaping all overflow:hidden / z-index stacking contexts.
+                      -->
+                      <select class="select2-multi" name="test_equipment" multiple required data-placeholder="Search and select equipment...">
+                        {% for equip in test_equipment_list %}
+                          <option value="{{ equip.id }}">{{ equip.name }}</option>
+                        {% empty %}
+                          {# Replace with real queryset values #}
+                          <option value="a">a</option>
+                          <option value="b">b</option>
+                          <option value="c">c</option>
+                          <option value="d">d</option>
+                          <option value="e">e</option>
+                          <option value="f">f</option>
+                          <option value="g">g</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 3. DURATION -->
+                <div class="mt-4">
+                  <!-- <h5 class="text-uppercase font-weight-bold">3. Duration</h5> -->
+                   <p class="section-title">3. Duration</p>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <label class="control-label">From Date <span class="text-danger">*</span></label>
+                      <div class="input-group">
+                        <input type="text" class="form-control flatpickr-input" name="from_date" id="from_date"
+                               placeholder="Select date" readonly required autocomplete="off">
+                        <div class="input-group-append">
+                          <span class="input-group-text calendar-icon"
+                                onclick="document.getElementById('from_date')._flatpickr.open()">
+                            <i class="fa fa-calendar-alt"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <label class="control-label">To Date <span class="text-danger">*</span></label>
+                      <div class="input-group">
+                        <input type="text" class="form-control flatpickr-input" name="to_date" id="to_date"
+                               placeholder="Select date" readonly required autocomplete="off">
+                        <div class="input-group-append">
+                          <span class="input-group-text calendar-icon"
+                                onclick="document.getElementById('to_date')._flatpickr.open()">
+                            <i class="fa fa-calendar-alt"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 4. PURPOSE -->
+                <div class="mt-4">
+                  <h5 class="text-uppercase font-weight-bold">4. Purpose</h5>
+                  <div class="row">
+                    <div class="col-md-8">
+                      <textarea class="form-control wrstg-scroll-textarea" name="purpose" rows="3"
+                        placeholder="Describe the purpose of requisition..." required></textarea>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- REMARKS (auto-filled) -->
+                <div class="mt-4">
+                  <div class="remark-auto">
+                    It is submitted that the equipment be returned in functional state by
+                    <strong id="remark-todate">[to-date]</strong>.
+                  </div>
+                </div>
+
+                <!-- 5. SIGNATURES & AUTHORISATION -->
+                <div class="mt-4">
+                  <h5 class="text-uppercase font-weight-bold">5. Signatures &amp; Authorisation</h5>
+                  <div class="table-responsive">
+                    <table class="custom_tbl">
+                      <thead>
+                        <tr>
+                          <th>Role</th>
+                          <th>Name</th>
+                          <th>Rank</th>
+                          <th>Personal Number</th>
+                          <th>Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="sig-role">Issued To <small>Trial Initiator</small></td>
+                          <td><input type="text" class="form-control" name="issued_to_name" placeholder="Name"></td>
+                          <td><input type="text" class="form-control" name="issued_to_rank" placeholder="Rank"></td>
+                          <td><input type="text" class="form-control" name="issued_to_personal_no" placeholder="Personal No."></td>
+                          <td>
+                            <div class="input-group">
+                              <input type="text" class="form-control flatpickr-input" name="issued_to_date"
+                                     id="issued_to_date" placeholder="Select date" readonly autocomplete="off">
+                              <div class="input-group-append">
+                                <span class="input-group-text calendar-icon"
+                                      onclick="document.getElementById('issued_to_date')._flatpickr.open()">
+                                  <i class="fa fa-calendar-alt"></i>
+                                </span>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="sig-role">Recommended By</td>
+                          <td><input type="text" class="form-control" name="recommended_by_name" placeholder="Name"></td>
+                          <td><input type="text" class="form-control" name="recommended_by_rank" placeholder="Rank"></td>
+                          <td><input type="text" class="form-control" name="recommended_by_personal_no" placeholder="Personal No."></td>
+                          <td>
+                            <div class="input-group">
+                              <input type="text" class="form-control flatpickr-input" name="recommended_by_date"
+                                     id="recommended_by_date" placeholder="Select date" readonly autocomplete="off">
+                              <div class="input-group-append">
+                                <span class="input-group-text calendar-icon"
+                                      onclick="document.getElementById('recommended_by_date')._flatpickr.open()">
+                                  <i class="fa fa-calendar-alt"></i>
+                                </span>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td class="sig-role">Returned By</td>
+                          <td><input type="text" class="form-control" name="returned_by_name" placeholder="Name"></td>
+                          <td><input type="text" class="form-control" name="returned_by_rank" placeholder="Rank"></td>
+                          <td><input type="text" class="form-control" name="returned_by_personal_no" placeholder="Personal No."></td>
+                          <td>
+                            <div class="input-group">
+                              <input type="text" class="form-control flatpickr-input" name="returned_by_date"
+                                     id="returned_by_date" placeholder="Select date" readonly autocomplete="off">
+                              <div class="input-group-append">
+                                <span class="input-group-text calendar-icon"
+                                      onclick="document.getElementById('returned_by_date')._flatpickr.open()">
+                                  <i class="fa fa-calendar-alt"></i>
+                                </span>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+              </fieldset>
+
+              <!-- Submit -->
+              <div class="d-flex justify-content-center mt-4 gap-2">
+                <button type="submit" class="btn btn-success px-4">Submit Requisition</button>
+                <a href="{% url 'ITTTM:home' %}" class="btn btn-secondary px-4">Cancel</a>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<!-- Select2 -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script> -->
+<!-- Flatpickr -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script> -->
+
+<script>
+  $(document).ready(function () {
+
+    // ── Select2 ──
+    // dropdownParent: $('body') is the KEY fix:
+    // It appends the dropdown panel directly to <body>, bypassing any
+    // overflow:hidden, overflow:auto, or z-index stacking context on
+    // ancestor elements (portlet, fieldset, table cells, etc.)
+    $('.select2-multi').select2({
+      placeholder: 'Search and select equipment...',
+      allowClear: true,
+      closeOnSelect: false,
+      width: '100%',
+      dropdownParent: $('body'),        // ← fixes clipping & z-index
+      dropdownAutoWidth: false,
+    });
+
+    // Reposition dropdown on scroll/resize so it stays anchored to the input
+    $(window).on('scroll resize', function () {
+      if ($('.select2-container--open').length) {
+        $('.select2-multi').select2('close');
+      }
+    });
+
+    // ── Flatpickr ──
+    const dateConfig = {
+      dateFormat: 'd M Y',
+      allowInput: false,
+      disableMobile: true,
+    };
+
+    const fromPicker = flatpickr('#from_date', {
+      ...dateConfig,
+      onChange(selectedDates) {
+        if (selectedDates.length) toPicker.set('minDate', selectedDates[0]);
+      }
+    });
+    const toPicker = flatpickr('#to_date', {
+      ...dateConfig,
+      onChange(selectedDates, dateStr) {
+        if (selectedDates.length) fromPicker.set('maxDate', selectedDates[0]);
+        document.getElementById('remark-todate').textContent = dateStr || '[to-date]';
+      }
+    });
+
+    flatpickr('#issued_to_date',      dateConfig);
+    flatpickr('#recommended_by_date', dateConfig);
+    flatpickr('#returned_by_date',    dateConfig);
+
+  });
+</script>
+{% endblock js %}

@@ -1,0 +1,251 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<!-- <style>
+    :root {
+        --matcdf-tblheader: #6490b6;
+        --matcdf-tblborder: #4a7199;
+    }
+
+    .ew-module-header {
+        background-color: var(--matcdf-tblheader);
+        color: white;
+        font-weight: bold;
+        font-size: 15px;
+        text-align: center;
+        padding: 10px 15px;
+        border-radius: 3px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+    }
+
+    .custom-fieldset {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .custom-fieldset .row > [class*="col-"] {
+        padding-right: 4px;
+        padding-left: 4px;
+    }
+
+    .custom-fieldset .row.mb-3 {
+        margin-bottom: 0.5rem !important;
+        align-items: center;
+    }
+
+    .custom-fieldset label {
+        margin-bottom: 0;
+        font-size: 13.5px;
+        font-weight: 500;
+        text-align: left;
+        width: 100%;
+        padding-right: 0;
+    }
+
+    .custom-fieldset .form-control {
+        padding: 4px 8px;
+        height: 32px;
+        font-size: 13.5px;
+        width: 100%;
+    }
+
+    .info-header-row {
+        background-color: transparent;
+        border: none;
+        padding: 4px 0;
+        margin-bottom: 8px !important;
+    }
+
+    .info-header-row .col-md-4 {
+        display: flex;
+        align-items: center;
+    }
+
+    .info-header-row label {
+        margin-bottom: 0 !important;
+        font-weight: bold;
+        font-size: 13.5px;
+        white-space: nowrap;
+        text-align: left;
+        padding-right: 0;
+        width: auto;
+    }
+
+    .info-header-row span {
+        margin-left: 6px;
+        font-size: 13.5px;
+        color: #333;
+    }
+
+    .blue-header-box {
+        color: white;
+        background-color: var(--matcdf-tblheader);
+        padding: 10px 15px;
+        border-left: 1px solid var(--matcdf-tblborder);
+        border-right: 1px solid var(--matcdf-tblborder);
+        text-align: center;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+</style> -->
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item" aria-current="page">NEC</li>
+					<li class="breadcrumb-item active" aria-current="page">MONTHLY PERFORMANCE REPORT</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+  <div class="row">
+    
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">MONTHLY PERFORMANCE REPORT</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="ew_return_module">
+            {% csrf_token %}
+            <div class="form-body">
+              <fieldset class="custom-fieldset">
+                                <div class="row g-3">
+
+                                    <!-- LEFT COLUMN -->
+                                    <div class="col-md-6 col-12">
+
+                                        <!-- Ship -->
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <select class="form-control" name="ship_id" required>
+                                                <option value="">--Select--</option>
+                                                {% for ship in ship_options %}
+                                                <option value="{{ ship.value }}">{{ ship.label }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <label class="form_control_1">Ship <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+              				</fieldset>
+
+              <!-- ════════════════════════════════════════
+                   EQPT CODE DATA TABLE
+              ════════════════════════════════════════ -->
+
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">MONTHLY PERFORMANCE REPORT OF EW SYSTEM FOR</legend>
+                <div class="table-responsive">
+                  <table id="failure_basic_data_tbl" class="custom_tbl table table-bordered text-center align-middle">
+                    <thead>
+                      <tr>
+                        <th rowspan="2">Ser No.</th>
+                        <th rowspan="2">Ship</th>
+                        <th rowspan="2">Equipment</th>
+                        <th rowspan="2">System Fitted Date</th>
+                        <th rowspan="2">HATs Date</th>
+                        <th rowspan="2">SATs Date</th>
+                        <th rowspan="2">Present Status</th>
+                        <th colspan="2">System Performance</th>
+                        <th rowspan="2">Action</th>
+                      </tr>
+                      <tr>
+                        <th>Parameter</th>
+                        <th>Issues (if any)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td><input type="text" class="form-control" name="ship"></td>
+                        <td><input type="text" class="form-control" name="equipment"></td>
+                        <td><input type="date" class="form-control" name="system_fitted_date"></td>
+                        <td><input type="date" class="form-control" name="hats_date"></td>
+                        <td><input type="date" class="form-control" name="sats_date"></td>
+                        <td><input type="text" class="form-control" name="present_status"></td>
+                        <td><textarea class="form-control" name="parameter" rows="1"></textarea></td>
+                        <td><textarea class="form-control" name="issues" rows="1"></textarea></td>
+                        <td class="action action-cell-holder">
+                          <div class="action-controls">
+                            <button type="button" class="btn-round btn-add" onclick="addRow('failure_basic_data_tbl')" title="Add Row">+</button>
+                            <button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'failure_basic_data_tbl')" title="Remove Row">-</button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+function addRow(tableId) {
+    const tbody = document.querySelector('#' + tableId + ' tbody');
+    const rows = tbody.querySelectorAll('tr');
+    const lastRow = rows[rows.length - 1];
+    const newRow = lastRow.cloneNode(true);
+
+    // Update serial number
+    newRow.querySelector('td:first-child').textContent = rows.length + 1;
+
+    // Clear all input and textarea values
+    newRow.querySelectorAll('input').forEach(el => el.value = '');
+    newRow.querySelectorAll('textarea').forEach(el => el.value = '');
+
+    tbody.appendChild(newRow);
+}
+
+function removeRow(btn, tableId) {
+    const tbody = document.querySelector('#' + tableId + ' tbody');
+    const rows = tbody.querySelectorAll('tr');
+
+    // Always keep at least one row
+    if (rows.length <= 1) return;
+
+    btn.closest('tr').remove();
+
+    // Re-number serial numbers
+    tbody.querySelectorAll('tr').forEach((row, index) => {
+        row.querySelector('td:first-child').textContent = index + 1;
+    });
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    if (window.WRSTGQuarterly) {
+        WRSTGQuarterly.init({
+            formId: 'ew_return_module',
+            sections: [],
+            extraTableIds: [],
+            submitConfirmation: {
+                formId: 'ew_return_module',
+                title: 'Submit EW Return?',
+                text: 'Once submitted, it cannot be edited.',
+                confirmButtonText: 'Yes, submit',
+                cancelButtonText: 'Cancel',
+            }
+        });
+    }
+});
+</script>
+{% endblock js %}

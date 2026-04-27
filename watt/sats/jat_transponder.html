@@ -1,0 +1,241 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">WATT</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">JAT Transponder</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">JAT Transponder</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="jat_transponder_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+                            <fieldset class="custom-fieldset">
+                                <div class="row g-3">
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <select class="form-control" name="ship_name" required>
+                                                <option value="">Select Ship</option>
+                                                {% for option in ship_options %}
+                                                    <option value="{{ option.value }}">{{ option.label }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <label class="form_control_1">NAME OF SHIP <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <select class="form-control" name="dept" required>
+                                                <option value="">Select Department</option>
+                                                <option value="ND">ND</option>
+                                                <option value="Communication">Communication</option>
+                                                <option value="Gunnery">Gunnery</option>
+                                                <option value="ASW">ASW</option>
+                                            </select>
+                                            <label class="form_control_1">DEPT <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="text" class="form-control" name="equipment" required>
+                                            <label class="form_control_1">EQUIPMENT <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="date" class="form-control" name="date" required>
+                                            <label class="form_control_1">DATE <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <select class="form-control" name="nature_of_trials" required>
+                                                <option value="">Select Nature of Trials</option>
+                                                <option value="SATs">SATs</option>
+                                                <option value="OP Checks">OP Checks</option>
+                                                <option value="IIs">IIs</option>
+                                            </select>
+                                            <label class="form_control_1">NATURE OF TRIALS <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="custom-fieldset">
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="jat_observations_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="ser-col">Ser</th>
+                                                <th class="obs-col">OBSERVATIONS</th>
+                                                <th class="remarks-col">REMARKS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="embarked-row">
+                                                <td colspan="3">
+                                                    Trials team embarked onboard at
+                                                    <input type="text" name="embarked_hrs" class="line-input embarked-hrs">
+                                                    hrs on
+                                                    <input type="date" name="embarked_date" class="line-input embarked-date">
+                                                    for SATs of JAT Transponder
+                                                    as per IHQ MoD (navy) approved schedule. Following observed:-
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>1.</td>
+                                                <td>
+                                                    <strong><u>Consort Requirement</u></strong> – (i) One Aircraft/ Ship is to be fitted with a suitable IFF Transponder viz. IFF 1410NV or IFF JAT 400NV (with appliqué unit) (ii) <strong>For Mode 'S' trials, MK transponder or transponder with Mode 'S' applique unit will be required.</strong>
+                                                </td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="row1_status" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="row1_status" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>2.</td>
+                                                <td>
+                                                    Check – Check for intermittent glow of interrogation lamp on the consort unit.
+                                                </td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="row2_status" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="row2_status" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td rowspan="5">3.</td>
+                                                <td>
+                                                    <div class="mode-head-row">
+                                                        <span class="mode-col mode-col-mode">MODE</span>
+                                                        <span class="mode-col mode-col-code">CODE</span>
+                                                        <span class="mode-col mode-col-lamp">INTERROGATION LAMP</span>
+                                                    </div>
+                                                </td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="mode-data-row">
+                                                        <span class="mode-value">1</span>
+                                                        <input type="text" class="form-control mode-input" name="mode_1_code">
+                                                        <input type="text" class="form-control mode-input" name="mode_1_lamp">
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="mode_1_status" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="mode_1_status" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="mode-data-row">
+                                                        <span class="mode-value">2</span>
+                                                        <input type="text" class="form-control mode-input" name="mode_2_code">
+                                                        <input type="text" class="form-control mode-input" name="mode_2_lamp">
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="mode_2_status" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="mode_2_status" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="mode-data-row">
+                                                        <span class="mode-value">3/A</span>
+                                                        <input type="text" class="form-control mode-input" name="mode_3a_code">
+                                                        <input type="text" class="form-control mode-input" name="mode_3a_lamp">
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="mode_3a_status" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="mode_3a_status" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="mode-data-row">
+                                                        <span class="mode-value">S</span>
+                                                        <input type="text" class="form-control mode-input" name="mode_s_code">
+                                                        <input type="text" class="form-control mode-input" name="mode_s_lamp">
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="mode_s_status" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="mode_s_status" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="custom-fieldset footer_text">
+                                <div class="row">
+                                    <div class="col-md-6"><strong>Presenting Authority: Ship’s Staff</strong></div>
+                                    <div class="col-md-6 text-right"><strong>Inspecting Authority: WATT (V)</strong></div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-3"><strong>ND:</strong></div>
+                                    <div class="col-md-3"><strong>C:</strong></div>
+                                    <div class="col-md-3"><strong>STI / TI:</strong></div>
+                                    <div class="col-md-3"><strong>STO</strong></div>
+                                </div>
+                            </fieldset>
+
+                            <div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* .container-fluid {
+        background-color: transparent;
+    }
+    .custom_tbl {
+        table-layout: fixed;
+        width: 100%;
+    } */
+    .custom_tbl td,
+    .custom_tbl th {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal;
+    }
+</style>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

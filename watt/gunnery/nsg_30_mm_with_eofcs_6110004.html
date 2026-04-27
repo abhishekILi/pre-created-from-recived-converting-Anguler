@@ -1,0 +1,221 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+	
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">GUNNERY</a></li>
+					<li class="breadcrumb-item active" aria-current="page">NSG 30 MM WITH EOFCS 6110004</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">NSG 30 MM WITH EOFCS 6110004</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="nsg_sats_form">
+						{% csrf_token %}
+						<div class="form-body">
+
+							<!-- ===== HEADER FIELDS ===== -->
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">Basic Information</legend>
+								<div class="row g-3">
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" name="ship" required>
+											<label class="form_control_1">SHIP <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" value="GUN">
+											<label class="form_control_1">DEPT</label>
+										</div>
+									</div>
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" value="NSG 30MM WITH EOFCS">
+											<label class="form_control_1">EQUIPMENT</label>
+										</div>
+									</div>
+
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="date" class="form-control" name="date" required>
+											<label class="form_control_1">DATE <span class="text-danger">*</span></label>
+										</div>
+									</div>
+
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" value="SATs">
+											<label class="form_control_1">NATURE OF TRIALS</label>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+
+							<!-- ===== OBSERVATIONS TABLE ===== -->
+							<fieldset class="custom-fieldset mt-4">
+								<div class="table-responsive">
+									<table class="custom_tbl" id="observations_table">
+										<thead class="table-dark-head">
+											<tr>
+												<th >Ser</th>
+												<th >OBSERVATIONS</th>
+												<th >RESULT</th>
+												<th >REMARKS</th>
+											</tr>
+										</thead>
+										<tbody id="observations_tbody">
+											<!-- First Row - Intro Paragraph -->
+											<tr>
+												<td colspan="4">
+													<p >
+														Trials team embarked onboard at <input type="text" class="line-input  embarked-hrs" name="embarked_location"> 
+														on <input type="text" class="line-input  embarked-hrs" name="embarked_date"> 
+														for SATs of NSG 30MM WITH EOFCS as per approved schedule, BR 4050 and CNO 07/10. Following observed:-
+													</p>
+												</td>
+											</tr>
+
+											<!-- Check 01 -->
+											<tr>
+												<td class="text-center">01</td>
+												<td><strong>Check no. 6.2.2</strong> Start up and system status report test.</td>
+												<td>
+													<textarea class="form-control wrstg-scroll-textarea" name="result_01" placeholder=""></textarea>
+												</td>
+												<td class="text-center">
+													<label ><input type="radio" name="remarks_01" value="SAT"> SAT</label>
+													<label ><input type="radio" name="remarks_01" value="UNSAT"> UNSAT</label>
+												</td>
+											</tr>
+
+											<!-- Check 02 -->
+											<tr>
+												<td class="text-center">02</td>
+												<td>
+													<strong>Check no. 6.2.3</strong> Boresight Calibration.
+													<ul >
+														<li>6.2.3.1 Boresight Camera Calibration.</li>
+														<li>6.2.3.2 Weapon to Sight Calibration.</li>
+														<li>6.2.3.3 Reticles Calibration.</li>
+													</ul>
+												</td>
+												<td>
+													<textarea class="form-control wrstg-scroll-textarea" name="result_02" placeholder=""></textarea>
+												</td>
+												<td class="text-center">
+													<label ><input type="radio" name="remarks_02" value="SAT"> SAT</label>
+													<label ><input type="radio" name="remarks_02" value="UNSAT"> UNSAT</label>
+												</td>
+											</tr>
+
+											<!-- Check 03 -->
+											<tr>
+												<td class="text-center" rowspan="2">03</td>
+												<td rowspan="2">
+													<strong>Check no 8.1.1</strong> Requirement of EOFCS
+													<ul>
+														<li>Detection of Target in TI should be > 5KM.</li>
+														<li>Detection of Target in CCD Camera > 8KM.</li>
+														<li>LRF Range should be > 10KM.</li>
+													</ul>
+												</td>
+												<td class="text-center">
+													<strong >Achieved</strong>
+												</td>
+												<td class="text-center" rowspan="2">
+													<label ><input type="radio" name="remarks_03" value="SAT"> SAT</label>
+													<label ><input type="radio" name="remarks_03" value="UNSAT"> UNSAT</label>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<textarea class="form-control wrstg-scroll-textarea" name="result_03" placeholder=""></textarea>
+												</td>
+											</tr>
+
+											<!-- Check 04 -->
+											<tr>
+												<td class="text-center">04</td>
+												<td>
+													<strong>Check no 8.2</strong> Firing procedure.
+													<ul >
+														<li>Firing Range 2000Y±100 Yard.</li>
+														<li>Single shot 4 X 1 Rounds.</li>
+														<li>Burst shot 2 X 4 Rounds burst.</li>
+														<li>Burst shot 1 X 8 Rounds burst.</li>
+														<li>Success criteria – 04/20 rds on Target.</li>
+													</ul>
+												</td>
+												<td>
+													<textarea class="form-control wrstg-scroll-textarea" name="result_04" placeholder=""></textarea>
+												</td>
+												<td class="text-center">
+													<label ><input type="radio" name="remarks_04" value="SAT"> SAT</label>
+													<label ><input type="radio" name="remarks_04" value="UNSAT"> UNSAT</label>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<!-- ===== AUTHORITY ===== -->
+							<fieldset class="custom-fieldset mt-4">
+								<legend class="legend-custom text-uppercase">Authority</legend>
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" name="presenting_authority" value="Ship's staff" readonly>
+											<label class="form_control_1">Presenting Authority</label>
+										</div>
+									</div>
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" name="inspecting_authority" value="WATT" readonly>
+											<label class="form_control_1">Inspecting Authority</label>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+
+							<!-- ===== SUBMIT BUTTON ===== -->
+							<div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Save</button>
+                            </div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

@@ -1,0 +1,238 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">WATT</a></li>
+					<li class="breadcrumb-item active" aria-current="page">CMS PHASE - I</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">CMS PHASE - I</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="cms_phase_1_form">
+						{% csrf_token %}
+						<div class="form-body">
+							<fieldset class="custom-fieldset">
+								<div class="row g-3">
+									<div class="col-md-3 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<select class="form-control" name="ship_name" required>
+												<option value="">Select Ship</option>
+												{% for option in ship_options %}
+													<option value="{{ option.value }}">{{ option.label }}</option>
+												{% endfor %}
+											</select>
+											<label class="form_control_1">NAME OF SHIP <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-3 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<select class="form-control" name="dept" required>
+												<option value="">Select Department</option>
+												<option value="ND">ND</option>
+												<option value="Communication">Communication</option>
+												<option value="Gunnery">Gunnery</option>
+												<option value="ASW">ASW</option>
+											</select>
+											<label class="form_control_1">DEPT <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-3 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<input type="text" class="form-control" name="equipment" required>
+											<label class="form_control_1">EQUIPMENT <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-3 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<input type="date" class="form-control" name="date" required>
+											<label class="form_control_1">DATE <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<select class="form-control" name="nature_of_trials" required>
+												<option value="">Select Nature of Trials</option>
+												<option value="SATs">SATs</option>
+												<option value="HATs">HATs</option>
+												<option value="OP Checks">OP Checks</option>
+												<option value="IIs">IIs</option>
+											</select>
+											<label class="form_control_1">NATURE OF TRIALS <span class="text-danger">*</span></label>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<div class="table-responsive">
+									<table class="custom_tbl" id="cms_phase_1_table">
+										<thead class="table-dark-head">
+											<tr>
+												<th class="ser-col">SER</th>
+												<th class="ser-col">TRIAL SER</th>
+												<th class="obs-col">OBSERVATIONS</th>
+												<th class="remarks-col">REMARKS</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr class="embarked-row">
+												<td colspan="4">
+													Trials team embarked onboard at
+													<input type="text" name="embarked_hrs" class="line-input embarked-hrs">
+													hrs on
+													<input type="date" name="embarked_date" class="line-input embarked-date">
+													for SATs of CMS as per NHQ approved schedule. Following observed:-
+												</td>
+											</tr>
+
+											<tr><td colspan="4"><strong>3. Target Tracking and Fusion</strong></td></tr>
+											<tr><td>1.</td><td>3.1.1</td><td>Surface target tracking – COTS – IBS Radar</td><td class="text-center"><label><input type="radio" name="status_1" value="SAT"> SAT</label> <label><input type="radio" name="status_1" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>2.</td><td>3.1.2</td><td>Surface Target Tracking – SSR</td><td class="text-center"><label><input type="radio" name="status_2" value="SAT"> SAT</label> <label><input type="radio" name="status_2" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>3.</td><td>3.1.3</td><td>Surface Target Tracking – MFSTAR</td><td class="text-center"><label><input type="radio" name="status_3" value="SAT"> SAT</label> <label><input type="radio" name="status_3" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>4.</td><td>3.2.1</td><td>Air Target Tracking – ASR Radar</td><td class="text-center"><label><input type="radio" name="status_4" value="SAT"> SAT</label> <label><input type="radio" name="status_4" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>5.</td><td>3.2.2</td><td>Air Target Tracking – MFSTAR</td><td class="text-center"><label><input type="radio" name="status_5" value="SAT"> SAT</label> <label><input type="radio" name="status_5" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>6.</td><td>3.3.1</td><td>Fusion of Tracks</td><td class="text-center"><label><input type="radio" name="status_6" value="SAT"> SAT</label> <label><input type="radio" name="status_6" value="UNSAT"> UNSAT</label></td></tr>
+
+											<tr><td colspan="4"><strong>4. Inter System Integration</strong></td></tr>
+											<tr><td>7.</td><td>4.1.1</td><td>LOG Data</td><td class="text-center"><label><input type="radio" name="status_7" value="SAT"> SAT</label> <label><input type="radio" name="status_7" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>8.</td><td>4.1.2</td><td>Gyro Data</td><td class="text-center"><label><input type="radio" name="status_8" value="SAT"> SAT</label> <label><input type="radio" name="status_8" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>9.</td><td>4.1.3</td><td>GPS Information</td><td class="text-center"><label><input type="radio" name="status_9" value="SAT"> SAT</label> <label><input type="radio" name="status_9" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>10.</td><td>4.1.4</td><td>WIND Data</td><td class="text-center"><label><input type="radio" name="status_10" value="SAT"> SAT</label> <label><input type="radio" name="status_10" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>11.</td><td>4.1.5</td><td>Echo Sounder Data</td><td class="text-center"><label><input type="radio" name="status_11" value="SAT"> SAT</label> <label><input type="radio" name="status_11" value="UNSAT"> UNSAT</label></td></tr>
+
+											<tr><td colspan="4"><strong>5. Advanced Navigation</strong></td></tr>
+											<tr><td>12.</td><td>5.1.1</td><td>Time for two tracks to be specific distance apart</td><td class="text-center"><label><input type="radio" name="status_12" value="SAT"> SAT</label> <label><input type="radio" name="status_12" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>13.</td><td>5.2.1</td><td>Setting up of Anchor Watch – Case Watch ON</td><td class="text-center"><label><input type="radio" name="status_13" value="SAT"> SAT</label> <label><input type="radio" name="status_13" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>14.</td><td>5.3.1</td><td>Course to steer to take up Assigned station</td><td class="text-center"><label><input type="radio" name="status_14" value="SAT"> SAT</label> <label><input type="radio" name="status_14" value="UNSAT"> UNSAT</label></td></tr>
+
+											<tr><td colspan="4"><strong>6. Aircraft Control</strong></td></tr>
+											<tr><td>15.</td><td>6.1.1</td><td>Create ACOS</td><td class="text-center"><label><input type="radio" name="status_15" value="SAT"> SAT</label> <label><input type="radio" name="status_15" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>16.</td><td>6.2.1</td><td>Carrying ACOS Route with Route Plan</td><td class="text-center"><label><input type="radio" name="status_16" value="SAT"> SAT</label> <label><input type="radio" name="status_16" value="UNSAT"> UNSAT</label></td></tr>
+
+											<tr><td colspan="4"><strong>7. LRSAM</strong></td></tr>
+											<tr><td>17.</td><td>7.1.1</td><td>Select Mode – LRSAM</td><td class="text-center"><label><input type="radio" name="status_17" value="SAT"> SAT</label> <label><input type="radio" name="status_17" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>18.</td><td>7.2.1</td><td>LRSAM Hold Fire policy</td><td class="text-center"><label><input type="radio" name="status_18" value="SAT"> SAT</label> <label><input type="radio" name="status_18" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>19.</td><td>7.3.1</td><td>LRSAM ship protection</td><td class="text-center"><label><input type="radio" name="status_19" value="SAT"> SAT</label> <label><input type="radio" name="status_19" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>20.</td><td>7.4.1</td><td>Manual Gun Assignment</td><td class="text-center"><label><input type="radio" name="status_20" value="SAT"> SAT</label> <label><input type="radio" name="status_20" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>21.</td><td>7.5.1</td><td>Cancel Manual Gun Assignment</td><td class="text-center"><label><input type="radio" name="status_21" value="SAT"> SAT</label> <label><input type="radio" name="status_21" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>22.</td><td>7.6.1</td><td>Engage Command given to LRSAM</td><td class="text-center"><label><input type="radio" name="status_22" value="SAT"> SAT</label> <label><input type="radio" name="status_22" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>23.</td><td>7.6.2</td><td>Case STOP engagement selected</td><td class="text-center"><label><input type="radio" name="status_23" value="SAT"> SAT</label> <label><input type="radio" name="status_23" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>24.</td><td>7.7.1</td><td>Display of WCS engagement Planning - LEP</td><td class="text-center"><label><input type="radio" name="status_24" value="SAT"> SAT</label> <label><input type="radio" name="status_24" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>25.</td><td>7.8.1</td><td>Display WCS engagement report &amp; Engaging missile Data</td><td class="text-center"><label><input type="radio" name="status_25" value="SAT"> SAT</label> <label><input type="radio" name="status_25" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>26.</td><td>7.9.1</td><td>Manual Target Indication to LRSAM MFCs</td><td class="text-center"><label><input type="radio" name="status_26" value="SAT"> SAT</label> <label><input type="radio" name="status_26" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>27.</td><td>7.10.1</td><td>Cancel Target Indication to LRSAM MFCs</td><td class="text-center"><label><input type="radio" name="status_27" value="SAT"> SAT</label> <label><input type="radio" name="status_27" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>28.</td><td>7.11.1</td><td>Create LRSAM sectors</td><td class="text-center"><label><input type="radio" name="status_28" value="SAT"> SAT</label> <label><input type="radio" name="status_28" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>29.</td><td>7.12.1</td><td>Edit LRSAM Sectors</td><td class="text-center"><label><input type="radio" name="status_29" value="SAT"> SAT</label> <label><input type="radio" name="status_29" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>30.</td><td>7.13.1</td><td>Delete LRSAM Sectors</td><td class="text-center"><label><input type="radio" name="status_30" value="SAT"> SAT</label> <label><input type="radio" name="status_30" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>31.</td><td>7.14.1</td><td>Manual Target indication to LRSAM EOD for surface targets</td><td class="text-center"><label><input type="radio" name="status_31" value="SAT"> SAT</label> <label><input type="radio" name="status_31" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>32.</td><td>7.15.1</td><td>Cancel Target Indication to LRSAM for Surface Target</td><td class="text-center"><label><input type="radio" name="status_32" value="SAT"> SAT</label> <label><input type="radio" name="status_32" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>33.</td><td>7.16.1</td><td>Manual Gun Assignment for Surface Targets</td><td class="text-center"><label><input type="radio" name="status_33" value="SAT"> SAT</label> <label><input type="radio" name="status_33" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>34.</td><td>7.17.1</td><td>Cancel manual gun assignment for surface targets</td><td class="text-center"><label><input type="radio" name="status_34" value="SAT"> SAT</label> <label><input type="radio" name="status_34" value="UNSAT"> UNSAT</label></td></tr>
+
+											<tr><td colspan="4"><strong>8. KAVACH</strong></td></tr>
+											<tr><td>35.</td><td>8.1.1</td><td>Assigning TD to Kavach System</td><td class="text-center"><label><input type="radio" name="status_35" value="SAT"> SAT</label> <label><input type="radio" name="status_35" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>36.</td><td>8.2.1</td><td>Cancel TD to Kavach System on track</td><td class="text-center"><label><input type="radio" name="status_36" value="SAT"> SAT</label> <label><input type="radio" name="status_36" value="UNSAT"> UNSAT</label></td></tr>
+
+											<tr><td colspan="4"><strong>9. BrahMos</strong></td></tr>
+											<tr><td>37.</td><td>9.1.1</td><td>Mode change of BrahMos</td><td class="text-center"><label><input type="radio" name="status_37" value="SAT"> SAT</label> <label><input type="radio" name="status_37" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>38.</td><td>9.2.1</td><td>Add to Surface target list</td><td class="text-center"><label><input type="radio" name="status_38" value="SAT"> SAT</label> <label><input type="radio" name="status_38" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>39.</td><td>9.3.1</td><td>Forces Distribution</td><td class="text-center"><label><input type="radio" name="status_39" value="SAT"> SAT</label> <label><input type="radio" name="status_39" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>40.</td><td>9.4.1</td><td>Assign Restricted Area</td><td class="text-center"><label><input type="radio" name="status_40" value="SAT"> SAT</label> <label><input type="radio" name="status_40" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>41.</td><td>9.5.1</td><td>Create/ Edit waypoints</td><td class="text-center"><label><input type="radio" name="status_41" value="SAT"> SAT</label> <label><input type="radio" name="status_41" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>42.</td><td>9.6.1</td><td>Generation of Commands (BrFCS)</td><td class="text-center"><label><input type="radio" name="status_42" value="SAT"> SAT</label> <label><input type="radio" name="status_42" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>43.</td><td>9.6.2</td><td>Transmission of Fire Command (BrahMos)</td><td class="text-center"><label><input type="radio" name="status_43" value="SAT"> SAT</label> <label><input type="radio" name="status_43" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>44.</td><td>9.6.3</td><td>Transmission of Trigger Hold Command (BrahMos)</td><td class="text-center"><label><input type="radio" name="status_44" value="SAT"> SAT</label> <label><input type="radio" name="status_44" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>45.</td><td>9.6.4</td><td>Transmission of Stop Fire Command (BrahMos)</td><td class="text-center"><label><input type="radio" name="status_45" value="SAT"> SAT</label> <label><input type="radio" name="status_45" value="UNSAT"> UNSAT</label></td></tr>
+
+											<tr><td colspan="4"><strong>10. HUMSA</strong></td></tr>
+											<tr><td>46.</td><td>10.1.1</td><td>Detection on HUMSA Sonar Active Channels 1 to 8</td><td class="text-center"><label><input type="radio" name="status_46" value="SAT"> SAT</label> <label><input type="radio" name="status_46" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>47.</td><td>10.2.1</td><td>Detection on HUMSA Sonar Passive Channels 1 to 8</td><td class="text-center"><label><input type="radio" name="status_47" value="SAT"> SAT</label> <label><input type="radio" name="status_47" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>48.</td><td>10.3.1</td><td>Drop Track command for HUMSA sonar</td><td class="text-center"><label><input type="radio" name="status_48" value="SAT"> SAT</label> <label><input type="radio" name="status_48" value="UNSAT"> UNSAT</label></td></tr>
+
+											<tr><td colspan="4"><strong>11. IAC MOD C</strong></td></tr>
+											<tr><td>49.</td><td>11.1.1</td><td>Centralised Mode Selected by operator</td><td class="text-center"><label><input type="radio" name="status_49" value="SAT"> SAT</label> <label><input type="radio" name="status_49" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>50.</td><td>11.2.1</td><td>Designate Target from IRL</td><td class="text-center"><label><input type="radio" name="status_50" value="SAT"> SAT</label> <label><input type="radio" name="status_50" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>51.</td><td>11.3.1</td><td>Designate target from TTL</td><td class="text-center"><label><input type="radio" name="status_51" value="SAT"> SAT</label> <label><input type="radio" name="status_51" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>52.</td><td>11.4.1</td><td>Order Engage-IRL/TTL when engagement Possible</td><td class="text-center"><label><input type="radio" name="status_52" value="SAT"> SAT</label> <label><input type="radio" name="status_52" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>53.</td><td>11.5.1</td><td>Order STOP fire – which already engaged by IAC</td><td class="text-center"><label><input type="radio" name="status_53" value="SAT"> SAT</label> <label><input type="radio" name="status_53" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>54.</td><td>11.6.1</td><td>Order Cancel TD by IRL / TTL</td><td class="text-center"><label><input type="radio" name="status_54" value="SAT"> SAT</label> <label><input type="radio" name="status_54" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>55.</td><td>12.6.1</td><td>Break track when bearing is under tracking</td><td class="text-center"><label><input type="radio" name="status_55" value="SAT"> SAT</label> <label><input type="radio" name="status_55" value="UNSAT"> UNSAT</label></td></tr>
+
+											<tr><td colspan="4"><strong>12. SHAKTI</strong></td></tr>
+											<tr><td>56.</td><td>12.1.1</td><td>Set EW System mode to Centralised</td><td class="text-center"><label><input type="radio" name="status_56" value="SAT"> SAT</label> <label><input type="radio" name="status_56" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>57.</td><td>12.2.1</td><td>Create sectors of non-interest</td><td class="text-center"><label><input type="radio" name="status_57" value="SAT"> SAT</label> <label><input type="radio" name="status_57" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>58.</td><td>12.2.2</td><td>Delete sectors of non-interest</td><td class="text-center"><label><input type="radio" name="status_58" value="SAT"> SAT</label> <label><input type="radio" name="status_58" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>59.</td><td>12.3.1</td><td>Track Bearing when operator is able to undertake tracking</td><td class="text-center"><label><input type="radio" name="status_59" value="SAT"> SAT</label> <label><input type="radio" name="status_59" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>60.</td><td>12.4.1</td><td>JAM ESM Bearing</td><td class="text-center"><label><input type="radio" name="status_60" value="SAT"> SAT</label> <label><input type="radio" name="status_60" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>61.</td><td>12.5.1</td><td>Track and JAM when bearing is neither under tracking nor Jamming</td><td class="text-center"><label><input type="radio" name="status_61" value="SAT"> SAT</label> <label><input type="radio" name="status_61" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>62.</td><td>12.7.1</td><td>Stop JAM when bearing is under Jamming</td><td class="text-center"><label><input type="radio" name="status_62" value="SAT"> SAT</label> <label><input type="radio" name="status_62" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>63.</td><td>12.8.1</td><td>Assign bearing for Jamming</td><td class="text-center"><label><input type="radio" name="status_63" value="SAT"> SAT</label> <label><input type="radio" name="status_63" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>64.</td><td>12.9.1</td><td>Break Assign Bearing</td><td class="text-center"><label><input type="radio" name="status_64" value="SAT"> SAT</label> <label><input type="radio" name="status_64" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>65.</td><td>12.10.1</td><td>FLAG 2 Alarm</td><td class="text-center"><label><input type="radio" name="status_65" value="SAT"> SAT</label> <label><input type="radio" name="status_65" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>66.</td><td>12.11.1</td><td>Lock ON Alarm</td><td class="text-center"><label><input type="radio" name="status_66" value="SAT"> SAT</label> <label><input type="radio" name="status_66" value="UNSAT"> UNSAT</label></td></tr>
+
+											<tr><td colspan="4"><strong>13. NAYAN</strong></td></tr>
+											<tr><td>67.</td><td>13.1.1</td><td>Add Area of interest</td><td class="text-center"><label><input type="radio" name="status_67" value="SAT"> SAT</label> <label><input type="radio" name="status_67" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>68.</td><td>13.2.1</td><td>Display of Emitter Status</td><td class="text-center"><label><input type="radio" name="status_68" value="SAT"> SAT</label> <label><input type="radio" name="status_68" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>69.</td><td>13.3.1</td><td>Display of Emitter Location</td><td class="text-center"><label><input type="radio" name="status_69" value="SAT"> SAT</label> <label><input type="radio" name="status_69" value="UNSAT"> UNSAT</label></td></tr>
+
+											<tr>
+												<td colspan="4">
+													<strong>General Observations: -</strong>
+													<textarea class="form-control" name="general_observations" rows="6"></textarea>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset footer_text">
+								<div class="row">
+									<div class="col-md-6"><strong>Presenting Authority: Ship’s Staff</strong></div>
+									<div class="col-md-6 text-right"><strong>Inspecting Authority: WATT (V)</strong></div>
+								</div>
+								<div class="row mt-3">
+									<div class="col-md-3"><strong>ND</strong></div>
+									<div class="col-md-3"><strong>STI / TI</strong></div>
+									<div class="col-md-3"></div>
+									<div class="col-md-3"><strong>STO</strong></div>
+								</div>
+							</fieldset>
+
+							<div class="d-flex justify-content-center mt-4 gap-2">
+								<button type="submit" class="btn btn-success px-4">Save</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

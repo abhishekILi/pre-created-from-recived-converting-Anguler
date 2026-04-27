@@ -1,0 +1,258 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+
+<style>
+  /* Inline table input styling */
+  .custom_tbl td input[type="text"]{
+    display: inline-block;
+    width: 100px;
+    height: 28px;
+    padding: 4px 6px;
+    font-size: 12px;
+    border: 1px solid #d9d9d9;
+    border-radius: 3px;
+    margin: 2px 4px;
+    vertical-align: middle;
+  }
+
+  
+  
+</style>
+
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+            <li class="breadcrumb-item active" aria-current="page">WATT</li>
+            <li class="breadcrumb-item active" aria-current="page">SATs</li>
+            <li class="breadcrumb-item active" aria-current="page">AIS
+               </li>
+          </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">WEAPON ACCEPTANCE TRIALS TEAM VISAKHAPATNAM
+                DAILY SUMMARY OF PROGRESS</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="rlg_sigma_40_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!--HEADER — Ship / Inspection Info-->
+
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Basic Information</legend>
+                <div class="row g-3">
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="name_of_ship_select" name="name_of_ship">
+                          <option value="">-- Select --</option>
+                          
+                        </select>
+                        <label class="form_control_1">Name of Ship</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="department_select" name="department">
+                          <option value="">-- Select --</option>
+                          <option value="P15A">ND</option>
+                          <option value="P17">ASW</option>
+                          <option value="P17A">COMM</option>
+                          <option value="P28">GUNNERY</option>
+                        </select>
+                        <label class="form_control_1">Department</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="equipment_select" name="equipment">
+                          <option value="">-- Select --</option>
+                          <option value="AIS">UWACS</option>
+                        </select>
+                        <label class="form_control_1">Equipment</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                      <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                        <input type="date" class="form-control" id="date_input" name="date_">
+                        <label class="form_control_1">Date</label>
+                      </div>
+                    </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="nature_trials_select" name="nature_of_trials" required>
+                          <option value="">--Select--</option>
+                          <option value="SATs">SATs</option>
+                          <option value="HATS">HATs</option>
+                          <option value="OP_CHECKS">OP CHECKS</option>
+                          <option value="IIS">IIs</option>
+                        </select>
+                        <label class="form_control_1">Nature of Trial</label>
+                    </div>
+                  </div>
+
+            </div>
+          </fieldset>
+
+          <fieldset class="custom-fieldset">
+            <legend class="legend-custom text-uppercase">Checks</legend>
+            <div class="table-responsive">
+              <table class="custom_tbl">
+                <thead>
+                  <tr class="custom-header-row">
+                    <!-- Forces the column to be only as wide as the text "Ser No." -->
+                    <th style="width: 1%; white-space: nowrap;">Ser No.</th>
+                    
+                    <!-- Use small positive percentages or pixels -->
+                    <th>Observation</th>
+                    <th>Sat/Unsat</th>
+                    <th style="width:10%;">Remarks</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="5">
+                            Trials team embarked onboard at 
+                            <input type="time" id="embark_time" name="embark_time" class="form-control d-inline-block" style="width: 100px; height: 28px;">  on 
+                            <input type="date" id="embark_date" name="embark_date" class="form-control d-inline-block" style="width: 140px; height: 28px;"> for SATs of UWACS Triton as per approved schedule, BR 4050 and CNO 07/10. Following observed:-
+                            {% comment %} <textarea class="form-control wrstg-scroll-textarea" style="width: 280px; font-size: 12px; display: inline-block; vertical-align: middle;" id="test_1_rlg1_velocity" name="test_1_rlg1_velocity"></textarea> as per approved schedule vide IHQ MoD (N) / DSR letter WP  0642 dated 06 Aug 14./<br> Following observed:- {% endcomment %}
+                        </td>
+                    </tr>
+                  <!-- Row 1: Structural defects -->
+                   <tr>
+                    <td colspan="5"><b>CHECKS</b></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td>Area at Sea: -</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                
+                  <tr>
+                    <td>1</td>
+                    <td ><b>UWACS Triton Trials Communication Modes. </b>
+                        <br>Voice Mode – </br>
+                        <br>Pinger Mode – </br>
+                        <br>Morse Mode –</br>
+                        <br>CSK Mode – </br>
+                        <br>FSK Mode –</br>
+                        <br>Rx/ respond –</br>
+                        <br>Transponder – </br>
+                        <br></br>
+                        <br>Results to be Achieved – UWACS Triton provides a typical operational range between 3Km and 10Km. - </br>
+                        
+                    </td>
+                    <td >
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="trial_cond_sat" name="trial_cond_data" value="SAT"><label for="trial_cond_sat">SAT</label></div>
+                            <div><input type="radio" id="trial_cond_unsat" name="trial_cond_data" value="UNSAT"><label for="trial_cond_unsat">UNSAT</label></div>
+                          </div>
+                        </td>
+
+<td>
+  <div style="margin-bottom: 5px;">
+    
+    <textarea 
+      class="form-control wrstg-scroll-textarea" 
+      id="uwacs_id1" 
+      name="uwacs_id" 
+      style="width: 350px; height: 100px; font-size: 12px; display: block; border: 1px solid #ccc; padding: 8px;">
+    </textarea>
+  </div>
+</td>
+                </tr>
+                  <tr>
+                   <td colspan="4">
+                    <div style="margin-bottom: 5px;">
+                        <strong>General Observation:</strong>
+                    </div>
+                    <textarea 
+                        class="form-control wrstg-scroll-textarea" 
+                        id="uwacs_id1" 
+                        name="uwacs_id" 
+                        style="width: 100%; min-width: 400px; height: 80px; font-size: 12px; border: 1px solid #ccc; border-radius: 4px; padding: 5px;">
+                    </textarea>
+                    </td>
+
+
+                  </tr>
+
+
+
+                 
+                    
+                </tbody>
+              </table>
+              </div>
+                    <div style="display: flex; justify-content: center; gap: 300px; margin-bottom: 15px; font-family: sans-serif;">
+                <div>
+                    <strong>Presenting Authority: Ship’s Staff</strong>
+                </div>
+                <div>
+                    <strong>Inspecting Authority:WATT (V) </strong> 
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: center; gap: 270px; margin-bottom: 20px; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 8px; ">
+            <strong>ND:</strong> 
+            <input type="text" style="width: 250px; padding: 4px; outline: none; ">
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <strong>STI / TI:</strong> 
+            <input type="text" style="width: 250px; padding: 4px; outline: none;">
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <strong>STO:</strong> 
+            <input type="text" style="width: 250px; padding: 4px; outline: none;">
+        </div>
+    </div>
+            </div>
+          </fieldset>
+
+          
+
+          </fieldset>
+          
+          <!-- Submit -->
+          <div class="d-flex justify-content-center mt-4 gap-2">
+            <button type="submit" class="btn btn-success px-4">Save</button>
+          </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+
+{% endblock js %}

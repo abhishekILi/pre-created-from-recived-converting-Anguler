@@ -1,0 +1,515 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item active" aria-current="page">HUMSA-NG Phase 3</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">HUMSA-NG PHASE 3 — SATs SHEET (6400008)</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="humsa_ng_p3_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!-- ══════════════════════════════════════════
+                   HEADER — Ship / Equipment Info
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Trial Header Information</legend>
+                <div class="row g-3">
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="ship" required>
+                        <option value="">-- Select Ship --</option>
+                        {% for ship in ship_options %}
+                        <option value="{{ ship.value }}">{{ ship.label }}</option>
+                        {% endfor %}
+                      </select>
+                      <label class="form_control_1">Name of Ship <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="equipment" value="HUMSA-NG" readonly placeholder=" ">
+                      <label class="form_control_1">Equipment</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="sno" placeholder=" ">
+                      <label class="form_control_1">S. No.</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="date" class="form-control" name="trial_date" placeholder=" ">
+                      <label class="form_control_1">Date <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="department" required>
+                        <option value="">-- Select Department --</option>
+                        <option value="ND">ND</option>
+                        <option value="Gunnery">Gunnery</option>
+                        <option value="Communication">Communication</option>
+                        <option value="ASW">ASW</option>
+                      </select>
+                      <label class="form_control_1">Department <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="nature_of_trials" required>
+                        <option value="">-- Select Nature of Trials --</option>
+                        <option value="lls">lls</option>
+                        <option value="SATs">SATs</option>
+                        <option value="HATs">HATs</option>
+                        <option value="OP Checks">OP Checks</option>
+                      </select>
+                      <label class="form_control_1">Nature of Trials <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   CH 12 — BI-STATIC TRIALS
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">CH 12 — Bi-Static Trials</legend>
+
+                <!-- Bi-static Checks header row -->
+                <div class="table-responsive mb-3">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Trial Ser</th>
+                        <th>Check Description as per Schedule</th>
+                        <th>Result (Sat / Unsat)</th>
+                        <th>Presenting Authority Remarks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-no"><strong>CH 12</strong></td>
+                        <td><strong>Bi-Static Checks</strong></td>
+                        <td>
+                          <select class="form-control" name="ch12_bistatic_rmk">
+                            <option value="">--</option><option>Sat</option><option>Unsat</option>
+                          </select>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="ch12_bistatic_pa" rows="2"></textarea></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Table 48: Standard Deviation -->
+                <p class="mb-1"><strong>Table 48. Standard Deviation for range and bearing to be achieved</strong></p>
+                <div class="table-responsive mb-3">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th>Parameter</th>
+                        <th>Result to be achieved</th>
+                        <th>Result Computed</th>
+                        <th>Sat / Unsat</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Range (m)</td>
+                        <td>≤ 1500</td>
+                        <td><input type="text" class="form-control" name="tbl48_range_computed" placeholder=" "></td>
+                        <td>
+                          <select class="form-control" name="tbl48_range_rmk">
+                            <option value="">--</option><option>Sat</option><option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>Bearing (deg)</td>
+                        <td>≤ 3</td>
+                        <td><input type="text" class="form-control" name="tbl48_bearing_computed" placeholder=" "></td>
+                        <td>
+                          <select class="form-control" name="tbl48_bearing_rmk">
+                            <option value="">--</option><option>Sat</option><option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Table 49: Bi-static Run — Receiver Ship -->
+                <p class="mb-1"><strong>Table 49. Bi-static Run, Receiver Ship (Sonar Control Room)</strong></p>
+                <div class="row g-2 mb-2">
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-1 mb-1">
+                      <input type="text" class="form-control" name="tbl49_own_vessel" placeholder=" ">
+                      <label class="form_control_1">Own Vessel (Transmitter Vessel)</label>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-1 mb-1">
+                      <input type="text" class="form-control" name="tbl49_consort_target" placeholder=" ">
+                      <label class="form_control_1">Consort Target</label>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-1 mb-1">
+                      <input type="text" class="form-control" name="tbl49_ddr_file" placeholder=" ">
+                      <label class="form_control_1">DDR File Name</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="table-responsive mb-3">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no" rowspan="2">Ser</th>
+                        <th rowspan="2">Cut No.</th>
+                        <th rowspan="2">Time</th>
+                        <th colspan="4" style="text-align: center;">Sonar Readings</th>
+                        <th rowspan="2">Remarks</th>
+                      </tr>
+                      <tr>
+                        <th>Own Ship Course (Cs)</th>
+                        <th>Own Ship Speed (Ss)</th>
+                        <th>Target Range (Km) (RS)</th>
+                        <th>Target True Bearing (Bs)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for i in "123456789" %}
+                      <tr>
+                        <td class="serial-no">{{ forloop.counter }}</td>
+                        <td><input type="text" class="form-control" name="tbl49_cut_{{ forloop.counter }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl49_time_{{ forloop.counter }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl49_cs_{{ forloop.counter }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl49_ss_{{ forloop.counter }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl49_rs_{{ forloop.counter }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl49_bs_{{ forloop.counter }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl49_rmk_{{ forloop.counter }}" placeholder=" "></td>
+                      </tr>
+                      {% endfor %}
+                      {% for n in "0123456789012345678901" %}
+                      <tr>
+                        <td class="serial-no">{{ forloop.counter|add:9 }}</td>
+                        <td><input type="text" class="form-control" name="tbl49_cut_{{ forloop.counter|add:9 }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl49_time_{{ forloop.counter|add:9 }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl49_cs_{{ forloop.counter|add:9 }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl49_ss_{{ forloop.counter|add:9 }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl49_rs_{{ forloop.counter|add:9 }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl49_bs_{{ forloop.counter|add:9 }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl49_rmk_{{ forloop.counter|add:9 }}" placeholder=" "></td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Table 50: Bi-static Run — Transmitter Ship -->
+                <p class="mb-1"><strong>Table 50. Bi-static Run, Transmitter Ship (Sonar Control Room)</strong></p>
+                <div class="row g-2 mb-2">
+                  <div class="col-md-3 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-1 mb-1">
+                      <input type="text" class="form-control" name="tbl50_own_vessel_tx" placeholder=" ">
+                      <label class="form_control_1">Own Vessel (Tx)</label>
+                    </div>
+                  </div>
+                  <div class="col-md-3 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-1 mb-1">
+                      <input type="text" class="form-control" name="tbl50_receiver_vessel" placeholder=" ">
+                      <label class="form_control_1">Receiver Vessel</label>
+                    </div>
+                  </div>
+                  <div class="col-md-3 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-1 mb-1">
+                      <input type="text" class="form-control" name="tbl50_consort_target" placeholder=" ">
+                      <label class="form_control_1">Consort Target</label>
+                    </div>
+                  </div>
+                  <div class="col-md-3 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-1 mb-1">
+                      <input type="text" class="form-control" name="tbl50_ddr_file" placeholder=" ">
+                      <label class="form_control_1">DDR File Name</label>
+                    </div>
+                  </div>
+                </div>
+                <p class="text-muted mb-1"><small>(Mode OMNI, Range Scale: 10Km)</small></p>
+                <div class="table-responsive mb-3">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no" rowspan="3">Ser</th>
+                        <th colspan="5" style="text-align: center;">Tx Parameters</th>
+                        <th colspan="6" style="text-align: center;">Sonar Reading</th>
+                        <th rowspan="3">Remarks</th>
+                      </tr>
+                      <tr>
+                        <th rowspan="2">FRQ</th>
+                        <th rowspan="2">WF</th>
+                        <th rowspan="2">PL</th>
+                        <th rowspan="2">RS</th>
+                        <th rowspan="2">SL</th>
+                        <th colspan="2" style="text-align: center;">Own Ship</th>
+                        <th colspan="2" style="text-align: center;">Target</th>
+                        <th colspan="2" style="text-align: center;">Rx Ship</th>
+                      </tr>
+                      <tr>
+                        <th>Course (SCs)</th>
+                        <th>Speed (SSs)</th>
+                        <th>Range (Km) (RS)</th>
+                        <th>True Bearing (Bs)</th>
+                        <th>Range (Km) (RS)</th>
+                        <th>True Bearing (Bs)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for n in "1234567890123456789012345678" %}
+                      <tr>
+                        <td class="serial-no">{{ forloop.counter }}</td>
+                        <td><input type="text" class="form-control" name="tbl50_frq_{{ forloop.counter }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl50_wf_{{ forloop.counter }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl50_pl_{{ forloop.counter }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl50_rs_{{ forloop.counter }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl50_sl_{{ forloop.counter }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl50_own_cs_{{ forloop.counter }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl50_own_ss_{{ forloop.counter }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl50_tgt_rs_{{ forloop.counter }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl50_tgt_bs_{{ forloop.counter }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl50_rx_rs_{{ forloop.counter }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl50_rx_bs_{{ forloop.counter }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl50_rmk_{{ forloop.counter }}" placeholder=" "></td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Table 51: Bi-static Run — Radar Room -->
+                <p class="mb-1"><strong>Table 51. Bi-static Run, Receiver &amp; Transmitter Ship (Radar Room)</strong></p>
+                <div class="row g-2 mb-2">
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-1 mb-1">
+                      <input type="text" class="form-control" name="tbl51_radar_name" placeholder=" ">
+                      <label class="form_control_1">Radar Name</label>
+                    </div>
+                  </div>
+                </div>
+                <div class="table-responsive mb-3">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no" rowspan="2">Ser</th>
+                        <th rowspan="2">Cut No.</th>
+                        <th rowspan="2">Time</th>
+                        <th colspan="5" style="text-align: center;">Radar Readings</th>
+                        <th rowspan="2">Remarks</th>
+                      </tr>
+                      <tr>
+                        <th>Own Ship Course (CR)</th>
+                        <th>Target Range (Km) (RX)</th>
+                        <th>Target True Bearing (BRX)</th>
+                        <th>Range (Nm) Other Ship (RTX)</th>
+                        <th>True Bearing of other ship (BTX)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for n in "123456789012345678901234567890" %}
+                      <tr>
+                        <td class="serial-no">{{ forloop.counter }}</td>
+                        <td><input type="text" class="form-control" name="tbl51_cut_{{ forloop.counter }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl51_time_{{ forloop.counter }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl51_cr_{{ forloop.counter }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl51_rx_{{ forloop.counter }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl51_brx_{{ forloop.counter }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl51_rtx_{{ forloop.counter }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl51_btx_{{ forloop.counter }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl51_rmk_{{ forloop.counter }}" placeholder=" "></td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Table 52: Error in Bearing and Range -->
+                <p class="mb-1"><strong>Table 52. Error in Bearing and Range (for offline computation in receiver ship)</strong></p>
+                <div class="table-responsive mb-3">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Ser</th>
+                        <th>Cut No.</th>
+                        <th>Time</th>
+                        <th>Sonar True Bearing (B<sub>S</sub>)</th>
+                        <th>Radar True Bearing (B<sub>R</sub>)</th>
+                        <th>Bearing Error (ΔB = B<sub>S</sub> − B<sub>R</sub>)</th>
+                        <th>Sonar Range (R<sub>S</sub>) (Km)</th>
+                        <th>Radar Range (R<sub>R</sub>) (Km)</th>
+                        <th>Range Error (ΔR = R<sub>S</sub> − R<sub>R</sub>)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for n in "123456789012345678901234567890" %}
+                      <tr>
+                        <td class="serial-no">{{ forloop.counter }}</td>
+                        <td><input type="text" class="form-control" name="tbl52_cut_{{ forloop.counter }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl52_time_{{ forloop.counter }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl52_sonar_bs_{{ forloop.counter }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl52_radar_br_{{ forloop.counter }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl52_bearing_err_{{ forloop.counter }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl52_sonar_rs_{{ forloop.counter }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl52_radar_rr_{{ forloop.counter }}" placeholder=" "></td>
+                        <td><input type="text" class="form-control" name="tbl52_range_err_{{ forloop.counter }}" placeholder=" "></td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Standard Deviation Summary -->
+                <div class="row g-3 mt-1">
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="std_dev_bearing" placeholder=" ">
+                      <label class="form_control_1">Standard Deviation of Bearing Error</label>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="std_dev_range" placeholder=" ">
+                      <label class="form_control_1">Standard Deviation of Range Error</label>
+                    </div>
+                  </div>
+                </div>
+
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   REMARKS
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Remarks</legend>
+                <div class="static-section">
+                  <div class="table-responsive">
+                    <table class="custom_tbl" id="remarks_table">
+                      <thead>
+                        <tr>
+                          <th class="serial-no">Sr No</th>
+                          <th>Observations</th>
+                          <th>SS Remarks</th>
+                          <th class="action" style="width: 80px;">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="serial-no">1</td>
+                          <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="observation" rows="2"></textarea></td>
+                          <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="ss_remarks" rows="2"></textarea></td>
+                          <td class="action action-cell-holder">
+                            <div class="action-controls">
+                              <button type="button" class="btn-round btn-add" onclick="addRow('remarks_table')" title="Add Row">+</button>
+                              <!-- <button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'remarks_table')" title="Remove Row">-</button> -->
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   PRESENTING AUTHORITY
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                <div class="row g-3">
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="humsa_presenting_authority" name="humsa_presenting_authority" required>
+                        <option value="">--Select--</option>
+                        <option value="dockyard">Dockyard</option>
+                        <option value="shipstaff">Shipstaff</option>
+                        <option value="oem">OEM</option>
+                      </select>
+                      <label class="form_control_1" for="humsa_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-12">
+  <div class="row g-2">
+
+    <div class="col-4">
+      <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+        <input type="text" class="form-control" id="humsa_watt_1" name="humsa_watt_1" value="N/O- NOT OFFERED" placeholder=" ">
+        <label class="form_control_1" for="humsa_watt_1">WATT(1)</label>
+      </div>
+    </div>
+
+    <div class="col-4">
+      <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+        <input type="text" class="form-control" id="humsa_watt_2" name="humsa_watt_2" value="WOW-WILL OBTAIN WAIVER
+COM-COMPLETED" placeholder=" ">
+        <label class="form_control_1" for="humsa_watt_2">WATT(2)</label>
+      </div>
+    </div>
+
+    <div class="col-4">
+      <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+        <input type="text" class="form-control" id="humsa_watt_3" name="humsa_watt_3" value="" placeholder=" ">
+        <label class="form_control_1" for="humsa_watt_3">WATT(3)</label>
+      </div>
+    </div>
+
+  </div>
+</div>
+              </fieldset>
+
+              <!-- Submit -->
+              <div class="d-flex justify-content-center mt-4 gap-2">
+                <button type="submit" class="btn btn-success px-4">Submit</button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

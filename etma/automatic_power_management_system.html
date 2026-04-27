@@ -1,0 +1,565 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+  .multi-select-container {
+    border: 1px solid #dde3ed;
+    border-radius: 6px;
+    padding: 6px 8px;
+    /* background: #fff; */
+  }
+  .multi-select-container label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 2px;
+    font-size: 13.5px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  /* .multi-select-container label:hover { background: #f0f4f8; } */
+  .multi-select-container input[type="checkbox"] { margin: 0; }
+
+  .sat-select {
+    border: none;
+    border-bottom: 1px solid #bbb;
+    background: transparent;
+    font-size: 13px;
+    padding: 2px 4px;
+    outline: none;
+    width: 100%;
+  }
+  .sat-select:focus { border-bottom: 2px solid #1a8a7b; }
+
+  .sub-check {
+    font-size: 13px;
+    padding: 4px 0 4px 14px;
+    border-left: 2px solid #dde3ed;
+    margin: 4px 0;
+  }
+  .sub-check strong { color: #0d1f3c; }
+
+  .note-box {
+    background: #fff8e1;
+    border-left: 3px solid #f4a800;
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 12.5px;
+    margin-top: 8px;
+    color: #5a4000;
+    font-weight: 600;
+  }
+
+  .checks-td { font-size: 13px; line-height: 1.65; }
+  .checks-td p { margin: 0 0 6px; }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item active" aria-current="page">ETMA</li>
+          <li class="breadcrumb-item active" aria-current="page">APMS Check Off List</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">CHECK OFF LIST — AUTOMATIC POWER MANAGEMENT SYSTEM (APMS)</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="apms_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!-- ══════════ HEADER ══════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Trial Information</legend>
+                <div class="row g-3">
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="ship" required>
+                        <option value="">-- Select Ship --</option>
+                        {% for ship in ship_options %}
+                        <option value="{{ ship.value }}">{{ ship.label }}</option>
+                        {% endfor %}
+                      </select>
+                      <label class="form_control_1">Ship <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="occasion_of_trial" required>
+                        <option value="">-- Select Occasion --</option>
+                        <option value="a">a</option>
+                        <option value="b">b</option>
+                        <option value="c">c</option>
+                        <option value="d">d</option>
+                      </select>
+                      <label class="form_control_1">Occasion of Trial <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="presented_by" required>
+                        <option value="">-- Select --</option>
+                        {% for user in user_options %}
+                        <option value="{{ user.value }}">{{ user.label }}</option>
+                        {% endfor %}
+                      </select>
+                      <label class="form_control_1">Presented By <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="nos_apms_console" placeholder=" ">
+                      <label class="form_control_1">Nos. of APMS Console</label>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="nos_switchboard" placeholder=" ">
+                      <label class="form_control_1">Nos. of Switchboard</label>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="trial_inspector_name" placeholder=" ">
+                      <label class="form_control_1">Trial Inspector (Name)</label>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+
+              <!-- ══════════ 1. TEST EQUIPMENT ══════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">1. Test Equipment Used During Trials</legend>
+                <div class="row g-3">
+                  <div class="col-md-6 col-12">
+                    <label class="form_control_1 d-block mb-2" style="position:static; font-size:13px; color:#6b7a90; font-weight:600;">Select all applicable:</label>
+                    <div class="multi-select-container">
+                      <label><input type="checkbox" name="test_equipment" value="insulation_tester"> Insulation Tester</label>
+                      <label><input type="checkbox" name="test_equipment" value="multimeter"> Multimeter</label>
+                      <label><input type="checkbox" name="test_equipment" value="clamp_meter"> Clamp Meter</label>
+                      <label><input type="checkbox" name="test_equipment" value="phase_sequence_meter"> Phase Sequence Meter</label>
+                      <label><input type="checkbox" name="test_equipment" value="oscilloscope"> Oscilloscope</label>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+
+              <!-- ══════════ 2. DATE & TIME ══════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">2. Date &amp; Time</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Ser</th>
+                        <th>Activity</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr><td class="serial-no">2.1</td><td>Intimation from Ship</td><td><input type="date" class="form-control" name="dt_21_date"></td><td><input type="time" class="form-control" name="dt_21_time"></td></tr>
+                      <tr><td class="serial-no">2.2</td><td>Readiness indicated by Ship</td><td><input type="date" class="form-control" name="dt_22_date"></td><td><input type="time" class="form-control" name="dt_22_time"></td></tr>
+                      <tr><td class="serial-no">2.3</td><td>Trials Inspector reported onboard Ship</td><td><input type="date" class="form-control" name="dt_23_date"></td><td><input type="time" class="form-control" name="dt_23_time"></td></tr>
+                      <tr><td class="serial-no">2.4</td><td>Trials completed</td><td><input type="date" class="form-control" name="dt_24_date"></td><td><input type="time" class="form-control" name="dt_24_time"></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════ 3. DESIGN REQUIREMENTS / DOCUMENTATION ══════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">3. Design Requirements / Documentation</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Ser</th>
+                        <th>Description</th>
+                        <th>Remarks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr><td class="serial-no">3.1</td><td><strong>Manufacturer</strong></td><td><input type="text" class="form-control" name="dr_manufacturer"></td></tr>
+                      <tr><td class="serial-no">3.2</td><td><strong>Make &amp; Model</strong></td><td><input type="text" class="form-control" name="dr_make_model"></td></tr>
+                      <tr><td class="serial-no">3.3</td><td><strong>Equipment Serial Number</strong></td><td><input type="text" class="form-control" name="dr_serial_no"></td></tr>
+                      <tr><td class="serial-no">3.4</td><td><strong>CMMS Code</strong></td><td><input type="text" class="form-control" name="dr_cmms_code"></td></tr>
+                      <tr><td class="serial-no">3.5</td><td><strong>GRAQ</strong></td><td><input type="text" class="form-control" name="dr_graq"></td></tr>
+                      <tr><td class="serial-no">3.6</td><td><strong>ATP</strong></td><td><input type="text" class="form-control" name="dr_atp"></td></tr>
+                      <tr><td class="serial-no">3.7</td><td><strong>Board Proceedings</strong></td><td><input type="text" class="form-control" name="dr_board_proc"></td></tr>
+                      <tr><td class="serial-no">3.8</td><td><strong>FATs Report</strong></td><td><input type="text" class="form-control" name="dr_fats_report"></td></tr>
+                      <tr><td class="serial-no">3.9</td><td colspan="2"><strong>Documentation</strong></td></tr>
+                      <tr><td class="serial-no">3.9.1</td><td>System Description</td><td><input type="text" class="form-control" name="dr_391"></td></tr>
+                      <tr><td class="serial-no">3.9.2</td><td>Circuit Diagrams</td><td><input type="text" class="form-control" name="dr_392"></td></tr>
+                      <tr><td class="serial-no">3.9.3</td><td>Maintenance Manuals</td><td><input type="text" class="form-control" name="dr_393"></td></tr>
+                      <tr><td class="serial-no">3.9.4</td><td>Technical Specifications</td><td><input type="text" class="form-control" name="dr_394"></td></tr>
+                      <tr><td class="serial-no">3.9.5</td><td>Installation Specifications</td><td><input type="text" class="form-control" name="dr_395"></td></tr>
+                      <tr><td class="serial-no">3.9.6</td><td>Hardware User Manual</td><td><input type="text" class="form-control" name="dr_396"></td></tr>
+                      <tr><td class="serial-no">3.9.7</td><td>System User Manual</td><td><input type="text" class="form-control" name="dr_397"></td></tr>
+                      <tr><td class="serial-no">3.9.8</td><td>Functional Specifications</td><td><input type="text" class="form-control" name="dr_398"></td></tr>
+                      <tr><td class="serial-no">3.9.9</td><td>Software Requirement Specifications (SRS)</td><td><input type="text" class="form-control" name="dr_399"></td></tr>
+                      <tr><td class="serial-no">3.9.10</td><td>Interface Design Documents (IDD)</td><td><input type="text" class="form-control" name="dr_3910"></td></tr>
+                      <tr><td class="serial-no">3.9.11</td><td>Design Documents</td><td><input type="text" class="form-control" name="dr_3911"></td></tr>
+                      <tr><td class="serial-no">3.9.12</td><td>Data Flow Diagrams</td><td><input type="text" class="form-control" name="dr_3912"></td></tr>
+                      <tr><td class="serial-no">3.9.13</td><td>Details of Operating System used</td><td><input type="text" class="form-control" name="dr_3913"></td></tr>
+                      <tr><td class="serial-no">3.9.14</td><td>Operating Manuals</td><td><input type="text" class="form-control" name="dr_3914"></td></tr>
+                      <tr><td class="serial-no">3.9.15</td><td>Application &amp; Communication S/W</td><td><input type="text" class="form-control" name="dr_3915"></td></tr>
+                      <tr><td class="serial-no">3.9.16</td><td>HATs &amp; SATs Documents</td><td><input type="text" class="form-control" name="dr_3916"></td></tr>
+                      <tr><td class="serial-no">3.9.17</td><td>System Maintenance &amp; Diagnostics</td><td><input type="text" class="form-control" name="dr_3917"></td></tr>
+                      <tr><td class="serial-no">3.9.18</td><td>List of onboard and B&amp;D spares</td><td><input type="text" class="form-control" name="dr_3918"></td></tr>
+                      <tr><td class="serial-no">3.9.19</td><td>Source code, Flow Charts / Pseudo Charts</td><td><input type="text" class="form-control" name="dr_3919"></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════ 4. INSTALLATION CHECKS ══════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">4. Installation Checks</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Ser</th>
+                        <th>Reference</th>
+                        <th>Checks</th>
+                        <th>Remarks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-no">4.1</td>
+                        <td>Section VIII Para 0811 of EED-Q-264</td>
+                        <td>Check the earthing of equipment</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="ic_41_rmk" rows="2"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">4.2</td>
+                        <td>Section VIII Para 0812-0814 of EED-Q-264</td>
+                        <td>Check the proper termination of cables</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="ic_42_rmk" rows="2"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">4.3</td>
+                        <td>Section VI Para 0638 (a) of EED-Q-264</td>
+                        <td>Check the clearance between terminals</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="ic_43_rmk" rows="2"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">4.4</td>
+                        <td>Section VI Para 0645-0648 of EED-Q-264</td>
+                        <td>Check the fuse holders and fuses are fitted as per rating inside the panel.</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="ic_44_rmk" rows="2"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">4.5</td>
+                        <td>Section VI Para 0639-0643 of EED-Q-264</td>
+                        <td>Check the lifting &amp; locking arrangements</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="ic_45_rmk" rows="2"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">4.6</td>
+                        <td>Section VI Para 0644 of EED-Q-264</td>
+                        <td>Check the colour coding marking of bus-bars, cables and associated components.</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="ic_46_rmk" rows="2"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">4.7</td>
+                        <td>Section X Para 1019</td>
+                        <td>Check the Shock Mounts and its fitment</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="ic_47_rmk" rows="2"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">4.8</td>
+                        <td>Section VI Para 633 of EED-Q-264</td>
+                        <td>Check Ventilation arrangement of the compartment</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="ic_48_rmk" rows="2"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">4.9</td>
+                        <td>Section X Para 1009-1011 of EED-Q-264</td>
+                        <td>Checks status of Indication lamps</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="ic_49_rmk" rows="2"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">4.10</td>
+                        <td>Section VI Para 652 of EED-Q-264</td>
+                        <td>Check Low Fire Hazard (LFH) cables / wires are used in the APMS console and Switchboard for control wiring except for PLC wiring / communication wiring</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="ic_410_rmk" rows="3"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">4.11</td>
+                        <td>As per TD / Operating Instructions</td>
+                        <td>Check insulation of system devices with respect to earth as per TD / Operating instructions</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="ic_411_rmk" rows="2"></textarea></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════ 5. OPERATIONAL CHECKS ══════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">5. Operational Checks</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Ser</th>
+                        <th>Reference</th>
+                        <th>Checks</th>
+                        <th>Remarks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-no">5.1</td>
+                        <td>Chapter-III Para 1 of EED-50-48</td>
+                        <td class="checks-td"><strong>Check Switchboard layout in APMS.</strong> It should be as per approved GRAQ/ATP/BPs.</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="oc_51_rmk" rows="2"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">5.2</td>
+                        <td>Chapter-III Para 26 of EED-50-48</td>
+                        <td class="checks-td">
+                          <strong>Monitor the PGD configuration:</strong> The APMS shall monitor and clearly indicate the following configuration information:
+                          <div class="sub-check">5.2.1 Close Ring / Open Ring</div>
+                          <div class="sub-check">5.2.2 Fwd / Aft split</div>
+                          <div class="sub-check">5.2.3 Port / Stbd split</div>
+                          <div class="sub-check">5.2.4 Island Mode</div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="oc_52_rmk" rows="5"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">5.3</td>
+                        <td>Chapter-III Para 17 and Chapter-IV Para 6 of EED-50-48</td>
+                        <td class="checks-td"><strong>Check MIMIC Pages on APMS Console.</strong> The system should represent the entire network on Multi-Function Consoles (MFCs) using hierarchical mimic diagrams.</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="oc_53_rmk" rows="3"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">5.4</td>
+                        <td>Chapter-III Para 4 of EED-50-48</td>
+                        <td class="checks-td"><strong>Check Power Management Modes of APMS System.</strong> Auto Mode, Assisted Mode, Manual Mode and Training Mode.</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="oc_54_rmk" rows="2"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">5.5</td>
+                        <td>Chapter-III Para 11 of EED-50-48</td>
+                        <td class="checks-td"><strong>Check Maximum Load Setting for Generators.</strong> The software should permit change in maximum load limit for the individual generator.</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="oc_55_rmk" rows="2"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">5.6</td>
+                        <td>Chapter-III Para 12 of EED-50-48</td>
+                        <td class="checks-td">
+                          <strong>Check Central Control and Switching.</strong> The system should permit the following:
+                          <div class="sub-check">5.6.1 Switching ON/OFF any of the breakers of the main switchboards from the control consoles (Fwd/Aft Switchboard).</div>
+                          <div class="sub-check">5.6.2 Switching ON/OFF of main EDC breakers (if exists) from control consoles that would be located in main switchboards.</div>
+                          <div class="sub-check">5.6.3 Remote switching ON/OFF of generators from the console provided in the MCR.</div>
+                          <div class="sub-check">5.6.4 Monitoring the status of individual MCCBs of the EDCs (if exists) from the control consoles.</div>
+                          <div class="sub-check" style="font-style:italic;">(List of breakers as per class of ship, all breakers to be tested for remote operation)</div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="oc_56_rmk" rows="6"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">5.7</td>
+                        <td>Chapter-III Para 14 and Chapter IV Para 12 of EED-50-48</td>
+                        <td class="checks-td"><strong>Check Failure Alarms and Indications on APMS Console.</strong> The system should provide extensive audio/visual failure alarms and indications to ensure safe operation.</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="oc_57_rmk" rows="3"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">5.8</td>
+                        <td>Chapter-III Para 13 of EED-50-48</td>
+                        <td class="checks-td"><strong>Check Feasibility of Parallel Operation with Shore Supply.</strong> Provision should exist to monitor the parameters of the shore supply so that changeover takes place smoothly and safely.</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="oc_58_rmk" rows="3"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">5.9</td>
+                        <td>Chapter-III Para 15 and Chapter IV Para 13, &amp; 14 of EED-50-48</td>
+                        <td class="checks-td"><strong>Check Data Logging &amp; Data Archiving Facility Available in APMS.</strong> The system should have the facility of data logging and archiving facility for APMS and Interface systems for a minimum of 30 days.</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="oc_59_rmk" rows="3"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">5.10</td>
+                        <td>Chapter-III Para 23 of EED-50-48</td>
+                        <td class="checks-td"><strong>Check Post Failure Review Facility Available on APMS Console.</strong> The system should be able to undertake Post-Disturbance-Review to detect exact reasons of failure in an interconnected system.</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="oc_510_rmk" rows="3"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">5.11</td>
+                        <td>Chapter-III Para 22 of EED-50-48</td>
+                        <td class="checks-td"><strong>Check Onboard Training System (OBTS) on APMS Console.</strong> The System should have a mode of operation that will enable training for operator and maintainer on the system. In this mode of operation, the ship's machinery will not be controlled by the functions that are executed during the training.</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="oc_511_rmk" rows="4"></textarea></td>
+                      </tr>
+
+                      <!-- 5.12 — no border on reference sub-rows (matches 5.12 pattern) -->
+                      <tr style="border:none;">
+                        <td class="serial-no">5.12</td>
+                        <td style="border:none;">Chapter-III Para 25 of EED-50-48</td>
+                        <td class="checks-td"><strong>Check Generator Parameter Monitoring in APMS Console.</strong> Following parameters of the generator are to be monitored for safe operation of PGD as a system:</td>
+                        <td style="border:none;"></td>
+                      </tr>
+                      {% for label,name in generator_monitoring_items %}
+                      <tr style="border:none;">
+                        <td class="serial-no">5.12.{{ forloop.counter }}</td>
+                        <td style="border:none;"></td>
+                        <td class="checks-td">{{ label }}</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="{{ name }}_rmk" rows="2"></textarea></td>
+                      </tr>
+                      {% endfor %}
+
+                      <!-- 5.13 — reference col has NO border on sub-rows (same as 5.12) -->
+                      <tr style="border-top: 2px solid #e9e4e4;">
+                        <td class="serial-no">5.13</td>
+                        <td style="border:none;">Chapter-III Para 3-29 of EED-50-48</td>
+                        <td class="checks-td"><strong>Check Auto Mode of APMS System.</strong> The system would carry out all functions automatically without human intervention. Following checks to be performed in Auto Mode:</td>
+                        <td style="border:none;"></td>
+                      </tr>
+                      <tr style="border:none;">
+                        <td class="serial-no">5.13.1</td>
+                        <td style="border:none;"></td>
+                        <td class="checks-td"><strong>Take control of APMS in Auto mode.</strong></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="oc_5131_rmk" rows="2"></textarea></td>
+                      </tr>
+                      <tr style="border:none;">
+                        <td class="serial-no">5.13.2</td>
+                        <td style="border:none;"></td>
+                        <td class="checks-td">Check generator priority selection as per requirement/availability.</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="oc_5132_rmk" rows="2"></textarea></td>
+                      </tr>
+                      <tr style="border:none;">
+                        <td class="serial-no">5.13.3</td>
+                        <td style="border:none;"></td>
+                        <td class="checks-td"><strong>Check Auto load dependent Start/Stop of DGs.</strong><div class="sub-check" style="margin-left:14px;">5.13.3.1 If Load &gt; 80% (for 2.5 secs) on running DA – Priority 1 generator should automatically start and taken on load. In case, priority 1 generator fails to start, priority 2 generator should start and taken on load. In case, priority 2 generator fails to start, then priority 3 generator should start and taken on load. If priority 3 generator fails to start, then next priority generator (if available) should start and taken on load.</div><div class="sub-check" style="margin-left:14px;">5.13.3.2 If Load &lt; 25% (for 15 minutes) on running DA, priority-based Generator should be off loaded after transferring load to the running generators. The generator will however be required to be stopped manually by the operator.</div></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="oc_5133_rmk" rows="4"></textarea></td>
+                      </tr>
+                      <tr style="border:none;">
+                        <td class="serial-no">5.13.4</td>
+                        <td style="border:none;"></td>
+                        <td class="checks-td"><strong>Check synchronization of Generators.</strong> The system should automatically parallel the generators and effect the load transfer.</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="oc_5134_rmk" rows="2"></textarea></td>
+                      </tr>
+                      <tr style="border:none;">
+                        <td class="serial-no">5.13.5</td>
+                        <td style="border:none;"></td>
+                        <td class="checks-td"><strong>Check Active/Reactive Load Sharing during parallel operation.</strong> System should ensure proportionate active/reactive load sharing by the running generators when in continuous parallel mode operation.</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="oc_5135_rmk" rows="2"></textarea></td>
+                      </tr>
+                      <tr style="border:none;">
+                        <td class="serial-no">5.13.6</td>
+                        <td style="border:none;"></td>
+                        <td class="checks-td"><strong>Check Black Out Handling operation of APMS:</strong> On detecting the loss of an alternator or complete loss of shore supply, APMS shall take following actions:<div class="sub-check" style="margin-left:14px;">5.13.6.1 Ensure that all the switchboards are in Island operation.</div><div class="sub-check" style="margin-left:14px;">5.13.6.2 Start next priority Alternator and connect the respective busbar.</div><div class="sub-check" style="margin-left:14px;">5.13.6.3 Once Alternator start operation is complete, evaluate the system configuration and re-establish the configuration in effect before black out.</div><div class="sub-check" style="margin-left:14px;">5.13.6.4 If the configuration cannot be established then provide a suitable prompt to the operator.</div><div class="note-box">Note: This check will be undertaken for all generators by selecting priority 1 in sequential manner and other generator may be used as running generator.</div></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="oc_5136_rmk" rows="4"></textarea></td>
+                      </tr>
+                      <tr style="border:none;">
+                        <td class="serial-no">5.13.7</td>
+                        <td style="border:none;"></td>
+                        <td class="checks-td"><strong>Check Preferential/Automatic load shedding:</strong> (In case failure of one running generator leading to overloading another running generator or the load exceeds on the standalone generator)<div class="sub-check" style="margin-left:14px;">5.13.7.1 Adequate audio/visual warning should be given prior to load shedding.</div><div class="sub-check" style="margin-left:14px;">5.13.7.2 If the running generator is overloaded and no standby generator is nominated, the system should resort to automatic load shedding as per pre-defined criteria/priority selection of breakers.</div></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="oc_5137_rmk" rows="4"></textarea></td>
+                      </tr>
+                      <tr style="border:none;">
+                        <td class="serial-no">5.13.8</td>
+                        <td style="border:none;"></td>
+                        <td class="checks-td"><strong>Check Control transfer from FWD Console to AFT Console and vice versa.</strong></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="oc_5138_rmk" rows="2"></textarea></td>
+                      </tr>
+
+                      <!-- 5.14 — 4 separate rows each with own remarks -->
+                      <tr style="border-top: 2px solid #e9e4e4;">
+                        <td class="serial-no">5.14</td>
+                        <td style="border:none;">Chapter-III Para 3-29 of EED-50-48</td>
+                        <td class="checks-td"><strong>Check Auto Assisted (Semi Auto) Mode of APMS system.</strong> All actions are required to be carried out by the operator as prompted by the system. Following checks to be performed in Auto Assisted Mode:</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="oc_514_rmk" rows="2"></textarea></td>
+                      </tr>
+                      <tr style="border:none;">
+                        <td class="serial-no">5.14.1</td>
+                        <td style="border:none;"></td>
+                        <td class="checks-td"><strong>Take control of APMS in Auto-Assisted mode.</strong></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="oc_5141_rmk" rows="2"></textarea></td>
+                      </tr>
+                      <tr style="border:none;">
+                        <td class="serial-no">5.14.2</td>
+                        <td style="border:none;"></td>
+                        <td class="checks-td"><strong>Select generator priority selection as per requirement/availability.</strong></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="oc_5142_rmk" rows="2"></textarea></td>
+                      </tr>
+                      <tr style="border:none;">
+                        <td class="serial-no">5.14.3</td>
+                        <td style="border:none;"></td>
+                        <td class="checks-td"><strong>Check Remote load dependent Start/Stop of DGs.</strong><div class="sub-check" style="margin-left:14px;">5.14.3.1 If Load &gt; 80% (for 2.5 secs) on running DA – the system should initiate audio and visual alarms so that the operator can take necessary action to start standby generator.</div><div class="sub-check" style="margin-left:14px;">5.14.3.2 If Load ≤ 25% (for 15 minutes) on running DA – The system should give necessary audio/visual alarms to alert the operator to off load and shut down the under loaded generator. However, if the generators are running in parallel, the system should ensure their equal loading.</div></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="oc_5143_rmk" rows="4"></textarea></td>
+                      </tr>
+                      <tr style="border:none;">
+                        <td class="serial-no">5.14.4</td>
+                        <td style="border:none;"></td>
+                        <td class="checks-td"><strong>Check synchronization of Generators.</strong> The system should automatically synchronize the generators and prompt the operator for closure of the supply breaker.</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="oc_5144_rmk" rows="2"></textarea></td>
+                      </tr>
+
+                      <!-- 5.15 — 3 separate rows each with own remarks -->
+                      <tr style="border-top: 2px solid #e9e4e4;">
+                        <td class="serial-no">5.15.1</td>
+                        <td style="border:none;"></td>
+                        <td class="checks-td"><strong>Check Active/Reactive Load Sharing during parallel operation.</strong> System should ensure proportionate active/reactive load sharing by the running generators when in continuous parallel mode operation.</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="oc_5151_rmk" rows="3"></textarea></td>
+                      </tr>
+                      <tr style="border:none;">
+                        <td class="serial-no">5.15.2</td>
+                        <td style="border:none;"></td>
+                        <td class="checks-td"><strong>Check Black Out Handling operation of APMS.</strong> On detecting the loss of an alternator or complete loss of shore supply, APMS shall take following actions:<div class="sub-check" style="margin-left:14px;">5.15.2.1 Ensure that all the switchboards are in Island operation.</div><div class="sub-check" style="margin-left:14px;">5.15.2.2 Shows popup window on APMS console to Start next priority Generator and connect the respective busbar by operator.</div><div class="sub-check" style="margin-left:14px;">5.15.2.3 Once Alternator start operation is complete, evaluate configuration and re-establish previous configuration.</div><div class="sub-check" style="margin-left:14px;">5.15.2.4 If configuration cannot be established then provide a suitable prompt to the operator.</div><div class="note-box">Note: This check will be undertaken for all generators by selecting priority 1 in sequential manner and other generator may be used as running generator.</div><div class="sub-check" style="margin-left:14px;">5.15.2.5 Check preferential load shedding (in case failure of one running generator leading to overloading another running generator or the load exceeds on the standalone generator).</div><div class="sub-check" style="margin-left:14px;">5.15.2.6 Adequate audio/visual warning should be given prior to load shedding.</div><div class="sub-check" style="margin-left:14px;">5.15.2.7 System should recommend loads to be shed as per pre-defined criteria/priority selection of breakers.</div></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="oc_5152_rmk" rows="8"></textarea></td>
+                      </tr>
+                      <tr style="border:none;">
+                        <td class="serial-no">5.15.3</td>
+                        <td style="border:none;"></td>
+                        <td class="checks-td"><strong>Check Control transfer from FWD Console to AFT Console and vice versa.</strong></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="oc_5153_rmk" rows="2"></textarea></td>
+                      </tr>
+
+                      <!-- 5.16 -->
+                      <tr style="border-top: 2px solid #e9e4e4">
+                        <td class="serial-no">5.16</td>
+                        <td>Chapter-III Para 31 of EED-50-48</td>
+                        <td class="checks-td"><strong>Check UPS for APMS System.</strong><div class="sub-check">5.16.1 Must be provided for all MFCs, Control units and interfacing</div><div class="sub-check">5.16.2 Backup — Minimum 30 minutes</div></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="oc_516_rmk" rows="3"></textarea></td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- Submit -->
+              <div class="d-flex justify-content-center mt-4 gap-2">
+                <button type="submit" class="btn btn-success px-4">Submit</button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

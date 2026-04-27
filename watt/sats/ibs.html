@@ -1,0 +1,1210 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+
+<style>
+  /* Inline table input styling */
+  .custom_tbl td input[type="text"],
+  .custom_tbl td input[type="number"],
+  .custom_tbl td input[type="date"] {
+    display: inline-block;
+    width: 100px;
+    height: 28px;
+    padding: 4px 6px;
+    font-size: 12px;
+    border: 1px solid #d9d9d9;
+    border-radius: 3px;
+    margin: 2px 4px;
+    vertical-align: middle;
+  }
+
+  .custom_tbl td input[type="text"]:focus,
+  .custom_tbl td input[type="number"]:focus,
+  .custom_tbl td input[type="date"]:focus {
+    outline: none;
+    border-color: #0066cc;
+    box-shadow: 0 0 4px rgba(0, 102, 204, 0.4);
+  }
+
+  /* Ensure table cell content stays inline */
+  .custom_tbl td {
+    vertical-align: middle;
+    padding: 8px;
+  }
+</style>
+
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'ITTTM:sats_ibs' %}">ITTTM</a></li>
+            <li class="breadcrumb-item active" aria-current="page">WATT</li>
+            <li class="breadcrumb-item active" aria-current="page">SATs</li>
+            <li class="breadcrumb-item active" aria-current="page">WEAPON ACCEPTANCE TRIALS TEAM VISAKHAPATNAM
+                DAILY SUMMARY OF PROGRESS</li>
+          </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">WEAPON ACCEPTANCE TRIALS TEAM VISAKHAPATNAM
+                DAILY SUMMARY OF PROGRESS</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="ibs_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!--HEADER — Ship / Inspection Info-->
+
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Basic Information</legend>
+                <div class="row g-3">
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="ibs_name_of_ship_select" name="name_of_ship">
+                          <option value="">-- Select --</option>
+                          <option value="INS_A">INS Alpha</option>
+                          <option value="INS_B">INS Bravo</option>
+                          <option value="INS_C">INS Charlie</option>
+                          <option value="INS_D">INS Delta</option>
+                        </select>
+                        <label class="form_control_1">Name of Ship</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="ibs_department_select" name="department">
+                          <option value="">-- Select --</option>
+                          <option value="P15A">ND</option>
+                          <option value="P17">ASW</option>
+                          <option value="P17A">COMM</option>
+                          <option value="P28">GUNNERY</option>
+                        </select>
+                        <label class="form_control_1">Department</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="ibs_equipment_select" name="equipment">
+                          <option value="">-- Select --</option>
+                        </select>
+                        <label class="form_control_1">Equipment</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                      <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                        <input type="date" class="form-control" id="date_input" name="date_">
+                        <label class="form_control_1">Date</label>
+                      </div>
+                    </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="ibs_nature_trials_select" name="nature_of_trials" required>
+                          <option value="">--Select--</option>
+                          <option value="SATs">SATs</option>
+                          <option value="HATS">HATs</option>
+                          <option value="OP_CHECKS">OP CHECKS</option>
+                          <option value="IIS">IIs</option>
+                        </select>
+                        <label class="form_control_1">Nature of Trial</label>
+                    </div>
+                  </div>
+
+            </div>
+          </fieldset>
+
+          <fieldset class="custom-fieldset">
+            <legend class="legend-custom text-uppercase"> IBS - Checks</legend>
+            <div class="table-responsive">
+              <table class="custom_tbl">
+                <thead>
+                  <tr class="custom-header-row">
+                    <th>Ser No.</th>
+                    <th>Observation</th>
+                    <th>Remarks</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="3">
+                            Trials team embarked onboard at 
+                            <input type="time" id="ibs_embark_time" name="ibs_embark_time" style="width: 120px; height: 28px; padding: 4px 6px; font-size: 12px; border: 1px solid #d9d9d9; border-radius: 3px; vertical-align: middle;"> hrs on 
+                            <input type="date" id="ibs_embark_date" name="ibs_embark_date" style="width: 140px; height: 28px; padding: 4px 6px; font-size: 12px; border: 1px solid #d9d9d9; border-radius: 3px; vertical-align: middle;"> for SATs of IBS as per NHQ approved schedule. Following observations :-
+                        </td>
+                    </tr>
+                  <!-- Row 1: Structural defects -->
+                  <tr>
+                    
+                    <td colspan="3" class="description-text"><b>Tests for Navigational Radar, MFC & IBS Network</b></td>
+                  </tr>
+                  <tr>
+                    <td>1</td>
+                    <td>
+                      Test 01: Test Setup Verification – Installation Checks
+                    </td>
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio" id="test1_sat" name="test_1" value="SAT">
+                                <label for="test1_sat">SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="test1_unsat" name="test_1" value="UNSAT">
+                                <label for="test1_unsat">UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>2</td>
+                    <td>
+                        Test 02: MEC - Start up Screen
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test2_sat" name="test_2" value="SAT">
+                                  <label for="test2_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test2_unsat" name="test_2" value="UNSAT">
+                                  <label for="test2_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>3</td>
+                    <td>
+                        Test 03: MFC - Multifunction capability
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test3_sat" name="test_3" value="SAT">
+                                  <label for="test3_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test3_unsat" name="test_3" value="UNSAT">
+                                  <label for="test3_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>4</td>
+                    <td>
+                        Test 04: Radar - IBS interface checks
+
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test4_sat" name="test_4" value="SAT">
+                                  <label for="test4_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test4_unsat" name="test_4" value="UNSAT">
+                                  <label for="test4_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>5</td>
+                    <td>
+                        Test 05: Radar Test
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test5_sat" name="test_5" value="SAT">
+                                  <label for="test5_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test5_unsat" name="test_5" value="UNSAT">
+                                  <label for="test5_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>6</td>
+                    <td>
+                        Test 06: ECDIS - Screen Presentation Option
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test6_sat" name="test_6" value="SAT">
+                                  <label for="test6_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test6_unsat" name="test_6" value="UNSAT">
+                                  <label for="test6_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>7</td>
+                    <td>
+                        Test 07: ECDIS / Radar - Route creation
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test7_sat" name="test_7" value="SAT">
+                                  <label for="test7_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test7_unsat" name="test_7" value="UNSAT">
+                                  <label for="test7_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>8</td>
+                    <td>
+                        Test 08: ECDIS - Radar Overlay
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test8_sat" name="test_8" value="SAT">
+                                  <label for="test8_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test8_unsat" name="test_8" value="UNSAT">
+                                  <label for="test8_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>9</td>
+                    <td>
+                        Test 09: MFC Conning Information display Mode
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test9_sat" name="test_9" value="SAT">
+                                  <label for="test9_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test9_unsat" name="test_9" value="UNSAT">
+                                  <label for="test9_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>10</td>
+                    <td>
+                        Test 10: Checking Sensor Failure at RSIU/ Hardwiring checks of MFC
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test10_sat" name="test_10" value="SAT">
+                                  <label for="test10_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test10_unsat" name="test_10" value="UNSAT">
+                                  <label for="test10_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>11</td>
+                    <td>
+                        Test 11: Network Architecture
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test11_sat" name="test_11" value="SAT">
+                                  <label for="test11_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test11_unsat" name="test_11" value="UNSAT">
+                                  <label for="test11_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>12</td>
+                    <td>
+                        Test 12: Redundancy of Network failure at MFC level
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test12_sat" name="test_12" value="SAT">
+                                  <label for="test12_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test12_unsat" name="test_12" value="UNSAT">
+                                  <label for="test12_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>13</td>
+                    <td>
+                        Test 13: Redundancy of Network failure at RSIU level
+
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test13_sat" name="test_13" value="SAT">
+                                  <label for="test13_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test13_unsat" name="test_13" value="UNSAT">
+                                  <label for="test13_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>14</td>
+                    <td>
+                        Test 14: Redundancy of Network Failure at Switch Level
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test14_sat" name="test_14" value="SAT">
+                                  <label for="test14_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test14_unsat" name="test_14" value="UNSAT">
+                                  <label for="test14_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>15</td>
+                    <td>
+                        Test 15: Power Failure of IBS Network
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test15_sat" name="test_15" value="SAT">
+                                  <label for="test15_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test15_unsat" name="test_15" value="UNSAT">
+                                  <label for="test15_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>16</td>
+                    <td>
+                        Test 16: Checking failure of Sensor integrator (PCIO) at RSIU
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test16_sat" name="test_16" value="SAT">
+                                  <label for="test16_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test16_unsat" name="test_16" value="UNSAT">
+                                  <label for="test16_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td colspan="3" class="description-text"><b>Tests for Multifunctional Display</b></td>
+                  </tr>
+
+                  <tr>
+                    <td>17</td>
+                    <td>
+                        Test 17: MFD - Display of MET & ASTRO page
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test17_sat" name="test_17" value="SAT">
+                                  <label for="test17_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test17_unsat" name="test_17" value="UNSAT">
+                                  <label for="test17_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>18</td>
+                    <td>
+                        Test 18: Display of Navigational DATA page
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test18_sat" name="test_18" value="SAT">
+                                  <label for="test18_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test18_unsat" name="test_18" value="UNSAT">
+                                  <label for="test18_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>19</td>
+                    <td>
+                        Test 19: Display of Machinery Status page
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test19_sat" name="test_19" value="SAT">
+                                  <label for="test19_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test19_unsat" name="test_19" value="UNSAT">
+                                  <label for="test19_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>20</td>
+                    <td>
+                        Test 20: Verify the display of Magnetic Heading data on Repeaters
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test20_sat" name="test_20" value="SAT">
+                                  <label for="test20_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test20_unsat" name="test_20" value="UNSAT">
+                                  <label for="test20_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>21</td>
+                    <td>
+                        Test 21: Validation of TMC output
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test21_sat" name="test_21" value="SAT">
+                                  <label for="test21_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test21_unsat" name="test_21" value="UNSAT">
+                                  <label for="test21_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td colspan="3" class="description-text"><b>Tests for DGPS</b></td>
+                  </tr>
+                  
+                  <tr>
+                    <td>22</td>
+                    <td>
+                        Test 22: DGPS - Basic Start up
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test22_sat" name="test_22" value="SAT">
+                                  <label for="test22_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test22_unsat" name="test_22" value="UNSAT">
+                                  <label for="test22_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+                  
+
+                   <tr>
+                    <td>23</td>
+                    <td>
+                        Test 23: DGPS Display Mode
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test23_sat" name="test_23" value="SAT">
+                                  <label for="test23_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test23_unsat" name="test_23" value="UNSAT">
+                                  <label for="test23_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                    <tr>
+                      <td>24</td>
+                      <td>
+                          Test 24: Checking of DGPS failure on WC
+                      </td>
+                      <td>
+                            <div class="yes-no-container">
+                                <div>
+                                    <input type="radio" id="test24_sat" name="test_24" value="SAT">
+                                    <label for="test24_sat">SAT</label>
+                                </div>
+                                <div>
+                                    <input type="radio" id="test24_unsat" name="test_24" value="UNSAT">
+                                    <label for="test24_unsat">UNSAT</label>
+                                </div>
+                            </div>
+                      </td> 
+                    </tr>
+
+                    <tr>
+                    <td>25</td>
+                    <td>
+                        Test 25: NMEA Splitter Redundancy check for DGPS data
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test25_sat" name="test_25" value="SAT">
+                                  <label for="test25_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test25_unsat" name="test_25" value="UNSAT">
+                                  <label for="test25_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>26</td>
+                    <td>
+                        Test 26: Validation of DGPS Output to ship’s system
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test26_sat" name="test_26" value="SAT">
+                                  <label for="test26_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test26_unsat" name="test_26" value="UNSAT">
+                                  <label for="test26_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td colspan="3" class="description-text"><b>Tests for AIS</b></td>
+                  </tr>
+
+                  <tr>
+                    <td>27</td>
+                    <td>
+                        Test 27: Verification or Main Operating Screens
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test27_sat" name="test_27" value="SAT">
+                                  <label for="test27_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test27_unsat" name="test_27" value="UNSAT">
+                                  <label for="test27_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>28</td>
+                    <td>
+                        Test 28: Verification of functionality of Target List screen
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test28_sat" name="test_28" value="SAT">
+                                  <label for="test28_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test28_unsat" name="test_28" value="UNSAT">
+                                  <label for="test28_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>29</td>
+                    <td>
+                        Test 29: Verification of Alarm status Of External interface
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test29_sat" name="test_29" value="SAT">
+                                  <label for="test29_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test29_unsat" name="test_29" value="UNSAT">
+                                  <label for="test29_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>30</td>
+                    <td>
+                        Test 30: Validation of AIS Output to ship's system
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test30_sat" name="test_30" value="SAT">
+                                  <label for="test30_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test30_unsat" name="test_30" value="UNSAT">
+                                  <label for="test30_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>31</td>
+                    <td>
+                        Test 31: Checking of AIS failure on MFC
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test31_sat" name="test_31" value="SAT">
+                                  <label for="test31_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test31_unsat" name="test_31" value="UNSAT">
+                                  <label for="test31_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td colspan="3" class="description-text"><b>Tests for OBD</b></td>
+                  </tr>
+
+                  <tr>
+                    <td>32</td>
+                    <td>
+                        Test 32: Verify the availability of sensor information
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test32_sat" name="test_32" value="SAT">
+                                  <label for="test32_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test32_unsat" name="test_32" value="UNSAT">
+                                  <label for="test32_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>33</td>
+                    <td>
+                        Test 33: Verify the display of LOP (Line of Position)
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test33_sat" name="test_33" value="SAT">
+                                  <label for="test33_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test33_unsat" name="test_33" value="UNSAT">
+                                  <label for="test33_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td colspan="3" class="description-text"><b>Tests for VDR</b></td>
+                  </tr>
+
+                  <tr>
+                    <td>34</td>
+                    <td>
+                        Test 34: Verify the recording of data
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test34_sat" name="test_34" value="SAT">
+                                  <label for="test34_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test34_unsat" name="test_34" value="UNSAT">
+                                  <label for="test34_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>35</td>
+                    <td>
+                        Test 35: Verify the Generation of Error Status - BITE
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test35_sat" name="test_35" value="SAT">
+                                  <label for="test35_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test35_unsat" name="test_35" value="UNSAT">
+                                  <label for="test35_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td colspan="3" class="description-text"><b>Tests for ICC</b></td>
+                  </tr>
+
+                  <tr>
+                    <td>36</td>
+                    <td>
+                        Test 36: Testing ICC for Chair Functionality
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test36_sat" name="test_36" value="SAT">
+                                  <label for="test36_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test36_unsat" name="test_36" value="UNSAT">
+                                  <label for="test36_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td colspan="3" class="description-text"><b>Tests for Automatic Weather Observation System</b></td>
+                  </tr>
+
+                  <tr>
+                    <td>37</td>
+                    <td>
+                        Test 37: Display of Weather data on & MFCR and IBS units
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test37_sat" name="test_37" value="SAT">
+                                  <label for="test37_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test37_unsat" name="test_37" value="UNSAT">
+                                  <label for="test37_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>38</td>
+                    <td>
+                        Test 38: AWOS: BITE
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test38_sat" name="test_38" value="SAT">
+                                  <label for="test38_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test38_unsat" name="test_38" value="UNSAT">
+                                  <label for="test38_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>39</td>
+                    <td>
+                        Test 39: Display of cloud information on Data Logger from Ceilometer
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test39_sat" name="test_39" value="SAT">
+                                  <label for="test39_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test39_unsat" name="test_39" value="UNSAT">
+                                  <label for="test39_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td colspan="3" class="description-text"><b>Tests for UPS</b></td>
+                  </tr>
+
+                  <tr>
+                    <td>40</td>
+                    <td>
+                        Test40: UPS Checks for 30 minutes
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test40_sat" name="test_40" value="SAT">
+                                  <label for="test40_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test40_unsat" name="test_40" value="UNSAT">
+                                  <label for="test40_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td colspan="3" class="description-text"><b>Additional SAT Test</b></td>
+                  </tr>
+
+                  <tr>
+                    <td>41</td>
+                    <td>
+                        Test 41: To Check Trial Manoeuvre Functionality
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test41_sat" name="test_41" value="SAT">
+                                  <label for="test41_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test41_unsat" name="test_41" value="UNSAT">
+                                  <label for="test41_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>42</td>
+                    <td>
+                        Test 42: POU Test
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test42_sat" name="test_42" value="SAT">
+                                  <label for="test42_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test42_unsat" name="test_42" value="UNSAT">
+                                  <label for="test42_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>43</td>
+                    <td>
+                        Test 43: PDU Test
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test43_sat" name="test_43" value="SAT">
+                                  <label for="test43_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test43_unsat" name="test_43" value="UNSAT">
+                                  <label for="test43_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>44</td>
+                    <td>
+                        Test 44: ECDIS on Portable Laptop
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test44_sat" name="test_44" value="SAT">
+                                  <label for="test44_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test44_unsat" name="test_44" value="UNSAT">
+                                  <label for="test44_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>45</td>
+                    <td>
+                        Test 45: Combiner Functionality Check
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test45_sat" name="test_45" value="SAT">
+                                  <label for="test45_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test45_unsat" name="test_45" value="UNSAT">
+                                  <label for="test45_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>46</td>
+                    <td>
+                        Test 46: Testing of Printer Functionality
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test46_sat" name="test_46" value="SAT">
+                                  <label for="test46_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test46_unsat" name="test_46" value="UNSAT">
+                                  <label for="test46_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>47</td>
+                    <td>
+                        Test 47: MFC - Time Synchronisation With external Time server
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test47_sat" name="test_47" value="SAT">
+                                  <label for="test47_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test47_unsat" name="test_47" value="UNSAT">
+                                  <label for="test47_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>48</td>
+                    <td>
+                        Test 48: MFC & MFD - CCTV display on Conning page
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test48_sat" name="test_48" value="SAT">
+                                  <label for="test48_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test48_unsat" name="test_48" value="UNSAT">
+                                  <label for="test48_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>49</td>
+                    <td>
+                        Test 49: Radar Interface Checks with CMS
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test49_sat" name="test_49" value="SAT">
+                                  <label for="test49_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test49_unsat" name="test_49" value="UNSAT">
+                                  <label for="test49_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>50</td>
+                    <td>
+                        Test 50: To Check Loading of MFC processors
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test50_sat" name="test_50" value="SAT">
+                                  <label for="test50_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test50_unsat" name="test_50" value="UNSAT">
+                                  <label for="test50_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr>
+
+                  <tr>
+                    <td>51</td>
+                    <td>
+                        Test 51: Verification of availability of ECDIS And Radar checks on MFD’s at Locations – Bridge Top, MCR and ICC
+                    </td>
+                    <td>
+                          <div class="yes-no-container">
+                              <div>
+                                  <input type="radio" id="test51_sat" name="test_51" value="SAT">
+                                  <label for="test51_sat">SAT</label>
+                              </div>
+                              <div>
+                                  <input type="radio" id="test51_unsat" name="test_51" value="UNSAT">
+                                  <label for="test51_unsat">UNSAT</label>
+                              </div>
+                          </div>
+                      </td>
+                  </tr> 
+                  
+                  <!-- Footer -->
+                       <tr>
+                          <td colspan="3">
+
+                            <!-- General Observations -->
+                            <div class="fixed-label-cell fw-bold mb-2">
+                              General Observations:
+                            </div>
+
+                            <!-- Authorities Row -->
+                            <div class="row mt-2">
+                              <div class="col-md-6 col-12 fw-bold">
+                                Presenting Authority: Ship’s Staff / OEM
+                              </div>
+                              <div class="col-md-6 col-12 fw-bold text-md-end">
+                                Inspecting Authority: WATT (V)
+                              </div>
+                            </div>
+
+                          </td>
+                        </tr>       
+                </tbody>
+              </table>
+            </div>
+          </fieldset>
+          <!-- Submit -->
+          <div class="d-flex justify-content-center mt-4 gap-2">
+            <button type="submit" class="btn btn-success px-4">Save</button>
+          </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+
+{% endblock js %}

@@ -1,0 +1,584 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+  /* Multi-select custom */
+  .multi-select-container {
+    border: 1px solid #dde3ed;
+    border-radius: 6px;
+    padding: 6px 8px;
+    max-height: 120px;
+    overflow-y: auto;
+    background: #fff;
+  }
+  .multi-select-container label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 2px;
+    font-size: 13.5px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.1s;
+  }
+  .multi-select-container label:hover { background: #f0f4f8; }
+  .multi-select-container input[type="checkbox"] { margin: 0; }
+
+  /* Nested sub-row inside td */
+  .sub-input-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-top: 6px;
+  }
+  .sub-input-row label { font-size: 12px; color: #666; white-space: nowrap; }
+  .sub-input-row input { flex: 1; }
+
+  /* SAT/UNSAT select styling */
+  .sat-select {
+    border: none;
+    border-bottom: 1px solid #bbb;
+    background: transparent;
+    font-size: 13px;
+    padding: 2px 4px;
+    outline: none;
+    width: 100%;
+  }
+  .sat-select:focus { border-bottom: 2px solid #1a8a7b; }
+
+  /* Inline grid for power table inside td */
+  .power-grid {
+    display: grid;
+    gap: 2px;
+    margin-top: 4px;
+  }
+  .power-grid .pg-header {
+    display: flex;
+    gap: 2px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #555;
+  }
+  .power-grid .pg-row {
+    display: flex;
+    gap: 2px;
+    align-items: center;
+  }
+  .power-grid .pg-label {
+    font-size: 12px;
+    font-weight: 600;
+    min-width: 36px;
+    color: #333;
+  }
+  .power-grid input[type="text"] {
+    width: 44px;
+    border: none;
+    border-bottom: 1px solid #bbb;
+    background: transparent;
+    font-size: 12px;
+    text-align: center;
+    outline: none;
+    padding: 1px 2px;
+  }
+  .power-grid input[type="text"]:focus { border-bottom: 2px solid #1a8a7b; }
+  .pg-cell-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-align: center;
+    width: 44px;
+    color: #444;
+  }
+
+  /* changeover inline fields */
+  .co-field {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 5px;
+    font-size: 13px;
+  }
+  .co-field label { white-space: nowrap; font-size: 12px; color: #555; }
+  .co-field input {
+    border: none;
+    border-bottom: 1px solid #aaa;
+    background: transparent;
+    width: 80px;
+    font-size: 13px;
+    padding: 2px 4px;
+    outline: none;
+  }
+  .co-field input:focus { border-bottom: 2px solid #1a8a7b; }
+
+  /* insulation grid */
+  .ins-grid {
+    display: grid;
+    grid-template-columns: auto repeat(3, 1fr);
+    gap: 4px;
+    margin-top: 4px;
+    font-size: 13px;
+  }
+  .ins-grid .ig-head { font-weight: 700; text-align: center; font-size: 12px; }
+  .ins-grid input[type="text"] {
+    border: none;
+    border-bottom: 1px solid #bbb;
+    background: transparent;
+    font-size: 13px;
+    text-align: center;
+    outline: none;
+    padding: 2px;
+  }
+  .ins-grid input:focus { border-bottom: 2px solid #1a8a7b; }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item active" aria-current="page">ETMA</li>
+          <li class="breadcrumb-item active" aria-current="page">HCOS Check Off List</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">CHECK OFF LIST — HAND CHANGE OVER SWITCHES (HCOS)</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="acos_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!-- ══════════════════════════════════════════
+                   HEADER — Ship / Trial Info
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Trial Information</legend>
+                <div class="row g-3">
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="ship" required>
+                        <option value="">-- Select Ship --</option>
+                        {% for ship in ship_options %}
+                        <option value="{{ ship.value }}">{{ ship.label }}</option>
+                        {% endfor %}
+                      </select>
+                      <label class="form_control_1">Ship <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="occasion_of_trial" required>
+                        <option value="">-- Select Occasion --</option>
+                        <option value="a">a</option>
+                        <option value="b">b</option>
+                        <option value="c">c</option>
+                        <option value="d">d</option>
+                        <option value="e">e</option>
+                      </select>
+                      <label class="form_control_1">Occasion of Trial <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="presented_by" required>
+                        <option value="">-- Select --</option>
+                        {% for user in user_options %}
+                        <option value="{{ user.value }}">{{ user.label }}</option>
+                        {% endfor %}
+                      </select>
+                      <label class="form_control_1">Presented By <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="location_of_acos" placeholder=" ">
+                      <label class="form_control_1">Location of HCOS</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="acos_feeds_to_equipment" placeholder=" ">
+                      <label class="form_control_1">HCOS Feeds to Equipment</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="trial_inspector_name" placeholder=" ">
+                      <label class="form_control_1">Trial Inspector (Name)</label>
+                    </div>
+                  </div>
+
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   1. TEST EQUIPMENT USED — MULTI SELECT
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">1. Test Equipment Used During Trials</legend>
+                <div class="row g-3">
+                  <div class="col-md-8 col-12">
+                    <label class="form_control_1 d-block mb-2" style="position:static; font-size:13px; color:#6b7a90; font-weight:600; letter-spacing:0.04em;">
+                      Select all applicable test equipment:
+                    </label>
+                    <div class="multi-select-container">
+                      <label>
+                        <input type="checkbox" name="test_equipment" value="insulation_tester"> Insulation Tester
+                      </label>
+                      <label>
+                        <input type="checkbox" name="test_equipment" value="phase_sequence_meter"> Phase Sequence Meter
+                      </label>
+                      
+                      <label>
+                        <input type="checkbox" name="test_equipment" value="multimeter"> Multimeter
+                      </label>
+                    
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   2. DATE & TIME
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">2. Date &amp; Time</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Ser</th>
+                        <th>Activity</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-no">2.1</td>
+                        <td>Intimation from Ship</td>
+                        <td><input type="date" class="form-control" name="dt_intimation_date"></td>
+                        <td><input type="time" class="form-control" name="dt_intimation_time"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">2.2</td>
+                        <td>Readiness indicated by Ship</td>
+                        <td><input type="date" class="form-control" name="dt_readiness_date"></td>
+                        <td><input type="time" class="form-control" name="dt_readiness_time"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">2.3</td>
+                        <td>Trials Inspector reported onboard Ship</td>
+                        <td><input type="date" class="form-control" name="dt_inspector_date"></td>
+                        <td><input type="time" class="form-control" name="dt_inspector_time"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">2.4</td>
+                        <td>Trials completed</td>
+                        <td><input type="date" class="form-control" name="dt_completed_date"></td>
+                        <td><input type="time" class="form-control" name="dt_completed_time"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   3. DESIGN REQUIREMENTS / DOCUMENTATION
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">3. Design Requirements / Documentation</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Ser</th>
+                        <th>Description</th>
+                        <th>Remarks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-no">3.1</td>
+                        <td><strong>Manufacturer</strong></td>
+                        <td><input type="text" class="form-control" name="dr_manufacturer"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">3.2</td>
+                        <td><strong>Make &amp; Model</strong></td>
+                        <td><input type="text" class="form-control" name="dr_make_model"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">3.3</td>
+                        <td><strong>Rating</strong></td>
+                        <td><input type="text" class="form-control" name="dr_rating"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">3.4</td>
+                        <td><strong>Equipment Serial Number</strong></td>
+                        <td><input type="text" class="form-control" name="dr_serial_no"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">3.5</td>
+                        <td><strong>CMMS Code</strong></td>
+                        <td><input type="text" class="form-control" name="dr_cmms_code"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">3.6</td>
+                        <td><strong>GRAQ</strong></td>
+                        <td><input type="text" class="form-control" name="dr_graq"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">3.7</td>
+                        <td><strong>ATP</strong></td>
+                        <td><input type="text" class="form-control" name="dr_atp"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">3.8</td>
+                        <td><strong>Board Proceedings</strong></td>
+                        <td><input type="text" class="form-control" name="dr_board_proc"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">3.9</td>
+                        <td><strong>FATs Report</strong></td>
+                        <td><input type="text" class="form-control" name="dr_fats_report"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">3.10</td>
+                        <td colspan="2"><strong>Documentation</strong></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">3.10.1</td>
+                        <td>Operating Instruction Manual/ Technical documentation.</td>
+                        <td><input type="text" class="form-control" name="dr_3101"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">3.10.2</td>
+                        <td>Preventive maintenance routines / repair instructions Manual along with drawings</td>
+                        <td><input type="text" class="form-control" name="dr_3102"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">3.10.3</td>
+                        <td>Installation and Test Manual.</td>
+                        <td><input type="text" class="form-control" name="dr_3103"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">3.10.4</td>
+                        <td>Part Identification list and Tools Catalogue</td>
+                        <td><input type="text" class="form-control" name="dr_3106"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">3.10.5</td>
+                        <td>Test Procedure and Documentation</td>
+                        <td><input type="text" class="form-control" name="dr_3107"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">3.10.6</td>
+                        <td>List of onboard and B&amp;D spares</td>
+                        <td><input type="text" class="form-control" name="dr_3108"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   4. INSTALLATION CHECKS
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">4. Installation Checks</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Ser</th>
+                        <th>Reference</th>
+                        <th>Checks</th>
+                        <th>Remarks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-no">4.1</td>
+                        <td>Section VIII Para 0811</td>
+                        <td>Check the earthing of equipment</td>
+                        <td><input type="text" class="form-control" name="ic_41_rmk"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">4.2</td>
+                        <td>Section VIII Para 0812-0814</td>
+                        <td>Check the proper termination of cables</td>
+                        <td><input type="text" class="form-control" name="ic_42_rmk"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">4.3</td>
+                        <td>Section VI Para 0638 (a)</td>
+                        <td>Check the clearance between terminals</td>
+                        <td><input type="text" class="form-control" name="ic_43_rmk"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">4.4</td>
+                        <td>Section VI Para 0639-0643</td>
+                        <td>Check the cover of panel is screwed properly.</td>
+                        <td><input type="text" class="form-control" name="ic_44_rmk"></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">4.5</td>
+                        <td>Section VI Para 0644</td>
+                        <td>Check the colour coding marking of cables and associated components.</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="ic_451_rmk" rows="2"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">4.6</td>
+                        <td>Section XIII Para 1307</td>
+                        <td>
+                          <strong>Insulation Resistance Checks</strong><br>
+                          <div style="margin-top:6px; font-size:13px;">4.6.1 Insulation value between each Phase and Earth (&gt;2 MΩ)</div>
+                          <div class="ins-grid" style="grid-template-columns: auto repeat(3,1fr); margin-top:6px;">
+                            <div></div>
+                            <div class="ig-head">R</div>
+                            <div class="ig-head">Y</div>
+                            <div class="ig-head">B</div>
+                            <div style="font-size:12px; color:#555;">Value (MΩ)</div>
+                            <div><input type="text" class="form-control" name="ins_r_earth" placeholder="R"></div>
+                            <div><input type="text" class="form-control" name="ins_y_earth" placeholder="Y"></div>
+                            <div><input type="text" class="form-control" name="ins_b_earth" placeholder="B"></div>
+                          </div>
+                          <div style="margin-top:10px; font-size:13px;">4.6.2 Insulation value between Phases (&gt;2 MΩ)</div>
+                          <div class="ins-grid" style="grid-template-columns: auto repeat(3,1fr); margin-top:6px;">
+                            <div></div>
+                            <div class="ig-head">R-Y</div>
+                            <div class="ig-head">Y-B</div>
+                            <div class="ig-head">B-R</div>
+                            <div style="font-size:12px; color:#555;">Value (MΩ)</div>
+                            <div><input type="text" class="form-control" name="ins_ry" placeholder="R-Y"></div>
+                            <div><input type="text" class="form-control" name="ins_yb" placeholder="Y-B"></div>
+                            <div><input type="text" class="form-control" name="ins_br" placeholder="B-R"></div>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="ic_48_rmk" rows="4"></textarea></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   5. OPERATIONAL CHECKS
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">5. Operational Checks</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Ser</th>
+                        <th>Reference</th>
+                        <th>Checks</th>
+                        <th>Remarks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <!-- 5.1 Power Supplies -->
+                      <tr>
+                        <td class="serial-no" rowspan="2">5.1</td>
+                        <td rowspan="2">Section X Para 1008</td>
+                        <td>
+                          <strong>5.1.1 Power Supplies.</strong> Check 'Normal' and 'Alternate' power supplies at Input &amp; Output end terminals.
+                          <div class="table-responsive" style="margin-top:8px;">
+                            <table class="table table-bordered" style="font-size:12px; text-align:center;">
+                              <thead>
+                                <tr>
+                                  <th style="width:52px;"></th>
+                                  <th colspan="3">I/P Supply</th>
+                                  <th style="width:8px;"></th>
+                                  <th colspan="3">O/P Supply</th>
+                                </tr>
+                                <tr>
+                                  <th>I/P</th>
+                                  <th>R-Y</th>
+                                  <th>Y-B</th>
+                                  <th>B-R</th>
+                                  <th></th>
+                                  <th>R-Y</th>
+                                  <th>Y-B</th>
+                                  <th>B-R</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>Main</td>
+                                  <td><input type="text" class="form-control" name="ps_main_ip_ry" placeholder="V"></td>
+                                  <td><input type="text" class="form-control" name="ps_main_ip_yb" placeholder="V"></td>
+                                  <td><input type="text" class="form-control" name="ps_main_ip_br" placeholder="V"></td>
+                                  <td></td>
+                                  <td><input type="text" class="form-control" name="ps_main_op_ry" placeholder="V"></td>
+                                  <td><input type="text" class="form-control" name="ps_main_op_yb" placeholder="V"></td>
+                                  <td><input type="text" class="form-control" name="ps_main_op_br" placeholder="V"></td>
+                                </tr>
+                                <tr>
+                                  <td>Alt</td>
+                                  <td><input type="text" class="form-control" name="ps_alt_ip_ry" placeholder="V"></td>
+                                  <td><input type="text" class="form-control" name="ps_alt_ip_yb" placeholder="V"></td>
+                                  <td><input type="text" class="form-control" name="ps_alt_ip_br" placeholder="V"></td>
+                                  <td></td>
+                                  <td><input type="text" class="form-control" name="ps_alt_op_ry" placeholder="V"></td>
+                                  <td><input type="text" class="form-control" name="ps_alt_op_yb" placeholder="V"></td>
+                                  <td><input type="text" class="form-control" name="ps_alt_op_br" placeholder="V"></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="oc_511_rmk" rows="4"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td>
+                          <strong>5.1.2 Operational Checks with System Load.</strong> Put changeover switch to 'Normal'/'Alternate' supply position and check proper operation of equipment.
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="oc_512_rmk" rows="4"></textarea></td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- Submit -->
+              <div class="d-flex justify-content-center mt-4 gap-2">
+                <button type="submit" class="btn btn-success px-4">Submit</button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

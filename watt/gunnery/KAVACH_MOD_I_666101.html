@@ -1,0 +1,561 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid bg-transparent">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Kavach MOD I</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">KAVACH MOD I &mdash; DAILY SUMMARY OF PROGRESS
+                            (666101)</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="kavach_mod1_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+
+                            <!-- ══════════ TRIAL HEADER ══════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">Trial Header</legend>
+                                <div class="row g-3">
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" name="ship" required>
+                                                <option value="">-- Select Ship --</option>
+                                                {% for ship in ship_options %}
+                                                <option value="{{ ship.value }}">{{ ship.label }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <label class="form_control_1">Ship <span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" name="dept" placeholder=" ">
+                                            <label class="form_control_1">Dept</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" name="equipment"
+                                                value="KAVACH MOD I" readonly placeholder=" ">
+                                            <label class="form_control_1">Equipment</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="date" class="form-control" name="trial_date" required>
+                                            <label class="form_control_1">Date <span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" name="nature_of_trials" value="SATs"
+                                                placeholder=" ">
+                                            <label class="form_control_1">Nature of Trials</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="date" class="form-control" name="embarked_date">
+                                            <label class="form_control_1">Trials Team Embarked Onboard On</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">Preliminary Checks Before Firing (Verify
+                                    the Following Condition)</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl">
+                                        <thead>
+                                            <tr>
+                                                <th class="serial-no">Ser</th>
+                                                <th>OBSERVATIONS</th>
+                                                <th class="w-25">RESULT</th>
+                                                <th class="w-25">REMARKS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td colspan="4" class="p-3 align-middle">
+                                                    Trials team embarked onboard at
+                                                    <input type="text" name="embarked_at"
+                                                        class="form-control form-control-sm d-inline-block w-auto"
+                                                        size="15" placeholder="Location">
+                                                    on
+                                                    <input type="date" name="embarked_on"
+                                                        class="form-control form-control-sm d-inline-block w-auto"> for
+                                                    SATs of <strong>KAVACH
+                                                        MOD I</strong> as per approved schedule,
+                                                    BR 4050 and CNO 07/10. Following observed:-
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="serial-no fw-bold">01.</td>
+                                                <td>Integration Checks of SR, MR and LR tubes with Dummy rockets of all
+                                                    launchers.</td>
+                                                <td class="align-middle text-center">
+                                                    <select class="form-control" name="prelim_01_result">
+                                                        <option value="">--</option>
+                                                        <option>SAT</option>
+                                                        <option>UNSAT</option>
+                                                    </select>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea"
+                                                        name="prelim_01_rmk" rows="2"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="serial-no fw-bold">02.</td>
+                                                <td>Integration Checks with Dummy rocket with MOL ON.</td>
+                                                <td class="align-middle text-center">
+                                                    <select class="form-control" name="prelim_02_result">
+                                                        <option value="">--</option>
+                                                        <option>SAT</option>
+                                                        <option>UNSAT</option>
+                                                    </select>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea"
+                                                        name="prelim_02_rmk" rows="2"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="serial-no fw-bold">03.</td>
+                                                <td>Auxiliary console checks of all launchers with dummy rockets.</td>
+                                                <td class="align-middle text-center">
+                                                    <select class="form-control" name="prelim_03_result">
+                                                        <option value="">--</option>
+                                                        <option>SAT</option>
+                                                        <option>UNSAT</option>
+                                                    </select>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea"
+                                                        name="prelim_03_rmk" rows="2"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="serial-no fw-bold">04.</td>
+                                                <td>Auxiliary Console Checks of SR, MR and LR with MOL ON.</td>
+                                                <td class="align-middle text-center">
+                                                    <select class="form-control" name="prelim_04_result">
+                                                        <option value="">--</option>
+                                                        <option>SAT</option>
+                                                        <option>UNSAT</option>
+                                                    </select>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea"
+                                                        name="prelim_04_rmk" rows="2"></textarea></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════ SECTION 4 — FIRING TESTS ══════════ -->
+
+                            <!-- ── 05. SR Launchers ── -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom">05. Firing Test of SR Launchers</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl">
+                                        <thead>
+                                            <tr>
+                                                <th class="w-25">Launcher No.</th>
+                                                <th colspan="3" class="text-center">Mode / Tube No. / Firing
+                                                    Position (Col 1)</th>
+                                                <th colspan="3" class="text-center">Mode / Tube No. / Firing
+                                                    Position (Col 2)</th>
+                                            </tr>
+                                            <tr>
+                                                <th></th>
+                                                <th class="w-25">Mode</th>
+                                                <th class="w-25">Tube No.</th>
+                                                <th class="w-25">Firing Position</th>
+                                                <th class="w-25">Mode</th>
+                                                <th class="w-25">Tube No.</th>
+                                                <th class="w-25">Firing Position</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr>
+                                                <td class="fw-bold">SR-1 (PORT)</td>
+                                                <td>Single</td>
+                                                <td><input type="text" name="sr1_mode1_tube"
+                                                        class="form-control form-control-sm"></td>
+                                                <td><input type="text" name="sr1_mode1_pos"
+                                                        class="form-control form-control-sm"></td>
+                                                <td>&mdash;&mdash;&mdash;</td>
+                                                <td><input type="text" name="sr1_mode2_tube"
+                                                        class="form-control form-control-sm"></td>
+                                                <td><input type="text" name="sr1_mode2_pos"
+                                                        class="form-control form-control-sm"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold">SR-2</td>
+                                                <td>&mdash;&mdash;&mdash;</td>
+                                                <td><input type="text" name="sr2_mode1_tube"
+                                                        class="form-control form-control-sm"></td>
+                                                <td><input type="text" name="sr2_mode1_pos"
+                                                        class="form-control form-control-sm"></td>
+                                                <td>Salvo (02)</td>
+                                                <td><input type="text" name="sr2_mode2_tube"
+                                                        class="form-control form-control-sm"></td>
+                                                <td><input type="text" name="sr2_mode2_pos"
+                                                        class="form-control form-control-sm"></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="fw-bold">SR-3 (STBD)</td>
+                                                <td>Single</td>
+                                                <td><input type="text" name="sr3_mode1_tube"
+                                                        class="form-control form-control-sm"></td>
+                                                <td><input type="text" name="sr3_mode1_pos"
+                                                        class="form-control form-control-sm"></td>
+                                                <td>&mdash;&mdash;&mdash;</td>
+                                                <td><input type="text" name="sr3_mode2_tube"
+                                                        class="form-control form-control-sm"></td>
+                                                <td><input type="text" name="sr3_mode2_pos"
+                                                        class="form-control form-control-sm"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold">SR-4</td>
+                                                <td>&mdash;&mdash;&mdash;</td>
+                                                <td><input type="text" name="sr4_mode1_tube"
+                                                        class="form-control form-control-sm"></td>
+                                                <td><input type="text" name="sr4_mode1_pos"
+                                                        class="form-control form-control-sm"></td>
+                                                <td>Salvo (02)</td>
+                                                <td><input type="text" name="sr4_mode2_tube"
+                                                        class="form-control form-control-sm"></td>
+                                                <td><input type="text" name="sr4_mode2_pos"
+                                                        class="form-control form-control-sm"></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ── 06. LR Launchers ── -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom">06. Firing Test of LR Launchers</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl">
+                                        <thead>
+                                            <tr>
+                                                <th class="w-25">Launcher No.</th>
+                                                <th colspan="3" class="text-center">Mode / Tube No. / Firing
+                                                    Position (Col 1)</th>
+                                                <th colspan="3" class="text-center">Mode / Tube No. / Firing
+                                                    Position (Col 2)</th>
+                                            </tr>
+                                            <tr>
+                                                <th></th>
+                                                <th class="w-25">Mode</th>
+                                                <th class="w-25">Tube No.</th>
+                                                <th class="w-25">Firing Position</th>
+                                                <th class="w-25">Mode</th>
+                                                <th class="w-25">Tube No.</th>
+                                                <th class="w-25">Firing Position</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+
+                                            <tr>
+                                                <td class="fw-bold">LR-1 (PORT)</td>
+                                                <td>Single</td>
+                                                <td><input type="text" name="lr1_mode1_tube"
+                                                        class="form-control form-control-sm"></td>
+                                                <td><input type="text" name="lr1_mode1_pos"
+                                                        class="form-control form-control-sm"></td>
+                                                <td>&mdash;&mdash;&mdash;</td>
+                                                <td><input type="text" name="lr1_mode2_tube"
+                                                        class="form-control form-control-sm"></td>
+                                                <td><input type="text" name="lr1_mode2_pos"
+                                                        class="form-control form-control-sm"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold">LR-2</td>
+                                                <td>&mdash;&mdash;&mdash;</td>
+                                                <td><input type="text" name="lr2_mode1_tube"
+                                                        class="form-control form-control-sm"></td>
+                                                <td><input type="text" name="lr2_mode1_pos"
+                                                        class="form-control form-control-sm"></td>
+                                                <td>Salvo (02)</td>
+                                                <td><input type="text" name="lr2_mode2_tube"
+                                                        class="form-control form-control-sm"></td>
+                                                <td><input type="text" name="lr2_mode2_pos"
+                                                        class="form-control form-control-sm"></td>
+                                            </tr>
+
+
+
+                                            <tr>
+                                                <td class="fw-bold">LR-3 (STBD)</td>
+                                                <td>Single</td>
+                                                <td><input type="text" name="lr3_mode1_tube"
+                                                        class="form-control form-control-sm"></td>
+                                                <td><input type="text" name="lr3_mode1_pos"
+                                                        class="form-control form-control-sm"></td>
+                                                <td>&mdash;&mdash;&mdash;</td>
+                                                <td><input type="text" name="lr3_mode2_tube"
+                                                        class="form-control form-control-sm"></td>
+                                                <td><input type="text" name="lr3_mode2_pos"
+                                                        class="form-control form-control-sm"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold">LR-4</td>
+                                                <td>&mdash;&mdash;&mdash;</td>
+                                                <td><input type="text" name="lr4_mode1_tube"
+                                                        class="form-control form-control-sm"></td>
+                                                <td><input type="text" name="lr4_mode1_pos"
+                                                        class="form-control form-control-sm"></td>
+                                                <td>Salvo (02)</td>
+                                                <td><input type="text" name="lr4_mode2_tube"
+                                                        class="form-control form-control-sm"></td>
+                                                <td><input type="text" name="lr4_mode2_pos"
+                                                        class="form-control form-control-sm"></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ── 07. MR Launchers ── -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom">07. Firing Test of MR Launchers</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl">
+                                        <thead>
+                                            <tr>
+                                                <th class="w-25">Launcher No.</th>
+                                                <th colspan="3" class="text-center">Mode / Tube No. / Firing
+                                                    Position (Col 1)</th>
+                                                <th colspan="3" class="text-center">Mode / Tube No. / Firing
+                                                    Position (Col 2)</th>
+                                            </tr>
+                                            <tr>
+                                                <th></th>
+                                                <th class="small py-1">Mode</th>
+                                                <th class="small py-1">Tube No.</th>
+                                                <th class="small py-1">Firing Position</th>
+                                                <th class="small py-1">Mode</th>
+                                                <th class="small py-1">Tube No.</th>
+                                                <th class="small py-1">Firing Position</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+
+                                            <tr>
+                                                <td class="fw-bold">MR-1 (PORT)</td>
+                                                <td>Single</td>
+                                                <td><input type="text" name="mr1_mode1_tube"
+                                                        class="form-control form-control-sm"></td>
+                                                <td><input type="text" name="mr1_mode1_pos"
+                                                        class="form-control form-control-sm"></td>
+                                                <td>&mdash;&mdash;&mdash;</td>
+                                                <td><input type="text" name="mr1_mode2_tube"
+                                                        class="form-control form-control-sm"></td>
+                                                <td><input type="text" name="mr1_mode2_pos"
+                                                        class="form-control form-control-sm"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold">MR-2</td>
+                                                <td>&mdash;&mdash;&mdash;</td>
+                                                <td><input type="text" name="mr2_mode1_tube"
+                                                        class="form-control form-control-sm"></td>
+                                                <td><input type="text" name="mr2_mode1_pos"
+                                                        class="form-control form-control-sm"></td>
+                                                <td>Salvo (02)</td>
+                                                <td><input type="text" name="mr2_mode2_tube"
+                                                        class="form-control form-control-sm"></td>
+                                                <td><input type="text" name="mr2_mode2_pos"
+                                                        class="form-control form-control-sm"></td>
+                                            </tr>
+
+
+                                            <tr>
+                                                <td class="fw-bold">MR-3 (STBD)</td>
+                                                <td>Single</td>
+                                                <td><input type="text" name="mr3_mode1_tube"
+                                                        class="form-control form-control-sm"></td>
+                                                <td><input type="text" name="mr3_mode1_pos"
+                                                        class="form-control form-control-sm"></td>
+                                                <td>&mdash;&mdash;&mdash;</td>
+                                                <td><input type="text" name="mr3_mode2_tube"
+                                                        class="form-control form-control-sm"></td>
+                                                <td><input type="text" name="mr3_mode2_pos"
+                                                        class="form-control form-control-sm"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="fw-bold">MR-4</td>
+                                                <td>&mdash;&mdash;&mdash;</td>
+                                                <td><input type="text" name="mr4_mode1_tube"
+                                                        class="form-control form-control-sm"></td>
+                                                <td><input type="text" name="mr4_mode1_pos"
+                                                        class="form-control form-control-sm"></td>
+                                                <td>Salvo (02)</td>
+                                                <td><input type="text" name="mr4_mode2_tube"
+                                                        class="form-control form-control-sm"></td>
+                                                <td><input type="text" name="mr4_mode2_pos"
+                                                        class="form-control form-control-sm"></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════ SECTION 5 — POST-FIRING OBSERVATIONS ══════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">Observation to be Recorded After Each Run
+                                </legend>
+
+                                <div class="mb-3 small">
+                                    <span class="me-1">&#9432;</span>
+                                    <strong>Post-Firing Checks to Record:</strong>
+                                    <ol class="mt-2 ms-4 small">
+                                        <li>Smoothness in loading the rockets in all tubes.</li>
+                                        <li>Rocket loading status on the FCP before firing.</li>
+                                        <li>Fire / misfire indication on the FCP after firing of each rocket.</li>
+                                        <li>Post firing condition of launchers tubes, connectors and cables, launchers
+                                            structure and availability of firing supply.</li>
+                                    </ol>
+                                </div>
+
+                                <div class="table-responsive mt-2">
+                                    <table class="custom_tbl" id="obs_table">
+                                        <thead>
+                                            <tr>
+                                                <th class="serial-no">Sr No</th>
+                                                <th>Observations</th>
+                                                <th class="w-25">Remarks</th>
+                                                <th class="w-25">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="serial-no">1</td>
+                                                <td><input type="text" class="form-control form-control-sm"
+                                                        name="obs_1_obs"></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea"
+                                                        name="obs_1_rmk" rows="2"></textarea></td>
+                                                <td class="text-center align-middle">
+                                                    <button type="button" class="btn-round btn-add"
+                                                        onclick="addRow('obs_table')">+</button>
+                                                    <button type="button" class="btn-round btn-remove"
+                                                        onclick="removeRow(this, 'obs_table')">-</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════ SECTION 6 — REMARKS ══════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">Remarks</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="remarks_table">
+                                        <thead>
+                                            <tr>
+                                                <th class="serial-no">Sr No</th>
+                                                <th>Observations</th>
+                                                <th class="w-50">SS Remarks</th>
+                                                <th class="w-25">Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="serial-no">1</td>
+                                                <td><input type="text" class="form-control form-control-sm"
+                                                        name="rmk_1_obs"></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="rmk_1_ss"
+                                                        rows="2"></textarea></td>
+                                                <td class="text-center align-middle">
+                                                    <button type="button" class="btn-round btn-add"
+                                                        onclick="addRow('remarks_table')">+</button>
+                                                    <button type="button" class="btn-round btn-remove"
+                                                        onclick="removeRow(this, 'remarks_table')">-</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════ SECTION 7 — PRESENTING / INSPECTING AUTHORITY ══════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">Presenting / Inspecting Authority</legend>
+                                <div class="row g-3">
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" name="presenting_authority" required>
+                                                <option value="">-- Select --</option>
+                                                <option>Dockyard</option>
+                                                <option>Shipstaff</option>
+                                                <option>OEM</option>
+                                            </select>
+                                            <label class="form_control_1">Presenting Authority <span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" name="inspecting_authority"
+                                                value="WATT" placeholder=" ">
+                                            <label class="form_control_1">Inspecting Authority</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════ SUBMIT ══════════ -->
+                            <div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Submit</button>
+                            </div>
+
+                        </div><!-- /.form-body -->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

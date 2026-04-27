@@ -1,0 +1,675 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+
+<style>
+  /* Inline table input styling */
+  .custom_tbl td input[type="text"],
+  .custom_tbl td input[type="number"],
+  .custom_tbl td input[type="date"] {
+    display: inline-block;
+    width: 100px;
+    height: 28px;
+    padding: 4px 6px;
+    font-size: 12px;
+    border: 1px solid #d9d9d9;
+    border-radius: 3px;
+    margin: 2px 4px;
+    vertical-align: middle;
+  }
+
+  .custom_tbl td input[type="text"]:focus,
+  .custom_tbl td input[type="number"]:focus,
+  .custom_tbl td input[type="date"]:focus {
+    outline: none;
+    border-color: #0066cc;
+    box-shadow: 0 0 4px rgba(0, 102, 204, 0.4);
+  }
+
+  /* Ensure table cell content stays inline */
+  .custom_tbl td {
+    vertical-align: middle;
+    padding: 8px;
+  }
+</style>
+
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+            <li class="breadcrumb-item active" aria-current="page">WATT</li>
+            <li class="breadcrumb-item active" aria-current="page">SATs</li>
+            <li class="breadcrumb-item active" aria-current="page">3D_ASR
+               </li>
+          </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">WEAPON ACCEPTANCE TRIALS TEAM VISAKHAPATNAM
+                DAILY SUMMARY OF PROGRESS</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="rlg_sigma_40_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!--HEADER — Ship / Inspection Info-->
+
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Basic Information</legend>
+                <div class="row g-3">
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="name_of_ship_select" name="name_of_ship">
+                          <option value="">-- Select --</option>
+                          <option value="INS_A">INS Alpha</option>
+                          <option value="INS_B">INS Bravo</option>
+                          <option value="INS_C">INS Charlie</option>
+                          <option value="INS_D">INS Delta</option>
+                        </select>
+                        <label class="form_control_1">Name of Ship</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="department_select" name="department">
+                          <option value="">-- Select --</option>
+                          <option value="P15A">ND</option>
+                          <option value="P17">ASW</option>
+                          <option value="P17A">COMM</option>
+                          <option value="P28">GUNNERY</option>
+                        </select>
+                        <label class="form_control_1">Department</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="equipment_select" name="equipment">
+                          <option value="">-- Select --</option>
+                        </select>
+                        <label class="form_control_1">Equipment</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                      <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                        <input type="date" class="form-control" id="date_input" name="date_">
+                        <label class="form_control_1">Date</label>
+                      </div>
+                    </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="nature_trials_select" name="nature_of_trials" required>
+                          <option value="">--Select--</option>
+                          <option value="SATs">SATs</option>
+                          <option value="HATS">HATs</option>
+                          <option value="OP_CHECKS">OP CHECKS</option>
+                          <option value="IIS">IIs</option>
+                          <option value="3D_ASR">3D_ASR</option>
+                        </select>
+                        <label class="form_control_1">Nature of Trial</label>
+                    </div>
+                  </div>
+
+            </div>
+          </fieldset>
+
+          <fieldset class="custom-fieldset">
+            <legend class="legend-custom text-uppercase">Checks</legend>
+            <div class="table-responsive">
+              <table class="custom_tbl">
+                <thead>
+                  <tr class="custom-header-row">
+                    <th>Ser No.</th>
+                    <th>Trial</th>
+                    <th colstyle="width: 60px;" >Observation</th>
+                    <th>Remarks</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="4">
+                            Trials team embarked onboard at 
+                            <input type="time" id="embark_time" name="embark_time" class="form-control d-inline-block" style="width: 100px; height: 28px;"> hrs on 
+                            <input type="date" id="embark_date" name="embark_date" class="form-control d-inline-block" style="width: 140px; height: 28px;"> for OP Checks of GPS
+                             for SATs of 3D ASR as per NHQ approved schedule. Following observed:-
+
+                    </tr>
+                  <!-- Row 1: Structural defects -->
+                   <tr>
+                    <td colspan="4"><b>SAT.01 – Radar operation Management</td>
+                   </tr>
+                  
+
+                  <tr>
+                    <td rowspan="2">1</td>
+                    <td>SAT.01.1</td>
+                    <td>Verification of the Alarm Messages
+                   
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio" id="gen_criterion_1_1_sat" name="gen_criterion_1_1" value="SAT">
+                                <label for="gen_criterion_1_1_sat">SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="gen_criterion_1_1_unsat" name="gen_criterion_1_1" value="UNSAT">
+                                <label for="gen_criterion_1_1_unsat">UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    
+                   
+
+                    
+                  </tr>
+
+
+                  <tr>
+                    <td>2</td>
+                    <td>SAT.01.2</td>
+                    <td>Verification of the recording, and replaying facility
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio" id="gen_criterion_1_2_sat" name="gen_criterion_1_2" value="SAT">
+                                <label for="gen_criterion_1_2_sat">SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="gen_criterion_1_2_unsat" name="gen_criterion_1_2" value="UNSAT">
+                                <label for="gen_criterion_1_2_unsat">UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+
+                   <tr>
+                    <td>3</td>
+                    <td>SAT.01.3</td>
+                    <td>Verification of frequency of operation and No of Sub Bands
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio" id="gen_criterion_1_3_sat" name="gen_criterion_1_3" value="SAT">
+                                <label for="gen_criterion_1_3_sat">SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="gen_criterion_1_3_unsat" name="gen_criterion_1_3" value="UNSAT">
+                                <label for="gen_criterion_1_3_unsat">UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+
+
+                   <tr>
+                    <td>4</td>
+                    <td>SAT.01.4</td>
+                    <td>Verification of frequency agility features
+
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio" id="gen_criterion_1_4_sat" name="gen_criterion_1_4" value="SAT">
+                                <label for="gen_criterion_1_4_sat">SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="gen_criterion_1_4_unsat" name="gen_criterion_1_4" value="UNSAT">
+                                <label for="gen_criterion_1_4_unsat">UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+
+
+                  <tr>
+                    <td>5</td>
+                    <td>SAT.01.5</td>
+                    <td>Verification od sector transmission feature
+
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio" id="gen_criterion_1_5_sat" name="gen_criterion_1_5" value="SAT">
+                                <label for="gen_criterion_1_5_sat">SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="gen_criterion_1_5_unsat" name="gen_criterion_1_5" value="UNSAT">
+                                <label for="gen_criterion_1_5_unsat">UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>6</td>
+                    <td>SAT.01.6</td>
+                    <td>Verification of the tracking initiation criteria
+
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio" id="gen_criterion_1_5_sat" name="gen_criterion_1_5" value="SAT">
+                                <label for="gen_criterion_1_5_sat">SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="gen_criterion_1_5_unsat" name="gen_criterion_1_5" value="UNSAT">
+                                <label for="gen_criterion_1_5_unsat">UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                  </tr>
+
+                  
+
+                 
+
+                  
+
+                  
+                  <tr>
+                    
+                    <td colspan="3" class="description-text"><b>SAT.02 – Radar Performance Management</b> </td>
+                    
+                  </tr>
+                  <tr>
+                    <td>7</td>
+                    <td>SAT.02.1</td>
+                    <td>Selection/ change of operation modes and verification of antenna rotation rate
+
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio" id="gen_criterion_1_6_sat" name="gen_criterion_1_6" value="SAT">
+                                <label for="gen_criterion_1_6_sat">SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="gen_criterion_1_6_unsat" name="gen_criterion_1_6" value="UNSAT">
+                                <label for="gen_criterion_1_6_unsat">UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+
+
+                    <tr>
+                    <td>8</td>
+                    <td>SAT.02.2</td>
+                
+                    <td>Verification of radar performance in various operation modesto the indicated ship’s position.
+
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio" id="gen_criterion_1_7_sat" name="gen_criterion_1_7" value="SAT">
+                                <label for="gen_criterion_1_7_sat">SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="gen_criterion_1_7_unsat" name="gen_criterion_1_7" value="UNSAT">
+                                <label for="gen_criterion_1_7_unsat">UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+
+                    <tr>
+                    <td>9</td>
+                    <td>SAT.02.3</td>  
+                    <td>Verification of the ECM capabilities for frequency diversity
+
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio" id="gen_criterion_1_8_sat" name="gen_criterion_1_8" value="SAT">
+                                <label for="gen_criterion_1_8_sat">SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="gen_criterion_1_8_unsat" name="gen_criterion_1_8" value="UNSAT">
+                                <label for="gen_criterion_1_8_unsat">UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+
+
+                    <tr>
+                    <td>10</td>
+                    <td>SAT.02.4</td>
+                    <td>Verification of the Range and Azimuth resolution of the target
+
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio" id="gen_criterion_1_9_sat" name="gen_criterion_1_9" value="SAT">
+                                <label for="gen_criterion_1_9_sat">SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="gen_criterion_1_9_unsat" name="gen_criterion_1_9" value="UNSAT">
+                                <label for="gen_criterion_1_9_unsat">UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+
+
+                    <tr>
+                    <td>11</td>
+                    <td>SAT.02.5</td>
+                    <td>Verification of tracking accuracy (bearing, range and elevation)
+
+
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio" id="gen_criterion_1_10_sat" name="gen_criterion_1_10" value="SAT">
+                                <label for="gen_criterion_1_10_sat">SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="gen_criterion_1_10_unsat" name="gen_criterion_1_10" value="UNSAT">
+                                <label for="gen_criterion_1_10_unsat">UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+
+
+                     <tr>
+                    <td>112</td>
+                    <td>SAT.02.6</td>
+                    <td>Verify programmable power attenuation features (Graceful degradation)
+
+
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio" id="gen_criterion_1_10_sat" name="gen_criterion_1_10" value="SAT">
+                                <label for="gen_criterion_1_10_sat">SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="gen_criterion_1_10_unsat" name="gen_criterion_1_10" value="UNSAT">
+                                <label for="gen_criterion_1_10_unsat">UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+
+
+                     <tr>
+                    <td>13</td>
+                    <td>SAT.02.7</td>
+                    <td>Detection of target at max radar detection height
+
+
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio" id="gen_criterion_1_10_sat" name="gen_criterion_1_10" value="SAT">
+                                <label for="gen_criterion_1_10_sat">SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="gen_criterion_1_10_unsat" name="gen_criterion_1_10" value="UNSAT">
+                                <label for="gen_criterion_1_10_unsat">UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+
+
+                     <tr>
+                    <td>14</td>
+                    <td>SAT.02.8</td>
+                    <td>Detection of Max velocity of Air Targets
+
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio" id="gen_criterion_1_10_sat" name="gen_criterion_1_10" value="SAT">
+                                <label for="gen_criterion_1_10_sat">SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="gen_criterion_1_10_unsat" name="gen_criterion_1_10" value="UNSAT">
+                                <label for="gen_criterion_1_10_unsat">UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+
+
+                     <tr>
+                    <td>15</td>
+                    <td>SAT.02.9</td>
+                    <td>Detection of max target acceleration (6g) and Max Turn Rate (6g maneuvers)
+
+
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio" id="gen_criterion_1_10_sat" name="gen_criterion_1_10" value="SAT">
+                                <label for="gen_criterion_1_10_sat">SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="gen_criterion_1_10_unsat" name="gen_criterion_1_10" value="UNSAT">
+                                <label for="gen_criterion_1_10_unsat">UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+
+
+                     <tr>
+                    <td>16</td>
+                    <td>SAT.02.10</td>
+                    <td>Detection of max target speed (100 knots) and Max Acceleration (0.5g) for a Surface target
+
+
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio" id="gen_criterion_1_10_sat" name="gen_criterion_1_10" value="SAT">
+                                <label for="gen_criterion_1_10_sat">SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="gen_criterion_1_10_unsat" name="gen_criterion_1_10" value="UNSAT">
+                                <label for="gen_criterion_1_10_unsat">UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+
+                     
+                    
+
+
+                    <tr>
+                    <td colspan="6"><b>SAT.03 – Radar Capabilities & Radar Naval Capabilities</b></td></tr>
+                    <tr>
+
+                    <td>17</td>
+                    <td>SAT.03.1.1</td>
+                    <td>Anti-sea/rain clutter features.
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio" id="gen_criterion_1_11_sat" name="gen_criterion_1_11" value="SAT">
+                                <label for="gen_criterion_1_11_sat">SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="gen_criterion_1_11_unsat" name="gen_criterion_1_11" value="UNSAT">
+                                <label for="gen_criterion_1_11_unsat">UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+
+                    <td>18</td>
+                    <td>SAT.03.2.1</td>
+                    <td>Verification of the Electronic Compensation of Beam Pointing etc.
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio" id="gen_criterion_1_11_sat" name="gen_criterion_1_11" value="SAT">
+                                <label for="gen_criterion_1_11_sat">SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="gen_criterion_1_11_unsat" name="gen_criterion_1_11" value="UNSAT">
+                                <label for="gen_criterion_1_11_unsat">UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+
+                    <td>19</td>
+                    <td>SAT.03.2.2</td>
+                    <td>Verification of the track maintenance, latency and track numbering
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio" id="gen_criterion_1_11_sat" name="gen_criterion_1_11" value="SAT">
+                                <label for="gen_criterion_1_11_sat">SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="gen_criterion_1_11_unsat" name="gen_criterion_1_11" value="UNSAT">
+                                <label for="gen_criterion_1_11_unsat">UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+
+                    <td>20</td>
+                    <td>SAT.03.2.3</td>
+                    <td>Verification of the primary radar and AIS data for correlation
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio" id="gen_criterion_1_11_sat" name="gen_criterion_1_11" value="SAT">
+                                <label for="gen_criterion_1_11_sat">SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="gen_criterion_1_11_unsat" name="gen_criterion_1_11" value="UNSAT">
+                                <label for="gen_criterion_1_11_unsat">UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+
+                    <td>21</td>
+                    <td>SAT.03.2.4</td>
+                    <td>Verification of primary radar & IFF tracks for correlation
+
+                    <td>
+                        <div class="yes-no-container">
+                            <div>
+                                <input type="radio" id="gen_criterion_1_11_sat" name="gen_criterion_1_11" value="SAT">
+                                <label for="gen_criterion_1_11_sat">SAT</label>
+                            </div>
+                            <div>
+                                <input type="radio" id="gen_criterion_1_11_unsat" name="gen_criterion_1_11" value="UNSAT">
+                                <label for="gen_criterion_1_11_unsat">UNSAT</label>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+
+                    <td colspan="6">
+                         <div style="font-weight: bold; margin-bottom: 5px; font-size: 13px;">
+                        General Observations:
+                    </div>
+                        
+                        <textarea class="form-control wrstg-scroll-textarea" style="width: 1470px; font-size: 12px; display: inline-block; vertical-align: middle;" id="test_1_rlg1_velocity" name="test_1_rlg1_velocity"></textarea> 
+                </tr>
+
+
+                 
+                    
+                </tbody>
+              </table>
+              </div>
+                    <div style="display: flex; justify-content: center; gap: 300px; margin-bottom: 15px; font-family: sans-serif;">
+                <div>
+                    <strong>Presenting Authority: Ship’s Staff</strong>
+                </div>
+                <div>
+                    <strong>Inspecting Authority:WATT (V) </strong> 
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: center; gap: 270px; margin-bottom: 20px; align-items: center;">
+        <div style="display: flex; align-items: center; gap: 8px; ">
+            <strong>ND:</strong> 
+            <input type="text" style="width: 250px; padding: 4px; outline: none; ">
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <strong>STI / TI:</strong> 
+            <input type="text" style="width: 250px; padding: 4px; outline: none;">
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <strong>STO:</strong> 
+            <input type="text" style="width: 250px; padding: 4px; outline: none;">
+        </div>
+    </div>
+            </div>
+          </fieldset>
+
+          
+
+          </fieldset>
+          
+          <!-- Submit -->
+          <div class="d-flex justify-content-center mt-4 gap-2">
+            <button type="submit" class="btn btn-success px-4">Save</button>
+          </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+
+{% endblock js %}

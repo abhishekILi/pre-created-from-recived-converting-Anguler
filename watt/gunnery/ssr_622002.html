@@ -1,0 +1,294 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+</style>
+
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">Gunnery</a></li>
+					<li class="breadcrumb-item active" aria-current="page">SSR 622002</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">SSR 622002</span>
+                    </div>
+                </div>
+
+				<div class="portlet-body form mt-3 mb-4">
+					<form method="post" id="ssr_622002_form">
+						{% csrf_token %}
+
+						<input type="hidden" id="form_id" name="form_id" value="ssr_622002_7110012">
+						<input type="hidden" id="form_name" name="form_name" value="SSR_622002_OP_CHECKS">
+
+						 <fieldset class="custom-fieldset">
+                            <legend class="legend-custom text-uppercase">Basic Information</legend>
+                            <div class="row g-3">
+
+                            <div class="col-md-4 col-12">
+                                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" name="ssr_622002_ship" required>
+                                                <option value="">--Select--</option>
+                                                {% for ship in ship_options %}
+                                                <option value="{{ ship.value }}">{{ ship.label }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <label class="form_control_1">Ship <span class="text-danger">*</span></label>
+                                        </div>
+                            </div>
+
+                            <div class="col-md-4 col-12">
+                                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                <select class="form-control" id="department_select" name="ssr_622002_department">
+                                    <option value="">-- Select --</option>
+                                    <option value="P15A">ND</option>
+                                    <option value="P17">ASW</option>
+                                    <option value="P17A">COMM</option>
+                                    <option value="P28">GUNNERY</option>
+                                    </select>
+                                    <label class="form_control_1">Department</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-12">
+                                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                <select class="form-control" id="ssr_622002_equipment_select" name="ssr_622002_equipment">
+                                    <option value="">-- Select --</option>
+                                    </select>
+                                    <label class="form_control_1">Equipment</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-12">
+                                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                    <input type="date" class="form-control" id="ssr_622002_date_input" name="ssr_622002_date">
+                                    <label class="form_control_1">Date</label>
+                                </div>
+                                </div>
+
+                            <div class="col-md-4 col-12">
+                                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                <select class="form-control" id="ssr_622002_nature_trials_select" name="ssr_622002_nature_of_trials" required>
+                                    <option value="">--Select--</option>
+                                    <option value="SATs">SATs</option>
+                                    <option value="HATS">HATs</option>
+                                    <option value="OP_CHECKS">OP CHECKS</option>
+                                    <option value="IIS">IIs</option>
+                                    </select>
+                                    <label class="form_control_1">Nature of Trial</label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </fieldset>
+
+						<fieldset class="custom-fieldset">
+
+							<div class="table-responsive">
+								<table class="custom_tbl" id="ssr_622002_checks_table">
+									<thead class="table-dark-head">
+										<tr>
+											<th>Ser</th>
+											<th class="checks-col">OBSERVATIONS</th>
+											<th class="obs-col">RESULTS</th>
+											<th class="remarks-col">Remarks (SAT / UNSAT)</th>
+										</tr>
+									</thead>
+									<tbody>
+
+                                        <tr>
+                                            <td colspan="4">
+                                                Trials team embarked onboard at 
+                                                <input type="text" id="ssr_622002_embark_time" name="embark_time" class="line-input  embarked-hrs"> hrs on 
+                                                <input type="date" id="ssr_622002_embark_date" name="embark_date" class="line-input  embarked-hrs "> for SATs of SSR as per approved schedule, BR 4050 and CNO 07/10. Following observed:- 
+                                            </td>
+                                        </tr>
+										<tr>
+											
+											<td colspan="4"><strong>Check No. 7 : Radar System – Basic Test  </strong></td>
+										</tr>
+										<tr>
+											<td>01.</td>
+											<td>Check No. 7.1 – System/ Hardware configuration Checks</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" name="ssr_622002_result_1" rows="1" placeholder="Result..."></textarea></td>
+											<td><div class="sat-unsat"><label><input type="radio" id="ssr_622002_remark_7_1_i_sat" name="ssr_622002_remark_7_1_i" value="SAT" required> SAT</label><label><input type="radio" id="ssr_622002_remark_7_1_i_unsat" name="ssr_622002_remark_7_1_i" value="UNSAT"> UNSAT</label></div></td>
+										</tr>
+                                        <tr>
+											<td>02.</td>
+											<td>Check No. 7.2 – Manufacturing and installation Checks (Waveguide pressure between 30-80m bar)</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" name="ssr_622002_result_2" rows="1" placeholder="Result..."></textarea></td>
+											<td><div class="sat-unsat"><label><input type="radio" id="ssr_622002_remark_7_1_ii_sat" name="ssr_622002_remark_7_1_ii" value="SAT" required> SAT</label><label><input type="radio" id="ssr_622002_remark_7_1_ii_unsat" name="ssr_622002_remark_7_1_ii" value="UNSAT"> UNSAT</label></div></td>
+                                        </tr>
+                                        <tr>
+											<td>03.</td>
+											<td>Check No. 7.3 – System status evaluated by Bite</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" name="ssr_622002_result_3" rows="1" placeholder="Result..."></textarea></td>
+											<td><div class="sat-unsat"><label><input type="radio" id="ssr_622002_remark_7_1_iii_sat" name="ssr_622002_remark_7_1_iii" value="SAT" required> SAT</label><label><input type="radio" id="ssr_622002_remark_7_1_iii_unsat" name="ssr_622002_remark_7_1_iii" value="UNSAT"> UNSAT</label></div></td>
+										</tr>
+                                        <tr>
+											<td>04.</td>
+											<td>Check No. 7.4 – Test for Radar plots and tracks</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" name="ssr_622002_result_4" rows="1" placeholder="Result..."></textarea></td>
+											<td><div class="sat-unsat"><label><input type="radio" id="ssr_622002_remark_7_1_iv_sat" name="ssr_622002_remark_7_1_iv" value="SAT" required> SAT</label><label><input type="radio" id="ssr_622002_remark_7_1_iv_unsat" name="ssr_622002_remark_7_1_iv" value="UNSAT"> UNSAT</label></div></td>
+										</tr>
+
+                                        
+                                        <tr>
+											
+											<td colspan="4"><strong>Check No. 8 : General Function Test </strong></td>
+										</tr>
+                                        <tr>
+											<td>05.</td>
+											<td>Check No. 8.1 – Test for sweep to sweep integration</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" name="ssr_622002_result_5" rows="1" placeholder="Result..."></textarea></td>
+											<td><div class="sat-unsat"><label><input type="radio" id="ssr_622002_remark_7_1_v_sat" name="ssr_622002_remark_7_1_v" value="SAT" required> SAT</label><label><input type="radio" id="ssr_622002_remark_7_1_v_unsat" name="ssr_622002_remark_7_1_v" value="UNSAT"> UNSAT</label></div></td>
+										</tr>
+                                        <tr>
+											<td>06.</td>
+											<td>Check No. 8.2 – Test for Scan-to-Scan integration
+                                                (Fast speed threshold value – 17)
+                                                (Slow speed threshold value – 06)
+                                            </td>
+											<td><textarea class="form-control wrstg-scroll-textarea" name="ssr_622002_result_6" rows="1" placeholder="Result..."></textarea></td>
+											<td><div class="sat-unsat"><label><input type="radio" id="ssr_622002_remark_7_1_vi_sat" name="ssr_622002_remark_7_1_vi" value="SAT" required> SAT</label><label><input type="radio" id="ssr_622002_remark_7_1_vi_unsat" name="ssr_622002_remark_7_1_vi" value="UNSAT"> UNSAT</label></div></td>
+										</tr>
+                                        <tr>
+											<td>07.</td>
+											<td>Check No. 8.3 – Test for clutter discrimination</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" name="ssr_622002_result_7" rows="1" placeholder="Result..."></textarea></td>
+											<td><div class="sat-unsat"><label><input type="radio" id="ssr_622002_remark_7_1_vii_sat" name="ssr_622002_remark_7_1_vii" value="SAT" required> SAT</label><label><input type="radio" id="ssr_622002_remark_7_1_vii_unsat" name="ssr_622002_remark_7_1_vii" value="UNSAT"> UNSAT</label></div></td>
+										</tr>
+                                        <tr>
+											<td>08.</td>
+											<td>Check No. 8.4 – Test for constant false alarm rate (CFAR)</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" name="ssr_622002_result_8" rows="1" placeholder="Result..."></textarea></td>
+											<td><div class="sat-unsat"><label><input type="radio" id="ssr_622002_remark_7_1_viii_sat" name="ssr_622002_remark_7_1_viii" value="SAT" required> SAT</label><label><input type="radio" id="ssr_622002_remark_7_1_viii_unsat" name="ssr_622002_remark_7_1_viii" value="UNSAT"> UNSAT</label></div></td>
+										</tr>
+                                        <tr>
+											<td>09.</td>
+											<td>CCheck No. 8.5 – Test for frequency diversity (Burst TMFD sequence length shall be greater than 1) </td>
+											<td><textarea class="form-control wrstg-scroll-textarea" name="ssr_622002_result_9" rows="1" placeholder="Result..."></textarea></td>
+											<td><div class="sat-unsat"><label><input type="radio" id="ssr_622002_remark_7_1_ix_sat" name="ssr_622002_remark_7_1_ix" value="SAT" required> SAT</label><label><input type="radio" id="ssr_622002_remark_7_1_ix_unsat" name="ssr_622002_remark_7_1_ix" value="UNSAT"> UNSAT</label></div></td>
+										</tr>
+                                        <tr>
+											<td>10.</td>
+											<td>Check No. 8.6 – Test for detection of targets in different profiles</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" name="ssr_622002_result_10" rows="1" placeholder="Result..."></textarea></td>
+											<td><div class="sat-unsat"><label><input type="radio" id="ssr_622002_remark_7_1_x_sat" name="ssr_622002_remark_7_1_x" value="SAT" required> SAT</label><label><input type="radio" id="ssr_622002_remark_7_1_x_unsat" name="ssr_622002_remark_7_1_x" value="UNSAT"> UNSAT</label></div></td>
+										</tr>
+                                        <tr>
+											<td>11.</td>
+											<td>Check No. 8.7 – Sector transmission</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" name="ssr_622002_result_11" rows="1" placeholder="Result..."></textarea></td>
+											<td><div class="sat-unsat"><label><input type="radio" id="ssr_622002_remark_7_1_xi_sat" name="ssr_622002_remark_7_1_xi" value="SAT" required> SAT</label><label><input type="radio" id="ssr_622002_remark_7_1_xi_unsat" name="ssr_622002_remark_7_1_xi" value="UNSAT"> UNSAT</label></div></td>
+										</tr>
+
+                                        <tr>
+											
+											<td colspan="4"><strong>Check No. 9 : General Function Test requiring consort targets </strong></td>
+										</tr>
+
+                                        <tr>
+											<td>12.</td>
+											<td>Check No. 9.1 – Target Resolution Test in Range</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" name="ssr_622002_result_12" rows="1" placeholder="Result..."></textarea></td>
+											<td><div class="sat-unsat"><label><input type="radio" id="ssr_622002_remark_7_1_xii_sat" name="ssr_622002_remark_7_1_xii" value="SAT" required> SAT</label><label><input type="radio" id="ssr_622002_remark_7_1_xii_unsat" name="ssr_622002_remark_7_1_xii" value="UNSAT"> UNSAT</label></div></td>
+										</tr>
+                                        <tr>
+											<td>13.</td>
+											<td>Check No. 9.2 – Target Resolution Test in Azimuth</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" name="ssr_622002_result_13" rows="1" placeholder="Result..."></textarea></td>
+											<td><div class="sat-unsat"><label><input type="radio" id="ssr_622002_remark_7_1_xiii_sat" name="ssr_622002_remark_7_1_xiii" value="SAT" required> SAT</label><label><input type="radio" id="ssr_622002_remark_7_1_xiii_unsat" name="ssr_622002_remark_7_1_xiii" value="UNSAT"> UNSAT</label></div></td>
+										</tr>
+                                        <tr>
+											<td>14.</td>
+											<td>Check No. 9.3 – Own ship Maneuvers</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" name="ssr_622002_result_14" rows="1" placeholder="Result..."></textarea></td>
+											<td><div class="sat-unsat"><label><input type="radio" id="ssr_622002_remark_7_1_xiv_sat" name="ssr_622002_remark_7_1_xiv" value="SAT" required> SAT</label><label><input type="radio" id="ssr_622002_remark_7_1_xiv_unsat" name="ssr_622002_remark_7_1_xiv" value="UNSAT"> UNSAT</label></div></td>
+										</tr>
+                                        <tr>
+											<td>15.</td>
+											<td>Check No. 9.4 – Surrounding Surface Target Detection</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" name="ssr_622002_result_15" rows="1" placeholder="Result..."></textarea></td>
+											<td><div class="sat-unsat"><label><input type="radio" id="ssr_622002_remark_7_1_xv_sat" name="ssr_622002_remark_7_1_xv" value="SAT" required> SAT</label><label><input type="radio" id="ssr_622002_remark_7_1_xv_unsat" name="ssr_622002_remark_7_1_xv" value="UNSAT"> UNSAT</label></div></td>
+										</tr>
+                                        <tr>
+											<td>16.</td>
+											<td>Check No. 9.5 – Minimum detection and tracking range of stationary target</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" name="ssr_622002_result_16" rows="1" placeholder="Result..."></textarea></td>
+											<td><div class="sat-unsat"><label><input type="radio" id="ssr_622002_remark_7_1_xvi_sat" name="ssr_622002_remark_7_1_xvi" value="SAT" required> SAT</label><label><input type="radio" id="ssr_622002_remark_7_1_xvi_unsat" name="ssr_622002_remark_7_1_xvi" value="UNSAT"> UNSAT</label></div></td>
+										</tr>
+                                        <tr>
+											<td>17.</td>
+											<td>Check No. 9.6 – Test for tracking accuracy</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" name="ssr_622002_result_17" rows="1" placeholder="Result..."></textarea></td>
+											<td><div class="sat-unsat"><label><input type="radio" id="ssr_622002_remark_7_1_xvii_sat" name="ssr_622002_remark_7_1_xvii" value="SAT" required> SAT</label><label><input type="radio" id="ssr_622002_remark_7_1_xvii_unsat" name="ssr_622002_remark_7_1_xvii" value="UNSAT"> UNSAT</label></div></td>
+										</tr>
+										
+									</tbody>
+								</table>
+							</div>
+						</fieldset>
+
+						<!-- FOOTER -->
+							<fieldset class="custom-fieldset">
+                            <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                            <div class="row g-3">
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <select class="form-control" id="ssr_622002_presenting_authority" name="ssr_622002_presenting_authority" required>
+                                            <option value="">--Select--</option>
+                                            <option value="dockyard">Dockyard</option>
+                                            <option value="shipstaff">Shipstaff</option>
+                                            <option value="oem">OEM</option>
+                                        </select>
+                                        <label class="form_control_1" for="ssr_622002_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <input type="text" class="form-control" id="ssr_622002_watt" name="ssr_622002_watt" value="WATT" >
+                                        <label class="form_control_1" for="ssr_622002_watt">Inspecting Authority</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+						<div class="d-flex justify-content-center mt-4">
+							<button type="submit" class="btn btn-success px-4">Save</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		WRSTGQuarterly.init({
+			extraTableIds: [, 'remarks_table',],
+			submitConfirmation: { formId: 'ssr_622002_form' }
+		});
+	});
+</script>
+{% endblock js %}

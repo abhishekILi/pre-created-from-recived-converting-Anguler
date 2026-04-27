@@ -1,0 +1,237 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+	.custom_tbl td,
+	.custom_tbl th {
+		word-wrap: break-word;
+		overflow-wrap: break-word;
+		white-space: normal !important;
+	}
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">WATT</a></li>
+					<li class="breadcrumb-item active" aria-current="page">UHF SATCOM</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">UHF SATCOM</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="uhf_satcom_form">
+						{% csrf_token %}
+						<div class="form-body">
+							<fieldset class="custom-fieldset">
+								<div class="row g-3">
+									<div class="col-md-3 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<select class="form-control" name="ship_name" required>
+												<option value="">Select Ship</option>
+												{% for option in ship_options %}
+													<option value="{{ option.value }}">{{ option.label }}</option>
+												{% endfor %}
+											</select>
+											<label class="form_control_1">NAME OF SHIP <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<input type="text" class="form-control" name="equipment" value="UHF SATCOM" required>
+											<label class="form_control_1">EQUIPMENT <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-2 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<input type="text" class="form-control" name="sno">
+											<label class="form_control_1">SNo</label>
+										</div>
+									</div>
+								</div>
+
+								<div class="row g-3 mt-2">
+									<div class="col-md-2 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<input type="date" class="form-control" name="date" required>
+											<label class="form_control_1">DATE</label>
+										</div>
+									</div>
+									<div class="col-md-3 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<select class="form-control" name="department" required>
+												<option value="">Select Department</option>
+												<option value="ND">ND</option>
+												<option value="Communication">Communication</option>
+												<option value="Gunnery">Gunnery</option>
+												<option value="ASW">ASW</option>
+											</select>
+											<label class="form_control_1">DEPARTMENT <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-3 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<select class="form-control" name="nature_of_trials" required>
+												<option value="">Select Nature of Trials</option>
+												<option value="SATs">SATs</option>
+												<option value="HATs">HATs</option>
+												<option value="OP Checks">OP Checks</option>
+												<option value="IIs">IIs</option>
+											</select>
+											<label class="form_control_1">NATURE OF TRIALS <span class="text-danger">*</span></label>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<div class="table-responsive mt-4">
+									<table class="custom_tbl" id="uhf_satcom_table">
+										<thead class="table-dark-head">
+											<tr>
+												<th class="ser-col">Ser</th>
+												<th class="ser-col">Checks</th>
+												<th class="obs-col">Observations</th>
+												<th class="remarks-col">Remarks</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td colspan="3">
+													Trial team reported onboard for Ops Check of <strong>UHF Satcom</strong> at
+													<input type="text" name="reported_hrs" class="line-input embarked-hrs"> hrs.
+													Checks and trials carried out IAW IHQ approved schedule
+													<strong>IHQ MOD(Navy)/PDNSO Fax CM/I777/UHF(II) dated 21 May22 14</strong> and
+													<strong>CNO. 07/10</strong> are enumerated in succeeding paragraphs :-
+												</td>
+												<td></td>
+											</tr>
+
+											<tr>
+												<td>1.</td>
+												<td colspan="2"><strong><u>Visual Checks</u></strong></td>
+												<td></td>
+											</tr>
+											<tr><td></td><td>(a)</td><td>Fitment of equipment rack on shock mount in <input type="text" class="line-input embarked-hrs" name="rack_location">.</td><td class="text-center"><label><input type="radio" name="status_1" value="SAT"> SAT</label> <label><input type="radio" name="status_1" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td></td><td>(b)</td><td>Fitment of LOS Antenna on <input type="text" class="line-input embarked-hrs" name="los_antenna_location"> and <strong>Satcom Antenna</strong> on <input type="text" class="line-input embarked-hrs" name="satcom_antenna_location">.</td><td class="text-center"><label><input type="radio" name="status_2" value="SAT"> SAT</label> <label><input type="radio" name="status_2" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td></td><td>(c)</td><td>LOS and Satcom Antenna connection to the UHF Satcom trough feeder cable.</td><td class="text-center"><label><input type="radio" name="status_3" value="SAT"> SAT</label> <label><input type="radio" name="status_3" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td></td><td>(d)</td><td>Grounding of Rack/Equipment</td><td class="text-center"><label><input type="radio" name="status_4" value="SAT"> SAT</label> <label><input type="radio" name="status_4" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td></td><td>(e)</td><td>Power supply 230V AC, 50Hz</td><td class="text-center"><label><input type="radio" name="status_5" value="SAT"> SAT</label> <label><input type="radio" name="status_5" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td></td><td>(f)</td><td>Fitment of sub units in cabinet and interconnection.</td><td class="text-center"><label><input type="radio" name="status_6" value="SAT"> SAT</label> <label><input type="radio" name="status_6" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td></td><td>(g)</td><td>Functions of all knobs, switches, push buttons and display.</td><td class="text-center"><label><input type="radio" name="status_7" value="SAT"> SAT</label> <label><input type="radio" name="status_7" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td></td><td>(h)</td><td><strong>LOS and Satcom Handset</strong> of Main equipment</td><td class="text-center"><label><input type="radio" name="status_8" value="SAT"> SAT</label> <label><input type="radio" name="status_8" value="UNSAT"> UNSAT</label></td></tr>
+
+											<tr>
+												<td>6.</td>
+												<td colspan="2"><strong><u>Test Procedure</u></strong></td>
+												<td></td>
+											</tr>
+											<tr><td></td><td>6.1</td><td>BITE Test</td><td class="text-center"><label><input type="radio" name="status_9" value="SAT"> SAT</label> <label><input type="radio" name="status_9" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td></td><td>6.2</td><td>LOS Voice Test. (Set the LOS service in NB mode and frequency 150 MHz).</td><td class="text-center"><label><input type="radio" name="status_10" value="SAT"> SAT</label> <label><input type="radio" name="status_10" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td></td><td>6.3</td><td>Satcom Voice Test. (Set the Satcom service in Voice)</td><td class="text-center"><label><input type="radio" name="status_11" value="SAT"> SAT</label> <label><input type="radio" name="status_11" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td></td><td></td><td>(i) Satcom operation in U x U</td><td class="text-center"><label><input type="radio" name="status_12" value="SAT"> SAT</label> <label><input type="radio" name="status_12" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td></td><td></td><td>(ii) Satcom operation in U x C</td><td class="text-center"><label><input type="radio" name="status_13" value="SAT"> SAT</label> <label><input type="radio" name="status_13" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td></td><td></td><td>(iii) Satcom operation in C x U</td><td class="text-center"><label><input type="radio" name="status_14" value="SAT"> SAT</label> <label><input type="radio" name="status_14" value="UNSAT"> UNSAT</label></td></tr>
+
+											<tr>
+												<td>7.</td>
+												<td colspan="2"><strong><u>RCU Check (RCU Sl No. <input type="text" class="line-input embarked-hrs" name="rcu_sl_no">)</u></strong></td>
+												<td></td>
+											</tr>
+											<tr><td></td><td>(a)</td><td>Fitment of RCU in <input type="text" class="line-input embarked-hrs" name="rcu_location">.</td><td class="text-center"><label><input type="radio" name="status_15" value="SAT"> SAT</label> <label><input type="radio" name="status_15" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td></td><td>(b)</td><td>Grounding of RCUs</td><td class="text-center"><label><input type="radio" name="status_16" value="SAT"> SAT</label> <label><input type="radio" name="status_16" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td></td><td>(c)</td><td>Functions of all knobs, switches, push buttons and display</td><td class="text-center"><label><input type="radio" name="status_17" value="SAT"> SAT</label> <label><input type="radio" name="status_17" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td></td><td>(d)</td><td><strong>LOS and Satcom Handset</strong> of RCU</td><td class="text-center"><label><input type="radio" name="status_18" value="SAT"> SAT</label> <label><input type="radio" name="status_18" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td></td><td>(e)</td><td>Connecterisation of RCU from main equipment</td><td class="text-center"><label><input type="radio" name="status_19" value="SAT"> SAT</label> <label><input type="radio" name="status_19" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td></td><td>(f)</td><td>LOS Voice Test. (Set the LOS service in NB mode and frequency 150 MHz).</td><td class="text-center"><label><input type="radio" name="status_20" value="SAT"> SAT</label> <label><input type="radio" name="status_20" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td></td><td>(g)</td><td>Satcom Voice Test. (Set the Satcom service in Voice and Satcom operation in U x U mode)</td><td class="text-center"><label><input type="radio" name="status_21" value="SAT"> SAT</label> <label><input type="radio" name="status_21" value="UNSAT"> UNSAT</label></td></tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">REMARKS</legend>
+								<div class="static-section">
+									<div class="table-responsive">
+										<table class="custom_tbl" id="remarks_table">
+											<thead>
+												<tr>
+													<th class="serial-no">Ser</th>
+													<th>Observations</th>
+													<th>SS Remarks</th>
+													<th class="action">Sign</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td class="serial-no">1</td>
+													<td><textarea class="form-control wrstg-scroll-textarea" data-base-name="observation" rows="2"></textarea></td>
+													<td><textarea class="form-control wrstg-scroll-textarea" data-base-name="ss_remarks" rows="2"></textarea></td>
+													<td class="action action-cell-holder">
+														<div class="action-controls">
+															<button type="button" class="btn-round btn-add" onclick="addRow('remarks_table')" title="Add Row">+</button>
+															<button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'remarks_table')" title="Remove Row">-</button>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</fieldset>
+                            <fieldset class="custom-fieldset">
+                                                        <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                                                        <div class="row g-3">
+                                                                <div class="col-md-4 col-12">
+                                                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                                                <select class="form-control" id="dmr_16a_presenting_authority" name="dmr_16a_presenting_authority" required>
+                                                                                        <option value="">--Select--</option>
+                                                                                        <option value="dockyard">Dockyard</option>
+                                                                                        <option value="shipstaff">Shipstaff</option>
+                                                                                        <option value="oem">OEM</option>
+                                                                                </select>
+                                                                                <label class="form_control_1" for="dmr_16a_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+                                                                        </div>
+                                                                </div>
+                                                                <div class="col-md-4 col-12">
+                                                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                                                <input type="text" class="form-control" id="dmr_16a_watt" name="dmr_16a_watt" value="VZG" >
+                                                                                <label class="form_control_1" for="dmr_16a_watt">WATT</label>
+                                                                        </div>
+                                                                </div>
+                                                        </div>
+                                                </fieldset>
+
+							<div class="d-flex justify-content-center mt-4 gap-2">
+								<button type="submit" class="btn btn-success px-4">Save</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

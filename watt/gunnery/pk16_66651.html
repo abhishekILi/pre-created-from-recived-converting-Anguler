@@ -1,0 +1,373 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+	
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">GUNNERY</a></li>
+					<li class="breadcrumb-item active" aria-current="page">PK16 66651</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">PK16 66651</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="pk16_sats_form">
+						{% csrf_token %}
+						<div class="form-body">
+
+							<!-- ===== HEADER FIELDS ===== -->
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">Basic Information</legend>
+								<div class="row g-3">
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" name="ship" required>
+											<label class="form_control_1">SHIP <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" value="GUN">
+											<label class="form_control_1">DEPT</label>
+										</div>
+									</div>
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" value="PK -16 (P&S)">
+											<label class="form_control_1">EQUIPMENT</label>
+										</div>
+									</div>
+
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="date" class="form-control" name="date" required>
+											<label class="form_control_1">DATE <span class="text-danger">*</span></label>
+										</div>
+									</div>
+
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" value="SATs">
+											<label class="form_control_1">NATURE OF TRIALS</label>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+
+							<!-- ===== OBSERVATIONS TABLE ===== -->
+							<fieldset class="custom-fieldset mt-4">
+								<div class="table-responsive">
+									<table class="custom_tbl" id="observations_table">
+										<thead class="table-dark-head">
+											<tr>
+												<th >Ser</th>
+												<th colspan="2">OBSERVATIONS</th>
+												<th >RESULT</th>
+												<th >REMARKS</th>
+											</tr>
+										</thead>
+										<tbody id="observations_tbody">
+											<!-- First Row - Intro Paragraph -->
+											<tr>
+												<td colspan="5">
+													<p>
+														Trials team embarked onboard at <input type="text" class="line-input  embarked-hrs" name="embarked_location"> 
+														on <input type="text" class="line-input  embarked-hrs" name="embarked_date"> 
+														for SATs of PK -16 (P&S) as per approved schedule, BR 4050 and CNO 07/10. Following observed:-
+													</p>
+												</td>
+											</tr>
+
+											<!-- Section Header: Preliminary Checks -->
+											<tr>
+												<td colspan="5" >
+													<strong>PRELIMINARY CHECKS BEFORE FIRING (VERIFY THE FOLLOWING CONDITION)</strong>
+												</td>
+											</tr>
+
+											<!-- Check 01 - Preliminary checks -->
+											<tr>
+												<td class="text-center" rowspan="5"><strong>1</strong></td>
+												<td colspan="2"><strong>Preliminary checks</strong></td>
+												<td>
+													<textarea class="form-control wrstg-scroll-textarea" name="result_01" placeholder=""></textarea>
+												</td>
+												<td class="text-center">
+													<label ><input type="radio" name="remarks_01" value="SAT"> SAT</label>
+													<label ><input type="radio" name="remarks_01" value="UNSAT"> UNSAT</label>
+												</td>
+											</tr>
+
+											<!-- Check 01(a) - Communication checks -->
+											<tr>
+												<td colspan="2" >
+													(a) Communication checks
+												</td>
+												<td>
+													<textarea class="form-control wrstg-scroll-textarea" name="result_01_a" placeholder=""></textarea>
+												</td>
+												<td class="text-center">
+													<label ><input type="radio" name="remarks_01_a" value="SAT"> SAT</label>
+													<label ><input type="radio" name="remarks_01_a" value="UNSAT"> UNSAT</label>
+												</td>
+											</tr>
+
+											<!-- Check 01(b) - Insulation check -->
+											<tr>
+												<td colspan="2" >
+													(b) Insulation check
+												</td>
+												<td>
+													<textarea class="form-control wrstg-scroll-textarea" name="result_01_b" placeholder=""></textarea>
+												</td>
+												<td class="text-center">
+													<label ><input type="radio" name="remarks_01_b" value="SAT"> SAT</label>
+													<label ><input type="radio" name="remarks_01_b" value="UNSAT"> UNSAT</label>
+												</td>
+											</tr>
+
+											<!-- Check 01(c) - Charge blow of force -->
+											<tr>
+												<td colspan="2">
+													(c) Charge blow of force
+												</td>
+												<td>
+													<textarea class="form-control wrstg-scroll-textarea" name="result_01_c" placeholder=""></textarea>
+												</td>
+												<td class="text-center">
+													<label ><input type="radio" name="remarks_01_c" value="SAT"> SAT</label>
+													<label ><input type="radio" name="remarks_01_c" value="UNSAT"> UNSAT</label>
+												</td>
+											</tr>
+
+											<!-- Check 01(d) - Function of Left and Right installation -->
+											<tr>
+												<td colspan="2">
+													(d) Function of Left and Right installation through control panel
+												</td>
+												<td>
+													<textarea class="form-control wrstg-scroll-textarea" name="result_01_d" placeholder=""></textarea>
+												</td>
+												<td class="text-center">
+													<label ><input type="radio" name="remarks_01_d" value="SAT"> SAT</label>
+													<label ><input type="radio" name="remarks_01_d" value="UNSAT"> UNSAT</label>
+												</td>
+											</tr>
+
+											<!-- Section Header: FIRING TEST OF PK- 16 (PORT) -->
+											<tr>
+												<td colspan="5">
+													<strong>FIRING TEST OF PK- 16 (PORT)</strong>
+												</td>
+											</tr>
+
+											<!-- PORT Header Row -->
+											<tr>
+                                                <td class="text-center" rowspan="7"><strong>2</strong></td>
+												<th>Mode</th>
+												<th >Angle</th>
+												<th >No of shots</th>
+												<th >Remarks</th>
+											</tr>
+
+											<!-- PORT: Manual individual striking at training angles -->
+											<tr>
+												<td rowspan="3">Manual individual striking at training angles</td>
+												<td class="text-center">10°</td>
+												<td class="text-center"><input type="number" class="form-control" name="port_manual_10_shots" value="1" min="0"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="port_manual_10_remarks" placeholder=""></textarea></td>
+											</tr>
+											<tr>
+												<td class="text-center">40°</td>
+												<td class="text-center"><input type="number" class="form-control" name="port_manual_40_shots" value="1" min="0"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="port_manual_40_remarks" placeholder=""></textarea></td>
+											</tr>
+											<tr>
+												<td class="text-center">60°</td>
+												<td class="text-center"><input type="number" class="form-control" name="port_manual_60_shots" value="1" min="0"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="port_manual_60_remarks" placeholder=""></textarea></td>
+											</tr>
+
+											<!-- PORT: Automatic functioning in one row -->
+											<tr>
+												<td rowspan="2">Automatic functioning in one row. Three shots at training angle</td>
+												<td class="text-center">30°</td>
+												<td class="text-center"><input type="number" class="form-control" name="port_auto_30_shots" value="3" min="0"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="port_auto_30_remarks" placeholder=""></textarea></td>
+											</tr>
+											<tr>
+												<td class="text-center">50°</td>
+												<td class="text-center"><input type="number" class="form-control" name="port_auto_50_shots" value="3" min="0"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="port_auto_50_remarks" placeholder=""></textarea></td>
+											</tr>
+
+											<!-- PORT: Automatic functioning at elevation angles -->
+											<tr>
+												<td>Automatic functioning at a row of shots at elevation angles</td>
+												<td class="text-center">20°</td>
+												<td class="text-center"><input type="number" class="form-control" name="port_auto_elev_20_shots" value="7" min="0"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="port_auto_elev_20_remarks" placeholder=""></textarea></td>
+											</tr>
+
+											<!-- Section Header: FIRING TEST OF PK- 16 (STBD) -->
+											<tr>
+												<td colspan="5" >
+													<strong>FIRING TEST OF PK- 16 (STBD)</strong>
+												</td>
+											</tr>
+
+											<!-- STBD Header Row -->
+											<tr>
+												<td class="text-center" rowspan="7"><strong>3</strong></td>
+												<th>Mode</th>
+												<th >Angle</th>
+												<th >No of shots</th>
+												<th >Remarks</th>
+											</tr>
+
+											<!-- STBD: Manual individual striking at training angles -->
+											<tr>
+												<td rowspan="3">Manual individual striking at training angles</td>
+												<td class="text-center">10°</td>
+												<td class="text-center"><input type="number" class="form-control" name="stbd_manual_10_shots" value="1" min="0"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="stbd_manual_10_remarks" placeholder=""></textarea></td>
+											</tr>
+											<tr>
+												<td class="text-center">40°</td>
+												<td class="text-center"><input type="number" class="form-control" name="stbd_manual_40_shots" value="1" min="0"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="stbd_manual_40_remarks" placeholder=""></textarea></td>
+											</tr>
+											<tr>
+												<td class="text-center">60°</td>
+												<td class="text-center"><input type="number" class="form-control" name="stbd_manual_60_shots" value="1" min="0"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="stbd_manual_60_remarks" placeholder=""></textarea></td>
+											</tr>
+
+											<!-- STBD: Automatic functioning in one row -->
+											<tr>
+												<td rowspan="2">Automatic functioning in one row. Three shots at training angle</td>
+												<td class="text-center">30°</td>
+												<td class="text-center"><input type="number" class="form-control" name="stbd_auto_30_shots" value="3" min="0"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="stbd_auto_30_remarks" placeholder=""></textarea></td>
+											</tr>
+											<tr>
+												<td class="text-center">50°</td>
+												<td class="text-center"><input type="number" class="form-control" name="stbd_auto_50_shots" value="3" min="0"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="stbd_auto_50_remarks" placeholder=""></textarea></td>
+											</tr>
+
+											<!-- STBD: Automatic functioning at elevation angles -->
+											<tr>
+												<td>Automatic functioning at a row of shots at elevation angles</td>
+												<td class="text-center">20°</td>
+												<td class="text-center"><input type="number" class="form-control" name="stbd_auto_elev_20_shots" value="7" min="0"></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="stbd_auto_elev_20_remarks" placeholder=""></textarea></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<!-- ===== OBSERVATIONS TO BE RECORDED AFTER EACH RUN ===== -->
+							<fieldset class="custom-fieldset mt-4">
+								<legend class="legend-custom text-uppercase">Observation to be Recorded After Each Run</legend>
+								<div class="table-responsive mt-4">
+									<table class="custom_tbl" id="observations_run_table">
+										<thead class="table-dark-head">
+											<tr>
+												<th >S No</th>
+												<th >Observation Description</th>
+												<th>Observations / Remarks</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="text-center font-weight-bold">1</td>
+												<td>Smoothness in loading the rockets in all tubes.</td>
+												<td>
+													<textarea class="form-control wrstg-scroll-textarea" name="obs_run_1" placeholder=""></textarea>
+												</td>
+											</tr>
+
+											<tr>
+												<td class="text-center font-weight-bold">2</td>
+												<td>Rocket loading status on the FCP before firing.</td>
+												<td>
+													<textarea class="form-control wrstg-scroll-textarea" name="obs_run_2" placeholder=""></textarea>
+												</td>
+											</tr>
+
+											<tr>
+												<td class="text-center font-weight-bold">3</td>
+												<td>Fire/ misfire indication on the FCP after firing of each rocket.</td>
+												<td>
+													<textarea class="form-control wrstg-scroll-textarea" name="obs_run_3" placeholder=""></textarea>
+												</td>
+											</tr>
+
+											<tr>
+												<td class="text-center ">4</td>
+												<td>Post firing condition of launchers tubes, connectors and cables, launchers structure and availability of firing supply.</td>
+												<td>
+													<textarea class="form-control wrstg-scroll-textarea" name="obs_run_4" placeholder=""></textarea>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<!-- ===== AUTHORITY ===== -->
+							<fieldset class="custom-fieldset mt-4">
+								<legend class="legend-custom text-uppercase">Authority</legend>
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" name="presenting_authority" value="Ship's staff" readonly>
+											<label class="form_control_1">Presenting Authority</label>
+										</div>
+									</div>
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" name="inspecting_authority" value="WATT" readonly>
+											<label class="form_control_1">Inspecting Authority</label>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+
+							<!-- ===== SUBMIT BUTTON ===== -->
+							<div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Save</button>
+                            </div>
+
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,472 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item active" aria-current="page">ETMA</li>
+          <li class="breadcrumb-item active" aria-current="page">SUBMARINES</li>
+          <li class="breadcrumb-item active" aria-current="page">Steering Control System</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold d-block">
+              SUBMARINES STEERING CONSOLE(SSC) - RESULT SHEET
+            </span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="ssc5_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!-- ══════════════════════════════════════════
+                   HEADER — Basic Information
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Basic Information</legend>
+                <div class="row g-3">
+
+                  
+                  <!-- Date -->
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="date" class="form-control" name="date_of_trials">
+                      <label class="form_control_1">Date of Trials</label>
+                    </div>
+                  </div>
+
+                  <!-- Unit -->
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="unit">
+                        <option value="">-- Select (Ship) --</option>
+                        <option value="INS_A">INS Alpha</option>
+                        <option value="INS_B">INS Bravo</option>
+                        <option value="INS_C">INS Charlie</option>
+                        <option value="INS_D">INS Delta</option>
+                      </select>
+                      <label class="form_control_1">INS</label>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+
+
+              <!-- ══════════════════════════════════════════
+                   MAIN CHECKS TABLE
+                   Columns: Trial Ser | Check Description | Result (SAT/UNSAT) | Presenting Authority Remarks
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">RESULT SHEET</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr class="custom-header-row">
+                        <th class="serial-no">Trial Ser</th>
+                        <th>TEST/NOMINAL VALUE</th>
+                        <th>OK/NOT OK</th>
+                        <th>ACTUAL VALUE</th>
+                        <th>REMARKS</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <!-- 1.8.1 -->
+                      <tr>
+                        <td class="serial-no">110.100</td>
+                        <td class="fixed-label-cell">Visual Inspection </td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t3r1_ok" name="t3r1" value="SAT"><label for="t3r1_ok">OK</label></div>
+                            <div><input type="radio" id="t3r1_not_ok" name="t3r1" value="UNSAT"><label for="t3r1_not_ok">NOT OK</label></div>
+                          </div>
+                        </td>
+                        <td><input type="number" step="0.01" placeholder="Enter Value" class="form-control" name="t3r1_value"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t3r1_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">110.101</td>
+                        <td class="fixed-label-cell">Functional Test</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t3r2_ok" name="t3r2" value="SAT"><label for="t3r2_ok">OK</label></div>
+                            <div><input type="radio" id="t3r2_not_ok" name="t3r2" value="UNSAT"><label for="t3r2_not_ok">NOT OK</label></div>
+                          </div>
+                        </td>
+                        <td><input type="number" step="0.01" placeholder="Enter Value" class="form-control" name="t3r2_value"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t3r2_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">110.102</td>
+                        <td class="fixed-label-cell">Functional Test, Rudder and Hydroplane Running Time; </td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t3r3_ok" name="t3r3" value="SAT"><label for="t3r3_ok">OK</label></div>
+                            <div><input type="radio" id="t3r3_not_ok" name="t3r3" value="UNSAT"><label for="t3r3_not_ok">NOT OK</label></div>
+                          </div>
+                        </td>
+                        <td><input type="number" step="0.01" placeholder="Enter Value" class="form-control" name="t3r3_value"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t3r3_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">110.103</td>
+                        <td class="fixed-label-cell">Functional Test, Check of Heading Repeater</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t3r4_ok" name="t3r4" value="SAT"><label for="t3r4_ok">OK</label></div>
+                            <div><input type="radio" id="t3r4_not_ok" name="t3r4" value="UNSAT"><label for="t3r4_not_ok">NOT OK</label></div>
+                          </div>
+                        </td>
+                        <td><input type="number" step="0.01" placeholder="Enter Value" class="form-control" name="t3r4_value"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t3r4_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">110.104.a</td>
+                        <td class="fixed-label-cell">Functional Test, Operation of Control Surfaces and Check of Primary and Redundant Indications </td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t3r5_ok" name="t3r5" value="SAT"><label for="t3r5_ok">OK</label></div>
+                            <div><input type="radio" id="t3r5_not_ok" name="t3r5" value="UNSAT"><label for="t3r5_not_ok">NOT OK</label></div>
+                          </div>
+                        </td>
+                        <td><input type="number" step="0.01" placeholder="Enter Value" class="form-control" name="t3r5_value"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t3r5_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">110.104.b</td>
+                        <td class="fixed-label-cell">Functional Test, HPA Actual Value </td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t3r6_ok" name="t3r6" value="SAT"><label for="t3r6_ok">OK</label></div>
+                            <div><input type="radio" id="t3r6_not_ok" name="t3r6" value="UNSAT"><label for="t3r6_not_ok">NOT OK</label></div>
+                          </div>
+                        </td>
+                        <td><input type="number" step="0.01" placeholder="Enter Value" class="form-control" name="t3r6_value"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t3r6_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">110.104.c</td>
+                        <td class="fixed-label-cell">Functional Test, HPA Nominal Value </td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t3r7_ok" name="t3r7" value="SAT"><label for="t3r7_ok">OK</label></div>
+                            <div><input type="radio" id="t3r7_not_ok" name="t3r7" value="UNSAT"><label for="t3r7_not_ok">NOT OK</label></div>
+                          </div>
+                        </td>
+                        <td><input type="number" step="0.01" placeholder="Enter Value" class="form-control" name="t3r7_value"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t3r7_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">110.104.d</td>
+                        <td class="fixed-label-cell">Functional Test, rim Actual Value</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t3r8_ok" name="t3r8" value="SAT"><label for="t3r8_ok">OK</label></div>
+                            <div><input type="radio" id="t3r8_not_ok" name="t3r8" value="UNSAT"><label for="t3r8_not_ok">NOT OK</label></div>
+                          </div>
+                        </td>
+                        <td><input type="number" step="0.01" placeholder="Enter Value" class="form-control" name="t3r8_value"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t3r8_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">110.104.e</td>
+                        <td class="fixed-label-cell">Functional Test, Trim Nominal Value</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t3r9_ok" name="t3r9" value="SAT"><label for="t3r9_ok">OK</label></div>
+                            <div><input type="radio" id="t3r9_not_ok" name="t3r9" value="UNSAT"><label for="t3r9_not_ok">NOT OK</label></div>
+                          </div>
+                        </td>
+                        <td><input type="number" step="0.01" placeholder="Enter Value" class="form-control" name="t3r9_value"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t3r9_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">110.104.f</td>
+                        <td class="fixed-label-cell">Functional Test, SR Actual Value </td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t3r10_ok" name="t3r10" value="SAT"><label for="t3r10_ok">OK</label></div>
+                            <div><input type="radio" id="t3r10_not_ok" name="t3r10" value="UNSAT"><label for="t3r10_not_ok">NOT OK</label></div>
+                          </div>
+                        </td>
+                        <td><input type="number" step="0.01" placeholder="Enter Value" class="form-control" name="t3r10_value"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t3r10_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">110.104.g</td>
+                        <td class="fixed-label-cell"> Functional Test, SR Nominal Value </td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t3r11_ok" name="t3r11" value="SAT"><label for="t3r11_ok">OK</label></div>
+                            <div><input type="radio" id="t3r11_not_ok" name="t3r11" value="UNSAT"><label for="t3r11_not_ok">NOT OK</label></div>
+                          </div>
+                        </td>
+                        <td><input type="number" step="0.01" placeholder="Enter Value" class="form-control" name="t3r11_value"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t3r11_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">110.104.h</td>
+                        <td class="fixed-label-cell">Functional Test, HPF Port Actual Value</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t3r12_ok" name="t3r12" value="SAT"><label for="t3r12_ok">OK</label></div>
+                            <div><input type="radio" id="t3r12_not_ok" name="t3r12" value="UNSAT"><label for="t3r12_not_ok">NOT OK</label></div>
+                          </div>
+                        </td>
+                        <td><input type="number" step="0.01" placeholder="Enter Value" class="form-control" name="t3r12_value"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t3r12_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">110.104.i</td>
+                        <td class="fixed-label-cell">Functional Test, HPF Stbd Actual Value</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t3r13_ok" name="t3r13" value="SAT"><label for="t3r13_ok">OK</label></div>
+                            <div><input type="radio" id="t3r13_not_ok" name="t3r13" value="UNSAT"><label for="t3r13_not_ok">NOT OK</label></div>
+                          </div>
+                        </td>
+                        <td><input type="number" step="0.01" placeholder="Enter Value" class="form-control" name="t3r13_value"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t3r13_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">110.104.j</td>
+                        <td class="fixed-label-cell"> Functional Test, HPF Nominal Value</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t3r14_ok" name="t3r14" value="SAT"><label for="t3r14_ok">OK</label></div>
+                            <div><input type="radio" id="t3r14_not_ok" name="t3r14" value="UNSAT"><label for="t3r14_not_ok">NOT OK</label></div>
+                          </div>
+                        </td>
+                        <td><input type="number" step="0.01" placeholder="Enter Value" class="form-control" name="t3r14_value"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t3r14_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">110.104.k</td>
+                        <td class="fixed-label-cell">Functional Test, Indication of Hoistable Masts </td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t3r15_ok" name="t3r15" value="SAT"><label for="t3r15_ok">OK</label></div>
+                            <div><input type="radio" id="t3r15_not_ok" name="t3r15" value="UNSAT"><label for="t3r15_not_ok">NOT OK</label></div>
+                          </div>
+                        </td>
+                        <td><input type="number" step="0.01" placeholder="Enter Value" class="form-control" name="t3r15_value"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t3r15_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">110.104.l</td>
+                        <td class="fixed-label-cell">Functional Test, Alarms and Warnings </td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t3r16_ok" name="t3r16" value="SAT"><label for="t3r16_ok">OK</label></div>
+                            <div><input type="radio" id="t3r16_not_ok" name="t3r16" value="UNSAT"><label for="t3r16_not_ok">NOT OK</label></div>
+                          </div>
+                        </td>
+                        <td><input type="number" step="0.01" placeholder="Enter Value" class="form-control" name="t3r16_value"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t3r16_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">110.104.m</td>
+                        <td class="fixed-label-cell">Functional Test, Interface to Ship’s Info Board </td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t3r17_ok" name="t3r17" value="SAT"><label for="t3r17_ok">OK</label></div>
+                            <div><input type="radio" id="t3r17_not_ok" name="t3r17" value="UNSAT"><label for="t3r17_not_ok">NOT OK</label></div>
+                          </div>
+                        </td>
+                        <td><input type="number" step="0.01" placeholder="Enter Value" class="form-control" name="t3r17_value"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t3r17_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">110.104.n</td>
+                        <td class="fixed-label-cell">Functional Test, Depth at Horizontal Boat Position(Trim and List 0°) </td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t3r18_ok" name="t3r18" value="SAT"><label for="t3r18_ok">OK</label></div>
+                            <div><input type="radio" id="t3r18_not_ok" name="t3r18" value="UNSAT"><label for="t3r18_not_ok">NOT OK</label></div>
+                          </div>
+                        </td>
+                        <td><input type="number" step="0.01" placeholder="Enter Value" class="form-control" name="t3r18_value"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t3r18_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">110.104.o</td>
+                        <td class="fixed-label-cell">Functional Test, Trim and Roll Values </td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t3r19_ok" name="t3r19" value="SAT"><label for="t3r19_ok">OK</label></div>
+                            <div><input type="radio" id="t3r19_not_ok" name="t3r19" value="UNSAT"><label for="t3r19_not_ok">NOT OK</label></div>
+                          </div>
+                        </td>
+                        <td><input type="number" step="0.01" placeholder="Enter Value" class="form-control" name="t3r19_value"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t3r19_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">110.104.p</td>
+                        <td class="fixed-label-cell">Functional Test, SR Control from Bridge </td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t3r20_ok" name="t3r20" value="SAT"><label for="t3r20_ok">OK</label></div>
+                            <div><input type="radio" id="t3r20_not_ok" name="t3r20" value="UNSAT"><label for="t3r20_not_ok">NOT OK</label></div>
+                          </div>
+                        </td>
+                        <td><input type="number" step="0.01" placeholder="Enter Value" class="form-control" name="t3r20_value"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t3r20_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">110.104.q</td>
+                        <td class="fixed-label-cell">Functional Test, Automatic Course Mode</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t3r21_ok" name="t3r21" value="SAT"><label for="t3r21_ok">OK</label></div>
+                            <div><input type="radio" id="t3r21_not_ok" name="t3r21" value="UNSAT"><label for="t3r21_not_ok">NOT OK</label></div>
+                          </div>
+                        </td>
+                        <td><input type="number" step="0.01" placeholder="Enter Value" class="form-control" name="t3r21_value"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t3r21_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">110.104.q.i</td>
+                        <td class="fixed-label-cell">Functional Test, Simulated Maneuvers </td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t3r22_ok" name="t3r22" value="SAT"><label for="t3r22_ok">OK</label></div>
+                            <div><input type="radio" id="t3r22_not_ok" name="t3r22" value="UNSAT"><label for="t3r22_not_ok">NOT OK</label></div>
+                          </div>
+                        </td>
+                        <td><input type="number" step="0.01" placeholder="Enter Value" class="form-control" name="t3r22_value"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t3r22_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">110.104.q.ii</td>
+                        <td class="fixed-label-cell">Functional Test, Limiting Angle HPA </td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t3r23_ok" name="t3r23" value="SAT"><label for="t3r23_ok">OK</label></div>
+                            <div><input type="radio" id="t3r23_not_ok" name="t3r23" value="UNSAT"><label for="t3r23_not_ok">NOT OK</label></div>
+                          </div>
+                        </td>
+                        <td><input type="number" step="0.01" placeholder="Enter Value" class="form-control" name="t3r23_value"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t3r23_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">110.104.q.iii</td>
+                        <td class="fixed-label-cell">Functional Test, Limiting Angle SR </td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t3r24_ok" name="t3r24" value="SAT"><label for="t3r24_ok">OK</label></div>
+                            <div><input type="radio" id="t3r24_not_ok" name="t3r24" value="UNSAT"><label for="t3r24_not_ok">NOT OK</label></div>
+                          </div>
+                        </td>
+                        <td><input type="number" step="0.01" placeholder="Enter Value" class="form-control" name="t3r24_value"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t3r24_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">110.104.q.iv</td>
+                        <td class="fixed-label-cell">Functional Test, Limiting Angle HPF </td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t3r25_ok" name="t3r25" value="SAT"><label for="t3r25_ok">OK</label></div>
+                            <div><input type="radio" id="t3r25_not_ok" name="t3r25" value="UNSAT"><label for="t3r25_not_ok">NOT OK</label></div>
+                          </div>
+                        </td>
+                        <td><input type="number" step="0.01" placeholder="Enter Value" class="form-control" name="t3r25_value"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t3r25_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">110.104.q.v</td>
+                        <td class="fixed-label-cell">Functional Test, Coupling Ratio HPA and HPF </td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t3r26_ok" name="t3r26" value="SAT"><label for="t3r26_ok">OK</label></div>
+                            <div><input type="radio" id="t3r26_not_ok" name="t3r26" value="UNSAT"><label for="t3r26_not_ok">NOT OK</label></div>
+                          </div>
+                        </td>
+                        <td><input type="number" step="0.01" placeholder="Enter Value" class="form-control" name="t3r26_value"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t3r26_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">110.105</td>
+                        <td class="fixed-label-cell">Functional Test, Emergency Control Mode</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div><input type="radio" id="t3r27_ok" name="t3r27" value="SAT"><label for="t3r27_ok">OK</label></div>
+                            <div><input type="radio" id="t3r27_not_ok" name="t3r27" value="UNSAT"><label for="t3r27_not_ok">NOT OK</label></div>
+                          </div>
+                        </td>
+                        <td><input type="number" step="0.01" placeholder="Enter Value" class="form-control" name="t3r27_value"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="t3r27_remarks" rows="1" placeholder="Remarks..."></textarea></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+                
+
+              <!-- Submit -->
+              <div class="d-flex justify-content-center mt-4 gap-2">
+                <button type="submit" class="btn btn-success px-4">Save</button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		WRSTGQuarterly.init({
+			extraTableIds: [, 'remarks_table',],
+			submitConfirmation: { formId: 'ssc5_form' }
+		});
+	});
+</script>
+{% endblock js %}

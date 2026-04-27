@@ -1,0 +1,741 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+<script>
+
+#remarks_table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+#remarks_table td,
+#remarks_table th {
+    aspect-ratio: 1 / 1;
+    padding: 0;
+}
+
+#remarks_table input {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+</script>
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item active" aria-current="page">LINK II MoD II</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">LINK II MoD II - 7140011</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="link_ii_mod_ii_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!-- ══════════════════════════════════════════
+                   HEADER — Ship / Equipment Info
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <div class="row g-3">
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="ship" required>
+                        <option value="">-- Select Ship --</option>
+                        {% for ship in ship_options %}
+                        <option value="{{ ship.value }}">{{ ship.label }}</option>
+                        {% endfor %}
+                      </select>
+                      <label class="form_control_1">Name of Ship <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="equipment" value="LINK II MoD II" readonly placeholder=" ">
+                      <label class="form_control_1">Equipment</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="sno" placeholder=" ">
+                      <label class="form_control_1">S. No.</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="date" class="form-control" name="trial_date" placeholder=" ">
+                      <label class="form_control_1">Date <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="department" required>
+                        <option value="">-- Select Department --</option>
+                        <option value="ELE/COMMN">ELE/COMMN</option>
+                        <option value="ND">ND</option>
+                        <option value="Gunnery">Gunnery</option>
+                        <option value="Communication">Communication</option>
+                        <option value="ASW">ASW</option>
+                      </select>
+                      <label class="form_control_1">Department <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="nature_of_trials" required>
+                        <option value="">-- Select Nature of Trials --</option>
+                        <option value="acceptance">Acceptance</option>
+                        <option value="pre_refit">Pre-Refit Trials</option>
+                        <option value="post_refit">Post-Refit Trials</option>
+                        <option value="periodic">Periodic Trials</option>
+                        <option value="defect_investigation">Defect Investigation</option>
+                        <option value="warranty">Warranty Trials</option>
+                        <option value="op_checks">Op Checks</option>
+                      </select>
+                      <label class="form_control_1">Nature of Trials <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                </div>
+
+                <br>
+
+                <p>Trial team reported onboard for Ops Check of <strong>Link II MoD II</strong> at
+                    <input type="time"
+                    name="link_ii_time"
+                    class="form-control d-inline mx-1 p-1"
+                    style="width: 200px; height: 26px;">
+                    hrs. Checks and trials carried out IAW IHQ MoD (Navy)/DSR approved schedule
+                    WP/1280/LINK II dated 09 Jul 15 and CNO. 07/10 are enumerated in succeeding paragraphs :-</p>
+
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Ser</th>
+                        <th >Checks</th>
+                        <th colspan="4">Observations</th>
+                        <th >Remarks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <!-- ══ 2.0 System Configuration ══ -->
+                      <tr>
+                        <td><strong>2.0</strong></td>
+                        <td colspan="6"><strong>System Configuration of Link II MOD I System</strong></td>
+                      </tr>
+
+                      <!-- 2.0.1 -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">2.0.1</td>
+                        <td colspan="4">
+                          <strong>Large/ Small/ Single</strong> Ship Configuration :2200
+                          <br>
+                          <br>
+                          <strong>Server System</strong>
+                          <input type="text"
+                            name="sys_server"
+                            class="form-control d-inline mx-1 p-1"
+                            style="width: 150px; height: 26px;">
+                          &nbsp;<strong>SADL</strong>
+                          <input type="text"
+                            name="sys_sadl"
+                            class="form-control d-inline mx-1 p-1"
+                            style="width: 150px; height: 26px;">
+                          &nbsp;<strong>Client</strong>
+                          <input type="text"
+                            name="sys_client"
+                            class="form-control d-inline mx-1 p-1"
+                            style="width: 150px; height: 26px;">
+                          <br>
+                          <br>
+                          <strong>1 KVA UPS</strong>
+                          <input type="text"
+                            name="sys_ups"
+                            class="form-control d-inline mx-1 p-1"
+                            style="width: 150px; height: 26px;">
+                          &nbsp;<strong>Printers</strong>
+                          <input type="text"
+                            name="sys_printers"
+                            class="form-control d-inline mx-1 p-1"
+                            style="width: 150px; height: 26px;">
+                          <br>
+                          <br>
+                          <strong>LAN Components</strong> : Switch 24 Ports
+                          <input type="text"
+                            name="sys_switch_24"
+                            class="form-control d-inline mx-1 p-1"
+                            style="width: 150px; height: 26px;">
+                          &nbsp;Switch 8 ports
+                          <input type="text"
+                            name="sys_switch_8"
+                            class="form-control d-inline mx-1 p-1"
+                            style="width: 150px; height: 26px;">
+                          &nbsp;LIU
+                          <input type="text"
+                            name="sys_liu"
+                            class="form-control d-inline mx-1 p-1"
+                            style="width: 150px; height: 26px;">
+                        </td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="sys_config_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="sys_config_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ 3.0 Technical Specifications ══ -->
+                      <tr>
+                        <td><strong>3.0</strong></td>
+                        <td colspan="7"><strong>Technical Specifications:</strong></td>
+                      </tr>
+
+                      <!-- 3.0.1 -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">3.0.1</td>
+                        <td colspan="4">
+                          <strong>Server System</strong>: CPU Processor : i7, RAM 8GB, Hard Disk 500 GB,
+                          USB Buzzer, RF Modem 9.6 Kbps
+                          <input type="text"
+                            name="tech_server_modem_96"
+                            class="form-control d-inline mx-1 p-1"
+                            style="width: 150px; height: 26px;">,
+                          RF Modems 2.4 Kbps, Serial card 4 Port
+                          <input type="text"
+                            name="tech_server_serial"
+                            class="form-control d-inline mx-1 p-1"
+                            style="width: 150px; height: 26px;">
+                        </td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="tech_server_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="tech_server_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- 3.0.2 -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">3.0.2</td>
+                        <td colspan="4">
+                          <strong>SADL</strong> : CPU Processor : i7, RAM 8GB, Hard Disk 500 GB,
+                          USB Buzzer, RF Modem 9.6 Kbps
+                          <input type="text"
+                            name="tech_sadl_modem_96"
+                            class="form-control d-inline mx-1 p-1"
+                            style="width: 150px; height: 26px;">,
+                          RF Modems 2.4 Kbps, Serial card 4 Port
+                          <input type="text"
+                            name="tech_sadl_serial"
+                            class="form-control d-inline mx-1 p-1"
+                            style="width: 150px; height: 26px;">
+                        </td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="tech_sadl_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="tech_sadl_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- 3.0.3 -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">3.0.3</td>
+                        <td colspan="4">
+                          <strong>Client</strong> : CPU Processor : i7, RAM 8GB, Hard Disk 500 GB,
+                          USB Buzzer, RF Modem 9.6 Kbps
+                          <input type="text"
+                            name="tech_client_modem_96"
+                            class="form-control d-inline mx-1 p-1"
+                            style="width: 150px; height: 26px;">,
+                          RF Modems 2.4 Kbps, Serial card 4 Port
+                          <input type="text"
+                            name="tech_client_serial"
+                            class="form-control d-inline mx-1 p-1"
+                            style="width: 150px; height: 26px;">
+                        </td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="tech_client_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="tech_client_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ 4.0 Application Software Module Checklist ══ -->
+                      <tr>
+                        <td><strong>4.0</strong></td>
+                        <td colspan="6"><strong>Application Software Module Check list:</strong></td>
+                      </tr>
+
+                      <!-- 4.0 sub-header -->
+                      <tr class="custom_tbl header">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td >Link</td>
+                        <td >Messaging</td>
+                        <td >Tactical</td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td>(i) Server System Large/ Small</td>
+                        <td >Ver</td>
+                        <td >
+                          <input type="text"
+                                            name="sw_server_ver"
+                                            class="form-control d-inline mx-1 p-1"
+                                            style="width: 150px; height: 26px;">
+                        </td>
+                        <td >
+                          <input type="text"
+                                            name="sw_server_ver"
+                                            class="form-control d-inline mx-1 p-1"
+                                            style="width: 150px; height: 26px;">
+                        </td>
+                        <td>
+                          <div class="radio-stack">
+                            <label><input type="radio" name="sw_server_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="sw_server_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr><tr>
+                        <td></td>
+                        <td></td>
+                        <td>(ii) SADL System</td>
+                        <td >Ver</td>
+                        <td >
+                          <input type="text"
+                                            name="sw_server_ver"
+                                            class="form-control d-inline mx-1 p-1"
+                                            style="width: 150px; height: 26px;">
+                        </td>
+                        <td >
+                          <input type="text"
+                                            name="sw_server_ver"
+                                            class="form-control d-inline mx-1 p-1"
+                                            style="width: 150px; height: 26px;">
+                        </td>
+                        <td>
+                          <div class="radio-stack">
+                            <label><input type="radio" name="sw_sadl_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="sw_sadl_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td>(iii) Client System</td>
+                        <td >Ver</td>
+                        <td >
+                          <input type="text"
+                                            name="sw_server_ver"
+                                            class="form-control d-inline mx-1 p-1"
+                                            style="width: 150px; height: 26px;">
+                        </td>
+                        <td >
+                          <input type="text"
+                                            name="sw_server_ver"
+                                            class="form-control d-inline mx-1 p-1"
+                                            style="width: 150px; height: 26px;">
+                        </td>
+                        <td>
+                          <div class="radio-stack">
+                            <label><input type="radio" name="sw_client_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="sw_client_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td>(iv) Single System</td>
+                        <td >Ver</td>
+                        <td >
+                          <input type="text"
+                                            name="sw_server_ver"
+                                            class="form-control d-inline mx-1 p-1"
+                                            style="width: 150px; height: 26px;">
+                        </td>
+                        <td >
+                          <input type="text"
+                                            name="sw_server_ver"
+                                            class="form-control d-inline mx-1 p-1"
+                                            style="width: 150px; height: 26px;">
+                        </td>
+                        <td>
+                          <div class="radio-stack">
+                            <label><input type="radio" name="sw_single_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="sw_single_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+                      
+                                        
+                                    {% comment %} <tr>
+                                        <td></td>
+                                        <td>Ver</td>
+                                        <td>
+                                            
+                                        </td>
+                                        <td>
+                                            <input type="text"
+                                            name="sw_server_tactical"
+                                            class="form-control d-inline mx-1 p-1"
+                                            style="width: 150px; height: 26px;">
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                            <input type="text"
+                                            name="sw_sadl_ver"
+                                            class="form-control d-inline mx-1 p-1"
+                                            style="width: 150px; height: 26px;">
+                                        </td>
+                                        <td>
+                                            <input type="text"
+                                            name="sw_sadl_tactical"
+                                            class="form-control d-inline mx-1 p-1"
+                                            style="width: 150px; height: 26px;">
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td></td>
+                                        <td>Ver</td>
+                                        <td>
+                                            <input type="text"
+                                            name="sw_client_ver"
+                                            class="form-control d-inline mx-1 p-1"
+                                            style="width: 150px; height: 26px;">
+                                        
+                                        </td>
+                                        <td>
+                                            <input type="text"
+                                            name="sw_client_tactical"
+                                            class="form-control d-inline mx-1 p-1"
+                                            style="width: 150px; height: 26px;">
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td></td>
+                                        <td>Ver</td>
+                                        <td>
+                                            <input type="text"
+                                            name="sw_single_ver"
+                                            class="form-control d-inline mx-1 p-1"
+                                            style="width: 150px; height: 26px;">
+                                        </td>
+                                        <td>
+                                            <input type="text"
+                                            name="sw_single_tactical"
+                                            class="form-control d-inline mx-1 p-1"
+                                            style="width: 150px; height: 26px;">
+                                        </td>
+                                    </tr>
+                                <tbody>
+                                </tbody>
+                                </table>
+                            </div>
+                        </td>
+                        <td></td>
+                      </tr>
+
+                      <!-- (i) Server System -->
+                      <tr>
+                        <td></td>
+                        <td ></td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="sw_server_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="sw_server_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (ii) SADL System -->
+                      <tr>
+                        <td></td>
+                        <td></td>
+                        <td class="status-col">
+                          
+                        </td>
+                      </tr>
+
+                      <!-- (iii) Client System -->
+                      <tr>
+                        <td></td>
+                        <td ></td>
+                        <td class="status-col">
+                          
+                        </td>
+                      </tr>
+
+                      <!-- (iv) Single System -->
+                      <tr>
+                        <td></td>
+                        <td ></td>
+                        <td class="status-col">
+                          
+                        </td>
+                      </tr> {% endcomment %}
+
+                      <!-- ══ 5.0 TEST CASES ══ -->
+                      <tr>
+                        <td><strong>5.0</strong></td>
+                        <td colspan="6"><strong>TEST CASES</strong></td>
+                      </tr>
+
+                      <!-- (i) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(i)</td>
+                        <td colspan="4">Check Server is interfaced with V/UHF/ HF/ MSS/ Rukmani</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="tc_1_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="tc_1_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (ii) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(ii)</td>
+                        <td colspan="4">Transmit 02 messages each on MSS/Rukmani and check auto Ack Pop-up received</td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="tc_2_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="tc_2_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (iii) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(iii)</td>
+                        <td colspan="4">
+                          Check all 9.6 Kbps RF modem port by connecting V/UHF &amp; HF set and transmit 02 messages from each port to consort ship
+                          <input type="text"
+                            name="tc_3_consort_ship"
+                            class="form-control d-inline mx-1 p-1"
+                            style="width: 150px; height: 26px;">
+                          with auto ack pop-up received
+                        </td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="tc_3_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="tc_3_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (iv) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(iv)</td>
+                        <td colspan="4">
+                          Compose and send two messages from consort ship
+                          <input type="text"
+                            name="tc_4_consort_ship"
+                            class="form-control d-inline mx-1 p-1"
+                            style="width: 150px; height: 26px;">
+                          on each circuits MSS/ Rukmani and check all messages received in <strong>IN</strong> box
+                        </td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="tc_4_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="tc_4_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (v) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(v)</td>
+                        <td colspan="4">
+                          Compose and send two messages from consort ship
+                          <input type="text"
+                            name="tc_5_consort_ship"
+                            class="form-control d-inline mx-1 p-1"
+                            style="width: 150px; height: 26px;">
+                          on each RF modem port connected with V/UHF/ HF and check all messages received in <strong>IN</strong> box
+                        </td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="tc_5_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="tc_5_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (vi) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(vi)</td>
+                        <td colspan="4">
+                          Create five NRT track and transmit to consort ship
+                          <input type="text"
+                            name="tc_6_consort_ship"
+                            class="form-control d-inline mx-1 p-1"
+                            style="width: 150px; height: 26px;">
+                          over Rukmani/ MSS/ RF medium alternatively and check track received on SADL
+                        </td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="tc_6_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="tc_6_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- (vii) -->
+                      <tr>
+                        <td></td>
+                        <td class="serial-no">(vii)</td>
+                        <td colspan="4">
+                          Create and transmit five NRT track from consort ship
+                          <input type="text"
+                            name="tc_7_consort_ship"
+                            class="form-control d-inline mx-1 p-1"
+                            style="width: 150px; height: 26px;">
+                          SADL over Rukmani/ MSS/ RF medium alternatively and check track received on own ship's SADL
+                        </td>
+                        <td class="status-col">
+                          <div class="radio-stack">
+                            <label><input type="radio" name="tc_7_rmk" value="sat" required> SAT</label>
+                            <label><input type="radio" name="tc_7_rmk" value="unsat"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   REMARKS
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">REMARKS</legend>
+                <div class="static-section">
+                  <div class="table-responsive">
+                    <table class="custom_tbl" id="remarks_table">
+                      <thead>
+                        <tr>
+                          <th class="serial-no">Sr No</th>
+                          <th >Observations</th>
+                          <th>SS Remarks</th>
+                          <th class="action">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="serial-no">1</td>
+                          <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="observation" placeholder="" rows="2"></textarea></td>
+                          <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="ss_remarks" placeholder="" rows="2"></textarea></td>
+                          <td class="action action-cell-holder">
+                            <div class="action-controls">
+                              <button type="button" class="btn-round btn-add" onclick="addRow('remarks_table')" title="Add Row">+</button>
+                              <button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'remarks_table')" title="Remove Row">-</button>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   AUTHORITY SECTION
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <div class="row">
+                  <div class="col-md-6">
+                    <h6 class="font-weight-bold my-text">Presenting Authority: Ship's Staff</h6>
+                    <div class="row mt-3">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>ND:</label>
+                          <input type="text" class="form-control" name="presenting_nd" placeholder="">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-6">
+                    <h6 class="font-weight-bold my-text">Inspecting Authority: WATT (V)</h6>
+                    <div class="row mt-3">
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>STI / TI:</label>
+                          <input type="text" class="form-control" name="inspecting_sti_ti" placeholder="">
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                          <label>STO:</label>
+                          <input type="text" class="form-control" name="inspecting_sto" placeholder="">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

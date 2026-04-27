@@ -1,0 +1,378 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid bg-transparent">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+                    <li class="breadcrumb-item"><a href="#">ETMA</a></li>
+                    <li class="breadcrumb-item"><a href="#">Submarines</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">AC Chopper Box Protocol</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">AC CHOPPER BOX PROTOCOL</span>
+					</div>
+				</div>
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="ac_chopper_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+                            <fieldset class="custom-fieldset mt-2">
+                                    <legend class="legend-custom text-uppercase">Trial Information</legend>
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <div class="form-group form-md-line-input form-md-floating-label">
+                                                <input type="date" name="trial_date" class="form-control" required>
+                                                <label class="form_control_1">DATE OF TRIALS <span
+                                                        class="text-danger">*</span></label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group form-md-line-input form-md-floating-label">
+                                                <select name="ins_name" class="form-control" required>
+                                                    <option value="" selected disabled></option>
+                                                    <option value="INS KOCHI">INS KOCHI</option>
+                                                    <option value="INS KOLKATA">INS KOLKATA</option>
+                                                    <option value="INS CHENNAI">INS CHENNAI</option>
+                                                    <option value="INS VIKRANT">INS VIKRANT</option>
+                                                </select>
+                                                <label class="form_control_1">INS <span
+                                                        class="text-danger">*</span></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </fieldset>
+
+                            <!-- Sub-Fieldset: Test Results -->
+                                <fieldset class="custom-fieldset mt-4">
+                                    <legend class="legend-custom text-uppercase">Test Results Protocols</legend>
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl paralleling-table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-center" style="width: 12%;">TEST SR</th>
+                                                    <th class="text-center" style="width: 38%;">TEST/ NOMINAL VALUE</th>
+                                                    <th class="text-center" style="width: 15%;">OK / NOT OK</th>
+                                                    <th class="text-center" style="width: 15%;">ACTUAL VALUE</th>
+                                                    <th class="text-center" style="width: 20%;">REMARKS</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="text-center">117.100</td>
+                                                    <td>Visual Check</td>
+                                                    
+                                                    <td class="text-center">
+                                                        <div class="d-flex justify-content-center gap-3">
+                                                            <label><input type="radio" name="result_117_100" value="OK">
+                                                                OK</label>
+                                                            <label><input type="radio" name="result_117_100"
+                                                                    value="Not OK"> Not OK</label>
+                                                        </div>
+                                                    </td>
+                                                    <td><input type="text" name="actual_117_100"
+                                                            class="form-control text-center"></td>
+                                                    <td><input type="text" name="remarks_117_100" class="form-control">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center">117.101</td>
+                                                    <td>Functional Tests; Control Power Supply check </td>
+                                                    
+                                                    <td class="text-center">
+                                                        <div class="d-flex justify-content-center gap-3">
+                                                            <label><input type="radio" name="result_117_101" value="OK">
+                                                                OK</label>
+                                                            <label><input type="radio" name="result_117_101"
+                                                                    value="Not OK"> Not OK</label>
+                                                        </div>
+                                                    </td>
+                                                    <td><input type="text" name="actual_117_101"
+                                                            class="form-control text-center"></td>
+                                                    <td><input type="text" name="remarks_117_101" class="form-control">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center">117.102</td>
+                                                    <td>Field Supply Check; </td>
+                                                    
+                                                    <td class="text-center">
+                                                        <div class="d-flex justify-content-center gap-3">
+                                                            <label><input type="radio" name="result_117_102" value="OK">
+                                                                OK</label>
+                                                            <label><input type="radio" name="result_117_102"
+                                                                    value="Not OK"> Not OK</label>
+                                                        </div>
+                                                    </td>
+                                                    <td><input type="text" name="actual_117_102"
+                                                            class="form-control text-center"></td>
+                                                    <td><input type="text" name="remarks_117_102" class="form-control">
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center">117.103</td>
+                                                    <td>Water Circuit Test; </td>
+                                                    
+                                                    <td class="text-center">
+                                                        <div class="d-flex justify-content-center gap-3">
+                                                            <label><input type="radio" name="result_117_103" value="OK">
+                                                                OK</label>
+                                                            <label><input type="radio" name="result_117_103"
+                                                                    value="Not OK"> Not OK</label>
+                                                        </div>
+                                                    </td>
+                                                    <td><input type="text" name="actual_117_103"
+                                                            class="form-control text-center"></td>
+                                                    <td><input type="text" name="remarks_117_103" class="form-control">
+                                                    </td>
+                                                </tr>
+                                                <tr class="bg-light">
+                                                    <td class="text-center fw-bold">117.104</td>
+                                                    <td class="fw-bold" colspan="4">Faults Check</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center ps-4">117.104.a</td>
+                                                    <td class="ps-4 italic">Over Speed; </td>
+                                                    
+                                                    <td class="text-center">
+                                                        <div class="d-flex justify-content-center gap-3">
+                                                            <label><input type="radio" name="result_117_104_a"
+                                                                    value="OK"> OK</label>
+                                                            <label><input type="radio" name="result_117_104_a"
+                                                                    value="Not OK"> Not OK</label>
+                                                        </div>
+                                                    </td>
+                                                    <td><input type="text" name="actual_117_104_a"
+                                                            class="form-control text-center"></td>
+                                                    <td><input type="text" name="remarks_117_104_a"
+                                                            class="form-control"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center ps-4">117.104.b</td>
+                                                    <td class="ps-4 italic">Heat Sink Over Temperature; </td>
+                                                    
+                                                    <td class="text-center">
+                                                        <div class="d-flex justify-content-center gap-3">
+                                                            <label><input type="radio" name="result_117_104_b"
+                                                                    value="OK"> OK</label>
+                                                            <label><input type="radio" name="result_117_104_b"
+                                                                    value="Not OK"> Not OK</label>
+                                                        </div>
+                                                    </td>
+                                                    <td><input type="text" name="actual_117_104_b"
+                                                            class="form-control text-center"></td>
+                                                    <td><input type="text" name="remarks_117_104_b"
+                                                            class="form-control"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center ps-4">117.104.c</td>
+                                                    <td class="ps-4 italic">Over Temp</td>
+                                                    
+                                                    <td class="text-center">
+                                                        <div class="d-flex justify-content-center gap-3">
+                                                            <label><input type="radio" name="result_117_104_c"
+                                                                    value="OK"> OK</label>
+                                                            <label><input type="radio" name="result_117_104_c"
+                                                                    value="Not OK"> Not OK</label>
+                                                        </div>
+                                                    </td>
+                                                    <td><input type="text" name="actual_117_104_c"
+                                                            class="form-control text-center"></td>
+                                                    <td><input type="text" name="remarks_117_104_c"
+                                                            class="form-control"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center ps-4">117.104.d</td>
+                                                    <td class="ps-4 italic">Over Current</td>
+                                                    
+                                                    <td class="text-center">
+                                                        <div class="d-flex justify-content-center gap-3">
+                                                            <label><input type="radio" name="result_117_104_d"
+                                                                    value="OK"> OK</label>
+                                                            <label><input type="radio" name="result_117_104_d"
+                                                                    value="Not OK"> Not OK</label>
+                                                        </div>
+                                                    </td>
+                                                    <td><input type="text" name="actual_117_104_d"
+                                                            class="form-control text-center"></td>
+                                                    <td><input type="text" name="remarks_117_104_d"
+                                                            class="form-control"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center ps-4">117.104.e</td>
+                                                    <td class="ps-4 italic">Output Over Voltage</td>
+                                                    
+                                                    <td class="text-center">
+                                                        <div class="d-flex justify-content-center gap-3">
+                                                            <label><input type="radio" name="result_117_104_e"
+                                                                    value="OK"> OK</label>
+                                                            <label><input type="radio" name="result_117_104_e"
+                                                                    value="Not OK"> Not OK</label>
+                                                        </div>
+                                                    </td>
+                                                    <td><input type="text" name="actual_117_104_e"
+                                                            class="form-control text-center"></td>
+                                                    <td><input type="text" name="remarks_117_104_e"
+                                                            class="form-control"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center ps-4">117.104.f</td>
+                                                    <td class="ps-4 italic">Battery Low</td>
+                                                    
+                                                    <td class="text-center">
+                                                        <div class="d-flex justify-content-center gap-3">
+                                                            <label><input type="radio" name="result_117_104_f"
+                                                                    value="OK"> OK</label>
+                                                            <label><input type="radio" name="result_117_104_f"
+                                                                    value="Not OK"> Not OK</label>
+                                                        </div>
+                                                    </td>
+                                                    <td><input type="text" name="actual_117_104_f"
+                                                            class="form-control text-center"></td>
+                                                    <td><input type="text" name="remarks_117_104_f"
+                                                            class="form-control"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center ps-4">117.104.g</td>
+                                                    <td class="ps-4 italic">Field Fail</td>
+                                                    
+                                                    <td class="text-center">
+                                                        <div class="d-flex justify-content-center gap-3">
+                                                            <label><input type="radio" name="result_117_104_g"
+                                                                    value="OK"> OK</label>
+                                                            <label><input type="radio" name="result_117_104_g"
+                                                                    value="Not OK"> Not OK</label>
+                                                        </div>
+                                                    </td>
+                                                    <td><input type="text" name="actual_117_104_g"
+                                                            class="form-control text-center"></td>
+                                                    <td><input type="text" name="remarks_117_104_g"
+                                                            class="form-control"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center ps-4">117.104.h</td>
+                                                    <td class="ps-4 italic">Flow Fail</td>
+                                                    
+                                                    <td class="text-center">
+                                                        <div class="d-flex justify-content-center gap-3">
+                                                            <label><input type="radio" name="result_117_104_h"
+                                                                    value="OK"> OK</label>
+                                                            <label><input type="radio" name="result_117_104_h"
+                                                                    value="Not OK"> Not OK</label>
+                                                        </div>
+                                                    </td>
+                                                    <td><input type="text" name="actual_117_104_h"
+                                                            class="form-control text-center"></td>
+                                                    <td><input type="text" name="remarks_117_104_h"
+                                                            class="form-control"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center ps-4">117.104.j</td>
+                                                    <td class="ps-4 italic">Mode selection</td>
+                                                    
+                                                    <td class="text-center">
+                                                        <div class="d-flex justify-content-center gap-3">
+                                                            <label><input type="radio" name="result_117_104_j"
+                                                                    value="OK"> OK</label>
+                                                            <label><input type="radio" name="result_117_104_j"
+                                                                    value="Not OK"> Not OK</label>
+                                                        </div>
+                                                    </td>
+                                                    <td><input type="text" name="actual_117_104_j"
+                                                            class="form-control text-center"></td>
+                                                    <td><input type="text" name="remarks_117_104_j"
+                                                            class="form-control"></td>
+                                                </tr>
+                                                <tr class="bg-light">
+                                                    <td class="text-center fw-bold">117.105</td>
+                                                    <td class="fw-bold" colspan="4">Chopper Box Mode selection and
+                                                        Operation</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center ps-4">117.105.a</td>
+                                                    <td class="ps-4 italic">Manual Mode</td>
+                                                    
+                                                    <td class="text-center">
+                                                        <div class="d-flex justify-content-center gap-3">
+                                                            <label><input type="radio" name="result_117_105_a"
+                                                                    value="OK"> OK</label>
+                                                            <label><input type="radio" name="result_117_105_a"
+                                                                    value="Not OK"> Not OK</label>
+                                                        </div>
+                                                    </td>
+                                                    <td><input type="text" name="actual_117_105_a"
+                                                            class="form-control text-center"></td>
+                                                    <td><input type="text" name="remarks_117_105_a"
+                                                            class="form-control"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center ps-4">117.105.b</td>
+                                                    <td class="ps-4 italic">Auto Mode</td>
+                                                    
+                                                    <td class="text-center">
+                                                        <div class="d-flex justify-content-center gap-3">
+                                                            <label><input type="radio" name="result_117_105_b"
+                                                                    value="OK"> OK</label>
+                                                            <label><input type="radio" name="result_117_105_b"
+                                                                    value="Not OK"> Not OK</label>
+                                                        </div>
+                                                    </td>
+                                                    <td><input type="text" name="actual_117_105_b"
+                                                            class="form-control text-center"></td>
+                                                    <td><input type="text" name="remarks_117_105_b"
+                                                            class="form-control"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center ps-4">117.105.c</td>
+                                                    <td class="ps-4 italic">Silent Mode</td>
+                                                    
+                                                    <td class="text-center">
+                                                        <div class="d-flex justify-content-center gap-3">
+                                                            <label><input type="radio" name="result_117_105_c"
+                                                                    value="OK"> OK</label>
+                                                            <label><input type="radio" name="result_117_105_c"
+                                                                    value="Not OK"> Not OK</label>
+                                                        </div>
+                                                    </td>
+                                                    <td><input type="text" name="actual_117_105_c"
+                                                            class="form-control text-center"></td>
+                                                    <td><input type="text" name="remarks_117_105_c"
+                                                            class="form-control"></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </fieldset>
+                                <div class="d-flex justify-content-center mt-4 gap-2">
+                                    <button type="submit" class="btn btn-success px-4">Submit</button>
+                                </div>
+
+                            
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/trial_common.js' %}"></script>
+{% endblock js %}

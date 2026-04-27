@@ -1,0 +1,328 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid bg-transparent">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">ITTTM</a></li>
+                    <li class="breadcrumb-item"><a href="#">ETMA</a></li>
+                    <li class="breadcrumb-item"><a href="#">Submarines</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Battery Charger Protocol</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="battery_charger_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+
+                            <!-- ══════════ REPORT DETAILS ══════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">Report Details</legend>
+
+                                <!-- Table No 1 -->
+                                <p class="mt-4 mb-2"><strong>(a)&nbsp;&nbsp;Test No 1.</strong>&nbsp;&nbsp;28VDC network
+                                    test in case of loss of 115V, 60 Hz supply to both Battery Charging Assemblies
+                                    (BCAs).</p>
+                                <p class="mb-1"><strong><u>Table No: 1</u></strong></p>
+                                <div class="table-responsive mb-4">
+                                    <table class="custom_tbl table-bordered w-100">
+                                        <thead>
+                                            <tr class="table-active">
+                                                <th rowspan="2" class="text-center align-middle">Ser
+                                                </th>
+                                                <th colspan="2" rowspan="2"
+                                                    class="text-center align-middle text-uppercase">AFT BATTERY CHARGER
+                                                    ASSEMBLY BS02501</th>
+                                                <th colspan="2" class="text-center align-middle">CORRECT</th>
+                                            </tr>
+                                            <tr class="table-active">
+                                                <th class="text-center" >YES</th>
+                                                <th class="text-center" >NO</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-center">1.1</td>
+                                                <td rowspan="6" class="text-center align-middle" >
+                                                    Selector<br>(Start/Stop)<br>of the BCA in<br>ON</td>
+                                                <td>The BCA fed with the 115VAC network.</td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="aft_1_1" value="yes"></td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="aft_1_1" value="no"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">1.2</td>
+                                                <td>The users fed with the 115VAC network.</td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="aft_1_2" value="yes"></td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="aft_1_2" value="no"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">1.3</td>
+                                                <td>The BCA does not supply current to the outlets.</td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="aft_1_3" value="yes"></td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="aft_1_3" value="no"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center border-top-0 border-bottom-0"></td>
+                                                <td colspan="3" class="text-center font-weight-bold"><strong>Disconnect
+                                                        the feeding of 115 V AC of one or several users</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">1.4</td>
+                                                <td>The users disconnected from 115 V AC are still ON.</td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="aft_1_4" value="yes"></td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="aft_1_4" value="no"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">1.5</td>
+                                                <td>Outlet voltage of the BCA.</td>
+                                                <td colspan="2"><input type="text" name="aft_1_5" class="form-control">
+                                                </td>
+                                            </tr>
+
+                                            <!-- FORWARD SECTION -->
+                                            <tr class="table-active">
+                                                <th rowspan="2" class="text-center align-middle"></th>
+                                                <th colspan="2" rowspan="2"
+                                                    class="text-center text-uppercase">FORWARD BATTERY
+                                                    CHARGER ASSEMBLY BS02500</th>
+                                                <th colspan="2" class="text-center align-middle">CORRECT</th>
+                                            </tr>
+                                            <tr class="table-active">
+                                                <th class="text-center" >YES</th>
+                                                <th class="text-center" >NO</th>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">1.6</td>
+                                                <td rowspan="6" class="text-center align-middle" >
+                                                    Selector<br>(Start/Stop)<br>of the BCA in<br>ON</td>
+                                                <td>The BCA fed with the115V AC network.</td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="fwd_1_6" value="yes"></td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="fwd_1_6" value="no"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">1.7</td>
+                                                <td>The users fed with the 115V AC network.</td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="fwd_1_7" value="yes"></td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="fwd_1_7" value="no"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">1.8</td>
+                                                <td>The BCA does not supply to the outlets.</td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="fwd_1_8" value="yes"></td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="fwd_1_8" value="no"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center border-top-0 border-bottom-0"></td>
+                                                <td colspan="3" class="text-center font-weight-bold"><strong>Disconnect
+                                                        the feeding of 115 V AC of one or several users</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">1.9</td>
+                                                <td>The users disconnected from115 V AC are still ON.</td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="fwd_1_9" value="yes"></td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="fwd_1_9" value="no"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">1.10</td>
+                                                <td>Outlet voltage of the BCA.</td>
+                                                <td colspan="2"><input type="text" name="fwd_1_10" class="form-control">
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <!-- Table No 2 -->
+                                <div class="d-flex w-100">
+                                    <p class="mt-4 mb-2 pr-4 me-4"><strong>(b)&nbsp;&nbsp;Test No 2.</strong></p>
+                                    <p class="mt-4 mb-2 ms-3">Verification of monitoring function from PEP and PEC (OO)
+                                        in loss situation.</p>
+                                </div>
+                                <p class="mb-1"><strong><u>Table No. 2</u></strong></p>
+                                <div class="table-responsive mb-2">
+                                    <table class="custom_tbl table-bordered w-100">
+                                        <thead>
+                                            <tr class="table-active">
+                                                <th rowspan="4" class="text-center align-middle" >Ser
+                                                </th>
+                                                <th colspan="2" rowspan="2"
+                                                    class="text-center align-middle font-weight-bold">Aft battery
+                                                    charger (BCA) BS02501</th>
+                                                <th colspan="4" class="text-center align-middle border-bottom-0"></th>
+                                            </tr>
+                                            <tr class="table-active">
+                                                <th colspan="2"
+                                                    class="text-center align-middle border-top-0 border-bottom-0 text-decoration-underline">
+                                                    PEC</th>
+                                                <th colspan="2"
+                                                    class="text-center align-middle border-top-0 border-bottom-0 text-decoration-underline">
+                                                    PEP</th>
+                                            </tr>
+                                            <tr class="table-active">
+                                                <th colspan="2" rowspan="2"
+                                                    class="text-center align-middle font-weight-bold">
+                                                    Remote indications</th>
+                                                <th class="text-center border-top-0" >YES</th>
+                                                <th class="text-center border-top-0" >NO</th>
+                                                <th class="text-center border-top-0" >YES</th>
+                                                <th class="text-center border-top-0" >NO</th>
+                                            </tr>
+                                            <tr class="table-active">
+                                                <th colspan="4" class="border-top-0"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-center">2.1</td>
+                                                <td colspan="2">Aft battery charger "off" indication.</td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="aft_2_1_pec" value="yes"></td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="aft_2_1_pec" value="no"></td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="aft_2_1_pep" value="yes"></td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="aft_2_1_pep" value="no"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">2.2</td>
+                                                <td >Start the charger.</td>
+                                                <td>Aft battery charger "on" indication.</td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="aft_2_2_pec" value="yes"></td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="aft_2_2_pec" value="no"></td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="aft_2_2_pep" value="yes"></td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="aft_2_2_pep" value="no"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">2.3</td>
+                                                <td>Remove battery indication fuse.</td>
+                                                <td>Incident warning.</td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="aft_2_3_pec" value="yes"></td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="aft_2_3_pec" value="no"></td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="aft_2_3_pep" value="yes"></td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="aft_2_3_pep" value="no"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">2.4</td>
+                                                <td>Remove the 115V feeding from BF.</td>
+                                                <td>Defect warning.</td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="aft_2_4_pec" value="yes"></td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="aft_2_4_pec" value="no"></td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="aft_2_4_pep" value="yes"></td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="aft_2_4_pep" value="no"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">2.5</td>
+                                                <td colspan="2">Sound indication at the same time as the visual
+                                                    indication.</td>
+                                                <td class="table-secondary"></td>
+                                                <td class="table-secondary"></td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="aft_2_5_pep" value="yes"></td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="aft_2_5_pep" value="no"></td>
+                                            </tr>
+
+                                            <!-- FORWARD SECTION -->
+                                            <tr class="table-active">
+                                                <th rowspan="4" class="text-center align-middle" >Ser
+                                                </th>
+                                                <th colspan="2" rowspan="2"
+                                                    class="text-center align-middle font-weight-bold">Forward battery
+                                                    charger (BCA) BS02500</th>
+                                                <th colspan="4" class="text-center align-middle border-bottom-0"></th>
+                                            </tr>
+                                            <tr class="table-active">
+                                                <th colspan="2"
+                                                    class="text-center align-middle border-top-0 border-bottom-0 text-decoration-underline">
+                                                    PEC</th>
+                                                <th colspan="2"
+                                                    class="text-center align-middle border-top-0 border-bottom-0 text-decoration-underline">
+                                                    PEP</th>
+                                            </tr>
+                                            <tr class="table-active">
+                                                <th colspan="2" rowspan="2"
+                                                    class="text-center align-middle font-weight-bold">
+                                                    Remote indications</th>
+                                                <th class="text-center border-top-0" >YES</th>
+                                                <th class="text-center border-top-0" >NO</th>
+                                                <th class="text-center border-top-0" >YES</th>
+                                                <th class="text-center border-top-0" >NO</th>
+                                            </tr>
+                                            <tr class="table-active">
+                                                <th colspan="4" class="border-top-0"></th>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">2.6</td>
+                                                <td colspan="2">Forward battery charger "off" indication.</td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="fwd_2_6_pec" value="yes"></td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="fwd_2_6_pec" value="no"></td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="fwd_2_6_pep" value="yes"></td>
+                                                <td class="text-center align-middle"><input class="form-check-input"
+                                                        type="radio" name="fwd_2_6_pep" value="no"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Submit</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/trial_common.js' %}"></script>
+{% endblock js %}

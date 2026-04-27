@@ -1,0 +1,382 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+
+<style>
+    .custom_tbl td, .custom_tbl th {
+        vertical-align: middle;
+    }
+
+    textarea.form-control {
+        min-height: 60px;
+        resize: vertical;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+                    <li class="breadcrumb-item" aria-current="page">FTTT</li>
+                    <li class="breadcrumb-item active" aria-current="page">SSR Parameter Checks</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">SSR Parameter Checks</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form">
+                    <form method="post">
+                        {% csrf_token %}
+
+                         <fieldset class="custom-fieldset">
+                                    <legend class="legend-custom text-uppercase">BASIC INFORMATION</legend>
+                                    <div class="row g-3">
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="system_sub_system" value="RADAR SSR" placeholder=" " readonly>
+                                                <label class="form_control_1">1. System/ Sub system</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="job_undertaken" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">2. Job Undertaken</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <!-- <textarea class="form-control wrstg-scroll-textarea" name="reference_documents" rows="2" placeholder=" "></textarea> -->
+                                                 <input type="file" class ="form-control" name="reference_documents">
+                                                <label class="form_control_1">3. Reference Documents</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="authority" placeholder=" ">
+                                                <label class="form_control_1">4. Authority</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="agencies_involved" value="FTTT(Vzg)" placeholder=" " readonly>
+                                                <label class="form_control_1">5. Agencies involved</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="date" class="form-control" name="date_commenced">
+                                                <label class="form_control_1">6. Date Commenced</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="date" class="form-control" name="date_completed">
+                                                <label class="form_control_1">7. Date Completed</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="prepared_by" placeholder=" ">
+                                                <label class="form_control_1">8. Prepared by</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="vetted_by" placeholder=" ">
+                                                <label class="form_control_1">9. Vetted by</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="reference_no" placeholder=" ">
+                                                <label class="form_control_1">10. Reference No.</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="summary_of_observations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">11. Summary of observations</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="operational_limitations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">12. Operational limitations (if any)</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </fieldset>
+
+                        <!-- ================== 13 ================== -->
+                        <fieldset class="custom-fieldset">
+                            <legend class="legend-custom">13. TX/RX Parameter</legend>
+
+                            <div class="table-responsive">
+                                <table class="custom_tbl">
+
+                                    <thead>
+                                        <tr>
+                                            <th>Ser No</th>
+                                            <th>Parameters</th>
+                                            <th>Specified Value</th>
+                                            <th>Observed Value</th>
+                                            <th>Remarks</th>
+                                        </tr>
+                                        <tr>
+                                            <th></th>
+                                            <th>a.</th>
+                                            <th>b.</th>
+                                            <th>c.</th>
+                                            <th>d.</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Forward Power</td>
+                                            <td>180 W to 320 W</td>
+                                            <td><textarea name="tx_1_obs" class="form-control"></textarea></td>
+                                            <td><textarea name="tx_1_rem" class="form-control"></textarea></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>2</td>
+                                            <td>Reverse Power</td>
+                                            <td>-</td>
+                                            <td><textarea name="tx_2_obs" class="form-control"></textarea></td>
+                                            <td><textarea name="tx_2_rem" class="form-control"></textarea></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>3</td>
+                                            <td>Noise Figure</td>
+                                            <td>&lt; 3.3 dB</td>
+                                            <td><textarea name="tx_3_obs" class="form-control"></textarea></td>
+                                            <td><textarea name="tx_3_rem" class="form-control"></textarea></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>4</td>
+                                            <td>VSWR = (1 + √(Pr/Pt)) / (1 - √(Pr/Pt))</td>
+                                            <td>&lt; 1.33</td>
+                                            <td><textarea name="tx_4_obs" class="form-control"></textarea></td>
+                                            <td><textarea name="tx_4_rem" class="form-control"></textarea></td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <p><b>*Test Equipment -</b>
+                                <input type="text" name="tx_equipment" class="form-control">
+                            </p>
+                        </fieldset>
+
+                        <!-- ================== 14 ================== -->
+                        <fieldset class="custom-fieldset">
+                            <legend class="legend-custom">14. Visual Inspection</legend>
+
+                            <div class="table-responsive">
+                                <table class="custom_tbl">
+
+                                    <thead>
+                                        <tr>
+                                            <th>Ser</th>
+                                            <th>Description of Check</th>
+                                            <th>Remarks</th>
+                                        </tr>
+                                        <tr>
+                                            <th></th>
+                                            <th>a.</th>
+                                            <th>b.</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+
+                                        <!-- 1 -->
+                                        <tr>
+                                            <td rowspan="3" style="text-align:center;">1</td>
+                                            <td><b>Inspection of Antenna assembly:</b></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Greasing of gearings</td>
+                                            <td><textarea name="vi_1_i" class="form-control"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Status of Antenna connectors</td>
+                                            <td><textarea name="vi_1_ii" class="form-control"></textarea></td>
+                                        </tr>
+
+                                        <!-- 2 -->
+                                        <tr>
+                                            <td rowspan="3">2</td>
+                                            <td><b>Power supply checks of SSR Utility Rack:</b></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td>220V, 50 Hz, 1φ (ACH)</td>
+                                            <td><textarea name="vi_2_i" class="form-control"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>380V, 50 Hz, 3φ (Input Supply)</td>
+                                            <td><textarea name="vi_2_ii" class="form-control"></textarea></td>
+                                        </tr>
+
+                                        <!-- 3 -->
+                                        <tr>
+                                            <td>3</td>
+                                            <td>Inspection of waveguide – material state</td>
+                                            <td><textarea name="vi_3" class="form-control"></textarea></td>
+                                        </tr>
+
+                                        <!-- 4 -->
+                                        <tr>
+                                            <td>4</td>
+                                            <td>Status of dehydrator/Waveguide drier (60 mbar ±5)</td>
+                                            <td><textarea name="vi_4" class="form-control"></textarea></td>
+                                        </tr>
+
+                                        <!-- 5 -->
+                                        <tr>
+                                            <td rowspan="4">5</td>
+                                            <td><b>Status of Cooling device and System ventilation:</b></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Status of system ventilation</td>
+                                            <td><textarea name="vi_5_i" class="form-control"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Cooling status of HF Compartment</td>
+                                            <td><textarea name="vi_5_ii" class="form-control"></textarea></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Cooling Status of Ops Room</td>
+                                            <td><textarea name="vi_5_iii" class="form-control"></textarea></td>
+                                        </tr>
+
+                                        <!-- 6 -->
+                                        <tr>
+                                            <td>6</td>
+                                            <td>Status of Cables/ Connectors of Sub-units</td>
+                                            <td><textarea name="vi_6" class="form-control"></textarea></td>
+                                        </tr>
+
+                                        <!-- 7 -->
+                                        <tr>
+                                            <td>7</td>
+                                            <td>Availability of Main/ Aux power supply</td>
+                                            <td><textarea name="vi_7" class="form-control"></textarea></td>
+                                        </tr>
+
+                                        <!-- 8 -->
+                                        <tr>
+                                            <td>8</td>
+                                            <td>Status of SPTA, Tool Kits and Accessories required for onboard repairs and maintenance</td>
+                                            <td><textarea name="vi_8" class="form-control"></textarea></td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </fieldset>
+
+                        <!-- ================== 15 ================== -->
+                        <fieldset class="custom-fieldset">
+                            <legend class="legend-custom">15. Operational Checks</legend>
+
+                            <div class="table-responsive">
+                                <table class="custom_tbl">
+
+                                    <thead>
+                                        <tr>
+                                            <th>Ser</th>
+                                            <th>Checks Description</th>
+                                            <th>Remarks</th>
+                                        </tr>
+                                        <tr>
+                                            <th></th>
+                                            <th>a.</th>
+                                            <th>b.</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Video presentation on MFC 1 & 2</td>
+                                            <td><textarea name="op_1" class="form-control"></textarea></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>2</td>
+                                            <td>MFC Bite checks</td>
+                                            <td><textarea name="op_2" class="form-control"></textarea></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>3</td>
+                                            <td>Antenna Stabilization checks (RSAP)</td>
+                                            <td><textarea name="op_3" class="form-control"></textarea></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>4</td>
+                                            <td>SHHD input checks (GPS, GYRO, LOG, RNIU)</td>
+                                            <td><textarea name="op_4" class="form-control"></textarea></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>5</td>
+                                            <td>Transfer of Target Designation (TD) to Brahmos and CMS</td>
+                                            <td><textarea name="op_5" class="form-control"></textarea></td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </fieldset>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

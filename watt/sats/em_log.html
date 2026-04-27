@@ -1,0 +1,1011 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+<!-- FORM NUMBER 13 -->
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+
+<style>
+    /*  Remove black border on textarea and input focus */
+    textarea.form-control:focus,
+    input.form-control:focus,
+    textarea:focus,
+    input[type="text"]:focus,
+    input[type="time"]:focus,
+    input[type="date"]:focus,
+    select.form-control:focus {
+        outline: none !important;
+        box-shadow: none !important;
+        border-color: #ccc !important;
+    }
+
+    input[type="text"],
+    input[type="time"],
+    input[type="date"] {
+        border: 1px solid #ccc;
+    }
+
+    input[type="text"]:hover,
+    input[type="time"]:hover,
+    input[type="date"]:hover {
+        border: 1px solid #ccc;
+    }
+
+    /*  TABLE H - Match observation table blue-gray style */
+    .table-h-style {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .table-h-style th {
+        background-color: #7b96b2;
+        color: #ffffff;
+        font-weight: 600;
+        font-size: 12px;
+        text-align: center;
+        padding: 8px 6px;
+        border: 1px solid #5a7a99;
+        vertical-align: middle;
+    }
+
+    .table-h-style td {
+        border: 1px solid #cccccc;
+        padding: 5px 6px;
+        text-align: center;
+        vertical-align: middle;
+        font-size: 12px;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">WEAPON ACCEPTANCE TRIALS TEAM VISAKHAPATNAM
+                            DAILY SUMMARY OF PROGRESS</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="mfstar_failure_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+
+                            <!--  HEADER -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">Basic Information</legend>
+                                <div class="row g-3">
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" id="name_of_ship_select" name="name_of_ship">
+                                                <option value="">-- Select --</option>
+                                                <option value="INS_A">INS Alpha</option>
+                                                <option value="INS_B">INS Bravo</option>
+                                                <option value="INS_C">INS Charlie</option>
+                                                <option value="INS_D">INS Delta</option>
+                                            </select>
+                                            <label class="form_control_1">Name of Ship</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" id="department_select" name="department">
+                                                <option value="">-- Select --</option>
+                                                <option value="P15A">ND</option>
+                                                <option value="P17">ASW</option>
+                                                <option value="P17A">COMM</option>
+                                                <option value="P28">GUNNERY</option>
+                                            </select>
+                                            <label class="form_control_1">Department</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" id="equipment_select" name="equipment">
+                                                <option value="">-- Select --</option>
+                                            </select>
+                                            <label class="form_control_1">Equipment</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="date" class="form-control" id="date_input" name="date_">
+                                            <label class="form_control_1">Date</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" id="nature_trials_select"
+                                                name="nature_of_trials" required>
+                                                <option value="">--Select--</option>
+                                                <option value="SATs">SATs</option>
+                                                <option value="HATS">HATs</option>
+                                                <option value="OP_CHECKS">OP CHECKS</option>
+                                                <option value="IIS">IIs</option>
+                                            </select>
+                                            <label class="form_control_1">Nature of Trial</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">Observations</legend>
+
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" style="width:100%; border-collapse: collapse;">
+                                        <thead>
+                                            <tr class="custom-header-row">
+                                                <th>Ser</th>
+                                                <th>Observations</th>
+                                                <th>Remarks</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+
+                                            <tr>
+                                                <td colspan="3">
+                                                    Trials team embarked onboard at
+                                                    <input type="time" id="embark_time" name="embark_time"
+                                                        class="form-control d-inline-block"
+                                                        style="width: 100px; height: 28px;">
+                                                    hrs on
+                                                    <input type="date" id="embark_date" name="embark_date"
+                                                        class="form-control d-inline-block"
+                                                        style="width: 140px; height: 28px;">
+                                                    for SATs of GYRO RLG SIGMA 40
+                                                    <textarea class="form-control wrstg-scroll-textarea"
+                                                        style="width: 280px; font-size: 12px; display: inline-block; vertical-align: middle;"
+                                                        id="test_1_rlg1_velocity"
+                                                        name="test_1_rlg1_velocity"></textarea> as per IHQ MoD (N) / DSR
+                                                    approved schedule. Following observed:-
+                                                </td>
+                                            </tr>
+                                            </tr>
+
+                                            <!-- 1 -->
+                                            <tr>
+
+                                                <td colspan="3" class="description-text"><b>Sea Functional Test</b></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td rowspan="2">1</td>
+                                                <td>(i) The transducer face cleaned before conducting SATs to remove
+                                                    dirt, grease or growth, if any.
+
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="gen_criterion_1_1_sat"
+                                                                name="gen_criterion_1_1" value="SAT">
+                                                            <label for="gen_criterion_1_1_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="gen_criterion_1_1_unsat"
+                                                                name="gen_criterion_1_1" value="UNSAT">
+                                                            <label for="gen_criterion_1_1_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+
+                                                <td>(ii) SATs is to be done only when sea is calm.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="gen_criterion_1_1_sat"
+                                                                name="gen_criterion_1_1" value="SAT">
+                                                            <label for="gen_criterion_1_1_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="gen_criterion_1_1_unsat"
+                                                                name="gen_criterion_1_1" value="UNSAT">
+                                                            <label for="gen_criterion_1_1_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 2 -->
+                                            <tr>
+                                                <td>2</td>
+                                                <td>Set ZERO POT dial in sense 1</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2sat"
+                                                                name="psu_criterion_2" value="SAT">
+                                                            <label for="psu_criterion_2sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_unsat"
+                                                                name="psu_criterion_2" value="UNSAT">
+                                                            <label for="psu_criterion_2_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 3 -->
+                                            <tr>
+                                                <td>3</td>
+                                                <td>Connect cable assembly to MU & switch ON</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_3_sat"
+                                                                name="psu_criterion_2_3" value="SAT">
+                                                            <label for="psu_criterion_2_3_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_3_unsat"
+                                                                name="psu_criterion_2_3" value="UNSAT">
+                                                            <label for="psu_criterion_2_3_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 4 -->
+                                            <tr>
+                                                <td>4</td>
+                                                <td>MODE switch in NORMAL position</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_4_sat"
+                                                                name="psu_criterion_2_4" value="SAT">
+                                                            <label for="psu_criterion_2_4_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_4_unsat"
+                                                                name="psu_criterion_2_4" value="UNSAT">
+                                                            <label for="psu_criterion_2_4_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 5 -->
+                                            <tr>
+                                                <td>5</td>
+                                                <td>UNITS switch in KNOTS position</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_5_sat"
+                                                                name="psu_criterion_2_5" value="SAT">
+                                                            <label for="psu_criterion_2_5_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_5_unsat"
+                                                                name="psu_criterion_2_5" value="UNSAT">
+                                                            <label for="psu_criterion_2_5_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 6 -->
+                                            <tr>
+                                                <td>6</td>
+                                                <td>SEA STATE switch in CALM position</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_6_sat"
+                                                                name="psu_criterion_2_6" value="SAT">
+                                                            <label for="psu_criterion_2_6_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_6_unsat"
+                                                                name="psu_criterion_2_6" value="UNSAT">
+                                                            <label for="psu_criterion_2_6_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 7 -->
+                                            <tr>
+                                                <td>7</td>
+                                                <td>Verify speed sign</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_7_sat"
+                                                                name="psu_criterion_2_7" value="SAT">
+                                                            <label for="psu_criterion_2_7_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_7_unsat"
+                                                                name="psu_criterion_2_7" value="UNSAT">
+                                                            <label for="psu_criterion_2_7_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 8 (SPECIAL TABLE) -->
+                                            <tr>
+                                                <td>8</td>
+                                                <td style="padding:0;">
+                                                    <div style="padding:5px;">Conduct Measured Mile Run Test:</div>
+                                                    <table style="width:100%; border-collapse: collapse; margin:0;">
+                                                        <tr class="custom-header-row">
+                                                            <th>
+                                                                Speed (Kts)</th>
+                                                            <th>
+                                                                Error Obtained</th>
+                                                            <th>
+                                                                Error Specified</th>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="border:1px solid #ccc;"><input type="text"
+                                                                    placeholder="Kts"></td>
+                                                            <td style="border:1px solid #ccc;"><input type="text"></td>
+                                                            <td style="border:1px solid #ccc;"><input type="text"
+                                                                    value="± 0.2 Kts"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="border:1px solid #ccc;"><input type="text"
+                                                                    placeholder="Kts"></td>
+                                                            <td style="border:1px solid #ccc;"><input type="text"></td>
+                                                            <td style="border:1px solid #ccc;"><input type="text"
+                                                                    value="± 2%"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="border:1px solid #ccc;"><input type="text"
+                                                                    placeholder="Kts"></td>
+                                                            <td style="border:1px solid #ccc;"><input type="text"></td>
+                                                            <td style="border:1px solid #ccc;"><input type="text"
+                                                                    value="± 2%"></td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_8_sat"
+                                                                name="psu_criterion_2_8" value="SAT">
+                                                            <label for="psu_criterion_2_8_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_8_unsat"
+                                                                name="psu_criterion_2_8" value="UNSAT">
+                                                            <label for="psu_criterion_2_8_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 9 -->
+                                            <tr>
+                                                <td>9</td>
+                                                <td>Interface checks with Gyro, Radar, ECDIS, Echo Sounder etc.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_sat"
+                                                                name="psu_criterion_2_9" value="SAT">
+                                                            <label for="psu_criterion_2_9_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_unsat"
+                                                                name="psu_criterion_2_9" value="UNSAT">
+                                                            <label for="psu_criterion_2_9_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+
+                            <!-- ===================== TABLE H - 1 ===================== -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase"> TABLE H</legend>
+
+                                <div class="row g-3">
+                                    <!-- LEFT COLUMN -->
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <textarea class="form-control wrstg-scroll-textarea" name="engine_rpm"
+                                                rows="3" required></textarea>
+                                            <label class="form_control_1">ENGINE RPM CORRESPONDING TO <input type="text"
+                                                    style="width:80px;"> KNOTS</label>
+                                        </div>
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <textarea class="form-control wrstg-scroll-textarea" name="distance_d"
+                                                rows="3" required></textarea>
+                                            <label class="form_control_1">DISTANCE D</label>
+                                        </div>
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <input type="time" class="form-control" name="time_first_occurrence"
+                                                required>
+                                            <label class="form_control_1">Time</label>
+                                        </div>
+                                    </div>
+
+                                    <!-- RIGHT COLUMN -->
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <textarea class="form-control wrstg-scroll-textarea" name="zero_setting"
+                                                rows="3" required></textarea>
+                                            <label class="form_control_1">ZERO SETTING</label>
+                                        </div>
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <input type="date" class="form-control" name="date_occurrence" required>
+                                            <label class="form_control_1"> Date </label>
+                                        </div>
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <input type="text" class="form-control" name="place" placeholder=" ">
+                                            <label class="form_control_1">Place</label>
+                                        </div>
+                                    </div>
+
+                                    <table class="table-h-style">
+                                        <tr>
+                                            <th>RUN</th>
+                                            <th>ENGINE RPM</th>
+                                            <th>COMMENCING TIME</th>
+                                            <th>HEADING</th>
+                                            <th>WIND SPEED & DIRECTION</th>
+                                            <th colspan="2">EM LOG PARTIAL DISTANCE DISPLAY READING</th>
+                                            <th>TIME TAKEN</th>
+                                            <th>LOG SPEED KNOTS</th>
+                                            <th>TIME TAKEN FOR MEASURED MILE RUN</th>
+                                            <th>TRUE SPEED CALCULATED Vm = D/T</th>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>d1</td>
+                                            <td>d2</td>
+                                            <td>T (Hours)</td>
+                                            <td>Vₗ = (d2 - d1) / T</td>
+                                            <td>T (Hours)</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                        </tr>
+                                    </table>
+
+                                    <div>
+
+                                        <b><u>Average :</u></b><br><br>
+
+                                        <!-- Vm -->
+                                        Vm =
+                                        <span style="display:inline-block; text-align:center; vertical-align:middle;">
+                                            <span style="display:block; border-bottom:1px solid #000;">
+                                                Vm1 + 3Vm2 + 3Vm3 + Vm4
+                                            </span>
+                                            <span style="display:block;">
+                                                8
+                                            </span>
+                                        </span>
+                                        = <input type="text" style="width:100px;">
+
+                                        <br><br>
+
+                                        <!-- Vl -->
+                                        V<sub>L</sub> =
+                                        <span style="display:inline-block; text-align:center; vertical-align:middle;">
+                                            <span style="display:block; border-bottom:1px solid #000;">
+                                                V<sub>L1</sub> + 3 V<sub>L2</sub> + 3 V<sub>L3</sub> + V<sub>L4</sub>
+                                            </span>
+                                            <span style="display:block;">
+                                                8
+                                            </span>
+                                        </span>
+                                        = <input type="text" style="width:100px;">
+
+                                        <br><br>
+
+                                        <!-- Percentage Error -->
+                                        Percentage error =
+                                        <span style="display:inline-block; text-align:center; vertical-align:middle;">
+                                            <span style="display:block; border-bottom:1px solid #000;">
+                                                V<sub>L</sub> − Vm
+                                            </span>
+                                            <span style="display:block;">
+                                                Vm
+                                            </span>
+                                        </span>
+                                        × 100 %
+                                        = <input type="text" style="width:100px;">
+
+                                    </div>
+
+
+                            </fieldset>
+
+
+                            <!-- ===================== TABLE H - 2 ===================== -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase"> TABLE H</legend>
+
+                                <div class="row g-3">
+                                    <!-- LEFT COLUMN -->
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <textarea class="form-control wrstg-scroll-textarea" name="dart_no" rows="3"
+                                                required></textarea>
+                                            <label class="form_control_1">ENGINE RPM CORRESPONDING TO <input type="text"
+                                                    style="width:80px;"> KNOTS</label>
+                                        </div>
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <textarea class="form-control wrstg-scroll-textarea" name="dart_no" rows="3"
+                                                required></textarea>
+                                            <label class="form_control_1">DISTANCE D</label>
+                                        </div>
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <input type="time" class="form-control" name="time_first_occurrence"
+                                                required>
+                                            <label class="form_control_1">Time</label>
+                                        </div>
+                                    </div>
+
+                                    <!-- RIGHT COLUMN -->
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <textarea class="form-control wrstg-scroll-textarea" name="offered_no"
+                                                rows="3" required></textarea>
+                                            <label class="form_control_1">ZERO SETTING</label>
+                                        </div>
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <input type="date" class="form-control" name="failure_date_pied_occurrence"
+                                                required>
+                                            <label class="form_control_1"> Date </label>
+                                        </div>
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <input type="text" class="form-control" name="equipment_code"
+                                                placeholder=" ">
+                                            <label class="form_control_1">Place</label>
+                                        </div>
+                                    </div>
+
+                                    <table class="table-h-style">
+                                        <tr>
+                                            <th>RUN</th>
+                                            <th>ENGINE RPM</th>
+                                            <th>COMMENCING TIME</th>
+                                            <th>HEADING</th>
+                                            <th>WIND SPEED & DIRECTION</th>
+                                            <th colspan="2">EM LOG PARTIAL DISTANCE DISPLAY READING</th>
+                                            <th>TIME TAKEN</th>
+                                            <th>LOG SPEED KNOTS</th>
+                                            <th>TIME TAKEN FOR MEASURED MILE RUN</th>
+                                            <th>TRUE SPEED CALCULATED Vm = D/T</th>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>d1</td>
+                                            <td>d2</td>
+                                            <td>T (Hours)</td>
+                                            <td>Vₗ = (d2 - d1) / T</td>
+                                            <td>T (Hours)</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                        </tr>
+                                    </table>
+
+                                    <div>
+
+                                        <b><u>Average :</u></b><br><br>
+
+                                        <!-- Vm -->
+                                        Vm =
+                                        <span style="display:inline-block; text-align:center; vertical-align:middle;">
+                                            <span style="display:block; border-bottom:1px solid #000;">
+                                                Vm1 + 3Vm2 + 3Vm3 + Vm4
+                                            </span>
+                                            <span style="display:block;">
+                                                8
+                                            </span>
+                                        </span>
+                                        = <input type="text" style="width:100px;">
+
+                                        <br><br>
+
+                                        <!-- Vl -->
+                                        V<sub>L</sub> =
+                                        <span style="display:inline-block; text-align:center; vertical-align:middle;">
+                                            <span style="display:block; border-bottom:1px solid #000;">
+                                                V<sub>L1</sub> + 3 V<sub>L2</sub> + 3 V<sub>L3</sub> + V<sub>L4</sub>
+                                            </span>
+                                            <span style="display:block;">
+                                                8
+                                            </span>
+                                        </span>
+                                        = <input type="text" style="width:100px;">
+
+                                        <br><br>
+
+                                        <!-- Percentage Error -->
+                                        Percentage error =
+                                        <span style="display:inline-block; text-align:center; vertical-align:middle;">
+                                            <span style="display:block; border-bottom:1px solid #000;">
+                                                V<sub>L</sub> − Vm
+                                            </span>
+                                            <span style="display:block;">
+                                                Vm
+                                            </span>
+                                        </span>
+                                        × 100 %
+                                        = <input type="text" style="width:100px;">
+
+                                    </div>
+                            </fieldset>
+
+
+                            <!-- ===================== TABLE H - 3 ===================== -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase"> TABLE H</legend>
+
+                                <div class="row g-3">
+                                    <!-- LEFT COLUMN -->
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <textarea class="form-control wrstg-scroll-textarea" name="dart_no" rows="3"
+                                                required></textarea>
+                                            <label class="form_control_1">ENGINE RPM CORRESPONDING TO <input type="text"
+                                                    style="width:80px;"> KNOTS</label>
+                                        </div>
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <textarea class="form-control wrstg-scroll-textarea" name="dart_no" rows="3"
+                                                required></textarea>
+                                            <label class="form_control_1">DISTANCE D</label>
+                                        </div>
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <input type="time" class="form-control" name="time_first_occurrence"
+                                                required>
+                                            <label class="form_control_1">Time</label>
+                                        </div>
+                                    </div>
+
+                                    <!-- RIGHT COLUMN -->
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <textarea class="form-control wrstg-scroll-textarea" name="offered_no"
+                                                rows="3" required></textarea>
+                                            <label class="form_control_1">ZERO SETTING</label>
+                                        </div>
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <input type="date" class="form-control" name="failure_date_pied_occurrence"
+                                                required>
+                                            <label class="form_control_1"> Date </label>
+                                        </div>
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <input type="text" class="form-control" name="equipment_code"
+                                                placeholder=" ">
+                                            <label class="form_control_1">Place</label>
+                                        </div>
+                                    </div>
+
+                                    <table class="table-h-style">
+                                        <tr>
+                                            <th>RUN</th>
+                                            <th>ENGINE RPM</th>
+                                            <th>COMMENCING TIME</th>
+                                            <th>HEADING</th>
+                                            <th>WIND SPEED & DIRECTION</th>
+                                            <th colspan="2">EM LOG PARTIAL DISTANCE DISPLAY READING</th>
+                                            <th>TIME TAKEN</th>
+                                            <th>LOG SPEED KNOTS</th>
+                                            <th>TIME TAKEN FOR MEASURED MILE RUN</th>
+                                            <th>TRUE SPEED CALCULATED Vm = D/T</th>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>d1</td>
+                                            <td>d2</td>
+                                            <td>T (Hours)</td>
+                                            <td>Vₗ = (d2 - d1) / T</td>
+                                            <td>T (Hours)</td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                            <td><input type="time" class="form-control"></td>
+                                            <td><input type="text"></td>
+                                        </tr>
+                                    </table>
+
+                                    <div>
+
+                                        <b><u>Average :</u></b><br><br>
+
+                                        <!-- Vm -->
+                                        Vm =
+                                        <span style="display:inline-block; text-align:center; vertical-align:middle;">
+                                            <span style="display:block; border-bottom:1px solid #000;">
+                                                Vm1 + 3Vm2 + 3Vm3 + Vm4
+                                            </span>
+                                            <span style="display:block;">
+                                                8
+                                            </span>
+                                        </span>
+                                        = <input type="text" style="width:100px;">
+
+                                        <br><br>
+
+                                        <!-- Vl -->
+                                        V<sub>L</sub> =
+                                        <span style="display:inline-block; text-align:center; vertical-align:middle;">
+                                            <span style="display:block; border-bottom:1px solid #000;">
+                                                V<sub>L1</sub> + 3 V<sub>L2</sub> + 3 V<sub>L3</sub> + V<sub>L4</sub>
+                                            </span>
+                                            <span style="display:block;">
+                                                8
+                                            </span>
+                                        </span>
+                                        = <input type="text" style="width:100px;">
+
+                                        <br><br>
+
+                                        <!-- Percentage Error -->
+                                        Percentage error =
+                                        <span style="display:inline-block; text-align:center; vertical-align:middle;">
+                                            <span style="display:block; border-bottom:1px solid #000;">
+                                                V<sub>L</sub> − Vm
+                                            </span>
+                                            <span style="display:block;">
+                                                Vm
+                                            </span>
+                                        </span>
+                                        × 100 %
+                                        = <input type="text" style="width:100px;">
+
+                                    </div>
+                            </fieldset>
+                            <!-- ═════════════════════════════════════
+                            AUTHORITY SECTION
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h6 class="font-weight-bold my-text">Presenting Authority: Ship's Staff</h6>
+                                        <div class="row mt-3">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>ND:</label>
+                                                    <input type="text" class="form-control" name="presenting_nd"
+                                                        placeholder="">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>C:</label>
+                                                    <input type="text" class="form-control" name="presenting_c"
+                                                        placeholder="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <h6 class="font-weight-bold my-text">Inspecting Authority: WATT (V)</h6>
+                                        <div class="row mt-3">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>STI / TI:</label>
+                                                    <input type="text" class="form-control" name="inspecting_sti_ti"
+                                                        placeholder="">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>STO:</label>
+                                                    <input type="text" class="form-control" name="inspecting_sto"
+                                                        placeholder="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+
+                            <div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Save</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        WRSTGQuarterly.init({
+            extraTableIds: ['failure_basic_data_tbl', 'step_analysis_tbl', 'item_defective_tbl'],
+            submitConfirmation: { formId: 'mfstar_failure_form' }
+        });
+    });
+</script>
+{% endblock js %}

@@ -1,0 +1,129 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item" aria-current="page">SEG</li>
+          <li class="breadcrumb-item active" aria-current="page">Hardware Pop Up Form</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">HARDWARE POP UP</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-4 mb-4">
+          <form method="post" id="hardware_popup_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!-- Row 1: Defect Type + Ship Name -->
+              <div class="row g-5">
+                <div class="col-md-6 col-12">
+                  <div class="form-group form-md-line-input form-md-floating-label mb-4">
+                    <select class="form-control" name="defect_type" id="defect_type" required>
+                      <option value="">-- Select --</option>
+                      <option value="hardware">Hardware</option>
+                      <option value="software">Software</option>
+                    </select>
+                    <label class="form_control_1">Defect Type <span class="text-danger">*</span></label>
+                  </div>
+                </div>
+
+                <div class="col-md-6 col-12">
+                  <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                    <select class="form-control" name="ship_name" required>
+                      <option value="">--Select--</option>
+                      {% for ship in ship_options %}
+                      <option value="{{ ship.value }}">{{ ship.label }}</option>
+                      {% endfor %}
+                    </select>
+                    <label class="form_control_1">Ship <span class="text-danger">*</span></label>
+                  </div>
+                </div>
+              </div><!-- end Row 1 -->
+
+              <!-- Row 2: System + Sub System -->
+              <div class="row g-5">
+                <div class="col-md-6 col-12">
+                  <div class="form-group form-md-line-input form-md-floating-label mb-4">
+                    <input type="text" class="form-control" name="system" placeholder=" " required>
+                    <label class="form_control_1">System <span class="text-danger">*</span></label>
+                  </div>
+                </div>
+
+                <div class="col-md-6 col-12">
+                  <div class="form-group form-md-line-input form-md-floating-label mb-4">
+                    <input type="text" class="form-control" name="sub_system" placeholder=" ">
+                    <label class="form_control_1">Sub System</label>
+                  </div>
+                </div>
+              </div><!-- end Row 2 -->
+
+              <!-- Row 3: MMD Type + Description -->
+              <div class="row g-5">
+                <div class="col-md-6 col-12">
+                  <div class="form-group form-md-line-input form-md-floating-label mb-4">
+                    <input type="text" class="form-control" name="mmd_type" placeholder=" ">
+                    <label class="form_control_1">MMD Type</label>
+                  </div>
+                </div>
+
+                <div class="col-md-6 col-12">
+                  <div class="form-group form-md-line-input form-md-floating-label mb-4">
+                    <textarea class="form-control wrstg-scroll-textarea" name="description" rows="4" required></textarea>
+                    <label class="form_control_1">Description <span class="text-danger">*</span></label>
+                  </div>
+                </div>
+              </div><!-- end Row 3 -->
+
+              <!-- Row 4: Date -->
+              <div class="row g-5">
+                <div class="col-md-4 col-12">
+                  <div class="form-group form-md-line-input form-md-floating-label mb-2">
+                    <input type="date" class="form-control" name="popup_date" required>
+                    <label class="form_control_1">Date <span class="text-danger">*</span></label>
+                  </div>
+                </div>
+              </div><!-- end Row 4 -->
+
+              <!-- Submit -->
+              <div class="d-flex flex-wrap gap-2 justify-content-center mt-4 mb-3">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const dateField = document.querySelector('input[name="popup_date"]');
+    if (dateField && !dateField.value) {
+      dateField.value = new Date().toISOString().split('T')[0];
+    }
+  });
+</script>
+{% endblock js %}

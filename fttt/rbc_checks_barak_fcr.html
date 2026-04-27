@@ -1,0 +1,321 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						
+						<span class="caption-subject bold">RBC CHECKS OF BARAK FCR</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-4 mb-4">
+					<form method="post" id="rbc_checks_form">
+						{% csrf_token %}
+						<div class="form-body">
+							 <fieldset class="custom-fieldset">
+                                    <legend class="legend-custom text-uppercase">BASIC INFORMATION</legend>
+                                    <div class="row g-3">
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="system_sub_system" value="RBC Checks" placeholder=" " readonly>
+                                                <label class="form_control_1">1. System/ Sub system</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="job_undertaken" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">2. Job Undertaken</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <!-- <textarea class="form-control wrstg-scroll-textarea" name="reference_documents" rows="2" placeholder=" "></textarea> -->
+                                                 <input type="file" class ="form-control" name="reference_documents">
+                                                <label class="form_control_1">3. Reference Documents</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="authority" placeholder=" ">
+                                                <label class="form_control_1">4. Authority</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="agencies_involved" value="FTTT(Vzg)" placeholder=" " readonly>
+                                                <label class="form_control_1">5. Agencies involved</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="date" class="form-control" name="date_commenced">
+                                                <label class="form_control_1">6. Date Commenced</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="date" class="form-control" name="date_completed">
+                                                <label class="form_control_1">7. Date Completed</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="prepared_by" placeholder=" ">
+                                                <label class="form_control_1">8. Prepared by</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="vetted_by" placeholder=" ">
+                                                <label class="form_control_1">9. Vetted by</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="reference_no" placeholder=" ">
+                                                <label class="form_control_1">10. Reference No.</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="summary_of_observations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">11. Summary of observations</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="operational_limitations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">12. Operational limitations (if any)</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </fieldset>
+							
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom">11. Range Bias values - Barak FCR(FWD) Form </legend>
+								<div class="table-responsive">
+									<table class="custom_tbl">
+										<thead>
+											<tr>
+												<th name="serial_no" class="serial-no" style="text-align: center;" rowspan="2">Ser</th>
+												<th name="pulse_option" style="text-align: center;" rowspan="2">Pulse Option <br> (Barker Code) <br> a.</th>
+												<th name="real_range" style="text-align: center;" rowspan="2">Real Range by LRF (m) <br> b.</th>
+                                                <th name="target_range" colspan="2" style="text-align: center;">Target Range (m) <br> c.</th>
+                                                <th name="bias_calculated_by_system" colspan="2" style="text-align: center;">Bias Calculated by System <br>(in multiple pf 8.75m,<br>tolerance value±10m) <br> d.</th>
+                                                <th name="remarks" style="text-align: center;" rowspan="2">Remarks <br> e.</th>
+											</tr>
+                                            <tr>
+                                                <th name="x_band" style="text-align: center;">X Band</th>
+                                                <th name="ka_band" style="text-align: center;">Ka Band</th>
+                                                <th name="x_band_calc" style="text-align: center;">X Band</th>
+                                                <th name="ka_band_calc" style="text-align: center;">Ka Band </th>
+                                            </tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no">1</td>
+												<td name="pulse_option">0.233 No Barker</td>
+                                                <td name="real_range"><textarea class="form-control wrstg-scroll-textarea" rows="1"></textarea></td>
+                                                <td name="target_range_x"><textarea class="form-control wrstg-scroll-textarea" rows="1"     ></textarea></td>
+												<td name="bias_x"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="bias_ka"><textarea class="form-control wrstg-scroll-textarea" rows="1"></textarea></td>
+                                                <td name="remarks"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td rowspan="8" style="max-width: 200px; word-wrap: break-word; word-break: break-word; white-space: normal; overflow-wrap: break-word;">Range Bias values in X and Ka band within permissible limits.</td>
+											</tr>
+											<tr>
+												<td class="serial-no">2</td>
+												<td name="pulse_option">0.467 No Barker</td>
+                                                <td name="real_range"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="target_range_x"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+												<td name="bias_x"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="bias_ka"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="remarks"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                
+											</tr>
+											<tr>
+												<td class="serial-no">3</td>
+												<td name="pulse_option">0.933 No Barker</td>
+												<td name="real_range"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="target_range_x"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+												<td name="bias_x"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="bias_ka"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="remarks"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+											</tr>
+											
+											<tr>
+												<td class="serial-no">4</td>
+												<td name="pulse_option">0.467 Barker 5</td>
+												<td name="real_range"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="target_range_x"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+												<td name="bias_x"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="bias_ka"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="remarks"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">5</td>
+												<td name="pulse_option">0.933 Barker 5</td>
+												<td name="real_range"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="target_range_x"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+												<td name="bias_x"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="bias_ka"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="remarks"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+											</tr>
+
+                                            <tr>
+												<td class="serial-no">6</td>
+												<td name="pulse_option">1.866 Barker 5</td>
+												<td name="real_range"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="target_range_x"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+												<td name="bias_x"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="bias_ka"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="remarks"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+											</tr>
+
+                                            <tr>
+												<td class="serial-no">7</td>
+												<td name="pulse_option">0.933 Barker 13</td>
+												<td name="real_range"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="target_range_x"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+												<td name="bias_x"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="bias_ka"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="remarks"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+											</tr>
+
+                                        
+										</tbody>
+									</table>
+								</div>
+                           </fieldset>
+
+						   <fieldset class="custom-fieldset">
+								<legend class="legend-custom">12. Range Bias values - Barak FCR(AFT)</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl">
+										<thead>
+											<tr>
+												<th name="serial_no" class="serial-no" style="text-align: center;" rowspan="2">Ser</th>
+												<th name="pulse_option" style="text-align: center;" rowspan="2">Pulse Option <br> (Barker Code) <br> a.</th>
+												<th name="real_range" style="text-align: center;" rowspan="2">Real Range by LRF (m) <br> b.</th>
+                                                <th name="target_range" colspan="2" style="text-align: center;">Target Range (m) <br> c.</th>
+                                                <th name="bias_calculated_by_system" colspan="2" style="text-align: center;">Bias Calculated by System <br>(in multiple pf 8.75m,<br>tolerance value±10m) <br> d.</th>
+                                                <th name="remarks" style="text-align: center;" rowspan="2">Remarks <br> e.</th>
+											</tr>
+                                            <tr>
+                                                <th name="x_band" style="text-align: center;">X Band</th>
+                                                <th name="ka_band" style="text-align: center;">Ka Band</th>
+                                                <th name="x_band_calc" style="text-align: center;">X Band</th>
+                                                <th name="ka_band_calc" style="text-align: center;">Ka Band </th>
+                                            </tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no">1</td>
+												<td name="pulse_option">0.233 No Barker</td>
+                                                <td name="real_range"><textarea class="form-control wrstg-scroll-textarea" rows="1"></textarea></td>
+                                                <td name="target_range_x"><textarea class="form-control wrstg-scroll-textarea" rows="1"     ></textarea></td>
+												<td name="bias_x"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="bias_ka"><textarea class="form-control wrstg-scroll-textarea" rows="1"></textarea></td>
+                                                <td name="remarks"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td rowspan="8" style="max-width: 200px; word-wrap: break-word; word-break: break-word; white-space: normal; overflow-wrap: break-word;">Range Bias values in X and Ka band within permissible limits.</td>
+											</tr>
+											<tr>
+												<td class="serial-no">2</td>
+												<td name="pulse_option">0.467 No Barker</td>
+                                                <td name="real_range"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="target_range_x"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+												<td name="bias_x"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="bias_ka"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="remarks"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                
+											</tr>
+											<tr>
+												<td class="serial-no">3</td>
+												<td name="pulse_option">0.933 No Barker</td>
+												<td name="real_range"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="target_range_x"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+												<td name="bias_x"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="bias_ka"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="remarks"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+											</tr>
+											
+											<tr>
+												<td class="serial-no">4</td>
+												<td name="pulse_option">0.467 Barker 5</td>
+												<td name="real_range"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="target_range_x"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+												<td name="bias_x"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="bias_ka"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="remarks"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">5</td>
+												<td name="pulse_option">0.933 Barker 5</td>
+												<td name="real_range"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="target_range_x"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+												<td name="bias_x"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="bias_ka"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="remarks"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+											</tr>
+
+                                            <tr>
+												<td class="serial-no">6</td>
+												<td name="pulse_option">1.866 Barker 5</td>
+												<td name="real_range"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="target_range_x"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+												<td name="bias_x"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="bias_ka"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="remarks"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+											</tr>
+
+                                            <tr>
+												<td class="serial-no">7</td>
+												<td name="pulse_option">0.933 Barker 13</td>
+												<td name="real_range"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="target_range_x"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+												<td name="bias_x"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="bias_ka"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+                                                <td name="remarks"><textarea class="form-control wrstg-scroll-textarea" rows="1" ></textarea></td>
+											</tr>
+
+                                        
+										</tbody>
+									</table>
+								</div>
+                           </fieldset>
+								
+
+							<div class="d-flex justify-content-center mt-4">
+								<button type="submit" class="btn btn-primary px-4">Submit</button>
+							</div>
+
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

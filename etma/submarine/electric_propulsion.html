@@ -1,0 +1,1221 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">ETMA</li>
+                    <li class="breadcrumb-item active" aria-current="page">SUBMARINES</li>
+                    <li class="breadcrumb-item active" aria-current="page">Electric Propulsion Motor (MF)</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold d-block">
+                            EPM – BEARING RUNNING-IN LOCAL
+                        </span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="epm_bearing_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase"> Performance of Trial.</legend>
+
+                                <p class="mt-3">
+                                    <strong>(a)&nbsp;&nbsp; <u>Local control of EPM</u></strong>
+                                </p>
+
+                                <p class="mt-2 ms-4">
+                                    <strong>(i)&nbsp;&nbsp;&nbsp;&nbsp; <u>Bearing Running-in Local</u></strong>
+                                </p>
+
+                                <h5 class="mt-3 text-center"><strong><u>Table No. 1</u></strong></h5>
+
+                                <div class="table-responsive">
+                                    <table class="custom_tbl">
+                                        <tbody>
+
+                                            <!-- ── Initial conditions ── -->
+                                            <thead class="text-center">
+                                                <th colspan="4">Initial conditions</th>
+                                            </thead>
+
+
+                                            <tr>
+                                                <td colspan="4">Electrical plant on parallel coupling</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4">Control mode on Local</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4">EPM stopped</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4">Converter cabinet preload, CC1 and CC2 "ON"</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4">Shaft line blocking device dismantled</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4">4 IVTs activated "ON", the 22 others are "OFF"</td>
+                                            </tr>
+
+                                            <!-- ── Initial EPM start-up phase ── -->
+                                            <tr>
+                                                <td colspan="4"><strong>Initial EPM start –up phase</strong></td>
+                                            </tr>
+
+                                            <!-- Column headers -->
+                                            <thead class="text-center">
+                                                <th>Ser</th>
+                                                <th>Sequence to be performed</th>
+                                                <th>Results expected</th>
+                                                <th>Test record<br>(Yes/No)</th>
+                                            </thead>
+
+
+
+                                            <!-- Row 1.1 -->
+                                            <tr>
+                                                <td>1.1</td>
+                                                <td>Configuration at start of test</td>
+                                                <td>
+                                                    EPM stopped<br>
+                                                    EPM in Local mode<br>
+                                                    Local control on LCP1
+                                                </td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_1_1" value="Yes"> Yes</label>
+                                                    &nbsp;
+                                                    <label><input type="radio" name="tr_1_1" value="No"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Row 1.2 -->
+                                            <tr>
+                                                <td>1.2</td>
+                                                <td>
+                                                    From LCP1, select initial CC1 IVTs configuration:<br><br>
+
+                                                </td>
+                                                <td>03 CC1 IVTs are ON</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_1_2" value="Yes"> Yes</label>
+                                                    &nbsp;
+                                                    <label><input type="radio" name="tr_1_2" value="No"> No</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td></td>
+                                                <td> CC1 IVTs 1, 2 and 3 "ON"<br>
+                                                    CC1 IVTs 4 to 13 are &nbsp;"OFF"<br>
+                                                    (Selection of IVTs to be switched on and kept off is subjective)
+                                                </td>
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                           
+                                <div class="table-responsive mt-3">
+                                    <h5 class="text-center"><strong>Table No. 4</strong></h5>
+                                    <table class="custom_tbl">
+                                        <tbody>
+
+                                            <!-- ── Rows 4.2 & 4.3 (before section header) ── -->
+                                            <!--  -->
+
+                                            <!-- Column sub-headers (blue) -->
+                                            <thead class="text-center">
+                                                <tr>
+                                                    <th><strong>Ser</strong></th>
+                                                    <th><strong>Sequence to be performed</strong></th>
+                                                    <th><strong>Results expected</strong></th>
+                                                    <th><strong>Test &nbsp; record<br>(Yes/No)</strong></th>
+                                                </tr>
+                                            </thead>
+                                            <!-- Row 4.4 (Ser & Yes/No span 3 rows) -->
+                                            <tr>
+                                                <td rowspan="3">4.4</td>
+                                                <td>"15 rpm "order on PEC</td>
+                                                <td>EPM in rotation, 15 rpm</td>
+                                                <td rowspan="3">
+                                                    <label><input type="radio" name="tr_4_4" value="Yes"> Yes</label>
+                                                    &nbsp;
+                                                    <label><input type="radio" name="tr_4_4" value="No"> No</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="2">
+                                                    Engage quickly "Emergency Stop" order on PEP
+                                                </td>
+                                                <td>EPM stopped</td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Perform a visual check of the propeller and shaft line direction
+                                                    of rotation
+                                                </td>
+                                                <td></td>
+                                            </tr>
+
+                                            <!-- Row 4.5 -->
+                                            <tr>
+                                                <td>4.5</td>
+                                                <td>Remove 'Emergency Stop Order' on PEP</td>
+                                                <td>Order removed</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_4_5" value="Yes"> Yes</label>
+                                                    &nbsp;
+                                                    <label><input type="radio" name="tr_4_5" value="No"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Row 4.6 -->
+                                            <tr>
+                                                <td>4.6</td>
+                                                <td>"25 rpm" order on PEC</td>
+                                                <td>EPM in rotation, 25 rpm stabilized</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_4_6" value="Yes"> Yes</label>
+                                                    &nbsp;
+                                                    <label><input type="radio" name="tr_4_6" value="No"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Row 4.7 -->
+                                            <tr>
+                                                <td>4.7</td>
+                                                <td>"+1 &nbsp;rpm" order on PEC</td>
+                                                <td>EPM in rotation, 26 rpm stabilized</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_4_7" value="Yes"> Yes</label>
+                                                    &nbsp;
+                                                    <label><input type="radio" name="tr_4_7" value="No"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Row 4.8 -->
+                                            <tr>
+                                                <td>4.8</td>
+                                                <td>"-1 &nbsp;rpm" order on PEC</td>
+                                                <td>EPM in rotation, 25 rpm</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_4_8" value="Yes"> Yes</label>
+                                                    &nbsp;
+                                                    <label><input type="radio" name="tr_4_8" value="No"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Row 4.9 (Ser & Seq & Yes/No span 2 rows) -->
+                                            <tr>
+                                                <td rowspan="2">4.9</td>
+                                                <td rowspan="2">"10 rpm" order on PEC</td>
+                                                <td>EPM in rotation, 25 rpm</td>
+                                                <td rowspan="2">
+                                                    <label><input type="radio" name="tr_4_9" value="Yes"> Yes</label>
+                                                    &nbsp;
+                                                    <label><input type="radio" name="tr_4_9" value="No"> No</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Setting out of range, &nbsp;"RPM SETTING OUT OF RANGE"
+                                                    message on PEC
+                                                </td>
+                                            </tr>
+
+                                            <!-- Row 4.10 -->
+                                            <tr>
+                                                <td>4.10</td>
+                                                <td>"STOP" motor speed order on PEC</td>
+                                                <td>EPM on STOP</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_4_10" value="Yes"> Yes</label>
+                                                    &nbsp;
+                                                    <label><input type="radio" name="tr_4_10" value="No"> No</label>
+                                                </td>
+                                            </tr>
+
+
+                                            <!-- ══ EPM start and Stop from SC ══ -->
+                                            <tr>
+                                                <td colspan="4"><strong>EPM start and Stop from SC</strong></td>
+                                            </tr>
+
+                                            <!-- Info row – no Ser, no Yes/No -->
+                                            <tr>
+                                                <td></td>
+                                                <td colspan="3">Change NRCM location active, from PEC to SC</td>
+                                            </tr>
+
+                                            <!-- Column sub-headers (blue) -->
+                                            <thead class="text-center">
+                                                <tr>
+                                                    <th><strong>Ser</strong></th>
+                                                    <th><strong>Sequence to be performed</strong></th>
+                                                    <th><strong>Results expected</strong></th>
+                                                    <th><strong>Test &nbsp; record<br>(Yes/No)</strong></th>
+                                                </tr>
+                                            </thead>
+
+                                            <!-- Row 4.11 -->
+                                            <tr>
+                                                <td>4.11</td>
+                                                <td>"25 rpm" order on SC</td>
+                                                <td>EPM in rotation, 25 rpm stabilized</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_4_11" value="Yes"> Yes</label>
+                                                    &nbsp;
+                                                    <label><input type="radio" name="tr_4_11" value="No"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Row 4.12 -->
+                                            <tr>
+                                                <td>4.12</td>
+                                                <td>"+1 &nbsp;rpm" order on SC</td>
+                                                <td>EPM in rotation, 26 rpm stabilized</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_4_12" value="Yes"> Yes</label>
+                                                    &nbsp;
+                                                    <label><input type="radio" name="tr_4_12" value="No"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Row 4.13 -->
+                                            <tr>
+                                                <td>4.13</td>
+                                                <td>"-1 rpm" order on SC</td>
+                                                <td>EPM in rotation, 25 rpm</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_4_13" value="Yes"> Yes</label>
+                                                    &nbsp;
+                                                    <label><input type="radio" name="tr_4_13" value="No"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Row 4.14 (Ser & Seq & Yes/No span 2 rows) -->
+                                            <tr>
+                                                <td rowspan="2">4.14</td>
+                                                <td rowspan="2">"10 rpm" order on SC</td>
+                                                <td>EPM in rotation, 25 rpm</td>
+                                                <td rowspan="2">
+                                                    <label><input type="radio" name="tr_4_14" value="Yes"> Yes</label>
+                                                    &nbsp;
+                                                    <label><input type="radio" name="tr_4_14" value="No"> No</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Setting out of range, &nbsp;"RPM SETTING OUT OF RANGE"
+                                                    message on SC
+                                                </td>
+                                            </tr>
+
+                                            <!-- Row 4.15 -->
+                                            <tr>
+                                                <td>4.15</td>
+                                                <td>"STOP" motor speed order on SC</td>
+                                                <td>EPM on STOP</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_4_15" value="Yes"> Yes</label>
+                                                    &nbsp;
+                                                    <label><input type="radio" name="tr_4_15" value="No"> No</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="2"></td>
+                                                <td rowspan="2">
+                                                    Change ES circuit to Manual mode, put ES pump on high speed
+                                                </td>
+                                                <td>
+                                                    PEC synthesis &nbsp;alarms " EPM &amp; CONV CABINETS COOLING"<br>
+                                                    Condition Low motor flow rate<br>
+                                                    Condition Low CC1 flow rate<br>
+                                                    Condition Low CC2 flow rate
+                                                </td>
+                                                <td rowspan="2"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>No flow rate alarms in Local</td>
+                                            </tr>
+
+                                            <!-- Row 4.28 (Ser & Yes/No span 4 rows) -->
+                                            <tr>
+                                                <td rowspan="4">4.28</td>
+                                                <td rowspan="4">Change Remote to Local mode</td>
+                                                <td>EPM in Local control mode</td>
+                                                <td rowspan="4">
+                                                    <label><input type="radio" name="tr_4_28" value="Yes"> Yes</label>
+                                                    &nbsp;
+                                                    <label><input type="radio" name="tr_4_28" value="No"> No</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>PEC displays &nbsp;alarm "EPM &amp; CONV CABINETS COOLING"</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Alarms in Local</td>
+                                            </tr>
+                                            <tr>
+                                                <td>LIP views "Motor water flow", "Cubicle water flow",</td>
+                                            </tr>
+
+                                            <!-- Row 4.29 (Ser & Yes/No span 2 rows) -->
+                                            <tr>
+                                                <td rowspan="2">4.29</td>
+                                                <td rowspan="2">
+                                                    Changing ES circuit to Manual mode, Put ES pump on high speed
+                                                </td>
+                                                <td>ES pump on high speed</td>
+                                                <td rowspan="2">
+                                                    <label><input type="radio" name="tr_4_29" value="Yes"> Yes</label>
+                                                    &nbsp;
+                                                    <label><input type="radio" name="tr_4_29" value="No"> No</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Alarms may be cleared</td>
+                                            </tr>
+
+                                            <!-- Row 4.30 -->
+                                            <tr>
+                                                <td>4.30</td>
+                                                <td>Acknowledge PEC alarms</td>
+                                                <td>PEC alarms = false</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_4_30" value="Yes"> Yes</label>
+                                                    &nbsp;
+                                                    <label><input type="radio" name="tr_4_30" value="No"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Row 4.31 -->
+                                            <tr>
+                                                <td>4.31</td>
+                                                <td>Acknowledge local alarms</td>
+                                                <td>Local alarms = false</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_4_31" value="Yes"> Yes</label>
+                                                    &nbsp;
+                                                    <label><input type="radio" name="tr_4_31" value="No"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Row 4.32 -->
+                                            <tr>
+                                                <td>4.32</td>
+                                                <td>Change Local to Remote mode, NRCM</td>
+                                                <td>EPM on Remote control NRCM on PEC</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_4_32" value="Yes"> Yes</label>
+                                                    &nbsp;
+                                                    <label><input type="radio" name="tr_4_32" value="No"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Row 4.33 -->
+                                            <tr>
+                                                <td>4.33</td>
+                                                <td>"25 rpm" order on PEC</td>
+                                                <td>EPM 25 rpm</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_4_33" value="Yes"> Yes</label>
+                                                    &nbsp;
+                                                    <label><input type="radio" name="tr_4_33" value="No"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Row 4.34 -->
+                                            <tr>
+                                                <td>4.34</td>
+                                                <td>Requesting a &nbsp;"parallel" coupling order, PEC</td>
+                                                <td>Battery coupling parallel &nbsp;EPM in rotation, 25 rpm</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_4_34" value="Yes"> Yes</label>
+                                                    &nbsp;
+                                                    <label><input type="radio" name="tr_4_34" value="No"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Row 4.35 -->
+                                            <tr>
+                                                <td>4.35</td>
+                                                <td>Change ES circuit to Automatic mode</td>
+                                                <td>ES in automatic mode</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_4_35" value="Yes"> Yes</label>
+                                                    &nbsp;
+                                                    <label><input type="radio" name="tr_4_35" value="No"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Row 4.36 -->
+                                            <tr>
+                                                <td>4.36</td>
+                                                <td>
+                                                    Condition &nbsp;present &nbsp;for requesting EG pump on low speed
+                                                </td>
+                                                <td>ES pump on low speed</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_4_36" value="Yes"> Yes</label>
+                                                    &nbsp;
+                                                    <label><input type="radio" name="tr_4_36" value="No"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Row 4.37 (Ser & Yes/No span 2 rows) -->
+                                            <tr>
+                                                <td rowspan="2">4.37</td>
+                                                <td rowspan="2">
+                                                    ES pump in low speed<br>
+                                                    Change NRCM → BRCM, PEP switch Normal/Backup switches
+                                                    to Backup position
+                                                </td>
+                                                <td>EPM in BRCM</td>
+                                                <td rowspan="2">
+                                                    <label><input type="radio" name="tr_4_37" value="Yes"> Yes</label>
+                                                    &nbsp;
+                                                    <label><input type="radio" name="tr_4_37" value="No"> No</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>ES pump is automatically start in high speed</td>
+                                            </tr>
+
+                                            <!-- Row 4.38 (Ser & Yes/No span 2 rows) -->
+                                            <tr>
+                                                <td rowspan="2">4.38</td>
+                                                <td rowspan="2">
+                                                    ES pump in high speed &nbsp; Change BRCM → NRCM, PEP switch
+                                                    Normal/Backup switches to Backup position
+                                                </td>
+                                                <td>EPM in NRCM</td>
+                                                <td rowspan="2">
+                                                    <label><input type="radio" name="tr_4_38" value="Yes"> Yes</label>
+                                                    &nbsp;
+                                                    <label><input type="radio" name="tr_4_38" value="No"> No</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    ES pump in high speed, then ES pump return automatically in low
+                                                    speed, after a time – out about 10 min
+                                                </td>
+                                            </tr>
+
+                                            <!-- Row 4.39 (Ser & Yes/No span 2 rows) -->
+                                            <tr>
+                                                <td rowspan="2">4.39</td>
+                                                <td rowspan="2">
+                                                    ES pump in low speed<br>
+                                                    Change &nbsp; Remote(NRCM) → Local, Switch Local/Remote on
+                                                    LCP1 and LCP2 to Local position
+                                                </td>
+                                                <td>EPM in Local control</td>
+                                                <td rowspan="2">
+                                                    <label><input type="radio" name="tr_4_39" value="Yes"> Yes</label>
+                                                    &nbsp;
+                                                    <label><input type="radio" name="tr_4_39" value="No"> No</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>ES pump is automatically start in high speed</td>
+                                            </tr>
+
+                                            <!-- Row 4.40 (Ser & Yes/No span 2 rows) -->
+                                            <tr>
+                                                <td rowspan="2">4.40</td>
+                                                <td rowspan="2">
+                                                    ES pump in high &nbsp;speed &nbsp;Change Local → Remote (NRCM),
+                                                    &nbsp;Switch Local/Remote on LCP1 and LCP2 to Remote position
+                                                </td>
+                                                <td>EPM in NRCM</td>
+                                                <td rowspan="2">
+                                                    <label><input type="radio" name="tr_4_40" value="Yes"> Yes</label>
+                                                    &nbsp;
+                                                    <label><input type="radio" name="tr_4_40" value="No"> No</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    ES pump in high speed, then ES pump return automatically in low
+                                                    speed after a time –out about 10 min
+                                                </td>
+                                            </tr>
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            
+                                <div class="table-responsive mt-4">
+                                    <h5 class="text-center"><strong>Table No. 5</strong></h5>
+
+
+                                    <table class="custom_tbl">
+
+
+                                        <thead class="text-center">
+                                            <tr>
+                                                <th>Ser</th>
+                                                <th>Sequence to be performed</th>
+                                                <th>Result expected</th>
+                                                <th>Test record<br>(Yes/No)</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+
+                                            <tr>
+                                                <td>5.1</td>
+                                                <td>Adjust RPM on PEC to 30 RPM</td>
+                                                <td>EPM at 30 RPM</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_5_1"> Yes</label>
+                                                    <label><input type="radio" name="tr_5_1"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>5.2</td>
+                                                <td>ES pump in &lt; low speed &gt; mode</td>
+                                                <td>Yes</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_5_2"> Yes</label>
+                                                    <label><input type="radio" name="tr_5_2"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>5.3</td>
+                                                <td>Alarms, cooling flow rate of CC1 is low</td>
+                                                <td>No</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_5_3"> Yes</label>
+                                                    <label><input type="radio" name="tr_5_3"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>5.4</td>
+                                                <td>Alarms, cooling flow rate of CC2 is low</td>
+                                                <td>No</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_5_4"> Yes</label>
+                                                    <label><input type="radio" name="tr_5_4"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>5.5</td>
+                                                <td>Alarms, cooling flow rate of motor is low</td>
+                                                <td>No</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_5_5"> Yes</label>
+                                                    <label><input type="radio" name="tr_5_5"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 5.6 MULTI ROW -->
+                                            <tr>
+                                                <td rowspan="3">5.6</td>
+                                                <td rowspan="3">Engage 'Local Emergency Stop' order on CC1</td>
+                                                <td>EPM Stopped</td>
+                                                <td rowspan="3">
+                                                    <label><input type="radio" name="tr_5_6"> Yes</label>
+                                                    <label><input type="radio" name="tr_5_6"> No</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>DM1 and DM2 opened</td>
+                                            </tr>
+                                            <tr>
+                                                <td>CC1 and CC2 off</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>5.7</td>
+                                                <td>Change to Local control mode</td>
+                                                <td>EPM on Local</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_5_7"> Yes</label>
+                                                    <label><input type="radio" name="tr_5_7"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>5.8</td>
+                                                <td>ES pump in &lt; low speed &gt; mode</td>
+                                                <td>Yes</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_5_8"> Yes</label>
+                                                    <label><input type="radio" name="tr_5_8"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>5.9</td>
+                                                <td>Alarms, cooling flow rate CC1 is low</td>
+                                                <td>Yes</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_5_9"> Yes</label>
+                                                    <label><input type="radio" name="tr_5_9"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>5.10</td>
+                                                <td>Alarms, cooling flow rate CC2 is low</td>
+                                                <td>Yes</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_5_10"> Yes</label>
+                                                    <label><input type="radio" name="tr_5_10"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>5.11</td>
+                                                <td>Alarms, cooling flow rate of motor is low</td>
+                                                <td>Yes</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_5_11"> Yes</label>
+                                                    <label><input type="radio" name="tr_5_11"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>5.12</td>
+                                                <td>Remove 'Local Emergency Stop' order on CC1</td>
+                                                <td>Order removed</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_5_12"> Yes</label>
+                                                    <label><input type="radio" name="tr_5_12"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>5.13</td>
+                                                <td>Close DM1 and DM2 circuit breakers</td>
+                                                <td>DM1 and DM2 closed</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_5_13"> Yes</label>
+                                                    <label><input type="radio" name="tr_5_13"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>5.14</td>
+                                                <td>Order CC1 & CC2 preload on LCP1</td>
+                                                <td>CC1 and CC2 preload completed</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_5_14"> Yes</label>
+                                                    <label><input type="radio" name="tr_5_14"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>5.15</td>
+                                                <td>Order 30 RPM on Local Control</td>
+                                                <td>EPM on 30 RPM</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_5_15"> Yes</label>
+                                                    <label><input type="radio" name="tr_5_15"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>5.16</td>
+                                                <td>Change over Local to NRCM on PEC</td>
+                                                <td>Change over complete</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_5_16"> Yes</label>
+                                                    <label><input type="radio" name="tr_5_16"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>5.17</td>
+                                                <td>Validate RPM setting on PEC</td>
+                                                <td>30 RPM setting available on PEC</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_5_17"> Yes</label>
+                                                    <label><input type="radio" name="tr_5_17"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>5.18</td>
+                                                <td>Stop EPM</td>
+                                                <td>EPM Stopped</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_5_18"> Yes</label>
+                                                    <label><input type="radio" name="tr_5_18"> No</label>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+                           
+                                <div class="table-responsive mt-4">
+
+                                    <h5 class="text-center"><strong>Table No. 6</strong></h5>
+
+                                    <table class="custom_tbl">
+
+                                        <tbody>
+
+                                            <!-- Initial Conditions -->
+
+                                            <!-- Header -->
+                                            <thead>
+                                                <tr class="text-center">
+                                                    <th>Ser</th>
+                                                    <th>Sequence to be performed</th>
+                                                    <th>Result expected</th>
+                                                    <th>Test record<br>(Yes/No)</th>
+                                                </tr>
+                                            </thead>
+
+                                            <!-- 6.1 -->
+                                            <tr>
+                                                <td>6.1</td>
+                                                <td>Check the Serial link, MCU2/BRCM PLC</td>
+                                                <td>The link communicates, No communication fault, synthesis incident
+                                                    "BACKUP REMOTE CONTROL" = false</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_6_1"> Yes</label>
+                                                    <label><input type="radio" name="tr_6_1"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 6.2 -->
+                                            <tr>
+                                                <td>6.2</td>
+                                                <td>Check the Serial link, PMD1/BRCM PLC</td>
+                                                <td>The link communicates, No communication fault, synthesis defect
+                                                    "BACKUP
+                                                    REMOTE CONTROL" = false</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_6_2"> Yes</label>
+                                                    <label><input type="radio" name="tr_6_2"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 6.3 -->
+                                            <tr>
+                                                <td>6.3</td>
+                                                <td>Check the Serial link, PMD2/BRCM PLC</td>
+                                                <td>The link communicates, No communication fault, synthesis defect
+                                                    "BACKUP
+                                                    REMOTE CONTROL" = false</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_6_3"> Yes</label>
+                                                    <label><input type="radio" name="tr_6_3"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Section -->
+                                            <tr>
+                                                <td colspan="4"><strong>EPM Start and Stop from PEP</strong></td>
+                                            </tr>
+
+                                            <!-- 6.4 (MULTI ROW) -->
+                                            <tr>
+                                                <td rowspan="3">6.4</td>
+                                                <td rowspan="3">
+                                                    "15 rpm" order on BRCM touch panel and quickly engage
+                                                    "Emergency Stop" order on PEP<br>
+                                                    Perform a visual check of the propeller and shaft line direction of
+                                                    rotation
+                                                </td>
+                                                <td>EPM in rotation, 15 rpm</td>
+                                                <td rowspan="3">
+                                                    <label><input type="radio" name="tr_6_4"> Yes</label>
+                                                    <label><input type="radio" name="tr_6_4"> No</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>EPM stopped</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Direction of rotation correct</td>
+                                            </tr>
+
+                                            <!-- 6.5 -->
+                                            <tr>
+                                                <td>6.5</td>
+                                                <td>Remove "Emergency Stop" on PEP</td>
+                                                <td>Order removed</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_6_5"> Yes</label>
+                                                    <label><input type="radio" name="tr_6_5"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 6.6 -->
+                                            <tr>
+                                                <td>6.6</td>
+                                                <td>"25 rpm" order on BRCM touch panel</td>
+                                                <td>EPM in rotation, 25 rpm stabilized</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_6_6"> Yes</label>
+                                                    <label><input type="radio" name="tr_6_6"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 6.7 -->
+                                            <tr>
+                                                <td>6.7</td>
+                                                <td>"+1 rpm" order on BRCM touch panel</td>
+                                                <td>EPM in rotation, 26 rpm stabilized</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_6_7"> Yes</label>
+                                                    <label><input type="radio" name="tr_6_7"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 6.8 -->
+                                            <tr>
+                                                <td>6.8</td>
+                                                <td>"-1 rpm" order on BRCM touch panel</td>
+                                                <td>EPM in rotation, 25 rpm</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_6_8"> Yes</label>
+                                                    <label><input type="radio" name="tr_6_8"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 6.9 -->
+                                            <tr>
+                                                <td>6.9</td>
+                                                <td>"10 rpm" order on BRCM touch panel</td>
+                                                <td>
+                                                    EPM in rotation, 25 rpm<br>
+                                                    Setting out of range, "RPM SETTING OUT OF RANGE" message on PEP
+                                                </td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_6_9"> Yes</label>
+                                                    <label><input type="radio" name="tr_6_9"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 6.10 -->
+                                            <tr>
+                                                <td>6.10</td>
+                                                <td>"STOP" motor speed order on BRCM touch panel</td>
+                                                <td>EPM on STOP</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_6_10"> Yes</label>
+                                                    <label><input type="radio" name="tr_6_10"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 6.11 -->
+                                            <tr>
+                                                <td>6.11</td>
+                                                <td>"25 rpm" order on BRCM touch panel</td>
+                                                <td>EPM in rotation, 25 rpm stabilized</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_6_11"> Yes</label>
+                                                    <label><input type="radio" name="tr_6_11"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Section -->
+                                            <tr>
+                                                <td colspan="4"><strong>Remote "Emergency Stop" orders</strong></td>
+                                            </tr>
+
+                                            <!-- 6.12 -->
+                                            <tr>
+                                                <td>6.12</td>
+                                                <td>Engage "Emergency Stop" order on PEP</td>
+                                                <td>EPM stop</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_6_12"> Yes</label>
+                                                    <label><input type="radio" name="tr_6_12"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 6.13 -->
+                                            <tr>
+                                                <td>6.13</td>
+                                                <td>Remove "Emergency Stop" order on PEP</td>
+                                                <td>Order removed</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_6_13"> Yes</label>
+                                                    <label><input type="radio" name="tr_6_13"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 6.14 -->
+                                            <tr>
+                                                <td>6.14</td>
+                                                <td>Order "25 rpm" on BRCM touch panel</td>
+                                                <td>EPM in rotation, 25 rpm</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_6_14"> Yes</label>
+                                                    <label><input type="radio" name="tr_6_14"> No</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>6.15</td>
+                                                <td>Engage “Emergency Stop” order on SC</td>
+                                                <td>EPM stop</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_6_15"> Yes</label>
+                                                    <label><input type="radio" name="tr_6_15"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>6.16</td>
+                                                <td>Remove “Emergency Stop” order on SC</td>
+                                                <td>EPM stop</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_6_16"> Yes</label>
+                                                    <label><input type="radio" name="tr_6_16"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>6.17</td>
+                                                <td>“25 rpm” order on BRCM touch panel</td>
+                                                <td>EPM in rotation, 25 rpm</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_6_17"> Yes</label>
+                                                    <label><input type="radio" name="tr_6_17"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>6.18</td>
+                                                <td>Stop EPM</td>
+                                                <td>EPM stopped</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_6_18"> Yes</label>
+                                                    <label><input type="radio" name="tr_6_18"> No</label>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+                           
+                                <div class="table-responsive mt-4">
+
+                                    <h5 class="text-center"><strong>Table No. 7</strong></h5>
+
+                                    <table class="custom_tbl">
+
+                                        <tbody>
+
+                                            <!-- CONFIGURATION -->
+                                            <tr>
+                                                <td >Configuration at start of test</td>
+                                                <td colspan="3">
+                                                    EPM Stopped<br>
+                                                    PEP backup remote control<br>
+                                                    CC1 and CC2 "ON" 26 IVT "ON"<br>
+                                                    DM1 and DM2 closed<br>
+                                                    Parallel Coupling
+                                                </td>
+                                            </tr>
+
+                                            <!-- SECTION -->
+                                            <tr>
+                                                <td colspan="4"><strong>Emergency Stop orders from CC2</strong></td>
+                                            </tr>
+
+                                            <!-- HEADER -->
+                                            <thead>
+                                                <tr class="text-center">
+                                                    <th>Ser</th>
+                                                    <th>Sequence to be performed</th>
+                                                    <th>Results expected</th>
+                                                    <th>Test record<br>(Yes/No)</th>
+                                                </tr>
+                                            </thead>
+
+                                            <!-- 7.1 -->
+                                            <tr>
+                                                <td>7.1</td>
+                                                <td>Adjust RPM on PEP to 30 RPM</td>
+                                                <td>EPM at 30 RPM</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_7_1"> Yes</label>
+                                                    <label><input type="radio" name="tr_7_1"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 7.2 (MULTI ROW) -->
+                                            <tr>
+                                                <td rowspan="3">7.2</td>
+                                                <td rowspan="3">Engage 'Local Emergency Stop' order on CC2</td>
+                                                <td>EPM Stopped</td>
+                                                <td rowspan="3">
+                                                    <label><input type="radio" name="tr_7_2"> Yes</label>
+                                                    <label><input type="radio" name="tr_7_2"> No</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>DM1 and DM2 opened</td>
+                                            </tr>
+                                            <tr>
+                                                <td>CC1 and CC2 off</td>
+                                            </tr>
+
+                                            <!-- 7.3 -->
+                                            <tr>
+                                                <td>7.3</td>
+                                                <td>Change to local control mode</td>
+                                                <td>Control changed</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_7_3"> Yes</label>
+                                                    <label><input type="radio" name="tr_7_3"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 7.4 -->
+                                            <tr>
+                                                <td>7.4</td>
+                                                <td>Remove 'Local Emergency Stop' order on CC2</td>
+                                                <td>Order removed</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_7_4"> Yes</label>
+                                                    <label><input type="radio" name="tr_7_4"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 7.5 -->
+                                            <tr>
+                                                <td>7.5</td>
+                                                <td>Close DM1 and DM2 circuit breakers</td>
+                                                <td>DM1 and DM2 closed</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_7_5"> Yes</label>
+                                                    <label><input type="radio" name="tr_7_5"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 7.6 -->
+                                            <tr>
+                                                <td>7.6</td>
+                                                <td>Order CC1 & CC2 preload on LCP1</td>
+                                                <td>CC1 and CC2 preload completed</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_7_6"> Yes</label>
+                                                    <label><input type="radio" name="tr_7_6"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 7.7 -->
+                                            <tr>
+                                                <td>7.7</td>
+                                                <td>Order 30 RPM on Local Control</td>
+                                                <td>EPM at 30 RPM</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_7_7"> Yes</label>
+                                                    <label><input type="radio" name="tr_7_7"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 7.8 -->
+                                            <tr>
+                                                <td>7.8</td>
+                                                <td>Change control from Local to Backup remote</td>
+                                                <td>
+                                                    EPM in backup remote (RPM may reduce; in harbour it may become zero
+                                                    during change)
+                                                </td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_7_8"> Yes</label>
+                                                    <label><input type="radio" name="tr_7_8"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 7.9 -->
+                                            <tr>
+                                                <td>7.9</td>
+                                                <td>Order 30 RPM on BRCM touch Panel</td>
+                                                <td>EPM at 30 RPM validated</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_7_9"> Yes</label>
+                                                    <label><input type="radio" name="tr_7_9"> No</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 7.10 -->
+                                            <tr>
+                                                <td>7.10</td>
+                                                <td>Stop EPM</td>
+                                                <td>EPM stopped</td>
+                                                <td>
+                                                    <label><input type="radio" name="tr_7_10"> Yes</label>
+                                                    <label><input type="radio" name="tr_7_10"> No</label>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+
+                            </fieldset>
+
+
+
+                            <!-- Submit -->
+                            <div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Save</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        WRSTGQuarterly.init({
+            extraTableIds: ['remarks_table'],
+            submitConfirmation: { formId: 'epm_bearing_form' }
+        });
+    });
+</script>
+{% endblock js %}

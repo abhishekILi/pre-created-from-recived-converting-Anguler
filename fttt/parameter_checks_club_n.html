@@ -1,0 +1,414 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item" aria-current="page">FTTT</li>
+					<li class="breadcrumb-item active" aria-current="page">Club-N SSM Parameter Checks</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+</div>
+<div class="container-fluid" style="background-color: transparent;">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<!-- <i class="icon-plus font-green"></i> -->
+						<span class="caption-subject bold">Club-N SSM Parameter Checks.</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-4 mb-4">
+					<form method="post" id="pre_rfqc_checks_shtil_form">
+						{% csrf_token %}
+						<div class="form-body">
+							<fieldset class="custom-fieldset">
+                                    <legend class="legend-custom text-uppercase">BASIC INFORMATION</legend>
+                                    <div class="row g-3">
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="part1_system_sub_system" value="Club-N System" placeholder=" " readonly>
+                                                <label class="form_control_1">1. System/ Sub system</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="part1_job_undertaken" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">2. Job Undertaken</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <!-- <textarea class="form-control wrstg-scroll-textarea" name="part1_reference_documents" rows="2" placeholder=" "></textarea> -->
+                                                 <input type="file" class ="form-control" name="part1_reference_documents">
+                                                <label class="form_control_1">3. Reference Documents</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="part1_authority" placeholder=" ">
+                                                <label class="form_control_1">4. Authority</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="part1_agencies_involved" value="FTTT(Vzg)" placeholder=" " readonly>
+                                                <label class="form_control_1">5. Agencies involved</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="date" class="form-control" name="part1_date_commenced">
+                                                <label class="form_control_1">6. Date Commenced</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="date" class="form-control" name="part1_date_completed">
+                                                <label class="form_control_1">7. Date Completed</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="part1_prepared_by" placeholder=" ">
+                                                <label class="form_control_1">8. Prepared by</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="part1_vetted_by" placeholder=" ">
+                                                <label class="form_control_1">9. Vetted by</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="part1_reference_no" placeholder=" ">
+                                                <label class="form_control_1">10. Reference No.</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="part1_summary_of_observations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">11. Summary of observations</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="part1_operational_limitations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">12. Operational limitations (if any)</label>
+                                            </div>
+                                        </div>
+
+										<div class="col-12">
+											<label class="mb-2 mt-2"><strong>13.System Data</strong></label>
+										</div>
+
+										<div class="col-md-6 col-12">
+											<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+												<textarea class="form-control wrstg-scroll-textarea" name="system_data_resource" rows="2" placeholder=" "></textarea>
+												<label class="form_control_1">(a) System Resource</label>
+											</div>
+										</div>
+
+										<div class="col-md-6 col-12">
+											<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+												<textarea class="form-control wrstg-scroll-textarea" name="system_data_operation_time" rows="2" placeholder=" "></textarea>
+												<label class="form_control_1">(b) Operation Time</label>
+											</div>
+										</div>
+
+                                    </div>
+                                </fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom">14. System Checks</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl">
+										<thead>
+											<tr>
+												<th class="serial-no">Ser</th>
+												<th>Check </th>
+												<th>Remarks</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no">(a)</td>
+												<td>Visual inspection .</td>
+												<td><textarea class="form-control" name="sys_check_obs_1" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(b)</td>
+												<td>Hatch inspection.</td>
+												<td><textarea class="form-control" name="sys_check_obs_2" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(c)</td>
+												<td>Hydraulic oil check certificate (CDL/BASIC/002268 dated 18 Jun 24).</td>
+												<td><textarea class="form-control" name="sys_check_obs_3" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(d)</td>
+												<td> Hydraulic leakage check.</td>
+												<td><textarea class="form-control" name="sys_check_obs_4" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">(e)</td>
+												<td>Hydraulic oil level in reserve tank.</td>
+												<td><textarea class="form-control" name="sys_check_obs_5" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+											</tr>
+                                            <tr>
+												<td class="serial-no">(f)</td>
+												<td>Hydraulic motor operation checks.</td>
+												<td><textarea class="form-control" name="sys_check_obs_5" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+											</tr>
+                                            <tr>
+												<td class="serial-no">(g)</td>
+												<td>Hatch operation in remote mode.</td>
+												<td><textarea class="form-control" name="sys_check_obs_5" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+											</tr>
+                                            <tr>
+												<td class="serial-no">(h)</td>
+												<td>Hatch operation in local mode.</td>
+												<td><textarea class="form-control" name="sys_check_obs_5" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+											</tr>
+                                            <tr>
+												<td class="serial-no">(i)</td>
+												<td>Condition of ANDOGA connector of all Silos.</td>
+												<td><textarea class="form-control" name="sys_check_obs_5" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+											</tr>
+
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom">15. Club FCS Checks</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl">
+										<thead>
+											<tr>
+												<th class="ser">Ser</th>
+                                                <th class="check">Checks</th>
+                                                <th class="remark">Remarks</th>
+											</tr>
+										</thead>
+										
+                                        <tbody>
+                                            <tr>
+												<td class="serial-no">(a)</td>
+												<td>Visual inspection .</td>
+												<td><textarea class="form-control" name="sys_check_obs_1" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+											</tr>
+                                              <tr>
+												<td class="serial-no">(b)</td>
+												<td>Input Voltage checks of FCS.</td>
+												<td><textarea class="form-control" name="sys_check_obs_1" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+											</tr>
+                                            <tr>
+												<td class="serial-no">(c)</td>
+												<td>ACOS checks of the system.</td>
+												<td><textarea class="form-control" name="sys_check_obs_1" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+											</tr>
+                                            <tr>
+												<td class="serial-no">(d)</td>
+												<td>Insulation check of system as per para 2.3.7 of operation manual part 4 for P-17 Ships.</td>
+												<td><textarea class="form-control" name="sys_check_obs_1" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+											</tr>
+                                            <tr>
+												<td class="serial-no">(e)</td>
+												<td>Check of input SHHD data (Ladoga/ INS-SA/ RLG Sigma 40) .</td>
+												<td><textarea class="form-control" name="sys_check_obs_1" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+											</tr>
+                                              <tr>
+												<td class="serial-no">(f)</td>
+												<td>Operational check of system in test mode as per para 2.4 of operation manual part4 for p-17 Ships .</td>
+												<td><textarea class="form-control" name="sys_check_obs_1" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+											</tr>
+                                              <tr>
+												<td class="serial-no">(g)</td>
+												<td>Functioning of system in all modes and in all check variants as per para 2.1.5 of operation manual part4 for p-17 Ships.</td>
+												<td><textarea class="form-control" name="sys_check_obs_1" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+											</tr>
+                                              <tr>
+												<td class="serial-no">(h)</td>
+												<td>System operation checks through UPS .</td>
+												<td><textarea class="form-control" name="sys_check_obs_1" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+											</tr>
+                                              <tr>
+												<td class="serial-no">(i)</td>
+												<td>Read / write checks of floppy drive .</td>
+												<td><textarea class="form-control" name="sys_check_obs_1" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+											</tr>
+                                              <tr>
+												<td class="serial-no">(j)</td>
+												<td>TD checks from FCR and CMS.</td>
+												<td><textarea class="form-control" name="sys_check_obs_1" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+											</tr>
+                                              <tr>
+												<td class="serial-no">(k)</td>
+												<td>Regulation check of all channels with simulator.</td>
+												<td><textarea class="form-control" name="sys_check_obs_1" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+											</tr>
+                                              <tr>
+												<td class="serial-no">(l)</td>
+												<td>Firing (launch) checks with simulator.</td>
+												<td><textarea class="form-control" name="sys_check_obs_1" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+											</tr>
+                                            
+                                               <tr>
+												<td class="serial-no">(m)</td>
+												<td>Emergency ejection checks with simulator .</td>
+												<td><textarea class="form-control" name="sys_check_obs_1" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+											</tr>
+                                               <tr>
+												<td class="serial-no">(n)</td>
+												<td>Regulation check of channel(s) with training missile.</td>
+												<td><textarea class="form-control" name="sys_check_obs_1" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+										
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom">16. Insulation Check Of ANDOGA</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl">
+										<thead>
+											<tr>
+                                                   <th class="ser">Ser</th>
+                                                    <th class="silo">Silo No</th>
+                                                     <th class="check">Status</th>
+                                                     <th class="remark">Insulation Check Of ANDOGA</th>
+                                            </tr>
+										</thead>
+										<tbody>
+											 <tr>
+												<td class="serial-no">(a)</td>
+												<td>1</td>
+												<td><textarea class="form-control" name="sys_check_obs_1" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+                                                <td><textarea class="form-control" name="sys_check_obs_1" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                <td class="serial-no">(b)</td>
+												<td>2</td>
+												<td><textarea class="form-control" name="sys_check_obs_1" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+                                                <td><textarea class="form-control" name="sys_check_obs_1" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                <td class="serial-no">(c)</td>
+												<td>3</td>
+												<td><textarea class="form-control" name="sys_check_obs_1" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+                                                <td><textarea class="form-control" name="sys_check_obs_1" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                <td class="serial-no">(d)</td>
+												<td>4</td>
+												<td><textarea class="form-control" name="sys_check_obs_1" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+                                                <td><textarea class="form-control" name="sys_check_obs_1" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                <td class="serial-no">(e)</td>
+												<td>5</td>
+												<td><textarea class="form-control" name="sys_check_obs_1" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+                                                <td><textarea class="form-control" name="sys_check_obs_1" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                <td class="serial-no">(f)</td>
+												<td>6</td>
+												<td><textarea class="form-control" name="sys_check_obs_1" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+                                                <td><textarea class="form-control" name="sys_check_obs_1" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                <td class="serial-no">(g)</td>
+												<td>7</td>
+												<td><textarea class="form-control" name="sys_check_obs_1" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+                                                <td><textarea class="form-control" name="sys_check_obs_1" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+                                                </tr>
+                                                <tr>
+                                                <td class="serial-no">(h)</td>
+												<td>8</td>
+												<td><textarea class="form-control" name="sys_check_obs_1" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+                                                <td><textarea class="form-control" name="sys_check_obs_1" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+											</tr>
+											
+										</tbody>
+									</table>
+								</div>
+
+								
+							</fieldset>
+                            <fieldset class="custom-fieldset">
+								<legend class="legend-custom">17. Insulation check of FCS</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl">
+										<thead>
+											<tr>
+											       <th>Device</th>
+                                                    <th>Status</th>
+                                                    <th>Insulation Check of ANDOGA</th>
+                         
+											</tr>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no">108 E</td>
+												<td><textarea class="form-control" name="sys_check_obs_1" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+                                                <td class="center">&gt;20 MΩ</td>
+											</tr>
+											<tr>
+												<td class="serial-no">CA IV-2</td>
+												<td><textarea class="form-control" name="sys_check_obs_2" rows="1" style="border: 1px solid #ddd; padding: 5px;"></textarea></td>
+                                                <td class="center">&gt;2 MΩ</td>
+											</tr>
+											
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+							
+
+							
+
+							
+
+								
+
+							<div class="d-flex justify-content-center mt-4">  
+								<button type="submit" class="btn btn-primary px-4">Submit Pre RFQC Checks</button>
+							</div>
+
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

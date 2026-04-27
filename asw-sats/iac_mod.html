@@ -1,0 +1,1720 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+    .custom_tbl td,
+    .custom_tbl th {
+        vertical-align: top;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal !important;
+    }
+
+    .obs-block div {
+        line-height: 1.35;
+    }
+
+    .obs-input {
+        margin-left: 4px;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ASW SATs</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">HUMSA NG 64082</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">DATA SUMMARY OF PROGRESS - HUMSA NG</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="iac_mod">
+                        {% csrf_token %}
+                        <div class="form-body">
+                            <fieldset class="custom-fieldset">
+                                <div class="row g-3">
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <select class="form-control" name="ship_name" required>
+                                                <option value="">Select Ship</option>
+                                                {% for option in ship_options %}
+                                                <option value="{{ option.value }}">{{ option.label }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <label class="form_control_1">SHIP <span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="text" class="form-control" name="equipment" value="AC MOD C"
+                                                required>
+                                            <label class="form_control_1">EQUIPMENT <span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <select class="form-control" name="department" required>
+                                                <option value="">Select Dept</option>
+                                                <option value="ASW">ASW</option>
+                                                <option value="ND">ND</option>
+                                                <option value="ELE">ELE</option>
+                                                <option value="COMMN">COMMN</option>
+                                            </select>
+                                            <label class="form_control_1">DEPT <span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <select class="form-control" name="nature_of_trials" required>
+                                                <option value="">Select Nature of Trials</option>
+                                                <option value="SATs">SATs</option>
+                                                <option value="HATs">HATs</option>
+                                                <option value="OP CHECKS">OP CHECKS</option>
+                                                <option value="IIs">IIs</option>
+                                            </select>
+                                            <label class="form_control_1">NATURE OF TRIALS <span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="date" class="form-control" name="date" required>
+                                            <label class="form_control_1">DATE <span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="custom-fieldset mt-4">
+                                <div class="table-responsive mt-4">
+
+                                    <table class="custom_tbl">
+
+                                        <thead class="table-dark-head text-center">
+                                            <tr>
+                                                <th style="width:10%;">TRIAL SER</th>
+                                                <th style="width:55%;">CHECK DESCRIPTION AS PER SCHEDULE</th>
+                                                <th style="width:15%;">RESULT<br>SAT / UNSAT</th>
+                                                <th style="width:20%;">PRESENTING AUTHORITY REMARKS</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+
+                                            <!-- 3.0 -->
+                                            <tr>
+                                                <td><strong>3.0</strong></td>
+                                                <td><strong>INTEGRATED TMA-FCS ALGORITHM EVALUATION CHECKS</strong></td>
+                                                <td colspan="2"></td>
+                                                <!-- <td ></td> -->
+                                            </tr>
+
+                                            <!-- 3.1 -->
+                                            <tr>
+                                                <td>3.1</td>
+                                                <td><strong>INTEGRATED TMA-FCS ALGORITHM EVALUATION</strong></td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="r31" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="r31" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td><textarea class="form-control" name="rem_31"></textarea></td>
+                                            </tr>
+
+                                            <!-- 3.2.1 -->
+                                            <tr>
+                                                <td>3.2.1</td>
+                                                <td><strong>INTEGRATED TMA-FCS setup Procedure</strong></td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="r321" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="r321" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td><textarea class="form-control" name="rem_321"></textarea></td>
+                                            </tr>
+
+                                            <!-- 3.2.2 -->
+                                            <tr>
+                                                <td>3.2.2</td>
+                                                <td><strong>Evaluation procedure</strong></td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="r322" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="r322" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td><textarea class="form-control" name="rem_322"></textarea></td>
+                                            </tr>
+
+                                            <!-- 3.3 -->
+                                            <tr>
+                                                <td><strong>3.3</strong></td>
+                                                <td><strong>Active Target Tracking Scenarios</strong></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+
+                                            <!-- 3.3.1 -->
+                                            <tr>
+                                                <td>3.3.1</td>
+                                                <td>
+                                                    <strong>Active Scenario 1</strong><br>
+                                                    (a) Run 1 <br>
+                                                    (b) Run 2
+                                                </td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="r331" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="r331" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td><textarea class="form-control" name="rem_331"></textarea></td>
+                                            </tr>
+
+                                            <!-- 3.3.2 -->
+                                            <tr>
+                                                <td>3.3.2</td>
+                                                <td>
+                                                    <strong>Active Scenario 2</strong><br>
+                                                    (a) Run 1
+                                                    <br>
+                                                    (b) Run 2
+                                                </td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="r332" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="r332" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td><textarea class="form-control" name="rem_332"></textarea></td>
+                                            </tr>
+
+                                            <!-- 3.3.3 -->
+                                            <tr>
+                                                <td>3.3.3</td>
+                                                <td>
+                                                    <strong>Active Scenario 3</strong><br>
+                                                    (a) Run 1 <br>
+                                                    (b) Run 2
+                                                </td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="r333" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="r333" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td><textarea class="form-control" name="rem_333"></textarea></td>
+                                            </tr>
+
+                                            <!-- 3.4 -->
+                                            <tr>
+                                                <td><strong>3.4</strong></td>
+                                                <td><strong>Passive Target Tracking Scenarios</strong></td>
+                                                <td></td>
+                                                <td></td>
+                                            </tr>
+
+                                            <!-- 3.4.1 -->
+                                            <tr>
+                                                <td>3.4.1</td>
+                                                <td>
+                                                    <strong>Passive Scenario 1</strong><br>
+                                                    (a) Run 1 <br>
+                                                    (b) Run 2
+                                                </td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="r341" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="r341" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td><textarea class="form-control" name="rem_341"></textarea></td>
+                                            </tr>
+
+                                            <!-- 3.4.2 -->
+                                            <tr>
+                                                <td>3.4.2</td>
+                                                <td>
+                                                    <strong>Passive Scenario 2</strong><br>
+                                                    (a) Run 1 <br>
+                                                    (b) Run 2
+                                                </td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="r342" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="r342" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td><textarea class="form-control" name="rem_342"></textarea></td>
+                                            </tr>
+
+                                            <!-- 3.4.3 -->
+                                            <tr>
+                                                <td>3.4.3</td>
+                                                <td>
+                                                    <strong>Passive Scenario 3</strong><br>
+                                                    (a) Run 1 <br>
+                                                    (b) Run 2
+                                                </td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="r343" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="r343" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td><textarea class="form-control" name="rem_343"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4" class="text-center">
+                                                    <strong>ANNEXURE - I</strong>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td style="width:10%;">1.</td>
+                                                <td style="width:55%;">
+                                                    <strong>Procedure for TMA-FCS checks for IRL</strong>
+                                                </td>
+                                                <td style="width:15%;">
+                                                    <input type="text" class="form-control" name="ann1_result">
+                                                </td>
+                                                <td style="width:20%;">
+                                                    <input type="text" class="form-control" name="ann1_remarks">
+                                                </td>
+                                            </tr>
+
+                                            <!-- ANNEXURE II -->
+                                            <tr>
+                                                <td colspan="4" class="text-center">
+                                                    <strong>ANNEXURE - II</strong>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>2.</td>
+                                                <td>
+                                                    <strong>Procedure for TMA-FCS checks for DTA</strong>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="ann2_result">
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="ann2_remarks">
+                                                </td>
+                                            </tr>
+
+                                            <!-- ANNEXURE III -->
+                                            <tr>
+                                                <td colspan="4" class="text-center">
+                                                    <strong>ANNEXURE - III</strong>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>3.</td>
+                                                <td>
+                                                    <strong>Sample Plots</strong>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="ann3_result">
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" name="ann3_remarks">
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+
+                                    </table>
+
+
+                                </div>
+                                <div class="table-responsive mt-4">
+
+                                    <h5><strong>Table A.1 (Sonar, Radar, IAC Values)</strong></h5>
+                                    <p>
+                                        PASSIVE SCENARIO
+                                        <input type="text" class="form-control d-inline-block w-auto"
+                                            name="esr_passive">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+
+                                        RUN
+                                        <input type="text" class="form-control d-inline-block w-auto" name="own_course">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                    </p>
+
+
+
+                                    <table class="custom_tbl">
+
+                                        <thead class="table-dark-head text-center">
+
+                                            <!-- ROW 1 -->
+                                            <tr>
+                                                <th rowspan="3">Sample No.</th>
+
+                                                <th colspan="4">Radar Value</th>
+
+                                                <th colspan="2">Sonar Track output at HUMSA NG</th>
+
+                                                <!-- OWN CRS alag column hai -->
+                                                <th rowspan="3">OWN CRS</th>
+
+                                                <th colspan="2">TMA OUTPUT at ASWC on PPI</th>
+
+                                                <th colspan="4">Difference</th>
+                                            </tr>
+
+                                            <!-- ROW 2 -->
+                                            <tr>
+                                                <!-- Radar -->
+                                                <th>Br</th>
+                                                <th>Rr</th>
+                                                <th>Cr</th>
+                                                <th>Sr</th>
+
+                                                <!-- Sonar -->
+                                                <th>Bs</th>
+                                                <th>Rs (km)</th>
+
+                                                <!-- TMA -->
+                                                <th>Ct</th>
+                                                <th>St (kn)</th>
+
+                                                <!-- Difference -->
+                                                <th>BE</th>
+                                                <th>RE</th>
+                                                <th>CE</th>
+                                                <th>SE</th>
+                                            </tr>
+
+                                            <!-- ROW 3 -->
+                                            <tr>
+                                                <!-- Radar blank -->
+                                                <th colspan="4"></th>
+
+                                                <!-- Sonar blank -->
+                                                <th colspan="2"></th>
+
+                                                <!-- TMA blank -->
+                                                <th colspan="2"></th>
+
+                                                <!-- Difference formulas -->
+                                                <th>(BE-BS)</th>
+                                                <th>(RR-RS)</th>
+                                                <th>(CR-CT)</th>
+                                                <th>(SR-ST)</th>
+                                            </tr>
+
+                                        </thead>
+
+                                        <tbody>
+
+                                            <!-- SAMPLE ROW -->
+                                            <tr>
+                                                <td align="center">1</td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">2</td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">3</td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">4</td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td align="center">5</td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">6</td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">7</td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">8</td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">9</td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">10</td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                            </tr>
+
+
+
+
+
+
+
+
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+                                <div class="table-responsive mt-4">
+
+                                    <h5><strong>Table A.2 (WEAPON PARAMETER)</strong></h5>
+                                    <p>
+                                        PASSIVE SCENARIO
+                                        <input type="text" class="form-control d-inline-block w-auto"
+                                            name="esr_passive">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+
+                                        RUN
+                                        <input type="text" class="form-control d-inline-block w-auto" name="own_course">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                    </p>
+
+                                    <table class="custom_tbl">
+
+                                        <thead class="table-dark-head text-center">
+
+
+
+                                            <!-- RUN HEADER -->
+                                            <tr>
+                                                <th rowspan="3">Sample No.</th>
+
+                                                <th colspan="12">Run 1</th>
+                                                <th colspan="5">Run 2</th>
+                                            </tr>
+
+                                            <!-- WEAPON GROUP -->
+                                            <tr>
+                                                <th colspan="4">CET 65 E (SINGLE)</th>
+                                                <th colspan="4">CET 65 E (SALVO)</th>
+                                                <th colspan="4">53-65 KE</th>
+
+                                                <th colspan="3">ROCKET</th>
+                                            </tr>
+
+                                            <!-- PARAMETERS -->
+                                            <tr>
+                                                <th>ω</th>
+                                                <th>Dc</th>
+                                                <th>α</th>
+                                                <th></th>
+
+
+                                                <th>ω</th>
+                                                <th>Dc</th>
+                                                <th>α</th>
+                                                <th></th>
+
+                                                <th>ω</th>
+                                                <th>Dc</th>
+                                                <th>α</th>
+
+                                                <th>Qbt</th>
+                                                <th>EA</th>
+                                                <th>TA</th>
+                                            </tr>
+
+                                        </thead>
+
+                                        <tbody>
+
+                                            <!-- Row 1 -->
+                                            <tr>
+                                                <td align="center">1</td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">2</td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">3</td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">4</td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                            </tr>
+
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+                                <div class="table-responsive mt-4">
+
+                                    <h5><strong>Table A.3 (TIG FLAGS)</strong></h5>
+
+                                    <table class="custom_tbl">
+
+                                        <thead class="table-dark-head text-center">
+
+                                            <!-- GROUP HEADER -->
+                                            <tr>
+                                                <th colspan="4">CET 65 E (SINGLE)</th>
+                                                <th colspan="4">CET 65 E (SALVO)</th>
+                                                <th colspan="4">53-65 KE</th>
+                                                <th colspan="4">ROCKET</th>
+                                            </tr>
+
+                                            <!-- SUB HEADER -->
+                                            <tr>
+                                                <!-- SINGLE -->
+                                                <th>Sample No.</th>
+                                                <th>Flag g</th>
+                                                <th>Sample No.</th>
+                                                <th>Flag g</th>
+
+                                                <!-- SALVO -->
+                                                <th>Sample No.</th>
+                                                <th>Flag g</th>
+                                                <th>Sample No.</th>
+                                                <th>Flag g</th>
+
+
+                                                <!-- 53-65 -->
+                                                <th>Sample No.</th>
+                                                <th>Flag g</th>
+                                                <th>Sample No.</th>
+                                                <th>Flag g</th>
+
+
+                                                <!-- ROCKET -->
+                                                <th>Sample No.</th>
+                                                <th>Flag g</th>
+                                                <th>Sample No.</th>
+                                                <th>Flag g</th>
+
+                                            </tr>
+
+                                        </thead>
+
+                                        <tbody>
+
+                                            <!-- ROW 1 -->
+                                            <tr>
+                                                <!-- SINGLE -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+
+                                                <!-- SALVO -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <!-- 53-65 -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+
+                                                <!-- ROCKET -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                            </tr>
+
+                                            <!-- Same pattern continue -->
+                                            <tr>
+                                                <!-- SINGLE -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+
+                                                <!-- SALVO -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <!-- 53-65 -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+
+                                                <!-- ROCKET -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                            </tr>
+                                            <tr>
+                                                <!-- SINGLE -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+
+                                                <!-- SALVO -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <!-- 53-65 -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+
+                                                <!-- ROCKET -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                            </tr>
+
+                                            <tr>
+                                                <!-- SINGLE -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+
+                                                <!-- SALVO -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <!-- 53-65 -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+
+                                                <!-- ROCKET -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                            </tr>
+                                            <tr>
+                                                <!-- SINGLE -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+
+                                                <!-- SALVO -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <!-- 53-65 -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+
+                                                <!-- ROCKET -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                            </tr>
+                                            <tr>
+                                                <!-- SINGLE -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+
+                                                <!-- SALVO -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <!-- 53-65 -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+
+                                                <!-- ROCKET -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                            </tr>
+                                            <tr>
+                                                <!-- SINGLE -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+
+                                                <!-- SALVO -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <!-- 53-65 -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+
+                                                <!-- ROCKET -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                            </tr>
+                                            <tr>
+                                                <!-- SINGLE -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+
+                                                <!-- SALVO -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <!-- 53-65 -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+
+                                                <!-- ROCKET -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                            </tr>
+                                            <tr>
+                                                <!-- SINGLE -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+
+                                                <!-- SALVO -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <!-- 53-65 -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+
+                                                <!-- ROCKET -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                            </tr>
+
+                                            <tr>
+                                                <!-- SINGLE -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+
+                                                <!-- SALVO -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <!-- 53-65 -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+
+                                                <!-- ROCKET -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                            </tr>
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+                                <div class="table-responsive mt-4">
+
+                                    <h5><strong>Table A.4 (Sonar, Radar, IAC Values)</strong></h5>
+                                    <p>
+                                        PASSIVE SCENARIO
+                                        <input type="text" class="form-control d-inline-block w-auto"
+                                            name="esr_passive">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+
+                                        RUN
+                                        <input type="text" class="form-control d-inline-block w-auto" name="own_course">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;
+                                    </p>
+
+                                    <table class="custom_tbl">
+
+                                        <thead class="table-dark-head text-center">
+
+                                            <!-- TOP LINE -->
+
+
+                                            <!-- ROW 1 -->
+                                            <tr>
+                                                <th rowspan="3">Sample No.</th>
+
+                                                <th colspan="4">Radar Value</th>
+
+                                                <th colspan="2">Sonar Track output at HUMSA NG</th>
+
+                                                <th rowspan="3">OWN CRS</th>
+
+                                                <th colspan="3">TMA OUTPUT at ASWC on TMA area of PPI</th>
+
+                                                <th colspan="4">Difference</th>
+                                            </tr>
+
+                                            <!-- ROW 2 -->
+                                            <tr>
+                                                <!-- Radar -->
+                                                <th>Br</th>
+                                                <th>Rr</th>
+                                                <th>Cr</th>
+                                                <th>Sr</th>
+
+                                                <!-- Sonar -->
+                                                <th>Bs</th>
+                                                <th>Rs (km)</th>
+
+                                                <!-- TMA (THIS WAS WRONG BEFORE) -->
+                                                <th>Rt</th>
+                                                <th>Ct</th>
+                                                <th>St (kn)</th>
+
+                                                <!-- Difference -->
+                                                <th>BE</th>
+                                                <th>RE</th>
+                                                <th>CE</th>
+                                                <th>SE</th>
+                                            </tr>
+
+                                            <!-- ROW 3 -->
+                                            <tr>
+                                                <th colspan="4"></th>
+                                                <th colspan="2"></th>
+                                                <th colspan="3"></th>
+
+                                                <!-- EXACT TEXT FROM IMAGE -->
+                                                <th>(BR-BS)</th>
+                                                <th>(BR-RT)</th>
+                                                <th>(CR-CT)</th>
+                                                <th>(SR-ST)</th>
+                                            </tr>
+
+                                        </thead>
+
+                                        <tbody>
+
+                                            <!-- ROW 1 -->
+                                            <tr>
+                                                <td align="center">1</td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <!-- TMA -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <!-- Difference -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">2</td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <!-- TMA -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <!-- Difference -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">3</td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <!-- TMA -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <!-- Difference -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">4</td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <!-- TMA -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <!-- Difference -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">5</td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <!-- TMA -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <!-- Difference -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">6</td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <!-- TMA -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <!-- Difference -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">7</td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <!-- TMA -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <!-- Difference -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                            </tr>
+
+                                            <td align="center">8</td>
+
+                                            <td><input type="text" class="form-control"></td>
+                                            <td><input type="text" class="form-control"></td>
+                                            <td><input type="text" class="form-control"></td>
+                                            <td><input type="text" class="form-control"></td>
+
+                                            <td><input type="text" class="form-control"></td>
+                                            <td><input type="text" class="form-control"></td>
+
+                                            <td><input type="text" class="form-control"></td>
+
+                                            <!-- TMA -->
+                                            <td><input type="text" class="form-control"></td>
+                                            <td><input type="text" class="form-control"></td>
+                                            <td><input type="text" class="form-control"></td>
+
+                                            <!-- Difference -->
+                                            <td><input type="text" class="form-control"></td>
+                                            <td><input type="text" class="form-control"></td>
+                                            <td><input type="text" class="form-control"></td>
+                                            <td><input type="text" class="form-control"></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">9</td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <!-- TMA -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <!-- Difference -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="center">10</td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <!-- TMA -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+
+                                                <!-- Difference -->
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                            </tr>
+
+
+
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+                                <div class="table-responsive mt-4">
+
+                                    <h5><strong>Table A.6 (SCENARIO OBSERVATIONS)</strong></h5>
+
+                                    <table class="custom_tbl">
+
+                                        <thead class="table-dark-head text-center">
+                                            <tr>
+                                                <th>Run No.</th>
+                                                <th>Error</th>
+                                                <th>Exp. Abs mean</th>
+                                                <th>Obs. Abs mean</th>
+                                                <th>Valid / Invalid</th>
+                                                <th>Exp. SD.</th>
+                                                <th>Obs. SD.</th>
+                                                <th>Valid / Invalid</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+
+                                            <!-- Sonar Range -->
+                                            <tr>
+                                                <td>1....n</td>
+                                                <td><strong>Sonar Range</strong></td>
+                                                <td>&le;100 m</td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td>2% of RS</td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                            </tr>
+
+                                            <!-- Sonar Bearing -->
+                                            <tr>
+                                                <td>n</td>
+                                                <td><strong>Sonar Bearing</strong></td>
+                                                <td>&le;0.3 Deg</td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td>&le;2°</td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                            </tr>
+
+                                            <!-- TMA-FCS CET65E SINGLE -->
+                                            <tr>
+                                                <td rowspan="9">1</td>
+                                                <td rowspan="3"><strong>TMA-FCS CET65E (Single)</strong></td>
+
+                                                <td colspan="6" class="text-center" style="background:#d9d9d9;">
+                                                    <strong>Consecutive VALID TMA-FCS samples: Expected (10)</strong>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6"><input type="text" class="form-control"></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6"></td>
+                                            </tr>
+
+                                            <!-- TMA-FCS CET65E SALVO -->
+                                            <tr>
+                                                <!-- <td rowspan="3"></td> -->
+                                                <td rowspan="3"><strong>TMA-FCS CET65E (Salvo)</strong></td>
+
+                                                <td colspan="6" class="text-center" style="background:#d9d9d9;">
+                                                    <strong>Consecutive VALID TMA-FCS samples: Expected (10)</strong>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6"><input type="text" class="form-control"></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6"></td>
+                                            </tr>
+
+                                            <!-- TMA-FCS 53-65KE -->
+                                            <tr>
+                                                <!-- <td rowspan="3"></td> -->
+                                                <td rowspan="3"><strong>TMA-FCS 53-65KE</strong></td>
+
+                                                <td colspan="6" class="text-center" style="background:#d9d9d9;">
+                                                    <strong>Consecutive VALID TMA-FCS samples: Expected (5)</strong>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6"><input type="text" class="form-control"></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6"></td>
+                                            </tr>
+
+                                            <!-- RUN 2 RGB 60 -->
+                                            <tr>
+                                                <td rowspan="3">2</td>
+                                                <td rowspan="3"><strong>TMA-FCS (RGB 60)</strong></td>
+
+                                                <td colspan="6" class="text-center" style="background:#d9d9d9;">
+                                                    <strong>Consecutive VALID TMA-FCS samples: Expected (5)</strong>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6"><input type="text" class="form-control"></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6"></td>
+                                            </tr>
+
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+                                <div class="table-responsive mt-4">
+
+                                    <h5><strong>Table A.7 (SCENARIO OBSERVATIONS)</strong></h5>
+
+                                    <table class="custom_tbl">
+
+                                        <thead class="table-dark-head text-center">
+                                            <tr>
+                                                <th>Run No.</th>
+                                                <th>Error</th>
+                                                <th>Exp. Abs mean</th>
+                                                <th>Obs. Abs mean</th>
+                                                <th>Valid / Invalid</th>
+                                                <th>Exp. SD.</th>
+                                                <th>Obs. SD.</th>
+                                                <th>Valid / Invalid</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+
+                                            <!-- Sonar Bearing -->
+                                            <tr>
+                                                <td>1....n</td>
+                                                <td><strong>Sonar Bearing</strong></td>
+                                                <td>&le;0.3 Deg</td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td>&le;2°</td>
+                                                <td><input type="text" class="form-control"></td>
+                                                <td><input type="text" class="form-control"></td>
+                                            </tr>
+
+                                            <!-- RUN 1 (IMPORTANT: rowspan=9) -->
+                                            <tr>
+                                                <td rowspan="9">1</td>
+                                                <td rowspan="3"><strong>TMA-FCS CET65E (Single)</strong></td>
+
+                                                <td colspan="6" class="text-center" style="background:#d9d9d9;">
+                                                    <strong>Consecutive VALID TMA-FCS samples: Expected (50)</strong>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6"><input type="text" class="form-control"></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6"></td>
+                                            </tr>
+
+                                            <!-- SALVO -->
+                                            <tr>
+                                                <td rowspan="3"><strong>TMA-FCS CET65E (Salvo)</strong></td>
+
+                                                <td colspan="6" class="text-center" style="background:#d9d9d9;">
+                                                    <strong>Consecutive VALID TMA-FCS samples: Expected (50)</strong>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6"><input type="text" class="form-control"></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6"></td>
+                                            </tr>
+
+                                            <!-- 53-65KE -->
+                                            <tr>
+                                                <td rowspan="3"><strong>TMA-FCS 53-65KE</strong></td>
+
+                                                <td colspan="6" class="text-center" style="background:#d9d9d9;">
+                                                    <strong>Consecutive VALID TMA-FCS samples: Expected (50)</strong>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6"><input type="text" class="form-control"></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6"></td>
+                                            </tr>
+
+                                            <!-- RUN 2 -->
+                                            <tr>
+                                                <td rowspan="3">2</td>
+                                                <td rowspan="3"><strong>TMA-FCS (RGB 60)</strong></td>
+
+                                                <td colspan="6" class="text-center" style="background:#d9d9d9;">
+                                                    <strong>Consecutive VALID TMA-FCS samples: Expected (50)</strong>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6"><input type="text" class="form-control"></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6"></td>
+                                            </tr>
+
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+
+
+
+
+                            </fieldset>
+                            <!-- PRESENTING AUTHORITY -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                                <div class="row g-3">
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" id="dmr_16a_presenting_authority"
+                                                name="dmr_16a_presenting_authority" required>
+                                                <option value="">--Select--</option>
+                                                <option value="dockyard">Dockyard</option>
+                                                <option value="shipstaff">Shipstaff</option>
+                                                <option value="oem">OEM</option>
+                                            </select>
+                                            <label class="form_control_1" for="dmr_16a_presenting_authority">Presenting
+                                                Authority <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" id="dmr_16a_watt"
+                                                name="dmr_16a_watt" value="VZG">
+                                            <label class="form_control_1" for="dmr_16a_watt">WATT</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,237 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+	.custom_tbl td,
+	.custom_tbl th {
+		word-wrap: break-word;
+		overflow-wrap: break-word;
+		white-space: normal !important;
+	}
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">WATT</a></li>
+					<li class="breadcrumb-item active" aria-current="page">VHF (DSC) MMB</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">VHF (DSC) MMB</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="vhf_mmb_form">
+						{% csrf_token %}
+						<div class="form-body">
+							<fieldset class="custom-fieldset">
+								<div class="row g-3">
+									<div class="col-md-3 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<select class="form-control" name="ship_name" required>
+												<option value="">Select Ship</option>
+												{% for option in ship_options %}
+													<option value="{{ option.value }}">{{ option.label }}</option>
+												{% endfor %}
+											</select>
+											<label class="form_control_1">NAME OF SHIP <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<input type="text" class="form-control" name="equipment" value="VHF (DSC) MMB" required>
+											<label class="form_control_1">EQUIPMENT <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-2 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<input type="text" class="form-control" name="sno">
+											<label class="form_control_1">SNo</label>
+										</div>
+									</div>
+								</div>
+
+								<div class="row g-3 mt-2">
+									<div class="col-md-2 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<input type="date" class="form-control" name="date" required>
+											<label class="form_control_1">DATE</label>
+										</div>
+									</div>
+									<div class="col-md-3 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<select class="form-control" name="department" required>
+												<option value="">Select Department</option>
+												<option value="ND">ND</option>
+												<option value="Communication">Communication</option>
+												<option value="Gunnery">Gunnery</option>
+												<option value="ASW">ASW</option>
+											</select>
+											<label class="form_control_1">DEPARTMENT <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-3 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<select class="form-control" name="nature_of_trials" required>
+												<option value="">Select Nature of Trials</option>
+												<option value="SATs">SATs</option>
+												<option value="HATs">HATs</option>
+												<option value="OP Checks">OP Checks</option>
+												<option value="IIs">IIs</option>
+											</select>
+											<label class="form_control_1">NATURE OF TRIALS <span class="text-danger">*</span></label>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<div class="table-responsive mt-4">
+									<table class="custom_tbl" id="vhf_mmb_table">
+										<thead class="table-dark-head">
+											<tr>
+												<th class="ser-col">Ser</th>
+												<th class="obs-col">Checks /Observations</th>
+												<th class="remarks-col">Remarks</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td></td>
+												<td>
+													Trial team reported onboard for Op Checks of <strong>VHF(DSC) MMB</strong> at
+													<input type="text" name="reported_hrs" class="line-input embarked-hrs"> hrs.
+													The trials carried were out i.a.w.
+													<strong>NHQ/DNS approved scheduled Communication Acquaint 03/2024 (CM/0301/OPS dated 15 Apr 24)</strong>
+													and <strong>HQENC/CCO Fax CM/3070/41 dated 16 Apr 24, and CNO. 07/10</strong>
+													are enumerated in succeeding paragraphs :-
+												</td>
+												<td></td>
+											</tr>
+
+											<tr>
+												<td><strong>(A)</strong></td>
+												<td><strong><u>Preliminary Checks</u></strong></td>
+												<td></td>
+											</tr>
+											<tr><td>1.</td><td>The Condition of all the required interconnecting cables between units/ racks of the system.</td><td class="text-center"><label><input type="radio" name="status_1" value="SAT"> SAT</label> <label><input type="radio" name="status_1" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>2.</td><td>The condition of the power supply, earthing of the units and the overall air conditioning in the compartment.</td><td class="text-center"><label><input type="radio" name="status_2" value="SAT"> SAT</label> <label><input type="radio" name="status_2" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>3.</td><td>Stability of the power supply to the system.</td><td class="text-center"><label><input type="radio" name="status_3" value="SAT"> SAT</label> <label><input type="radio" name="status_3" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>4.</td><td>Check IMO compliance / certification for the equipment.</td><td class="text-center"><label><input type="radio" name="status_4" value="SAT"> SAT</label> <label><input type="radio" name="status_4" value="UNSAT"> UNSAT</label></td></tr>
+
+											<tr>
+												<td><strong>(B)</strong></td>
+												<td><strong><u>Visual Checks</u></strong></td>
+												<td></td>
+											</tr>
+											<tr><td>1.</td><td>Fitment of Tx/Rx uniton Bridge / Flag Bridge.</td><td class="text-center"><label><input type="radio" name="status_5" value="SAT"> SAT</label> <label><input type="radio" name="status_5" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>2.</td><td>Fitment of antenna on <input type="text" class="line-input embarked-hrs" name="antenna_location"> and antenna connection to Tx/Rx.</td><td class="text-center"><label><input type="radio" name="status_6" value="SAT"> SAT</label> <label><input type="radio" name="status_6" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>3.</td><td>Grounding of Tx/Rx and securing of system.</td><td class="text-center"><label><input type="radio" name="status_7" value="SAT"> SAT</label> <label><input type="radio" name="status_7" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>4.</td><td>Securing of sub-assemblies and connecting cables.</td><td class="text-center"><label><input type="radio" name="status_8" value="SAT"> SAT</label> <label><input type="radio" name="status_8" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>5.</td><td>Power supply to Tx/Rx.</td><td class="text-center"><label><input type="radio" name="status_9" value="SAT"> SAT</label> <label><input type="radio" name="status_9" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>6.</td><td>Switching over from main power supply to uninterrupted power supply.</td><td class="text-center"><label><input type="radio" name="status_10" value="SAT"> SAT</label> <label><input type="radio" name="status_10" value="UNSAT"> UNSAT</label></td></tr>
+
+											<tr>
+												<td><strong>(C)</strong></td>
+												<td><strong><u>Functional Checks</u></strong></td>
+												<td></td>
+											</tr>
+											<tr><td>1.</td><td>Switch on Main Power Supply &amp; Check indication on Control unit.</td><td class="text-center"><label><input type="radio" name="status_11" value="SAT"> SAT</label> <label><input type="radio" name="status_11" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>2.</td><td>Check for any fault/ alarm during starting of set.</td><td class="text-center"><label><input type="radio" name="status_12" value="SAT"> SAT</label> <label><input type="radio" name="status_12" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>3.</td><td>Check and verify key function, volume controls, menu functions.</td><td class="text-center"><label><input type="radio" name="status_13" value="SAT"> SAT</label> <label><input type="radio" name="status_13" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>4.</td><td>Check position data from GPS.</td><td class="text-center"><label><input type="radio" name="status_14" value="SAT"> SAT</label> <label><input type="radio" name="status_14" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>5.</td><td>Check and verify DSC operation by transmitting / receiving acknowledgement to / from shore / ship station.</td><td class="text-center"><label><input type="radio" name="status_15" value="SAT"> SAT</label> <label><input type="radio" name="status_15" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>6.</td><td>Check RT operation, transmission and reception on various frequencies with onboard available VHF set.</td><td class="text-center"><label><input type="radio" name="status_16" value="SAT"> SAT</label> <label><input type="radio" name="status_16" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>7.</td><td>Check communication with other units (eg. Navy Control).</td><td class="text-center"><label><input type="radio" name="status_17" value="SAT"> SAT</label> <label><input type="radio" name="status_17" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>8.</td><td>Verify the Peak Transmitting Power (25W) and Low Power Settinga(1W).</td><td class="text-center"><label><input type="radio" name="status_18" value="SAT"> SAT</label> <label><input type="radio" name="status_18" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>9.</td><td>Check the operation in DC/Backup Power Supply after switching off main power supply.</td><td class="text-center"><label><input type="radio" name="status_19" value="SAT"> SAT</label> <label><input type="radio" name="status_19" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>10.</td><td>Check interfacing with DMR 16A and check recording.</td><td class="text-center"><label><input type="radio" name="status_20" value="SAT"> SAT</label> <label><input type="radio" name="status_20" value="UNSAT"> UNSAT</label></td></tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">REMARKS</legend>
+								<div class="static-section">
+									<div class="table-responsive">
+										<table class="custom_tbl" id="remarks_table">
+											<thead>
+												<tr>
+													<th class="serial-no">Sr No</th>
+													<th>Observations</th>
+													<th>SS Remarks</th>
+													<th class="action">Action</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td class="serial-no">1</td>
+													<td><textarea class="form-control wrstg-scroll-textarea" data-base-name="observation" rows="2"></textarea></td>
+													<td><textarea class="form-control wrstg-scroll-textarea" data-base-name="ss_remarks" rows="2"></textarea></td>
+													<td class="action action-cell-holder">
+														<div class="action-controls">
+															<button type="button" class="btn-round btn-add" onclick="addRow('remarks_table')" title="Add Row">+</button>
+															<button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'remarks_table')" title="Remove Row">-</button>
+														</div>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</fieldset>
+                            <fieldset class="custom-fieldset">
+                                                        <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                                                        <div class="row g-3">
+                                                                <div class="col-md-4 col-12">
+                                                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                                                <select class="form-control" id="dmr_16a_presenting_authority" name="dmr_16a_presenting_authority" required>
+                                                                                        <option value="">--Select--</option>
+                                                                                        <option value="dockyard">Dockyard</option>
+                                                                                        <option value="shipstaff">Shipstaff</option>
+                                                                                        <option value="oem">OEM</option>
+                                                                                </select>
+                                                                                <label class="form_control_1" for="dmr_16a_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+                                                                        </div>
+                                                                </div>
+                                                                <div class="col-md-4 col-12">
+                                                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                                                <input type="text" class="form-control" id="dmr_16a_watt" name="dmr_16a_watt" value="VZG" >
+                                                                                <label class="form_control_1" for="dmr_16a_watt">WATT</label>
+                                                                        </div>
+                                                                </div>
+                                                        </div>
+                                                </fieldset>
+
+							<div class="d-flex justify-content-center mt-4 gap-2">
+								<button type="submit" class="btn btn-success px-4">Save</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

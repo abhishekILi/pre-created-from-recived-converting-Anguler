@@ -1,0 +1,308 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item"><a href="#">ETMA</a></li>
+          <li class="breadcrumb-item"><a href="#">Submarines</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Propulsion System</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">PROPULSION SYSTEM</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="propulsion_system_form" action="{% url 'ITTTM:propulsion_system' %}">
+            {% csrf_token %}
+
+            <fieldset class="custom-fieldset">
+              <legend class="legend-custom text-uppercase">Report Details</legend>
+              <div class="row g-3">
+                <div class="col-md-6 col-12">
+                  <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                    <select class="form-control" id="ps_submarine" name="ps_submarine" required>
+                      <option value="">-- Select Submarine --</option>
+                      {% for submarine in submarine_options %}
+                      <option value="{{ submarine.value }}">{{ submarine.label }}</option>
+                      {% endfor %}
+                    </select>
+                    <label class="form_control_1">Submarine <span class="text-danger">*</span></label>
+                  </div>
+                </div>
+                <div class="col-md-6 col-12">
+                  <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                    <input type="date" class="form-control" id="ps_report_date" name="ps_report_date" required>
+                    <label class="form_control_1">Date <span class="text-danger">*</span></label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset class="custom-fieldset mt-4">
+              <legend class="legend-custom text-uppercase">PROPULSION MOTOR</legend>
+              <div class="table-responsive">
+                <table class="custom_tbl" id="propulsion_motor_table">
+                  <thead>
+                    <tr>
+                      <th style="width: 12%;">TEST SER</th>
+                      <th>TEST/NOMINAL VALUE</th>
+                      <th style="width: 22%;">ACTUAL VALUE</th>
+                      <th style="width: 22%;">REMARKS</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>102.100</td>
+                      <td>Visual inspection</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_100_actual_value" name="ps_102_100_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_100_remarks" name="ps_102_100_remarks" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td>102.101</td>
+                      <td>Visual inspection</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_101_actual_value" name="ps_102_101_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_101_remarks" name="ps_102_101_remarks" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td>102.102</td>
+                      <td>Visual inspection</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_102_actual_value" name="ps_102_102_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_102_remarks" name="ps_102_102_remarks" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td>102.103</td>
+                      <td>Visual inspection</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_103_actual_value" name="ps_102_103_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_103_remarks" name="ps_102_103_remarks" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td>102.104</td>
+                      <td>Visual inspection</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_104_actual_value" name="ps_102_104_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_104_remarks" name="ps_102_104_remarks" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td>102.105</td>
+                      <td>Insulation Test<br>M001<br>M002</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_105_actual_value" name="ps_102_105_actual_value" rows="3"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_105_remarks" name="ps_102_105_remarks" rows="3"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td>102.106</td>
+                      <td>Insulation Test (Excitation ckts)</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_106_actual_value" name="ps_102_106_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_106_remarks" name="ps_102_106_remarks" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td>102.107</td>
+                      <td>Insulation Test (SSH)</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_107_actual_value" name="ps_102_107_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_107_remarks" name="ps_102_107_remarks" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td>102.108</td>
+                      <td>Functional Test</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_108_actual_value" name="ps_102_108_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_108_remarks" name="ps_102_108_remarks" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td>102.109</td>
+                      <td>Functional Test. (Tension &gt;= 12 N Per Brush)</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_109_actual_value" name="ps_102_109_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_109_remarks" name="ps_102_109_remarks" rows="2"></textarea></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </fieldset>
+
+            <fieldset class="custom-fieldset mt-4">
+              <legend class="legend-custom text-uppercase">DOUBLE FIELD RHEOSTAT</legend>
+              <div class="table-responsive">
+                <table class="custom_tbl" id="double_field_rheostat_table">
+                  <thead>
+                    <tr>
+                      <th style="width: 12%;">TEST SER</th>
+                      <th>TEST/NOMINAL VALUE</th>
+                      <th style="width: 22%;">ACTUAL VALUE</th>
+                      <th style="width: 22%;">REMARKS</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>102.200</td>
+                      <td>Visual inspection</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_200_actual_value" name="ps_102_200_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_200_remarks" name="ps_102_200_remarks" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td>102.201</td>
+                      <td>Insulation Test (Minimum should be 5.0 M Ohms).</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_201_actual_value" name="ps_102_201_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_201_remarks" name="ps_102_201_remarks" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td>102.202</td>
+                      <td>Functional Checks</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_202_actual_value" name="ps_102_202_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_202_remarks" name="ps_102_202_remarks" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td>Control stand</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_control_stand_actual_value" name="ps_control_stand_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_control_stand_remarks" name="ps_control_stand_remarks" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td>Double Field Rheostat</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_double_field_rheostat_actual_value" name="ps_double_field_rheostat_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_double_field_rheostat_remarks" name="ps_double_field_rheostat_remarks" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td>102.203</td>
+                      <td>Functional test</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_203_actual_value" name="ps_102_203_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_203_remarks" name="ps_102_203_remarks" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td>102.204</td>
+                      <td>Functional test</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_204_actual_value" name="ps_102_204_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_204_remarks" name="ps_102_204_remarks" rows="2"></textarea></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </fieldset>
+
+            <fieldset class="custom-fieldset mt-4">
+              <legend class="legend-custom text-uppercase">SHAFT TURNING DEVICE</legend>
+              <div class="table-responsive">
+                <table class="custom_tbl" id="shaft_turning_device_table">
+                  <thead>
+                    <tr>
+                      <th style="width: 12%;">TEST SER</th>
+                      <th>TEST/NOMINAL VALUE</th>
+                      <th style="width: 22%;">ACTUAL VALUE</th>
+                      <th style="width: 22%;">REMARKS</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>102.300</td>
+                      <td>Visual Inspection</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_300_actual_value" name="ps_102_300_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_300_remarks" name="ps_102_300_remarks" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td>102.301</td>
+                      <td>Functional test</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_301_actual_value" name="ps_102_301_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_301_remarks" name="ps_102_301_remarks" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td>102.302</td>
+                      <td>Functional test &lt;= 10 Sec</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_302_actual_value" name="ps_102_302_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_302_remarks" name="ps_102_302_remarks" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td>102.303</td>
+                      <td>Functional test</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_303_actual_value" name="ps_102_303_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_303_remarks" name="ps_102_303_remarks" rows="2"></textarea></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </fieldset>
+
+            <fieldset class="custom-fieldset mt-4">
+              <legend class="legend-custom text-uppercase">PROPULSION MOTOR COOLING FANS WITH SWITCH BOX FAN CONTROL</legend>
+              <div class="table-responsive">
+                <table class="custom_tbl" id="propulsion_motor_cooling_fans_table">
+                  <thead>
+                    <tr>
+                      <th style="width: 12%;">TEST SER</th>
+                      <th>TEST/NOMINAL VALUE</th>
+                      <th style="width: 22%;">ACTUAL VALUE</th>
+                      <th style="width: 22%;">REMARKS</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>102.400</td>
+                      <td>Visual Inspection</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_400_actual_value" name="ps_102_400_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_400_remarks" name="ps_102_400_remarks" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td>102.401</td>
+                      <td>Insulation test<br>Fan ckt. 1<br>Fan ckt. 2</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_401_actual_value" name="ps_102_401_actual_value" rows="3"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_401_remarks" name="ps_102_401_remarks" rows="3"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td>102.402</td>
+                      <td>Functional test</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_402_actual_value" name="ps_102_402_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_402_remarks" name="ps_102_402_remarks" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td>102.403</td>
+                      <td>Functional test</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_403_actual_value" name="ps_102_403_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_403_remarks" name="ps_102_403_remarks" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td>102.404</td>
+                      <td>Functional test</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_404_actual_value" name="ps_102_404_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_404_remarks" name="ps_102_404_remarks" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td>102.405</td>
+                      <td>Functional test</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_405_actual_value" name="ps_102_405_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_405_remarks" name="ps_102_405_remarks" rows="2"></textarea></td>
+                    </tr>
+                    <tr>
+                      <td>102.406</td>
+                      <td>Functional test</td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_406_actual_value" name="ps_102_406_actual_value" rows="2"></textarea></td>
+                      <td><textarea class="form-control wrstg-scroll-textarea" id="ps_102_406_remarks" name="ps_102_406_remarks" rows="2"></textarea></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </fieldset>
+
+            <div class="text-center mt-4">
+              <button type="submit" class="btn btn-success px-4">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

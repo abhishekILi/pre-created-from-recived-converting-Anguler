@@ -1,0 +1,592 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">WINDOW WIPER</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="window_wiper_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+
+                            <!-- ══════════════════════════════════════
+                                Header Information
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">Ship</label>
+                                        <input type="text" class="form-control" name="ship" placeholder=" ">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">Occasion of Trial</label>
+                                        <input type="text" class="form-control" name="occasion_of_trial" placeholder=" ">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">Presented by</label>
+                                        <input type="text" class="form-control" name="presented_by" placeholder=" ">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">Trial Inspector (Name)</label>
+                                        <input type="text" class="form-control" name="trial_inspector_name" placeholder=" ">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">Reference of Trial Documents:&nbsp;&nbsp;EED 50-14</label>
+                                        
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 1 – Test Equipment Used During Trials
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">1. Test Equipment Used During Trials</legend>
+                                <div class="row mb-3">
+                                    <div class="col-md-12">
+                                        <p class="mb-1">Multimeter, Insutester</p>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="test_equip_param_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser No.</th>
+                                                <th>Test Equipment Used<br><small>a.</small></th>
+                                                <th style="width:35%;">Checks Undertaken<br><small>b.</small></th>
+                                                <th class="action">ACTION</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="serial-no">1</td>
+                                                <td><input type="text" class="form-control" data-base-name="tep_equipment" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="tep_checks" rows="1" placeholder=" "></textarea></td>
+                                                <td class="action action-cell-holder">
+                                                    <div class="action-controls">
+                                                        <button type="button" class="btn-round btn-add" onclick="addRow('test_equip_param_tbl')">+</button>
+                                                        <button type="button" class="btn-round btn-remove" onclick="removeRow('test_equip_param_tbl')">-</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">2</td>
+                                                <td><input type="text" class="form-control" data-base-name="tep_equipment" placeholder=" "></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="tep_checks" rows="1" placeholder=" "></textarea></td>
+                                                <td class="action action-cell-holder"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+                            
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 2 – Date & Time
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">2. Date &amp; Time</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="date_time_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser</th>
+                                                <th>Activity</th>
+                                                <th style="width:20%;">Date</th>
+                                                <th style="width:20%;">Time</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="serial-no">2.1</td>
+                                                <td>Intimation from Ship</td>
+                                                <td><input type="date" class="form-control" name="dt_intimation_date"></td>
+                                                <td><input type="time" class="form-control" name="dt_intimation_time"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">2.2</td>
+                                                <td>Readiness indicated by Ship</td>
+                                                <td><input type="date" class="form-control" name="dt_readiness_date"></td>
+                                                <td><input type="time" class="form-control" name="dt_readiness_time"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">2.3</td>
+                                                <td>Trial Inspector reported onboard Ship</td>
+                                                <td><input type="date" class="form-control" name="dt_inspector_date"></td>
+                                                <td><input type="time" class="form-control" name="dt_inspector_time"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">2.4</td>
+                                                <td>Trials completed</td>
+                                                <td><input type="date" class="form-control" name="dt_completed_date"></td>
+                                                <td><input type="time" class="form-control" name="dt_completed_time"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 3 – Design Requirements / Documentation
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">3. Design Requirements / Documentation</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="design_req_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser</th>
+                                                <th>Description / Document No. &amp; Date</th>
+                                                <th style="width:40%;">Remark</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="serial-no">3.1</td>
+                                                <td>Manufacturer</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_manufacturer" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.2</td>
+                                                <td>No of Window Wipers</td>
+                                                <td>
+                                                    <div class="row g-1">
+                                                        <div class="col-md-3">
+                                                            <label class="form-label small">Bridge</label>
+                                                            <input type="text" class="form-control" name="dr_wipers_bridge" placeholder=" ">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label class="form-label small">Flag Bridge</label>
+                                                            <input type="text" class="form-control" name="dr_wipers_flag_bridge" placeholder=" ">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label class="form-label small">ECB</label>
+                                                            <input type="text" class="form-control" name="dr_wipers_ecb" placeholder=" ">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label class="form-label small">LSO</label>
+                                                            <input type="text" class="form-control" name="dr_wipers_lso" placeholder=" ">
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.3</td>
+                                                <td>Make &amp; Model</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_make_model" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.4</td>
+                                                <td>GRAQ</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_graq" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.5</td>
+                                                <td>ATP</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_atp" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.6</td>
+                                                <td>Board Proceeding</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_board_proceeding" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="serial-no">3.7</td>
+                                                <td>FATs Report</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_fats_report" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td class="serial-no" rowspan="9">3.8</td>
+                                                <td colspan="2" class="group-header-cell"><strong>Certification required from OEM</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.8.1&nbsp;&nbsp;Type testing certificate.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_3_8_1_remark" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.8.2&nbsp;&nbsp;Window wiper is designed to operate on 230V 50Hz 1Ph / 115V 60 Hz 1Ph.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_3_8_2_remark" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.8.3&nbsp;&nbsp;Window Wiper motor is provisioned with sealed bearing at both DE/NDE with bearing life &gt; 40,000 working hours.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_3_8_3_remark" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.8.4&nbsp;&nbsp;Motor class insulation – F class.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_3_8_4_remark" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.8.5&nbsp;&nbsp;Motor HV capability – 1.2KV for one min.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_3_8_5_remark" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.8.6&nbsp;&nbsp;Internal wiring is Low fire Hazardous.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_3_8_6_remark" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.8.7&nbsp;&nbsp;Window wiper motor weight &lt; 4.5 Kg.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_3_8_7_remark" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.8.8&nbsp;&nbsp;Window wiper motor insulation in hot/Cold &gt; 10 MΩ.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_3_8_8_remark" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="serial-no">3.9</td>
+                                                <td>Material provided by OEM as per BoM</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_material_oem" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td class="serial-no" rowspan="8">3.10</td>
+                                                <td colspan="2" class="group-header-cell"><strong>Documentation</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.10.1&nbsp;&nbsp;Technical documentation</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_3_10_1_remark" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.10.2&nbsp;&nbsp;Technical / functional description including that at PCB and component level.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_3_10_2_remark" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.10.3&nbsp;&nbsp;Operating Instruction Manual.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_3_10_3_remark" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.10.4&nbsp;&nbsp;Preventive Maintenance routines / repair instructions Manual drawings.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_3_10_4_remark" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.10.5&nbsp;&nbsp;Installation and Test Manual.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_3_10_5_remark" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.10.6&nbsp;&nbsp;As fitted drawings.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_3_10_6_remark" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.10.7&nbsp;&nbsp;Part Identification list and Tool Catalogue.</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="dr_3_10_7_remark" rows="2" placeholder=" "></textarea></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 4 – IIs Checks
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">4. IIs Checks</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="iis_checks_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser</th>
+                                                <th style="width:15%;">Reference</th>
+                                                <th>Checks</th>
+                                                <th style="width:12%;">SAT / UNSAT</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- 4.1 Window Wiper -->
+                                            <tr>
+                                                <td class="serial-no" rowspan="6">4.1</td>
+                                                <td rowspan="6">Para 3 of EED 50-14</td>
+                                                <td colspan="2" class="group-header-cell"><strong>Window Wiper</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.1.1&nbsp;&nbsp;No visual damage to wiper blades.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="iis_4_1_1_sat" name="iis_4_1_1" value="SAT">
+                                                            <label for="iis_4_1_1_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="iis_4_1_1_unsat" name="iis_4_1_1" value="UNSAT">
+                                                            <label for="iis_4_1_1_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.1.2&nbsp;&nbsp;No visual damage to wiper body.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="iis_4_1_2_sat" name="iis_4_1_2" value="SAT">
+                                                            <label for="iis_4_1_2_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="iis_4_1_2_unsat" name="iis_4_1_2" value="UNSAT">
+                                                            <label for="iis_4_1_2_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.1.3&nbsp;&nbsp;Cable gland sealed.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="iis_4_1_3_sat" name="iis_4_1_3" value="SAT">
+                                                            <label for="iis_4_1_3_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="iis_4_1_3_unsat" name="iis_4_1_3" value="UNSAT">
+                                                            <label for="iis_4_1_3_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.1.4&nbsp;&nbsp;Tally of window wiper.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="iis_4_1_4_sat" name="iis_4_1_4" value="SAT">
+                                                            <label for="iis_4_1_4_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="iis_4_1_4_unsat" name="iis_4_1_4" value="UNSAT">
+                                                            <label for="iis_4_1_4_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.1.5&nbsp;&nbsp;Earthing of window wiper.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="iis_4_1_5_sat" name="iis_4_1_5" value="SAT">
+                                                            <label for="iis_4_1_5_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="iis_4_1_5_unsat" name="iis_4_1_5" value="UNSAT">
+                                                            <label for="iis_4_1_5_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 4.2 Control Panel -->
+                                            <tr>
+                                                <td class="serial-no" rowspan="4">4.2</td>
+                                                <td rowspan="4">Para 3 of EED 50-14</td>
+                                                <td colspan="2" class="group-header-cell"><strong>Control Panel</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.2.1&nbsp;&nbsp;Material state of control panel body, switches, indications etc.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="iis_4_2_1_sat" name="iis_4_2_1" value="SAT">
+                                                            <label for="iis_4_2_1_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="iis_4_2_1_unsat" name="iis_4_2_1" value="UNSAT">
+                                                            <label for="iis_4_2_1_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.2.2&nbsp;&nbsp;Overall dimension should not be more than 206mm X 130mm X 135mm.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="iis_4_2_2_sat" name="iis_4_2_2" value="SAT">
+                                                            <label for="iis_4_2_2_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="iis_4_2_2_unsat" name="iis_4_2_2" value="UNSAT">
+                                                            <label for="iis_4_2_2_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>4.2.3&nbsp;&nbsp;Incoming Supply.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="iis_4_2_3_sat" name="iis_4_2_3" value="SAT">
+                                                            <label for="iis_4_2_3_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="iis_4_2_3_unsat" name="iis_4_2_3" value="UNSAT">
+                                                            <label for="iis_4_2_3_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ══════════════════════════════════════
+                                SECTION 5 – Ops Checks
+                            ══════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">5. Ops Checks</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="ops_checks_tbl">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th class="serial-no">Ser</th>
+                                                <th style="width:15%;">Reference</th>
+                                                <th>Checks</th>
+                                                <th style="width:12%;">(SAT / UNSAT)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- 5.1 Insulation checks -->
+                                            <tr>
+                                                <td class="serial-no" rowspan="2">5.1</td>
+                                                <td rowspan="2">EED 50-14</td>
+                                                <td>Insulation checks of motor cables in starter panel (wrt to ground ≥ 10 MΩ)</td>
+                                                <td rowspan="2">
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="ops_5_1_sat" name="ops_5_1" value="SAT">
+                                                            <label for="ops_5_1_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="ops_5_1_unsat" name="ops_5_1" value="UNSAT">
+                                                            <label for="ops_5_1_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="row g-2">
+                                                        <div class="col-md-6">
+                                                            <label class="form-label small">Phase 1 (MΩ)</label>
+                                                            <input type="text" class="form-control" name="ops_5_1_phase1" placeholder=" ">
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label class="form-label small">Phase 2 (MΩ)</label>
+                                                            <input type="text" class="form-control" name="ops_5_1_phase2" placeholder=" ">
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 5.2 Operate in slow, medium and Fast -->
+                                            <tr>
+                                                <td class="serial-no">5.2</td>
+                                                <td></td>
+                                                <td>Operate in slow, medium and Fast (Cold Fresh water).</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="ops_5_2_sat" name="ops_5_2" value="SAT">
+                                                            <label for="ops_5_2_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="ops_5_2_unsat" name="ops_5_2" value="UNSAT">
+                                                            <label for="ops_5_2_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 5.3 Check 80-90% wiping of glass -->
+                                            <tr>
+                                                <td class="serial-no">5.3</td>
+                                                <td></td>
+                                                <td>Check 80-90% wiping of glass.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="ops_5_3_sat" name="ops_5_3" value="SAT">
+                                                            <label for="ops_5_3_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="ops_5_3_unsat" name="ops_5_3" value="UNSAT">
+                                                            <label for="ops_5_3_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 5.4 Automatic stopping -->
+                                            <tr>
+                                                <td class="serial-no">5.4</td>
+                                                <td></td>
+                                                <td>Automatic stopping at Right / Left end as parking place.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="ops_5_4_sat" name="ops_5_4" value="SAT">
+                                                            <label for="ops_5_4_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="ops_5_4_unsat" name="ops_5_4" value="UNSAT">
+                                                            <label for="ops_5_4_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                        
+                            <div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Save</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .group-header-cell {
+        background-color: #e9ecef;
+        font-size: 13px;
+        padding: 6px 10px;
+    }
+</style>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    WRSTGQuarterly.init({
+        extraTableIds: ['observations_tbl'],
+        visibilityBindings: [],
+        submitConfirmation: { formId: 'window_wiper_form' }
+    });
+});
+</script>
+{% endblock js %}

@@ -1,0 +1,299 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid bg-transparent">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+                    <li class="breadcrumb-item"><a href="#">CBIU</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Equipment History Sheet</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title bg-light">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold text-uppercase">UTILISATION OF INTEGRATED TRIAL TESTING AND
+                            TUNING MODULE (ITTTM)
+                            'B' CLASS - BOILERS (PORT/ STBD)</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="history_sheet_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">Report Details</legend>
+
+
+
+                                 <!-- ══════════ EQUIPMENT & REPORT DETAILS ══════════ -->
+                                                        <fieldset class="custom-fieldset">
+                                                                <legend class="legend-custom text-uppercase">Report & Equipment Details</legend>
+                                                                <div class="row g-3">
+                                                                        <div class="col-md-4">
+                                                                                <div class="form-group form-md-line-input form-md-floating-label">
+                                                                                        <input type="text" class="form-control" name="boiler_make"
+                                                                                                value="Babcock and Wilcox" readonly placeholder=" ">
+                                                                                        <label class="form_control_1">Boiler Make</label>
+                                                                                </div>
+                                                                        </div>
+                                                                        <div class="col-md-4">
+                                                                                <div class="form-group form-md-line-input form-md-floating-label">
+                                                                                        <input type="date" name="commissioning_date" class="form-control"
+                                                                                                placeholder=" ">
+                                                                                        <label class="form_control_1">Boiler Commissioning Date</label>
+                                                                                </div>
+                                                                        </div>
+                                                                        <div class="col-md-4">
+                                                                                <div class="form-group form-md-line-input form-md-floating-label">
+                                                                                        <input type="text" class="form-control" name="working_pressure"
+                                                                                                value="550 PSI / 37.9 Bar" readonly placeholder=" ">
+                                                                                        <label class="form_control_1">Boiler Working Pressure</label>
+                                                                                </div>
+                                                                        </div>
+
+                                                                        <div class="col-md-3">
+                                                                                <div class="form-group form-md-line-input form-md-floating-label">
+                                                                                        <input type="text" class="form-control" name="no_drums" value="2" readonly
+                                                                                                placeholder=" ">
+                                                                                        <label class="form_control_1">No. of Drums</label>
+                                                                                </div>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                                <div class="form-group form-md-line-input form-md-floating-label">
+                                                                                        <input type="text" class="form-control" name="no_burners" value="3" readonly
+                                                                                                placeholder=" ">
+                                                                                        <label class="form_control_1">No. of Burners</label>
+                                                                                </div>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                                <div class="form-group form-md-line-input form-md-floating-label">
+                                                                                        <input type="text" class="form-control" name="evaporation_rate"
+                                                                                                value="147,000 lb/ hr" readonly placeholder=" ">
+                                                                                        <label class="form_control_1">Designed Evaporation Rate</label>
+                                                                                </div>
+                                                                        </div>
+                                                                        <div class="col-md-3">
+                                                                                <div class="form-group form-md-line-input form-md-floating-label">
+                                                                                        <input type="text" class="form-control" name="fuel_consumption"
+                                                                                                value="11,850 lb/ hr" readonly placeholder=" ">
+                                                                                        <label class="form_control_1">Designed Fuel Consumption</label>
+                                                                                </div>
+                                                                        </div>
+
+                                                                        <div class="col-md-6">
+                                                                                <div class="form-group form-md-line-input form-md-floating-label">
+                                                                                        <input type="text" class="form-control" name="superheater_type"
+                                                                                                value="Multiloop three pass draining" readonly placeholder=" ">
+                                                                                        <label class="form_control_1">Superheater Type</label>
+                                                                                </div>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                                <div class="form-group form-md-line-input form-md-floating-label">
+                                                                                        <input type="text" class="form-control" name="economiser_type"
+                                                                                                value="Babcock and Wilcox stud tube" readonly placeholder=" ">
+                                                                                        <label class="form_control_1">Economiser Type</label>
+                                                                                </div>
+                                                                        </div>
+
+                                                                        <div class="col-md-12">
+                                                                                <div class="form-group form-md-line-input form-md-floating-label">
+                                                                                    <input type="text" class="form-control" name="furnace_type"
+                                                                                                value="Water-cooled, with stud tube walls at front, rear and side" readonly placeholder=" ">
+                                                                                        <label class="form_control_1">Furnace Type</label>
+
+
+                                                                                    
+                                                                                        <!-- <textarea class="form-control" name="furnace_type" readonly 
+                                                                                                placeholder=" ">Water-cooled, with stud tube walls at front, rear and side</textarea>
+                                                                                        <label class="form_control_1">Furnace Type</label> -->
+                                                                                </div>
+                                                                        </div>
+
+                                                                        <div class="col-md-4">
+                                                                                <div class="form-group form-md-line-input form-md-floating-label">
+                                                                                        <input type="text" class="form-control" name="boiler_tubes_type"
+                                                                                                value="Indian" readonly placeholder=" ">
+                                                                                        <label class="form_control_1">Types of Boiler Tubes</label>
+                                                                                </div>
+                                                                        </div>
+                                                                        <div class="col-md-4">
+                                                                                <div class="form-group form-md-line-input form-md-floating-label">
+                                                                                        <input type="date" name="last_retubing_date" class="form-control"
+                                                                                                placeholder=" ">
+                                                                                        <label class="form_control_1">Boiler Last Complete Retubing Date</label>
+                                                                                </div>
+                                                                        </div>
+                                                                        <div class="col-md-4">
+                                                                                <div class="form-group form-md-line-input form-md-floating-label">
+                                                                                        <input type="date" name="economiser_renewal_date" class="form-control"
+                                                                                                placeholder=" ">
+                                                                                        <label class="form_control_1">Economiser Renewal Date</label>
+                                                                                </div>
+                                                                        </div>
+
+                                                                        <div class="col-md-12 mt-4">
+                                                                                <p class="fw-bold mb-0 small text-muted">DESIGNED (WPT) TEST PRESSURE</p>
+                                                                                <hr class="mt-1 mb-3">
+                                                                                <div class="row g-3">
+                                                                                        <div class="col-md-4">
+                                                                                                <div class="form-group form-md-line-input form-md-floating-label">
+                                                                                                        <input type="text" name="test_pressure_int" class="form-control"
+                                                                                                                placeholder=" ">
+                                                                                                        <label class="form_control_1">After Internal examination</label>
+                                                                                                        <span class="help-block">Working pressure</span>
+                                                                                                </div>
+                                                                                        </div>
+                                                                                        <div class="col-md-4">
+                                                                                                <div class="form-group form-md-line-input form-md-floating-label">
+                                                                                                        <input type="text" name="test_pressure_welding" class="form-control"
+                                                                                                                placeholder=" ">
+                                                                                                        <label class="form_control_1">After welding repairs</label>
+                                                                                                        <span class="help-block">825 PSI (drums/headers)</span>
+                                                                                                </div>
+                                                                                        </div>
+                                                                                        <div class="col-md-4">
+                                                                                                <div class="form-group form-md-line-input form-md-floating-label">
+                                                                                                        <input type="text" name="test_pressure_rest" class="form-control"
+                                                                                                                placeholder=" ">
+                                                                                                        <label class="form_control_1">Rest all occasions</label>
+                                                                                                        <span class="help-block">687.5 PSI</span>
+                                                                                                </div>
+                                                                                        </div>
+                                                                                </div>
+                                                                        </div>
+                                                                </div>
+                                                        </fieldset>
+
+                                <!-- ══════════ TUBE SUMMARY ══════════ -->
+                                <h5 class="fw-bold mt-4 mb-3">Tube Summary</h5>
+                                <div class="table-responsive">
+                                    <table class="paralleling-table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th width="5%" class="text-center">Ser</th>
+                                                <th width="20%">Tube</th>
+                                                <th width="15%" class="text-center">Size OD MM</th>
+                                                <th width="15%" class="text-center">Thickness MM</th>
+                                                <th width="15%" class="text-center">No. Of Tubes</th>
+                                                <th width="30%">Plugged Tubes with Location and Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-center">1</td>
+                                                <td>Generator Row</td>
+                                                <td><input type="text" name="generator_size" class="form-control"
+                                                        placeholder=" "></td>
+                                                <td><input type="text" name="generator_thick" class="form-control"
+                                                        placeholder=" "></td>
+                                                <td><input type="text" name="generator_count" class="form-control"
+                                                        placeholder=" "></td>
+                                                <td><input type="text" name="generator_plugged" class="form-control"
+                                                        placeholder=" "></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">2</td>
+                                                <td>Downcomer</td>
+                                                <td><input type="text" name="downcomer_size" class="form-control"
+                                                        placeholder=" "></td>
+                                                <td><input type="text" name="downcomer_thick" class="form-control"
+                                                        placeholder=" "></td>
+                                                <td><input type="text" name="downcomer_count" class="form-control"
+                                                        placeholder=" "></td>
+                                                <td><input type="text" name="downcomer_plugged" class="form-control"
+                                                        placeholder=" "></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">3</td>
+                                                <td>Superheater Tubes</td>
+                                                <td><input type="text" name="superheater_size" class="form-control"
+                                                        placeholder=" "></td>
+                                                <td><input type="text" name="superheater_thick" class="form-control"
+                                                        placeholder=" "></td>
+                                                <td><input type="text" name="superheater_count" class="form-control"
+                                                        placeholder=" "></td>
+                                                <td><input type="text" name="superheater_plugged" class="form-control"
+                                                        placeholder=" "></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">4</td>
+                                                <td>Economiser Coil Assembly</td>
+                                                <td><input type="text" name="economiser_size" class="form-control"
+                                                        placeholder=" "></td>
+                                                <td><input type="text" name="economiser_thick" class="form-control"
+                                                        placeholder=" "></td>
+                                                <td><input type="text" name="economiser_count" class="form-control"
+                                                        placeholder=" "></td>
+                                                <td><input type="text" name="economiser_plugged" class="form-control"
+                                                        placeholder=" "></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">5</td>
+                                                <td>Screen Tubes</td>
+                                                <td><input type="text" name="screen_size" class="form-control"
+                                                        placeholder=" "></td>
+                                                <td><input type="text" name="screen_thick" class="form-control"
+                                                        placeholder=" "></td>
+                                                <td><input type="text" name="screen_count" class="form-control"
+                                                        placeholder=" "></td>
+                                                <td><input type="text" name="screen_plugged" class="form-control"
+                                                        placeholder=" "></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">6</td>
+                                                <td>Fire Row Tubes</td>
+                                                <td><input type="text" name="fire_size" class="form-control"
+                                                        placeholder=" "></td>
+                                                <td><input type="text" name="fire_thick" class="form-control"
+                                                        placeholder=" "></td>
+                                                <td><input type="text" name="fire_count" class="form-control"
+                                                        placeholder=" "></td>
+                                                <td><input type="text" name="fire_plugged" class="form-control"
+                                                        placeholder=" "></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4"></td>
+                                                <th class="text-end bg-light">Total Tubes:</th>
+                                                <td><input type="text" name="total_tubes" class="form-control"
+                                                        placeholder="XXXXX"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="mt-3 small italic">
+                                    (Note- This is sample format for one boiler. It is requested that data for both Port
+                                    & Stbd Boilers be forwarded as per this format for incorporating in ITTTM.)
+                                </div>
+                            </fieldset>
+
+                            <div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Submit</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/trial_common.js' %}"></script>
+{% endblock js %}

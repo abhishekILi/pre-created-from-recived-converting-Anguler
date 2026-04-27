@@ -1,0 +1,860 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+<!-- FORM NUMBER 15 -->
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+
+<style>
+    /* Only data-heavy tables (no SAT/UNSAT) need fixed layout */
+    .custom_tbl.fixed-layout {
+        table-layout: fixed !important;
+    }
+
+    .custom_tbl td,
+    .custom_tbl th,
+    .sub-checks-table td,
+    .sub-checks-table th {
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+        white-space: normal !important;
+    }
+
+    .page-header-note {
+        font-size: 12px;
+        color: #555;
+        font-style: italic;
+        margin-bottom: 8px;
+    }
+
+    */
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">WEAPON ACCEPTANCE TRIALS TEAM VISAKHAPATNAM
+                            DAILY SUMMARY OF PROGRESS</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="cots_radar_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+
+                            <!-- ===================== BASIC INFORMATION ===================== -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">Basic Information</legend>
+                                <div class="row g-3">
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" id="name_of_ship_select" name="name_of_ship">
+                                                <option value="">-- Select --</option>
+                                                <option value="INS_A">INS Alpha</option>
+                                                <option value="INS_B">INS Bravo</option>
+                                                <option value="INS_C">INS Charlie</option>
+                                                <option value="INS_D">INS Delta</option>
+                                            </select>
+                                            <label class="form_control_1">Name of Ship</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" id="department_select" name="department">
+                                                <option value="">-- Select --</option>
+                                                <option value="P15A">ND</option>
+                                                <option value="P17">ASW</option>
+                                                <option value="P17A">COMM</option>
+                                                <option value="P28">GUNNERY</option>
+                                            </select>
+                                            <label class="form_control_1">Department</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" id="equipment_select" name="equipment">
+                                                <option value="">-- Select --</option>
+                                            </select>
+                                            <label class="form_control_1">Equipment</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="date" class="form-control" id="date_input" name="date_">
+                                            <label class="form_control_1">Date</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" id="nature_trials_select"
+                                                name="nature_of_trials" required>
+                                                <option value="">--Select--</option>
+                                                <option value="SATs">SATs</option>
+                                                <option value="HATS">HATs</option>
+                                                <option value="OP_CHECKS">OP CHECKS</option>
+                                                <option value="IIS">IIs</option>
+                                            </select>
+                                            <label class="form_control_1">Nature of Trial</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </fieldset>
+                            <!-- ===================== OBSERVATIONS - PAGE 1 ===================== -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">Observations (Page 1 of 2)</legend>
+
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" style="width:100%; border-collapse: collapse;">
+                                        <thead>
+                                            <tr>
+                                                <th style="border:1px solid #7b96b2; ">Sl. No</th>
+                                                <th style="border:1px solid #7b96b2;">Observations</th>
+                                                <th style="border:1px solid #7b96b2;">Remarks</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Intro Row -->
+                                            <tr>
+                                                <td colspan="3">
+                                                    Trials team embarked onboard at
+                                                    <input type="time" id="embark_time" name="embark_time"
+                                                        class="form-control d-inline-block"
+                                                        style="width: 100px; height: 28px;">
+                                                    hrs on
+                                                    <input type="date" id="embark_date" name="embark_date"
+                                                        class="form-control d-inline-block"
+                                                        style="width: 140px; height: 28px;">
+                                                    for SATs of GYRO RLG SIGMA 40
+                                                    <textarea class="form-control wrstg-scroll-textarea"
+                                                        style="width: 280px; font-size: 12px; display: inline-block; vertical-align: middle;"
+                                                        id="test_1_rlg1_velocity"
+                                                        name="test_1_rlg1_velocity"></textarea> as per IHQ MoD (N) / DSR
+                                                    approved schedule. Following observed:-
+                                                </td>
+                                            </tr>
+
+                                            <!-- 1 -->
+                                            <tr>
+                                                <td class="sl-no">1.</td>
+                                                <td>Check the correctness of wiring to and from interfaced units.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_sat"
+                                                                name="psu_criterion_2_9" value="SAT">
+                                                            <label for="psu_criterion_2_9_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_unsat"
+                                                                name="psu_criterion_2_9" value="UNSAT">
+                                                            <label for="psu_criterion_2_9_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 2 -->
+                                            <tr>
+                                                <td class="sl-no">2.</td>
+                                                <td>Check fan of Processor electronic unit working correctly.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_sat"
+                                                                name="psu_criterion_2_9" value="SAT">
+                                                            <label for="psu_criterion_2_9_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_unsat"
+                                                                name="psu_criterion_2_9" value="UNSAT">
+                                                            <label for="psu_criterion_2_9_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 3 -->
+                                            <tr>
+                                                <td class="sl-no">3.</td>
+                                                <td>Check Degaussing function on display (not for LCD displays).</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_sat"
+                                                                name="psu_criterion_2_9" value="SAT">
+                                                            <label for="psu_criterion_2_9_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_unsat"
+                                                                name="psu_criterion_2_9" value="UNSAT">
+                                                            <label for="psu_criterion_2_9_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 4 -->
+                                            <tr>
+                                                <td class="sl-no">4.</td>
+                                                <td>Check access of main and sub-menu functions.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_sat"
+                                                                name="psu_criterion_2_9" value="SAT">
+                                                            <label for="psu_criterion_2_9_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_unsat"
+                                                                name="psu_criterion_2_9" value="UNSAT">
+                                                            <label for="psu_criterion_2_9_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 5 -->
+                                            <tr>
+                                                <td class="sl-no">5.</td>
+                                                <td>Check for available pulse length (short/Medium/Long) in various
+                                                    range scales.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_sat"
+                                                                name="psu_criterion_2_9" value="SAT">
+                                                            <label for="psu_criterion_2_9_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_unsat"
+                                                                name="psu_criterion_2_9" value="UNSAT">
+                                                            <label for="psu_criterion_2_9_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 6 -->
+                                            <tr>
+                                                <td class="sl-no">6.</td>
+                                                <td>
+                                                    Check modes of stabilisation (Sea / Ground) and presentation<br>
+                                                    Modes (TM / RM / etc) by joystick / track ball and access to
+                                                    cursor<br>
+                                                    Read out data.
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_sat"
+                                                                name="psu_criterion_2_9" value="SAT">
+                                                            <label for="psu_criterion_2_9_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_unsat"
+                                                                name="psu_criterion_2_9" value="UNSAT">
+                                                            <label for="psu_criterion_2_9_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 7 -->
+                                            <tr>
+                                                <td class="sl-no">7.</td>
+                                                <td>Check position of cursor on display and its control.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_sat"
+                                                                name="psu_criterion_2_9" value="SAT">
+                                                            <label for="psu_criterion_2_9_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_unsat"
+                                                                name="psu_criterion_2_9" value="UNSAT">
+                                                            <label for="psu_criterion_2_9_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 8 -->
+                                            <tr>
+                                                <td class="sl-no">8.</td>
+                                                <td>Heading Line alignment check.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_sat"
+                                                                name="psu_criterion_2_9" value="SAT">
+                                                            <label for="psu_criterion_2_9_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_unsat"
+                                                                name="psu_criterion_2_9" value="UNSAT">
+                                                            <label for="psu_criterion_2_9_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 9 -->
+                                            <tr>
+                                                <td class="sl-no">9.</td>
+                                                <td>Gyro Compass alignment check.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_sat"
+                                                                name="psu_criterion_2_9" value="SAT">
+                                                            <label for="psu_criterion_2_9_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_unsat"
+                                                                name="psu_criterion_2_9" value="UNSAT">
+                                                            <label for="psu_criterion_2_9_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 10 -->
+                                            <tr>
+                                                <td class="sl-no">10.</td>
+                                                <td>Minimum safe CPA and TCPA alarms check.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_sat"
+                                                                name="psu_criterion_2_9" value="SAT">
+                                                            <label for="psu_criterion_2_9_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_unsat"
+                                                                name="psu_criterion_2_9" value="UNSAT">
+                                                            <label for="psu_criterion_2_9_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 11 -->
+                                            <tr>
+                                                <td class="sl-no">11.</td>
+                                                <td>Check display of parallel index line.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_sat"
+                                                                name="psu_criterion_2_9" value="SAT">
+                                                            <label for="psu_criterion_2_9_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_unsat"
+                                                                name="psu_criterion_2_9" value="UNSAT">
+                                                            <label for="psu_criterion_2_9_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 12 -->
+                                            <tr>
+                                                <td class="sl-no">12.</td>
+                                                <td>Check off-centring own ship function.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_sat"
+                                                                name="psu_criterion_2_9" value="SAT">
+                                                            <label for="psu_criterion_2_9_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_unsat"
+                                                                name="psu_criterion_2_9" value="UNSAT">
+                                                            <label for="psu_criterion_2_9_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 13 -->
+                                            <tr>
+                                                <td class="sl-no">13.</td>
+                                                <td>Check Target tracking by ARPA function.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_sat"
+                                                                name="psu_criterion_2_9" value="SAT">
+                                                            <label for="psu_criterion_2_9_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_unsat"
+                                                                name="psu_criterion_2_9" value="UNSAT">
+                                                            <label for="psu_criterion_2_9_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 14 -->
+                                            <tr>
+                                                <td class="sl-no">14.</td>
+                                                <td>Check stabilisation of Video maps.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_sat"
+                                                                name="psu_criterion_2_9" value="SAT">
+                                                            <label for="psu_criterion_2_9_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_unsat"
+                                                                name="psu_criterion_2_9" value="UNSAT">
+                                                            <label for="psu_criterion_2_9_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 15 -->
+                                            <tr>
+                                                <td class="sl-no">15.</td>
+                                                <td>Check interfaces with Log, Gyro, ECDIS, GPS, AIS and CMS (If
+                                                    fitted).</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_sat"
+                                                                name="psu_criterion_2_9" value="SAT">
+                                                            <label for="psu_criterion_2_9_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_unsat"
+                                                                name="psu_criterion_2_9" value="UNSAT">
+                                                            <label for="psu_criterion_2_9_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 16 -->
+                                            <tr>
+                                                <td class="sl-no">16.</td>
+                                                <td>
+                                                    Check selection of range scales from minimum to maximum (available
+                                                    range scales as per TD
+                                                    to be indicated to trial agency by Presenting Authority).
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_sat"
+                                                                name="psu_criterion_2_9" value="SAT">
+                                                            <label for="psu_criterion_2_9_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_unsat"
+                                                                name="psu_criterion_2_9" value="UNSAT">
+                                                            <label for="psu_criterion_2_9_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 17 -->
+                                            <tr>
+                                                <td class="sl-no">17.</td>
+                                                <td>Check interface for track table output with Trigun / CMS / CTD (as
+                                                    applicable).</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_sat"
+                                                                name="psu_criterion_2_9" value="SAT">
+                                                            <label for="psu_criterion_2_9_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_unsat"
+                                                                name="psu_criterion_2_9" value="UNSAT">
+                                                            <label for="psu_criterion_2_9_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 18 -->
+                                            <tr>
+                                                <td class="sl-no">18.</td>
+                                                <td>
+                                                    Check generation of pre-sync pulse and interfacing the same to
+                                                    Interference Suppression Unit.
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_sat"
+                                                                name="psu_criterion_2_9" value="SAT">
+                                                            <label for="psu_criterion_2_9_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_unsat"
+                                                                name="psu_criterion_2_9" value="UNSAT">
+                                                            <label for="psu_criterion_2_9_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ===================== OBSERVATIONS - PAGE 2 ===================== -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">Observations (Page 2 of 2)</legend>
+
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" style="width:100%; border-collapse: collapse;">
+                                        <thead>
+                                            <tr>
+                                                <th style="border:1px solid #7b96b2; width:3%;">Sl. No</th>
+                                                <th style="border:1px solid #7b96b2; width:83%;">Observations</th>
+                                                <th style="border:1px solid #7b96b2; width:14%;">Remarks</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <!-- 19 -->
+                                            <tr>
+                                                <td class="sl-no">19.</td>
+                                                <td>Check for facility for naming of contacts.</td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_sat"
+                                                                name="psu_criterion_2_9" value="SAT">
+                                                            <label for="psu_criterion_2_9_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_unsat"
+                                                                name="psu_criterion_2_9" value="UNSAT">
+                                                            <label for="psu_criterion_2_9_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 20 (blank for additional obs) -->
+                                            <tr>
+                                                <td class="sl-no">20.</td>
+                                                <td>
+                                                    <textarea class="form-control" name="obs_20_text" rows="2"
+                                                        placeholder="Additional observation (if any)..."></textarea>
+                                                </td>
+                                                <td>
+                                                    <div class="yes-no-container">
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_sat"
+                                                                name="psu_criterion_2_9" value="SAT">
+                                                            <label for="psu_criterion_2_9_sat">SAT</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="psu_criterion_2_9_unsat"
+                                                                name="psu_criterion_2_9" value="UNSAT">
+                                                            <label for="psu_criterion_2_9_unsat">UNSAT</label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Detailed Checks Sub-Table (Sl No 20 continuation) -->
+                                            <tr>
+                                                <td colspan="3" style="padding: 10px;">
+                                                    <p style="font-size:13px; margin-bottom:8px;">
+                                                        Designed/specific values to be achieved for the following tests
+                                                        may be mentioned
+                                                        <em>(values depending on antenna height, sea state and
+                                                            types/size of targets etc as given in
+                                                            user manual/TD/IMO Regulations to be indicated to trial
+                                                            Agency by Presenting Authority prior
+                                                            to commencement of trials)</em>:-
+                                                    </p>
+                                                    <table class="sub-checks-table"
+                                                        style="width:100%; border-collapse: collapse;">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="width: 3%;">Ser</th>
+                                                                <th style="width: 33%;">Checks</th>
+                                                                <th style="width: 50%;">Value Specified / Remarks</th>
+                                                                <th style="width: 14%;">SAT / UNSAT</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td style="text-align:center;">(a)</td>
+                                                                <td>Min Range</td>
+                                                                <td><input type="text" class="form-control"
+                                                                        name="min_range_value"
+                                                                        placeholder="To be recorded"></td>
+                                                                <td>
+                                                                    <div class="yes-no-container">
+                                                                        <div>
+                                                                            <input type="radio"
+                                                                                id="psu_criterion_2_9_sat"
+                                                                                name="psu_criterion_2_9" value="SAT">
+                                                                            <label
+                                                                                for="psu_criterion_2_9_sat">SAT</label>
+                                                                        </div>
+                                                                        <div>
+                                                                            <input type="radio"
+                                                                                id="psu_criterion_2_9_unsat"
+                                                                                name="psu_criterion_2_9" value="UNSAT">
+                                                                            <label
+                                                                                for="psu_criterion_2_9_unsat">UNSAT</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="text-align:center;">(b)</td>
+                                                                <td>Max Range</td>
+                                                                <td><input type="text" class="form-control"
+                                                                        name="max_range_value"
+                                                                        placeholder="To be recorded"></td>
+                                                                <td>
+                                                                    <div class="yes-no-container">
+                                                                        <div><input type="radio" id="det_b_sat"
+                                                                                name="det_b" value="SAT"><label
+                                                                                for="det_b_sat">SAT</label></div>
+                                                                        <div><input type="radio" id="det_b_unsat"
+                                                                                name="det_b" value="UNSAT"><label
+                                                                                for="det_b_unsat">UNSAT</label></div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="text-align:center;">(c)</td>
+                                                                <td>
+                                                                    Range Discrimination(*)<br>
+                                                                    <strong>(IMO Resolution MSC.192(79))</strong>
+                                                                </td>
+                                                                <td>
+                                                                    Radar should be capable of displaying two point
+                                                                    targets on the same bearing,
+                                                                    separated by 40m in range, as two distinct objects
+                                                                    (*)
+                                                                </td>
+                                                                <td>
+                                                                    <div class="yes-no-container">
+                                                                        <div><input type="radio" id="det_c_sat"
+                                                                                name="det_c" value="SAT"><label
+                                                                                for="det_c_sat">SAT</label></div>
+                                                                        <div><input type="radio" id="det_c_unsat"
+                                                                                name="det_c" value="UNSAT"><label
+                                                                                for="det_c_unsat">UNSAT</label></div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="text-align:center;">(d)</td>
+                                                                <td>
+                                                                    Bearing Discrimination(*)<br>
+                                                                    <strong>(IMO Resolution MSC.192(79))</strong>
+                                                                </td>
+                                                                <td>
+                                                                    Radar should be capable of displaying two point
+                                                                    targets at the same range,
+                                                                    separated by 2.5 degree in bearing, as two distinct
+                                                                    objects(*)
+                                                                </td>
+                                                                <td>
+                                                                    <div class="yes-no-container">
+                                                                        <div><input type="radio" id="det_d_sat"
+                                                                                name="det_d" value="SAT"><label
+                                                                                for="det_d_sat">SAT</label></div>
+                                                                        <div><input type="radio" id="det_d_unsat"
+                                                                                name="det_d" value="UNSAT"><label
+                                                                                for="det_d_unsat">UNSAT</label></div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="text-align:center;">(e)</td>
+                                                                <td>
+                                                                    Range and Bearing Accuracy(*)<br>
+                                                                    <strong>(IMO Resolution MSC.192(79))</strong>
+                                                                </td>
+                                                                <td>
+                                                                    <strong>Range</strong> - within 30m or 1% of range
+                                                                    scale in use, whichever is greater(*)<br>
+                                                                    <strong>Bearing</strong> - within 1 degree(*)
+                                                                    <br>
+                                                                    <input type="text" class="form-control mt-1"
+                                                                        name="range_bearing_value"
+                                                                        placeholder="Recorded value">
+                                                                </td>
+                                                                <td>
+                                                                    <div class="yes-no-container">
+                                                                        <div><input type="radio" id="det_e_sat"
+                                                                                name="det_e" value="SAT"><label
+                                                                                for="det_e_sat">SAT</label></div>
+                                                                        <div><input type="radio" id="det_e_unsat"
+                                                                                name="det_e" value="UNSAT"><label
+                                                                                for="det_e_unsat">UNSAT</label></div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="text-align:center;">(f)</td>
+                                                                <td>Index Error Checks</td>
+                                                                <td>
+                                                                    For record only<br>
+                                                                    <input type="text" class="form-control mt-1"
+                                                                        name="index_error_value"
+                                                                        placeholder="Recorded value">
+                                                                </td>
+                                                                <td>
+                                                                    <div class="yes-no-container">
+                                                                        <div><input type="radio" id="det_f_sat"
+                                                                                name="det_f" value="SAT"><label
+                                                                                for="det_f_sat">SAT</label></div>
+                                                                        <div><input type="radio" id="det_f_unsat"
+                                                                                name="det_f" value="UNSAT"><label
+                                                                                for="det_f_unsat">UNSAT</label></div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="text-align:center;">(g)</td>
+                                                                <td>Blind Sector Checks</td>
+                                                                <td>
+                                                                    To be recorded as per ship fit.<br>
+                                                                    <input type="text" class="form-control mt-1"
+                                                                        name="blind_sector_value"
+                                                                        placeholder="Recorded value">
+                                                                </td>
+                                                                <td>
+                                                                    <div class="yes-no-container">
+                                                                        <div><input type="radio" id="det_g_sat"
+                                                                                name="det_g" value="SAT"><label
+                                                                                for="det_g_sat">SAT</label></div>
+                                                                        <div><input type="radio" id="det_g_unsat"
+                                                                                name="det_g" value="UNSAT"><label
+                                                                                for="det_g_unsat">UNSAT</label></div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="text-align:center;">(h)</td>
+                                                                <td>Helo Tracking Checks</td>
+                                                                <td>
+                                                                    Ranges obtained be recorded.<br>
+                                                                    <input type="text" class="form-control mt-1"
+                                                                        name="helo_tracking_value"
+                                                                        placeholder="Ranges obtained">
+                                                                </td>
+                                                                <td>
+                                                                    <div class="yes-no-container">
+                                                                        <div><input type="radio" id="det_h_sat"
+                                                                                name="det_h" value="SAT"><label
+                                                                                for="det_h_sat">SAT</label></div>
+                                                                        <div><input type="radio" id="det_h_unsat"
+                                                                                name="det_h" value="UNSAT"><label
+                                                                                for="det_h_unsat">UNSAT</label></div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                    <div class="mt-3" style="font-size:12px; color:#444;">
+                                                        <strong><u>Note</u></strong>:- The extant IMO regulations on
+                                                        Radar / ARPA may be used for reference.
+                                                        For example, IMO Resolutions MSC.192 (79) for Radar, IMO
+                                                        Resolution A. 823(19) for ARPA etc.
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ===================== AUTHORITY SECTION ===================== -->
+                            <fieldset class="custom-fieldset">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <h6 class="font-weight-bold my-text">Presenting Authority: Ship's Staff</h6>
+                                        <div class="row mt-3">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>ND:</label>
+                                                    <input type="text" class="form-control" name="presenting_nd"
+                                                        placeholder="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <h6 class="font-weight-bold my-text">Inspecting Authority: WATT (V)</h6>
+                                        <div class="row mt-3">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>STI / TI:</label>
+                                                    <input type="text" class="form-control" name="inspecting_sti_ti"
+                                                        placeholder="">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label>STO:</label>
+                                                    <input type="text" class="form-control" name="inspecting_sto"
+                                                        placeholder="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Save</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        WRSTGQuarterly.init({
+            extraTableIds: [],
+            submitConfirmation: { formId: 'cots_radar_form' }
+        });
+    });
+</script>
+{% endblock js %}

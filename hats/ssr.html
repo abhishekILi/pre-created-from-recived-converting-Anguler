@@ -1,0 +1,447 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">HATS</a></li>
+					<li class="breadcrumb-item active" aria-current="page">SSR</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">SSR</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="hats_ssr_form" action="{% url 'ITTTM:hats_ssr' %}">
+						{% csrf_token %}
+						<input type="hidden" id="hats_ssr_form_id" name="hats_ssr_form_id" value="hats_ssr_report">
+						<input type="hidden" id="hats_ssr_form_name" name="hats_ssr_form_name" value="HATS_SSR_REPORT">
+						<div class="form-body">
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">Basic Information</legend>
+								<div class="row g-3">
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" id="hats_ssr_ship_name" name="hats_ssr_ship_name" required>
+												<option value="">--Select--</option>
+												{% for ship in ship_options %}
+												<option value="{{ ship.value }}">{{ ship.label }}</option>
+												{% endfor %}
+											</select>
+											<label class="form_control_1" for="hats_ssr_ship_name">Ship <span class="text-danger">*</span></label>
+										</div>
+									</div>
+
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" id="hats_ssr_department" name="hats_ssr_department">
+												<option value="">-- Select --</option>
+												<option value="P15A">ND</option>
+												<option value="P17">ASW</option>
+												<option value="P17A">COMM</option>
+												<option value="P28">GUNNERY</option>
+											</select>
+											<label class="form_control_1" for="hats_ssr_department">Department</label>
+										</div>
+									</div>
+
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" id="hats_ssr_equipment" name="hats_ssr_equipment">
+												<option value="">-- Select --</option>
+											</select>
+											<label class="form_control_1" for="hats_ssr_equipment">Equipment</label>
+										</div>
+									</div>
+
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="date" class="form-control" id="hats_ssr_date" name="hats_ssr_date">
+											<label class="form_control_1" for="hats_ssr_date">Date</label>
+										</div>
+									</div>
+
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" id="hats_ssr_nature_of_trials" name="hats_ssr_nature_of_trials" required>
+												<option value="">--Select--</option>
+												<option value="SATs">SATs</option>
+												<option value="HATS">HATS</option>
+												<option value="OP_CHECKS">OP CHECKS</option>
+												<option value="IIS">IIs</option>
+											</select>
+											<label class="form_control_1" for="hats_ssr_nature_of_trials">Nature of Trial</label>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<div class="table-responsive mt-4">
+									<table class="custom_tbl" id="hats_ssr_table">
+										<thead class="table-dark-head">
+											<tr>
+												<th class="ser-col">TRIAL SER</th>
+												<th class="obs-col">CHECK DESCRIPTION AS PER SCHEDULE</th>
+												<th class="remarks-col">RESULT SAT/UNSAT</th>
+												<th class="remarks-col">PRESENTING AUTHORITY REMARKS</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td colspan="4"><strong>6. Test Prequisites</strong></td></tr>
+											<tr>
+												<td>6.1</td>
+												<td>SSR Radar system</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_6_1_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_6_1_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_6_1_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>6.2</td>
+												<td>External systems</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_6_2_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_6_2_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_6_2_remarks" rows="2"></textarea></td>
+											</tr>
+
+											<tr><td colspan="4"><strong>7. Radar System - Basic Test</strong></td></tr>
+											<tr>
+												<td>7.1</td>
+												<td>System/hardware configuration checks</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_7_1_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_7_1_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_7_1_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>7.2</td>
+												<td>Manufacturing and installation checks</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_7_2_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_7_2_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_7_2_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>7.3</td>
+												<td>Primary Power to SSR Radar system - Input level</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_7_3_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_7_3_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_7_3_remarks" rows="2"></textarea></td>
+											</tr>
+
+											<tr><td colspan="4"><strong>8. Radar System - Status</strong></td></tr>
+											<tr>
+												<td>8.1</td>
+												<td>System status evaluated by Bite</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_8_1_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_8_1_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_8_1_remarks" rows="2"></textarea></td>
+											</tr>
+
+											<tr><td colspan="4"><strong>9. General Function Test</strong></td></tr>
+											<tr>
+												<td>9.1</td>
+												<td>Antenna Validation</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_9_1_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_9_1_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_9_1_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>9.2</td>
+												<td>Safety Loop Functionality</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_9_2_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_9_2_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_9_2_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>9.3</td>
+												<td>Logging of Critical Events</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_9_3_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_9_3_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_9_3_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>9.4</td>
+												<td>Test of Redundant Transceiver Functionality : Dual LNA</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_9_4_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_9_4_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_9_4_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>9.5</td>
+												<td>Test for Display of Charts</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_9_5_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_9_5_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_9_5_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>9.6</td>
+												<td>Radar Parameter Test</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_9_6_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_9_6_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_9_6_remarks" rows="2"></textarea></td>
+											</tr>
+
+											<tr><td colspan="4"><strong>Annex G. External Interface Tests for NILGIRI Class (P17A)</strong></td></tr>
+											<tr>
+												<td>G1</td>
+												<td>Reception of attitude information from RLG (INS) 100 Hz data through RS422/SDN</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_g1_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_g1_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_g1_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>G2</td>
+												<td>Reception of position information from RLG (INS) 10 Hz data through RS422/SDN</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_g2_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_g2_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_g2_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>G3</td>
+												<td>Reception of AIS position and static data report (Messages 1, 2 &amp; 5)</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_g3_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_g3_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_g3_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>G4</td>
+												<td>Analog Video Distribution (along with Sync, ACP and ARP)</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_g4_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_g4_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_g4_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>G5</td>
+												<td>Pre-Trigger pulse output test</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_g5_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_g5_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_g5_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>G6</td>
+												<td>Blanking pulse output test</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_g6_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_g6_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_g6_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>G7</td>
+												<td>Radar Status Message to CMS</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_g7_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_g7_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_g7_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>G8</td>
+												<td>Reception of select profile message from CMS</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_g8_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_g8_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_g8_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>G9</td>
+												<td>Reception of Sector Blank Create / Delete Command from CMS and transmission of sector blank created / deleted acknowledge message to CMS</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_g9_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_g9_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_g9_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>G10</td>
+												<td>Reception of Track Create command from CMS</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_g10_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_g10_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_g10_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>G11</td>
+												<td>Reception of Track Delete command from CMS</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_g11_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_g11_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_g11_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>G12</td>
+												<td>Reception of Track Select command from CMS</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_g12_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_g12_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_g12_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>G13</td>
+												<td>Reception of NAAZ Create command from CMS and transmission of NAAZ created acknowledge message to CMS</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_g13_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_g13_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_g13_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>G14</td>
+												<td>Reception of NAAZ Delete command from CMS and transmission of NAAZ deleted acknowledge message to CMS</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_g14_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_g14_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_g14_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>G15</td>
+												<td>Reception of NTZ create command from CMS and transmission of NTZ created acknowledge message to CMS</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_g15_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_g15_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_g15_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>G16</td>
+												<td>Reception of NTZ Delete command from CMS and transmission of NTZ deleted acknowledge message to CMS</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_g16_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_g16_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_g16_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>G17</td>
+												<td>Reception of AtoN Create command from CMS and transmission of AtoN created acknowledge message to CMS</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_g17_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_g17_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_g17_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>G18</td>
+												<td>Reception of AtoN Delete command from CMS and transmission of AtoN deleted acknowledge message to CMS</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_g18_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_g18_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_g18_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>G19</td>
+												<td>Reception of Get command from CMS</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_g19_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_g19_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_g19_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>G20</td>
+												<td>Transmission of NAAZ status message to CMS</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_g20_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_g20_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_g20_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>G21</td>
+												<td>Transmission of NTZ status message to CMS</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_g21_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_g21_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_g21_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>G22</td>
+												<td>Transmission of Sector Blank status message to CMS</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_g22_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_g22_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_g22_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>G23</td>
+												<td>Reception of mode of operation command from CMS</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_g23_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_g23_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_g23_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>G24</td>
+												<td>Transmission of Track Report Message to CMS</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_g24_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_g24_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_g24_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>G25</td>
+												<td>Synchronization with NTP Server</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_g25_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_g25_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_g25_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>G26</td>
+												<td>Transmission of target designation message to Brahmos FCS</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_g26_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_g26_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_g26_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>G27</td>
+												<td>Transmission of virtual (simulated) tracks to Brahmos</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_g27_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_g27_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_g27_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>G28</td>
+												<td>Verification of dual Ethernet switch functionally</td>
+												<td class="text-center"><label><input type="radio" name="hats_ssr_g28_result" value="SAT"> SAT</label> <label><input type="radio" name="hats_ssr_g28_result" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="hats_ssr_g28_remarks" rows="2"></textarea></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+							<legend class="legend-custom text-uppercase">Presenting Authority</legend>
+							<div class="row g-3 mb-3">
+								<div class="col-md-3 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<select class="form-control" id="hats_sdr_tac_1a_presenting_authority" name="hats_sdr_tac_1a_presenting_authority" required>
+											<option value="">--Select--</option>
+											<option value="dockyard">Dockyard</option>
+											<option value="shipstaff">Shipstaff</option>
+											<option value="oem">OEM</option>
+										</select>
+										<label class="form_control_1" for="hats_sdr_tac_1a_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+									</div>
+								</div>
+								<div class="col-md-3 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<input type="text" class="form-control" id="hats_sdr_tac_1a_watt_1_name" name="hats_sdr_tac_1a_watt_1_name">
+										<label class="form_control_1">WATT(1)</label>
+									</div>
+								</div>
+
+								<!-- WATT 2 -->
+								<div class="col-md-3 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<input type="text" class="form-control" id="hats_sdr_tac_1a_watt_2_name" name="hats_sdr_tac_1a_watt_2_name">
+										<label class="form_control_1">WATT(2)</label>
+									</div>
+								</div>
+
+								<!-- WATT 3 -->
+								<div class="col-md-3 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<input type="text" class="form-control" id="hats_sdr_tac_1a_watt_3_name" name="hats_sdr_tac_1a_watt_3_name">
+										<label class="form_control_1">WATT(3)</label>
+									</div>
+								</div>
+							</div>
+
+							<div class="table-responsive mt-4">
+								<table class="custom_tbl " id="hats_sdr_tac_1a_remarks_table">
+									<thead class="table-dark-head">
+										<tr>
+											<th>REMARKS TO BE GIVEN</th>
+											<th>WBA - WILL BE AMENDED</th>
+											<th>WBD - WILL BE DONE</th>
+											<th>WOW - WILL OBTAIN WAIVER</th>
+											<th>COM - COMPLETED</th>
+											<th>N/O - NOT OFFERED</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_remarks_main"></textarea></td>
+											<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_wba"></textarea></td>
+											<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_wbd"></textarea></td>
+											<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_wow"></textarea></td>
+											<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_com"></textarea></td>
+											<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_no"></textarea></td>
+										</tr>
+										<tr>
+											<td><strong>OIC</strong></td>
+											<td><strong>CDR TRIALS</strong></td>
+											<td><strong>STO (G)</strong></td>
+											<td><strong>STO (L)</strong></td>
+											<td colspan="2"><strong>TO (L)</strong></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</fieldset>
+
+							<div class="d-flex justify-content-center mt-4 gap-2">
+								<button type="submit" class="btn btn-success px-4">Save</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

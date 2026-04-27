@@ -1,0 +1,738 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+
+<style>
+  /* Inline table input styling */
+  .custom_tbl td input[type="text"],
+  .custom_tbl td input[type="time"],
+  .custom_tbl td input[type="date"]{
+    display: inline-block;
+    width: auto;
+    min-width: 100px;
+    height: 28px;
+    padding: 4px 6px;
+    font-size: 12px;
+    border: 1px solid #d9d9d9;
+    border-radius: 3px;
+    margin: 2px 4px;
+    vertical-align: middle;
+  } 
+
+  .custom_tbl td input[type="text"]:focus,
+  .custom_tbl td input[type="time"]:focus,
+  .custom_tbl td input[type="date"]:focus {
+    outline: none;
+    border-color: #0066cc;
+    box-shadow: 0 0 4px rgba(0, 102, 204, 0.4);
+  }
+
+  #sea_trials_table th {
+    background-color: #7994b2;
+    color: white;
+    font-size: 12px;
+    padding: 8px 5px;
+  }
+
+  #sea_trials_table td {
+    padding: 3px;
+  }
+
+  #sea_trials_table input {
+    font-size: 12px;
+  }
+
+  .nested-table {
+    margin-top: 10px;
+    margin-bottom: 0;
+  }
+
+  .nested-table th {
+    background-color: #e9ecef;
+    font-size: 11px;
+    padding: 5px;
+  }
+</style>
+
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item active" aria-current="page">WATT</li>
+          <li class="breadcrumb-item active" aria-current="page">SATS</li>
+          <li class="breadcrumb-item active" aria-current="page">ECHO SOUNDER</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">ECHO SOUNDER</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="echo_sounder_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!-- HEADER — Ship / Inspection Info -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Basic Information</legend>
+                <div class="row g-3">
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="ship_name" name="ship_name" required>
+                        <option value="">-- Select --</option>
+                        <option value="INS">INS</option>
+                      </select>
+                      <label class="form_control_1">Name of Ship <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="department" name="department" required>
+                        <option value="">-- Select --</option>
+                        <option value="ND" >ND</option>
+                        <option value="ASW">ASW</option>
+                        <option value="Gunnery">Gunnery</option>
+                        <option value="Communication">Communication</option>
+                      </select>
+                      <label class="form_control_1">Department <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="equipment" name="equipment" required>
+                          <option value="">-- Select --</option>
+                          <option value="ECHO SOUNDER KELTRON V____" selected>ECHO SOUNDER KELTRON V____</option>
+                      </select>
+                      <label class="form_control_1">Equipment <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="date" class="form-control" id="trial_date" name="trial_date" required>
+                      <label class="form_control_1">Date <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="nature_of_trials" name="nature_of_trials" required>
+                        <option value="">-- Select --</option>
+                        <option value="HATs">HATs</option>
+                        <option value="SATs" >SATs</option>
+                        <option value="OP Checks">OP Checks</option>
+                        <option value="IIs">IIs</option>
+                      </select>
+                      <label class="form_control_1">Nature of Trial <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                </div>
+              </fieldset>
+
+              <!-- MAIN OBSERVATIONS TABLE -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Observations</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr class="custom-header-row">
+                        <th style="width: 6%;">Ser</th>
+                        <th style="width: 74%;">Observations</th>
+                        <th style="width: 20%;">Remarks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- Embark Info Row -->
+                      <tr>
+                        <td colspan="3">
+                          Trials team embarked onboard at 
+                          <input type="time" id="embark_time" name="embark_time" style="width: 100px;"> hrs on 
+                          <input type="date" id="embark_date" name="embark_date" style="width: 150px;"> for SATs of Echo Sounder Keltron V 
+                          {% comment %} <input type="text" id="keltron_version" name="keltron_version" placeholder="" style="width: 100px;"> {% endcomment %}
+                          <textarea class="form-control wrstg-scroll-textarea" style="width: 280px; font-size: 12px; display: inline-block; vertical-align: middle;" id="test_1_rlg1_velocity" name="test_1_rlg1_velocity"></textarea>
+                          as per IHQ MoD (N) approved schedule. Following observed:-
+                        </td>
+                      </tr>
+
+                      <!-- Check 1 -->
+                      <tr>
+                        <td>1</td>
+                        <td>Check 6.3.1 - Switching ON the Echo Sounder.</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_1_sat" name="check_1" value="SAT" required>
+                              <label for="check_1_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_1_unsat" name="check_1" value="UNSAT">
+                              <label for="check_1_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 2 -->
+                      <tr>
+                        <td>2</td>
+                        <td>
+                          Check 6.3.2 - Depth reading checks at harbour
+                          <div class="mt-3">
+                            <table class="table table-sm table-bordered nested-table">
+                              <thead>
+                                <tr>
+                                  <th class="text-center">Echo Sounder</th>
+                                  <th class="text-center">Hand Lead Line</th>
+                                  <th class="text-center">Draught</th>
+                                  <th class="text-center">Difference</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td><input type="text" class="form-control form-control-sm" name="check_2_echo_sounder"></td>
+                                  <td><input type="text" class="form-control form-control-sm" name="check_2_hand_lead"></td>
+                                  <td>
+                                    <div style="margin-bottom: 5px;">
+                                      <label style="font-size: 11px; margin-bottom: 2px;">FWD:</label>
+                                      <input type="text" class="form-control form-control-sm" name="check_2_draught_fwd">
+                                    </div>
+                                    <div>
+                                      <label style="font-size: 11px; margin-bottom: 2px;">AFT :</label>
+                                      <input type="text" class="form-control form-control-sm" name="check_2_draught_aft">
+                                    </div>
+                                  </td>
+                                  <td><input type="text" class="form-control form-control-sm" name="check_2_difference"></td>
+                                </tr>
+                                <tr>
+                                  <td colspan="4">
+                                    <div class="row">
+                                      <div class="col-md-4">
+                                        <label style="font-size: 12px;">Roll:</label>
+                                        <input type="text" class="form-control form-control-sm" name="check_2_roll">
+                                      </div>
+                                      <div class="col-md-4">
+                                        <label style="font-size: 12px;">Pitch:</label>
+                                        <input type="text" class="form-control form-control-sm" name="check_2_pitch">
+                                      </div>
+                                      <div class="col-md-4">
+                                        <label style="font-size: 12px;">HOT:</label>
+                                        <input type="text" class="form-control form-control-sm" name="check_2_hot">
+                                      </div>
+                                    </div>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_2_sat" name="check_2" value="SAT" required>
+                              <label for="check_2_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_2_unsat" name="check_2" value="UNSAT">
+                              <label for="check_2_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 3 -->
+                      <tr>
+                        <td>3</td>
+                        <td>Check 6.3.3 - Check the LED / VGA repeater Unit display readings.</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_3_sat" name="check_3" value="SAT" required>
+                              <label for="check_3_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_3_unsat" name="check_3" value="UNSAT">
+                              <label for="check_3_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 4 -->
+                      <tr>
+                        <td>4</td>
+                        <td>Check 6.3.4 - Check the "Mark Event".</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_4_sat" name="check_4" value="SAT" required>
+                              <label for="check_4_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_4_unsat" name="check_4" value="UNSAT">
+                              <label for="check_4_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 5 -->
+                      <tr>
+                        <td>5</td>
+                        <td>
+                          Check 6.3.5 - Depth reading checks at various depths and different speed upto 1500 mtrs.
+                          <div class="mt-2">
+                            Depth reading checks beyond 
+                            <input type="text" style="width: 120px;" name="check_5_depth_beyond" placeholder="mtrs">
+                            mtrs.
+                          </div>
+                        </td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_5_sat" name="check_5" value="SAT">
+                              <label for="check_5_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_5_unsat" name="check_5" value="UNSAT">
+                              <label for="check_5_unsat">UNSAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_5_not_offered" name="check_5" value="Not offered">
+                              <label for="check_5_not_offered">Not offered</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 6 -->
+                      <tr>
+                        <td>6</td>
+                        <td>Check 6.3.6 - Check the distance mark on the chart while monitoring the distance reading at the LOG speed</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_6_sat" name="check_6" value="SAT" required>
+                              <label for="check_6_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_6_unsat" name="check_6" value="UNSAT">
+                              <label for="check_6_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 7 -->
+                      <tr>
+                        <td>7</td>
+                        <td>Check 6.3.7 - Check the USB Printer is connected and take a print.</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_7_sat" name="check_7" value="SAT" required>
+                              <label for="check_7_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_7_unsat" name="check_7" value="UNSAT">
+                              <label for="check_7_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 8 -->
+                      <tr>
+                        <td>8</td>
+                        <td>Interface checks with ECDIS and other equipment (if applicable).</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_8_sat" name="check_8" value="SAT" required>
+                              <label for="check_8_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_8_unsat" name="check_8" value="UNSAT">
+                              <label for="check_8_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 9 -->
+                      <tr>
+                        <td>9</td>
+                        <td>Shallow water alarms may be verified at shallow waters of upto 10m depth.</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_9_sat" name="check_9" value="SAT" required>
+                              <label for="check_9_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_9_unsat" name="check_9" value="UNSAT">
+                              <label for="check_9_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 10 -->
+                      <tr>
+                        <td>10</td>
+                        <td>Check both Dual Channel (if applicable) and Single Channel operation in <strong>Auto Mode</strong> only.</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_10_sat" name="check_10" value="SAT" required>
+                              <label for="check_10_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_10_unsat" name="check_10" value="UNSAT">
+                              <label for="check_10_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- SEA TRIALS REPORT SECTION -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Sea Trials Report</legend>
+                
+                <div class="row g-3">
+
+                        <div class="col-md-3 col-12">
+                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" id="sea_trial_ship_name" name="sea_trial_ship_name" required>
+                            <label class="form_control_1">Name of the ship <span class="text-danger">*</span></label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-12">
+                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="date" class="form-control" id="sea_trial_date" name="sea_trial_date" required>
+                            <label class="form_control_1">Date <span class="text-danger">*</span></label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-12">
+                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" id="sound_velocity" name="sound_velocity" required>
+                            <label class="form_control_1">Sound Velocity <span class="text-danger">*</span></label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-12">
+                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" id="sea_trial_draught_fwd" name="sea_trial_draught_fwd" required>
+                            <label class="form_control_1">Draught FWD <span class="text-danger">*</span></label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-12">
+                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" id="sea_trial_draught_aft" name="sea_trial_draught_aft" required>
+                            <label class="form_control_1">Draught AFT <span class="text-danger">*</span></label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-12">
+                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <select class="form-control" id="unit" name="unit" required>
+                                <option value="">-- Select --</option>
+                                <option value="Metre">Metre</option>
+                                <option value="Fathom">Fathom</option>
+                            </select>
+                            <label class="form_control_1">Unit <span class="text-danger">*</span></label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-12">
+                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" id="sea_trial_roll" name="sea_trial_roll" required>
+                            <label class="form_control_1">ROLL <span class="text-danger">*</span></label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3 col-12">
+                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" id="sea_trial_pitch" name="sea_trial_pitch" required>
+                            <label class="form_control_1">PITCH <span class="text-danger">*</span></label>
+                            </div>
+                        </div>
+
+                </div>
+
+                <div class="table-responsive">
+                  <table class="table table-bordered" id="sea_trials_table">
+                    <thead>
+                      <tr>
+                        <th rowspan="2" style="text-align: center; vertical-align: middle;">DATE</th>
+                        <th rowspan="2" style="text-align: center; vertical-align: middle;">TIME</th>
+                        <th colspan="2" style="text-align: center;">FWD ECHO SOUNDER<br>DEPTH READING</th>
+                        <th colspan="2" style="text-align: center;">AFT ECHO SOUNDER<br>DEPTH READING</th>
+                        <th rowspan="2" style="text-align: center; vertical-align: middle;">CHART<br>DEPTH</th>
+                        <th rowspan="2" style="text-align: center; vertical-align: middle;">SHIP SPEED</th>
+                        <th rowspan="2" style="text-align: center; vertical-align: middle;">REMARKS</th>
+                      </tr>
+                      <tr>
+                        <th style="text-align: center;">CH 33</th>
+                        <th style="text-align: center;">CH 210</th>
+                        <th style="text-align: center;">CH 33</th>
+                        <th style="text-align: center;">CH 210</th>
+                      </tr>
+                    </thead>
+                    <tbody id="sea_trials_tbody">
+                      <tr>
+                        <td><input type="date" class="form-control form-control-sm" name="sea_trial_date_1"></td>
+                        <td><input type="time" class="form-control form-control-sm" name="sea_trial_time_1"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_fwd_ch33_1"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_fwd_ch210_1"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_aft_ch33_1"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_aft_ch210_1"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_chart_depth_1"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_ship_speed_1"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_remarks_1"></td>
+                      </tr>
+                      <tr>
+                        <td><input type="date" class="form-control form-control-sm" name="sea_trial_date_2"></td>
+                        <td><input type="time" class="form-control form-control-sm" name="sea_trial_time_2"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_fwd_ch33_2"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_fwd_ch210_2"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_aft_ch33_2"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_aft_ch210_2"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_chart_depth_2"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_ship_speed_2"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_remarks_2"></td>
+                      </tr>
+                      <tr>
+                        <td><input type="date" class="form-control form-control-sm" name="sea_trial_date_3"></td>
+                        <td><input type="time" class="form-control form-control-sm" name="sea_trial_time_3"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_fwd_ch33_3"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_fwd_ch210_3"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_aft_ch33_3"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_aft_ch210_3"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_chart_depth_3"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_ship_speed_3"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_remarks_3"></td>
+                      </tr>
+                      <tr>
+                        <td><input type="date" class="form-control form-control-sm" name="sea_trial_date_4"></td>
+                        <td><input type="time" class="form-control form-control-sm" name="sea_trial_time_4"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_fwd_ch33_4"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_fwd_ch210_4"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_aft_ch33_4"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_aft_ch210_4"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_chart_depth_4"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_ship_speed_4"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_remarks_4"></td>
+                      </tr>
+                      <tr>
+                        <td><input type="date" class="form-control form-control-sm" name="sea_trial_date_5"></td>
+                        <td><input type="time" class="form-control form-control-sm" name="sea_trial_time_5"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_fwd_ch33_5"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_fwd_ch210_5"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_aft_ch33_5"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_aft_ch210_5"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_chart_depth_5"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_ship_speed_5"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_remarks_5"></td>
+                      </tr>
+                      <tr>
+                        <td><input type="date" class="form-control form-control-sm" name="sea_trial_date_6"></td>
+                        <td><input type="time" class="form-control form-control-sm" name="sea_trial_time_6"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_fwd_ch33_6"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_fwd_ch210_6"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_aft_ch33_6"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_aft_ch210_6"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_chart_depth_6"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_ship_speed_6"></td>
+                        <td><input type="text" class="form-control form-control-sm" name="sea_trial_remarks_6"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="text-center mt-3">
+                  <button type="button" class="btn btn-secondary btn-sm" id="add_sea_trial_row">Add More Rows</button>
+                </div>
+              </fieldset>
+
+              <!-- Authorities Section -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Authorities</legend>
+                <div class="form-wrapper">
+
+                    <div class="sig-row">
+                        <div class="field-box">
+                            <span class="label-text">Presenting Authority: Ship's Staff</span>
+                            <textarea class="line-field" name="presenting_authority" rows="1"></textarea>
+                        </div>
+                        <div class="field-box">
+                            <span class="label-text">Inspecting Authority: WATT(V/MI)</span>
+                            <textarea class="line-field" name="inspecting_authority" rows="1"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="sig-row">
+                        <div class="field-box flex-small">
+                            <span class="label-text">ND:</span>
+                            <textarea class="line-field" name="presenting_nd" rows="1"></textarea>
+                        </div>
+                        <div class="field-box flex-small">
+                            <span class="label-text">C:</span>
+                            <textarea class="line-field" name="presenting_c" rows="1"></textarea>
+                        </div>
+                        <div class="field-box flex-small">
+                            <span class="label-text">STI / TI:</span>
+                            <textarea class="line-field" name="inspecting_sti_ti" rows="1"></textarea>
+                        </div>
+                        <div class="field-box flex-small">
+                            <span class="label-text">STO:</span>
+                            <textarea class="line-field" name="inspecting_sto" rows="1"></textarea>
+                        </div>
+                    </div>
+
+                </div>
+              </fieldset>
+
+              <!-- Submit -->
+              <div class="d-flex justify-content-center mt-4 gap-2">
+                <button type="submit" class="btn btn-success px-4">Save</button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+
+<script>
+  // Auto-set embark date to match trial date
+  document.getElementById('trial_date').addEventListener('change', function() {
+    document.getElementById('embark_date').value = this.value;
+    document.getElementById('sea_trial_date').value = this.value;
+  });
+
+  // Add more rows to sea trials table
+  document.getElementById('add_sea_trial_row').addEventListener('click', function() {
+    var tbody = document.getElementById('sea_trials_tbody');
+    var rowCount = tbody.rows.length + 1;
+    
+    var newRow = tbody.insertRow();
+    newRow.innerHTML = `
+      <td><input type="date" class="form-control form-control-sm" name="sea_trial_date_${rowCount}"></td>
+      <td><input type="time" class="form-control form-control-sm" name="sea_trial_time_${rowCount}"></td>
+      <td><input type="text" class="form-control form-control-sm" name="sea_trial_fwd_ch33_${rowCount}"></td>
+      <td><input type="text" class="form-control form-control-sm" name="sea_trial_fwd_ch210_${rowCount}"></td>
+      <td><input type="text" class="form-control form-control-sm" name="sea_trial_aft_ch33_${rowCount}"></td>
+      <td><input type="text" class="form-control form-control-sm" name="sea_trial_aft_ch210_${rowCount}"></td>
+      <td><input type="text" class="form-control form-control-sm" name="sea_trial_chart_depth_${rowCount}"></td>
+      <td><input type="text" class="form-control form-control-sm" name="sea_trial_ship_speed_${rowCount}"></td>
+      <td><input type="text" class="form-control form-control-sm" name="sea_trial_remarks_${rowCount}"></td>
+    `;
+  });
+
+  // Form validation
+  document.getElementById('echo_sounder_form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Check if all required radio buttons are selected (except check 5 which has 3 options)
+    let allChecksComplete = true;
+    for (let i = 1; i <= 10; i++) {
+      if (!document.querySelector(`input[name="check_${i}"]:checked`)) {
+        allChecksComplete = false;
+        break;
+      }
+    }
+    
+    if (!allChecksComplete) {
+      alert('Please complete all check observations before submitting.');
+      return;
+    }
+    
+    // If validation passes, submit the form
+    this.submit();
+  });
+</script>
+
+<style>
+    .form-wrapper {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        width: 100%;
+        margin: 20px 0;
+    }
+
+    /* Creates the horizontal row */
+    .sig-row {
+        display: flex;
+        gap: 40px;
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
+    /* Containers for each Label + Line pair */
+    .field-box {
+        display: flex;
+        align-items: flex-end;
+        flex: 1;
+    }
+
+    .label-text {
+        white-space: nowrap;
+        font-weight: bold;
+        margin-right: 10px;
+    }
+
+    /* The underline textarea */
+    .line-field {
+        flex: 1;
+        border: none;
+        border-bottom: 1px solid black;
+        background: transparent;
+        outline: none;
+        resize: none;
+        height: 1.2em;
+        line-height: 1.2em;
+        overflow: hidden;
+        font-family: inherit;
+        font-size:18px;
+    }
+
+    /* Specific adjustment for smaller fields */
+    .flex-small { flex: 0.5; }
+    .flex-large { flex: 1.5; }
+
+</style>
+
+{% endblock js %}

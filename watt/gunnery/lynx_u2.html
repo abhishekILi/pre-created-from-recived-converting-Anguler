@@ -1,0 +1,197 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+	
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">WATT</a></li>
+					<li class="breadcrumb-item active" aria-current="page">LYNX U2</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">LYNX U2</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="lynx_u2_form">
+						{% csrf_token %}
+						<div class="form-body">
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">Basic Information</legend>
+								<div class="row g-3">
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="lynx_u2_ship_name" required>
+												<option value="">--Select--</option>
+												{% for option in ship_options %}
+													<option value="{{ option.value }}">{{ option.label }}</option>
+												{% endfor %}
+											</select>
+											<label class="form_control_1">SHIP <span class="text-danger">*</span></label>
+										</div>
+									</div>
+
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" id="lynx_u2_department" name="lynx_u2_department">
+												<option value="">-- Select --</option>
+												<option value="GUN" selected>GUN</option>
+												<option value="GUNNERY">GUNNERY</option>
+												<option value="ASW">ASW</option>
+												<option value="COMM">COMM</option>
+												<option value="ND">ND</option>
+											</select>
+											<label class="form_control_1">DEPARTMENT</label>
+										</div>
+									</div>
+
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" name="lynx_u2_equipment" value="LYNX U2" required>
+											<label class="form_control_1">EQUIPMENT</label>
+										</div>
+									</div>
+
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="date" class="form-control" id="lynx_u2_date" name="lynx_u2_date">
+											<label class="form_control_1">DATE</label>
+										</div>
+									</div>
+
+									<div class="col-md-4 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" id="lynx_u2_nature_of_trials" name="lynx_u2_nature_of_trials" required>
+												<option value="">--Select--</option>
+												<option value="SATs" selected>SATs</option>
+												<option value="HATS">HATs</option>
+												<option value="OP CHECKS">OP CHECKS</option>
+												<option value="IIS">IIs</option>
+											</select>
+											<label class="form_control_1">NATURE OF TRIAL</label>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<div class="table-responsive">
+									<table class="custom_tbl" id="lynx_u2_table">
+										<thead class="table-dark-head">
+											<tr>
+												<th>Ser</th>
+												<th>OBSERVATIONS</th>
+												<th>RESULT</th>
+												<th>REMARKS</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td colspan="4">
+													Trials team embarked onboard at <input type="text" class="line-input embarked-hrs" name="lynx_u2_embark_time"> on
+													<input type="date" class="line-input embarked-hrs" name="lynx_u2_embark_date"> for SATs of LYNX U2 as per
+													approved schedule, BR 4050 and CNO 07/10. Following observed: -
+												</td>
+											</tr>
+
+											<tr><td>01</td><td>Check No. 2 Basic Checks</td><td><input type="text" class="form-control" name="lynx_u2_result_01"></td><td class="text-center"><label><input type="radio" name="lynx_u2_status_01" value="SAT"> SAT</label> <label><input type="radio" name="lynx_u2_status_01" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>02</td><td>Check No 2.1 to 2.2.41</td><td><input type="text" class="form-control" name="lynx_u2_result_02"></td><td class="text-center"><label><input type="radio" name="lynx_u2_status_02" value="SAT"> SAT</label> <label><input type="radio" name="lynx_u2_status_02" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>03</td><td>Check No 2.2.5 sight Checks</td><td><input type="text" class="form-control" name="lynx_u2_result_03"></td><td class="text-center"><label><input type="radio" name="lynx_u2_status_03" value="SAT"> SAT</label> <label><input type="radio" name="lynx_u2_status_03" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>04</td><td>Check No. 2.3 Alignment Data<br>Verification</td><td><input type="text" class="form-control" name="lynx_u2_result_04"></td><td class="text-center"><label><input type="radio" name="lynx_u2_status_04" value="SAT"> SAT</label> <label><input type="radio" name="lynx_u2_status_04" value="UNSAT"> UNSAT</label></td></tr>
+
+											<tr><td colspan="4"><strong>Check No. 3.1.1 Surface Target Acquisition &amp; Engagement</strong></td></tr>
+											<tr>
+												<td>05</td>
+												<td><strong>Types of Target - XBR</strong></td>
+												<td><strong>Specified</strong></td>
+												<td><strong>Achieve</strong></td>
+											</tr>
+											<tr><td></td><td>(a) Fregat Max Target Acquisition<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Range</td><td><strong>&ge;35 KM</strong></td><td class="text-center"><label><input type="radio" name="lynx_u2_status_05a" value="SAT"> SAT</label> <label><input type="radio" name="lynx_u2_status_05a" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td></td><td>(b) Autonomous Acquisition Range</td><td><strong>25-35 KM</strong></td><td class="text-center"><label><input type="radio" name="lynx_u2_status_05b" value="SAT"> SAT</label> <label><input type="radio" name="lynx_u2_status_05b" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td></td><td>(c) TVI/TI Range</td><td><strong>&ge;7 KM</strong></td><td class="text-center"><label><input type="radio" name="lynx_u2_status_05c" value="SAT"> SAT</label> <label><input type="radio" name="lynx_u2_status_05c" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td></td><td>(d) LRF</td><td><strong>10-15 KM</strong></td><td class="text-center"><label><input type="radio" name="lynx_u2_status_05d" value="SAT"> SAT</label> <label><input type="radio" name="lynx_u2_status_05d" value="UNSAT"> UNSAT</label></td></tr>
+
+											<!-- <tr><td colspan="4"><strong>Air Target Acquisition details are captured in the table below.</strong></td></tr> -->
+										</tbody>
+									</table>
+								</div>
+
+								<div class="table-responsive mt-4">
+									<table class="custom_tbl" id="lynx_u2_air_target_table">
+										<thead class="table-dark-head">
+											<tr><th colspan="7">Air Target Acquisition In Bound Run</th></tr>
+											<tr>
+												<th>RUN</th>
+												<th>IDR KM</th>
+												<th>BEARING</th>
+												<th>SPEED</th>
+												<th>HEIGHT</th>
+												<th>TARGET</th>
+												<th>REMARKS</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>01</td><td><input type="text" class="form-control" name="in_idr_01"></td><td><input type="text" class="form-control" name="in_bearing_01"></td><td><input type="text" class="form-control" name="in_speed_01"></td><td><input type="text" class="form-control" name="in_height_01"></td><td><input type="text" class="form-control" name="in_target_01"></td><td><input type="text" class="form-control" name="in_remarks_01"></td></tr>
+											<tr><td>02</td><td><input type="text" class="form-control" name="in_idr_02"></td><td><input type="text" class="form-control" name="in_bearing_02"></td><td><input type="text" class="form-control" name="in_speed_02"></td><td><input type="text" class="form-control" name="in_height_02"></td><td><input type="text" class="form-control" name="in_target_02"></td><td><input type="text" class="form-control" name="in_remarks_02"></td></tr>
+											<tr><td>03</td><td><input type="text" class="form-control" name="in_idr_03"></td><td><input type="text" class="form-control" name="in_bearing_03"></td><td><input type="text" class="form-control" name="in_speed_03"></td><td><input type="text" class="form-control" name="in_height_03"></td><td><input type="text" class="form-control" name="in_target_03"></td><td><input type="text" class="form-control" name="in_remarks_03"></td></tr>
+											<tr><td>04</td><td><input type="text" class="form-control" name="in_idr_04"></td><td><input type="text" class="form-control" name="in_bearing_04"></td><td><input type="text" class="form-control" name="in_speed_04"></td><td><input type="text" class="form-control" name="in_height_04"></td><td><input type="text" class="form-control" name="in_target_04"></td><td><input type="text" class="form-control" name="in_remarks_04"></td></tr>
+											<thead class="table-dark-head">
+                                                <tr><th colspan="7">Air Target acquisition Out Bound Run</th></tr>     
+                                            </thead>
+											<tr><td>01</td><td><input type="text" class="form-control" name="out_idr_01"></td><td><input type="text" class="form-control" name="out_bearing_01"></td><td><input type="text" class="form-control" name="out_speed_01"></td><td><input type="text" class="form-control" name="out_height_01"></td><td><input type="text" class="form-control" name="out_target_01"></td><td><input type="text" class="form-control" name="out_remarks_01"></td></tr>
+											<tr><td>02</td><td><input type="text" class="form-control" name="out_idr_02"></td><td><input type="text" class="form-control" name="out_bearing_02"></td><td><input type="text" class="form-control" name="out_speed_02"></td><td><input type="text" class="form-control" name="out_height_02"></td><td><input type="text" class="form-control" name="out_target_02"></td><td><input type="text" class="form-control" name="out_remarks_02"></td></tr>
+											<tr><td>03</td><td><input type="text" class="form-control" name="out_idr_03"></td><td><input type="text" class="form-control" name="out_bearing_03"></td><td><input type="text" class="form-control" name="out_speed_03"></td><td><input type="text" class="form-control" name="out_height_03"></td><td><input type="text" class="form-control" name="out_target_03"></td><td><input type="text" class="form-control" name="out_remarks_03"></td></tr>
+											<tr><td>04</td><td><input type="text" class="form-control" name="out_idr_04"></td><td><input type="text" class="form-control" name="out_bearing_04"></td><td><input type="text" class="form-control" name="out_speed_04"></td><td><input type="text" class="form-control" name="out_height_04"></td><td><input type="text" class="form-control" name="out_target_04"></td><td><input type="text" class="form-control" name="out_remarks_04"></td></tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<legend class="legend-custom text-uppercase">Authority</legend>
+								<div class="row g-3">
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" name="presenting_authority" value="Ship's Staff" readonly>
+											<label class="form_control_1">Presenting Authority</label>
+										</div>
+									</div>
+									<div class="col-md-6 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<input type="text" class="form-control" name="inspecting_authority" value="WATT" readonly>
+											<label class="form_control_1">Inspecting Authority</label>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+
+							<div class="form-actions mt-3">
+								<button type="submit" class="btn btn-primary">Submit</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

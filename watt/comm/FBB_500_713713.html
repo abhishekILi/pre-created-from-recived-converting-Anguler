@@ -1,0 +1,527 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item active" aria-current="page">FBB 500</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">FBB 500 — CHECK OFF LIST</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="fbb_500_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!-- ══════════════════════════════════════════
+                   HEADER — Ship / Equipment Info
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Trial Header Information</legend>
+                <div class="row g-3">
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="ship" required>
+                        <option value="">-- Select Ship --</option>
+                        {% for ship in ship_options %}
+                        <option value="{{ ship.value }}">{{ ship.label }}</option>
+                        {% endfor %}
+                      </select>
+                      <label class="form_control_1">Name of Ship <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="equipment" value="FBB 500" readonly placeholder=" ">
+                      <label class="form_control_1">Equipment</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="sno" placeholder=" ">
+                      <label class="form_control_1">S. No.</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="date" class="form-control" name="trial_date" placeholder=" ">
+                      <label class="form_control_1">Date <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="department" required>
+                        <option value="">-- Select Department --</option>
+                        <option value="ND">ND</option>
+                        <option value="Gunnery">Gunnery</option>
+                        <option value="Communication">Communication</option>
+                        <option value="ASW">ASW</option>
+                      </select>
+                      <label class="form_control_1">Department <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="nature_of_trials" required>
+                        <option value="">-- Select Nature of Trials --</option>
+                        <option value="lls">lls</option>
+                        <option value="SATs">SATs</option>
+                        <option value="HATs">HATs</option>
+                        <option value="OP Checks">OP Checks</option>
+                      </select>
+                      <label class="form_control_1">Nature of Trials <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   LIST OF EQUIPMENT / ACCESSORIES
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">List of Equipment / Accessories</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Ser</th>
+                        <th>Checks </th>
+    
+                        <th>Remarks (Sat / Unsat)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-no">1.</td>
+                        <td>FBB Antenna unit
+                          <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-1">
+                            <input type="text" class="form-control" name="equip_1_model" placeholder=" ">
+                            <label class="form_control_1">Model</label>
+                          </div>
+                        </td>
+                        
+                        <td>
+                          <select class="form-control" name="equip_1_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">2.</td>
+                        <td>Communication Unit (Model: FB-2000)</td>
+                        <td>
+                          <select class="form-control" name="equip_2_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">3.</td>
+                        <td>IP Handset (FB-8000)</td>
+                        
+                        <td>
+                          <select class="form-control" name="equip_3_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">4.</td>
+                        <td>Processor Unit</td>
+                        
+                        <td>
+                          <select class="form-control" name="equip_4_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">5.</td>
+                        <td>Analog Telephone</td>
+                       
+                        <td>
+                          <select class="form-control" name="equip_5_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">6.</td>
+                        <td>G3 Fax machine with Printer</td>
+                       
+                        <td>
+                          <select class="form-control" name="equip_6_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">7.</td>
+                        <td>Power Supply Unit
+                          <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-1">
+                            <input type="text" class="form-control" name="equip_7_model" placeholder=" ">
+                            <label class="form_control_1">Model</label>
+                          </div>
+                        </td>
+                        
+                        <td>
+                          <select class="form-control" name="equip_7_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   INSTALLATION COMPLETENESS
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Installation Completeness</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Ser</th>
+                        <th>Checks</th>
+                        <th>Remarks (Sat / Unsat)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-no">1.</td>
+                        <td>
+                          Antenna fitted on (Location / Platform):
+                          <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-1">
+                            <input type="text" class="form-control" name="inst_1_location" placeholder=" ">
+                            <label class="form_control_1">Location / Platform</label>
+                          </div>
+                        </td>
+                        
+                        <td>
+                          <select class="form-control" name="inst_1_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">2.</td>
+                        <td>Check Mounting integrity of BDU / ADU / Antenna Dome.</td>
+                        
+                        <td>
+                          <select class="form-control" name="inst_2_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">3.</td>
+                        <td>Check the interconnections to sub units and wiring from BDU to ADU, PC, Handset, FAX machine (If Applicable) and Analog telephone.</td>
+                        
+                        <td>
+                          <select class="form-control" name="inst_3_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">4.</td>
+                        <td>Check water integrity of the cable / wiring / Interconnections.</td>
+                        
+                        <td>
+                          <select class="form-control" name="inst_4_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">5.</td>
+                        <td>Check Interconnection / Installation as per the WLD.</td>
+                        
+                        <td>
+                          <select class="form-control" name="inst_5_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   ELECTRICAL SUPPLY CHECKS
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Electrical Supply Checks</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Ser</th>
+                        <th>Checks</th>
+                        <th>Remarks (Sat / Unsat)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-no">1.</td>
+                        <td>Power Supply 220 V / Requisite AC input is available and measured within tolerance level of ±10 %.</td>
+                        
+                        <td>
+                          <select class="form-control" name="elec_1_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">2.</td>
+                        <td>The output of Power Supply Unit Measured at 24V DC.</td>
+                        
+                        <td>
+                          <select class="form-control" name="elec_2_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   FUNCTIONAL CHECKS
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Functional Checks</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Ser</th>
+                        <th>Checks</th>
+                       
+                        <th>Remarks (Sat / Unsat / NA)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-no">1.</td>
+                        <td>Call landline / Mobile number and confirm voice service is working.</td>
+                       
+                        <td>
+                          <select class="form-control" name="func_1_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">2.</td>
+                        <td>Send and receive fax from vessel or to prove 'Scan and forward on INMARSAT mail'.</td>
+                        
+                        <td>
+                          <select class="form-control" name="func_2_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">3.</td>
+                        <td>Check internet connection by uploading / Downloading data and Browse website.</td>
+                       
+                        <td>
+                          <select class="form-control" name="func_3_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">4.</td>
+                        <td>Integrate SECTEL / SECFAX (where available) and check correct transmission / reception.</td>
+                        
+                        <td>
+                          <select class="form-control" name="func_4_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                            <option>NA</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">5.</td>
+                        <td>Check functioning of SMS facility.</td>
+                        
+                        <td>
+                          <select class="form-control" name="func_5_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">6.</td>
+                        <td>Check streaming of video (Where activated / Made available).</td>
+                        
+                        <td>
+                          <select class="form-control" name="func_6_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                            <option>NA</option>
+                          </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">7.</td>
+                        <td>Check functioning of SATMAIL.</td>
+                       
+                        <td>
+                          <select class="form-control" name="func_7_rmk">
+                            <option value="">--</option>
+                            <option>Sat</option>
+                            <option>Unsat</option>
+                          </select>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   REMARKS
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Remarks</legend>
+                <div class="static-section">
+                  <div class="table-responsive">
+                    <table class="custom_tbl" id="remarks_table">
+                      <thead>
+                        <tr>
+                          <th class="serial-no">Sr No</th>
+                          <th>Observations</th>
+                          <th>SS Remarks</th>
+                          <th class="action" style="width: 80px;">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="serial-no">1</td>
+                          <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="observation" rows="2"></textarea></td>
+                          <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="ss_remarks" rows="2"></textarea></td>
+                          <td class="action action-cell-holder">
+                            <div class="action-controls">
+                              <button type="button" class="btn-round btn-add" onclick="addRow('remarks_table')" title="Add Row">+</button>
+                              <button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'remarks_table')" title="Remove Row">-</button>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset class="custom-fieldset">
+                                                        <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                                                        <div class="row g-3">
+                                                                <div class="col-md-4 col-12">
+                                                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                                                <select class="form-control" id="dmr_16a_presenting_authority" name="dmr_16a_presenting_authority" required>
+                                                                                        <option value="">--Select--</option>
+                                                                                        <option value="dockyard">Dockyard</option>
+                                                                                        <option value="shipstaff">Shipstaff</option>
+                                                                                        <option value="oem">OEM</option>
+                                                                                </select>
+                                                                                <label class="form_control_1" for="dmr_16a_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+                                                                        </div>
+                                                                </div>
+                                                                <div class="col-md-4 col-12">
+                                                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                                                <input type="text" class="form-control" id="dmr_16a_watt" name="dmr_16a_watt" value="VZG" >
+                                                                                <label class="form_control_1" for="dmr_16a_watt">WATT</label>
+                                                                        </div>
+                                                                </div>
+                                                        </div>
+                                                </fieldset>
+
+              <!-- Submit -->
+              <div class="d-flex justify-content-center mt-4 gap-2">
+                <button type="submit" class="btn btn-success px-4">Submit</button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

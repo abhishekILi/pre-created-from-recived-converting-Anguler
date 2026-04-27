@@ -1,0 +1,305 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+	.checks-col {
+		word-wrap: break-word;
+		overflow-wrap: break-word;
+		word-break: break-word;
+		max-width: 400px;
+	}
+
+
+</style>
+
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">Gunnery</a></li>
+					<li class="breadcrumb-item active" aria-current="page">SRGM 61124</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">SRGM 61124</span>
+                    </div>
+                </div>
+
+				<div class="portlet-body form mt-3 mb-4">
+					<form method="post" id="srgm_61124_form">
+						{% csrf_token %}
+
+						<input type="hidden" id="form_id" name="form_id" value="srgm_61124_7110012">
+						<input type="hidden" id="form_name" name="form_name" value="SRGM_61124_OP_CHECKS">
+
+						 <fieldset class="custom-fieldset">
+                            <legend class="legend-custom text-uppercase">Basic Information</legend>
+                            <div class="row g-3">
+
+                            <div class="col-md-4 col-12">
+                                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" name="srgm_61124_ship" required>
+                                                <option value="">--Select--</option>
+                                                {% for ship in ship_options %}
+                                                <option value="{{ ship.value }}">{{ ship.label }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <label class="form_control_1">Ship <span class="text-danger">*</span></label>
+                                        </div>
+                            </div>
+
+                            <div class="col-md-4 col-12">
+                                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                <select class="form-control" id="department_select" name="srgm_61124_department">
+                                    <option value="">-- Select --</option>
+                                    <option value="P15A">ND</option>
+                                    <option value="P17">ASW</option>
+                                    <option value="P17A">COMM</option>
+                                    <option value="P28">GUNNERY</option>
+                                    </select>
+                                    <label class="form_control_1">Department</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-12">
+                                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                <select class="form-control" id="srgm_61124_equipment_select" name="srgm_61124_equipment">
+                                    <option value="">-- Select --</option>
+                                    </select>
+                                    <label class="form_control_1">Equipment</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-12">
+                                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                    <input type="date" class="form-control" id="srgm_61124_date_input" name="srgm_61124_date">
+                                    <label class="form_control_1">Date</label>
+                                </div>
+                                </div>
+
+                            <div class="col-md-4 col-12">
+                                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                <select class="form-control" id="srgm_61124_nature_trials_select" name="srgm_61124_nature_of_trials" required>
+                                    <option value="">--Select--</option>
+                                    <option value="SATs">SATs</option>
+                                    <option value="HATS">HATs</option>
+                                    <option value="OP_CHECKS">OP CHECKS</option>
+                                    <option value="IIS">IIs</option>
+                                    </select>
+                                    <label class="form_control_1">Nature of Trial</label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </fieldset>
+
+						<fieldset class="custom-fieldset">
+
+							<div class="table-responsive">
+								<table class="custom_tbl" id="srgm_61124_checks_table">
+									<thead class="table-dark-head">
+										<tr>
+											<th>Ser</th>
+											<th class="checks-col">OBSERVATIONS</th>
+											<th class="obs-col">RESULTS</th>
+											<th class="remarks-col">Remarks (SAT / UNSAT)</th>
+										</tr>
+									</thead>
+									<tbody>
+
+                                        <tr>
+                                            <td colspan="4">
+                                                Trials team embarked onboard at 
+                                                <input type="text" id="srgm_61124_embark_time" name="embark_time" class="line-input  embarked-hrs"> hrs on 
+                                                <input type="date" id="srgm_61124_embark_date" name="embark_date" class="line-input  embarked-hrs "> for SATs of SRGM as per approved schedule, BR 4050 and CNO 07/10. Following observed:- 
+                                            </td>
+                                        </tr>
+										<tr>
+											
+											<td colspan="4"><strong>PRELIMINARY CHECKS BEFORE FIRING (VERIFY THE FOLLOWING CONDITION) </strong></td>
+										</tr>
+										<tr>
+											<td>01.</td>
+											<td>Pressure of Hydraulic power unit (80 to 88 Bar)</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" name="srgm_61124_result_1" rows="1" placeholder="Result..."></textarea></td>
+											<td><div class="sat-unsat"><label><input type="radio" id="srgm_61124_remark_7_1_i_sat" name="srgm_61124_remark_7_1_i" value="SAT" required> SAT</label><label><input type="radio" id="srgm_61124_remark_7_1_i_unsat" name="srgm_61124_remark_7_1_i" value="UNSAT"> UNSAT</label></div></td>
+										</tr>
+                                        <tr>
+											<td>02.</td>
+											<td>Pressure of the brake system recuperator. (69 to 71 Bar)</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" name="srgm_61124_result_2" rows="1" placeholder="Result..."></textarea></td>
+											<td><div class="sat-unsat"><label><input type="radio" id="srgm_61124_remark_7_1_ii_sat" name="srgm_61124_remark_7_1_ii" value="SAT" required> SAT</label><label><input type="radio" id="srgm_61124_remark_7_1_ii_unsat" name="srgm_61124_remark_7_1_ii" value="UNSAT"> UNSAT</label></div></td>
+										</tr>
+                                        <tr>
+											<td>03.</td>
+											<td>With the loading tray in the lowered position, the accumulator pressure. (55 to 59 Bar)</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" name="srgm_61124_result_3" rows="1" placeholder="Result..."></textarea></td>
+											<td><div class="sat-unsat"><label><input type="radio" id="srgm_61124_remark_7_1_iii_sat" name="srgm_61124_remark_7_1_iii" value="SAT" required> SAT</label><label><input type="radio" id="srgm_61124_remark_7_1_iii_unsat" name="srgm_61124_remark_7_1_iii" value="UNSAT"> UNSAT</label></div></td>
+										</tr>
+                                        <tr>
+											<td>04.</td>
+											<td>The position of recuperator rod must be between the reference marks on the rod guard opening.</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" name="srgm_61124_result_4" rows="1" placeholder="Result..."></textarea></td>
+											<td><div class="sat-unsat"><label><input type="radio" id="srgm_61124_remark_7_1_iv_sat" name="srgm_61124_remark_7_1_iv" value="SAT" required> SAT</label><label><input type="radio" id="srgm_61124_remark_7_1_iv_unsat" name="srgm_61124_remark_7_1_iv" value="UNSAT"> UNSAT</label></div></td>
+										</tr>
+                                        <tr>
+											<td>05.</td>
+											<td>With the elevating mass at 0 degree positions, connect the rod 1076-17-013 to the bushing of the equilibration cylinder and jack the gun at maximum recoil and verify that the mark on the rod fixture is within the reference notches.</td>
+											<td class="checks-col"><textarea class="form-control wrstg-scroll-textarea" name="srgm_61124_result_5" rows="1" placeholder="Result..."></textarea></td>
+											<td><div class="sat-unsat"><label><input type="radio" id="srgm_61124_remark_7_1_v_sat" name="srgm_61124_remark_7_1_v" value="SAT" required> SAT</label><label><input type="radio" id="srgm_61124_remark_7_1_v_unsat" name="srgm_61124_remark_7_1_v" value="UNSAT"> UNSAT</label></div></td>
+										</tr>
+
+                                        
+                                        <tr>
+                                            <th>Ser </th>
+                                            <th>OBSERVATIONS</th>
+                                            <th>Recoil length</th>
+                                            <th>Remarks (SAT / UNSAT)</th>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="4"><strong>FIRING TEST</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4"><strong>The Gun shall fire 16 rounds (03 rounds at Max., & 45 degree elevations, 07 rounds for surface mode) in accordance with the following test procedures.</strong></td>
+                                        </tr>
+
+
+                                        <tr>
+                                            <td class="ser-col">06.</td>
+                                            <td class="obs-col">
+                                                <strong>1.</strong> 01 round fire at maximum elevation.<br>
+                                                In maximum rate of fire. (215mm-227mm)
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control" name="srgm_61124_recoil_length_1" placeholder="Enter value">
+                                            </td>
+                                            <td><div class="sat-unsat"><label><input type="radio" id="srgm_61124_remark_6_1_sat" name="srgm_61124_remark_6_1" value="SAT" required> SAT</label><label><input type="radio" id="srgm_61124_remark_6_1_unsat" name="srgm_61124_remark_6_1" value="UNSAT"> UNSAT</label></div></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="ser-col"></td>
+                                            <td class="obs-col">
+                                                <strong>2.</strong> 01 round fire at 45 degree elevations.<br>
+                                                in Maximum rate of fire. (215mm-227mm)
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control" name="srgm_61124_recoil_length_2" placeholder="Enter value">
+                                            </td>
+                                            <td><div class="sat-unsat"><label><input type="radio" id="srgm_61124_remark_6_2_sat" name="srgm_61124_remark_6_2" value="SAT" required> SAT</label><label><input type="radio" id="srgm_61124_remark_6_2_unsat" name="srgm_61124_remark_6_2" value="UNSAT"> UNSAT</label></div></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td class="ser-col"></td>
+                                            <td class="obs-col">
+                                                <strong>3.</strong> 01 round fire at maximum depression.<br>
+                                                In Maximum rate of fire. (215mm-227mm)
+                                            </td>
+                                            <td>
+                                                <input type="number" class="form-control" name="srgm_61124_recoil_length_3" placeholder="Enter value">
+                                            </td>
+                                            <td><div class="sat-unsat"><label><input type="radio" id="srgm_61124_remark_6_3_sat" name="srgm_61124_remark_6_3" value="SAT" required> SAT</label><label><input type="radio" id="srgm_61124_remark_6_3_unsat" name="srgm_61124_remark_6_3" value="UNSAT"> UNSAT</label></div></td>
+                                        </tr>
+
+                                        <tr>
+                                            <th>Ser</th>
+                                            <th>OBSERVATIONS</th>
+                                            <th>REFERENCE (Where Applicable)</th>
+                                            <th>Remarks (SAT / UNSAT)</th>
+                                        </tr>
+
+                                        <tr>
+											<td>07.</td>
+											<td>07 rounds must be fired one or two bursts at maximum rate of fire from TDs. During each burst no intermediate interruption is allowed. (114-126 round / minute)</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" name="srgm_61124_result_7" rows="1" placeholder="Reference..."></textarea></td>
+											<td><div class="sat-unsat"><label><input type="radio" id="srgm_61124_remark_7_1_v_sat" name="srgm_61124_remark_7_1_v" value="SAT" required> SAT</label><label><input type="radio" id="srgm_61124_remark_7_1_v_unsat" name="srgm_61124_remark_7_1_v" value="UNSAT"> UNSAT</label></div></td>
+										</tr>
+
+                                        
+										<tr>
+											<td colspan="4"><strong>POST FIRING CHECKS</strong></td>
+										</tr>
+
+                                        <tr>
+											<td>08.</td>
+											<td>The Gun has no evident damaged</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" name="srgm_61124_result_8" rows="1" placeholder="Result..."></textarea></td>
+											<td><div class="sat-unsat"><label><input type="radio" id="srgm_61124_remark_7_1_v_sat" name="srgm_61124_remark_7_1_v" value="SAT" required> SAT</label><label><input type="radio" id="srgm_61124_remark_7_1_v_unsat" name="srgm_61124_remark_7_1_v" value="UNSAT"> UNSAT</label></div></td>
+										</tr>
+                                        <tr>
+											<td>09.</td>
+											<td>The hydraulic system does not leak</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" name="srgm_61124_result_9" rows="1" placeholder="Result..."></textarea></td>
+											<td><div class="sat-unsat"><label><input type="radio" id="srgm_61124_remark_7_1_v_sat" name="srgm_61124_remark_7_1_v" value="SAT" required> SAT</label><label><input type="radio" id="srgm_61124_remark_7_1_v_unsat" name="srgm_61124_remark_7_1_v" value="UNSAT"> UNSAT</label></div></td>
+										</tr>
+                                        <tr>
+											<td>10.</td>
+											<td>The shield compartment lighting system is operating</td>
+											<td><textarea class="form-control wrstg-scroll-textarea" name="srgm_61124_result_10" rows="1" placeholder="Result..."></textarea></td>
+											<td><div class="sat-unsat"><label><input type="radio" id="srgm_61124_remark_7_1_v_sat" name="srgm_61124_remark_7_1_v" value="SAT" required> SAT</label><label><input type="radio" id="srgm_61124_remark_7_1_v_unsat" name="srgm_61124_remark_7_1_v" value="UNSAT"> UNSAT</label></div></td>
+										</tr>
+										
+									</tbody>
+								</table>
+							</div>
+						</fieldset>
+
+						<!-- FOOTER -->
+							<fieldset class="custom-fieldset">
+                            <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                            <div class="row g-3">
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <select class="form-control" id="srgm_61124_presenting_authority" name="srgm_61124_presenting_authority" required>
+                                            <option value="">--Select--</option>
+                                            <option value="dockyard">Dockyard</option>
+                                            <option value="shipstaff">Shipstaff</option>
+                                            <option value="oem">OEM</option>
+                                        </select>
+                                        <label class="form_control_1" for="srgm_61124_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <input type="text" class="form-control" id="srgm_61124_watt" name="srgm_61124_watt" value="WATT" >
+                                        <label class="form_control_1" for="srgm_61124_watt">Inspecting Authority</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+						<div class="d-flex justify-content-center mt-4">
+							<button type="submit" class="btn btn-success px-4">Save</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		WRSTGQuarterly.init({
+			extraTableIds: [, 'remarks_table',],
+			submitConfirmation: { formId: 'srgm_61124_form' }
+		});
+	});
+</script>
+{% endblock js %}

@@ -1,0 +1,212 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">WATT</a></li>
+					<li class="breadcrumb-item active" aria-current="page">RBU 63352</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">RBU 63352</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="rbu_63352_form" action="{% url 'ITTTM:rbu_63352' %}">
+						{% csrf_token %}
+						<div class="form-body">
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">Basic Information</legend>
+								<div class="row g-3">
+
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+												<select class="form-control" name="ship" required>
+													<option value="">--Select--</option>
+													{% for ship in ship_options %}
+													<option value="{{ ship.value }}">{{ ship.label }}</option>
+													{% endfor %}
+												</select>
+												<label class="form_control_1">Ship <span class="text-danger">*</span></label>
+											</div>
+								</div>
+
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+									<select class="form-control" id="department_select" name="department">
+										<option value="">-- Select --</option>
+										<option value="P15A">ND</option>
+										<option value="P17">ASW</option>
+										<option value="P17A">COMM</option>
+										<option value="P28">GUNNERY</option>
+										</select>
+										<label class="form_control_1">Department</label>
+									</div>
+								</div>
+
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+									<select class="form-control" id="equipment_select" name="equipment">
+										<option value="">-- Select --</option>
+										</select>
+										<label class="form_control_1">Equipment</label>
+									</div>
+								</div>
+
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+										<input type="date" class="form-control" id="date_input" name="date_">
+										<label class="form_control_1">Date</label>
+									</div>
+									</div>
+
+								<div class="col-md-4 col-12">
+									<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+									<select class="form-control" id="nature_trials_select" name="nature_of_trials" required>
+										<option value="">--Select--</option>
+										<option value="SATs">SATs</option>
+										<option value="HATS">HATs</option>
+										<option value="OP_CHECKS">OP CHECKS</option>
+										<option value="IIS">IIs</option>
+										</select>
+										<label class="form_control_1">Nature of Trial</label>
+									</div>
+								</div>
+
+							</div>
+						</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<div class="table-responsive mt-4">
+									<table class="custom_tbl" id="rbu_63352_table">
+										<thead class="table-dark-head">
+											<tr>
+												<th class="ser-col">TRIAL SER</th>
+												<th class="obs-col">CHECK DESCRIPTION AS PER SCHEDULE</th>
+												<th class="remarks-col">REMARKS SAT/UNSAT</th>
+												<th class="remarks-col">PRESENTING AUTHORITY REMARKS</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td colspan="4">
+													Trials team embarked onboard at
+													<input type="text" name="embarked_onboard_at" class="line-input embarked-hrs">
+													on
+													<input type="text" name="embarked_on_date" class="line-input embarked-date">
+													for SATs of RBU 6000 as per approved schedule, BR 4050 and CNO 07/10. Following observed:-
+												</td>
+											</tr>
+											<tr>
+												<td>1.1</td>
+												<td><strong><u>Standard Instruments</u></strong><br>(i) Megger 100V</td>
+												<td class="text-center"><label><input type="radio" name="standard_instruments_sat_unsat" value="SAT"> SAT</label> <label><input type="radio" name="standard_instruments_sat_unsat" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="standard_instruments_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>1.2</td>
+												<td>Special Tools</td>
+												<td class="text-center"><label><input type="radio" name="special_tools_sat_unsat" value="SAT"> SAT</label> <label><input type="radio" name="special_tools_sat_unsat" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="special_tools_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>1.3</td>
+												<td>Power Source</td>
+												<td class="text-center"><label><input type="radio" name="power_source_sat_unsat" value="SAT"> SAT</label> <label><input type="radio" name="power_source_sat_unsat" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="power_source_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>1.5</td>
+												<td>Ammunitions</td>
+												<td class="text-center"><label><input type="radio" name="ammunitions_sat_unsat" value="SAT"> SAT</label> <label><input type="radio" name="ammunitions_sat_unsat" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="ammunitions_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>3.1</td>
+												<td>Precautions to be undertaken prior sailing</td>
+												<td class="text-center"><label><input type="radio" name="precautions_prior_sailing_sat_unsat" value="SAT"> SAT</label> <label><input type="radio" name="precautions_prior_sailing_sat_unsat" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="precautions_prior_sailing_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>3.2</td>
+												<td>Selection of barrels for firing</td>
+												<td class="text-center"><label><input type="radio" name="selection_of_barrels_sat_unsat" value="SAT"> SAT</label> <label><input type="radio" name="selection_of_barrels_sat_unsat" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="selection_of_barrels_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>3.4</td>
+												<td>Pre Firing Checks</td>
+												<td class="text-center "><label><input type="radio" name="pre_firing_checks_sat_unsat" value="SAT"> SAT</label> <label><input type="radio" name="pre_firing_checks_sat_unsat" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="pre_firing_checks_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>4.</td>
+												<td>Firing Trials</td>
+												<td class="text-center"><label><input type="radio" name="firing_trials_sat_unsat" value="SAT"> SAT</label> <label><input type="radio" name="firing_trials_sat_unsat" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="firing_trials_remarks" rows="2"></textarea></td>
+											</tr>
+											<tr>
+												<td>5.</td>
+												<td>Post Firing Checks</td>
+												<td class="text-center"><label><input type="radio" name="post_firing_checks_sat_unsat" value="SAT"> SAT</label> <label><input type="radio" name="post_firing_checks_sat_unsat" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" name="post_firing_checks_remarks" rows="2"></textarea></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+                            <fieldset class="custom-fieldset">
+                                                        <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                                                        <div class="row g-3">
+                                                                <div class="col-md-4 col-12">
+                                                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+																<select class="form-control" id="rbu_63352_presenting_authority" name="rbu_63352_presenting_authority" required>
+                                                                                        <option value="">--Select--</option>
+                                                                                        <option value="dockyard">Dockyard</option>
+                                                                                        <option value="shipstaff">Shipstaff</option>
+                                                                                        <option value="oem">OEM</option>
+                                                                                </select>
+																<label class="form_control_1" for="rbu_63352_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+                                                                        </div>
+                                                                </div>
+                                                                <div class="col-md-4 col-12">
+                                                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+																<input type="text" class="form-control" id="rbu_63352_watt" name="rbu_63352_watt" value="VZG" >
+																<label class="form_control_1" for="rbu_63352_watt">WATT</label>
+                                                                        </div>
+                                                                </div>
+                                                        </div>
+                                                </fieldset>
+
+							<div class="d-flex justify-content-center mt-4 gap-2">
+								<button type="submit" class="btn btn-success px-4">Save</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

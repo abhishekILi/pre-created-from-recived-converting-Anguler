@@ -1,0 +1,716 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+    <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">NEC</a></li>
+          <li class="breadcrumb-item active" aria-current="page">EMI/EMC Post Refit Survey</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">EMI/EMC POST REFIT SURVEY PERFORMA</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="emi_emc_post_refit_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+
+                            <!-- ═══════════════════════════════════════════════ -->
+                            <!-- SECTION 1: SURVEY DETAILS                      -->
+                            <!-- ═══════════════════════════════════════════════ -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">Survey Details</legend>
+                                <div class="row g-3">
+
+                                    <!-- LEFT COLUMN -->
+                                    <div class="col-md-6 col-12">
+
+                                        <!-- Ship -->
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <select class="form-control" name="ship_id" required>
+                                                <option value="">--Select--</option>
+                                                {% for ship in ship_options %}
+                                                <option value="{{ ship.value }}">{{ ship.label }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <label class="form_control_1">Ship <span class="text-danger">*</span></label>
+                                        </div>
+
+                                        <!-- Pre-refit Survey Date -->
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <input type="date" class="form-control" name="pre_refit_survey_date" required>
+                                            <label class="form_control_1">Date of Pre-refit Survey <span class="text-danger">*</span></label>
+                                        </div>
+
+                                        <!-- Header: Proposed Post-refit Dates -->
+                                        <!-- <div class="mt-3 mb-2">
+                                            <label class="form_control_1 fw-bold">
+                                                Proposed / Tentative Dates of Post-refit Survey
+                                            </label>
+                                        </div> -->
+
+                                        <!-- Harbour Trials Date -->
+                                        <!-- <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <input type="date" class="form-control" name="harbour_trials_date">
+                                            <label class="form_control_1">Harbour Trials</label>
+                                        </div> -->
+
+                                    </div>
+
+                                    <!-- RIGHT COLUMN -->
+                                    <div class="col-md-6 col-12">
+
+                                        <!-- Type of Refit (opposite Ship) -->
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <select class="form-control" name="refit_type" required>
+                                                <option value="">--Select--</option>
+                                                <option value="NR">NR</option>
+                                                <option value="MR">MR</option>
+                                                <option value="NR_MLU">NR-MLU</option>
+                                                <option value="MR_MLU">MR-MLU</option>
+                                            </select>
+                                            <label class="form_control_1">Type of Refit <span class="text-danger">*</span></label>
+                                        </div>
+
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <input type="date" class="form-control" name="post_refit_proposed_survey_date" required>
+                                            <label class="form_control_1">Proposed / Tentative Dates of Post-refit Survey <span class="text-danger">*</span></label>
+                                        </div>
+
+                                        <!-- Blank opposite Pre-refit Survey Date -->
+                                        <!-- <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3" style="visibility: hidden;">
+                                            <input type="date" class="form-control" disabled>
+                                            <label class="form_control_1">placeholder</label>
+                                        </div> -->
+
+                                        <!-- Blank opposite Header (matches height) -->
+                                        <!-- <div class="mt-3 mb-2" style="visibility: hidden;">
+                                            <label class="form_control_1 fw-bold">
+                                                Proposed / Tentative Dates of Post-refit Survey
+                                            </label>
+                                        </div> -->
+
+                                        <!-- Sea / Anchorage Trials Date (aligned with Harbour Trials) -->
+                                        <!-- <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <input type="date" class="form-control" name="sea_anchorage_trials_date">
+                                            <label class="form_control_1">Sea / Anchorage Trials</label>
+                                        </div> -->
+                                    </div>
+                                </div>
+            
+                                
+                            <!-- ═══════════════════════════════════════════════ -->
+                            <!-- SECTION 2: EQUIPMENT OPERATIONAL STATUS        -->
+                            <!-- ═══════════════════════════════════════════════ -->
+
+                                <p class="fw-semibold mb-1 mt-3">
+                                    1. It is confirmed that all electrical / electronic equipment fitted onboard are operational. List of equipment non-operational is attached herewith.
+                                </p>
+
+                                <div class="static-section">
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl" id="equipment_operational_status_tbl">
+                                            <thead>
+                                                <tr>
+                                                    <th class="serial-no">SER</th>
+                                                    <th>EQUIPMENT FROM SFD</th>
+                                                    <th>OPS / NON-OPS</th>
+                                                    <th>REMARKS</th>
+                                                    <th class="action">ACTION</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="serial-no">1</td>
+                                                    <td>
+                                                        <textarea class="form-control wrstg-scroll-textarea"
+                                                            data-base-name="equipment_name"
+                                                            placeholder="" rows="2">
+                                                        </textarea>
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control wrstg-scroll-textarea"
+                                                            data-base-name="equipment_ops_status"
+                                                            placeholder="" rows="2">
+                                                        </textarea>
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control wrstg-scroll-textarea"
+                                                            data-base-name="equipment_ops_remarks"
+                                                            placeholder="" rows="2">
+                                                        </textarea>
+                                                    </td>
+                                                    <td class="action action-cell-holder">
+                                                        <div class="action-controls">
+                                                            <button type="button" class="btn-round btn-add"
+                                                                onclick="addRow('equipment_operational_status_tbl')"
+                                                                title="Add Row">+</button>
+                                                            <button type="button" class="btn-round btn-remove"
+                                                                onclick="removeRow(this, 'equipment_operational_status_tbl')"
+                                                                title="Remove Row">-</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            <!-- ═══════════════════════════════════════════════ -->
+                            <!-- SECTION 3: SWT & HATS CLEARANCE STATUS         -->
+                            <!-- ═══════════════════════════════════════════════ -->
+
+                                <p class="fw-semibold mb-1 mt-3">
+                                    2. It is confirmed that SWT &amp; HATS of all equipment fitted onboard has been completed and cleared. List of equipment for which HATs has not been successfully cleared is enclosed herewith.
+                                </p>
+
+                                <div class="static-section">
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl" id="swt_hats_clearance_tbl">
+                                            <thead>
+                                                <tr>
+                                                    <th class="serial-no">SER</th>
+                                                    <th>EQUIPMENT FROM SFD</th>
+                                                    <th>SWT</th>
+                                                    <th>HATS</th>
+                                                    <th>REMARKS</th>
+                                                    <th class="action">ACTION</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="serial-no">1</td>
+                                                    <td>
+                                                        <textarea class="form-control wrstg-scroll-textarea"
+                                                            data-base-name="swt_hats_equipment_name"
+                                                            placeholder="" rows="2">
+                                                        </textarea>
+                                                    </td>
+                                                    <td>
+                                                        <div class="radio-stack">
+                                                            <label>
+                                                                <input type="radio"
+                                                                    name="swt_clearance_status_1"
+                                                                    value="cleared" required> CLEARED
+                                                            </label>
+                                                            <label>
+                                                                <input type="radio"
+                                                                    name="swt_clearance_status_1"
+                                                                    value="not_cleared"> NOT CLEARED
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="radio-stack">
+                                                            <label>
+                                                                <input type="radio"
+                                                                    name="hats_clearance_status_1"
+                                                                    value="cleared" required> CLEARED
+                                                            </label>
+                                                            <label>
+                                                                <input type="radio"
+                                                                    name="hats_clearance_status_1"
+                                                                    value="not_cleared"> NOT CLEARED
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control wrstg-scroll-textarea"
+                                                            data-base-name="swt_hats_remarks"
+                                                            placeholder="" rows="2">
+                                                        </textarea>
+                                                    </td>
+                                                    <td class="action action-cell-holder">
+                                                        <div class="action-controls">
+                                                            <button type="button" class="btn-round btn-add"
+                                                                onclick="addRow('swt_hats_clearance_tbl')"
+                                                                title="Add Row">+</button>
+                                                            <button type="button" class="btn-round btn-remove"
+                                                                onclick="removeRow(this, 'swt_hats_clearance_tbl')"
+                                                                title="Remove Row">-</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            <!-- ═══════════════════════════════════════════════ -->
+                            <!-- SECTION 4: PORTABLE / MOBILE TRANSMITTERS      -->
+                            <!-- ═══════════════════════════════════════════════ -->
+
+                                <p class="fw-semibold mb-1 mt-3">
+                                    3. The following portable / mobile transmitter (WLAN handsets / headsets, FDCS headsets / handsets, Walkie-Talkies, Magloop headsets, Hydra handsets etc.) are available / used onboard.
+                                </p>
+
+                                <div class="static-section">
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl" id="portable_transmitters_tbl">
+                                            <thead>
+                                                <tr>
+                                                    <th class="serial-no">SER</th>
+                                                    <th>PORTABLE / MOBILE TRANSMITTER UNIT</th>
+                                                    <th>LOCATION / AREAS OF SHIP WHERE USED</th>
+                                                    <th>MAX POWER O/P</th>
+                                                    <th>FREQUENCY</th>
+                                                    <th>REMARKS</th>
+                                                    <th class="action">ACTION</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="serial-no">1</td>
+                                                    <td>
+                                                        <textarea class="form-control wrstg-scroll-textarea"
+                                                            data-base-name="transmitter_unit_name"
+                                                            placeholder="" rows="2">
+                                                        </textarea>
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control wrstg-scroll-textarea"
+                                                            data-base-name="transmitter_location"
+                                                            placeholder="" rows="2">
+                                                        </textarea>
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control wrstg-scroll-textarea"
+                                                            data-base-name="transmitter_max_power_output"
+                                                            placeholder="" rows="2">
+                                                        </textarea>
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control wrstg-scroll-textarea"
+                                                            data-base-name="transmitter_frequency"
+                                                            placeholder="" rows="2">
+                                                        </textarea>
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control wrstg-scroll-textarea"
+                                                            data-base-name="transmitter_remarks"
+                                                            placeholder="" rows="2">
+                                                        </textarea>
+                                                    </td>
+                                                    <td class="action action-cell-holder">
+                                                        <div class="action-controls">
+                                                            <button type="button" class="btn-round btn-add"
+                                                                onclick="addRow('portable_transmitters_tbl')"
+                                                                title="Add Row">+</button>
+                                                            <button type="button" class="btn-round btn-remove"
+                                                                onclick="removeRow(this, 'portable_transmitters_tbl')"
+                                                                title="Remove Row">-</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            <!-- ═══════════════════════════════════════════════ -->
+                            <!-- SECTION 5: BLANKING / INTERFERENCE SUPPRESSION -->
+                            <!-- ═══════════════════════════════════════════════ -->
+
+                                <p class="fw-semibold mb-1 mt-3">
+                                    4. The following blanking / interference suppression units are installed onboard and it is confirmed that they are operational and interfaced with the concerned Txs / Rxs as per design (give names of blanking units). Further give scheme / matrix of blanking i.e. Receiver blanked &amp; names of transmitters whose pulses have been used to blank that Receiver.
+                                </p>
+
+                                <div class="static-section">
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl" id="receiver_blanking_matrix_tbl">
+                                            <thead>
+                                                <tr>
+                                                    <th class="serial-no">SER</th>
+                                                    <th>NAME OF RECEIVER BLANKED</th>
+                                                    <th>TRANSMITTERS USED</th>
+                                                    <th>REMARKS</th>
+                                                    <th class="action">ACTION</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="serial-no">1</td>
+                                                    <td>
+                                                        <textarea class="form-control wrstg-scroll-textarea"
+                                                            data-base-name="post_refit_receiver_blanked_name"
+                                                            placeholder="" rows="2">
+                                                        </textarea>
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control wrstg-scroll-textarea"
+                                                            data-base-name="post_refit_transmitters_used_for_blanking"
+                                                            placeholder="" rows="2">
+                                                        </textarea>
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control wrstg-scroll-textarea"
+                                                            data-base-name="post_refit_receiver_blanking_remarks"
+                                                            placeholder="" rows="2">
+                                                        </textarea>
+                                                    </td>
+                                                    <td class="action action-cell-holder">
+                                                        <div class="action-controls">
+                                                            <button type="button" class="btn-round btn-add"
+                                                                onclick="addRow('receiver_blanking_matrix_tbl')"
+                                                                title="Add Row">+</button>
+                                                            <button type="button" class="btn-round btn-remove"
+                                                                onclick="removeRow(this, 'receiver_blanking_matrix_tbl')"
+                                                                title="Remove Row">-</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- <div class="static-section">
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl" id="blanking_units_tbl">
+                                            <thead>
+                                                <tr>
+                                                    <th class="serial-no">SER</th>
+                                                    <th>LOCATION</th>
+                                                    <th>DOOR / HATCHES</th>
+                                                    <th>BOND STRAP</th>
+                                                    <th>WELDED ON BOTH SIDES</th>
+                                                    <th>REMARKS</th>
+                                                    <th class="action">ACTION</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="serial-no">1</td>
+                                                    <td>
+                                                        <textarea class="form-control wrstg-scroll-textarea"
+                                                            data-base-name="blanking_location"
+                                                            placeholder="" rows="2">
+                                                        </textarea>
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control wrstg-scroll-textarea"
+                                                            data-base-name="blanking_door_hatches"
+                                                            placeholder="" rows="2">
+                                                        </textarea>
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control wrstg-scroll-textarea"
+                                                            data-base-name="blanking_bond_strap"
+                                                            placeholder="" rows="2">
+                                                        </textarea>
+                                                    </td>
+                                                    <td>
+                                                        <div class="radio-stack">
+                                                            <label>
+                                                                <input type="radio"
+                                                                    name="blanking_welded_both_sides_1"
+                                                                    value="yes" required> YES
+                                                            </label>
+                                                            <label>
+                                                                <input type="radio"
+                                                                    name="blanking_welded_both_sides_1"
+                                                                    value="no"> NO
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control wrstg-scroll-textarea"
+                                                            data-base-name="blanking_remarks"
+                                                            placeholder="" rows="2">
+                                                        </textarea>
+                                                    </td>
+                                                    <td class="action action-cell-holder">
+                                                        <div class="action-controls">
+                                                            <button type="button" class="btn-round btn-add"
+                                                                onclick="addRow('blanking_units_tbl')"
+                                                                title="Add Row">+</button>
+                                                            <button type="button" class="btn-round btn-remove"
+                                                                onclick="removeRow(this, 'blanking_units_tbl')"
+                                                                title="Remove Row">-</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div> -->
+
+                            <!-- ═══════════════════════════════════════════════ -->
+                            <!-- SECTION 6: SHIP POWER SUPPLY STATUS            -->
+                            <!-- ═══════════════════════════════════════════════ -->
+
+                                <p class="fw-semibold mb-1 mt-3">
+                                    5. It is confirmed that ships own power supply is available for the duration of the trials.
+                                </p>
+
+                                <div class="mb-3 mt-2">
+                                    <div class="radio-stack">
+                                        <label>
+                                            <input type="radio" name="ship_power_supply_available" value="yes" required> Yes
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="ship_power_supply_available" value="no"> No
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- <div class="static-section">
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl" id="receiver_blanking_matrix_tbl">
+                                            <thead>
+                                                <tr>
+                                                    <th class="serial-no">SER</th>
+                                                    <th>NAME OF RECEIVER BLANKED</th>
+                                                    <th>TRANSMITTERS USED</th>
+                                                    <th>REMARKS</th>
+                                                    <th class="action">ACTION</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="serial-no">1</td>
+                                                    <td>
+                                                        <textarea class="form-control wrstg-scroll-textarea"
+                                                            data-base-name="receiver_blanked_name"
+                                                            placeholder="" rows="2">
+                                                        </textarea>
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control wrstg-scroll-textarea"
+                                                            data-base-name="transmitters_used_for_blanking"
+                                                            placeholder="" rows="2">
+                                                        </textarea>
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control wrstg-scroll-textarea"
+                                                            data-base-name="receiver_blanking_remarks"
+                                                            placeholder="" rows="2">
+                                                        </textarea>
+                                                    </td>
+                                                    <td class="action action-cell-holder">
+                                                        <div class="action-controls">
+                                                            <button type="button" class="btn-round btn-add"
+                                                                onclick="addRow('receiver_blanking_matrix_tbl')"
+                                                                title="Add Row">+</button>
+                                                            <button type="button" class="btn-round btn-remove"
+                                                                onclick="removeRow(this, 'receiver_blanking_matrix_tbl')"
+                                                                title="Remove Row">-</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div> -->
+
+                            <!-- ═══════════════════════════════════════════════ -->
+                            <!-- SECTION 7: HATS RESULTS ON RF Tx & Rx          -->
+                            <!-- ═══════════════════════════════════════════════ -->
+
+                                <p class="fw-semibold mb-1 mt-3">
+                                    6. Results of HATS on RF Txs &amp; Rxs.
+                                </p>
+
+                                <div class="static-section">
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl" id="hats_rf_tx_rx_results_tbl">
+                                            <thead>
+                                                <tr>
+                                                    <th class="serial-no">SER</th>
+                                                    <th>NAME OF RF Tx OR Rx<br>
+                                                        (ALL COMMUNICATION, EW, RADAR, DF EQUIPMENT)</th>
+                                                    <th>
+                                                        IF Rx, THEN SENSITIVITY (dBM OR uV)<br>
+                                                        IF Tx, THEN MAX POWER OUTPUT (dBM OR WATTS)<br>
+                                                        (AS MEASURED DURING HATS)
+                                                    </th>
+                                                    <th>REMARKS</th>
+                                                    <th class="action">ACTION</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="serial-no">1</td>
+                                                    <td>
+                                                        <textarea class="form-control wrstg-scroll-textarea"
+                                                            data-base-name="rf_tx_rx_name"
+                                                            placeholder="" rows="2">
+                                                        </textarea>
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control wrstg-scroll-textarea"
+                                                            data-base-name="rf_tx_rx_sensitivity_or_power"
+                                                            placeholder="" rows="2">
+                                                        </textarea>
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control wrstg-scroll-textarea"
+                                                            data-base-name="hats_rf_tx_rx_remarks"
+                                                            placeholder="" rows="2">
+                                                        </textarea>
+                                                    </td>
+                                                    <td class="action action-cell-holder">
+                                                        <div class="action-controls">
+                                                            <button type="button" class="btn-round btn-add"
+                                                                onclick="addRow('hats_rf_tx_rx_results_tbl')"
+                                                                title="Add Row">+</button>
+                                                            <button type="button" class="btn-round btn-remove"
+                                                                onclick="removeRow(this, 'hats_rf_tx_rx_results_tbl')"
+                                                                title="Remove Row">-</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            <!-- ═══════════════════════════════════════════════ -->
+                            <!-- SECTION 8: IF Frequencies of RF Receivers   -->
+                            <!-- ═══════════════════════════════════════════════ -->
+
+                                <p class="fw-semibold mb-1 mt-3">
+                                    7. If frequencies of RF receivers are as follows
+                                </p>
+
+                                <div class="static-section">
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl" id="known_emi_problems_if_freq_tbl">
+                                            <thead>
+                                                <tr>
+                                                    <th class="serial-no">SER</th>
+                                                    <th>NAME OF RF Tx OR Rx<br>
+                                                        (ALL COMMUNICATION, EW, RADAR, DF EQUIPMENT)</th>
+                                                    <th>IF FREQUENCY (MHz)<br>
+                                                        (IF MORE THAN ONE IF STAGE USED, PLEASE LIST ALL IFs)</th>
+                                                    <th>REMARKS</th>
+                                                    <th class="action">ACTION</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="serial-no">1</td>
+                                                    <td>
+                                                        <textarea class="form-control wrstg-scroll-textarea"
+                                                            data-base-name="emi_rf_equipment_name"
+                                                            placeholder="" rows="2">
+                                                        </textarea>
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control wrstg-scroll-textarea"
+                                                            data-base-name="emi_if_frequency_mhz"
+                                                            placeholder="" rows="2">
+                                                        </textarea>
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control wrstg-scroll-textarea"
+                                                            data-base-name="emi_if_freq_remarks"
+                                                            placeholder="" rows="2">
+                                                        </textarea>
+                                                    </td>
+                                                    <td class="action action-cell-holder">
+                                                        <div class="action-controls">
+                                                            <button type="button" class="btn-round btn-add"
+                                                                onclick="addRow('known_emi_problems_if_freq_tbl')"
+                                                                title="Add Row">+</button>
+                                                            <button type="button" class="btn-round btn-remove"
+                                                                onclick="removeRow(this, 'known_emi_problems_if_freq_tbl')"
+                                                                title="Remove Row">-</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                            <!-- ═══════════════════════════════════════════════ -->
+                            <!-- SECTION 9: KNOWN EMI PROBLEMS — GENERAL        -->
+                            <!-- ═══════════════════════════════════════════════ -->
+
+                                <p class="fw-semibold mb-1 mt-3">
+                                    8. List of known EMI problems (if any) are as follows.
+                                </p>
+
+                                <div class="static-section">
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl" id="known_emi_problems_general_tbl">
+                                            <thead>
+                                                <tr>
+                                                    <th class="serial-no">SER</th>
+                                                    <th>REMARKS</th>
+                                                    <th class="action">ACTION</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="serial-no">1</td>
+                                                    <td>
+                                                        <textarea class="form-control wrstg-scroll-textarea"
+                                                            data-base-name="emi_general_remarks"
+                                                            placeholder="" rows="2">
+                                                        </textarea>
+                                                    </td>
+                                                    <td class="action action-cell-holder">
+                                                        <div class="action-controls">
+                                                            <button type="button" class="btn-round btn-add"
+                                                                onclick="addRow('known_emi_problems_general_tbl')"
+                                                                title="Add Row">+</button>
+                                                            <button type="button" class="btn-round btn-remove"
+                                                                onclick="removeRow(this, 'known_emi_problems_general_tbl')"
+                                                                title="Remove Row">-</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        WRSTGQuarterly.init({
+            extraTableIds: [
+                'equipment_operational_status_tbl',
+                'swt_hats_clearance_tbl',
+                'portable_transmitters_tbl',
+                'blanking_units_tbl',
+                'receiver_blanking_matrix_tbl',
+                'hats_rf_tx_rx_results_tbl',
+                'known_emi_problems_if_freq_tbl',
+                'known_emi_problems_general_tbl'
+            ],
+            submitConfirmation: { formId: 'emi_emc_post_refit_form' }
+        });
+    });
+</script>
+{% endblock js %}

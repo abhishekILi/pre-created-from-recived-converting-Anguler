@@ -1,0 +1,470 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">NEC</a></li>
+          <li class="breadcrumb-item active" aria-current="page">EW System Audit Proforma</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">EW Audit Ships Proforma</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="ew_audit_form">
+            {% csrf_token %}
+            <div class="form-body">
+              <fieldset class="custom-fieldset">
+                <div class="row g-3">
+										<div class="col-md-4 col-12">
+											<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+											<select class="form-control" name="ship_name" required>
+												<option value="">--Select--</option>
+												{% for ship in ship_options %}
+												<option value="{{ ship.value }}">{{ ship.label }}</option>
+												{% endfor %}
+											</select>
+											<label class="form_control_1">Ship Name <span class="text-danger">*</span></label>
+											</div>
+										</div>
+                    <div class="col-md-4 col-12">
+											<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+												<input type="text" class="form-control" name="ew_system_name" placeholder="">
+												<label class="form_control_1">EW System <span class="text-danger">*</span></label>
+												<span class="help-block d-flex">Enter EW system...</span>
+											</div>
+										</div>
+										<div class="col-md-4 col-12">
+											<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+												<input type="date" class="form-control" name="date_of_audit" required>
+												<label class="form_control_1">Date of Last Audit <span class="text-danger">*</span></label>
+												<span class="help-block d-flex">Select last audit date...</span>
+											</div>
+										</div>
+                    <div class="col-md-4 col-12">
+											<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+												<input type="date" class="form-control" name="proposed_date_of_audit" required>
+												<label class="form_control_1">Date Proposed for Audit <span class="text-danger">*</span></label>
+												<span class="help-block d-flex">Select proposed audit date...</span>
+											</div>
+										</div>
+										<div class="col-md-4 col-12">
+											<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+												<input type="date" class="form-control" name="hats_completion_date" required>
+												<label class="form_control_1">Date of Completion of HATs <span class="text-danger">*</span></label>
+												<span class="help-block d-flex">Select HAT completion date...</span>
+											</div>
+										</div>
+                    <div class="col-md-4 col-12">
+											<div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+												<input type="date" class="form-control" name="sats_completion_date" required>
+												<label class="form_control_1">Date of Completion of SATs <span class="text-danger">*</span></label>
+												<span class="help-block d-flex">Select SAT completion date...</span>
+											</div>
+										</div>
+                                        <!-- <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <select class="form-control" name="ew_audit_system_status" required>
+                                                    <option value="">--Select--</option>
+                                                    <option value="Ops">Ops</option>
+                                                    <option value="Non-ops">Non-ops</option>
+                                                    <option value="Partially Ops">Partially Ops</option>
+                                                </select>
+                                                <label class="form_control_1">System Status <span class="text-danger">*</span></label>
+                                                <span class="help-block d-flex">Select system status...</span>
+                                        </div>
+									</div> -->
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   TOP HEADER FIELDS: EW System, INS, Date of Audit,
+                   HATs Completion Date, SATs Completion Date
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <!-- <div class="table-responsive" style="margin-top:0; margin-bottom:0;">
+                  <table class="custom_tbl">
+                    <tbody>
+                      
+                      <tr>
+                        <td style="width:33%; padding:8px 12px; border:1px solid #ddd;">
+                          <strong>INS</strong>
+                          <input type="text" class="form-control mt-1" name="ins_name" placeholder="Enter INS name" >
+                        </td>
+                        <td ><b>EW SYSTEM —</b>
+                          <input type="text" class="form-control mt-1" name="ew_system_name" placeholder="Enter EW System name">
+                        </td>
+                        
+                        <td style="width:34%; padding:8px 12px; border:1px solid #ddd;">
+                          <strong>Date of Audit:</strong>
+                          <input type="date" class="form-control mt-1" name="date_of_audit">
+                        </td>
+                      </tr>
+                      
+                      <tr>
+                        <td colspan="2" style="padding:8px 12px; border:1px solid #ddd;">
+                          <strong>HATs Completion Date:</strong>
+                          <input type="date" class="form-control mt-1" name="hats_completion_date">
+                        </td>
+                        <td style="padding:8px 12px; border:1px solid #ddd;">
+                          <strong>SATs Completion Date:</strong>
+                          <input type="date" class="form-control mt-1" name="sats_completion_date">
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div> -->
+             
+
+              <!-- ══════════════════════════════════════════
+                   (I) OUTSTANDING DEFECTS
+              ══════════════════════════════════════════ -->
+              <tr class="section-header-row">
+                <td colspan="7"><b>(I) &nbsp;&nbsp; Outstanding Defects: </b></td>
+              </tr>
+                <div class="table-responsive">
+                  <table class="custom_tbl" id="outstanding_defects_table">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Ser</th>
+                        <th  style="text-align: center;">Date Defect Occurred</th>
+                        <th  style="text-align: center;">Description of Defect</th>
+                        <th  style="text-align: center;">Limitation in system / sub-system</th>
+                        <th  style="text-align: center;">Expected System Downtime</th>
+                        <th  style="text-align: center;">Similar defect last occurred</th>
+                        <th  style="text-align: center;">Remarks (DART No., OPDEF DTG, signal RA DTG, etc)</th>
+                        <th  style="text-align: center;">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-no" data-base-name="od_ser">1</td>
+                        <td><input type="date" class="form-control" data-base-name="od_date_occurred" name="od_date_occurred_row_1"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="od_description" name="od_description_row_1" rows="1"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="od_limitation" name="od_limitation_row_1" rows="1"></textarea></td>
+                        <td><input type="text" class="form-control" data-base-name="od_downtime" name="od_downtime_row_1"></td>
+                        <td><input type="date" class="form-control" data-base-name="od_similar_last" name="od_similar_last_row_1"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="od_remarks" name="od_remarks_row_1" rows="1"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no" data-base-name="od_ser">2</td>
+                        <td><input type="date" class="form-control" data-base-name="od_date_occurred" name="od_date_occurred_row_2"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="od_description" name="od_description_row_2" rows="1"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="od_limitation" name="od_limitation_row_2" rows="1"></textarea></td>
+                        <td><input type="text" class="form-control" data-base-name="od_downtime" name="od_downtime_row_2"></td>
+                        <td><input type="date" class="form-control" data-base-name="od_similar_last" name="od_similar_last_row_2"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="od_remarks" name="od_remarks_row_2" rows="1"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no" data-base-name="od_ser">3</td>
+                        <td><input type="date" class="form-control" data-base-name="od_date_occurred" name="od_date_occurred_row_3"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="od_description" name="od_description_row_3" rows="1"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="od_limitation" name="od_limitation_row_3" rows="1"></textarea></td>
+                        <td><input type="text" class="form-control" data-base-name="od_downtime" name="od_downtime_row_3"></td>
+                        <td><input type="date" class="form-control" data-base-name="od_similar_last" name="od_similar_last_row_3"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="od_remarks" name="od_remarks_row_3" rows="1"></textarea></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+            
+
+              <!-- ══════════════════════════════════════════
+                   (II) MATERIAL DEFICIENCY (System fitted / OBS)
+              ══════════════════════════════════════════ -->
+              <tr class="section-header-row">
+                <td colspan="7"><b>(I) &nbsp;&nbsp; Material Deficiency(System fitted/OBS):</b></td>
+              </tr>
+                <div class="table-responsive">
+                  <table class="custom_tbl" id="material_deficiency_table">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Ser</th>
+                        <th style="text-align: center;">Item Description</th>
+                        <th style="text-align: center;">Part No</th>
+                        <th style="text-align: center;">Quantity Deficient</th>
+                        <th style="text-align: center;">Demand details</th>
+                        <th style="text-align: center;">Repair details (landed since, agency)</th>
+                        <th style="text-align: center;">Remarks (Critical / PTS / OPDEM, etc.)</th>
+                        <th style="text-align: center;">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-no" data-base-name="md_ser">1</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="md_item_desc" name="md_item_desc_row_1" rows="1"></textarea></td>
+                        <td><input type="text" class="form-control" data-base-name="md_part_no" name="md_part_no_row_1"></td>
+                        <td><input type="text" class="form-control" data-base-name="md_qty_deficient" name="md_qty_deficient_row_1"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="md_demand_details" name="md_demand_details_row_1" rows="1"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="md_repair_details" name="md_repair_details_row_1" rows="1"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="md_remarks" name="md_remarks_row_1" rows="1"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no" data-base-name="md_ser">2</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="md_item_desc" name="md_item_desc_row_2" rows="1"></textarea></td>
+                        <td><input type="text" class="form-control" data-base-name="md_part_no" name="md_part_no_row_2"></td>
+                        <td><input type="text" class="form-control" data-base-name="md_qty_deficient" name="md_qty_deficient_row_2"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="md_demand_details" name="md_demand_details_row_2" rows="1"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="md_repair_details" name="md_repair_details_row_2" rows="1"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="md_remarks" name="md_remarks_row_2" rows="1"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no" data-base-name="md_ser">3</td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="md_item_desc" name="md_item_desc_row_3" rows="1"></textarea></td>
+                        <td><input type="text" class="form-control" data-base-name="md_part_no" name="md_part_no_row_3"></td>
+                        <td><input type="text" class="form-control" data-base-name="md_qty_deficient" name="md_qty_deficient_row_3"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="md_demand_details" name="md_demand_details_row_3" rows="1"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="md_repair_details" name="md_repair_details_row_3" rows="1"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="md_remarks" name="md_remarks_row_3" rows="1"></textarea></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+            
+
+              <!-- ══════════════════════════════════════════
+                   (III) MAINTENANCE CHECKS
+              ══════════════════════════════════════════ -->
+              <tr class="section-header-row">
+                <td colspan="7"><b>(I) &nbsp;&nbsp; Maintenance Checks :</b></td>
+              </tr>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th style="width:260px;">Check Type</th>
+                        <th style="width:130px;">Status</th>
+                        <th>Remarks / Description / Details</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- Blanking Checks -->
+                      <tr>
+                        <td class="fixed-label-cell">Blanking Checks</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label>
+                              <input type="radio" name="mc_blanking" value="SAT" required> SAT
+                            </label>
+                            <label>
+                              <input type="radio" name="mc_blanking" value="UNSAT"> UNSAT
+                            </label>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="mc_blanking_remarks" rows="1" required></textarea></td>
+                      </tr>
+                      <!-- External System Interface -->
+                      <tr>
+                        <td class="fixed-label-cell">External System Interface</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label>
+                              <input type="radio" name="mc_external_interface" value="SAT" required> SAT
+                            </label>
+                            <label>
+                              <input type="radio" name="mc_external_interface" value="UNSAT"> UNSAT
+                            </label>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="mc_external_interface_remarks" rows="1" required></textarea></td>
+                      </tr>
+                      <!-- BITE Checks -->
+                      <tr>
+                        <td class="fixed-label-cell">BITE Checks</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label>
+                              <input type="radio" name="mc_bite" value="SAT" required> SAT
+                            </label>
+                            <label>
+                              <input type="radio" name="mc_bite" value="UNSAT"> UNSAT
+                            </label>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="mc_bite_remarks" rows="1" required></textarea></td>
+                      </tr>
+                      <!-- Visual Inspection Checks -->
+                      <tr>
+                        <td class="fixed-label-cell">Visual Inspection Checks</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label>
+                              <input type="radio" name="mc_visual" value="SAT" required> SAT
+                            </label>
+                            <label>
+                              <input type="radio" name="mc_visual" value="UNSAT"> UNSAT
+                            </label>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="mc_visual_remarks" rows="1" required></textarea></td>
+                      </tr>
+                      <!-- Documentation -->
+                      <tr>
+                        <td class="fixed-label-cell">Documentation</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label>
+                              <input type="radio" name="mc_documentation" value="SAT" required> SAT
+                            </label>
+                            <label>
+                              <input type="radio" name="mc_documentation" value="UNSAT"> UNSAT
+                            </label>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="mc_documentation_remarks" rows="1" required></textarea></td>
+                      </tr>
+                      <!-- FUSS Raised -->
+                      <tr>
+                        <td class="fixed-label-cell">FUSS Raised</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label>
+                              <input type="radio" name="mc_fuss" value="YES" required> YES
+                            </label>
+                            <label>
+                              <input type="radio" name="mc_fuss" value="NO"> NO
+                            </label>
+                          </div>
+                        </td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="mc_fuss_remarks" rows="1" required></textarea></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+            
+              <!-- ══════════════════════════════════════════
+                   (IV) PERFORMANCE CHECKS
+              ══════════════════════════════════════════ -->
+              <tr class="section-header-row">
+                <td colspan="7"><b>(I) &nbsp;&nbsp; Perfomance Checks :</b></td>
+              </tr>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <!-- The PDF shows "Parameter" header row with sub-parameters DoA, RAF, ECM
+                             and multiple blank value columns -->
+                        <th style="width:160px;">Parameter</th>
+                        <th class="text-center">Value 1</th>
+                        <th class="text-center">Value 2</th>
+                        <th class="text-center">Value 3</th>
+                        <th class="text-center">Value 4</th>
+                        <th class="text-center">Value 5</th>
+                        <th class="text-center">Value 6</th>
+                        <th style="width:200px;">Remarks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- DoA -->
+                      <tr>
+                        <td class="fixed-label-cell fw-bold">DoA</td>
+                        <td><input type="text" class="form-control" name="pc_doa_val1" required></td>
+                        <td><input type="text" class="form-control" name="pc_doa_val2" required></td>
+                        <td><input type="text" class="form-control" name="pc_doa_val3" required></td>
+                        <td><input type="text" class="form-control" name="pc_doa_val4" required></td>
+                        <td><input type="text" class="form-control" name="pc_doa_val5" required></td>
+                        <td><input type="text" class="form-control" name="pc_doa_val6" required></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="pc_doa_remarks" rows="1" required></textarea></td>
+                      </tr>
+                      <!-- RAF -->
+                      <tr>
+                        <td class="fixed-label-cell fw-bold">RAF</td>
+                        <td><input type="text" class="form-control" name="pc_raf_val1" required></td>
+                        <td><input type="text" class="form-control" name="pc_raf_val2" required></td>
+                        <td><input type="text" class="form-control" name="pc_raf_val3" required></td>
+                        <td><input type="text" class="form-control" name="pc_raf_val4" required></td>
+                        <td><input type="text" class="form-control" name="pc_raf_val5" required></td>
+                        <td><input type="text" class="form-control" name="pc_raf_val6" required></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="pc_raf_remarks" rows="1" required></textarea></td>
+                      </tr>
+                      <!-- ECM -->
+                      <tr>
+                        <td class="fixed-label-cell fw-bold">ECM</td>
+                        <td><input type="text" class="form-control" name="pc_ecm_val1" required></td>
+                        <td><input type="text" class="form-control" name="pc_ecm_val2" required></td>
+                        <td><input type="text" class="form-control" name="pc_ecm_val3" required></td>
+                        <td><input type="text" class="form-control" name="pc_ecm_val4" required></td>
+                        <td><input type="text" class="form-control" name="pc_ecm_val5" required></td>
+                        <td><input type="text" class="form-control" name="pc_ecm_val6" required></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="pc_ecm_remarks" rows="1" required></textarea></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   (V) ISSUES TO BE TAKEN UP WITH OEM / IN AGENCIES
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">(V) &nbsp; Issues to be taken up with OEM / IN Agencies (if any)</legend>
+                <div class="row g-3">
+                  <div class="col-md-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <textarea
+                        class="form-control wrstg-scroll-textarea"
+                        name="oem_issues_details"
+                        rows="5"
+                        placeholder="Enter issues to be taken up with OEM / IN Agencies (if any)…"
+                      ></textarea>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+
+              <!-- Submit -->
+              <div class="d-flex justify-content-center mt-4 gap-2">
+                <button type="submit" class="btn btn-success px-4">Save</button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    if (window.WRSTGQuarterly) {
+        WRSTGQuarterly.init({
+            formId: 'ew_audit_form',
+            sections: [],
+            extraTableIds: [
+                'outstanding_defects_table',
+                'material_deficiency_table',
+            ],
+            submitConfirmation: {
+                formId: 'ew_audit_form',
+                title: 'Submit EW System Audit?',
+                text: 'Once submitted, it cannot be edited.',
+                confirmButtonText: 'Yes, submit',
+                cancelButtonText: 'Cancel',
+            }
+        });
+    }
+});
+</script>
+{% endblock js %}

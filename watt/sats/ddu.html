@@ -1,0 +1,1083 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+
+<style>
+  /* Inline table input styling */
+  .custom_tbl td input[type="text"],
+  .custom_tbl td input[type="time"],
+  .custom_tbl td input[type="date"]{
+    display: inline-block;
+    width: auto;
+    min-width: 100px;
+    height: 28px;
+    padding: 4px 6px;
+    font-size: 12px;
+    border: 1px solid #d9d9d9;
+    border-radius: 3px;
+    margin: 2px 4px;
+    vertical-align: middle;
+  } 
+
+  .custom_tbl td input[type="text"]:focus,
+  .custom_tbl td input[type="time"]:focus,
+  .custom_tbl td input[type="date"]:focus {
+    outline: none;
+    border-color: #0066cc;
+    box-shadow: 0 0 4px rgba(0, 102, 204, 0.4);
+  }
+</style>
+
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item active" aria-current="page">WATT</li>
+          <li class="breadcrumb-item active" aria-current="page">SATS</li>
+          <li class="breadcrumb-item active" aria-current="page">DDU</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">DDU</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="ddu_keltron_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!-- HEADER — Ship / Inspection Info -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Basic Information</legend>
+                <div class="row g-3">
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="ship_name" name="ship_name" required>
+                        <option value="">-- Select --</option>
+                        <option value="INS">INS</option>
+                      </select>
+                      <label class="form_control_1">Name of Ship <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="department" name="department" required>
+                        <option value="">-- Select --</option>
+                        <option value="ND">ND</option>
+                        <option value="Gunnery">Gunnery</option>
+                        <option value="Communication">Communication</option>
+                        <option value="ASW">ASW</option>
+                      </select>
+                      <label class="form_control_1">Department <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="equipment" name="equipment" required>
+                          <option value="">-- Select --</option>
+                          <option value="DDU KELTRON" selected>DDU KELTRON</option>
+                      </select>
+                      <label class="form_control_1">Equipment <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="date" class="form-control" id="trial_date" name="trial_date" required>
+                      <label class="form_control_1">Date <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" id="nature_of_trials" name="nature_of_trials" required>
+                        <option value="">-- Select --</option>
+                        <option value="HATs">HATs</option>
+                        <option value="SATs">SATs</option>
+                        <option value="OP Checks">OP Checks</option>
+                        <option value="IIs">IIs</option>
+                      </select>
+                      <label class="form_control_1">Nature of Trial <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                </div>
+              </fieldset>
+
+              <!-- MAIN OBSERVATIONS TABLE -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Observations</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr class="custom-header-row">
+                        <th style="width: 6%;">Ser</th>
+                        <th style="width: 8%;">Test SI</th>
+                        <th style="width: 66%;">Observations</th>
+                        <th style="width: 20%;">Remarks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!-- Embark Info Row -->selected
+                      <tr>
+                        <td colspan="4">
+                          Trials team embarked onboard at 
+                          <input type="time" id="embark_time" name="embark_time" style="width: 100px;"> hrs on 
+                          <input type="date" id="embark_date" name="embark_date" style="width: 150px;"> for SATs of 
+                          <textarea class="form-control wrstg-scroll-textarea" style="width: 280px; font-size: 12px; display: inline-block; vertical-align: middle;" id="test_1_rlg1_velocity" name="test_1_rlg1_velocity"></textarea>
+                          as per IHQ MoD (Navy) approved schedule. Following observed:-
+                        </td>
+                      </tr>
+
+                      <!-- Check 1 -->
+                      <tr>
+                        <td>1</td>
+                        <td style="text-align: center;">3.1.1</td>
+                        <td>Ensure DDU system is switched 'ON'</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_1_sat" name="check_1" value="SAT" required>
+                              <label for="check_1_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_1_unsat" name="check_1" value="UNSAT">
+                              <label for="check_1_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 2 -->
+                      <tr>
+                        <td>2</td>
+                        <td style="text-align: center;">3.1.2</td>
+                        <td>Monitor the status of "ACH ON" indicator "system On" and Fuse blown indicator on front door (i) Glows (ii) Does not glow</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_2_sat" name="check_2" value="SAT" required>
+                              <label for="check_2_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_2_unsat" name="check_2" value="UNSAT">
+                              <label for="check_2_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 3 -->
+                      <tr>
+                        <td>3</td>
+                        <td style="text-align: center;">3.1.3</td>
+                        <td>Monitor the Status of LEDs (All glows)<br>Card Cage 1 –PC 1 PSC</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_3_sat" name="check_3" value="SAT" required>
+                              <label for="check_3_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_3_unsat" name="check_3" value="UNSAT">
+                              <label for="check_3_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 4 -->
+                      <tr>
+                        <td>4</td>
+                        <td style="text-align: center;">3.1.4</td>
+                        <td>Monitor the Status of LEDs (All glows)<br>Card Cage 1 –PC 2 DSC</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_4_sat" name="check_4" value="SAT" required>
+                              <label for="check_4_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_4_unsat" name="check_4" value="UNSAT">
+                              <label for="check_4_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 5 -->
+                      <tr>
+                        <td>5</td>
+                        <td style="text-align: center;">3.1.5</td>
+                        <td>Monitor the Status of LEDs (All glows)<br>Card Cage 1 –PC 3 DBC</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_5_sat" name="check_5" value="SAT" required>
+                              <label for="check_5_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_5_unsat" name="check_5" value="UNSAT">
+                              <label for="check_5_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 6 -->
+                      <tr>
+                        <td>6</td>
+                        <td style="text-align: center;">3.1.6</td>
+                        <td>Monitor the Status of LEDs (All glows)<br>Card Cage 1 –PC 4 DBC</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_6_sat" name="check_6" value="SAT" required>
+                              <label for="check_6_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_6_unsat" name="check_6" value="UNSAT">
+                              <label for="check_6_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 7 -->
+                      <tr>
+                        <td>7</td>
+                        <td style="text-align: center;">3.1.7</td>
+                        <td>Monitor the Status of LEDs (All glows)<br>Card Cage 1 –PC 5 DRC</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_7_sat" name="check_7" value="SAT" required>
+                              <label for="check_7_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_7_unsat" name="check_7" value="UNSAT">
+                              <label for="check_7_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 8 -->
+                      <tr>
+                        <td>8</td>
+                        <td style="text-align: center;">3.1.8</td>
+                        <td>Monitor the Status of LEDs (All glows)<br>Card Cage 1 –PC 6 DBC</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_8_sat" name="check_8" value="SAT" required>
+                              <label for="check_8_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_8_unsat" name="check_8" value="UNSAT">
+                              <label for="check_8_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 9 -->
+                      <tr>
+                        <td>9</td>
+                        <td style="text-align: center;">3.1.9</td>
+                        <td>Monitor the Status of LEDs (All glows)<br>Card Cage 1 –PC 7 DRC</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_9_sat" name="check_9" value="SAT" required>
+                              <label for="check_9_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_9_unsat" name="check_9" value="UNSAT">
+                              <label for="check_9_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 10 -->
+                      <tr>
+                        <td>10</td>
+                        <td style="text-align: center;">3.1.10</td>
+                        <td>Monitor the Status of LEDs (All glows)<br>Card Cage 1 –PC 8 DRC</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_10_sat" name="check_10" value="SAT" required>
+                              <label for="check_10_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_10_unsat" name="check_10" value="UNSAT">
+                              <label for="check_10_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 11 -->
+                      <tr>
+                        <td>11</td>
+                        <td style="text-align: center;">3.1.11</td>
+                        <td>Monitor the Status of LEDs (All glows)<br>Card Cage 1 –PC 9 DRC</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_11_sat" name="check_11" value="SAT" required>
+                              <label for="check_11_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_11_unsat" name="check_11" value="UNSAT">
+                              <label for="check_11_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 12 -->
+                      <tr>
+                        <td>12</td>
+                        <td style="text-align: center;">3.1.12</td>
+                        <td>Monitor the Status of LEDs (All glows)<br>Card Cage 1 –PC 10- AC (Alarm 1-4 not glow)</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_12_sat" name="check_12" value="SAT" required>
+                              <label for="check_12_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_12_unsat" name="check_12" value="UNSAT">
+                              <label for="check_12_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 13 -->
+                      <tr>
+                        <td>13</td>
+                        <td style="text-align: center;">3.1.13</td>
+                        <td>Monitor the Status of LEDs (All glows)<br>Card Cage 2 –PC 11 ASC</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_13_sat" name="check_13" value="SAT" required>
+                              <label for="check_13_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_13_unsat" name="check_13" value="UNSAT">
+                              <label for="check_13_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 14 -->
+                      <tr>
+                        <td>14</td>
+                        <td style="text-align: center;">3.1.14</td>
+                        <td>Monitor the Status of LEDs (All glows)<br>Card Cage 2 –PC 12 ASC</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_14_sat" name="check_14" value="SAT" required>
+                              <label for="check_14_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_14_unsat" name="check_14" value="UNSAT">
+                              <label for="check_14_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 15 -->
+                      <tr>
+                        <td>15</td>
+                        <td style="text-align: center;">3.1.15</td>
+                        <td>Monitor the Status of LEDs (All glows)<br>Card Cage 2 –PC 13 BAC</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_15_sat" name="check_15" value="SAT" required>
+                              <label for="check_15_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_15_unsat" name="check_15" value="UNSAT">
+                              <label for="check_15_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 16 -->
+                      <tr>
+                        <td>16</td>
+                        <td style="text-align: center;">3.1.16</td>
+                        <td>Monitor the Status of LEDs (All glows)<br>Card Cage 2 –PC 14 BAC</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_16_sat" name="check_16" value="SAT" required>
+                              <label for="check_16_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_16_unsat" name="check_16" value="UNSAT">
+                              <label for="check_16_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 17 -->
+                      <tr>
+                        <td>17</td>
+                        <td style="text-align: center;">3.1.17</td>
+                        <td>Monitor the Status of LEDs (All glows)<br>Card Cage 2 –PC 15 BAC</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_17_sat" name="check_17" value="SAT" required>
+                              <label for="check_17_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_17_unsat" name="check_17" value="UNSAT">
+                              <label for="check_17_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 18 -->
+                      <tr>
+                        <td>18</td>
+                        <td style="text-align: center;">3.1.18</td>
+                        <td>Monitor the Status of LEDs (All glows)<br>Card Cage 2 –PC 16 BAC</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_18_sat" name="check_18" value="SAT" required>
+                              <label for="check_18_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_18_unsat" name="check_18" value="UNSAT">
+                              <label for="check_18_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 19 -->
+                      <tr>
+                        <td>19</td>
+                        <td style="text-align: center;">3.1.19</td>
+                        <td>Monitor the Status of LEDs (All glows)<br>Card Cage 2 –PC 17 BAC</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_19_sat" name="check_19" value="SAT" required>
+                              <label for="check_19_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_19_unsat" name="check_19" value="UNSAT">
+                              <label for="check_19_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 20 -->
+                      <tr>
+                        <td>20</td>
+                        <td style="text-align: center;">3.1.20</td>
+                        <td>Monitor the Status of LEDs (All glows)<br>Card Cage 3 –PC 18 BAC</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_20_sat" name="check_20" value="SAT" required>
+                              <label for="check_20_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_20_unsat" name="check_20" value="UNSAT">
+                              <label for="check_20_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 21 -->
+                      <tr>
+                        <td>21</td>
+                        <td style="text-align: center;">3.1.21</td>
+                        <td>Monitor the Status of LEDs (All glows)<br>Card Cage 3 –PC 19 BAC</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_21_sat" name="check_21" value="SAT" required>
+                              <label for="check_21_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_21_unsat" name="check_21" value="UNSAT">
+                              <label for="check_21_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 22 -->
+                      <tr>
+                        <td>22</td>
+                        <td style="text-align: center;">3.1.22</td>
+                        <td>Monitor the Status of LEDs (All glows)<br>Card Cage 3 –PC 20 BAC</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_22_sat" name="check_22" value="SAT" required>
+                              <label for="check_22_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_22_unsat" name="check_22" value="UNSAT">
+                              <label for="check_22_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 23 -->
+                      <tr>
+                        <td>23</td>
+                        <td style="text-align: center;">3.1.23</td>
+                        <td>Monitor the Status of LEDs (All glows)<br>Card Cage 3 –PC 21 BAC</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_23_sat" name="check_23" value="SAT" required>
+                              <label for="check_23_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_23_unsat" name="check_23" value="UNSAT">
+                              <label for="check_23_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 24 -->
+                      <tr>
+                        <td>24</td>
+                        <td style="text-align: center;">3.1.24</td>
+                        <td>Monitor the Status of LEDs (All glows)<br>Card Cage 3 –PC 22 BAC</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_24_sat" name="check_24" value="SAT" required>
+                              <label for="check_24_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_24_unsat" name="check_24" value="UNSAT">
+                              <label for="check_24_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 25 -->
+                      <tr>
+                        <td>25</td>
+                        <td style="text-align: center;">3.1.25</td>
+                        <td>Monitor the Status of LEDs (All glows)<br>Card Cage 3 –PC 23 BAC</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_25_sat" name="check_25" value="SAT" required>
+                              <label for="check_25_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_25_unsat" name="check_25" value="UNSAT">
+                              <label for="check_25_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 26 -->
+                      <tr>
+                        <td>26</td>
+                        <td style="text-align: center;">3.2.1</td>
+                        <td>GUI TEST - Ensure both RLGs are in ON condition. Ensure selector switches in Normal, Auto positions</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_26_sat" name="check_26" value="SAT" required>
+                              <label for="check_26_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_26_unsat" name="check_26" value="UNSAT">
+                              <label for="check_26_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 27 -->
+                      <tr>
+                        <td>27</td>
+                        <td style="text-align: center;">3.2.2</td>
+                        <td>Monitor the status of LOG AVAIL, GPS AVAIL, Data AVAIL (All glows)</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_27_sat" name="check_27" value="SAT" required>
+                              <label for="check_27_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_27_unsat" name="check_27" value="UNSAT">
+                              <label for="check_27_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 28 -->
+                      <tr>
+                        <td>28</td>
+                        <td style="text-align: center;">3.2.3</td>
+                        <td>Monitor the status of RLG1 On, AVAIL, FAIL (All does not Glow)</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_28_sat" name="check_28" value="SAT" required>
+                              <label for="check_28_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_28_unsat" name="check_28" value="UNSAT">
+                              <label for="check_28_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 29 -->
+                      <tr>
+                        <td>29</td>
+                        <td style="text-align: center;">3.2.4</td>
+                        <td>Monitor the status of RLG2 ON, AVAIL, FAIL (ALL Glows)</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_29_sat" name="check_29" value="SAT" required>
+                              <label for="check_29_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_29_unsat" name="check_29" value="UNSAT">
+                              <label for="check_29_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 30 -->
+                      <tr>
+                        <td>30</td>
+                        <td style="text-align: center;">3.2.5</td>
+                        <td>Monitor the status of MODE<br>RLG 1 AUTO, RLG2 AUTO</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_30_sat" name="check_30" value="SAT" required>
+                              <label for="check_30_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_30_unsat" name="check_30" value="UNSAT">
+                              <label for="check_30_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 31 -->
+                      <tr>
+                        <td>31</td>
+                        <td style="text-align: center;">3.2.6</td>
+                        <td>Ensure selector switches in 'Normal', 'RLG 1' positions</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_31_sat" name="check_31" value="SAT" required>
+                              <label for="check_31_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_31_unsat" name="check_31" value="UNSAT">
+                              <label for="check_31_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 32 -->
+                      <tr>
+                        <td>32</td>
+                        <td style="text-align: center;">3.2.7</td>
+                        <td>Monitor the status of MODE<br>Manual RLG1</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_32_sat" name="check_32" value="SAT" required>
+                              <label for="check_32_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_32_unsat" name="check_32" value="UNSAT">
+                              <label for="check_32_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 33 -->
+                      <tr>
+                        <td>33</td>
+                        <td style="text-align: center;">3.2.8</td>
+                        <td>Ensure Input Heading, Roll, Pitch, Speed, Lat, Long displayed in GUI is the feed from RLG 1</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_33_sat" name="check_33" value="SAT" required>
+                              <label for="check_33_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_33_unsat" name="check_33" value="UNSAT">
+                              <label for="check_33_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 34 -->
+                      <tr>
+                        <td>34</td>
+                        <td style="text-align: center;">3.2.9</td>
+                        <td>Ensure selector switches in 'Normal', 'RLG 2' positions</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_34_sat" name="check_34" value="SAT" required>
+                              <label for="check_34_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_34_unsat" name="check_34" value="UNSAT">
+                              <label for="check_34_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 35 -->
+                      <tr>
+                        <td>35</td>
+                        <td style="text-align: center;">3.2.10</td>
+                        <td>Monitor the status of MODE<br>Manual RLG 2</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_35_sat" name="check_35" value="SAT" required>
+                              <label for="check_35_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_35_unsat" name="check_35" value="UNSAT">
+                              <label for="check_35_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 36 -->
+                      <tr>
+                        <td>36</td>
+                        <td style="text-align: center;">3.2.11</td>
+                        <td>Ensure Input Heading, Roll, Pitch, Speed, Lat, Long displayed in GUI is the feed from RLG 2</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_36_sat" name="check_36" value="SAT" required>
+                              <label for="check_36_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_36_unsat" name="check_36" value="UNSAT">
+                              <label for="check_36_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 37 -->
+                      <tr>
+                        <td>37</td>
+                        <td style="text-align: center;">3.3.1</td>
+                        <td>DDU TEST – Connect TB3- 453 and 454 through RS422 to RS232/USB convert to PC-COM/USB Port.<br><strong>DDU Repeater-1</strong>, ensure Heading, Roll, Pitch, Speed, Lat & Long displayed in DDU repeater is same as DDU GUI</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_37_sat" name="check_37" value="SAT" required>
+                              <label for="check_37_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_37_unsat" name="check_37" value="UNSAT">
+                              <label for="check_37_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 38 -->
+                      <tr>
+                        <td>38</td>
+                        <td style="text-align: center;">3.3.2</td>
+                        <td>Connect TB3- 455 and 456 through RS 422 to RS 232/USB convert to PC-COM/USB Port.<br><strong>DDU Repeater-2</strong>, ensure Heading, Roll, Pitch, Speed, Lat & Long displayed in DDU repeater is same as DDU GUI</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_38_sat" name="check_38" value="SAT" required>
+                              <label for="check_38_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_38_unsat" name="check_38" value="UNSAT">
+                              <label for="check_38_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 39 -->
+                      <tr>
+                        <td>39</td>
+                        <td style="text-align: center;">3.3.3</td>
+                        <td>Connect TB3- 457 and 458 through RS 422 to RS 232/USB convert to PC-COM/USB Port.<br><strong>DDU Repeater-3</strong>, ensure Heading, Roll, Pitch, Speed, Lat & Long displayed in DDU repeater is same as DDU GUI</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_39_sat" name="check_39" value="SAT" required>
+                              <label for="check_39_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_39_unsat" name="check_39" value="UNSAT">
+                              <label for="check_39_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 40 -->
+                      <tr>
+                        <td>40</td>
+                        <td style="text-align: center;">3.3.4</td>
+                        <td>Connect TB3- 459 and 460 through RS 422 to RS 232/USB convert to PC-COM/USB Port.<br><strong>DDU Repeater-4</strong>, ensure Heading, Roll, Pitch, Speed, Lat & Long displayed in DDU repeater is same as DDU GUI</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_40_sat" name="check_40" value="SAT" required>
+                              <label for="check_40_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_40_unsat" name="check_40" value="UNSAT">
+                              <label for="check_40_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 41 -->
+                      <tr>
+                        <td>41</td>
+                        <td style="text-align: center;">3.3.5</td>
+                        <td>Connect TB3- 461 and 462 through RS 422 to RS 232/USB convert to PC-COM/USB Port.<br><strong>DDU Repeater-5</strong>, ensure Heading, Roll, Pitch, Speed, Lat & Long displayed in DDU repeater is same as DDU GUI</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_41_sat" name="check_41" value="SAT" required>
+                              <label for="check_41_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_41_unsat" name="check_41" value="UNSAT">
+                              <label for="check_41_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- Check 42 -->
+                      <tr>
+                        <td>42</td>
+                        <td style="text-align: center;">3.3.6</td>
+                        <td>Connect TB3- 463 and 464 through RS 422 to RS 232/USB convert to PC-COM/USB Port.<br><strong>DDU Repeater-6</strong>, ensure Heading, Roll, Pitch, Speed, Lat & Long displayed in DDU repeater is same as DDU GUI</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <div>
+                              <input type="radio" id="check_42_sat" name="check_42" value="SAT" required>
+                              <label for="check_42_sat">SAT</label>
+                            </div>
+                            <div>
+                              <input type="radio" id="check_42_unsat" name="check_42" value="UNSAT">
+                              <label for="check_42_unsat">UNSAT</label>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- Authorities Section -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Authorities</legend>
+                <div class="form-wrapper">
+
+                    <div class="sig-row">
+                        <div class="field-box">
+                            <span class="label-text">Presenting Authority: Ship's Staff</span>
+                            <textarea class="line-field" name="presenting_authority" rows="1"></textarea>
+                        </div>
+                        <div class="field-box">
+                            <span class="label-text">Inspecting Authority: WATT(V/MI)</span>
+                            <textarea class="line-field" name="inspecting_authority" rows="1"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="sig-row">
+                        <div class="field-box flex-small">
+                            <span class="label-text">ND:</span>
+                            <textarea class="line-field" name="presenting_nd" rows="1"></textarea>
+                        </div>
+                        <div class="field-box flex-small">
+                            <span class="label-text">STI / TI:</span>
+                            <textarea class="line-field" name="inspecting_sti_ti" rows="1"></textarea>
+                        </div>
+                        <div class="field-box flex-small">
+                            <span class="label-text">STO:</span>
+                            <textarea class="line-field" name="inspecting_sto" rows="1"></textarea>
+                        </div>
+                    </div>
+
+                </div>
+              </fieldset>
+
+              <!-- Submit -->
+              <div class="d-flex justify-content-center mt-4 gap-2">
+                <button type="submit" class="btn btn-success px-4">Save</button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+
+<script>
+  // Auto-set embark date to match trial date
+  document.getElementById('trial_date').addEventListener('change', function() {
+    document.getElementById('embark_date').value = this.value;
+  });
+
+  // Form validation
+  document.getElementById('ddu_keltron_form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Check if all required radio buttons are selected
+    let allChecksComplete = true;
+    for (let i = 1; i <= 42; i++) {
+      if (!document.querySelector(`input[name="check_${i}"]:checked`)) {
+        allChecksComplete = false;
+        break;
+      }
+    }
+    
+    if (!allChecksComplete) {
+      alert('Please complete all check observations before submitting.');
+      return;
+    }
+    
+    // If validation passes, submit the form
+    this.submit();
+  });
+</script>
+
+<style>
+    .form-wrapper {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        width: 100%;
+        margin: 20px 0;
+    }
+
+    /* Creates the horizontal row */
+    .sig-row {
+        display: flex;
+        gap: 40px; /* Space between the main columns */
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
+    /* Containers for each Label + Line pair */
+    .field-box {
+        display: flex;
+        align-items: flex-end; /* Aligns text to the bottom line */
+        flex: 1; /* Makes each section take equal width */
+    }
+
+    .label-text {
+        white-space: nowrap;
+        font-weight: bold;
+        margin-right: 10px;
+    }
+
+    /* The underline textarea */
+    .line-field {
+        flex: 1; /* This makes the line stretch to fill the space */
+        border: none;
+        border-bottom: 1px solid black;
+        background: transparent;
+        outline: none;
+        resize: none;
+        height: 1.2em;
+        line-height: 1.2em;
+        overflow: hidden;
+        font-family: inherit;
+        font-size:18px;
+    }
+
+    /* Specific adjustment for smaller fields */
+    .flex-small { flex: 0.5; }
+    .flex-large { flex: 1.5; }
+
+</style>
+
+{% endblock js %}

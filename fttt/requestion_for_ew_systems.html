@@ -1,0 +1,602 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.css" rel="stylesheet" />
+
+
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item" aria-current="page">FTTT</li>
+          <li class="breadcrumb-item active" aria-current="page">EW System Trials Requisition — FTS Field Test</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">Requisition for EW System Trials from FTS Field Test</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="ew_trials_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <fieldset class="custom-fieldset">
+                                    <legend class="legend-custom text-uppercase">BASIC INFORMATION</legend>
+                                    <div class="row g-3">
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="req1_system_sub_system" value="SRGM" placeholder=" ">
+                                                <label class="form_control_1">1. System/ Sub system</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="req1_job_undertaken" value = "Tilt Checks" placeholder=" ">
+                                                <label class="form_control_1">2. Job Undertaken</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <!-- <textarea class="form-control wrstg-scroll-textarea" name="tilt_checks_reference_documents" rows="2" placeholder=" "></textarea> -->
+                                                 <input type="file" class ="form-control" name="req1_reference_documents">
+                                                <label class="form_control_1">3. Reference Documents</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="req1_authority" placeholder=" ">
+                                                <label class="form_control_1">4. Authority</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="req1_agencies_involved" value="FTTT(Vzg)" placeholder=" " readonly>
+                                                <label class="form_control_1">5. Agencies involved</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="date" class="form-control" name="req1_date_commenced">
+                                                <label class="form_control_1">6. Date Commenced</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="date" class="form-control" name="req1_date_completed">
+                                                <label class="form_control_1">7. Date Completed</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="req1_prepared_by" placeholder=" ">
+                                                <label class="form_control_1">8. Prepared by</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="req1_vetted_by" placeholder=" ">
+                                                <label class="form_control_1">9. Vetted by</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="req1_reference_no" placeholder=" ">
+                                                <label class="form_control_1">10. Reference No.</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="req1_summary_of_observations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">11. Summary of observations</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="req1_operational_limitations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">12. Operational limitations (if any)</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </fieldset>
+
+
+
+              <fieldset class="custom-fieldset">
+
+                <!-- Warning 
+                <div class="mt-2 mb-3">
+                  <div class="requisition-warning">
+                    <i class="fa fa-exclamation-triangle"></i>
+                    &nbsp;Requisition must be submitted at least <strong>48 hours</strong> before the trial.
+                    Trial time must be between <strong>0800 hrs</strong> and <strong>1600 hrs</strong>.
+                  </div>
+                </div> -->
+
+                <!-- ── 1. SHIP ── -->
+                <div class="mt-4">
+                  <p class="section-title">1. Ship</p>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <select class="form-control" name="ship" required>
+                        <option value="" disabled selected>-- Select Ship --</option>
+                        {% for ship in ship_list %}
+                          <option value="{{ ship.id }}">{{ ship.name }}</option>
+                        {% empty %}
+                          <option value="simulator">Simulator</option>
+                          <option value="ins_vikrant">INS Vikrant</option>
+                          <option value="ins_vikramaditya">INS Vikramaditya</option>
+                          <option value="ins_kolkata">INS Kolkata</option>
+                          <option value="ins_kochi">INS Kochi</option>
+                          <option value="ins_chennai">INS Chennai</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ── 2. EW SYSTEM ── -->
+                <div class="mt-4">
+                  <p class="section-title">2. EW System</p>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <select class="form-control" name="ew_system" required>
+                        <option value="" disabled selected>-- Select EW System --</option>
+                        <option value="shakti">Shakti</option>
+                        <option value="ellora">Ellora</option>
+                        <option value="ellora_mk2">Ellora MK II</option>
+                        <option value="sews">SEWS</option>
+                        <option value="varuna">VARUNA</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ── 3. SUB-SYSTEM ── -->
+                <div class="mt-4">
+                  <p class="section-title">3. Sub-System</p>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <select class="form-control" name="sub_system" required>
+                        <option value="" disabled selected>-- Select Sub-System --</option>
+                        <option value="esm">ESM</option>
+                        <option value="ecm">ECM</option>
+    
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <!-- ── 4. Ocasion ── -->
+                <div class="mt-4">
+                  <p class="section-title">4. Ocassion</p>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <select class="form-control" name="ocasion" required>
+                        <option value="" disabled selected>-- Select Ocassion --</option>
+                        <option value="esm">Pre-SAT's</option>
+                        <option value="ecm">SAT's</option>
+                        <option value="ecm">System efficiency checks</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+
+                <!-- ── 5.  FREQUENCY BAND ── -->
+                <div class="mt-4">
+                  <p class="section-title">5.  Frequency Band</p>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <select class="select2-multi" name="freq_band" id="freq_band_select" multiple required data-placeholder="Select Frequency Bands">
+                        <option value="A">A Band </option>
+                        <option value="B">B Band </option>
+                        <option value="C">C Band </option>
+                        <option value="D">D Band </option>
+                        <option value="E">E Band </option>
+                        <option value="F">F Band </option>
+                        <option value="G">G Band </option>
+                        <option value="H">H Band </option>
+                        <option value="I">I Band </option>
+                        <option value="J">J Band </option>
+                        <option value="K">K Band </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ──  FREQUENCY (Pri / Alt) ── -->
+                <div class="mt-4">
+                  <p class="section-title">Frequency</p>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="pri-alt-row">
+                        <div class="pa-block">
+                          <div class="pa-label">Primary</div>
+                          <div class="input-group">
+                            <input type="number" step="any" class="form-control freq-input"
+                                   name="freq_pri" id="freq_pri" placeholder="Value" min="0">
+                            <div class="input-group-append">
+                              <select class="form-control" name="freq_pri_unit" style="border-radius:0 4px 4px 0;border-left:0;width:auto;">
+                                <option value="MHz">MHz</option>
+                                <option value="GHz">GHz</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="freq-error" id="freq_pri_error">
+                            <i class="fa fa-exclamation-circle"></i> Frequency is beyond selected band range.
+                          </div>
+                        </div>
+                        <div class="pa-block">
+                          <div class="pa-label">Alternate</div>
+                          <div class="input-group">
+                            <input type="number" step="any" class="form-control freq-input"
+                                   name="freq_alt" id="freq_alt" placeholder="Value" min="0">
+                            <div class="input-group-append">
+                              <select class="form-control" name="freq_alt_unit" style="border-radius:0 4px 4px 0;border-left:0;width:auto;">
+                                <option value="MHz">MHz</option>
+                                <option value="GHz">GHz</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="freq-error" id="freq_alt_error">
+                            <i class="fa fa-exclamation-circle"></i> Frequency is beyond selected band range.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ── PRF (Pri / Alt) ── -->
+                <div class="mt-4">
+                  <p class="section-title"> PRF (Pulse Repetition Frequency)</p>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="pri-alt-row">
+                        <div class="pa-block">
+                          <div class="pa-label">Primary</div>
+                          <div class="input-group">
+                            <input type="number" step="any" class="form-control" name="prf_pri" placeholder="Value" min="0">
+                            <div class="input-group-append">
+                              <select class="form-control" name="prf_pri_unit" style="border-radius:0 4px 4px 0;border-left:0;width:auto;">
+                                <option value="MHz">MHz</option>
+                                <option value="GHz">GHz</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="pa-block">
+                          <div class="pa-label">Alternate</div>
+                          <div class="input-group">
+                            <input type="number" step="any" class="form-control" name="prf_alt" placeholder="Value" min="0">
+                            <div class="input-group-append">
+                              <select class="form-control" name="prf_alt_unit" style="border-radius:0 4px 4px 0;border-left:0;width:auto;">
+                                <option value="MHz">MHz</option>
+                                <option value="GHz">GHz</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ──  PULSE WIDTH (Pri / Alt) ── -->
+                <div class="mt-4">
+                  <p class="section-title">Pulse Width (PW)</p>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="pri-alt-row">
+                        <div class="pa-block">
+                          <div class="pa-label">Primary</div>
+                          <input type="number" step="any" class="form-control" name="pw_pri" placeholder="Value (µs)" min="0">
+                        </div>
+                        <div class="pa-block">
+                          <div class="pa-label">Alternate</div>
+                          <input type="number" step="any" class="form-control" name="pw_alt" placeholder="Value (µs)" min="0">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ── 6. DATE & TIME OF TRIAL ── -->
+                <div class="mt-4">
+                  <p class="section-title">6. Date &amp; Time of Trial</p>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <label class="control-label">Trial Date <span class="text-danger">*</span></label>
+                      <div class="input-group">
+                        <input type="text" class="form-control flatpickr-input" name="trial_date"
+                               id="trial_date" placeholder="Select date" readonly required autocomplete="off">
+                        <div class="input-group-append">
+                          <span class="input-group-text calendar-icon"
+                                onclick="document.getElementById('trial_date')._flatpickr.open()">
+                            <i class="fa fa-calendar-alt"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <label class="control-label">Trial Time <span class="text-danger">*</span></label>
+                      <input type="time" class="form-control" name="trial_time" id="trial_time"
+                             min="08:00" max="16:00" required>
+                      <div class="freq-error" id="time_error">
+                        <i class="fa fa-exclamation-circle"></i> Time must be between 0800 and 1600 hrs.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   FEWO RECOMMENDATION
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset mt-3">
+                <legend class="legend-custom text-uppercase">FEWO — Fleet EW Officer Recommendation</legend>
+
+                <div class="approval-block">
+                  <div class="approval-radio mb-3">
+                    <label><input type="radio" name="fewo_decision" value="recommended" required>
+                      &nbsp;Recommended</label>
+                    <label><input type="radio" name="fewo_decision" value="not_recommended">
+                      &nbsp;Not Recommended</label>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-8">
+                      <label class="control-label">Remarks by FEWO</label>
+                      <textarea class="form-control wrstg-scroll-textarea" name="fewo_remarks" rows="2"
+                                placeholder="Enter remarks..."></textarea>
+                    </div>
+                  </div>
+                  <div class="row mt-2">
+                    <div class="col-md-3">
+                      <label class="control-label">Name</label>
+                      <input type="text" class="form-control" name="fewo_name" placeholder="Name">
+                    </div>
+                    <div class="col-md-2">
+                      <label class="control-label">Rank</label>
+                      <input type="text" class="form-control" name="fewo_rank" placeholder="Rank">
+                    </div>
+                    <div class="col-md-3">
+                      <label class="control-label">Date</label>
+                      <div class="input-group">
+                        <input type="text" class="form-control flatpickr-input" name="fewo_date"
+                               id="fewo_date" placeholder="Select date" readonly autocomplete="off">
+                        <div class="input-group-append">
+                          <span class="input-group-text calendar-icon"
+                                onclick="document.getElementById('fewo_date')._flatpickr.open()">
+                            <i class="fa fa-calendar-alt"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   COUNTER SIGNED BY EW OFFICER
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset mt-3">
+                <legend class="legend-custom text-uppercase">Counter Signed — EW Officer</legend>
+                <div class="row">
+                  <div class="col-md-3">
+                    <label class="control-label">Name</label>
+                    <input type="text" class="form-control" name="ewo_name" placeholder="Name">
+                  </div>
+                  <div class="col-md-2">
+                    <label class="control-label">Rank</label>
+                    <input type="text" class="form-control" name="ewo_rank" placeholder="Rank">
+                  </div>
+                  <div class="col-md-3">
+                    <label class="control-label">Date</label>
+                    <div class="input-group">
+                      <input type="text" class="form-control flatpickr-input" name="ewo_date"
+                             id="ewo_date" placeholder="Select date" readonly autocomplete="off">
+                      <div class="input-group-append">
+                        <span class="input-group-text calendar-icon"
+                              onclick="document.getElementById('ewo_date')._flatpickr.open()">
+                          <i class="fa fa-calendar-alt"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   FTTT — APPROVAL
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset mt-3">
+                <legend class="legend-custom text-uppercase">FTTT — Approval</legend>
+
+                <div class="approval-block">
+                  <div class="approval-radio mb-3">
+                    <label><input type="radio" name="fttt_decision" value="approved">
+                      &nbsp;Approved</label>
+                    <label><input type="radio" name="fttt_decision" value="not_approved">
+                      &nbsp;Not Approved</label>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-8">
+                      <label class="control-label">Remarks by FTTT</label>
+                      <textarea class="form-control wrstg-scroll-textarea" name="fttt_remarks" rows="2"
+                                placeholder="Enter remarks..."></textarea>
+                    </div>
+                  </div>
+                  <div class="row mt-2">
+                    <div class="col-md-3">
+                      <label class="control-label">Name</label>
+                      <input type="text" class="form-control" name="fttt_name" placeholder="Name">
+                    </div>
+                    <div class="col-md-2">
+                      <label class="control-label">Rank</label>
+                      <input type="text" class="form-control" name="fttt_rank" placeholder="Rank">
+                    </div>
+                    <div class="col-md-3">
+                      <label class="control-label">Date</label>
+                      <div class="input-group">
+                        <input type="text" class="form-control flatpickr-input" name="fttt_date"
+                               id="fttt_date" placeholder="Select date" readonly autocomplete="off">
+                        <div class="input-group-append">
+                          <span class="input-group-text calendar-icon"
+                                onclick="document.getElementById('fttt_date')._flatpickr.open()">
+                            <i class="fa fa-calendar-alt"></i>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+
+              <!-- Submit -->
+              <div class="d-flex justify-content-center mt-4 gap-2">
+                <button type="submit" class="btn btn-success px-4">Submit Requisition</button>
+                <a href="{% url 'ITTTM:home' %}" class="btn btn-secondary px-4">Cancel</a>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script> -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script> -->
+
+<script>
+$(document).ready(function () {
+
+  // ── Select2 all multi-selects ──
+  $('.select2-multi').select2({
+    allowClear: true,
+    width: '100%',
+    minimumResultsForSearch: Infinity
+  });
+
+  // ── Flatpickr config ──
+  const dateConfig = { dateFormat: 'd M Y', allowInput: false, disableMobile: true };
+
+  // Trial date: must be at least 48 hrs from now
+  flatpickr('#trial_date', {
+    ...dateConfig,
+    minDate: new Date(Date.now() + 48 * 60 * 60 * 1000),
+  });
+
+  flatpickr('#fewo_date', dateConfig);
+  flatpickr('#ewo_date',  dateConfig);
+  flatpickr('#fttt_date', dateConfig);
+
+  // ── Time validation (0800–1600) ──
+  $('#trial_time').on('change', function () {
+    const val = this.value;            // "HH:MM"
+    const [h, m] = val.split(':').map(Number);
+    const mins = h * 60 + m;
+    const err = document.getElementById('time_error');
+    if (mins < 8 * 60 || mins > 16 * 60) {
+      err.classList.add('show');
+      this.setCustomValidity('Time must be between 0800 and 1600 hrs.');
+    } else {
+      err.classList.remove('show');
+      this.setCustomValidity('');
+    }
+  });
+
+  // ── Band range map (GHz) ──
+  const bandRanges = {
+    A: [0,       0.25],
+    B: [0.25,    0.5 ],
+    C: [0.5,     1.0 ],
+    D: [1.0,     2.0 ],
+    E: [2.0,     3.0 ],
+    F: [3.0,     4.0 ],
+    G: [4.0,     6.0 ],
+    H: [6.0,     8.0 ],
+    I: [8.0,    10.0 ],
+    J: [10.0,   20.0 ],
+    K: [20.0,   40.0 ],
+  };
+
+  function getFreqGHz(inputId, unitSel) {
+    const val  = parseFloat(document.getElementById(inputId).value);
+    const unit = unitSel.value;
+    if (isNaN(val) || val <= 0) return null;
+    return unit === 'GHz' ? val : val / 1000;
+  }
+
+  function validateFreq(inputId, unitSelName, errorId) {
+    const selectedBands = $('#freq_band_select').val() || [];
+    if (!selectedBands.length) return;
+
+    const unitSel = document.querySelector(`[name="${unitSelName}"]`);
+    const freqGHz = getFreqGHz(inputId, unitSel);
+    const err     = document.getElementById(errorId);
+
+    if (freqGHz === null) { err.classList.remove('show'); return; }
+
+    // Check if freq falls within ANY of the selected bands
+    const inRange = selectedBands.some(band => {
+      const [lo, hi] = bandRanges[band] || [0, 0];
+      return freqGHz >= lo && freqGHz <= hi;
+    });
+
+    if (!inRange) {
+      err.classList.add('show');
+    } else {
+      err.classList.remove('show');
+    }
+  }
+
+  // Trigger validation on freq input or band change
+  $('#freq_pri, [name="freq_pri_unit"]').on('input change', function () {
+    validateFreq('freq_pri', 'freq_pri_unit', 'freq_pri_error');
+  });
+  $('#freq_alt, [name="freq_alt_unit"]').on('input change', function () {
+    validateFreq('freq_alt', 'freq_alt_unit', 'freq_alt_error');
+  });
+  $('#freq_band_select').on('change', function () {
+    validateFreq('freq_pri', 'freq_pri_unit', 'freq_pri_error');
+    validateFreq('freq_alt', 'freq_alt_unit', 'freq_alt_error');
+  });
+
+});
+</script>
+{% endblock js %}

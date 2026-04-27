@@ -1,0 +1,707 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<style>
+    body { font-family: Arial, sans-serif; background: #f8f9fa; }
+    .container-fluid { margin-top: 30px; }
+
+    /* ===== PORTLET ===== */
+    .portlet {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        padding: 24px;
+        margin-bottom: 20px;
+    }
+    .portlet-title {
+        border-bottom: 1px solid #eee;
+        margin-bottom: 16px;
+        padding-bottom: 10px;
+    }
+    .caption {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #1976d2;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    /* ===== CARD ===== */
+    .card_backup {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        padding: 15px;
+        margin-bottom: 20px;
+    }
+
+    /* ===== TABLE ===== */
+    .table_wrapper { overflow-x: unset; overflow-y: unset; }
+    .custom_tbl th, .custom_tbl td { vertical-align: middle; }
+
+    /* ===== TABLE HOVER ===== */
+    .table-hover tbody tr:hover {
+        background: #eef5ff !important;
+    }
+
+    /* ===== DATATABLE BUTTONS ===== */
+    .dt-buttons .btn {
+        margin-right: 4px;
+    }
+
+    /* ===== LENGTH MENU ===== */
+    .length-menu-container {
+        display: flex;
+        align-items: center;
+    }
+
+    /* ===== COLUMN FILTER ROW ===== */
+    .filter-row th input {
+        width: 100%;
+        font-size: 12px;
+        padding: 3px 6px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    /* ===== BACKUP POPUP TITLE ===== */
+        /* Add space below Item Handling Extraction fieldset */
+        .custom-fieldset {
+            margin-bottom: 32px !important;
+        }
+    .backup-main-title {
+        text-align: center;
+        font-size: 20px;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: #1976d2;
+        border-bottom: 3px solid #1976d2;
+        padding-bottom: 10px;
+        margin-bottom: 24px;
+    }
+
+    /* ===== SELECT ONE RADIO ROW ===== */
+    .select-one-row {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 10px 14px;
+        background: #f4f6fb;
+        border: 1px solid #dce2f0;
+        border-radius: 6px;
+        margin-bottom: 20px;
+    }
+    .select-one-label {
+        font-weight: 700;
+        font-size: 13px;
+        color: #444;
+        white-space: nowrap;
+        border: 1px solid #bbb;
+        padding: 4px 10px;
+        border-radius: 4px;
+        background: #fff;
+    }
+    .radio-option {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #333;
+        cursor: pointer;
+        margin-bottom: 0;
+    }
+    .radio-option input[type="radio"] {
+        accent-color: #1976d2;
+        width: 15px;
+        height: 15px;
+        cursor: pointer;
+    }
+
+    /* ===== BACKUP SECTION LOCK ===== */
+  .backup-section-wrapper {
+    visibility: hidden;
+    opacity: 0;
+    height: 0;
+    overflow: hidden;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+  .backup-section-wrapper.active {
+    visibility: visible;
+    opacity: 1;
+    height: auto;
+    overflow: visible;
+    pointer-events: all;
+}
+    .backup-section-header {
+        background: #1976d2;
+        color: #fff;
+        font-size: 13px;
+        font-weight: 700;
+        padding: 10px 16px;
+        border-radius: 6px 6px 0 0;
+        letter-spacing: 0.4px;
+    }
+    .restoration-notice {
+        font-size: 11px;
+        color: #888;
+        font-style: italic;
+        padding: 5px 16px 8px;
+        background: #fafafa;
+        border: 1px solid #eee;
+        border-top: none;
+        display: none;
+    }
+
+    /* ===== PREF LABEL ===== */
+    .pref-label {
+        font-weight: 700;
+        color: #1976d2;
+        white-space: nowrap;
+        font-size: 13px;
+    }
+
+    /* ===== BOTTOM ROW ===== */
+    .last-backup-box {
+        background: #fff;
+        border: 1.5px solid #dce2f0;
+        border-radius: 8px;
+        padding: 14px 18px;
+        font-size: 13px;
+        color: #333;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .last-backup-box .lb-title {
+        font-weight: 700;
+        color: #1976d2;
+        font-size: 13px;
+        margin-bottom: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.4px;
+    }
+    .last-backup-box .lb-detail {
+        font-size: 12px;
+        color: #555;
+        line-height: 1.8;
+    }
+    .status-complete {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: #e4ffe6;
+        border-radius: 50px;
+        padding: 2px 8px;
+        color: #1e8e42;
+        font-weight: 600;
+        font-size: 12px;
+    }
+    .select-preferred-btn {
+        margin-top: 10px;
+        background: #1976d2;
+        color: #fff;
+        font-size: 12px;
+        font-weight: 700;
+        padding: 6px 14px;
+        border-radius: 4px;
+        cursor: pointer;
+        border: none;
+        text-decoration: underline;
+        transition: background 0.2s;
+    }
+    .select-preferred-btn:hover { background: #1558a8; }
+
+    .send-request-btn {
+        background: #1976d2;
+        color: #fff;
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        padding: 11px 22px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(25,118,210,0.2);
+        transition: all 0.2s;
+        white-space: nowrap;
+    }
+    .send-request-btn:hover {
+        background: #1558a8;
+        transform: translateY(-1px);
+    }
+    .send-request-btn:active { transform: translateY(0); }
+</style>
+{% endblock css %}
+
+{% block content %}
+
+<div class="container-fluid">
+    <!-- Form Card -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <i class="icon-plus font-green"></i>
+                        <span class="caption-subject bold">REQUEST BACKUP POP UP</span>
+                       
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    <form id="seg-catalogue-form">
+
+                      <!-- Select One -->
+                        <div class="select-one-row">
+                            <label class="radio-option">
+                                <input type="radio" name="backup_type" id="opt_restoration" value="restoration">
+                                Restoration
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="backup_type" id="opt_backup" value="backup">
+                                Back Up
+                            </label>
+                        </div>
+
+                        <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Details of selected catalogue</legend>
+                <div class="row g-3">
+                    <div class="col-md-6 col-12">
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="system" placeholder=" " value="{{ extraction.system|default:'' }}" required>
+                            <label class="form_control_1">System <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="subsystem" placeholder=" " value="{{ extraction.subsystem|default:'' }}" required>
+                            <label class="form_control_1">Subsystem <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="mmd_typeos" placeholder=" " value="{{ extraction.mmd_typeos|default:'' }}" required>
+                            <label class="form_control_1">MMD TypeOS <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="interface" placeholder=" " value="{{ extraction.interface|default:'' }}" required>
+                            <label class="form_control_1">Interface <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="size" placeholder=" " value="{{ extraction.size|default:'' }}" required>
+                            <label class="form_control_1">Size <span class="text-danger">*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="application" placeholder=" " value="{{ extraction.application|default:'' }}" required>
+                            <label class="form_control_1">Application <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="name" placeholder=" " value="{{ extraction.name|default:'' }}" required>
+                            <label class="form_control_1">Name <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="application_version" placeholder=" " value="{{ extraction.application_version|default:'' }}" required>
+                            <label class="form_control_1">Application Version <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="part_no_mother_board" placeholder=" " value="{{ extraction.part_no_mother_board|default:'' }}" required>
+                            <label class="form_control_1">Part No of Mother Board <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="pattern_no_selected_mmd" placeholder=" " value="{{ extraction.pattern_no_selected_mmd|default:'' }}" required>
+                            <label class="form_control_1">Pattern No of Selected MMD <span class="text-danger">*</span></label>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <div class="form-group mb-3">
+                                    <label for="seg_department">Location</label>
+                                    <select class="form-control" id="seg_department" name="seg_department" required>
+                                        <option value="">Select</option>
+                                        <option value="">Institute</option>
+                                        <option value="">ESEG LAB</option>
+                                        
+                                        {% for inst in institutes %}
+                                            <option value="{{ inst.id }}">{{ inst.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group mb-3">
+                                    <label for="landing_date">Date for Landing</label>
+                                    <input type="date" class="form-control" id="landing_date" name="landing_date" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="pattern_no_selected_mmd" placeholder=" " value="{{ extraction.pattern_no_selected_mmd|default:'' }}" required>
+                            <label class="form_control_1">Reason For Request<span class="text-danger">*</span></label>
+                        </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ===== BACKUP SELECTION (locks unless Restoration selected) ===== -->
+    <div class="backup-section-wrapper" id="backupSection">
+
+        <!-- <div class="backup-section-header">
+            Select Available Backup — Section only opens when Restoration is selected
+        </div> -->
+
+        <div class="card card_backup" style="border-radius: 0 0 8px 8px;">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table_wrapper">
+                        <table id="backup_preference_table" class="table table-bordered table-hover custom_tbl">
+                            <thead>
+                                <tr>
+                                    <th>Preference</th>
+                                    <th>Select Ship</th>
+                                    <th>Select System</th>
+                                    <th>Select MMD</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <!-- Preference 1 -->
+                                <tr>
+                                    <td class="pref-label">Preference 1</td>
+                                    <td>
+                                        <select class="form-control form-control-sm" name="pref1_ship">
+                                            <option value="">— Select Ship —</option>
+                                            <option>INS Vikramaditya</option>
+                                            <option>INS Vikrant</option>
+                                            <option>INS Chennai</option>
+                                            <option>INS Kolkata</option>
+                                            <option>INS Kochi</option>
+                                            <option>INS Shivalik</option>
+                                            <option>INS Satpura</option>
+                                            <option>INS Tarkash</option>
+                                            <option>INS Delhi</option>
+                                            <option>INS Mumbai</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control form-control-sm" name="pref1_system">
+                                            <option value="">— Select System —</option>
+                                            <option>Navigation System</option>
+                                            <option>Weapon Control System</option>
+                                            <option>Communication System</option>
+                                            <option>Propulsion System</option>
+                                            <option>Radar System</option>
+                                            <option>Fire Control System</option>
+                                            <option>Sonar System</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control form-control-sm" name="pref1_mmd">
+                                            <option value="">— Select MMD —</option>
+                                            <option>MMD-001-A</option>
+                                            <option>MMD-002-B</option>
+                                            <option>MMD-003-C</option>
+                                            <option>MMD-004-D</option>
+                                            <option>MMD-005-E</option>
+                                            <option>MMD-006-F</option>
+                                            <option>MMD-007-G</option>
+                                        </select>
+                                    </td>
+                                </tr>
+
+                                <!-- Preference 2 -->
+                                <tr>
+                                    <td class="pref-label">Preference 2</td>
+                                    <td>
+                                        <select class="form-control form-control-sm" name="pref2_ship">
+                                            <option value="">— Select Ship —</option>
+                                            <option>INS Vikramaditya</option>
+                                            <option>INS Vikrant</option>
+                                            <option>INS Chennai</option>
+                                            <option>INS Kolkata</option>
+                                            <option>INS Kochi</option>
+                                            <option>INS Shivalik</option>
+                                            <option>INS Satpura</option>
+                                            <option>INS Tarkash</option>
+                                            <option>INS Delhi</option>
+                                            <option>INS Mumbai</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control form-control-sm" name="pref2_system">
+                                            <option value="">— Select System —</option>
+                                            <option>Navigation System</option>
+                                            <option>Weapon Control System</option>
+                                            <option>Communication System</option>
+                                            <option>Propulsion System</option>
+                                            <option>Radar System</option>
+                                            <option>Fire Control System</option>
+                                            <option>Sonar System</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control form-control-sm" name="pref2_mmd">
+                                            <option value="">— Select MMD —</option>
+                                            <option>MMD-001-A</option>
+                                            <option>MMD-002-B</option>
+                                            <option>MMD-003-C</option>
+                                            <option>MMD-004-D</option>
+                                            <option>MMD-005-E</option>
+                                            <option>MMD-006-F</option>
+                                            <option>MMD-007-G</option>
+                                        </select>
+                                    </td>
+                                </tr>
+
+                                <!-- Preference 3 -->
+                                <tr>
+                                    <td class="pref-label">Preference 3</td>
+                                    <td>
+                                        <select class="form-control form-control-sm" name="pref3_ship">
+                                            <option value="">— Select Ship —</option>
+                                            <option>INS Vikramaditya</option>
+                                            <option>INS Vikrant</option>
+                                            <option>INS Chennai</option>
+                                            <option>INS Kolkata</option>
+                                            <option>INS Kochi</option>
+                                            <option>INS Shivalik</option>
+                                            <option>INS Satpura</option>
+                                            <option>INS Tarkash</option>
+                                            <option>INS Delhi</option>
+                                            <option>INS Mumbai</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control form-control-sm" name="pref3_system">
+                                            <option value="">— Select System —</option>
+                                            <option>Navigation System</option>
+                                            <option>Weapon Control System</option>
+                                            <option>Communication System</option>
+                                            <option>Propulsion System</option>
+                                            <option>Radar System</option>
+                                            <option>Fire Control System</option>
+                                            <option>Sonar System</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control form-control-sm" name="pref3_mmd">
+                                            <option value="">— Select MMD —</option>
+                                            <option>MMD-001-A</option>
+                                            <option>MMD-002-B</option>
+                                            <option>MMD-003-C</option>
+                                            <option>MMD-004-D</option>
+                                            <option>MMD-005-E</option>
+                                            <option>MMD-006-F</option>
+                                            <option>MMD-007-G</option>
+                                        </select>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+            </div>
+
+            <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Last Working Backup</legend>
+                <div class="row g-3">
+                    <div class="col-md-6 col-12">
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="system" placeholder=" " value="{{ extraction.system|default:'' }}" required>
+                            <label class="form_control_1">System <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="subsystem" placeholder=" " value="{{ extraction.subsystem|default:'' }}" required>
+                            <label class="form_control_1">Subsystem <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="mmd_typeos" placeholder=" " value="{{ extraction.mmd_typeos|default:'' }}" required>
+                            <label class="form_control_1">MMD TypeOS <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="interface" placeholder=" " value="{{ extraction.interface|default:'' }}" required>
+                            <label class="form_control_1">Interface <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="size" placeholder=" " value="{{ extraction.size|default:'' }}" required>
+                            <label class="form_control_1">Size <span class="text-danger">*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="application" placeholder=" " value="{{ extraction.application|default:'' }}" required>
+                            <label class="form_control_1">Application <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="name" placeholder=" " value="{{ extraction.name|default:'' }}" required>
+                            <label class="form_control_1">Name <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="application_version" placeholder=" " value="{{ extraction.application_version|default:'' }}" required>
+                            <label class="form_control_1">Application Version <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="part_no_mother_board" placeholder=" " value="{{ extraction.part_no_mother_board|default:'' }}" required>
+                            <label class="form_control_1">Part No of Mother Board <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="pattern_no_selected_mmd" placeholder=" " value="{{ extraction.pattern_no_selected_mmd|default:'' }}" required>
+                            <label class="form_control_1">Pattern No of Selected MMD <span class="text-danger">*</span></label>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            
+        </div>
+        
+
+        <div class="restoration-notice">
+            ⚠ This section is only available when "Restoration" is selected above.
+        </div>
+
+    </div><!-- /backup-section-wrapper -->
+    <div class="d-flex justify-content-center mt-4 gap-2">
+								<button type="submit" class="btn btn-success px-4">Save</button>
+							</div>
+    
+
+</div><!-- /container-fluid -->
+
+{% endblock content %}
+
+{% block js %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    // ===== INITIALIZE DATATABLE =====
+    let initDataTable = (selector) => {
+        if ($.fn.DataTable.isDataTable(selector)) {
+            $(selector).DataTable().clear().destroy();
+            $(selector + ' thead tr.filter-row').remove();
+        }
+
+        let $thead = $(selector + ' thead');
+        let $filterRow = $thead.find('tr').clone().addClass('filter-row');
+        // Removed column search inputs and filter row
+
+        // INITIALIZE DATATABLE
+        let table = $(selector).DataTable({
+            dom: "<'row'<'col-md-12'B>>rt",
+
+            buttons: [
+                {
+                    extend: 'print',
+                    className: 'btn-outline-dark',
+                    text: '<i class="bi bi-printer" data-bs-toggle="tooltip" title="Print"></i>'
+                },
+                {
+                    extend: 'pdf',
+                    className: 'btn-outline-success',
+                    text: '<i class="bi bi-file-earmark-pdf" data-bs-toggle="tooltip" title="Export to PDF"></i>'
+                },
+                {
+                    extend: 'csv',
+                    className: 'btn-outline-primary',
+                    text: '<i class="bi bi-file-earmark-spreadsheet" data-bs-toggle="tooltip" title="Export to CSV"></i>'
+                },
+                {
+                    extend: 'copy',
+                    className: 'btn-outline-secondary',
+                    text: '<i class="bi bi-clipboard" data-bs-toggle="tooltip" title="Copy"></i>'
+                }
+            ],
+
+            language: {
+                emptyTable: "No data available",
+                info: "Showing _START_ to _END_ of _TOTAL_ entries",
+                infoEmpty: "No entries found",
+                
+                search: "Search:",
+                zeroRecords: "No matching records found"
+            },
+
+            
+            
+            
+            
+            fixedHeader: true,
+            retrieve: true,
+
+            initComplete: function () {
+                $(selector + '_length select').addClass('custom-length');
+                $(selector + '_length').addClass('position-relative d-inline-block');
+            }
+        });
+
+        // Column search
+        // Removed column-wise search
+
+        $(selector).on('draw.dt', function () {
+            $('[data-bs-toggle="tooltip"]').tooltip();
+        });
+
+        return table;
+    };
+
+    // Init preference table
+    let prefTable = initDataTable('#backup_preference_table');
+
+    // ===== RADIO TOGGLE — Enable/Disable Backup Section =====
+    const radioInputs = document.querySelectorAll('input[name="backup_type"]');
+    const backupSection = document.getElementById('backupSection');
+
+    radioInputs.forEach(function (radio) {
+    radio.addEventListener('change', function () {
+        if (this.value === 'restoration') {
+            backupSection.classList.add('active');
+            // Recalculate DataTable column widths after section becomes visible
+            setTimeout(function () {
+                $.fn.dataTable.tables({ visible: true, api: true }).columns.adjust();
+            }, 50);
+        } else {
+            backupSection.classList.remove('active');
+        }
+      });
+    });
+
+    // ===== SEND REQUEST VALIDATION =====
+    document.getElementById('send-request-btn').addEventListener('click', function () {
+        const type   = document.querySelector('input[name="backup_type"]:checked');
+        const mode   = document.getElementById('institute_mode').value;
+        const date   = document.getElementById('landing_date').value;
+        const reason = document.getElementById('reason_input').value.trim();
+
+        if (!type)   { alert('⚠ Please select Restoration or Back Up.');      return; }
+        if (!mode)   { alert('⚠ Please select an Institute / SEG LAB mode.'); return; }
+        if (!date)   { alert('⚠ Please select a date for landing.');           return; }
+        if (!reason) { alert('⚠ Please enter a reason for the request.');      return; }
+
+        alert('✓ Request sent successfully!');
+    });
+
+    // ===== SELECT AS PREFERRED =====
+    document.getElementById('select-preferred-btn').addEventListener('click', function () {
+        const shipSel   = document.querySelector('select[name="pref1_ship"]');
+        const systemSel = document.querySelector('select[name="pref1_system"]');
+        const mmdSel    = document.querySelector('select[name="pref1_mmd"]');
+
+        [...shipSel.options].forEach(o   => { o.selected = o.text === 'INS Vikrant';  });
+        [...systemSel.options].forEach(o => { o.selected = o.text === 'Radar System'; });
+        [...mmdSel.options].forEach(o    => { o.selected = o.text === 'MMD-003-C';    });
+
+        alert('✓ Preference 1 set to last working backup.');
+    });
+
+});
+</script>
+{% endblock js %}

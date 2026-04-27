@@ -1,0 +1,1489 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/select2_4.1.0/select2.min.css' %}">
+<link rel="stylesheet" href="{% static 'ems/assets/global/plugins/bootstrap-toastr/toastr.min.css' %}">
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+
+
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Trails</a></li>
+                    <li class="breadcrumb-item"><a href="#">MRSAM Health Audit Report</a></li>
+                </ol>
+            </nav>
+        </div>
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                         
+                        <span class="caption-subject bold">MRSAM HEALTH AUDIT REPORT</span>
+                    </div>
+                    {# Removed Back button action block #}
+                </div>
+
+                <div class="portlet-body form mt-4 mb-4" style="background-color: transparent;">
+                    <form method="post" id="mr_health_audit_form">
+                        {% csrf_token %}
+                        <div class="form-body" style="background-color: transparent;">
+                            <!-- EQUIPMENT DETAILS FIELDSET -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">Information</legend>
+                                <div class="row g-3">
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" name="ship" required>
+                                                <option value="">--Select--</option>
+                                                {% for ship in ship_options %}
+                                                <option value="{{ ship.value }}">{{ ship.label }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <label class="form_control_1">Ship <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control " name="ship_health_audit_report_no" required placeholder="Enter ship health audit report no">
+                                            <label class="form_control_1">Ship Health Audit Report No.<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control " name="health_audit_no" required placeholder="Enter Health Audit No">
+                                            <label class="form_control_1">Health Audit No.<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="date" class="form-control " name="date" required>
+                                            <label class="form_control_1">Date<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control " name="health_audit_occasion" required placeholder="Enter Health Audit Occasion">
+                                            <label class="form_control_1">Health Audit Occasion<span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control " name="equipment_code" required placeholder="Enter Equipment Code">
+                                            <label class="form_control_1">Equipment Code</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">EPS TEST</legend>
+                                <div class="table-responsive">
+                                    <table id="Pre_Ranging_Table_1" class="custom_tbl">
+                                        <thead>
+                                            <th>Ser</th>
+                                            <th>Parameter</th>
+                                            <th>SAT/ UNSAT</th>
+                                            <th>Remarks</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td class="description-text">Ship's I/P power supply test input 380V 50 Hz 3ph A±2.5 %</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_1">
+                                                        <option value="">Select Status</option>
+                                                        <option value="sat">SAT</option>
+                                                        <option value="unsat">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_1"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td class="description-text">System Manual / Auto power ON check</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_2">
+                                                        <option value="">Select Status</option>
+                                                        <option value="sat">SAT</option>
+                                                        <option value="unsat">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_2"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3</td>
+                                                <td class="description-text">System Auto power ON checks</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_3">
+                                                        <option value="">Select Status</option>
+                                                        <option value="sat">SAT</option>
+                                                        <option value="unsat">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_3"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>4</td>
+                                                <td class="description-text">EPS indication LEDs test</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_4">
+                                                        <option value="">Select Status</option>
+                                                        <option value="sat">SAT</option>
+                                                        <option value="unsat">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_4"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>5</td>
+                                                <td class="description-text">EPS functional checks, ISO meter checks</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_5">
+                                                        <option value="">Select Status</option>
+                                                        <option value="sat">SAT</option>
+                                                        <option value="unsat">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_5"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>6</td>
+                                                <td class="description-text">Isolation transformer Checks Input 380V A±2.5 % 50 Hz Output 380V±10% 50 Hz</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_6">
+                                                        <option value="">Select Status</option>
+                                                        <option value="sat">SAT</option>
+                                                        <option value="unsat">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_6"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>7</td>
+                                                <td class="description-text">O/P transformer checks input 220VA±10% 50 Hz Output 115V A± 10 % 50 Hz</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_7">
+                                                        <option value="">Select Status</option>
+                                                        <option value="sat">SAT</option>
+                                                        <option value="unsat">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_7"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>8</td>
+                                                <td class="description-text">UPS checks (Star) Input 220VA±10% 50Hz Bypass 220VA±10% 50 Hz Output 220VA±10% 50 Hz</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_8">
+                                                        <option value="">Select Status</option>
+                                                        <option value="sat">SAT</option>
+                                                        <option value="unsat">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_8"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>9</td>
+                                                <td class="description-text">Dual static converter checks Outputs 220 A 30 V A±10 %, 400 Hz</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_9">
+                                                        <option value="">Select Status</option>
+                                                        <option value="sat">SAT</option>
+                                                        <option value="unsat">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_9"></textarea>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+                        
+                            
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">ELECTRICAL HYGIENE AND INTEGRITY</legend>
+                                <div class="table-responsive">
+                                    <table id="Pre_Ranging_Table_1" class="custom_tbl">
+                                        <thead>
+                                            <th>Ser</th>
+                                            <th>Parameter</th>
+                                            <th>SAT/ UNSAT</th>
+                                            <th>Remarks</th>
+                                        </thead>
+                                        
+                                        <tbody>
+
+                                            <tr>
+                                                <td>1</td>
+                                                <td class="description-text">Visual inspection of all cables and connectors in SAM compartments</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_10">
+                                                        <option value="">Select Status</option>
+                                                        <option value="sat">SAT</option>
+                                                        <option value="unsat">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_10"></textarea>
+                                                </td>
+                                            </tr>
+                                            
+                                            
+                
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">CHECK COMPARTMENT VENTILATION</legend>
+                                <div class="table-responsive">
+                                    <table id="Pre_Ranging_Table_1" class="custom_tbl">
+                                        <thead>
+                                            <th>Ser</th>
+                                            <th>Parameter</th>
+                                            <th>SAT/ UNSAT</th>
+                                            <th>Remarks</th>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr>
+                                                <td>1</td>
+                                                <td class="description-text">FWD SAM Electronics</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_11">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_11"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>(b)</td>
+                                                <td class="description-text">AFT SAM Electronics</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_12">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_12"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>(c)</td>
+                                                <td class="description-text">FWD SAM Annexe</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_13">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_13"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>(d)</td>
+                                                <td class="description-text">AFT SAM Annexe</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_14">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_14"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>(e)</td>
+                                                <td class="description-text">SAM Control POST</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_15">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_15"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>(f)</td>
+                                                <td class="description-text">AMCO/ NGB MR DLU</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_16">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_16"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>(g)</td>
+                                                <td class="description-text">VLU Compartments</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_17">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_17"></textarea>
+                                                </td>
+                                            </tr>
+
+
+
+
+
+                                            
+                
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+                        
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">UPS AND EOD FUNCTIONAL TEST</legend>
+                                <div class="table-responsive">
+                                    <table id="Pre_Ranging_Table_1" class="custom_tbl">
+                                        <thead>
+                                            <th>Ser</th>
+                                            <th>Parameter</th>
+                                            <th>SAT/ UNSAT</th>
+                                            <th>Remarks</th>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td class="description-text">FWD UPS10 KVA UPS modules Static Switch</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_18">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_18"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td class="description-text">AFT UPS 10 KVA UPS modulesStatic Switch</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_19">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_19"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>3</td>
+                                                <td class="description-text">Bypass UPS checks</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_20">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_20"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>4</td>
+                                                <td class="description-text">FWD SPA Status of CLA Status of FLIR Status of LRF DVR</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_21">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_21"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>5</td>
+                                                <td class="description-text">AFT SPA Status of CLA Status of FLIR Status of LRF DVR</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_22">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_22"></textarea>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">STATUS OF NITROGEN PURGING OF MISSILES</legend>
+                                <div class="table-responsive">
+                                    <table id="Pre_Ranging_Table_1" class="custom_tbl">
+                                        <thead>
+                                            <th>Ser</th>
+                                            <th>Parameter</th>
+                                            <th>SAT/ UNSAT</th>
+                                            <th>Remarks</th>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr>
+                                                <td>1</td>
+                                                <td class="description-text">Status of Nitrogen Purging of missiles</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_23">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_23"></textarea>
+                                                </td>
+                                            </tr>
+                         
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">INITIATED BIT CHECKS</legend>
+                                <div class="table-responsive">
+                                    <table id="Pre_Ranging_Table_1" class="custom_tbl">
+                                        <thead>
+                                            <th>Ser</th>
+                                            <th>Parameter</th>
+                                            <th>SAT/ UNSAT</th>
+                                            <th>Remarks</th>
+                                        </thead>
+                                        <tbody>
+
+                                            
+                                            <tr>
+                                                <td>1</td>
+                                                <td class="description-text">MU A&B</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_24">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_24"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>2</td>
+                                                <td class="description-text">GCU 1,2&3</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_25">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_25"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>3</td>
+                                                <td class="description-text">LCU 1-4</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_26">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_26"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>4</td>
+                                                <td class="description-text">SBDL (MPU) 1&2</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_27">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_27"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>5</td>
+                                                <td class="description-text">EOD 1&2</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_28">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_28"></textarea>
+                                                </td>
+                                            </tr>
+                                            
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+
+
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">LCS TEST IN MAINTENANCE MODE</legend>
+                                <div class="table-responsive">
+                                    <table id="Pre_Ranging_Table_1" class="custom_tbl">
+                                        <thead>
+                                            <th>Ser</th>
+                                            <th>Parameter</th>
+                                            <th>SAT/ UNSAT</th>
+                                            <th>Remarks</th>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr>
+                                                <td>1</td>
+                                                <td class="description-text">LCU 1</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_29">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_29"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td class="description-text">LCU 2</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_30">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_30"></textarea>
+                                                </td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td>3</td>
+                                                <td class="description-text">LCU 3</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_31">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_31"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>4</td>
+                                                <td class="description-text">LCU 4</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_32">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_32"></textarea>
+                                                </td>
+                                            </tr>
+                                         
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+
+
+
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">STATUS OF DRAIN PLUGS OF GGT</legend>
+                                <div class="table-responsive">
+                                    <table id="Pre_Ranging_Table_1" class="custom_tbl">
+                                        <thead>
+                                            <th>Ser</th>
+                                            <th>Parameter</th>
+                                            <th>SAT/ UNSAT</th>
+                                            <th>Remarks</th>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr>
+                                                <td>1</td>
+                                                <td class="description-text">VLU 1</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_33">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_33"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td class="description-text">VLU 2</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_34">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_34"></textarea>
+                                                </td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td>3</td>
+                                                <td class="description-text">VLU 3</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_35">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_35"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>4</td>
+                                                <td class="description-text">VLU 4</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_36">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_36"></textarea>
+                                                </td>
+                                            </tr>
+                                           
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+
+                            
+
+
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">SYSTEM CONSTANTS AS PER LAST ALIGNMENT</legend>
+                                <div class="table-responsive">
+                                    <table id="Pre_Ranging_Table_1" class="custom_tbl">
+                                        <thead>
+                                            <th></th>
+                                            <th>GUN 1</th>
+                                            <th>GUN 2</th>
+                                            <th>GUN 3</th>
+                                            <th>GUN 4</th>
+                                            <th>GUN 5</th>
+                                            <th>EOD 1</th>
+                                            <th>EOD 2</th>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr>
+                                                <td>Tilt Dir (Deg)</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_37"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_38"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_39"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_40"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_41"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_42"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_43"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Tilt Size (mrad)</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_44"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_45"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_46"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_47"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_48"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_49"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_50"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Az Bias(mrad)</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_51"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_52"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_53"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_54"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_55"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_56"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_57"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>El Bias(mrad)</td>
+                                                
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_58"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_59"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_60"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_61"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_62"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_63"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_64"></textarea>
+                                                </td>
+                                            </tr>
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">SBDL TO SBDL CHECKS- 6MONTHLY CHECKS</legend>
+                                <div class="table-responsive">
+                                    <table id="Pre_Ranging_Table_1" class="custom_tbl">
+                                        <thead>
+                                            <th>Ser</th>
+                                            <th>Parameter</th>
+                                            <th>SAT/ UNSAT</th>
+                                            <th>Remarks</th>
+                            
+                                        </thead>
+                                        <tbody>
+                                            
+
+                                            <tr>
+                                                <td>1</td>
+                                                <td class="description-text">SBDL to SBDL checks - 6 monthly checks</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_37">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                        
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_65"></textarea>
+                                                </td>
+                                            </tr>
+                                            
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">GUN TEST IN MAINTENANCE MODE</legend>
+                                <div class="table-responsive">
+                                    <table id="Pre_Ranging_Table_1" class="custom_tbl">
+                                        <thead>
+                                            <th></th>
+                                            <th></th>
+                                            <th>GUN 1</th>
+                                            <th>GUN 2</th>
+                                            <th>GUN 3</th>
+                                            <th>GUN 4</th>
+                                            <th>GUN 5</th>
+                                            
+                                        </thead>
+                                        <tbody>
+
+                                            <tr>
+                                                <td>1</td>
+                                                
+                                                <td>
+                                                    Shop
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_66"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_67"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_68"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_69"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_70"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            
+
+                                            <tr>
+                                                <td>2</td>
+                                                
+                                                <td>
+                                                    Track
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_71"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_72"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_73"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_74"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_75"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>3</td>
+                                                
+                                                <td>
+                                                    EL sirus
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_76"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_77"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_78"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_79"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_80"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>4</td>
+                                                
+                                                <td>
+                                                    Az sirus
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_81"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_82"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_83"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_84"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_85"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>5</td>
+                                                
+                                                <td>
+                                                    FC contact checks
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_86"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_87"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_88"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_89"></textarea>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_90"></textarea>
+                                                </td>
+                                            </tr>
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">BVU TEST</legend>
+                                <div class="table-responsive">
+                                    <table id="Pre_Ranging_Table_1" class="custom_tbl">
+                                        <thead>
+                                            <th>Ser</th>
+                                            <th>Parameter</th>
+                                            <th>SAT/ UNSAT</th>
+                                            <th>Remarks</th>
+                            
+                                        </thead>
+                                        <tbody>
+                                            
+
+                                            <tr>
+                                                <td>1</td>
+                                                <td class="description-text">BVU Test</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_38">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_91"></textarea>
+                                                </td>
+                                            </tr>
+                                            
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">MOBS TEST</legend>
+                                <div class="table-responsive">
+                                    <table id="Pre_Ranging_Table_1" class="custom_tbl">
+                                        <thead>
+                                            <th>Ser</th>
+                                            <th>Parameter</th>
+                                            <th>SAT/ UNSAT</th>
+                                            <th>Remarks</th>
+                            
+                                        </thead>
+                                        <tbody>
+                                            
+
+                                            <tr>
+                                                <td>1</td>
+                                                <td class="description-text">MOBS Test</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_39">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_92"></textarea>
+                                                </td>
+                                            </tr>
+                                            
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">EXTERNAL SYSTEM INTERFACE STATUS</legend>
+                                <div class="table-responsive">
+                                    <table id="Pre_Ranging_Table_1" class="custom_tbl">
+                                        <thead>
+                                            <th>Ser</th>
+                                            <th>Parameter</th>
+                                            <th>SAT/ UNSAT</th>
+                                            <th>Remarks</th>
+                            
+                                        </thead>
+                                        <tbody>
+                                            
+
+                                            <tr>
+                                                <td>1</td>
+                                                <td class="description-text">CMS</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_40">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_93"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>2</td>
+                                                <td class="description-text">Rawl</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_41">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_94"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>3</td>
+                                                <td class="description-text">Ellora</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_42">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_95"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>4</td>
+                                                <td class="description-text">Kavach</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_43">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_96"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>5</td>
+                                                <td class="description-text">INS</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_44">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_97"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>6</td>
+                                                <td class="description-text">Swiss</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_45">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_98"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>7</td>
+                                                <td class="description-text">Metrology</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_46">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_99"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>8</td>
+                                                <td class="description-text">CS</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_47">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_100"></textarea>
+                                                </td>
+                                            </tr>
+                                            
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">MAINTOPS / EMAPS VERIFICATION</legend>
+                                <div class="table-responsive">
+                                    <table id="Pre_Ranging_Table_1" class="custom_tbl">
+                                        <thead>
+                                            <th>Ser</th>
+                                            <th>Parameter</th>
+                                            <th>SAT/ UNSAT</th>
+                                            <th>Remarks</th>
+                            
+                                        </thead>
+                                        <tbody>
+                                            
+
+                                            <tr>
+                                                <td>1</td>
+                                                <td class="description-text">MAINTOPS / EMAPS Verification</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_48">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_101"></textarea>
+                                                </td>
+                                            </tr>
+                                            
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">EOD BEARING POINTING TEST</legend>
+                                <div class="table-responsive">
+                                    <table id="Pre_Ranging_Table_1" class="custom_tbl">
+                                        <thead>
+                                            <th>Ser</th>
+                                            <th>Parameter</th>
+                                            <th>SAT/ UNSAT</th>
+                                            <th>Remarks</th>
+                            
+                                        </thead>
+                                        <tbody>
+                                            
+
+                                            <tr>
+                                                <td>1</td>
+                                                <td class="description-text">EOD Bearing pointing Test</td>
+                                                <td>
+                                                    <select class="form-control status-dropdown" name="mr_status_49">
+                                                        <option value="">Select Status</option>
+                                                        <option value="pass">SAT</option>
+                                                        <option value="fail">UNSAT</option>
+                                                        <option value="pending">NA</option>
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_102"></textarea>
+                                                </td>
+                                            </tr>
+                                            
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom fw-semibold text-uppercase">RLG DIFF TEST</legend>
+                                <div class="table-responsive">
+                                    <table id="Pre_Ranging_Table_1" class="custom_tbl">
+                                        <thead>
+                                            <tr>
+                                                <th>INU SERIAL NO.</th>
+                                                <th>RGL CHANGEOVERR</th>
+                                                <th colspan="3">DIFF</th>
+                                                <th colspan="2">POSITION JUMP</th>
+                                                <th>REMARKS</th>
+                                            </tr>
+                                            <tr>
+                                                <th></th>
+                                                <th></th>
+                                                <th>HDG(MRAD)</th>
+                                                <th>ROLL(MRAD)</th>
+                                                <th>PITCH(MRAD)</th>
+                                                <th>LAT(MTR)</th>
+                                                <th>LONG(MTR)</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_103"></textarea>
+                                                </td>
+                                                <td>Fwd to Aft</td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_104"></textarea>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_105"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_106"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_107"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_108"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_109"></textarea></td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_110"></textarea>
+                                                </td>
+                                                <td>Aft to Fwd</td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_111"></textarea>
+                                                </td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_112"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_113"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_114"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_115"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" placeholder="Enter remarks..." rows="1" name="mr_remarks_116"></textarea></td>
+
+                                            </tr>
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            
+                                </div>
+                            </fieldset>
+
+                            <div class="d-flex justify-content-center mt-4">
+                                <button type="submit" class="btn btn-primary px-4">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block pagescripts %}
+<script src="{% static 'js/select2_4.1.0/select2.min.js' %}"></script>
+<script src="{% static 'ems/assets/global/plugins/bootstrap-toastr/toastr.min.js' %}"></script>
+
+
+{% endblock pagescripts %}

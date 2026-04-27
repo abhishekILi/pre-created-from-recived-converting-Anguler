@@ -1,0 +1,469 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+
+
+  /* Narrow the Status column */
+  .custom_tbl th:nth-child(3),
+  .custom_tbl td:nth-child(3) {
+    width: 110px;
+    min-width: 90px;
+    max-width: 130px;
+  }
+
+  /* Status input narrower */
+  .custom_tbl td:nth-child(3) .form-control {
+    width: 100%;
+    min-width: 80px;
+  }
+
+  /* Wide observation textareas */
+  .obs-textarea {
+    width: 100%;
+    min-height: 120px;
+    resize: vertical;
+  }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item" aria-current="page">FTTT </li>
+          <li class="breadcrumb-item active" aria-current="page">MOD-CMS Health Audit Test</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">MOD CMS health audit test</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="itttm_phase02_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <fieldset class="custom-fieldset">
+                                    <legend class="legend-custom text-uppercase">BASIC INFORMATION</legend>
+                                    <div class="row g-3">
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="mod_cms_system_sub_system" value="SRGM" placeholder=" ">
+                                                <label class="form_control_1">1. System/ Sub system</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="mod_cms_job_undertaken" value = "Tilt Checks" placeholder=" ">
+                                                <label class="form_control_1">2. Job Undertaken</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <!-- <textarea class="form-control wrstg-scroll-textarea" name="tilt_checks_reference_documents" rows="2" placeholder=" "></textarea> -->
+                                                 <input type="file" class ="form-control" name="mod_cms_reference_documents">
+                                                <label class="form_control_1">3. Reference Documents</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="mod_cms_authority" placeholder=" ">
+                                                <label class="form_control_1">4. Authority</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="mod_cms_agencies_involved" value="FTTT(Vzg)" placeholder=" " readonly>
+                                                <label class="form_control_1">5. Agencies involved</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="date" class="form-control" name="mod_cms_date_commenced">
+                                                <label class="form_control_1">6. Date Commenced</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="date" class="form-control" name="mod_cms_date_completed">
+                                                <label class="form_control_1">7. Date Completed</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="mod_cms_prepared_by" placeholder=" ">
+                                                <label class="form_control_1">8. Prepared by</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="mod_cms_vetted_by" placeholder=" ">
+                                                <label class="form_control_1">9. Vetted by</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="mod_cms_reference_no" placeholder=" ">
+                                                <label class="form_control_1">10. Reference No.</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="mod_cms_summary_of_observations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">11. Summary of observations</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="mod_cms_operational_limitations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">12. Operational limitations (if any)</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   HARDWARE CHECKS
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">HARDWARE CHECKS</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Ser</th>
+                        <th>Test Conducted</th>
+                        <th>Status</th>
+                        <th>Remarks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="serial-no">1</td>
+                        <td>POST CHECKS OF CTU -1</td>
+                        <td><input type="text" class="form-control" name="lc_launcher_1_1"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="insulation_obtained_1"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">2</td>
+                        <td>POST CHECKS OF CTU -2</td>
+                        <td><input type="text" class="form-control" name="lc_launcher_1_2"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="insulation_obtained_2"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">3</td>
+                        <td>DMFC-1 CHECKS</td>
+                        <td><input type="text" class="form-control" name="lc_launcher_1_3"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="insulation_obtained_3"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">4</td>
+                        <td>DMFC-2 CHECKS</td>
+                        <td><input type="text" class="form-control" name="lc_launcher_1_4"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="insulation_obtained_4"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">5</td>
+                        <td>DMFC-3 CHECKS</td>
+                        <td><input type="text" class="form-control" name="lc_launcher_1_5"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="insulation_obtained_5"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">6</td>
+                        <td>DMFC-4 CHECKS</td>
+                        <td><input type="text" class="form-control" name="lc_launcher_1_6"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="insulation_obtained_6"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">7</td>
+                        <td>UPS -1 CHECKS</td>
+                        <td><input type="text" class="form-control" name="lc_launcher_1_7"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="insulation_obtained_7"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">8</td>
+                        <td>UPS -2 CHECKS</td>
+                        <td><input type="text" class="form-control" name="lc_launcher_1_8"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="insulation_obtained_8"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">9</td>
+                        <td>I3U -1 CHECKS</td>
+                        <td><input type="text" class="form-control" name="lc_launcher_1_9"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="insulation_obtained_9"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">10</td>
+                        <td>I3U -2 CHECKS</td>
+                        <td><input type="text" class="form-control" name="lc_launcher_1_10"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="insulation_obtained_10"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">11</td>
+                        <td>I3U -3 CHECKS</td>
+                        <td><input type="text" class="form-control" name="lc_launcher_1_11"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="insulation_obtained_11"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">12</td>
+                        <td>STP -1 CHECKS</td>
+                        <td><input type="text" class="form-control" name="lc_launcher_1_12"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="insulation_obtained_12"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">13</td>
+                        <td>STP -2 CHECKS</td>
+                        <td><input type="text" class="form-control" name="lc_launcher_1_13"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="insulation_obtained_13"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">14</td>
+                        <td>STP -3 CHECKS</td>
+                        <td><input type="text" class="form-control" name="lc_launcher_1_14"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="insulation_obtained_14"></textarea></td>
+                      </tr>
+                      
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   Ship Interface SHHD
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Ship Interface SHHD</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Ser</th>
+                        <th>Test Conducted</th>
+                        <th>Status</th>
+                        <th>Remarks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      
+                      <tr>
+                        <td class="serial-no">15</td>
+                        <td>GPS</td>
+                        <td><input type="text" class="form-control" name="lc_launcher_1_15"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="insulation_obtained_15"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">16</td>
+                        <td>LOG</td>
+                        <td><input type="text" class="form-control" name="lc_launcher_1_16"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="insulation_obtained_16"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">17</td>
+                        <td> Echo Sounder</td>
+                        <td><input type="text" class="form-control" name="lc_launcher_1_17"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="insulation_obtained_17"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">18</td>
+                        <td>Wind Instrument</td>
+                        <td><input type="text" class="form-control" name="lc_launcher_1_18"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="insulation_obtained_18"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">19</td>
+                        <td>RLG</td>
+                        <td><input type="text" class="form-control" name="lc_launcher_1_19"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="insulation_obtained_19"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">20</td>
+                        <td>AIS</td>
+                        <td><input type="text" class="form-control" name="lc_launcher_1_20"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="insulation_obtained_20"></textarea></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   RADARS
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">RADARS</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Ser</th>
+                        <th>Test Conducted</th>
+                        <th>Status</th>
+                        <th>Remarks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      
+                      <tr>
+                        <td class="serial-no">21</td>
+                        <td>COTS – 1 Status</td>
+                        <td><input type="text" class="form-control" name="lc_launcher_1_21"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="insulation_obtained_21"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">22</td>
+                        <td>COTS – 1 Tracks availability on CMS</td>
+                        <td><input type="text" class="form-control" name="lc_launcher_1_22"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="insulation_obtained_22"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">23</td>
+                        <td>COTS – 2 Status</td>
+                        <td><input type="text" class="form-control" name="lc_launcher_1_23"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="insulation_obtained_23"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">24</td>
+                        <td>COTS – 2 Tracks availability on CMS</td>
+                        <td><input type="text" class="form-control" name="lc_launcher_1_24"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="insulation_obtained_24"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">25</td>
+                        <td>COTS – 3 Status</td>
+                        <td><input type="text" class="form-control" name="lc_launcher_1_25"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="insulation_obtained_25"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">26</td>
+                        <td>COTS – 3 Tracks availability on CMS</td>
+                        <td><input type="text" class="form-control" name="lc_launcher_1_26"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="insulation_obtained_26"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">27</td>
+                        <td>Revathi Status</td>
+                        <td><input type="text" class="form-control" name="lc_launcher_1_27"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="insulation_obtained_27"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">28</td>
+                        <td>Revathi Tracks availability on CMS</td>
+                        <td><input type="text" class="form-control" name="lc_launcher_1_28"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="insulation_obtained_28"></textarea></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   OTHER EQUIPMENT
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">OTHER EQUIPMENT</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no">Ser</th>
+                        <th>Test Conducted</th>
+                        <th>Status</th>
+                        <th>Remarks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      
+                      <tr>
+                        <td class="serial-no">29</td>
+                        <td>SANKET</td>
+                        <td><input type="text" class="form-control" name="lc_launcher_1_29"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="insulation_obtained_29"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">30</td>
+                        <td>KAVACH MOD I</td>
+                        <td><input type="text" class="form-control" name="lc_launcher_1_30"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="insulation_obtained_30"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td class="serial-no">31</td>
+                        <td>DATA LINK-II</td>
+                        <td><input type="text" class="form-control" name="lc_launcher_1_31"></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="insulation_obtained_31"></textarea></td>
+                      </tr>
+                      
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   GENERAL OBSERVATIONS / RECOMMENDATIONS
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">GENERAL OBSERVATIONS / RECOMMENDATIONS</legend>
+
+                <p><b><u>BEL (WFS) OBSERVATIONS/RECOMMENDATIONS:</u></b></p>
+                <div class="row g-3">
+                  <div class="col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <textarea class="form-control obs-textarea" name="ti_checks_remarks" rows="10" placeholder=" "></textarea>
+                    </div>
+                  </div>
+                </div>
+
+                <p class="mt-3"><b><u>SHIP STAFF OBSERVATIONS/RECOMMENDATIONS:</u></b></p>
+                <div class="row g-3">
+                  <div class="col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <textarea class="form-control obs-textarea" name="steering_korall_remarks" rows="10" placeholder=" "></textarea>
+                    </div>
+                  </div>
+                </div>
+
+              </fieldset>
+
+              <!-- Submit -->
+              <div class="d-flex justify-content-center mt-4 gap-2">
+                <button type="submit" class="btn btn-success px-4">Save</button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

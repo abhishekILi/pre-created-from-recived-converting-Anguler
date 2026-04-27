@@ -1,0 +1,370 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+	.custom_tbl td,
+	.custom_tbl th {
+		vertical-align: top;
+		word-wrap: break-word;
+		overflow-wrap: break-word;
+		white-space: normal !important;
+	}
+	.form-time-cell {
+		min-width: 90px;
+	}
+	.form-time-cell input {
+		min-width: 80px;
+	}
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ASW SATs</a></li>
+					<li class="breadcrumb-item active" aria-current="page">HUMSA NG - PHASE 1</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">HUMSA NG SATs - PHASE 1</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="humsa_ng_phase_1_form">
+						{% csrf_token %}
+						<div class="form-body">
+							<fieldset class="custom-fieldset">
+								<div class="row g-3">
+									<div class="col-md-3 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<select class="form-control" name="ship_name" required>
+												<option value="">Select Ship</option>
+												{% for option in ship_options %}
+													<option value="{{ option.value }}">{{ option.label }}</option>
+												{% endfor %}
+											</select>
+											<label class="form_control_1">NAME OF SHIP <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-3 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<input type="text" class="form-control" name="equipment" value="HUMSA NG" required>
+											<label class="form_control_1">EQUIPMENT <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-2 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<input type="text" class="form-control" name="unit" value="INS SURAT">
+											<label class="form_control_1">UNIT</label>
+										</div>
+									</div>
+									<div class="col-md-2 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<input type="text" class="form-control" name="obs_sheet_no">
+											<label class="form_control_1">OBSERVATION SHEET NO</label>
+										</div>
+									</div>
+									<div class="col-md-2 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<input type="date" class="form-control" name="date" required>
+											<label class="form_control_1">DATE <span class="text-danger">*</span></label>
+										</div>
+									</div>
+								</div>
+
+								<div class="row g-3 mt-2">
+									<div class="col-md-3 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<input type="text" class="form-control" name="presented_by">
+											<label class="form_control_1">PRESENTED BY</label>
+										</div>
+									</div>
+									<div class="col-md-3 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<select class="form-control" name="department" required>
+												<option value="">Select Department</option>
+												<option value="ND">ND</option>
+												<option value="ELE">ELE</option>
+												<option value="COMMN">COMMN</option>
+												<option value="ASW">ASW</option>
+											</select>
+											<label class="form_control_1">DEPARTMENT <span class="text-danger">*</span></label>
+										</div>
+									</div>
+									<div class="col-md-3 col-12">
+										<div class="form-group form-md-line-input form-md-floating-label">
+											<select class="form-control" name="nature_of_trials" required>
+												<option value="">Select Nature of Trials</option>
+												<option value="SATs">SATs</option>
+												<option value="HATs">HATs</option>
+												<option value="OP CHECKS">OP CHECKS</option>
+												<option value="IIs">IIs</option>
+											</select>
+											<label class="form_control_1">NATURE OF TRIALS <span class="text-danger">*</span></label>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset mt-4">
+								<div class="table-responsive mt-3">
+									<table class="custom_tbl">
+										<thead class="table-dark-head">
+											<tr>
+												<th>TRIAL SER</th>
+												<th>CHECK DESCRIPTION AS PER SCHEDULE</th>
+												<th>RESULT<br>SAT/UNSAT</th>
+												<th>PRESENTING AUTHORITY REMARKS</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td><strong>CH 2.</strong></td>
+												<td><strong>ACTIVE SONAR RANGE AND BEARING ACCURACY TRIALS</strong><br>Range and Bearing accuracy Checks</td>
+												<td><label><input type="radio" name="ch2" value="SAT"> SAT</label> <label><input type="radio" name="ch2" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="ch2_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td><strong>CH 3.</strong></td>
+												<td><strong>ACTIVE SONAR MAXIMUM HOLDING RANGE TRAILS</strong><br>Maximum Holding Range Checks<br>Assessing the advantage of DRDT mode over OMNI mode</td>
+												<td><label><input type="radio" name="ch3" value="SAT"> SAT</label> <label><input type="radio" name="ch3" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="ch3_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td><strong>CH 4.</strong></td>
+												<td><strong>ACTIVE SONAR INITIAL DETECTION RANGE TRIALS</strong><br>Initial Detection Range Checks</td>
+												<td><label><input type="radio" name="ch4" value="SAT"> SAT</label> <label><input type="radio" name="ch4" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="ch4_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td><strong>CH 5.</strong></td>
+												<td><strong>ACTIVE SONAR DOPPLER ACCURACY TRIALS</strong><br>Doppler Accuracy Checks</td>
+												<td><label><input type="radio" name="ch5" value="SAT"> SAT</label> <label><input type="radio" name="ch5" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="ch5_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td><strong>CH 6.</strong></td>
+												<td><strong>PASSIVE SONAR TRIALS</strong><br>Bearing Accuracy Checks<br>Maximum Holding Range Checks</td>
+												<td><label><input type="radio" name="ch6" value="SAT"> SAT</label> <label><input type="radio" name="ch6" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="ch6_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td><strong>CH 7.</strong></td>
+												<td><strong>ACTIVE AND PASSIVE CMA TRIALS</strong><br>Active CMA<br>Passive CMA</td>
+												<td><label><input type="radio" name="ch7" value="SAT"> SAT</label> <label><input type="radio" name="ch7" value="UNSAT"> UNSAT</label></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="ch7_remarks"></textarea></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+								<div class="table-responsive mt-4">
+									<h5><u>Table 4. Standard Deviation of range and bearing to be achieved</u></h5>
+									<table class="custom_tbl">
+										<thead>
+											<tr>
+												<th>Parameter</th><th>Result to be achieved</th><th>Result Computed</th><th>SAT/UNSAT</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>Range (m)</td><td>&le; 200</td><td><input type="text" class="form-control" name="tbl4_range_result"></td><td><label><input type="radio" name="tbl4_range_sat" value="SAT"> SAT</label> <label><input type="radio" name="tbl4_range_sat" value="UNSAT"> UNSAT</label></td></tr>
+											<tr><td>Bearing (deg)</td><td>&le; 2</td><td><input type="text" class="form-control" name="tbl4_bearing_result"></td><td><label><input type="radio" name="tbl4_bearing_sat" value="SAT"> SAT</label> <label><input type="radio" name="tbl4_bearing_sat" value="UNSAT"> UNSAT</label></td></tr>
+										</tbody>
+									</table>
+								</div>
+
+								<div class="table-responsive mt-4">
+									<h5><u>Table 5. Active Sonar Range &amp; Bearing Accuracy Checks (SCR)</u></h5>
+									<table class="custom_tbl">
+										<thead>
+											<tr>
+                                                <th rowspan="2">Ser</th><th rowspan="2">Cut No.</th><th rowspan="2">Time</th><th colspan="3" style="text-align: center;">Sonar Readings</th><th rowspan="2">Remarks</th></tr>
+											<tr><th>Own Ship Course (SCs)</th><th>Range (km) Rs</th><th>True Bearing (TBs)</th></tr>
+										</thead>
+										<tbody>
+											{% for x in "abcdefghijklmnopqrst"|make_list %}
+											<tr><td>{{ forloop.counter }}</td><td><input type="text" class="form-control" name="t5_cut_{{ forloop.counter }}"></td><td class="form-time-cell"><input type="time" class="form-control" name="t5_time_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t5_sc_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t5_rs_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t5_tbs_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t5_rem_{{ forloop.counter }}"></td></tr>
+											{% endfor %}
+										</tbody>
+									</table>
+								</div>
+
+								<div class="table-responsive mt-4">
+									<h5><u>Table 6. Navigational Radar Range and Bearing Data (Radar Room)</u></h5>
+									<table class="custom_tbl">
+										<thead><tr><th rowspan="2">Ser</th><th rowspan="2">Cut No.</th><th rowspan="2">Time</th><th colspan="3" style="text-align: center;">Radar Reading</th><th rowspan="2">Remarks</th></tr><tr><th>Own Ship Course (SCr)</th><th>Range (Nm) Rr</th><th>True Bearing (TB<sub>S</sub>)</th></tr></thead>
+										<tbody>{% for x in "abcdefghijklmnopqrst"|make_list %}<tr><td>{{ forloop.counter }}</td><td><input type="text" class="form-control" name="t6_cut_{{ forloop.counter }}"></td><td class="form-time-cell"><input type="time" class="form-control" name="t6_time_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t6_scr_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t6_rr_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t6_tbr_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t6_rem_{{ forloop.counter }}"></td></tr>{% endfor %}</tbody>
+									</table>
+								</div>
+
+								<div class="table-responsive mt-4">
+									<h5><u>Table 7. Error in Bearing &amp; Range (for offline computation)</u></h5>
+									<table class="custom_tbl">
+										<thead><tr><th>Ser</th><th>Cut No.</th><th>Time</th><th>Sonar True Brg (TBs)</th><th>Radar True Bearing (TBr)</th><th>Bearing error (B = TBs - TBr)</th><th>Sonar Range (Rs)</th><th>Radar Range (Rr)</th><th>Range error (R = Rs - Rr)</th></tr></thead>
+										<tbody>{% for x in "abcdefghijklmnopqrst"|make_list %}<tr><td>{{ forloop.counter }}</td><td><input type="text" class="form-control" name="t7_cut_{{ forloop.counter }}"></td><td class="form-time-cell"><input type="time" class="form-control" name="t7_time_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t7_tbs_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t7_tbr_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t7_be_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t7_rs_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t7_rr_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t7_re_{{ forloop.counter }}"></td></tr>{% endfor %}</tbody>
+									</table>
+									<div class="mt-2"><strong>Standard Deviation of Bearing error =</strong> <input type="text" class="line-input embarked-hrs" name="std_bearing_err"></div>
+									<div class="mt-2"><strong>Standard Deviation of Range error =</strong> <input type="text" class="line-input embarked-hrs" name="std_range_err"></div>
+								</div>
+
+								<div class="table-responsive mt-4">
+									<h5><u>Table 8. Order of Changing Transmission Mode &amp; Source Level</u></h5>
+									<table class="custom_tbl">
+										<thead><tr><th>Ser</th><th>Source Level Setting</th><th>Tx mode</th><th>MHR in Video (km)</th><th>Range improvement in km from previous SL</th><th>Remarks</th></tr></thead>
+										<tbody>
+											<tr><td>1</td><td>-24 dB</td><td>OMNI</td><td><input type="text" class="form-control" name="t8_mhr_1"></td><td><input type="text" class="form-control" name="t8_imp_1"></td><td><input type="text" class="form-control" name="t8_rem_1"></td></tr>
+											<tr><td>2</td><td>-18 dB</td><td>OMNI</td><td><input type="text" class="form-control" name="t8_mhr_2"></td><td><input type="text" class="form-control" name="t8_imp_2"></td><td><input type="text" class="form-control" name="t8_rem_2"></td></tr>
+											<tr><td>3</td><td>-24 dB</td><td>DRDT</td><td><input type="text" class="form-control" name="t8_mhr_3"></td><td><input type="text" class="form-control" name="t8_imp_3"></td><td><input type="text" class="form-control" name="t8_rem_3"></td></tr>
+											<tr><td>4</td><td>-12 dB</td><td>OMNI</td><td><input type="text" class="form-control" name="t8_mhr_4"></td><td><input type="text" class="form-control" name="t8_imp_4"></td><td><input type="text" class="form-control" name="t8_rem_4"></td></tr>
+											<tr><td>5</td><td>-18 dB</td><td>DRDT</td><td><input type="text" class="form-control" name="t8_mhr_5"></td><td><input type="text" class="form-control" name="t8_imp_5"></td><td><input type="text" class="form-control" name="t8_rem_5"></td></tr>
+											<tr><td>6</td><td>-6 dB</td><td>OMNI</td><td><input type="text" class="form-control" name="t8_mhr_6"></td><td><input type="text" class="form-control" name="t8_imp_6"></td><td><input type="text" class="form-control" name="t8_rem_6"></td></tr>
+											<tr><td>7</td><td>-12 dB</td><td>DRDT</td><td><input type="text" class="form-control" name="t8_mhr_7"></td><td><input type="text" class="form-control" name="t8_imp_7"></td><td><input type="text" class="form-control" name="t8_rem_7"></td></tr>
+											<tr><td>8</td><td>-0 dB</td><td>OMNI</td><td><input type="text" class="form-control" name="t8_mhr_8"></td><td><input type="text" class="form-control" name="t8_imp_8"></td><td><input type="text" class="form-control" name="t8_rem_8"></td></tr>
+											<tr><td>9</td><td>-6 dB</td><td>DRDT</td><td><input type="text" class="form-control" name="t8_mhr_9"></td><td><input type="text" class="form-control" name="t8_imp_9"></td><td><input type="text" class="form-control" name="t8_rem_9"></td></tr>
+											<tr><td>10</td><td>-0 dB</td><td>DRDT</td><td><input type="text" class="form-control" name="t8_mhr_10"></td><td><input type="text" class="form-control" name="t8_imp_10"></td><td><input type="text" class="form-control" name="t8_rem_10"></td></tr>
+										</tbody>
+									</table>
+								</div>
+
+								<div class="table-responsive mt-4">
+									<h5><u>Table 9. Active MHR Readings</u></h5>
+									<div class="mb-2">ESR = <input type="text" class="line-input embarked-hrs" name="t9_esr"></div>
+									<table class="custom_tbl">
+										<thead><tr><th>Time</th><th>Range</th><th>True Brg</th><th>Video Good</th><th>Audio Good</th><th>Tx Mode</th><th>Source Level</th><th>Waveform</th><th>Pulse length</th><th>Processing mode</th><th>Sensitivity</th><th>Remarks</th></tr></thead>
+										<tbody>{% for x in "abcdefghijklmnopqrstuvwxyzabcd"|make_list %}<tr><td class="form-time-cell"><input type="time" class="form-control" name="t9_time_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t9_range_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t9_tbrg_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t9_vg_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t9_ag_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t9_tx_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t9_sl_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t9_wf_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t9_pl_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t9_pm_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t9_sen_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t9_rem_{{ forloop.counter }}"></td></tr>{% endfor %}</tbody>
+									</table>
+								</div>
+
+								<div class="table-responsive mt-4">
+									<h5><u>Table 10. Active MHR Results</u></h5>
+									<table class="custom_tbl"><thead><tr><th>Target Position</th><th>Own Speed (knots)</th><th>OMNI/LFM/RC/0dB Video (km)</th><th>DRDT/LFM/RC/0dB Video (km)</th><th>Audio (km)</th><th>Remarks</th></tr></thead><tbody><tr><td>Above Layer</td><td><input type="text" class="form-control" name="t10_os_above"></td><td><input type="text" class="form-control" name="t10_omni_above"></td><td><input type="text" class="form-control" name="t10_drdt_above"></td><td><input type="text" class="form-control" name="t10_audio_above"></td><td><input type="text" class="form-control" name="t10_rem_above"></td></tr><tr><td>Below Layer</td><td><input type="text" class="form-control" name="t10_os_below"></td><td><input type="text" class="form-control" name="t10_omni_below"></td><td><input type="text" class="form-control" name="t10_drdt_below"></td><td><input type="text" class="form-control" name="t10_audio_below"></td><td><input type="text" class="form-control" name="t10_rem_below"></td></tr></tbody></table>
+								</div>
+
+								<div class="table-responsive mt-4">
+									<h5><u>Table 11, 17 &amp; 32. Area Data (to be filled every hour)</u></h5>
+									<table class="custom_tbl"><thead><tr><th>Date</th><th>Time</th><th>Lat</th><th>Long</th><th>Off Place</th><th>Distance from coast</th><th>Depth</th><th>Bottom Type</th><th>Coastal rivers</th></tr></thead><tbody>{% for x in "abcdefghijklmnopqrstuvwxyz"|make_list %}<tr><td><input type="date" class="form-control" name="t11_date_{{ forloop.counter }}"></td><td class="form-time-cell"><input type="time" class="form-control" name="t11_time_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t11_lat_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t11_long_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t11_off_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t11_dist_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t11_depth_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t11_bottom_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t11_coastal_{{ forloop.counter }}"></td></tr>{% endfor %}</tbody></table>
+								</div>
+
+								<div class="table-responsive mt-4">
+									<h5><u>Table 12, 18 &amp; 33. Sea State Data (to be filled every hour)</u></h5>
+									<table class="custom_tbl"><thead><tr><th>Date</th><th>Time</th><th>Wind Force</th><th>Wind Dir</th><th>Wave Height</th><th>Sea state</th><th>Sea dir</th><th>Weather</th><th>Visibility</th><th>Presence of fish</th><th>Remarks</th></tr></thead><tbody>{% for x in "abcdefghijklmnopqrstuvwxyz"|make_list %}<tr><td><input type="date" class="form-control" name="t12_date_{{ forloop.counter }}"></td><td class="form-time-cell"><input type="time" class="form-control" name="t12_time_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t12_wf_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t12_wdir_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t12_wh_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t12_ss_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t12_sdir_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t12_weather_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t12_vis_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t12_fish_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t12_rem_{{ forloop.counter }}"></td></tr>{% endfor %}</tbody></table>
+								</div>
+
+								<div class="table-responsive mt-4">
+									<h5><u>Table 13, 19 &amp; 31. Bathy and Ocean Data (to be filled every hour)</u></h5>
+									<div class="mb-2">ESR Predicted: <input type="text" class="line-input embarked-hrs" name="t13_esr_pred"></div>
+									<table class="custom_tbl"><thead><tr><th>Date</th><th>Time</th><th>Salinity (psu)</th><th>Temp (&deg;C)</th><th>Depth (m)</th><th>Sound Velocity (m/sec)</th><th>Type of probe</th><th>Surface Temp (&deg;C)</th><th>Remarks regarding ESR ETC from sub/consort</th><th>Sound Velocity record</th><th>Remarks</th></tr></thead><tbody>{% for x in "abcdefghijklmnopqrst"|make_list %}<tr><td><input type="date" class="form-control" name="t13_date_{{ forloop.counter }}"></td><td class="form-time-cell"><input type="time" class="form-control" name="t13_time_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t13_sal_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t13_temp_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t13_depth_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t13_sv_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t13_probe_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t13_st_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t13_esr_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t13_svr_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t13_rem_{{ forloop.counter }}"></td></tr>{% endfor %}</tbody></table>
+								</div>
+
+								<div class="table-responsive mt-4">
+									<h5><u>Table 14, 20 &amp; 34. Ship Data (to be filled every hour)</u></h5>
+									<table class="custom_tbl"><thead><tr><th>Date</th><th>Time</th><th>Course</th><th>Speed</th><th>Displacement</th><th>Draught (Fwd/Aft)</th><th>PNM/CNM (On/Off)</th><th>Machinery State, TA, DA</th><th>Status (On/Off)</th><th>Regime</th><th>Remarks</th></tr></thead><tbody>{% for x in "abcdefghijklmnopqrst"|make_list %}<tr><td><input type="date" class="form-control" name="t14_date_{{ forloop.counter }}"></td><td class="form-time-cell"><input type="time" class="form-control" name="t14_time_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t14_course_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t14_speed_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t14_disp_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t14_draught_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t14_pnm_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t14_machine_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t14_status_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t14_regime_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t14_rem_{{ forloop.counter }}"></td></tr>{% endfor %}</tbody></table>
+								</div>
+
+								<div class="table-responsive mt-4">
+									<h5><u>Table 15. Active IDR Readings</u></h5>
+									<table class="custom_tbl"><thead><tr><th>Time</th><th>Range</th><th>True Brg</th><th>Video Good</th><th>Audio Good</th><th>Tx Mode</th><th>Source Level</th><th>Waveform</th><th>Pulse Length</th><th>Processing mode</th><th>Sensitivity</th><th>Remarks</th></tr></thead><tbody>{% for x in "abcdefghijklmnopqrstuvwxyzabcd"|make_list %}<tr><td class="form-time-cell"><input type="time" class="form-control" name="t15_time_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t15_range_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t15_tbrg_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t15_vg_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t15_ag_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t15_tx_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t15_sl_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t15_wf_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t15_pl_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t15_pm_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t15_sen_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t15_rem_{{ forloop.counter }}"></td></tr>{% endfor %}</tbody></table>
+								</div>
+
+								<div class="table-responsive mt-4">
+									<h5><u>Table 16. Active JDR Results</u></h5>
+									<table class="custom_tbl"><thead><tr><th>Target Position</th><th>Own Speed (knots)</th><th>OMNI/LFM/RC/0dB (km)</th><th>DRDT/LFM/RC/0dB (km)</th><th>Audio (km)</th><th>Remarks</th></tr></thead><tbody><tr><td>Above Layer</td><td><input type="text" class="form-control" name="t16_os_above"></td><td><input type="text" class="form-control" name="t16_omni_above"></td><td><input type="text" class="form-control" name="t16_drdt_above"></td><td><input type="text" class="form-control" name="t16_audio_above"></td><td><input type="text" class="form-control" name="t16_rem_above"></td></tr><tr><td>Below Layer</td><td><input type="text" class="form-control" name="t16_os_below"></td><td><input type="text" class="form-control" name="t16_omni_below"></td><td><input type="text" class="form-control" name="t16_drdt_below"></td><td><input type="text" class="form-control" name="t16_audio_below"></td><td><input type="text" class="form-control" name="t16_rem_below"></td></tr></tbody></table>
+								</div>
+
+								<div class="table-responsive mt-4">
+									<h5><u>Table 21. Navigational Radar Data (Radar room) - Run 1</u></h5>
+									<div class="mb-2">Radar Name: <input type="text" class="line-input embarked-hrs" name="t21_radar"></div>
+									<table class="custom_tbl"><thead><tr><th>Ser</th><th>Cut No.</th><th>Time</th><th>Range Rr</th><th>True Bearing (TBr)</th><th>Target Course (Cr)</th><th>Speed (Vb)</th><th>Own Ship Course (SCr)</th><th>Own Ship speed (SSr)</th><th>Remarks</th></tr></thead><tbody>{% for x in "abcdefghijklmnopqrst"|make_list %}<tr><td>{{ forloop.counter }}</td><td><input type="text" class="form-control" name="t21_cut_{{ forloop.counter }}"></td><td class="form-time-cell"><input type="time" class="form-control" name="t21_time_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t21_rr_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t21_tbr_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t21_cr_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t21_vb_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t21_scr_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t21_ssr_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t21_rem_{{ forloop.counter }}"></td></tr>{% endfor %}</tbody></table>
+								</div>
+
+								<div class="table-responsive mt-4">
+									<h5><u>Table 22. Active Sonar Doppler Accuracy Checks (SCR) - Run 1</u></h5>
+									<table class="custom_tbl"><thead><tr><th>Ser</th><th>Cut No.</th><th>Time</th><th>Own Ship Course (SCs)</th><th>Own Ship speed (SSs)</th><th>True Bearing (TBs)</th><th>Doppler (Ds)</th><th>Remarks</th></tr></thead><tbody>{% for x in "abcdefghijklmnopqrst"|make_list %}<tr><td>{{ forloop.counter }}</td><td><input type="text" class="form-control" name="t22_cut_{{ forloop.counter }}"></td><td class="form-time-cell"><input type="time" class="form-control" name="t22_time_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t22_scs_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t22_sss_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t22_tbs_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t22_ds_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t22_rem_{{ forloop.counter }}"></td></tr>{% endfor %}</tbody></table>
+								</div>
+
+								<div class="table-responsive mt-4">
+									<h5><u>Table 23. Error in Doppler (for offline computation) - Run 1</u></h5>
+									<table class="custom_tbl"><thead><tr><th>Ser</th><th>Sonar Relative Bearing</th><th>Own Doppler Correction (Doc)</th><th>Expected Doppler (D)</th><th>Doppler Error (D)</th><th>Remarks</th></tr></thead><tbody>{% for x in "abcdefghijklmnopqrst"|make_list %}<tr><td>{{ forloop.counter }}</td><td><input type="text" class="form-control" name="t23_srb_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t23_doc_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t23_exp_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t23_err_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t23_rem_{{ forloop.counter }}"></td></tr>{% endfor %}</tbody></table>
+									<div class="mt-2"><strong>Standard Deviation of Doppler error =</strong> <input type="text" class="line-input embarked-hrs" name="t23_std"></div>
+								</div>
+
+								<div class="table-responsive mt-4">
+									<h5><u>Table 24. Navigational Radar Data (Radar room) - Run 2</u></h5>
+									<div class="mb-2">Radar Name: <input type="text" class="line-input embarked-hrs" name="t24_radar"></div>
+									<table class="custom_tbl"><thead><tr><th>Ser</th><th>Cut No.</th><th>Time</th><th>Range (Rr)</th><th>True Bearing (TBr)</th><th>Target Course (Cr)</th><th>Speed (Vb)</th><th>Own Ship Course (SCr)</th><th>Own Ship speed (SSr)</th><th>Remarks</th></tr></thead><tbody>{% for x in "abcdefghijklmnopqrst"|make_list %}<tr><td>{{ forloop.counter }}</td><td><input type="text" class="form-control" name="t24_cut_{{ forloop.counter }}"></td><td class="form-time-cell"><input type="time" class="form-control" name="t24_time_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t24_rr_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t24_tbr_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t24_cr_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t24_vb_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t24_scr_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t24_ssr_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t24_rem_{{ forloop.counter }}"></td></tr>{% endfor %}</tbody></table>
+								</div>
+
+								<div class="table-responsive mt-4">
+									<h5><u>Table 25. Active Sonar Doppler Accuracy Checks (SCR) - Run 2</u></h5>
+									<table class="custom_tbl"><thead><tr><th>Ser</th><th>Cut No.</th><th>Time</th><th>Own Ship Course (SCs)</th><th>Own Ship speed (SSs)</th><th>True Bearing (TBs)</th><th>Doppler (Ds)</th><th>Remarks</th></tr></thead><tbody>{% for x in "abcdefghijklmnopqrst"|make_list %}<tr><td>{{ forloop.counter }}</td><td><input type="text" class="form-control" name="t25_cut_{{ forloop.counter }}"></td><td class="form-time-cell"><input type="time" class="form-control" name="t25_time_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t25_scs_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t25_sss_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t25_tbs_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t25_ds_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t25_rem_{{ forloop.counter }}"></td></tr>{% endfor %}</tbody></table>
+								</div>
+
+								<div class="table-responsive mt-4">
+									<h5><u>Table 26. Error in Doppler (for offline computation) - Run 2</u></h5>
+									<table class="custom_tbl"><thead><tr><th>Ser</th><th>Sonar Relative Bearing</th><th>Own Doppler Correction (Doc)</th><th>Expected Doppler (D)</th><th>Doppler Error (D)</th><th>Remarks</th></tr></thead><tbody>{% for x in "abcdefghijklmnopqrst"|make_list %}<tr><td>{{ forloop.counter }}</td><td><input type="text" class="form-control" name="t26_srb_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t26_doc_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t26_exp_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t26_err_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t26_rem_{{ forloop.counter }}"></td></tr>{% endfor %}</tbody></table>
+									<div class="mt-2"><strong>Standard Deviation of Doppler error =</strong> <input type="text" class="line-input embarked-hrs" name="t26_std"></div>
+								</div>
+
+								<div class="table-responsive mt-4">
+									<h5><u>Table 27. Standard Deviation of Doppler to be achieved</u></h5>
+									<table class="custom_tbl"><thead><tr><th>Run No.</th><th>Standard Deviation to be achieved</th><th>Standard Deviation Computed</th><th>SAT/UNSAT</th></tr></thead><tbody><tr><td>Run 1</td><td>&le; 2</td><td><input type="text" class="form-control" name="t27_run1"></td><td><label><input type="radio" name="t27_sat1" value="SAT"> SAT</label> <label><input type="radio" name="t27_sat1" value="UNSAT"> UNSAT</label></td></tr><tr><td>Run 2</td><td>&le; 2</td><td><input type="text" class="form-control" name="t27_run2"></td><td><label><input type="radio" name="t27_sat2" value="SAT"> SAT</label> <label><input type="radio" name="t27_sat2" value="UNSAT"> UNSAT</label></td></tr></tbody></table>
+								</div>
+
+								<div class="table-responsive mt-4">
+									<h5><u>Table 28. Operating Regimes Used</u></h5>
+									<table class="custom_tbl"><thead><tr><th>Run No.</th><th>Run Name</th><th>Consort</th><th>Regime</th><th>Radiated Noise Level at GMF (3 kHz)</th></tr></thead><tbody><tr><td>1</td><td>Bearing Accuracy Checks</td><td><input type="text" class="form-control" name="t28_consort_1"></td><td><input type="text" class="form-control" name="t28_regime_1"></td><td><input type="text" class="form-control" name="t28_noise_1"></td></tr><tr><td>2</td><td>Maximum Holding Range Checks</td><td><input type="text" class="form-control" name="t28_consort_2"></td><td><input type="text" class="form-control" name="t28_regime_2"></td><td><input type="text" class="form-control" name="t28_noise_2"></td></tr></tbody></table>
+								</div>
+
+								<div class="table-responsive mt-4">
+									<h5><u>Table 29. Passive Sonar Bearing Accuracy Checks</u></h5>
+									<table class="custom_tbl"><thead><tr><th rowspan="2">Ser</th><th rowspan="2">Time</th><th colspan="3" style="text-align: center;">Sonar Reading</th><th colspan="2" style="text-align: center;">Radar Reading</th><th rowspan="2">Bearing Error (B)</th><th rowspan="2">Remarks</th></tr><tr><th>True Bearing (Bs)</th><th>Ship Course</th><th>Ship Speed</th><th>True Bearing (Br)</th><th>Range</th></tr></thead><tbody>{% for x in "abcdefghijklmnopqrst"|make_list %}<tr><td>{{ forloop.counter }}</td><td class="form-time-cell"><input type="time" class="form-control" name="t29_time_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t29_bs_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t29_sc_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t29_ss_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t29_br_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t29_range_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t29_be_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t29_rem_{{ forloop.counter }}"></td></tr>{% endfor %}</tbody></table>
+								</div>
+
+								<div class="table-responsive mt-4">
+									<h5><u>Table 30. Passive Sonar Maximum Holding Checks</u></h5>
+									<div class="mb-2">ESR = <input type="text" class="line-input embarked-hrs" name="t30_esr"></div>
+									<table class="custom_tbl"><thead><tr><th rowspan="2">Ser</th><th colspan="2" style="text-align: center;">Radar Readings</th><th colspan="5" style="text-align: center;">Sonar Readings</th><th rowspan="2">Remarks</th></tr><tr><th>True Bearing</th><th>Range</th><th>True Bearing</th><th>Video Good</th><th>Audio Good</th><th>Ship Course</th><th>Ship Speed</th></tr></thead><tbody>{% for x in "abcdefghijklmnopqrst"|make_list %}<tr><td>{{ forloop.counter }}</td><td><input type="text" class="form-control" name="t30_rb_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t30_rr_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t30_sb_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t30_vg_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t30_ag_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t30_sc_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t30_ss_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t30_rem_{{ forloop.counter }}"></td></tr>{% endfor %}</tbody></table>
+									<div class="mt-2"><strong>Maximum Holding Range =</strong> <input type="text" class="line-input embarked-hrs" name="t30_mhr"></div>
+								</div>
+
+								<div class="table-responsive mt-4">
+									<h5><u>Table 35. SCR Record</u></h5>
+									<table class="custom_tbl"><thead><tr><th>Time</th><th>True Brg</th><th>Range</th><th>Own Course</th><th>Own Speed</th><th>Processing mode</th><th>Sensitivity</th><th>Consort course</th><th>Consort Speed</th><th>Remarks</th></tr></thead><tbody>{% for x in "abcdefghijklmnopqrst"|make_list %}<tr><td class="form-time-cell"><input type="time" class="form-control" name="t35_time_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t35_tbrg_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t35_range_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t35_oc_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t35_os_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t35_pm_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t35_sens_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t35_cc_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t35_cs_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t35_rem_{{ forloop.counter }}"></td></tr>{% endfor %}</tbody></table>
+								</div>
+
+								<div class="table-responsive mt-4">
+									<h5><u>Table 36. Active CMA Evaluation</u></h5>
+									<table class="custom_tbl"><thead><tr><th rowspan="2">Cut No</th><th rowspan="2">Time</th><th colspan="4" style="text-align: center;">Radar Values</th><th colspan="2">Sonar Track Output</th><th colspan="4" style="text-align: center;">CMS Output</th><th colspan="4" style="text-align: center;">Difference</th></tr><tr><th>B<sub>R</sub></th><th>R<sub>R</sub></th><th>C<sub>R</sub></th><th>S<sub>R</sub></th><th>B<sub>S</sub></th><th>R<sub>S</sub></th><th>B<sub>C</sub></th><th>R<sub>C</sub></th><th>C<sub>C</sub></th><th>S<sub>C</sub></th><th>B<sub>E</sub> <br>(B<sub>S</sub>-B<sub>C</sub>)</th><th>R<sub>E</sub> <br>(R<sub>S</sub>-R<sub>C</sub>)</th><th>C<sub>E</sub><br> (C<sub>R</sub>-C<sub>C</sub>)</th><th>S<sub>E</sub> <br>(S<sub>R</sub>-S<sub>C</sub>)</th></tr></thead><tbody>{% for x in "abcdefghij"|make_list %}<tr><td>{{ forloop.counter }}</td><td class="form-time-cell"><input type="time" class="form-control" name="t36a_time_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t36a_br_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t36a_rr_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t36a_cr_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t36a_sr_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t36a_bs_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t36a_rs_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t36a_bc_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t36a_rc_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t36a_cc_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t36a_sc_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t36a_be_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t36a_re_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t36a_ce_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t36a_se_{{ forloop.counter }}"></td></tr>{% endfor %}</tbody></table>
+								</div>
+
+								<div class="table-responsive mt-4">
+									<h5><u>Table 37. Passive CMA Evaluation</u></h5>
+									<table class="custom_tbl"><thead><tr><th rowspan="2">Cut No</th><th rowspan="2">Time</th><th colspan="4" style="text-align: center;">Radar Values</th><th colspan="1">Sonar Track Output</th><th colspan="4" style="text-align: center;">CMA Output</th><th colspan="4" style="text-align: center;">Difference</th></tr><tr><th>B<sub>R</sub></th><th>R<sub>R</sub></th><th>C<sub>R</sub></th><th>S<sub>R</sub></th><th>B<sub>S</sub></th><th>B<sub>C</sub></th><th>R<sub>C</sub></th><th>C<sub>C</sub></th><th>S<sub>C</sub></th><th>B<sub>E</sub> <br>(B<sub>S</sub>-B<sub>C</sub>)</th><th>R<sub>E</sub> <br>(R<sub>S</sub>-R<sub>C</sub>)</th><th>C<sub>E</sub><br> (C<sub>R</sub>-C<sub>C</sub>)</th><th>S<sub>E</sub> <br>(S<sub>R</sub>-S<sub>C</sub>)</th></tr></thead><tbody>{% for x in "abcdefghij"|make_list %}<tr><td>{{ forloop.counter }}</td><td class="form-time-cell"><input type="time" class="form-control" name="t37_time_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t37_br_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t37_rr_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t37_cr_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t37_sr_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t37_bs_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t37_bc_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t37_rc_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t37_cc_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t37_sc_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t37_be_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t37_re_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name="t37_ce_{{ forloop.counter }}"></td><td><input type="text" class="form-control" name("t37_se_{{ forloop.counter }}"></td></tr>{% endfor %}</tbody></table>
+								</div>
+							</fieldset>
+
+							<div class="form-actions mt-3">
+								<button type="submit" class="btn btn-primary">Submit</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

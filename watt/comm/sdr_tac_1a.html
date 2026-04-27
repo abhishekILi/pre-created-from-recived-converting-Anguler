@@ -1,0 +1,870 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+    .custom_tbl {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .custom_tbl td,
+    .custom_tbl th {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal !important;
+        padding: 8px;
+        vertical-align: middle;
+        border: 1px solid #ddd;
+    }
+    .custom_tbl thead th {
+        background-color: #343a40;
+        color: #fff;
+        text-align: center;
+    }
+    .line-input {
+        border: none;
+        border-bottom: 1px solid #333;
+        background: transparent;
+        min-width: 80px;
+        padding: 2px 4px;
+    }
+    .embarked-hrs {
+        width: 80px;
+    }
+    .freq-header td {
+        background-color: #e8e8e8;
+        font-weight: bold;
+        text-align: center;
+    }
+    .freq-subheader td {
+        background-color: #f5f5f5;
+        font-weight: bold;
+        text-align: center;
+    }
+    .text-center {
+        text-align: center;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">WATT</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">SDR TAC 1A</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">SDR TAC 1A - OPERATIONAL CHECKS</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="sdr_tac_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+
+                            <!-- ===== HEADER FIELDS ===== -->
+                            <fieldset class="custom-fieldset">
+                                <div class="row g-3">
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <select class="form-control" name="ship_name" required>
+                                                <option value="">Select Ship</option>
+                                                {% for option in ship_options %}
+                                                    <option value="{{ option.value }}">{{ option.label }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <label class="form_control_1">NAME OF SHIP <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="text" class="form-control" name="equipment" value="SDR TAC 1A" required>
+                                            <label class="form_control_1">EQUIPMENT <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="text" class="form-control" name="sno">
+                                            <label class="form_control_1">S No</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row g-3 mt-2">
+                                    <div class="col-md-2 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="date" class="form-control" name="date" required>
+                                            <label class="form_control_1">DATE <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <select class="form-control" name="department" required>
+                                                <option value="">Select Department</option>
+                                                <option value="ELE/COMMN">ELE/COMMN</option>
+                                                <option value="Communication">Communication</option>
+                                                <option value="Gunnery">Gunnery</option>
+                                                <option value="ASW">ASW</option>
+                                            </select>
+                                            <label class="form_control_1">DEPARTMENT <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <select class="form-control" name="nature_of_trials" required>
+                                                <option value="">Select Nature of Trials</option>
+                                                <option value="OP CHECKS">OP CHECKS</option>
+                                                <option value="SATs">SATs</option>
+                                                <option value="HATs">HATs</option>
+                                                <option value="IIs">IIs</option>
+                                            </select>
+                                            <label class="form_control_1">NATURE OF TRIALS <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <!-- ===== MAIN CHECKS TABLE ===== -->
+                            <fieldset class="custom-fieldset mt-4">
+                                <div class="table-responsive mt-4">
+                                    <table class="custom_tbl" id="sdr_tac_table">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:5%;">Ser</th>
+                                                <th colspan="6">Checks</th>
+                                                <th style="width:180px;">Remarks</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <!-- Introduction Row -->
+                                            <tr>
+                                                <td colspan="8">
+                                                    Trial team reported onboard for Ops Check of <strong>SDR – TAC 1A</strong> at
+                                                    <input type="text" name="reported_hrs" class="line-input embarked-hrs"> hrs.
+                                                    Checks and trials carried out IAW <strong>NHQ/DNS approved schedule vide NHQ/DNS
+                                                    letter CM/4890/TAC dated 27 Mar 26</strong> and <strong>CNO. 07/10</strong>
+                                                    are enumerated in succeeding paragraphs :-
+                                                </td>
+                                            </tr>
+
+                                            <!-- ===== VISUAL CHECKS ===== -->
+                                            <tr>
+                                                <td colspan="8"><strong><u>Visual Checks</u></strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td>(a)</td>
+                                                <td colspan="6">Fitment of equipment rack on shock mount in
+                                                    <input type="text" class="line-input" name="rack_location" style="width:180px;">.
+                                                </td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_vc_a" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_vc_a" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>(b)</td>
+                                                <td colspan="6">Fitment of V/UHF Antenna (02) on
+                                                    <input type="text" class="line-input" name="vuhf_antenna_location" style="width:160px;"> and
+                                                    L band Antenna (02) on
+                                                    <input type="text" class="line-input" name="lband_antenna_location" style="width:160px;">.
+                                                </td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_vc_b" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_vc_b" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>(c)</td>
+                                                <td colspan="6">Antenna connection to the SDR-TAC trough feeder cable.</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_vc_c" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_vc_c" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>(d)</td>
+                                                <td colspan="6">Grounding of Rack/Equipment</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_vc_d" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_vc_d" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>(e)</td>
+                                                <td colspan="6">Power supply 230V AC, 50Hz</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_vc_e" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_vc_e" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>(f)</td>
+                                                <td colspan="6">Fitment of sub units in cabinet and interconnection.</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_vc_f" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_vc_f" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>(g)</td>
+                                                <td colspan="6">Functions of all knobs, switches, push buttons and display.</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_vc_g" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_vc_g" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- ===== SECTION 9 HEADER ===== -->
+                                            <tr>
+                                                <td>9.</td>
+                                                <td colspan="7"><strong>Operational Checks of SDR TAC wave forms</strong></td>
+                                            </tr>
+
+                                            <!-- ===== 9.1 V/UHF FM ===== -->
+                                            <tr>
+                                                <td rowspan="17">9.1</td>
+                                                <td colspan="7"><strong>V/UHF FM – Waveform CH 1, 2 (with default configuration).</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="7"><strong>Procedures</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6">(a) Ensure that proper RF cables are connected with the attenuator.</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_9_1_a" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_9_1_a" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6">(b) SDR-TAC unit is configured for functional voice testing.</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_9_1_b" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_9_1_b" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6">(c) Select FM waveform in channel 1 with any pre-set configuration.</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_9_1_c" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_9_1_c" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6">(d) Set the frequency 125/ 226/361/475 MHz and Low power mode on both the channels.</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_9_1_d" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_9_1_d" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6">(e) Set the volume level to High on the display.</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_9_1_e" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_9_1_e" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6">(f) Communicate back to back by pressing handset PTT. Verify the voice strength & Quality</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_9_1_f" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_9_1_f" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6">(g) Repeat tests of frequencies 125/ 226/361/475 MHz on other channels 2</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_9_1_g" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_9_1_g" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6">(h) Power on RCU & configure the RCU to control CH 1 with FM waveform.</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_9_1_h" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_9_1_h" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6">(j) Communicate back to back by pressing handset PTT on RCU & Channel 2 of Radio, Verify the voice strength & Quality on frequencies 125/ 226/361/475 MHz</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_9_1_j" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_9_1_j" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 9.1 Frequency Table Header -->
+                                            <tr class="freq-header">
+                                                <td class="text-center" rowspan="2">Ser</td>
+                                                <td class="text-center" rowspan="2">Freq (in MHz)</td>
+                                                <td class="text-center" colspan="2">Radio</td>
+                                                <td class="text-center" colspan="2">RCU</td>
+                                                <td class="text-center" rowspan="6">
+                                                    <label><input type="radio" name="status_fm_freq" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_fm_freq" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr class="freq-subheader">
+                                                <td class="text-center">CH 1</td>
+                                                <td class="text-center">CH 2</td>
+                                                <td class="text-center">CH 1</td>
+                                                <td class="text-center">CH 2</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">(a)</td>
+                                                <td class="text-center">125</td>
+                                                <td><input type="text" class="line-input" name="fm_125_radio_ch1" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="fm_125_radio_ch2" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="fm_125_rcu_ch1" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="fm_125_rcu_ch2" style="width:90%;"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">(b)</td>
+                                                <td class="text-center">226</td>
+                                                <td><input type="text" class="line-input" name="fm_226_radio_ch1" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="fm_226_radio_ch2" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="fm_226_rcu_ch1" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="fm_226_rcu_ch2" style="width:90%;"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">(c)</td>
+                                                <td class="text-center">361</td>
+                                                <td><input type="text" class="line-input" name="fm_361_radio_ch1" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="fm_361_radio_ch2" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="fm_361_rcu_ch1" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="fm_361_rcu_ch2" style="width:90%;"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">(d)</td>
+                                                <td class="text-center">475</td>
+                                                <td><input type="text" class="line-input" name="fm_475_radio_ch1" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="fm_475_radio_ch2" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="fm_475_rcu_ch1" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="fm_475_rcu_ch2" style="width:90%;"></td>
+                                            </tr>
+
+                                            <!-- ===== 9.2 V/UHF AM ===== -->
+                                            <tr>
+                                                <td rowspan="17">9.2</td>
+                                                <td colspan="7"><strong>V/UHF AM – Waveform CH 1, 2 (with default configuration).</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="7"><strong>Procedures</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6">(a) Ensure that proper RF cables are connected with the attenuator.</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_9_2_a" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_9_2_a" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6">(b) SDR-TAC unit is configured for functional voice testing.</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_9_2_b" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_9_2_b" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6">(c) Select FM waveform in channel 1 with any pre-set configuration.</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_9_2_c" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_9_2_c" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6">(d) Set the frequency 125/ 226/361/475 MHz and Low power mode on both the channels.</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_9_2_d" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_9_2_d" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6">(e) Set the volume level to High on the display.</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_9_2_e" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_9_2_e" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6">(f) Communicate back to back by pressing handset PTT. Verify the voice strength & Quality</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_9_2_f" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_9_2_f" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6">(g) Repeat tests of frequencies 125/ 226/361/475 MHz on other channels 2</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_9_2_g" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_9_2_g" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6">(h) Power on RCU & configure the RCU to control CH 1 with FM waveform.</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_9_2_h" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_9_2_h" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6">(j) Communicate back to back by pressing handset PTT on RCU & Channel 2 of Radio, Verify the voice strength & Quality on frequencies 125/ 226/361/475 MHz</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_9_2_j" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_9_2_j" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 9.2 AM Frequency Table -->
+                                            <tr class="freq-header">
+                                                <td class="text-center" rowspan="2">Ser</td>
+                                                <td class="text-center" rowspan="2">Freq (in MHz)</td>
+                                                <td class="text-center" colspan="2">Radio</td>
+                                                <td class="text-center" colspan="2">RCU</td>
+                                                <td class="text-center" rowspan="6">
+                                                    <label><input type="radio" name="status_am_freq" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_am_freq" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr class="freq-subheader">
+                                                <td class="text-center">CH 1</td>
+                                                <td class="text-center">CH 2</td>
+                                                <td class="text-center">CH 1</td>
+                                                <td class="text-center">CH 2</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">(a)</td>
+                                                <td class="text-center">125</td>
+                                                <td><input type="text" class="line-input" name="am_125_radio_ch1" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="am_125_radio_ch2" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="am_125_rcu_ch1" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="am_125_rcu_ch2" style="width:90%;"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">(b)</td>
+                                                <td class="text-center">226</td>
+                                                <td><input type="text" class="line-input" name="am_226_radio_ch1" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="am_226_radio_ch2" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="am_226_rcu_ch1" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="am_226_rcu_ch2" style="width:90%;"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">(c)</td>
+                                                <td class="text-center">361</td>
+                                                <td><input type="text" class="line-input" name="am_361_radio_ch1" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="am_361_radio_ch2" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="am_361_rcu_ch1" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="am_361_rcu_ch2" style="width:90%;"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">(d)</td>
+                                                <td class="text-center">475</td>
+                                                <td><input type="text" class="line-input" name="am_475_radio_ch1" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="am_475_radio_ch2" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="am_475_rcu_ch1" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="am_475_rcu_ch2" style="width:90%;"></td>
+                                            </tr>
+
+                                            <!-- ===== 9.3 V/UHF IOV ===== -->
+                                            <tr>
+                                                <td rowspan="17">9.3</td>
+                                                <td colspan="7"><strong>V/UHF IOV – Waveform CH 1, 2(with default configuration).</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="7"><strong>Procedures</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6">(a) Ensure that proper RF cables are connected with the attenuator.</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_9_3_a" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_9_3_a" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6">(b) SDR-TAC unit is configured for functional voice testing.</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_9_3_b" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_9_3_b" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6">(c) Select FM waveform in channel 1 with any pre-set configuration.</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_9_3_c" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_9_3_c" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6">(d) Set the frequency 125/ 226/361/475 MHz and Low power mode on both the channels.</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_9_3_d" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_9_3_d" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6">(e) Set the volume level to High on the display.</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_9_3_e" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_9_3_e" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6">(f) Communicate back to back by pressing handset PTT. Verify the voice strength & Quality</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_9_3_f" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_9_3_f" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6">(g) Repeat tests of frequencies 125/ 226/361/475 MHz on other channels 2, 3</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_9_3_g" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_9_3_g" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6">(h) Power on RCU & configure the RCU to control CH 1 with FM waveform.</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_9_3_h" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_9_3_h" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="6">(j) Communicate back to back by pressing handset PTT on RCU & Channel 2, 3 of Radio, Verify the voice strength & Quality on frequencies 125/ 226/361/475 MHz</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_9_3_j" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_9_3_j" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- 9.3 IOV Frequency Table -->
+                                            <tr class="freq-header">
+                                                <td class="text-center" rowspan="2">Ser</td>
+                                                <td class="text-center" rowspan="2">Freq (in MHz)</td>
+                                                <td class="text-center" colspan="2">Radio</td>
+                                                <td class="text-center" colspan="2">RCU</td>
+                                                <td class="text-center" rowspan="6">
+                                                    <label><input type="radio" name="status_iov_freq" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_iov_freq" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr class="freq-subheader">
+                                                <td class="text-center">CH 1</td>
+                                                <td class="text-center">CH 2</td>
+                                                <td class="text-center">CH 1</td>
+                                                <td class="text-center">CH 2</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">(a)</td>
+                                                <td class="text-center">125</td>
+                                                <td><input type="text" class="line-input" name="iov_125_radio_ch1" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="iov_125_radio_ch2" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="iov_125_rcu_ch1" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="iov_125_rcu_ch2" style="width:90%;"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">(b)</td>
+                                                <td class="text-center">226</td>
+                                                <td><input type="text" class="line-input" name="iov_226_radio_ch1" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="iov_226_radio_ch2" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="iov_226_rcu_ch1" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="iov_226_rcu_ch2" style="width:90%;"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">(c)</td>
+                                                <td class="text-center">361</td>
+                                                <td><input type="text" class="line-input" name="iov_361_radio_ch1" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="iov_361_radio_ch2" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="iov_361_rcu_ch1" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="iov_361_rcu_ch2" style="width:90%;"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">(d)</td>
+                                                <td class="text-center">475</td>
+                                                <td><input type="text" class="line-input" name="iov_475_radio_ch1" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="iov_475_radio_ch2" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="iov_475_rcu_ch1" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="iov_475_rcu_ch2" style="width:90%;"></td>
+                                            </tr>
+
+                                            <!-- ===== 9.4 LINK II V/UHF Data Test ===== -->
+                                            <tr>
+                                                <td rowspan="6">9.4</td>
+                                                <td colspan="7"><strong>Data test of LINK II V/UHF - Waveform CH 1, 2(with default configuration).</strong></td>
+                                            </tr>
+                                            <tr class="freq-header">
+                                                <td class="text-center" rowspan="2">Ser</td>
+                                                <td class="text-center" rowspan="2">Freq (in MHz)</td>
+                                                <td class="text-center" colspan="4">Radio</td>
+                                                <td class="text-center" rowspan="5">
+                                                    <label><input type="radio" name="status_link2_freq" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_link2_freq" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr class="freq-subheader">
+                                                <td class="text-center" colspan="2">CH 1</td>
+                                                <td class="text-center" colspan="2">CH 2</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">(a)</td>
+                                                <td class="text-center">125</td>
+                                                <td colspan="2"><input type="text" class="line-input" name="link2_125_ch1" style="width:90%;"></td>
+                                                <td colspan="2"><input type="text" class="line-input" name="link2_125_ch2" style="width:90%;"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">(b)</td>
+                                                <td class="text-center">226</td>
+                                                <td colspan="2"><input type="text" class="line-input" name="link2_226_ch1" style="width:90%;"></td>
+                                                <td colspan="2"><input type="text" class="line-input" name="link2_226_ch2" style="width:90%;"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">(c)</td>
+                                                <td class="text-center">361</td>
+                                                <td colspan="2"><input type="text" class="line-input" name="link2_361_ch1" style="width:90%;"></td>
+                                                <td colspan="2"><input type="text" class="line-input" name="link2_361_ch2" style="width:90%;"></td>
+                                            </tr>
+
+                                            <!-- ===== 9.5 LDR ECCM Data Test ===== -->
+                                            <tr>
+                                                <td rowspan="5">9.5</td>
+                                                <td colspan="7"><strong>Data test of LDR ECCM - Waveform CH 1, 2(with default configuration).</strong></td>
+                                            </tr>
+                                            <tr class="freq-header">
+                                                <td class="text-center" rowspan="2">Ser</td>
+                                                <td class="text-center" rowspan="2">Hop set No</td>
+                                                <td class="text-center" colspan="4">Radio</td>
+                                                <td class="text-center" rowspan="4">
+                                                    <label><input type="radio" name="status_ldr_freq" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_ldr_freq" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr class="freq-subheader">
+                                                <td class="text-center" colspan="2">CH 1</td>
+                                                <td class="text-center" colspan="2">CH 2</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">(a)</td>
+                                                <td class="text-center">01</td>
+                                                <td colspan="2"><input type="text" class="line-input" name="ldr_01_ch1" style="width:90%;"></td>
+                                                <td colspan="2"><input type="text" class="line-input" name="ldr_01_ch2" style="width:90%;"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">(b)</td>
+                                                <td class="text-center">04</td>
+                                                <td colspan="2"><input type="text" class="line-input" name="ldr_04_ch1" style="width:90%;"></td>
+                                                <td colspan="2"><input type="text" class="line-input" name="ldr_04_ch2" style="width:90%;"></td>
+                                            </tr>
+
+                                            <!-- ===== 9.6 HDR UHF ECCM MANET ===== -->
+                                            <tr>
+                                                <td rowspan="5">9.6</td>
+                                                <td colspan="7"><strong>Voice and data test for HDR UHF ECCM MANET Waveform CH 1, 2(with default configuration)</strong></td>
+                                            </tr>
+                                            <tr class="freq-header">
+                                                <td class="text-center" rowspan="2">Ser</td>
+                                                <td class="text-center" rowspan="2">Hop set No</td>
+                                                <td class="text-center" colspan="2">Data</td>
+                                                <td class="text-center" colspan="2">Voice</td>
+                                                <td class="text-center" rowspan="4">
+                                                    <label><input type="radio" name="status_hdr_uhf" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_hdr_uhf" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr class="freq-subheader">
+                                                <td class="text-center">CH 1</td>
+                                                <td class="text-center">CH 2</td>
+                                                <td class="text-center">CH 1</td>
+                                                <td class="text-center">CH 2</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">(i)</td>
+                                                <td class="text-center">01</td>
+                                                <td><input type="text" class="line-input" name="hdr_uhf_01_data_ch1" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="hdr_uhf_01_data_ch2" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="hdr_uhf_01_voice_ch1" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="hdr_uhf_01_voice_ch2" style="width:90%;"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">(ii)</td>
+                                                <td class="text-center">04</td>
+                                                <td><input type="text" class="line-input" name="hdr_uhf_04_data_ch1" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="hdr_uhf_04_data_ch2" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="hdr_uhf_04_voice_ch1" style="width:90%;"></td>
+                                                <td><input type="text" class="line-input" name="hdr_uhf_04_voice_ch2" style="width:90%;"></td>
+                                            </tr>
+
+                                            <!-- ===== 9.7 HDR L Band ECCM MANET ===== -->
+                                            <tr>
+                                                <td rowspan="5">9.7</td>
+                                                <td colspan="7"><strong>HDR L Band ECCM MANET Waveform CH 4 (with default configuration).</strong></td>
+                                            </tr>
+                                            <tr class="freq-header">
+                                                <td class="text-center" rowspan="2">Ser</td>
+                                                <td class="text-center" rowspan="2">Hop set No</td>
+                                                <td class="text-center" colspan="4">Data</td>
+                                                <td class="text-center" rowspan="4">
+                                                    <label><input type="radio" name="status_hdr_lband" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_hdr_lband" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr class="freq-subheader">
+                                                <td class="text-center" colspan="2">CH 3</td>
+                                                <td class="text-center" colspan="2">CH 4</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">(iii)</td>
+                                                <td class="text-center">01</td>
+                                                <td colspan="2"><input type="text" class="line-input" name="hdr_lband_01_ch3" style="width:90%;"></td>
+                                                <td colspan="2"><input type="text" class="line-input" name="hdr_lband_01_ch4" style="width:90%;"></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">(iv)</td>
+                                                <td class="text-center">04</td>
+                                                <td colspan="2"><input type="text" class="line-input" name="hdr_lband_04_ch3" style="width:90%;"></td>
+                                                <td colspan="2"><input type="text" class="line-input" name="hdr_lband_04_ch4" style="width:90%;"></td>
+                                            </tr>
+
+                                            <!-- ===== SECTION 10: HMI and RCU ===== -->
+                                            <tr>
+                                                <td>10</td>
+                                                <td colspan="7"><strong>HMI and RCU Radio management functions</strong></td>
+                                            </tr>
+                                            <tr>
+                                                <td>10.1</td>
+                                                <td colspan="6">User Authentication at HMI</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_10_1" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_10_1" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>10.2</td>
+                                                <td colspan="6">Platform Configuration – Waveform change from HMI</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_10_2" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_10_2" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>10.3</td>
+                                                <td colspan="6">Platform Configuration – Audio Channel Assignment to RCU from HMI</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_10_3" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_10_3" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>10.4</td>
+                                                <td colspan="6">Waveform Configuration from HMI</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_10_4" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_10_4" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>10.5</td>
+                                                <td colspan="6">POST</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_10_5" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_10_5" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>10.6</td>
+                                                <td colspan="6">IBIT from HMI</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_10_6" value="SAT"> SAT</label> 
+                                                    <label><input type="radio" name="status_10_6" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ===== REMARKS SECTION ===== -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">REMARKS</legend>
+                                <div class="static-section">
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl" id="remarks_table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="serial-no">Ser</th>
+                                                    <th>Observations</th>
+                                                    <th>SS Remarks</th>
+                                                    <th class="action">Sign</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="serial-no">1</td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="observation" rows="2"></textarea></td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="ss_remarks" rows="2"></textarea></td>
+                                                    <td class="action action-cell-holder">
+                                                        <div class="action-controls">
+                                                            <button type="button" class="btn-round btn-add" onclick="addRow('remarks_table')" title="Add Row">+</button>
+                                                            <button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'remarks_table')" title="Remove Row">-</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <!-- ===== PRESENTING AUTHORITY ===== -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                                <div class="row g-3">
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" id="presenting_authority" name="presenting_authority" required>
+                                                <option value="">--Select--</option>
+                                                <option value="dockyard">Dockyard</option>
+                                                <option value="shipstaff">Shipstaff</option>
+                                                <option value="oem">OEM</option>
+                                            </select>
+                                            <label class="form_control_1" for="presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" id="watt" name="watt" value="VZG">
+                                            <label class="form_control_1" for="watt">WATT</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Save</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

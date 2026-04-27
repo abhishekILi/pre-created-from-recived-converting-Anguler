@@ -1,0 +1,474 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+    .custom_tbl {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .custom_tbl td,
+    .custom_tbl th {
+        word-wrap: break-word;
+        overflow: auto;
+        white-space: nowrap;
+        padding: 8px;
+        vertical-align: middle;
+        border: 1px solid #ddd;
+    }
+    .custom_tbl thead th {
+        background-color: #343a40;
+        color: #fff;
+        text-align: center;
+    }
+    .text-center {
+        text-align: center;
+    }
+    .section-header {
+        background-color: #e8e8e8;
+        font-weight: bold;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">WATT</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">HATs</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">BRAHMOS BFCS-622069</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">BRAHMOS BFCS-622069</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="brahmos_hats_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+
+                            <!-- ===== HEADER FIELDS ===== -->
+                            <fieldset class="custom-fieldset">
+                                <div class="row g-3">
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="text" class="form-control" name="equipment" value="BRAHMOS" required>
+                                            <label class="form_control_1">EQUIPMENT <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="text" class="form-control" name="type" value="HATs" readonly>
+                                            <label class="form_control_1">TYPE</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="date" class="form-control" name="date" required>
+                                            <label class="form_control_1">DATE <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row g-3 mt-2">
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="text" class="form-control" name="unit" value="">
+                                            <label class="form_control_1">UNIT</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                             <input type="text" class="form-control" name="presented_by" value="">
+                                            <label class="form_control_1">PRESENTED BY <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <select class="form-control" id="observation_sheet_no" name="observation_sheet_no">
+                                                <option value="">--Select--</option>
+                                                <option value="HATS">HATS</option>
+                                                <option value="GUN">GUN</option>
+                                                <option value="BRAHMOS">BRAHMOS</option>
+                                            </select>
+                                            <label class="form_control_1">OBSERVATION SHEET NO</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <!-- ===== MAIN HAT PROCEDURE TABLE ===== -->
+                            <fieldset class="custom-fieldset mt-4">
+                                <div class="table-responsive mt-4">
+                                    <table class="custom_tbl" id="hat_procedure_table">
+                                        <thead>
+                                            <tr>
+                                                <th style="width:10%;">TRIAL SER</th>
+                                                <th>CHECK DESCRIPTION AS PER SCHEDULE</th>
+                                                <th style="width:15%;">RESULT<br>SAT/UNSAT</th>
+                                                <th style="width:25%;">PRESENTING AUTHORITY REMARKS</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Test 10.1 -->
+                                            <tr>
+                                                <td class="text-center">10.1</td>
+                                                <td>Power ON tests, supply changeover to Battery and emergency Launch operation using battery.</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="result_10_1" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="result_10_1" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_10_1" rows="2"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Test 10.2 -->
+                                            <tr>
+                                                <td class="text-center">10.2</td>
+                                                <td>MINS (SIGMA 40/LADOGA/ INS SA) data reception</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="result_10_2" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="result_10_2" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_10_2" rows="2"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Test 10.3 -->
+                                            <tr>
+                                                <td class="text-center">10.3</td>
+                                                <td>GPS (TRS) Almanac Data Reception</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="result_10_3" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="result_10_3" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_10_3" rows="2"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Test 10.4 - Heating -->
+                                            <tr>
+                                                <td class="text-center">10.4</td>
+                                                <td>Missile heating salvo of Type 'A'</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="result_10_4a" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="result_10_4a" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_10_4a" rows="2"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Test 10.4 - Health Checks -->
+                                            <tr>
+                                                <td class="text-center">10.4</td>
+                                                <td>Missile health checks, salvo of Type 'A'</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="result_10_4b" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="result_10_4b" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_10_4b" rows="2"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Test 10.5 -->
+                                            <tr>
+                                                <td class="text-center">10.5</td>
+                                                <td>Missile launch, salvo of Type 'A'</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="result_10_5" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="result_10_5" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_10_5" rows="2"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Dual Salvo Type A -->
+                                            <tr>
+                                                <td class="text-center"></td>
+                                                <td>Missile launch, dual salvo of Type 'A'</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="result_dual_a" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="result_dual_a" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_dual_a" rows="2"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Heating Type B -->
+                                            <tr>
+                                                <td class="text-center"></td>
+                                                <td>Missile heating salvo of Type 'B'</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="result_heat_b" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="result_heat_b" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_heat_b" rows="2"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Test 10.6 -->
+                                            <tr>
+                                                <td class="text-center">10.6</td>
+                                                <td>Missile launch salvo of type B extended range sea attack</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="result_10_6" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="result_10_6" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_10_6" rows="2"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Test 10.7 - Dual Salvo -->
+                                            <tr>
+                                                <td class="text-center">10.7</td>
+                                                <td>Missile launch dual salvos of Type 'B' Land Attack</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="result_10_7a" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="result_10_7a" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_10_7a" rows="2"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Test 10.7 - MES Health -->
+                                            <tr>
+                                                <td class="text-center">10.7</td>
+                                                <td>Missile health checks using MES</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="result_10_7b" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="result_10_7b" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_10_7b" rows="2"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Test 10.8 -->
+                                            <tr>
+                                                <td class="text-center">10.8</td>
+                                                <td>Launch cancellation of missile using MES</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="result_10_8" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="result_10_8" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_10_8" rows="2"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Test 10.9 -->
+                                            <tr>
+                                                <td class="text-center">10.9</td>
+                                                <td>Missile Launch in independent mode, with TEM article</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="result_10_9" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="result_10_9" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_10_9" rows="2"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Test 10.10 -->
+                                            <tr>
+                                                <td class="text-center">10.10</td>
+                                                <td>Combat and route planning (CRP) checks in independent mode</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="result_10_10" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="result_10_10" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_10_10" rows="2"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Test 10.11 -->
+                                            <tr>
+                                                <td class="text-center">10.11</td>
+                                                <td><textarea style="width:80%;" class="form-control wrstg-scroll-textarea" name="check_10_11" rows="2"></textarea></td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="result_10_11" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="result_10_11" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_10_11" rows="2"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Test 10.12 -->
+                                            <tr>
+                                                <td class="text-center">10.12</td>
+                                                <td><textarea style="width:80%;" class="form-control wrstg-scroll-textarea" name="check_10_12" rows="2"></textarea></td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="result_10_12" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="result_10_12" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_10_12" rows="2"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Additional empty rows -->
+                                            {% for i in "1234" %}
+                                            <tr>
+                                                <td class="text-center">
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="trail_ser_{{ i }}" rows="1"></textarea>
+                                                </td>
+                                                <td>
+                                                <textarea style="width:80%;" class="form-control wrstg-scroll-textarea" name="check_extra_{{ i }}" rows="2"></textarea>
+                                                </td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="result_extra_{{ i }}" value="SAT"> SAT</label>
+                                                    <label><input type="radio" name="result_extra_{{ i }}" value="UNSAT"> UNSAT</label>
+                                                </td>
+                                                <td>
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="remarks_extra_{{ i }}" rows="2"></textarea>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ===== PRESENTING AUTHORITY ===== -->
+                           <fieldset class="custom-fieldset mt-4">
+                                <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                                <div class="row g-3 mb-3">
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" id="hats_sdr_tac_1a_presenting_authority" name="hats_sdr_tac_1a_presenting_authority" required>
+                                                <option value="">--Select--</option>
+                                                <option value="dockyard">Dockyard</option>
+                                                <option value="shipstaff">Shipstaff</option>
+                                                <option value="oem">OEM</option>
+                                            </select>
+                                            <label class="form_control_1" for="hats_sdr_tac_1a_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" id="hats_sdr_tac_1a_watt_1_name" name="hats_sdr_tac_1a_watt_1_name">
+                                            <label class="form_control_1">WATT(1)</label>
+                                        </div>
+                                    </div>
+
+                                        <!-- WATT 2 -->
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" id="hats_sdr_tac_1a_watt_2_name" name="hats_sdr_tac_1a_watt_2_name">
+                                            <label class="form_control_1">WATT(2)</label>
+                                        </div>
+                                    </div>
+
+                                    <!-- WATT 3 -->
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" id="hats_sdr_tac_1a_watt_3_name" name="hats_sdr_tac_1a_watt_3_name">
+                                            <label class="form_control_1">WATT(3)</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="table-responsive mt-4">
+                                    <table class="custom_tbl " id="hats_sdr_tac_1a_remarks_table">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th>REMARKS TO BE GIVEN</th>
+                                                <th>WBA - WILL BE AMENDED</th>
+                                                <th>WBD - WILL BE DONE</th>
+                                                <th>WOW - WILL OBTAIN WAIVER</th>
+                                                <th>COM - COMPLETED</th>
+                                                <th>N/O - NOT OFFERED</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_remarks_main"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_wba"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_wbd"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_wow"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_com"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="hats_sdr_tac_1a_no"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>OIC</strong></td>
+                                                <td><strong>CDR TRIALS</strong></td>
+                                                <td><strong>STO (G)</strong></td>
+                                                <td><strong>STO (L)</strong></td>
+                                                <td colspan="2"><strong>TO (L)</strong></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- Submit Button -->
+                            <div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Save</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Form submission handler
+    document.getElementById('brahmos_hats_form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Basic validation
+        let isValid = true;
+        const requiredFields = this.querySelectorAll('[required]');
+        
+        requiredFields.forEach(field => {
+            if (!field.value) {
+                isValid = false;
+                field.classList.add('is-invalid');
+            } else {
+                field.classList.remove('is-invalid');
+            }
+        });
+        
+        if (isValid) {
+            // Submit form data
+            const formData = new FormData(this);
+            console.log('Form Data:', Object.fromEntries(formData));
+            
+            // Here you would typically send to server
+            // fetch(this.action, { method: 'POST', body: formData })
+            
+            alert('Form submitted successfully!');
+        } else {
+            alert('Please fill all required fields');
+        }
+    });
+</script>
+{% endblock content %}

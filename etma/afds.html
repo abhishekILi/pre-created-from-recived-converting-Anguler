@@ -1,0 +1,391 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">AUTOMATIC FIRE DETECTION SYSTEM (AFDS)</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="afds_form">
+						{% csrf_token %}
+						<div class="form-body">
+
+							<fieldset class="custom-fieldset">
+								<div class="row mb-3">
+									<div class="col-md-6">
+										<label class="form-label fw-bold">Ship</label>
+										<select class="form-control" name="ship" required>
+											<option value="" selected disabled>Select Ship</option>
+											{% for ship in ship_options %}
+											<option value="{{ ship.value }}">{{ ship.label }}</option>
+											{% endfor %}
+										</select>
+									</div>
+									<div class="col-md-6">
+										<label class="form-label fw-bold">Occasion of Trial</label>
+										<select class="form-control" name="occasion_of_trial" required>
+											<option value="" selected disabled>Select Occasion</option>
+											<option value="HARBOUR_TRIAL">Harbour Trial</option>
+											<option value="SEA_TRIAL">Sea Trial</option>
+											<option value="POST_REFIT_TRIAL">Post Refit Trial</option>
+											<option value="DEFECT_RECTIFICATION_TRIAL">Defect Rectification Trial</option>
+										</select>
+									</div>
+								</div>
+								<div class="row mb-3">
+									<div class="col-md-6">
+										<label class="form-label fw-bold">Presented by</label>
+										<select class="form-control" name="presented_by" required>
+											<option value="" selected disabled>Select Presented By</option>
+											<option value="SHIP_STAFF">Ship Staff</option>
+											<option value="OEM_REPRESENTATIVE">OEM Representative</option>
+											<option value="YARD_REPRESENTATIVE">Yard Representative</option>
+											<option value="TRIAL_TEAM">Trial Team</option>
+										</select>
+									</div>
+									<div class="col-md-6">
+										<label class="form-label fw-bold">Trial Inspector (Name)</label>
+										<input type="text" class="form-control" name="trial_inspector_name" placeholder=" ">
+									</div>
+								</div>
+								<div class="row mb-1">
+									<div class="col-md-12">
+										<label class="form-label fw-bold mb-0">Reference Documents for Trials: EED-50-23</label>
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">1. Equipment Required for Undertaking Trials</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="afds_test_equipment_tbl">
+										<thead class="table-dark-head">
+											<tr>
+												<th class="serial-no">Ser</th>
+												<th>Test Equipment</th>
+												<th style="width: 18%;" class="action">Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no">1</td>
+												<td><input type="text" class="form-control" data-base-name="afds_test_equipment" placeholder=" "></td>
+												<td class="action action-cell-holder">
+													<div class="action-controls">
+														<button type="button" class="btn-round btn-add" onclick="addRow('afds_test_equipment_tbl')" title="Add Row">+</button>
+														<button type="button" class="btn-round btn-remove" onclick="removeRow('afds_test_equipment_tbl')" title="Remove Row">-</button>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">2. Date &amp; Time</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl">
+										<thead class="table-dark-head">
+											<tr>
+												<th class="serial-no">Ser</th>
+												<th>Activity</th>
+												<th style="width: 20%;">Date</th>
+												<th style="width: 20%;">Time</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no">2.1</td>
+												<td>Intimation from Ship</td>
+												<td><input type="date" class="form-control" name="dt_2_1_date"></td>
+												<td><input type="time" class="form-control" name="dt_2_1_time"></td>
+											</tr>
+											<tr>
+												<td class="serial-no">2.2</td>
+												<td>Readiness indicated by Ship</td>
+												<td><input type="date" class="form-control" name="dt_2_2_date"></td>
+												<td><input type="time" class="form-control" name="dt_2_2_time"></td>
+											</tr>
+											<tr>
+												<td class="serial-no">2.3</td>
+												<td>Person reported onboard Ship</td>
+												<td><input type="date" class="form-control" name="dt_2_3_date"></td>
+												<td><input type="time" class="form-control" name="dt_2_3_time"></td>
+											</tr>
+											<tr>
+												<td class="serial-no">2.4</td>
+												<td>Trials completed</td>
+												<td><input type="date" class="form-control" name="dt_2_4_date"></td>
+												<td><input type="time" class="form-control" name="dt_2_4_time"></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">3. Design Requirements / Documentation</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl">
+										<thead class="table-dark-head">
+											<tr>
+												<th class="serial-no">Ser</th>
+												<th>Description / Document No. &amp; Date</th>
+												<th style="width: 28%;">Document submission date / Certified By</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td class="serial-no">3.1</td><td>Manufacturer</td><td><input type="text" class="form-control" name="dr_3_1"></td></tr>
+											<tr><td class="serial-no">3.2</td><td>Configuration – (Standalone / Interfaced)</td><td><input type="text" class="form-control" name="dr_3_2"></td></tr>
+											<tr><td class="serial-no">3.3</td><td>Make &amp; Model</td><td><input type="text" class="form-control" name="dr_3_3"></td></tr>
+											<tr><td class="serial-no">3.4</td><td>GRAQ</td><td><input type="text" class="form-control" name="dr_3_4"></td></tr>
+											<tr><td class="serial-no">3.5</td><td>ATP</td><td><input type="text" class="form-control" name="dr_3_5"></td></tr>
+											<tr><td class="serial-no">3.6</td><td>WLDs</td><td><input type="text" class="form-control" name="dr_3_6"></td></tr>
+											<tr><td class="serial-no">3.7</td><td>Board Proceedings</td><td><input type="text" class="form-control" name="dr_3_7"></td></tr>
+											<tr><td class="serial-no">3.8</td><td>FATs report</td><td><input type="text" class="form-control" name="dr_3_8"></td></tr>
+
+											<tr>
+												<td class="serial-no" rowspan="4">3.9</td>
+												<td class="group-header-cell"><strong>Certification required from OEM</strong></td>
+												<td><input type="text" class="form-control" name="dr_3_9_header"></td>
+											</tr>
+											<tr><td>3.9.1 Type testing certificate.</td><td><input type="text" class="form-control" name="dr_3_9_1"></td></tr>
+											<tr><td>3.9.2 Material provided by OEM as per BoM.</td><td><input type="text" class="form-control" name="dr_3_9_2"></td></tr>
+											<tr><td>3.9.3 MTBF more than 50000 Hrs, and MTTR less than 30 min.</td><td><input type="text" class="form-control" name="dr_3_9_3"></td></tr>
+
+											<tr>
+												<td class="serial-no" rowspan="10">3.10</td>
+												<td class="group-header-cell"><strong>Documentation</strong></td>
+												<td><input type="text" class="form-control" name="dr_3_10_header"></td>
+											</tr>
+											<tr><td>3.10.1 Technical documentation</td><td><input type="text" class="form-control" name="dr_3_10_1"></td></tr>
+											<tr><td>3.10.2 Technical / functional description including that at PCB and component level.</td><td><input type="text" class="form-control" name="dr_3_10_2"></td></tr>
+											<tr><td>3.10.3 Operating Instruction Manual.</td><td><input type="text" class="form-control" name="dr_3_10_3"></td></tr>
+											<tr><td>3.10.4 Preventive maintenance routines / repair instructions manual along with drawings.</td><td><input type="text" class="form-control" name="dr_3_10_4"></td></tr>
+											<tr><td>3.10.5 Installation and Test Manual.</td><td><input type="text" class="form-control" name="dr_3_10_5"></td></tr>
+											<tr><td>3.10.6 All cables are fire retardant, zero halogen toxicity and capable to withstand operation temperature from -30°C to +120°C.</td><td><input type="text" class="form-control" name="dr_3_10_6"></td></tr>
+											<tr><td>3.10.7 Part Identification list and Tools Catalogue.</td><td><input type="text" class="form-control" name="dr_3_10_7"></td></tr>
+											<tr><td>3.10.8 Test Procedure and Documentation.</td><td><input type="text" class="form-control" name="dr_3_10_8"></td></tr>
+											<tr><td>3.10.9 List of onboard and B&amp;D spares.</td><td><input type="text" class="form-control" name="dr_3_10_9"></td></tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom">4. IIs Checks</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl">
+										<thead class="table-dark-head">
+											<tr>
+												<th class="serial-no">Ser</th>
+												<th style="width: 18%;">Reference</th>
+												<th>Checks</th>
+												<th style="width: 14%;">Sat/Unsat</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td class="serial-no">4.1</td><td>Para 8.3 of EED 50-23</td><td>Unit Tallies (for identification).</td><td><div class="sat-unsat"><label><input type="radio" name="iis_4_1" value="SAT"> SAT</label><label><input type="radio" name="iis_4_1" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">4.2</td><td>Para 8.3 of EED 50-23</td><td>Cables Tallies (cable markings).</td><td><div class="sat-unsat"><label><input type="radio" name="iis_4_2" value="SAT"> SAT</label><label><input type="radio" name="iis_4_2" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">4.3</td><td>Para 8.3 of EED 50-23</td><td>Metallic Block Diagram of System (should be fitted).</td><td><div class="sat-unsat"><label><input type="radio" name="iis_4_3" value="SAT"> SAT</label><label><input type="radio" name="iis_4_3" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">4.4</td><td>Electrical checks</td><td>Earthing (for minimizing electrical hazards).</td><td><div class="sat-unsat"><label><input type="radio" name="iis_4_4" value="SAT"> SAT</label><label><input type="radio" name="iis_4_4" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">4.5</td><td>Para 3.1 of EED 50-23</td><td>Ventilation (for maintaining working temperature).</td><td><div class="sat-unsat"><label><input type="radio" name="iis_4_5" value="SAT"> SAT</label><label><input type="radio" name="iis_4_5" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">4.6</td><td>Electrical Hygiene</td><td>Internal Cleanliness.</td><td><div class="sat-unsat"><label><input type="radio" name="iis_4_6" value="SAT"> SAT</label><label><input type="radio" name="iis_4_6" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">4.7</td><td>Para 3.1 of EED 50-23</td><td>The control panel is bulkhead mount type &amp; drip proof.</td><td><div class="sat-unsat"><label><input type="radio" name="iis_4_7" value="SAT"> SAT</label><label><input type="radio" name="iis_4_7" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">4.8</td><td>Para 3.3 of EED 50-23</td><td>Cable entry is from bottom of the panel.</td><td><div class="sat-unsat"><label><input type="radio" name="iis_4_8" value="SAT"> SAT</label><label><input type="radio" name="iis_4_8" value="UNSAT"> UNSAT</label></div></td></tr>
+
+											<tr>
+												<td class="serial-no">4.9</td>
+												<td>Para 4.1 of EED 50-23</td>
+												<td>
+													<div style="display:grid;grid-template-columns:32% 34% 34%;gap:8px;font-weight:700;">
+														<div>Panel</div>
+														<div>As per Drawings</div>
+														<div>As fitted</div>
+													</div>
+												</td>
+												<td></td>
+											</tr>
+											<tr>
+												<td class="serial-no"></td>
+												<td></td>
+												<td>
+													<div style="display:grid;grid-template-columns:32% 34% 34%;gap:8px;align-items:center;">
+														<div><strong>Control panel</strong></div>
+														<div><input type="text" class="form-control" name="pnl_control_drawings"></div>
+														<div><input type="text" class="form-control" name="pnl_control_fitted"></div>
+													</div>
+												</td>
+												<td><div class="sat-unsat"><label><input type="radio" name="iis_4_9_1" value="SAT"> SAT</label><label><input type="radio" name="iis_4_9_1" value="UNSAT"> UNSAT</label></div></td>
+											</tr>
+											<tr>
+												<td class="serial-no"></td>
+												<td></td>
+												<td>
+													<div style="display:grid;grid-template-columns:32% 34% 34%;gap:8px;align-items:center;">
+														<div><strong>Repeater-1</strong></div>
+														<div><input type="text" class="form-control" name="pnl_rep1_drawings"></div>
+														<div><input type="text" class="form-control" name="pnl_rep1_fitted"></div>
+													</div>
+												</td>
+												<td><div class="sat-unsat"><label><input type="radio" name="iis_4_9_2" value="SAT"> SAT</label><label><input type="radio" name="iis_4_9_2" value="UNSAT"> UNSAT</label></div></td>
+											</tr>
+											<tr>
+												<td class="serial-no"></td>
+												<td></td>
+												<td>
+													<div style="display:grid;grid-template-columns:32% 34% 34%;gap:8px;align-items:center;">
+														<div><strong>Repeater-2</strong></div>
+														<div><input type="text" class="form-control" name="pnl_rep2_drawings"></div>
+														<div><input type="text" class="form-control" name="pnl_rep2_fitted"></div>
+													</div>
+												</td>
+												<td><div class="sat-unsat"><label><input type="radio" name="iis_4_9_3" value="SAT"> SAT</label><label><input type="radio" name="iis_4_9_3" value="UNSAT"> UNSAT</label></div></td>
+											</tr>
+											<tr>
+												<td class="serial-no"></td>
+												<td></td>
+												<td>
+													<div style="display:grid;grid-template-columns:32% 34% 34%;gap:8px;align-items:center;">
+														<div><strong>Repeater-3</strong></div>
+														<div><input type="text" class="form-control" name="pnl_rep3_drawings"></div>
+														<div><input type="text" class="form-control" name="pnl_rep3_fitted"></div>
+													</div>
+												</td>
+												<td><div class="sat-unsat"><label><input type="radio" name="iis_4_9_4" value="SAT"> SAT</label><label><input type="radio" name="iis_4_9_4" value="UNSAT"> UNSAT</label></div></td>
+											</tr>
+											<tr>
+												<td class="serial-no"></td>
+												<td></td>
+												<td>
+													<div style="display:grid;grid-template-columns:32% 34% 34%;gap:8px;align-items:center;">
+														<div><strong>Repeater-4</strong></div>
+														<div><input type="text" class="form-control" name="pnl_rep4_drawings"></div>
+														<div><input type="text" class="form-control" name="pnl_rep4_fitted"></div>
+													</div>
+												</td>
+												<td><div class="sat-unsat"><label><input type="radio" name="iis_4_9_5" value="SAT"> SAT</label><label><input type="radio" name="iis_4_9_5" value="UNSAT"> UNSAT</label></div></td>
+											</tr>
+                                            <tr>
+												<td class="serial-no"></td>
+												<td></td>
+												<td>
+													<div style="display:grid;grid-template-columns:32% 34% 34%;gap:8px;align-items:center;">
+														<div><strong>Manual Call Point</strong></div>
+														<div><input type="text" class="form-control" name="pnl_mcp_drawings"></div>
+														<div><input type="text" class="form-control" name="pnl_mcp_fitted"></div>
+													</div>
+												</td>
+												<td><div class="sat-unsat"><label><input type="radio" name="iis_4_9_6" value="SAT"> SAT</label><label><input type="radio" name="iis_4_9_6" value="UNSAT"> UNSAT</label></div></td>
+											</tr>
+											</tr>
+
+											<tr>
+												<td class="serial-no">4.10</td>
+												<td>Para 8 policy letter NB/0695/AFDS dated 19 Jan 18</td>
+												<td>Installation of detectors. Refer Appendix-A.</td>
+												<td><div class="sat-unsat"><label><input type="radio" name="iis_4_10" value="SAT"> SAT</label><label><input type="radio" name="iis_4_10" value="UNSAT"> UNSAT</label></div></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">5. OPS Checks</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl">
+										<thead class="table-dark-head">
+											<tr>
+												<th class="serial-no">Ser</th>
+												<th style="width: 18%;">Reference</th>
+												<th>Checks</th>
+												<th style="width: 14%;">Sat/Unsat</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td class="serial-no">5.1</td><td>Para 2.1 of EED 50-23</td><td><strong>System Supply.</strong> 230V AC / 24V DC</td><td><div class="sat-unsat"><label><input type="radio" name="ops_5_1" value="SAT"> SAT</label><label><input type="radio" name="ops_5_1" value="UNSAT"> UNSAT</label></div></td></tr>
+
+											<tr><td class="serial-no" rowspan="3">5.2</td><td rowspan="3">Para 2.1 of EED 50-23</td><td>5.2.1 <strong>Online UPS.</strong> The power to system is provisioned through on-line UPS.</td><td><div class="sat-unsat"><label><input type="radio" name="ops_5_2_1" value="SAT"> SAT</label><label><input type="radio" name="ops_5_2_1" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td>5.2.2 UPS is provisioned with maintenance free batteries.</td><td><div class="sat-unsat"><label><input type="radio" name="ops_5_2_2" value="SAT"> SAT</label><label><input type="radio" name="ops_5_2_2" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td>5.2.3 &gt;8 hours backup power.</td><td><div class="sat-unsat"><label><input type="radio" name="ops_5_2_3" value="SAT"> SAT</label><label><input type="radio" name="ops_5_2_3" value="UNSAT"> UNSAT</label></div></td></tr>
+
+											<tr><td class="serial-no" rowspan="10">5.3</td><td rowspan="10">Para 4.1 of EED 50-23</td><td><strong>Main Control Panel.</strong> <br>5.3.1 All sensors are monitored and controlled from one programmable controller with display.<br> The control panel shall have following major features/indications:</td><td><div class="sat-unsat"><label><input type="radio" name="ops_5_3_1" value="SAT"> SAT</label><label><input type="radio" name="ops_5_3_1" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td>5.3.2 Zone indication with audio-visual alarm</td><td><div class="sat-unsat"><label><input type="radio" name="ops_5_3_2" value="SAT"> SAT</label><label><input type="radio" name="ops_5_3_2" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td>5.3.3 Power/System ON switch and indication</td><td><div class="sat-unsat"><label><input type="radio" name="ops_5_3_3" value="SAT"> SAT</label><label><input type="radio" name="ops_5_3_3" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td>5.3.4 Zone isolation indicator and alarm</td><td><div class="sat-unsat"><label><input type="radio" name="ops_5_3_4" value="SAT"> SAT</label><label><input type="radio" name="ops_5_3_4" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td>5.3.5 Accept push button</td><td><div class="sat-unsat"><label><input type="radio" name="ops_5_3_5" value="SAT"> SAT</label><label><input type="radio" name="ops_5_3_5" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td>5.3.6 Reset push button</td><td><div class="sat-unsat"><label><input type="radio" name="ops_5_3_6" value="SAT"> SAT</label><label><input type="radio" name="ops_5_3_6" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td>5.3.7 Test push button</td><td><div class="sat-unsat"><label><input type="radio" name="ops_5_3_7" value="SAT"> SAT</label><label><input type="radio" name="ops_5_3_7" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td>5.3.8 Zone isolation push button</td><td><div class="sat-unsat"><label><input type="radio" name="ops_5_3_8" value="SAT"> SAT</label><label><input type="radio" name="ops_5_3_8" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td>5.3.9 Power failure indication and alarm</td><td><div class="sat-unsat"><label><input type="radio" name="ops_5_3_9" value="SAT"> SAT</label><label><input type="radio" name="ops_5_3_9" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td>5.3.10 Test indicator and alarm</td><td><div class="sat-unsat"><label><input type="radio" name="ops_5_3_10" value="SAT"> SAT</label><label><input type="radio" name="ops_5_3_10" value="UNSAT"> UNSAT</label></div></td></tr>
+
+											<tr><td class="serial-no">5.4</td><td>Para 5.5 of EED 50-23</td><td><strong>Fault Diagnostic:</strong> Inbuilt fault diagnostic and scan facility for all units and sensors.<br> System should indicate fault in MCP with address, zones, location &amp; loop number.</td><td><div class="sat-unsat"><label><input type="radio" name="ops_5_4" value="SAT"> SAT</label><label><input type="radio" name="ops_5_4" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">5.5</td><td>Para 5.3 of EED 50-23</td><td>External hooter provisioned in crew accommodation, service space, control station &amp; machinery spaces.</td><td><div class="sat-unsat"><label><input type="radio" name="ops_5_5" value="SAT"> SAT</label><label><input type="radio" name="ops_5_5" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">5.6</td><td>Para 5.4 of EED 50-23</td><td><strong>Interface.</strong> System should have provision for interfacing with Battle Damage Control System (BDCS).</td><td><div class="sat-unsat"><label><input type="radio" name="ops_5_6" value="SAT"> SAT</label><label><input type="radio" name="ops_5_6" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">5.7</td><td>Para 5.6 of EED 50-23</td><td><strong>Password Protection.</strong> User control on MCP shall be password protected.</td><td><div class="sat-unsat"><label><input type="radio" name="ops_5_7" value="SAT"> SAT</label><label><input type="radio" name="ops_5_7" value="UNSAT"> UNSAT</label></div></td></tr>
+											<tr><td class="serial-no">5.8</td><td>Para 5.8 of EED 50-23</td><td><strong>Event Logging.</strong> System shall have provision of online event logging of alarms with date &amp; time for each addressable detector.</td><td><div class="sat-unsat"><label><input type="radio" name="ops_5_8" value="SAT"> SAT</label><label><input type="radio" name="ops_5_8" value="UNSAT"> UNSAT</label></div></td></tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<div class="d-flex justify-content-center mt-4 gap-2">
+								<button type="submit" class="btn btn-success px-4">Save</button>
+							</div>
+
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<style>
+	.group-header-cell {
+		background-color: #e9ecef;
+		font-size: 13px;
+		padding: 6px 10px;
+	}
+	.sat-unsat {
+		display: flex;
+		gap: 10px;
+		align-items: center;
+		flex-wrap: wrap;
+	}
+	.sat-unsat label {
+		font-weight: 600;
+		margin: 0;
+		display: flex;
+		align-items: center;
+		gap: 5px;
+	}
+</style>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+	WRSTGQuarterly.init({
+		extraTableIds: ['afds_test_equipment_tbl'],
+		visibilityBindings: [],
+		submitConfirmation: { formId: 'afds_form' }
+	});
+});
+</script>
+{% endblock js %}

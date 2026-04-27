@@ -1,0 +1,256 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">WATT</a></li>
+					<li class="breadcrumb-item">Communication</li>
+					<li class="breadcrumb-item active" aria-current="page">ATRX 1000</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">HF TX/R ATRX 1000 - OP Checks</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-3 mb-4">
+					<form method="post" id="artx_1000_form">
+						{% csrf_token %}
+
+						<input type="hidden" id="form_id" name="form_id" value="artx_1000_7110012">
+						<input type="hidden" id="form_name" name="form_name" value="HF_TXR_ATRX_1000_OP_CHECKS">
+
+						 <fieldset class="custom-fieldset">
+                            <legend class="legend-custom text-uppercase">Basic Information</legend>
+                            <div class="row g-3">
+
+                            <div class="col-md-4 col-12">
+                                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" name="ship" required>
+                                                <option value="">--Select--</option>
+                                                {% for ship in ship_options %}
+                                                <option value="{{ ship.value }}">{{ ship.label }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <label class="form_control_1">Ship <span class="text-danger">*</span></label>
+                                        </div>
+                            </div>
+
+                            <div class="col-md-4 col-12">
+                                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                <select class="form-control" id="department_select" name="department">
+                                    <option value="">-- Select --</option>
+                                    <option value="P15A">ND</option>
+                                    <option value="P17">ASW</option>
+                                    <option value="P17A">COMM</option>
+                                    <option value="P28">GUNNERY</option>
+                                    </select>
+                                    <label class="form_control_1">Department</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-12">
+                                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                <select class="form-control" id="equipment_select" name="equipment">
+                                    <option value="">-- Select --</option>
+                                    </select>
+                                    <label class="form_control_1">Equipment</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-12">
+                                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                    <input type="date" class="form-control" id="date_input" name="date_">
+                                    <label class="form_control_1">Date</label>
+                                </div>
+                                </div>
+
+                            <div class="col-md-4 col-12">
+                                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                <select class="form-control" id="nature_trials_select" name="nature_of_trials" required>
+                                    <option value="">--Select--</option>
+                                    <option value="SATs">SATs</option>
+                                    <option value="HATS">HATs</option>
+                                    <option value="OP_CHECKS">OP CHECKS</option>
+                                    <option value="IIS">IIs</option>
+                                    </select>
+                                    <label class="form_control_1">Nature of Trial</label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </fieldset>
+
+						<fieldset class="custom-fieldset">
+                            <legend class="legend-custom text-uppercase">Checks</legend>
+
+							<div class="mb-2">
+								Trial team embarked onboard for Op checks of HF Tx/R ATRX 1000 at
+								<input type="time" id="embarked_time" name="embarked_time" class="form-control d-inline-block" style="width: 140px;" required> hrs. The trials carried out IAW IHQ MoD(N)/DNS approved schedule
+                                <textarea id="schedule_input" name="schedule" rows="1" class="form-control d-inline-block wrstg-scroll-textarea embarked-hrs" style="vertical-align: middle;" required></textarea> are enumerated in succeeding paragraphs 
+
+							</div>
+
+							<div class="table-responsive">
+								<table class="custom_tbl" id="artx_checks_table">
+									<thead class="table-dark-head">
+										<tr>
+											<th>Ser</th>
+											<th class="checks-col">Checks</th>
+											<th class="obs-col">Observations</th>
+											<th class="remarks-col">Remarks (SAT / UNSAT)</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>7.1</td>
+											<td colspan="3"><strong><u>Visual Checks.</u></strong></td>
+										</tr>
+										<tr>
+											<td></td>
+											<td>(i)</td>
+											<td>Cabinets &amp; Front panels of the various units of the system do not show any imperfections, abrasions, shock damages and units are correctly mounted.</td>
+											<td><div class="sat-unsat"><label><input type="radio" id="remark_7_1_i_sat" name="remark_7_1_i" value="SAT" required> SAT</label><label><input type="radio" id="remark_7_1_i_unsat" name="remark_7_1_i" value="UNSAT"> UNSAT</label></div></td>
+										</tr>
+										<tr><td></td><td>(ii)</td><td>No physical damages to electrical parts.</td><td><div class="sat-unsat"><label><input type="radio" id="remark_7_1_ii_sat" name="remark_7_1_ii" value="SAT" required> SAT</label><label><input type="radio" id="remark_7_1_ii_unsat" name="remark_7_1_ii" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>(iii)</td><td>All the LRUs are placed in the racks correctly in the respective slots and connections are given properly.</td><td><div class="sat-unsat"><label><input type="radio" id="remark_7_1_iii_sat" name="remark_7_1_iii" value="SAT" required> SAT</label><label><input type="radio" id="remark_7_1_iii_unsat" name="remark_7_1_iii" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>(iv)</td><td>All units and racks are secured properly.</td><td><div class="sat-unsat"><label><input type="radio" id="remark_7_1_iv_sat" name="remark_7_1_iv" value="SAT" required> SAT</label><label><input type="radio" id="remark_7_1_iv_unsat" name="remark_7_1_iv" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>(v)</td><td>Fixing and locking nuts/ screws are tightened.</td><td><div class="sat-unsat"><label><input type="radio" id="remark_7_1_v_sat" name="remark_7_1_v" value="SAT" required> SAT</label><label><input type="radio" id="remark_7_1_v_unsat" name="remark_7_1_v" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>(vi)</td><td>All fuses are of correct rating and fuse setting matches with input power supply.</td><td><div class="sat-unsat"><label><input type="radio" id="remark_7_1_vi_sat" name="remark_7_1_vi" value="SAT" required> SAT</label><label><input type="radio" id="remark_7_1_vi_unsat" name="remark_7_1_vi" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>(vii)</td><td>Checks of front panel controls (a) Switches (b) Power ON LEDs.</td><td><div class="sat-unsat"><label><input type="radio" id="remark_7_1_vii_sat" name="remark_7_1_vii" value="SAT" required> SAT</label><label><input type="radio" id="remark_7_1_vii_unsat" name="remark_7_1_vii" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>(viii)</td><td>All switches and controls operate freely.</td><td><div class="sat-unsat"><label><input type="radio" id="remark_7_1_viii_sat" name="remark_7_1_viii" value="SAT" required> SAT</label><label><input type="radio" id="remark_7_1_viii_unsat" name="remark_7_1_viii" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>(ix)</td><td>Check availability of stabilized power supply to the system.</td><td><div class="sat-unsat"><label><input type="radio" id="remark_7_1_ix_sat" name="remark_7_1_ix" value="SAT" required> SAT</label><label><input type="radio" id="remark_7_1_ix_unsat" name="remark_7_1_ix" value="UNSAT"> UNSAT</label></div></td></tr>
+
+										<tr>
+											<td>7.2</td>
+											<td colspan="3"><strong><u>Bite Check.</u></strong></td>
+										</tr>
+										<tr><td></td><td>(i)</td><td>Select "Remote" &amp; "Start" from "Main Menu" of Radio set for Bite check.</td><td><div class="sat-unsat"><label><input type="radio" id="remark_7_2_i_sat" name="remark_7_2_i" value="SAT" required> SAT</label><label><input type="radio" id="remark_7_2_i_unsat" name="remark_7_2_i" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>(ii)</td><td>Check complete Bite test status in "Admin/BITE" from RCU i.e. HFIU, Radio, Modem, Power Amplifier, ATU and Power Supply Unit.</td><td><div class="sat-unsat"><label><input type="radio" id="remark_7_2_ii_sat" name="remark_7_2_ii" value="SAT" required> SAT</label><label><input type="radio" id="remark_7_2_ii_unsat" name="remark_7_2_ii" value="UNSAT"> UNSAT</label></div></td></tr>
+
+										<tr>
+											<td>7.3</td>
+											<td colspan="3"><strong><u>Voice Communication Check.</u></strong></td>
+										</tr>
+										<tr><td></td><td>(i)</td><td>Check voice test using AM mode on 3,16 and 26 MHz</td><td><div class="sat-unsat"><label><input type="radio" id="remark_7_3_i_sat" name="remark_7_3_i" value="SAT" required> SAT</label><label><input type="radio" id="remark_7_3_i_unsat" name="remark_7_3_i" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>(ii)</td><td>Check voice test in SSB Mode:</td><td></td></tr>
+										<tr><td></td><td></td><td>(a) LSB Mode</td><td><div class="sat-unsat"><label><input type="radio" id="remark_7_3_ii_a_sat" name="remark_7_3_ii_a" value="SAT" required> SAT</label><label><input type="radio" id="remark_7_3_ii_a_unsat" name="remark_7_3_ii_a" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td></td><td>(b) USB Mode</td><td><div class="sat-unsat"><label><input type="radio" id="remark_7_3_ii_b_sat" name="remark_7_3_ii_b" value="SAT" required> SAT</label><label><input type="radio" id="remark_7_3_ii_b_unsat" name="remark_7_3_ii_b" value="UNSAT"> UNSAT</label></div></td></tr>
+
+										<tr>
+											<td>7.4</td>
+											<td colspan="3"><strong><u>Data Communication Checks.</u></strong></td>
+										</tr>
+										<tr><td></td><td>(i)</td><td>Data checks using Narrow band on <strong>3 MHz</strong>:</td><td></td></tr>
+										<tr><td></td><td></td><td>(a) <strong>USB</strong></td><td><div class="sat-unsat"><label><input type="radio" id="remark_7_4_i_a_sat" name="remark_7_4_i_a" value="SAT" required> SAT</label><label><input type="radio" id="remark_7_4_i_a_unsat" name="remark_7_4_i_a" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td></td><td>(b) <strong>LSB</strong></td><td><div class="sat-unsat"><label><input type="radio" id="remark_7_4_i_b_sat" name="remark_7_4_i_b" value="SAT" required> SAT</label><label><input type="radio" id="remark_7_4_i_b_unsat" name="remark_7_4_i_b" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td></td><td>(c) <strong>ISB</strong></td><td><div class="sat-unsat"><label><input type="radio" id="remark_7_4_i_c_sat" name="remark_7_4_i_c" value="SAT" required> SAT</label><label><input type="radio" id="remark_7_4_i_c_unsat" name="remark_7_4_i_c" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>(ii)</td><td>Data checks using Wide Band on <strong>24 MHz</strong></td><td></td></tr>
+										<tr><td></td><td></td><td>(a) <strong>USB</strong></td><td><div class="sat-unsat"><label><input type="radio" id="remark_7_4_ii_a_sat" name="remark_7_4_ii_a" value="SAT" required> SAT</label><label><input type="radio" id="remark_7_4_ii_a_unsat" name="remark_7_4_ii_a" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td></td><td>(b) <strong>LSB</strong></td><td><div class="sat-unsat"><label><input type="radio" id="remark_7_4_ii_b_sat" name="remark_7_4_ii_b" value="SAT" required> SAT</label><label><input type="radio" id="remark_7_4_ii_b_unsat" name="remark_7_4_ii_b" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>(iii)</td><td>Data checks using <strong>FSK</strong> Mode.</td><td><div class="sat-unsat"><label><input type="radio" id="remark_7_4_iii_sat" name="remark_7_4_iii" value="SAT" required> SAT</label><label><input type="radio" id="remark_7_4_iii_unsat" name="remark_7_4_iii" value="UNSAT"> UNSAT</label></div></td></tr>
+
+										<tr>
+											<td>7.5</td>
+											<td colspan="3"><strong><u>Remote Operations Checks (RCUs)</u></strong></td>
+										</tr>
+										<tr><td></td><td>(i)</td><td>Check Local/ Remote selection.</td><td><div class="sat-unsat"><label><input type="radio" id="remark_7_5_i_sat" name="remark_7_5_i" value="SAT" required> SAT</label><label><input type="radio" id="remark_7_5_i_unsat" name="remark_7_5_i" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>(ii)</td><td>Check Remote selection of Modes of operation.(USB, LSB, ISB, CW and FSK)</td><td><div class="sat-unsat"><label><input type="radio" id="remark_7_5_ii_sat" name="remark_7_5_ii" value="SAT" required> SAT</label><label><input type="radio" id="remark_7_5_ii_unsat" name="remark_7_5_ii" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>(iii)</td><td>Check Remote setting of Frequencies (12, 16 and 17 MHz).</td><td><div class="sat-unsat"><label><input type="radio" id="remark_7_5_iii_sat" name="remark_7_5_iii" value="SAT" required> SAT</label><label><input type="radio" id="remark_7_5_iii_unsat" name="remark_7_5_iii" value="UNSAT"> UNSAT</label></div></td></tr>
+										<tr><td></td><td>(iv)</td><td>Check Remote setting of Power output.(10W, 100W, 250W, 500W and 1KW).</td><td><div class="sat-unsat"><label><input type="radio" id="remark_7_5_iv_sat" name="remark_7_5_iv" value="SAT" required> SAT</label><label><input type="radio" id="remark_7_5_iv_unsat" name="remark_7_5_iv" value="UNSAT"> UNSAT</label></div></td></tr>
+									</tbody>
+								</table>
+							</div>
+						</fieldset>
+
+						<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">REMARKS</legend>
+								<div class="static-section">
+								<div class="table-responsive">
+									<table class="custom_tbl" id="remarks_table">
+										<thead>
+											<tr>
+												<th class="serial-no">Sr No</th>
+												<th>Observations</th>
+												<th>SS Remarks</th>
+												<th class="action">Action</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no">1</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" data-base-name="observation" placeholder="" rows="2"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" data-base-name="ss_remarks" placeholder="" rows="2"></textarea></td>
+												<td class="action action-cell-holder">
+													<div class="action-controls">
+														<button type="button" class="btn-round btn-add" onclick="addRow('remarks_table')" title="Add Row">+</button>
+														<button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'remarks_table')" title="Remove Row">-</button>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								</div>
+							</fieldset>
+							<fieldset class="custom-fieldset">
+                            <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                            <div class="row g-3">
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <select class="form-control" id="dmr_16a_presenting_authority" name="dmr_16a_presenting_authority" required>
+                                            <option value="">--Select--</option>
+                                            <option value="dockyard">Dockyard</option>
+                                            <option value="shipstaff">Shipstaff</option>
+                                            <option value="oem">OEM</option>
+                                        </select>
+                                        <label class="form_control_1" for="dmr_16a_presenting_authority">Presenting Authority <span class="text-danger">*</span></label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                        <input type="text" class="form-control" id="dmr_16a_watt" name="dmr_16a_watt" value="VZG" >
+                                        <label class="form_control_1" for="dmr_16a_watt">WATT</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+
+						<div class="d-flex justify-content-center mt-4">
+							<button type="submit" class="btn btn-success px-4">Save</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		WRSTGQuarterly.init({
+			extraTableIds: [, 'remarks_table',],
+			submitConfirmation: { formId: 'artx_1000_form' }
+		});
+	});
+</script>
+{% endblock js %}

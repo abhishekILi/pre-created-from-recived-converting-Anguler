@@ -1,0 +1,624 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+    .custom_tbl td,
+    .custom_tbl th {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: normal !important;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">WATT</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">LINK II MOD III</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">LINK II MOD III</span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="link2_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+
+                            <!-- BASIC INFORMATION -->
+                            <fieldset class="custom-fieldset">
+                                <div class="row g-3">
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <select class="form-control" name="ship_name" required>
+                                                <option value="">Select Ship</option>
+                                                {% for option in ship_options %}
+                                                <option value="{{ option.value }}">{{ option.label }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <label class="form_control_1">NAME OF SHIP <span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="text" class="form-control" name="equipment"
+                                                value="LINK II MOD III" required>
+                                            <label class="form_control_1">EQUIPMENT <span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="text" class="form-control" name="sno">
+                                            <label class="form_control_1">SNo</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row g-3 mt-2">
+                                    <div class="col-md-2 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <input type="date" class="form-control" name="date" required>
+                                            <label class="form_control_1">DATE</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <select class="form-control" name="department" required>
+                                                <option value="">Select Department</option>
+                                                <option value="ELE"> ELE</option>
+                                                <option value="Comm">COMMN </option>
+
+                                            </select>
+                                            <label class="form_control_1">DEPARTMENT <span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label">
+                                            <select class="form-control" name="nature_of_trials" required>
+                                                <option value="">Select Nature of Trials</option>
+                                                <option value="SATs">SATs</option>
+                                                <option value="HATs">HATs</option>
+                                                <option value="OP Checks">OP Checks</option>
+                                                <option value="IIs">IIs</option>
+                                            </select>
+                                            <label class="form_control_1">NATURE OF TRIALS <span
+                                                    class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+
+                            <!-- OBSERVATIONS TABLE -->
+                            <fieldset class="custom-fieldset mt-4">
+                                <div class="table-responsive mt-4">
+                                    <table class="custom_tbl" id="link2_table"
+                                        style="width:100%; border-collapse:collapse;">
+                                        <thead class="table-dark-head">
+                                            <tr>
+                                                <th style="width:60px;">Ser</th>
+                                                <th style="width:150px;">Checks</th>
+                                                <th style="width:80px;">Sub-Check</th>
+                                                <th>Observations</th>
+                                                <th style="width:140px;">Remarks</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <!-- INTRO ROW -->
+                                            <tr>
+                                                <td colspan="5">
+                                                    Trial team embarked onboard for Ops Check of
+                                                    <strong>Link II MOD III (Ver 2.0)</strong> at
+                                                    <input type="time" id="embark_time" name="embark_time"
+                                                        class="form-control d-inline-block"
+                                                        style="width: 100px; height: 28px;"> hrs.
+                                                    Trials carried out IAW
+                                                    <strong>IHQ MoD(Navy)/DEE</strong> approved schedule
+                                                    <strong>WP/1280/LINK II dated 13 Oct 23</strong>
+                                                    and CNO. 07/10 are enumerated in succeeding paragraphs:-
+                                                </td>
+                                            </tr>
+
+                                            <!-- SER 5.0 HEADER -->
+                                            <tr>
+                                                <td><strong>5.0</strong></td>
+                                                <td colspan="4"><strong><u>Initial Checks and Electrical
+                                                            Tests</u></strong></td>
+                                            </tr>
+
+                                            <!-- SER 5.1 -->
+                                            <tr>
+                                                <td><strong>5.1</strong></td>
+                                                <td></td>
+                                                <!-- <td></td> -->
+                                                <td colspan="2">
+                                                    <strong>Large / Small / Single Ship Configuration :</strong><br>
+                                                    MPU (2) <input type="text" class="line-input" name="inv_mpu"
+                                                        style="width:70px;">
+                                                    &nbsp;Msg Console (13) <input type="text" class="line-input"
+                                                        name="inv_msg_console" style="width:70px;">
+                                                    &nbsp;Mobile Messaging Console (3) <input type="text"
+                                                        class="line-input" name="inv_mmc" style="width:70px;">
+                                                    &nbsp;Colour N/W Printers (3) <input type="text" class="line-input"
+                                                        name="inv_printer" style="width:70px;">
+                                                    &nbsp;4 CH Radio <input type="text" class="line-input"
+                                                        name="inv_4ch_radio" style="width:70px;">
+                                                    &nbsp;TRS (2) <input type="text" class="line-input" name="inv_trs"
+                                                        style="width:50px;">
+                                                    &nbsp;Ethernet Switch (6) <input type="text" class="line-input"
+                                                        name="inv_eth_switch" style="width:70px;">
+                                                    &nbsp;Access Point Assy (3) <input type="text" class="line-input"
+                                                        name="inv_ap_assy" style="width:70px;">
+                                                    &nbsp;MPU Accs (1) <input type="text" class="line-input"
+                                                        name="inv_mpu_accs" style="width:70px;" height="5px">
+                                                    &nbsp;UPS with Accs (4) <input type="text" class="line-input"
+                                                        name="inv_ups" style="width:70px;">
+                                                    &nbsp;Com Access Terminal (for link-1) <input type="text"
+                                                        class="line-input" name="inv_cat" style="width:70px;">
+                                                </td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_5_1" value="SAT">
+                                                        SAT</label>
+                                                    <label><input type="radio" name="status_5_1" value="UNSAT">
+                                                        UNSAT</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- SER 5.2 -->
+                                            <tr>
+                                                <td><strong>5.2</strong></td>
+
+                                                <td></td>
+                                                <td colspan="2"><strong>Preliminary checks:</strong> Check the
+                                                    installation of cables, connectors, sub-assemblies, fuse ratings and
+                                                    proper grounding of all the eqpts of <strong>LINK II MOD
+                                                        III</strong>.</td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_5_2" value="SAT">
+                                                        SAT</label>
+                                                    <label><input type="radio" name="status_5_2" value="UNSAT">
+                                                        UNSAT</label>
+                                                </td>
+                                            </tr>
+
+                                            <!-- SER 5.3 VISUAL CHECKS + 11 sub-items (rowspan=12) -->
+                                            <tr>
+                                                <td rowspan="12"><strong>5.3</strong></td>
+                                                <td><strong></strong></td>
+                                                <td colspan="2"><strong><b>Visual Checks</b></strong></td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_5_1" value="SAT">
+                                                        SAT</label>
+                                                    <label><input type="radio" name="status_5_1" value="UNSAT">
+                                                        UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>5.3.1</strong></td>
+                                                <td colspan="2"><strong>Main Processor Unit (MPU):</strong> Power cables
+                                                    are
+                                                    connected from MPU to AC/DC adaptor and AC/DC adaptor to AC Mains
+                                                    socket.</td>
+                                                <td class="text-center"><label><input type="radio" name="status_5_3_1"
+                                                            value="SAT"> SAT</label> <label><input type="radio"
+                                                            name="status_5_3_1" value="UNSAT"> UNSAT</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>5.3.2</strong></td>
+                                                <td colspan="2"><strong>4 CH Radio Modem Unit (RMU):</strong> Check
+                                                    Power cable is
+                                                    connected from 4 CH Radio Modem Unit to AC mains Socket.</td>
+                                                <td class="text-center"><label><input type="radio" name="status_5_3_2"
+                                                            value="SAT"> SAT</label> <label><input type="radio"
+                                                            name="status_5_3_2" value="UNSAT"> UNSAT</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>5.3.3</strong></td>
+                                                <td colspan="2"><strong>Messaging console (24 Inch):</strong> Check
+                                                    cable is
+                                                    connected from MC to AC mains socket.</td>
+                                                <td class="text-center"><label><input type="radio" name="status_5_3_3"
+                                                            value="SAT"> SAT</label> <label><input type="radio"
+                                                            name="status_5_3_3" value="UNSAT"> UNSAT</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>5.3.4</strong></td>
+                                                <td colspan="2"><strong>Mobile Messaging Console:</strong> Connect the
+                                                    charger cable
+                                                    onto the connector marked Power on the MMC.</td>
+                                                <td class="text-center"><label><input type="radio" name="status_5_3_4"
+                                                            value="SAT"> SAT</label> <label><input type="radio"
+                                                            name="status_5_3_4" value="UNSAT"> UNSAT</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>5.3.5</strong></td>
+                                                <td colspan="2"><strong>Ethernet Switch:</strong> Check Power cable
+                                                    connected from
+                                                    Ethernet switch to AC mains socket / Ethernet cables are connected
+                                                    to ethernet switch.</td>
+                                                <td class="text-center"><label><input type="radio" name="status_5_3_5"
+                                                            value="SAT"> SAT</label> <label><input type="radio"
+                                                            name="status_5_3_5" value="UNSAT"> UNSAT</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>5.3.6</strong></td>
+                                                <td colspan="2">Colour Network Printer connected - AC mains socket.</td>
+                                                <td class="text-center"><label><input type="radio" name="status_5_3_6"
+                                                            value="SAT"> SAT</label> <label><input type="radio"
+                                                            name="status_5_3_6" value="UNSAT"> UNSAT</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>5.3.7</strong></td>
+                                                <td colspan="2">Time Reference Server to AC Mains socket.</td>
+                                                <td class="text-center"><label><input type="radio" name="status_5_3_7"
+                                                            value="SAT"> SAT</label> <label><input type="radio"
+                                                            name="status_5_3_7" value="UNSAT"> UNSAT</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>5.3.8</strong></td>
+                                                <td colspan="2">Access Point Assy.</td>
+                                                <td class="text-center"><label><input type="radio" name="status_5_3_8"
+                                                            value="SAT"> SAT</label> <label><input type="radio"
+                                                            name="status_5_3_8" value="UNSAT"> UNSAT</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>5.3.9</strong></td>
+                                                <td colspan="2">UPS Checks.</td>
+                                                <td class="text-center"><label><input type="radio" name="status_5_3_9"
+                                                            value="SAT"> SAT</label> <label><input type="radio"
+                                                            name="status_5_3_9" value="UNSAT"> UNSAT</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>5.3.10</strong></td>
+                                                <td colspan="2">SDR TAC Checks.</td>
+                                                <td class="text-center"><label><input type="radio" name="status_5_3_10"
+                                                            value="SAT"> SAT</label> <label><input type="radio"
+                                                            name="status_5_3_10" value="UNSAT"> UNSAT</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>5.3.11</strong></td>
+                                                <td colspan="2">SDR NC Checks.</td>
+                                                <td class="text-center"><label><input type="radio" name="status_5_3_11"
+                                                            value="SAT"> SAT</label> <label><input type="radio"
+                                                            name="status_5_3_11" value="UNSAT"> UNSAT</label></td>
+                                            </tr>
+
+                                            <!-- SER 5.4 POWER ON/OFF + 2 sub-items (rowspan=3) -->
+                                            <tr>
+                                                <td rowspan="4"><strong>5.4</strong></td>
+                                                <td rowspan="4"></td>
+                                            </tr>
+
+                                            <tr>
+
+                                                <td colspan="2">Power ON/ OFF Units.</td>
+                                                <td class="text-center"><label><input type="radio" name="status_5_6_1"
+                                                            value="SAT"> SAT</label> <label><input type="radio"
+                                                            name="status" value="UNSAT"> UNSAT</label></td>
+                                            </tr>
+                                            <tr>
+
+                                                <td colspan="2">Connect the power cables to MPU to AC/DC adaptor to
+                                                    socket before power on system.</td>
+                                                <td class="text-center"><label><input type="radio" name="status_5_6_1"
+                                                            value="SAT"> SAT</label> <label><input type="radio"
+                                                            name="status" value="UNSAT"> UNSAT</label></td>
+                                            </tr>
+                                            <tr>
+
+                                                <td colspan="2">Switch on MPU- 4 CH radio – MC – Printer - TRS.</td>
+                                                <td class="text-center"><label><input type="radio" name="status_5_6_1"
+                                                            value="SAT"> SAT</label> <label><input type="radio"
+                                                            name="status" value="UNSAT"> UNSAT</label></td>
+                                            </tr>
+
+
+
+                                            <!-- SER 5.5 PRE-REQUISITES -->
+                                            <tr>
+                                                <td><strong>5.5</strong></td>
+
+                                                <td></td>
+                                                <td colspan="2"><strong>Pre <input type="text" class="line-input"
+                                                            name="inv_mpu" style="width:70px;"> Requisites to perform
+                                                        the ops checks</strong>
+                                                    <input type="text" class="line-input" name="inv_mpu"
+                                                        style="width:70px;"> Power voltage / Internal cooling and
+                                                    EMC/EMI isolation /
+                                                    Arrangement of Consort / Power on all required Eqpts / Go through
+                                                    all Checks required / Ensure Noise strength.
+                                                </td>
+                                                <td class="text-center"><label><input type="radio" name="status_5_5"
+                                                            value="SAT"> SAT</label> <label><input type="radio"
+                                                            name="status_5_5" value="UNSAT"> UNSAT</label></td>
+                                            </tr>
+
+                                            <!-- SER 5.6 STARTUP PROCEDURE + 3 sub-items (rowspan=4) -->
+                                            <tr>
+                                                <td rowspan="4"><strong>5.6</strong></td>
+                                                <!-- <td rowspan="4"></td> -->
+                                                <td colspan="3"><strong>STARTUP Procedure of EQPT</strong></td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_5_1" value="SAT">
+                                                        SAT</label>
+                                                    <label><input type="radio" name="status_5_1" value="UNSAT">
+                                                        UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr colspan="2">
+                                                <td colspan="2"><strong>5.6.1</strong></td>
+                                                <td>Pre &ndash; Requisites conditions.</td>
+                                                <td class="text-center"><label><input type="radio" name="status_5_6_1"
+                                                            value="SAT"> SAT</label> <label><input type="radio"
+                                                            name="status_5_6_1" value="UNSAT"> UNSAT</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2"><strong>5.6.2</strong></td>
+                                                <td>Primary Configuration management.</td>
+                                                <td class="text-center"><label><input type="radio" name="status_5_6_2"
+                                                            value="SAT"> SAT</label> <label><input type="radio"
+                                                            name="status_5_6_2" value="UNSAT"> UNSAT</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2"><strong>5.6.3</strong></td>
+                                                <td>Tactical configuration start up procedure.</td>
+                                                <td class="text-center"><label><input type="radio" name="status_5_6_3"
+                                                            value="SAT"> SAT</label> <label><input type="radio"
+                                                            name="status_5_6_3" value="UNSAT"> UNSAT</label></td>
+                                            </tr>
+
+                                            <!-- SER 5.7 OPS CHECKS PART A (9) + PART B (5) = rowspan 16 -->
+                                            <tr>
+                                                <td rowspan="16"><strong>5.7</strong></td>
+                                                <!-- <td rowspan="16"></td> -->
+                                                <td colspan="3"><strong>Ops Checks test cases (Part A)</strong></td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_5_1" value="SAT">
+                                                        SAT</label>
+                                                    <label><input type="radio" name="status_5_1" value="UNSAT">
+                                                        UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2"><strong>5.7.1</strong></td>
+                                                <td>Msg transfer using 4 CH RMU (CH 1).</td>
+                                                <td class="text-center"><label><input type="radio" name="status_5_7_a1"
+                                                            value="SAT"> SAT</label> <label><input type="radio"
+                                                            name="status_5_7_a1" value="UNSAT"> UNSAT</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2"><strong>5.7.2</strong></td>
+                                                <td>Tactical Data Transfer using 4CH RMU (CH 2).</td>
+                                                <td class="text-center"><label><input type="radio" name="status_5_7_a2"
+                                                            value="SAT"> SAT</label> <label><input type="radio"
+                                                            name="status_5_7_a2" value="UNSAT"> UNSAT</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2"><strong>5.7.3</strong></td>
+                                                <td>Link II &ndash; CMS Checks.</td>
+                                                <td class="text-center"><label><input type="radio" name="status_5_7_a3"
+                                                            value="SAT"> SAT</label> <label><input type="radio"
+                                                            name="status_5_7_a3" value="UNSAT"> UNSAT</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2"><strong>5.7.4</strong></td>
+                                                <td>Link II &ndash; Rukmani Checks.</td>
+                                                <td class="text-center"><label><input type="radio" name="status_5_7_a4"
+                                                            value="SAT"> SAT</label> <label><input type="radio"
+                                                            name="status_5_7_a4" value="UNSAT"> UNSAT</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2"><strong>5.7.5</strong></td>
+                                                <td>Link II &ndash; HMS (HUMSA NAG) Checks.</td>
+                                                <td class="text-center"><label><input type="radio" name="status_5_7_a5"
+                                                            value="SAT"> SAT</label> <label><input type="radio"
+                                                            name="status_5_7_a5" value="UNSAT"> UNSAT</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2"><strong>5.7.6</strong></td>
+                                                <td>Link II &ndash; MSS Checks.</td>
+                                                <td class="text-center"><label><input type="radio" name="status_5_7_a6"
+                                                            value="SAT"> SAT</label> <label><input type="radio"
+                                                            name="status_5_7_a6" value="UNSAT"> UNSAT</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2"><strong>5.7.7</strong></td>
+                                                <td>Link II &ndash; IMSAS / MDA Checks.</td>
+                                                <td class="text-center"><label><input type="radio" name="status_5_7_a7"
+                                                            value="SAT"> SAT</label> <label><input type="radio"
+                                                            name="status_5_7_a7" value="UNSAT"> UNSAT</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2"><strong>5.7.8</strong></td>
+                                                <td>Tactical Console interface with AIS.</td>
+                                                <td class="text-center"><label><input type="radio" name="status_5_7_a8"
+                                                            value="SAT"> SAT</label> <label><input type="radio"
+                                                            name="status_5_7_a8" value="UNSAT"> UNSAT</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2"><strong>5.7.9</strong></td>
+                                                <td>MPU/Server &ndash; Messaging Console Checks (NTS &ndash; NTP
+                                                    Checks).</td>
+                                                <td class="text-center"><label><input type="radio" name="status_5_7_a9"
+                                                            value="SAT"> SAT</label> <label><input type="radio"
+                                                            name="status_5_7_a9" value="UNSAT"> UNSAT</label></td>
+                                            </tr>
+                                            <!-- Part B divider -->
+                                            <tr>
+                                                <td colspan="3" class="description-text" style="text-align:center;">
+                                                    <strong>Part B</strong>
+                                                </td>
+                                                <td class="text-center">
+                                                    <label><input type="radio" name="status_5_1" value="SAT">
+                                                        SAT</label>
+                                                    <label><input type="radio" name="status_5_1" value="UNSAT">
+                                                        UNSAT</label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2"><strong>5.7.1</strong></td>
+                                                <td>Msg Transfer using HDR UHF ECCM Manet Waveform CH 1 &amp; 2.</td>
+                                                <td class="text-center"><label><input type="radio" name="status_5_7_b1"
+                                                            value="SAT"> SAT</label> <label><input type="radio"
+                                                            name="status_5_7_b1" value="UNSAT"> UNSAT</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2"><strong>5.7.2</strong></td>
+                                                <td>Tactical Transfer using HDR ECCM Manet Waveform CH 1 &amp; 2.</td>
+                                                <td class="text-center"><label><input type="radio" name="status_5_7_b2"
+                                                            value="SAT"> SAT</label> <label><input type="radio"
+                                                            name="status_5_7_b2" value="UNSAT"> UNSAT</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2"><strong>5.7.3</strong></td>
+                                                <td>Msg Transfer using HDR L Band ECCM Manet Waveform CH 3 &amp; 4.</td>
+                                                <td class="text-center"><label><input type="radio" name="status_5_7_b3"
+                                                            value="SAT"> SAT</label> <label><input type="radio"
+                                                            name="status_5_7_b3" value="UNSAT"> UNSAT</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2"><strong>5.7.4</strong></td>
+                                                <td>Tactical Transfer using HDR L Band ECCM Manet Waveform CH 3 &amp; 4.
+                                                </td>
+                                                <td class="text-center"><label><input type="radio" name="status_5_7_b4"
+                                                            value="SAT"> SAT</label> <label><input type="radio"
+                                                            name="status_5_7_b4" value="UNSAT"> UNSAT</label></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2"><strong>5.7.5</strong></td>
+                                                <td>Msg Data transfer on LDR &ndash; ECCM Waveform CH 1 &amp; 2 (SDR
+                                                    NC).</td>
+                                                <td class="text-center"><label><input type="radio" name="status_5_7_b5"
+                                                            value="SAT"> SAT</label> <label><input type="radio"
+                                                            name="status_5_7_b5" value="UNSAT"> UNSAT</label></td>
+                                            </tr>
+
+                                            <!-- SER 6.0 -->
+                                            <tr>
+                                                <td><strong>6.0</strong></td>
+                                                <!-- <td></td> -->
+                                                <td></td>
+                                                <td colspan="2">Part A and B (Same as Above Check Ser 5.7).</td>
+                                                <td class="text-center"><label><input type="radio" name="status_6_0"
+                                                            value="SAT"> SAT</label> <label><input type="radio"
+                                                            name="status_6_0" value="UNSAT"> UNSAT</label></td>
+                                            </tr>
+
+                                            <!-- SER 7.0 -->
+                                            <tr>
+                                                <td><strong>7.0</strong></td>
+
+                                                <td></td>
+                                                <td colspan="2">Test Measurement Report (TMR) (Result of above Check Ser
+                                                    6.0).</td>
+                                                <td class="text-center"><label><input type="radio" name="status_7_0"
+                                                            value="SAT"> SAT</label> <label><input type="radio"
+                                                            name="status_7_0" value="UNSAT"> UNSAT</label></td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- REMARKS -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">REMARKS</legend>
+                                <div class="static-section">
+                                    <div class="table-responsive">
+                                        <table class="custom_tbl" id="remarks_table">
+                                            <thead>
+                                                <tr>
+                                                    <th class="serial-no">Sr No</th>
+                                                    <th>Observations</th>
+                                                    <th>SS Remarks</th>
+                                                    <th class="action">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td class="serial-no">1</td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea"
+                                                            data-base-name="observation" rows="2"></textarea></td>
+                                                    <td><textarea class="form-control wrstg-scroll-textarea"
+                                                            data-base-name="ss_remarks" rows="2"></textarea></td>
+                                                    <td class="action action-cell-holder">
+                                                        <div class="action-controls">
+                                                            <button type="button" class="btn-round btn-add"
+                                                                onclick="addRow('remarks_table')"
+                                                                title="Add Row">+</button>
+                                                            <button type="button" class="btn-round btn-remove"
+                                                                onclick="removeRow(this, 'remarks_table')"
+                                                                title="Remove Row">-</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <!-- PRESENTING AUTHORITY -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                                <div class="row g-3">
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <select class="form-control" id="dmr_16a_presenting_authority"
+                                                name="dmr_16a_presenting_authority" required>
+                                                <option value="">--Select--</option>
+                                                <option value="dockyard">Dockyard</option>
+                                                <option value="shipstaff">Shipstaff</option>
+                                                <option value="oem">OEM</option>
+                                            </select>
+                                            <label class="form_control_1" for="dmr_16a_presenting_authority">Presenting
+                                                Authority <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" id="dmr_16a_watt"
+                                                name="dmr_16a_watt" value="VZG">
+                                            <label class="form_control_1" for="dmr_16a_watt">WATT</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Save</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

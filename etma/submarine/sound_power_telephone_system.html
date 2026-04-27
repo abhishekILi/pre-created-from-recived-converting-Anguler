@@ -1,0 +1,122 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item active" aria-current="page">ETMA</li>
+          <li class="breadcrumb-item active" aria-current="page">ETMA SUBMARINES</li>
+          <li class="breadcrumb-item active" aria-current="page">Sound Power Telephone System – LINIA (HG)</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold  d-block">
+              Sound Power Telephone System – LINIA (HG)
+            </span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="spts_form">
+            {% csrf_token %}
+            <div class="form-body">
+              
+
+                
+              <!-- ══════════════════════════════════════════
+                   MAIN CHECKS TABLE
+                   Columns: Trial Ser | Check Description | Result (SAT/UNSAT) | Presenting Authority Remarks
+              ══════════════════════════════════════════ -->
+                <fieldset class="custom-fieldset">
+                    <legend class="legend-custom text-uppercase">Table No. 1</legend>
+                    
+                    <div class="table-responsive">
+                        <table class="custom_tbl">
+                        <thead>
+                            <tr class="custom-header-row">
+                            <th rowspan="2">CALLING TELEPHONE</th>
+                            <th colspan="14" class="text-center">ANSWER TELEPHONE</th>
+                            </tr>
+                            <tr class="custom-header-row">
+                            <th colspan="2">SPT 01</th>
+                            <th colspan="2">SPT 02</th>
+                            <th colspan="2">SPT 03</th>
+                            <th colspan="2">SPT 04</th>
+                            <th colspan="2">SPT 05</th>
+                            <th colspan="2">SPT 06</th>
+                            <th colspan="2">SPT 07</th>
+                            </tr>
+                            <tr class="custom-header-row">
+                            <th></th>
+                            {% for spt in answer_spts %}
+                                <th class="text-center" >YES</th>
+                                <th class="text-center" >NO</th>
+                            {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for calling_spt in calling_spts %}
+                            <tr>
+                            <td class="serial-no">{{ calling_spt }}</td>
+                            {% for answer_spt in answer_spts %}
+                                <td class="text-center">
+                                <div class="yes-no-container">
+                                    <input type="radio" name="spt_{{ calling_spt }}_{{ answer_spt }}" value="YES" id="yes_{{ calling_spt }}_{{ answer_spt }}">
+                                    <label for="yes_{{ calling_spt }}_{{ answer_spt }}"></label>
+                                </div>
+                                </td>
+                                <td class="text-center">
+                                <div class="yes-no-container">
+                                    <input type="radio" name="spt_{{ calling_spt }}_{{ answer_spt }}" value="NO" id="no_{{ calling_spt }}_{{ answer_spt }}">
+                                    <label for="no_{{ calling_spt }}_{{ answer_spt }}"></label>
+                                </div>
+                                </td>
+                            {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        </table>
+                    </div>
+                </fieldset>
+
+                <!-- Submit -->
+              <div class="d-flex justify-content-center mt-4 gap-2">
+                <button type="submit" class="btn btn-success px-4">Save</button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		WRSTGQuarterly.init({
+			extraTableIds: [, 'remarks_table',],
+			submitConfirmation: { formId: 'spts_form' }
+		});
+	});
+</script>
+{% endblock js %}

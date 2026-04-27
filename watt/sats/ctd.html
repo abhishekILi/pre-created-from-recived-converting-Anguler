@@ -1,0 +1,627 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+
+<style>
+  /* Inline table input styling */
+  .custom_tbl td input[type="text"]{
+    display: inline-block;
+    width: 100px;
+    height: 28px;
+    padding: 4px 6px;
+    font-size: 12px;
+    border: 1px solid #d9d9d9;
+    border-radius: 3px;
+    margin: 2px 4px;
+    vertical-align: middle;
+  }
+  .inline-input {
+  display: inline-block;
+  width: 120px;
+  height: 28px;
+  padding: 4px 6px;
+  font-size: 12px;
+}
+
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:sats_cdt' %}">ITTTM</a></li>
+          <li class="breadcrumb-item active" aria-current="page">WATT</li>
+          <li class="breadcrumb-item active" aria-current="page">SATs</li>
+          <li class="breadcrumb-item active" aria-current="page">CTD — Daily Summary of Progress</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">WEAPON ACCEPTANCE TRIALS TEAM VISAKHAPATNAM — DAILY SUMMARY OF PROGRESS</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="ctd_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!-- ══════════════════════════════════════════
+                   HEADER FIELDSET
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Basic Information</legend>
+                <div class="row g-3">
+
+                  <!-- Name of Ship -->
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="name_of_ship">
+                        <option value="">-- Select Ship --</option>
+                        <option value="INS_Alpha">INS Alpha</option>
+                        <option value="INS_Bravo">INS Bravo</option>
+                        <option value="INS_Charlie">INS Charlie</option>
+                        <option value="INS_Delta">INS Delta</option>
+                        <option value="INS_Echo">INS Echo</option>
+                        <option value="INS_Foxtrot">INS Foxtrot</option>
+                      </select>
+                      <label class="form_control_1">Name of Ship</label>
+                    </div>
+                  </div>
+
+                  <!-- Dept -->
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="dept">
+                        <option value="">-- Select Dept --</option>
+                        <option value="ND">ND</option>
+                        <option value="Gunnery">Gunnery</option>
+                        <option value="Communication">Communication</option>
+                        <option value="ASW">ASW</option>
+                      </select>
+                      <label class="form_control_1">Dept</label>
+                    </div>
+                  </div>
+
+                  <!-- Equipment -->
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="equipment">
+                        <option value="">-- Select Equipment --</option>
+                        <option value="CTD">CTD</option>
+                      </select>
+                      <label class="form_control_1">Equipment</label>
+                    </div>
+                  </div>
+
+                  <!-- Date -->
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="date" class="form-control" name="trial_date">
+                      <label class="form_control_1">Date</label>
+                    </div>
+                  </div>
+
+                  <!-- Nature of Trials -->
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="nature_of_trials">
+                        <option value="">-- Select --</option>
+                        <option value="SATs">SATs</option>
+                        <option value="HATs">HATs</option>
+                        <option value="FATs">FATs</option>
+                      </select>
+                      <label class="form_control_1">Nature of Trials</label>
+                    </div>
+                  </div>
+
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   MAIN TABLE FIELDSET
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">CTD — Checks</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr class="custom-header-row">
+                        <th class="serial-no">Ser</th>
+                        <th>Observations</th>
+                        <th>Remarks</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <!-- ══ Intro line row ══ -->
+                     <!-- ══ Intro line row ══ -->
+                      <tr>
+                        <td colspan="3">
+                            Trials team embarked onboard at 
+                            <input type="time" id="embark_time" name="embark_time" class="form-control d-inline-block" style="width: 100px; height: 28px;"> hrs on 
+                            <input type="date" id="embark_date" name="embark_date" class="form-control d-inline-block" style="width: 100px; height: 28px;"> for SATs of Colour Tactical Display as per IHQ MoD (navy) approved schedule. Following observations :-
+                        </td>
+                      </tr>
+
+                      <!-- ══ Ser 1 ══
+                           Check 1 — Record vessel, Location, Serial and Part Numbers
+                           Monitor & Processor text fields below the label
+                      -->
+                      <tr>
+                        <td class="serial-no">1</td>
+                        <td class="fixed-label-cell">
+                          Check 1 – Record the vessel, Location (Bridge, Ops Room etc), Serial and Part Numbers of the CTD and associated Monitor and Processor.
+                          <div class="row g-2 mt-1">
+                            <div class="mt-1">
+                              <div class="mt-1">
+                                <span class="me-2">Monitor</span>
+                                <input type="text" id="check1_monitor" name="s1_monitor" class="form-control inline-input">
+
+                                <span class="ms-3 me-2">Processor</span>
+                                <input type="text" id="check1_processor" name="s1_processor" class="form-control inline-input">
+                              </div>
+                       
+                          </div>
+                        </td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label><input type="radio" name="s1_remarks" value="SAT"> SAT</label>
+                            <label><input type="radio" name="s1_remarks" value="UNSAT"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ Ser 2 ══
+                           Check 2 — Heading Line Alignment (Bearing Accuracy)
+                           Obtained Brg input | Specified Brg = ± 0.5°
+                      -->
+                      <tr>
+                        <td class="serial-no">2</td>
+                        <td class="fixed-label-cell">
+                          Check 2 – Heading Line Alignment (Bearing Accuracy) checks.
+                          <div class="row g-2 mt-1 align-items-center">
+                            <div class="col-md-4 col-12">
+                              <div class="mt-1">
+                                <span class="me-2">Obtained Brg</span>
+                                <input type="text" id="check2_brg" name="s2_obtained_brg" class="form-control inline-input">
+                              </div>
+                            </div>
+                            <div class="col-auto fixed-label-cell">Specified Brg = ± 0.5°</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label><input type="radio" name="s2_remarks" value="SAT"> SAT</label>
+                            <label><input type="radio" name="s2_remarks" value="UNSAT"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ Ser 3 ══
+                           Check 3 — Index Error checks
+                           Obtained Rng input | Specified Rng = ± 0.01nm
+                      -->
+                      <tr>
+                        <td class="serial-no">3</td>
+                        <td class="fixed-label-cell">
+                          Check 3 – Index Error checks.
+                          <div class="row g-2 mt-1 align-items-center">
+                            <div class="col-md-4 col-12">
+                              <div class="mt-2">
+                                <span class="me-2">Obtained Rng</span>
+                                <input type="text" id="check3_rng" name="s3_obtained_rng" class="form-control inline-input">
+                              </div>
+                            </div>
+                            <div class="col-auto fixed-label-cell">Specified Rng = ± 0.01nm</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label><input type="radio" name="s3_remarks" value="SAT"> SAT</label>
+                            <label><input type="radio" name="s3_remarks" value="UNSAT"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ Ser 4 ══
+                           Check 4 — Range Accuracy checks (Optional)
+                           Obtained Rng input | Specified Rng = ± 0.5% or 25 mtrs
+                      -->
+                      <tr>
+                        <td class="serial-no">4</td>
+                        <td class="fixed-label-cell">
+                          Check 4 – Range Accuracy checks (Optional).
+                          <div class="row g-2 mt-1 align-items-center">
+                            <div class="col-md-4 col-12">
+                              <div class="mt-2">
+                                <span class="me-2">Obtained Rng</span>
+                                <input type="text" id="check4_rng" name="s4_obtained_rng" class="form-control inline-input">
+                              </div>
+                            </div>
+                            <div class="col-auto fixed-label-cell">Specified Rng = ± 0.5% or 25 mtrs</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label><input type="radio" name="s4_remarks" value="SAT"> SAT</label>
+                            <label><input type="radio" name="s4_remarks" value="UNSAT"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ Ser 5 ══
+                           Check 5 — Bearing Accuracy checks (Relative)
+                           Obtained Brg input | Specified Brg = ± 0.5°
+                      -->
+                      <tr>
+                        <td class="serial-no">5</td>
+                        <td class="fixed-label-cell">
+                          Check 5 – Bearing Accuracy checks (Relative).
+                          <div class="row g-2 mt-1 align-items-center">
+                            <div class="col-md-4 col-12">
+                              <div class="mt-2">
+                                <span class="me-2">Obtained Brg</span>
+                                <input type="text" id="check5_brg" name="s5_obtained_brg" class="form-control inline-input">
+                              </div>
+                            </div>
+                            <div class="col-auto fixed-label-cell">Specified Brg = ± 0.5°</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label><input type="radio" name="s5_remarks" value="SAT"> SAT</label>
+                            <label><input type="radio" name="s5_remarks" value="UNSAT"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ Ser 6 ══
+                           Check 6 — Gyro Compass checks — simple row
+                      -->
+                      <tr>
+                        <td class="serial-no">6</td>
+                        <td class="fixed-label-cell">Check 6 – Gyro Compass checks.</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label><input type="radio" name="s6_remarks" value="SAT"> SAT</label>
+                            <label><input type="radio" name="s6_remarks" value="UNSAT"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ Ser 7 ══
+                           Check 7 — Bearing Accuracy checks (True)
+                           Obtained Brg input | Specified Brg = ± 0.5°
+                      -->
+                      <tr>
+                        <td class="serial-no">7</td>
+                        <td class="fixed-label-cell">
+                          Check 7 – Bearing Accuracy checks (True).
+                          <div class="row g-2 mt-1 align-items-center">
+                            <div class="col-md-4 col-12">
+                              <div class ="mt-2">
+                                <span class="me-2">Obtained Brg</span>
+                                <input type="text" id="check7_brg" name="s7_obtained_brg" class="form-control inline-input">
+                              </div>
+                            </div>
+                            <div class="col-auto fixed-label-cell">Specified Brg = ± 0.5°</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label><input type="radio" name="s7_remarks" value="SAT"> SAT</label>
+                            <label><input type="radio" name="s7_remarks" value="UNSAT"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ Ser 8 ══
+                           Check 8 — Minimum Range checks
+                           Obtained Rng input | Specified Rng = ± 0.02 – 0.03nm
+                      -->
+                      <tr>
+                        <td class="serial-no">8</td>
+                        <td class="fixed-label-cell">
+                          Check 8 – Minimum Range checks.
+                          <div class="row g-2 mt-1 align-items-center">
+                            <div class="col-md-4 col-12">
+                              <div class ="mt-2">
+                                <span class="me-2">Obtained Rng</span>
+                                <input type="text" id="check8_rng" name="s8_obtained_rng" class="form-control inline-input">
+                              </div>
+                            </div>
+                            <div class="col-auto fixed-label-cell">Specified Rng = ± 0.02 – 0.03nm</div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label><input type="radio" name="s8_remarks" value="SAT"> SAT</label>
+                            <label><input type="radio" name="s8_remarks" value="UNSAT"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ Ser 9 ══
+                           Check 9 — Maximum Ranges checks
+                           Nested table: (a)–(d) with SPCD (fixed) and OBTD (user input)
+                      -->
+                      <tr>
+                        <td class="serial-no">9</td>
+                        <td class="fixed-label-cell">
+                          <strong>Check 9 – Maximum Ranges checks.</strong>
+                          <div class="table-responsive mt-2">
+                            <table class="custom_tbl">
+                              <thead>
+                                <tr class="custom-header-row">
+                                  <th></th>
+                                  <th class="text-center">SPCD (Specified)</th>
+                                  <th class="text-center">OBTD (Obtained)</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td class="fixed-label-cell">(a) Navigational Buoy with Radar Reflector (2m height)</td>
+                                  <td class="fixed-label-cell text-center">6nm</td>
+                                  <td><input type="text" class="form-control" name="s9_obtd_a" placeholder="nm"></td>
+                                </tr>
+                                <tr>
+                                  <td class="fixed-label-cell">(b) Medium Naval Target (2000 ton Frigates)</td>
+                                  <td class="fixed-label-cell text-center">12nm</td>
+                                  <td><input type="text" class="form-control" name="s9_obtd_b" placeholder="nm"></td>
+                                </tr>
+                                <tr>
+                                  <td class="fixed-label-cell">(c) Large Merchant Target (100000 ton Tanker)</td>
+                                  <td class="fixed-label-cell text-center">18nm</td>
+                                  <td><input type="text" class="form-control" name="s9_obtd_c" placeholder="nm"></td>
+                                </tr>
+                                <tr>
+                                  <td class="fixed-label-cell">(d) Land (Height 60m)</td>
+                                  <td class="fixed-label-cell text-center">25.5nm</td>
+                                  <td><input type="text" class="form-control" name="s9_obtd_d" placeholder="nm"></td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label><input type="radio" name="s9_remarks" value="SAT"> SAT</label>
+                            <label><input type="radio" name="s9_remarks" value="UNSAT"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ Ser 10 ══
+                           Check 10 — Radar Blind Arcs checks
+                           From Brg input | to input
+                      -->
+                      <tr>
+                        <td class="serial-no">10</td>
+                        <td class="fixed-label-cell">
+                          Check 10 – Radar Blind Arcs checks.
+                          <div class = "mt-1">
+                            <span class ="me-2">From Brg</span>
+                            <input type="text" id="check10_from_brg" name="s10_from_brg" class="form-control inline-input">
+                            <span class="mx-2">to</span>
+                            <input type="text" id="check10_to_brg" name="s10_to_brg" class="form-control inline-input">
+                          </div>
+                        </td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label><input type="radio" name="s10_remarks" value="SAT"> SAT</label>
+                            <label><input type="radio" name="s10_remarks" value="UNSAT"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ Ser 11 ══ -->
+                      <tr>
+                        <td class="serial-no">11</td>
+                        <td class="fixed-label-cell">Check 11 – Clutter checks.</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label><input type="radio" name="s11_remarks" value="SAT"> SAT</label>
+                            <label><input type="radio" name="s11_remarks" value="UNSAT"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ Ser 12 ══ -->
+                      <tr>
+                        <td class="serial-no">12</td>
+                        <td class="fixed-label-cell">Check 12 – True Motion Checks.</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label><input type="radio" name="s12_remarks" value="SAT"> SAT</label>
+                            <label><input type="radio" name="s12_remarks" value="UNSAT"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ Ser 13 ══ -->
+                      <tr>
+                        <td class="serial-no">13</td>
+                        <td class="fixed-label-cell">Check 13 – True Motion Centre Display Checks.</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label><input type="radio" name="s13_remarks" value="SAT"> SAT</label>
+                            <label><input type="radio" name="s13_remarks" value="UNSAT"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ Ser 14 ══ -->
+                      <tr>
+                        <td class="serial-no">14</td>
+                        <td class="fixed-label-cell">Check 14 – ARPA Vectors Checks.</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label><input type="radio" name="s14_remarks" value="SAT"> SAT</label>
+                            <label><input type="radio" name="s14_remarks" value="UNSAT"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ Ser 15 ══ -->
+                      <tr>
+                        <td class="serial-no">15</td>
+                        <td class="fixed-label-cell">Check 15 – Auto Tracking, Guard Rings Checks.</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label><input type="radio" name="s15_remarks" value="SAT"> SAT</label>
+                            <label><input type="radio" name="s15_remarks" value="UNSAT"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ Ser 16 ══ -->
+                      <tr>
+                        <td class="serial-no">16</td>
+                        <td class="fixed-label-cell">Check 16 – External Interfacing: Satellite Navigation Checks.</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label><input type="radio" name="s16_remarks" value="SAT"> SAT</label>
+                            <label><input type="radio" name="s16_remarks" value="UNSAT"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ Ser 17 ══ -->
+                      <tr>
+                        <td class="serial-no">17</td>
+                        <td class="fixed-label-cell">Check 17 – Additional CTD Radars Checks.</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label><input type="radio" name="s17_remarks" value="SAT"> SAT</label>
+                            <label><input type="radio" name="s17_remarks" value="UNSAT"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ Ser 18 ══ -->
+                      <tr>
+                        <td class="serial-no">18</td>
+                        <td class="fixed-label-cell">Check 18 – Interface checks with Log.</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label><input type="radio" name="s18_remarks" value="SAT"> SAT</label>
+                            <label><input type="radio" name="s18_remarks" value="UNSAT"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ Ser 19 ══ -->
+                      <tr>
+                        <td class="serial-no">19</td>
+                        <td class="fixed-label-cell">Check 19 – Interface checks with Wind Computer.</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label><input type="radio" name="s19_remarks" value="SAT"> SAT</label>
+                            <label><input type="radio" name="s19_remarks" value="UNSAT"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ Ser 20 ══ -->
+                      <tr>
+                        <td class="serial-no">20</td>
+                        <td class="fixed-label-cell">Check 20 – MRAT Procedure Checks.</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label><input type="radio" name="s20_remarks" value="SAT"> SAT</label>
+                            <label><input type="radio" name="s20_remarks" value="UNSAT"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ Ser 21 ══ -->
+                      <tr>
+                        <td class="serial-no">21</td>
+                        <td class="fixed-label-cell">Check 21 – Interference from other Radars.</td>
+                        <td>
+                          <div class="yes-no-container">
+                            <label><input type="radio" name="s21_remarks" value="SAT"> SAT</label>
+                            <label><input type="radio" name="s21_remarks" value="UNSAT"> UNSAT</label>
+                          </div>
+                        </td>
+                      </tr>
+
+                      <!-- ══ Footer ══ -->
+                      <tr>
+                          <td colspan="3">
+
+                            <!-- Authorities Row -->
+                            <div class="row mt-2">
+                              <div class="col-md-6 col-12 fw-bold">
+                                Presenting Authority: Ship’s Staff
+                              </div>
+                              <div class="col-md-6 col-12 fw-bold text-md-end">
+                                Inspecting Authority: WATT (V)
+                              </div>
+                            </div>
+
+                            <div class="row align-items-center">
+
+                                <!-- ND -->
+                                <div class="col-md-3 d-flex align-items-center">
+                                  <label class="me-2 fw-bold">ND:</label>
+                                  <input type="text" class="form-control border-0 border-bottom" name="field_nd">
+                                </div>
+
+                                <!-- C -->
+                                <div class="col-md-3 d-flex align-items-center">
+                                  <label class="me-2 fw-bold">C:</label>
+                                  <input type="text" class="form-control border-0 border-bottom" name="field_c">
+                                </div>
+
+                                <!-- STI / TI -->
+                                <div class="col-md-3 d-flex align-items-center">
+                                  <label class="me-2 fw-bold">STI / TI:</label>
+                                  <input type="text" class="form-control border-0 border-bottom" name="field_sti_ti">
+                                </div>
+
+                                <!-- STO -->
+                                <div class="col-md-3 d-flex align-items-center">
+                                  <label class="me-2 fw-bold">STO:</label>
+                                  <input type="text" class="form-control border-0 border-bottom" name="field_sto">
+                                </div>
+
+                              </div>
+
+                          </td>
+                        </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+              </fieldset>
+
+              <!-- Submit -->
+              <div class="d-flex justify-content-center mt-4 gap-2">
+                <button type="submit" class="btn btn-success px-4">Save</button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

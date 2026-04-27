@@ -1,0 +1,238 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+	.expandable-text {
+		min-height: 40px;
+		resize: vertical;
+	}
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+	
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item" aria-current="page">NEC</li>
+					<li class="breadcrumb-item active" aria-current="page">EM / RF Hygiene Onboard Ships</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">EM / RF HYGIENE ONBOARD SHIPS CHECK OFF LISTS</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-2 mb-4">
+					<form method="post" id="em_rf_hygiene_ship_form">
+						{% csrf_token %}
+						<div class="form-body">
+							<fieldset class="custom-fieldset">
+                                <div class="row g-3">
+
+                                    <!-- LEFT COLUMN -->
+                                    <div class="col-md-6 col-12">
+
+                                        <!-- Ship -->
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <select class="form-control" name="ship_id" required>
+                                                <option value="">--Select--</option>
+                                                {% for ship in ship_options %}
+                                                <option value="{{ ship.value }}">{{ ship.label }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <label class="form_control_1">Ship <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                    <!-- RIGHT COLUMN -->
+                                    <div class="col-md-6 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-3 mb-3">
+                                            <input type="date" class="form-control" name="ship_hygiene_audit_date" required>
+                                            <label class="form_control_1">Propsed Date for Audit <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+                                </div>
+              				</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">1. General Remarks</legend>
+								<div class="row mt-2">
+									<div class="col-md-12 mb-2">
+										<label>(a) When was the last major refit (NR and above) undertaken and pre and post refit survey carried out?</label>
+										<textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_gr_a" rows="2"></textarea>
+									</div>
+									<div class="col-md-12 mb-2">
+										<label>(b) When did Naval EMC Centre undertake the last EMI / EMC survey?</label>
+										<textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_gr_b" rows="2"></textarea>
+									</div>
+									<div class="col-md-12 mb-2">
+										<label>(c) Were any modifications / A's and A's carried out on any electrical / electronic equipment since last survey? If yes, indicate details and authority, and whether NEC comments / recommendations were obtained during feasibility study.</label>
+										<textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_gr_c" rows="2"></textarea>
+									</div>
+									<div class="col-md-12">
+										<label>(d) Any EMI problems encountered since the last survey? If yes, state the EMI problems.</label>
+										<textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_gr_d" rows="2"></textarea>
+									</div>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">2. Top Deck</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="ship_top_decks_tbl">
+										<thead>
+											<tr>
+												<th class="serial-no">Ser</th>
+												<th>Check Item</th>
+												<th>Yes/No</th>
+												<th>Remarks</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>1</td><td>Are all movable / hinged structures (hatches and doors) bonded with Type I bond straps?</td><td><select class="form-control select2_no_placeholder edited" name="ship_td_a"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_td_a_r" rows="1"></textarea></td></tr>
+											<tr><td>2</td><td>Are all Type I bond straps free from rust and corrosion?</td><td><select class="form-control select2_no_placeholder edited" name="ship_td_b"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_td_b_r" rows="1"></textarea></td></tr>
+											<tr><td>3</td><td>Are all removable / collapsible structures bonded using Type II bonds?</td><td><select class="form-control select2_no_placeholder edited" name="ship_td_c"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_td_c_r" rows="1"></textarea></td></tr>
+											<tr><td>4</td><td>Are all Type II bond straps free from rust and corrosion?</td><td><select class="form-control select2_no_placeholder edited" name="ship_td_d"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_td_d_r" rows="1"></textarea></td></tr>
+											<tr><td>5</td><td>Have all metallic boxes on the top deck been bonded to the deck?</td><td><select class="form-control select2_no_placeholder edited" name="ship_td_e"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_td_e_r" rows="1"></textarea></td></tr>
+											<tr><td>6</td><td>Are all unscreened cables on top deck routed through metallic conduits / trunks?</td><td><select class="form-control select2_no_placeholder edited" name="ship_td_f"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_td_f_r" rows="1"></textarea></td></tr>
+											<tr><td>7</td><td>Are cable screens / conduits bonded circumferentially (360 degrees) at penetration points?</td><td><select class="form-control select2_no_placeholder edited" name="ship_td_g"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_td_g_r" rows="1"></textarea></td></tr>
+											<tr><td>8</td><td>If MCT glands are used, are they EMC/EMI resistant and screens grounded at entry?</td><td><select class="form-control select2_no_placeholder edited" name="ship_td_h"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option><option value="NA">NA</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_td_h_r" rows="1"></textarea></td></tr>
+											<tr><td>9</td><td>Are clips, bottle screw, swivel eyes, shackles and links rust-free and bonded with Type II bonds?</td><td><select class="form-control select2_no_placeholder edited" name="ship_td_j"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_td_j_r" rows="1"></textarea></td></tr>
+											<tr><td>10</td><td>Are halyards / out hauls neatly coiled and wire ropes bonded near cleat?</td><td><select class="form-control select2_no_placeholder edited" name="ship_td_k"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_td_k_r" rows="1"></textarea></td></tr>
+											<tr><td>11</td><td>Are there any loose metallic items in vicinity of radar and communication antennas?</td><td><select class="form-control select2_no_placeholder edited" name="ship_td_l"><option value="">-- Select --</option><option value="No">No</option><option value="Yes">Yes</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_td_l_r" rows="1"></textarea></td></tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">3. Antennas / Communication / Radar Systems</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="ship_ant_comm_tbl">
+										<thead>
+											<tr>
+												<th class="serial-no">Ser</th>
+												<th>Check Item</th>
+												<th>Yes/No</th>
+												<th>Remarks</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>1</td><td>Wire aerials free of kinks and not frayed</td><td><select class="form-control select2_no_placeholder edited" name="ship_a_1"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_a_1_r" rows="1"></textarea></td></tr>
+											<tr><td>2</td><td>Bonding straps installed and intact</td><td><select class="form-control select2_no_placeholder edited" name="ship_a_2"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_a_2_r" rows="1"></textarea></td></tr>
+											<tr><td>3</td><td>Antenna wires properly stressed</td><td><select class="form-control select2_no_placeholder edited" name="ship_a_3"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_a_3_r" rows="1"></textarea></td></tr>
+											<tr><td>4</td><td>nsulators free of grease, paint and salt</td><td><select class="form-control select2_no_placeholder edited" name="ship_a_4"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_a_4_r" rows="1"></textarea></td></tr>
+											<tr><td>5</td><td>Wire safety link installed and intact</td><td><select class="form-control select2_no_placeholder edited" name="ship_a_5"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_a_5_r" rows="1"></textarea></td></tr>
+											<tr><td>6</td><td>Cables secured with cable clamps</td><td><select class="form-control select2_no_placeholder edited" name="ship_a_6"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_a_6_r" rows="1"></textarea></td></tr>
+											<tr><td>7</td><td>Insulators free of cracks</td><td><select class="form-control select2_no_placeholder edited" name="ship_a_7"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_a_7_r" rows="1"></textarea></td></tr>
+											<tr><td>8</td><td>Antenna matching network cover secured and bonded</td><td><select class="form-control select2_no_placeholder edited" name="ship_a_8"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_a_8_r" rows="1"></textarea></td></tr>
+											<tr><td>9</td><td>Surrounding area (50 sq ft) free of loose metallic objects</td><td><select class="form-control select2_no_placeholder edited" name="ship_a_9"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_a_9_r" rows="1"></textarea></td></tr>
+											<tr><td>10</td><td>Feed points preserved and weather proofed</td><td><select class="form-control select2_no_placeholder edited" name="ship_a_10"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_a_10_r" rows="1"></textarea></td></tr>
+											<tr><td>11</td><td>Wire aerials free of soot</td><td><select class="form-control select2_no_placeholder edited" name="ship_a_11"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_a_11_r" rows="1"></textarea></td></tr>
+											<tr><td>12</td><td>Whip antenna insulators free of cracks and contamination</td><td><select class="form-control select2_no_placeholder edited" name="ship_b_1"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_b_1_r" rows="1"></textarea></td></tr>
+											<tr><td>13</td><td>ntenna base tuners bonded with Type III bond strap</td><td><select class="form-control select2_no_placeholder edited" name="ship_b_2"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_b_2_r" rows="1"></textarea></td></tr>
+											<tr><td>14</td><td>Antenna tuners pressurized wherever required</td><td><select class="form-control select2_no_placeholder edited" name="ship_b_3"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option><option value="NA">NA</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_b_3_r" rows="1"></textarea></td></tr>
+											<tr><td>15</td><td>Feed points preserved and weather proofed</td><td><select class="form-control select2_no_placeholder edited" name="ship_b_4"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_b_4_r" rows="1"></textarea></td></tr>
+											<tr><td>16</td><td>Surrounding area (50 sq ft) free of loose metallic objects</td><td><select class="form-control select2_no_placeholder edited" name="ship_b_5"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_b_5_r" rows="1"></textarea></td></tr>
+											<tr><td>17</td><td>Whip aerials free of soot</td><td><select class="form-control select2_no_placeholder edited" name="ship_b_6"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_b_6_r" rows="1"></textarea></td></tr>
+											<tr><td>18</td><td>Insulators free of grease, paint and salt</td><td><select class="form-control select2_no_placeholder edited" name="ship_b_7"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_b_7_r" rows="1"></textarea></td></tr>
+											<tr><td>19</td><td>V/UHF antennas free from dust, contamination and soot</td><td><select class="form-control select2_no_placeholder edited" name="ship_c_1"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_c_1_r" rows="1"></textarea></td></tr>
+											<tr><td>20</td><td>RF paint in good condition</td><td><select class="form-control select2_no_placeholder edited" name="ship_c_2"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_c_2_r" rows="1"></textarea></td></tr>
+											<tr><td>21</td><td>Cable connectors at antenna end properly terminated</td><td><select class="form-control select2_no_placeholder edited" name="ship_c_3"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_c_3_r" rows="1"></textarea></td></tr>
+											<tr><td>22</td><td>All antennas free of soot</td><td><select class="form-control select2_no_placeholder edited" name="ship_c_4"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_c_4_r" rows="1"></textarea></td></tr>
+											<tr><td>23</td><td>Multicouplers / Filters / Pre-selectors installed in Tx/Rx chains as per design</td><td><select class="form-control select2_no_placeholder edited" name="ship_d_1"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_d_1_r" rows="1"></textarea></td></tr>
+											<tr><td>24</td><td>Co-location filters installed wherever required as per design</td><td><select class="form-control select2_no_placeholder edited" name="ship_d_2"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_d_2_r" rows="1"></textarea></td></tr>
+											<tr><td>25</td><td>RF cable shields properly terminated into connectors</td><td><select class="form-control select2_no_placeholder edited" name="ship_d_3"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_d_3_r" rows="1"></textarea></td></tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">4. Radar Systems</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="ship_radar_tbl">
+										<thead>
+											<tr>
+												<th class="serial-no">Ser</th>
+												<th>Check Item</th>
+												<th>Yes/No</th>
+												<th>Remarks</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>1</td><td>Radomes, radar elements and antenna dishes dust/contamination free</td><td><select class="form-control select2_no_placeholder edited" name="ship_radar_a"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_radar_a_r" rows="1"></textarea></td></tr>
+											<tr><td>2</td><td>Radar absorbent material (where used) not cracked / bulging</td><td><select class="form-control select2_no_placeholder edited" name="ship_radar_b"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option><option value="NA">NA</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_radar_b_r" rows="1"></textarea></td></tr>
+											<tr><td>3</td><td>Bonding of antenna pedestal and motor in good condition</td><td><select class="form-control select2_no_placeholder edited" name="ship_radar_c"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_radar_c_r" rows="1"></textarea></td></tr>
+											<tr><td>4</td><td>Synchronizer and blanker being utilized</td><td><select class="form-control select2_no_placeholder edited" name="ship_radar_d"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_radar_d_r" rows="1"></textarea></td></tr>
+											<tr><td>5</td><td>Wave guides free from denting, bulging and cracks</td><td><select class="form-control select2_no_placeholder edited" name="ship_radar_e1"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_radar_e1_r" rows="1"></textarea></td></tr>
+											<tr><td>6</td><td>Rubber sections free of cracks</td><td><select class="form-control select2_no_placeholder edited" name="ship_radar_e2"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_radar_e2_r" rows="1"></textarea></td></tr>
+											<tr><td>7</td><td>Pressurization adequate and silica gel in good condition</td><td><select class="form-control select2_no_placeholder edited" name="ship_radar_e3"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_radar_e3_r" rows="1"></textarea></td></tr>
+											<tr><td>8</td><td>Scope of RF leakage at joints using soap water test</td><td><select class="form-control select2_no_placeholder edited" name="ship_radar_e4"><option value="">-- Select --</option><option value="No">No</option><option value="Yes">Yes</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_radar_e4_r" rows="1"></textarea></td></tr>
+											<tr><td>9</td><td>Degradation on VSWR vis-a-vis last HATs / SATs measurement</td><td><select class="form-control select2_no_placeholder edited" name="ship_radar_e5"><option value="">-- Select --</option><option value="No">No</option><option value="Yes">Yes</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_radar_e5_r" rows="1"></textarea></td></tr>
+											<tr><td>10</td><td>Waveguides marked "DO NOT STRIKE"</td><td><select class="form-control select2_no_placeholder edited" name="ship_radar_f1"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_radar_f1_r" rows="1"></textarea></td></tr>
+											<tr><td>11</td><td>Antenna radomes marked "DO NOT PAINT"</td><td><select class="form-control select2_no_placeholder edited" name="ship_radar_f2"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_radar_f2_r" rows="1"></textarea></td></tr>
+											<tr><td>12</td><td>RF paint of radome / antenna in proper condition</td><td><select class="form-control select2_no_placeholder edited" name="ship_radar_g"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_radar_g_r" rows="1"></textarea></td></tr>
+											<tr><td>13</td><td>Radomes free of cracks and watertight</td><td><select class="form-control select2_no_placeholder edited" name="ship_radar_h"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_radar_h_r" rows="1"></textarea></td></tr>
+											<tr><td>14</td><td>RF gaskets of RF cabinets in good condition</td><td><select class="form-control select2_no_placeholder edited" name="ship_radar_j"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_radar_j_r" rows="1"></textarea></td></tr>
+											<tr><td>15</td><td>Metal-to-metal contact between door and frame of RF compartment proper</td><td><select class="form-control select2_no_placeholder edited" name="ship_radar_k"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_radar_k_r" rows="1"></textarea></td></tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom text-uppercase">5. Below Decks</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl" id="ship_below_decks_tbl">
+										<thead>
+											<tr>
+												<th class="serial-no">Ser</th>
+												<th>Check Item</th>
+												<th>Yes/No</th>
+												<th>Remarks</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>1</td><td>Equipment / machinery operating above 30V provided with proper grounding</td><td><select class="form-control select2_no_placeholder edited" name="ship_bd_a"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_bd_a_r" rows="1"></textarea></td></tr>
+											<tr><td>2</td><td>Copper straps provided for grounding of steel plate cabinets and foundations</td><td><select class="form-control select2_no_placeholder edited" name="ship_bd_b"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_bd_b_r" rows="1"></textarea></td></tr>
+											<tr><td>3</td><td>Aluminum alloy straps provided for aluminum alloy cabinets and foundations</td><td><select class="form-control select2_no_placeholder edited" name="ship_bd_c"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_bd_c_r" rows="1"></textarea></td></tr>
+											<tr><td>4</td><td>Braided Type IV ground straps for equipment on resilient shock mounts</td><td><select class="form-control select2_no_placeholder edited" name="ship_bd_d"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_bd_d_r" rows="1"></textarea></td></tr>
+											<tr><td>5</td><td>Bond straps free from corrosion, breakage, loose contacts</td><td><select class="form-control select2_no_placeholder edited" name="ship_bd_e"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_bd_e_r" rows="1"></textarea></td></tr>
+											<tr><td>6</td><td>Bond resistance within limits (less than 10 milli ohms)</td><td><select class="form-control select2_no_placeholder edited" name="ship_bd_f"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_bd_f_r" rows="1"></textarea></td></tr>
+											<tr><td>7</td><td>Portable equipment with three-core cables grounded using third pin</td><td><select class="form-control select2_no_placeholder edited" name="ship_bd_g"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_bd_g_r" rows="1"></textarea></td></tr>
+											<tr><td>8</td><td>Covers / panels of electronic equipment secured</td><td><select class="form-control select2_no_placeholder edited" name="ship_bd_h"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_bd_h_r" rows="1"></textarea></td></tr>
+											<tr><td>9</td><td>If wooden/plastic platforms used, grounding provision provided for fitted equipment</td><td><select class="form-control select2_no_placeholder edited" name="ship_bd_j"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option><option value="NA">NA</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_bd_j_r" rows="1"></textarea></td></tr>
+											<tr><td>10</td><td>Ethernet / LAN cables are STP and not UTP</td><td><select class="form-control select2_no_placeholder edited" name="ship_bd_k"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_bd_k_r" rows="1"></textarea></td></tr>
+											<tr><td>11</td><td>Slip rings, brushes and brush tension proper in DC motors</td><td><select class="form-control select2_no_placeholder edited" name="ship_bd_l"><option value="">-- Select --</option><option value="Yes">Yes</option><option value="No">No</option></select></td><td><textarea class="form-control wrstg-scroll-textarea expandable-text" name="ship_bd_l_r" rows="1"></textarea></td></tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<div class="form-actions mt-4">
+								<button type="submit" class="btn btn-primary">Save</button>
+								<a href="{% url 'ITTTM:home' %}" class="btn btn-secondary">Cancel</a>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

@@ -1,0 +1,316 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<style>
+    body { font-family: Arial, sans-serif; background: #f8f9fa; }
+    .container-fluid { margin-top: 30px; }
+    .portlet { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); padding: 24px; }
+    .portlet-title { border-bottom: 1px solid #eee; margin-bottom: 16px; }
+    .caption { font-size: 1.3rem; font-weight: 600; color: #1976d2; }
+    .table_wrapper { overflow-x: unset; }
+    .custom_tbl th, .custom_tbl td { vertical-align: middle; }
+    .nav-tabs { border-bottom: 2px solid #1976d2; }
+    .nav-link.active { background: #1976d2; color: #fff !important; }
+    .nav-link { color: #1976d2; font-weight: 500; }
+    .nav-item + .nav-item { margin-left: 8px; }
+
+    /* ===== CARD ===== */
+    .card_seg_catalogue {
+        padding: 15px;
+    }
+
+    /* ===== TABLE HOVER ===== */
+    .table-hover tbody tr:hover {
+        background: #eef5ff !important;
+    }
+
+    /* ===== DATATABLE BUTTONS ===== */
+    .dt-buttons .btn {
+        margin-right: 4px;
+    }
+
+    /* ===== LENGTH MENU ===== */
+    .length-menu-container {
+        display: flex;
+        align-items: center;
+    }
+
+    /* ===== COLUMN FILTER ROW ===== */
+    .filter-row th input {
+        width: 100%;
+        font-size: 12px;
+        padding: 3px 6px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    /* ===== STATUS BADGES ===== */
+    .status-approval {
+        font-weight: 600;
+        font-size: 13px;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+
+<div class="container-fluid">
+  
+     
+    <!-- Form Card -->
+    
+   
+    <!-- Tabular Form (10 fields, 2 columns, line style, backend data) -->
+    <div class="card card_seg_catalogue mb-4">
+        
+                <h2 style="text-align: center;">Item Handling Extraction</h2>
+     
+        <form id="item-handling-tabular-form">
+            <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Catalogue of selected MMD</legend>
+                <div class="row g-3">
+                    <div class="col-md-6 col-12">
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="system" placeholder=" " value="{{ extraction.system|default:'' }}" required>
+                            <label class="form_control_1">System <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="subsystem" placeholder=" " value="{{ extraction.subsystem|default:'' }}" required>
+                            <label class="form_control_1">Subsystem <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="mmd_typeos" placeholder=" " value="{{ extraction.mmd_typeos|default:'' }}" required>
+                            <label class="form_control_1">MMD TypeOS <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="interface" placeholder=" " value="{{ extraction.interface|default:'' }}" required>
+                            <label class="form_control_1">Interface <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="size" placeholder=" " value="{{ extraction.size|default:'' }}" required>
+                            <label class="form_control_1">Size <span class="text-danger">*</span></label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="application" placeholder=" " value="{{ extraction.application|default:'' }}" required>
+                            <label class="form_control_1">Application <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="name" placeholder=" " value="{{ extraction.name|default:'' }}" required>
+                            <label class="form_control_1">Name <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="application_version" placeholder=" " value="{{ extraction.application_version|default:'' }}" required>
+                            <label class="form_control_1">Application Version <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="part_no_mother_board" placeholder=" " value="{{ extraction.part_no_mother_board|default:'' }}" required>
+                            <label class="form_control_1">Part No of Mother Board <span class="text-danger">*</span></label>
+                        </div>
+                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                            <input type="text" class="form-control" name="pattern_no_selected_mmd" placeholder=" " value="{{ extraction.pattern_no_selected_mmd|default:'' }}" required>
+                            <label class="form_control_1">Pattern No of Selected MMD <span class="text-danger">*</span></label>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+
+    <!-- Table Card -->
+   <div class="card card_seg_catalogue mb-4">
+        <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Available backup Auto shown For the MMD</legend>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table_wrapper">
+                    <table id="seg_catalogue_table" class="table table-bordered table-hover custom_tbl">
+                        <thead>
+                            <tr>
+                                <th>Extraction date</th>
+                                <th>File Name</th>
+                                <th>Extraction Formate</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Dummy Data Rows -->
+                            <tr>
+                                <td>20 april 24</td>
+                                <td>XXX_YYY</td>
+                                <td>DD</td>
+                                <td><button type="button" class="btn btn-sm btn-info">View</button></td>
+                            </tr>
+                            <tr>
+                                <td>Hull</td>
+                                <td>radar1</td>
+                                <td>TX-DX Card</td>
+                                <td><button type="button" class="btn btn-sm btn-info">View</button></td>
+                            </tr>
+                            <!-- Render existing catalogue entries here if available -->
+                            {% for item in catalogue_items %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ item.sub_system }}</td>
+                                <td>{{ item.mmd_type }}</td>
+                                <td>{{ item.mmd_size }}</td>
+                                <td>{{ item.mmd_id }}</td>
+                                <td>{{ item.status }}</td>
+                                <td>{{ item.mmd_serial }}</td>
+                                <td>{{ item.seg_verifica }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+        <!-- Five fields side by side below the scroll bar -->
+        <form id="backup-info-form">
+            <div class="row mb-2 mt-3 align-items-end">
+                <div class="col-md-3 col-12">
+                    <div class="form-group">
+                        <label for="app_req_status">App Req Status</label>
+                        <select class="form-control" id="app_req_status" name="app_req_status" required>
+                            <option value="">Req Status</option>
+                            <option value="Accepted">Accepted</option>
+                            <option value="Rejected">Rejected</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3 col-12">
+                    <div class="form-group">
+                        <label for="date_field">Date</label>
+                        <input type="date" class="form-control" id="date_field" name="date_field" required>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-3 align-items-end">
+                <div class="col-md-4 col-12">
+                    <div class="form-group">
+                        <label for="backup_location">Backup Location</label>
+                        <input type="text" class="form-control" id="backup_location" name="backup_location" placeholder="Enter location" required>
+                    </div>
+                </div>
+                <div class="col-md-4 col-12">
+                    <div class="form-group">
+                        <label for="backup_file_format">Backup File Format</label>
+                        <input type="text" class="form-control" id="backup_file_format" name="backup_file_format" placeholder="Enter file format" required>
+                    </div>
+                </div>
+                <div class="col-md-4 col-12">
+                    <div class="form-group">
+                        <label for="backup_file_name">Backup File Name</label>
+                        <input type="text" class="form-control" id="backup_file_name" name="backup_file_name" placeholder="Enter file name" required>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center mt-4 gap-2">
+								<button type="submit" class="btn btn-success px-4">Save</button>
+							</div>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block js %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    // ===== INITIALIZE DATATABLE =====
+    let initDataTable = (selector) => {
+        if ($.fn.DataTable.isDataTable(selector)) {
+            $(selector).DataTable().clear().destroy();
+            $(selector + ' thead tr.filter-row').remove();
+        }
+
+        let $thead = $(selector + ' thead');
+        // Removed column search inputs and filter row
+
+        // INITIALIZE DATATABLE
+        let table = $(selector).DataTable({
+            dom: "<'row'<'col-md-12'B>>rt",
+
+            buttons: [
+                {
+                    extend: 'print',
+                    className: 'btn-outline-dark',
+                    text: '<i class="bi bi-printer" data-bs-toggle="tooltip" title="Print"></i>'
+                },
+                {
+                    extend: 'pdf',
+                    className: 'btn-outline-success',
+                    text: '<i class="bi bi-file-earmark-pdf" data-bs-toggle="tooltip" title="Export to PDF"></i>'
+                },
+                {
+                    extend: 'csv',
+                    className: 'btn-outline-primary',
+                    text: '<i class="bi bi-file-earmark-spreadsheet" data-bs-toggle="tooltip" title="Export to CSV"></i>'
+                },
+                {
+                    extend: 'copy',
+                    className: 'btn-outline-secondary',
+                    text: '<i class="bi bi-clipboard" data-bs-toggle="tooltip" title="Copy"></i>'
+                }
+            ],
+
+            language: {
+                emptyTable: "No data available",
+                zeroRecords: "No matching records found"
+            },
+
+            order: [[0, "asc"]],
+            pageLength: 10,
+            fixedHeader: true,
+            retrieve: true,
+
+            initComplete: function () {
+                $(selector + '_length select').addClass('custom-length');
+                $(selector + '_length').addClass('position-relative d-inline-block');
+            }
+        });
+
+        // Column search
+        // Removed column-wise search
+
+        $(selector).on('draw.dt', function () {
+            $('[data-bs-toggle="tooltip"]').tooltip();
+        });
+
+        return table;
+    };
+
+    // Init table
+    let segTable = initDataTable('#seg_catalogue_table');
+
+    // ===== FORM SUBMIT — Add row to DataTable =====
+    document.getElementById('seg-catalogue-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const dept   = document.getElementById('seg_code').value.trim();
+        const sub    = document.getElementById('seg_name').value.trim();
+        const subsys = document.getElementById('seg_description').value.trim();
+
+        if (!dept || !sub) return;
+
+        // Add new row via DataTable API (keeps sorting/pagination intact)
+        let rowCount = segTable.data().length + 1;
+        segTable.row.add([
+            rowCount,
+            dept,
+            sub,
+            subsys || '-'
+        ]).draw();
+
+        this.reset();
+    });
+
+});
+</script>
+{% endblock js %}

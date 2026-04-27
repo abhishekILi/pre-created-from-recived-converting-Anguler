@@ -1,0 +1,744 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+  <div class="row">
+    <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Kashmir-M HATs</li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption font-green">
+            <span class="caption-subject bold">KASHMIR-M — HATs CHECK OFF LIST (ASA)</span>
+          </div>
+        </div>
+
+        <div class="portlet-body form mt-2 mb-4">
+          <form method="post" id="kashmir_form">
+            {% csrf_token %}
+            <div class="form-body">
+
+              <!-- ══════════════════════════════════════════
+                   HEADER — Ship / Trial Info
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Trial Header Information</legend>
+                <div class="row g-3">
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="ship" required>
+                        <option value="">-- Select Ship --</option>
+                        {% for ship in ship_options %}
+                        <option value="{{ ship.value }}">{{ ship.label }}</option>
+                        {% endfor %}
+                      </select>
+                      <label class="form_control_1">Name of Ship <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="equipment" value="KASHMIR-M" readonly placeholder=" ">
+                      <label class="form_control_1">Equipment</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="obs_sno" placeholder=" ">
+                      <label class="form_control_1">Observation S. No.</label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="date" class="form-control" name="trial_date" required placeholder=" ">
+                      <label class="form_control_1">Date <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <select class="form-control" name="unit" required>
+                        <option value="">-- Select Unit --</option>
+                        <option value="ND">ND</option>
+                        <option value="Gunnery">Gunnery</option>
+                        <option value="Communication">Communication</option>
+                        <option value="ASW">ASW</option>
+                      </select>
+                      <label class="form_control_1">Unit <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-12">
+                    <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                      <input type="text" class="form-control" name="presented_by" placeholder=" " required>
+                      <label class="form_control_1">Presented By <span class="text-danger">*</span></label>
+                    </div>
+                  </div>
+
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   PART I — Kashmir-M (15.360285.001E)
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Part I — Kashmir-M (Doc No: 15.360285.001E)</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no" style="width:90px;">Trial Ser</th>
+                        <th>Check Description as per Schedule</th>
+                        <th style="width:150px;">Result (Sat / Unsat)</th>
+                        <th style="width:220px;">WATT Remarks</th>
+                        <th style="width:220px;">DYD / OEM / WOT</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <tr>
+                        <td class="serial-no">4.2.1</td>
+                        <td>Perform trials of AZOV (Recording system)</td>
+                        <td><select class="form-control" name="p1_421_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_421_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_421_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">4.2.2</td>
+                        <td>Check completeness and arrangements of equipment of the Kashmir-M</td>
+                        <td><select class="form-control" name="p1_422_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_422_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_422_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">4.2.3</td>
+                        <td>Check completeness of the system's operational documents</td>
+                        <td><select class="form-control" name="p1_423_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_423_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_423_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">4.2.4</td>
+                        <td>Test execution of guidance angles as commanded from SMCFCS 3P91Э1 by Launchers 3C-90-15</td>
+                        <td><select class="form-control" name="p1_424_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_424_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_424_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">4.2.5</td>
+                        <td>Test functioning of articles 3C-90-15 and Radar Illuminator Drives in system testing mode</td>
+                        <td><select class="form-control" name="p1_425_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_425_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_425_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">4.2.6</td>
+                        <td>Test operation of YП-3M91Э1 set with device ЦBC-ПPЭ1</td>
+                        <td><select class="form-control" name="p1_426_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_426_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_426_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">4.2.7</td>
+                        <td>Test Braking Zones and Dangerous Zones of 3C-90-15</td>
+                        <td><select class="form-control" name="p1_427_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_427_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_427_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">4.2.8</td>
+                        <td>Test transmission of ammunition availability signals between 3C-90-15 No.1 and No.2 and 3P91Э1</td>
+                        <td><select class="form-control" name="p1_428_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_428_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_428_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">4.2.9</td>
+                        <td>Check transmission of commands and signals to the Ш0 connector of 3C-90-15 No.1 and No.2 from prelaunch automatic devices 3O90Э1 No.1 and No.2</td>
+                        <td><select class="form-control" name="p1_429_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_429_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_429_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">4.2.10</td>
+                        <td>Testing of execution of the calculated guidance angles by the Radar Illuminator Drives and Drives of 3C-90-15 (Launcher)</td>
+                        <td><select class="form-control" name="p1_4210_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_4210_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_4210_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">4.2.11</td>
+                        <td>Check transmission and execution of values of Training and Elevation and Range</td>
+                        <td><select class="form-control" name="p1_4211_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_4211_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_4211_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">4.2.12</td>
+                        <td>Check the structure and quality of a launch mission issued by pulse code to the Ш0 connector</td>
+                        <td><select class="form-control" name="p1_4212_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_4212_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_4212_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">4.2.13</td>
+                        <td>Check functioning of the system as a whole with simulated firing</td>
+                        <td><select class="form-control" name="p1_4213_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_4213_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_4213_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">4.2.14</td>
+                        <td>Check system interface with Device Ellora / Shakti</td>
+                        <td><select class="form-control" name="p1_4214_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_4214_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_4214_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">4.2.15</td>
+                        <td>Check system interface with ZVEZDOCHKA-15</td>
+                        <td><select class="form-control" name="p1_4215_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_4215_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_4215_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">4.2.16</td>
+                        <td>Check system interface with BLOKIROVKA-15</td>
+                        <td><select class="form-control" name="p1_4216_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_4216_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_4216_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">4.2.17</td>
+                        <td>Check system interface with CMS</td>
+                        <td><select class="form-control" name="p1_4217_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_4217_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_4217_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">4.2.18</td>
+                        <td>Check system interface with BWCS</td>
+                        <td><select class="form-control" name="p1_4218_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_4218_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p1_4218_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   PART II — Kashmir-M (15.360285.002E)
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Part II — Kashmir-M (Doc No: 15.360285.002E)</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no" style="width:90px;">Trial Ser</th>
+                        <th>Check Description as per Schedule</th>
+                        <th style="width:150px;">Result (Sat / Unsat)</th>
+                        <th style="width:220px;">WATT Remarks</th>
+                        <th style="width:220px;">DYD / OEM / WOT</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <tr>
+                        <td class="serial-no">4.2.1</td>
+                        <td>Check completeness of devices of FCS, AZOV and memory devices</td>
+                        <td><select class="form-control" name="p2_421_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p2_421_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p2_421_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">4.2.2</td>
+                        <td>Check completeness of the operational documents of FCS, AZOV and memory devices</td>
+                        <td><select class="form-control" name="p2_422_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p2_422_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p2_422_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">4.2.3</td>
+                        <td>Check if connecting cables are properly laid</td>
+                        <td><select class="form-control" name="p2_423_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p2_423_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p2_423_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">4.2.4</td>
+                        <td>Check the equipment grounding and electric resistance of cables insulation</td>
+                        <td><select class="form-control" name="p2_424_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p2_424_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p2_424_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">4.2.5</td>
+                        <td>Test functioning of the Illuminators</td>
+                        <td><select class="form-control" name="p2_425_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p2_425_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p2_425_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">4.2.6</td>
+                        <td>Test functioning of the Trackers</td>
+                        <td><select class="form-control" name="p2_426_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p2_426_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p2_426_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">4.2.7</td>
+                        <td>Check joint operation of KП-3P91Э1 and AZOV and ACПOИ-Э1</td>
+                        <td><select class="form-control" name="p2_427_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p2_427_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p2_427_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">4.2.8</td>
+                        <td>Test functioning of Radar Illuminator Drives in system testing mode</td>
+                        <td><select class="form-control" name="p2_428_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p2_428_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p2_428_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">4.2.9</td>
+                        <td>Test functioning of article CTB 3Ч90Э1</td>
+                        <td><select class="form-control" name="p2_429_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p2_429_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p2_429_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">4.2.10</td>
+                        <td>Test interfacing of the system with RLGDDU</td>
+                        <td><select class="form-control" name="p2_4210_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p2_4210_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p2_4210_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">4.2.11</td>
+                        <td>Test interfacing of the system with FREGAT-M2EM</td>
+                        <td><select class="form-control" name="p2_4211_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p2_4211_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p2_4211_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">4.2.12</td>
+                        <td>Test interfacing of the system with IFF MK XII</td>
+                        <td><select class="form-control" name="p2_4212_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p2_4212_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p2_4212_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">4.2.13</td>
+                        <td>Test interfacing of the system with NTP / PTP</td>
+                        <td><select class="form-control" name="p2_4213_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p2_4213_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p2_4213_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">4.2.14</td>
+                        <td>Test interfacing of the system with LYNX U2</td>
+                        <td><select class="form-control" name="p2_4214_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p2_4214_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p2_4214_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   PART III — Kashmir-M (15.360285.003E)
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Part III — Kashmir-M (Doc No: 15.360285.003E)</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no" style="width:90px;">Trial Ser</th>
+                        <th>Check Description as per Schedule</th>
+                        <th style="width:150px;">Result (Sat / Unsat)</th>
+                        <th style="width:220px;">WATT Remarks</th>
+                        <th style="width:220px;">DYD / OEM / WOT</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <tr>
+                        <td class="serial-no">4.2.1</td>
+                        <td>Check levelling of the radar illuminators</td>
+                        <td><select class="form-control" name="p3_421_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p3_421_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p3_421_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">4.2.2</td>
+                        <td>Check the correct mounting of helicopter traversing devices</td>
+                        <td><select class="form-control" name="p3_422_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p3_422_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p3_422_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   PART IV — Kashmir-M (5.360285.004E)
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Part IV — Kashmir-M (Doc No: 5.360285.004E)</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th class="serial-no" style="width:90px;">Trial Ser</th>
+                        <th>Check Description as per Schedule</th>
+                        <th style="width:150px;">Result (Sat / Unsat)</th>
+                        <th style="width:220px;">WATT Remarks</th>
+                        <th style="width:220px;">DYD / OEM / WOT</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <tr>
+                        <td class="serial-no">4.2.1</td>
+                        <td>Check the alignment of radar illuminator drives</td>
+                        <td><select class="form-control" name="p4_421_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p4_421_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p4_421_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                      <tr>
+                        <td class="serial-no">4.2.2</td>
+                        <td>Check the correct mounting of helicopter (cameras) traversing devices</td>
+                        <td><select class="form-control" name="p4_422_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p4_422_watt" rows="2"></textarea></td>
+                        <td><textarea class="form-control wrstg-scroll-textarea" name="p4_422_dyd" rows="2"></textarea></td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   ASA 1 — PLADs 3O90Э1 (15.360285.001E)
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">ASA 1 — PLADs 3O90Э1 (Doc No: 15.360285.001E)</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th style="width:55px;">Ser</th>
+                        <th class="serial-no" style="width:90px;">Trial Ser</th>
+                        <th>Check Description as per Schedule</th>
+                        <th style="width:150px;">Result (Sat / Unsat)</th>
+                        <th style="width:220px;">WATT Remarks</th>
+                        <th style="width:220px;">DYD / OEM / WOT</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <tr><td></td><td class="serial-no">4.2.1</td><td>Check completeness of the operating documents of PLADs 3O90Э1</td><td><select class="form-control" name="a1_421_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_421_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_421_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.2</td><td>Check completeness of PLADs 3O90Э1</td><td><select class="form-control" name="a1_422_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_422_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_422_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.3</td><td>Check the quality of electric wiring and its compliance with the wiring diagrams</td><td><select class="form-control" name="a1_423_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_423_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_423_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.4</td><td>Check the quality of device grounding</td><td><select class="form-control" name="a1_424_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_424_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_424_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.5</td><td>Check the insulation resistance of electric circuits</td><td><select class="form-control" name="a1_425_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_425_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_425_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.6</td><td>Check the functioning of indicators and panels of devices OP-10Б and OP-7И</td><td><select class="form-control" name="a1_426_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_426_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_426_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.7</td><td>Check functioning of the 3×220 VAC 400Hz phase sequence and break testing circuit of device OP-7И</td><td><select class="form-control" name="a1_427_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_427_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_427_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.8</td><td>Check the source of zero shift of the summing amplifiers and reference voltage sources of compare circuits of device OP-10A</td><td><select class="form-control" name="a1_428_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_428_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_428_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.9</td><td>Check the transmission of initial status signals: SAMI, SEI, MSI, TGPUI</td><td><select class="form-control" name="a1_429_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_429_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_429_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.10</td><td>Check outputting of commands "Therm", "Liftoff", "Memorize", LI, K, 27V, A, B, C (3~400 Hz, 220V) to missile</td><td><select class="form-control" name="a1_4210_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4210_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4210_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.11</td><td>Check the three-phase 220 V AC 400 Hz supply to missile</td><td><select class="form-control" name="a1_4211_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4211_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4211_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.12</td><td>Check 27 V DC supply to missile</td><td><select class="form-control" name="a1_4212_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4212_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4212_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.13</td><td>Check the command ST gt transmission to missile</td><td><select class="form-control" name="a1_4213_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4213_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4213_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.14</td><td>Check the analog command HEEL transmission to missile</td><td><select class="form-control" name="a1_4214_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4214_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4214_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.15</td><td>Check the transmission of commands "Outside Dangerous Zone", "Outside Braking Zone", "Hatch Closed"</td><td><select class="form-control" name="a1_4215_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4215_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4215_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.16</td><td>Check signals DRUM1, DRUM2 issued by the missile</td><td><select class="form-control" name="a1_4216_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4216_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4216_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.17</td><td>Check signals "Ready" generation by device OP-10A and accuracy of execution of commands Training, Elevation, D</td><td><select class="form-control" name="a1_4217_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4217_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4217_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.18</td><td>Check commands HRG, HRG, NRG, NRG, MSA, MSA, MS, MS, AGG, AGG, UC transmission to missile and signal TGRI from missile</td><td><select class="form-control" name="a1_4218_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4218_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4218_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.19</td><td>Check preparation and launch of missile in LIFTOFF mode</td><td><select class="form-control" name="a1_4219_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4219_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4219_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.20</td><td>Check preparation of the missile in FAILURE mode; check operation of PLAD 3090Э1 in EML mode when panel FAILURE on device OP-10Б is on</td><td><select class="form-control" name="a1_4220_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4220_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4220_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.21</td><td>Check operation of the PLAD 3090Э1 in EML mode when the panel DANGER is on (LIFTOFF mode)</td><td><select class="form-control" name="a1_4221_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4221_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4221_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.22</td><td>Check operation of the PLAD 3090Э1 in EML mode when the panel DANGER is on (LAUNCH FAILURE mode)</td><td><select class="form-control" name="a1_4222_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4222_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4222_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.23</td><td>Check commands PAUG and RD transmission to missile</td><td><select class="form-control" name="a1_4223_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4223_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4223_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.24</td><td>Check operation of the PLAD 3090Э1 in the modes PT and WT</td><td><select class="form-control" name="a1_4224_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4224_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4224_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.25</td><td>Check operation of the PLAD 3090Э1 in the modes LF/NJ</td><td><select class="form-control" name="a1_4225_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4225_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4225_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.26</td><td>Check the time of 3.5 s</td><td><select class="form-control" name="a1_4226_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4226_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4226_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.27</td><td>Check the time of 14 s</td><td><select class="form-control" name="a1_4227_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4227_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4227_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.28</td><td>Check the time of 10 s</td><td><select class="form-control" name="a1_4228_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4228_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4228_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.29</td><td>Check the time of 2.5 s</td><td><select class="form-control" name="a1_4229_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4229_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4229_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.30</td><td>Check the time of 0.08 s</td><td><select class="form-control" name="a1_4230_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4230_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4230_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.31</td><td>Check the time of 0.5 s</td><td><select class="form-control" name="a1_4231_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4231_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4231_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.32</td><td>Check the time of signal "Overheat" appearance</td><td><select class="form-control" name="a1_4232_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4232_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4232_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.33</td><td>Check currents through circuits HRG, HRG, NRG, NRG, MSA, MSA, MS, MS, AGG, AGG, UC</td><td><select class="form-control" name="a1_4233_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4233_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4233_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.34</td><td>Check joint operation of the PLAD 3090Э1 with Launcher 3C-90-15</td><td><select class="form-control" name="a1_4234_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4234_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_4234_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.34.1</td><td>Check commands "Outside Dangerous Zone", "Outside Braking Zone", "Hatch Closed", transmitted to the PLAD 3090Э1</td><td><select class="form-control" name="a1_42341_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_42341_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_42341_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.34.2</td><td>Check transmission of command PD from Launcher 3C-90-15 to the PLAD 3090Э1</td><td><select class="form-control" name="a1_42342_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_42342_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a1_42342_dyd" rows="2"></textarea></td></tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   ASA 2 — PLADs 3O90Э1 (15.360285.005E)
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">ASA 2 — PLADs 3O90Э1 (Doc No: 15.360285.005E)</legend>
+                <div class="table-responsive">
+                  <table class="custom_tbl">
+                    <thead>
+                      <tr>
+                        <th style="width:55px;">Ser</th>
+                        <th class="serial-no" style="width:90px;">Trial Ser</th>
+                        <th>Check Description as per Schedule</th>
+                        <th style="width:150px;">Result (Sat / Unsat)</th>
+                        <th style="width:220px;">WATT Remarks</th>
+                        <th style="width:220px;">DYD / OEM / WOT</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      <tr><td></td><td class="serial-no">4.2.1</td><td>Check completeness of the operating documents of PLADs 3O90Э1</td><td><select class="form-control" name="a2_421_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_421_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_421_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.2</td><td>Check completeness of PLADs 3O90Э1</td><td><select class="form-control" name="a2_422_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_422_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_422_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.3</td><td>Check the quality of electric wiring and its compliance with the wiring diagrams</td><td><select class="form-control" name="a2_423_res"><option value="">--</option><option>Sat</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_423_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_423_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.4</td><td>Check the quality of device grounding</td><td><select class="form-control" name="a2_424_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_424_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_424_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.5</td><td>Check the insulation resistance of electric circuits</td><td><select class="form-control" name="a2_425_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_425_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_425_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.6</td><td>Check the functioning of indicators and panels of devices OP-10Б and OP-7И</td><td><select class="form-control" name="a2_426_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_426_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_426_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.7</td><td>Check functioning of the 3×220 VAC 400Hz phase sequence and break testing circuit of device OP-7И</td><td><select class="form-control" name="a2_427_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_427_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_427_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.8</td><td>Check the source of zero shift of the summing amplifiers and reference voltage sources of compare circuits of device OP-10A</td><td><select class="form-control" name="a2_428_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_428_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_428_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.9</td><td>Check the transmission of initial status signals: SAMI, SEI, MSI, TGPUI</td><td><select class="form-control" name="a2_429_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_429_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_429_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.10</td><td>Check outputting of commands "Therm", "Liftoff", "Memorize", LI, K, 27V, A, B, C (3~400 Hz, 220V) to missile</td><td><select class="form-control" name="a2_4210_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4210_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4210_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.11</td><td>Check the three-phase 220 V AC 400 Hz supply to missile</td><td><select class="form-control" name="a2_4211_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4211_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4211_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.12</td><td>Check 27 V DC supply to missile</td><td><select class="form-control" name="a2_4212_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4212_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4212_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.13</td><td>Check the command ST gt transmission to missile</td><td><select class="form-control" name="a2_4213_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4213_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4213_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.14</td><td>Check the analog command HEEL transmission to missile</td><td><select class="form-control" name="a2_4214_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4214_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4214_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.15</td><td>Check the transmission of commands "Outside Dangerous Zone", "Outside Braking Zone", "Hatch Closed"</td><td><select class="form-control" name="a2_4215_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4215_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4215_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.16</td><td>Check signals DRUM1, DRUM2 issued by the missile</td><td><select class="form-control" name="a2_4216_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4216_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4216_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.17</td><td>Check signals "Ready" generation by device OP-10A and accuracy of execution of commands Training, Elevation, D</td><td><select class="form-control" name="a2_4217_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4217_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4217_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.18</td><td>Check commands HRG, HRG, NRG, NRG, MSA, MSA, MS, MS, AGG, AGG, UC transmission to missile and signal TGRI from missile</td><td><select class="form-control" name="a2_4218_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4218_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4218_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.19</td><td>Check preparation and launch of missile in LIFTOFF mode</td><td><select class="form-control" name="a2_4219_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4219_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4219_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.20</td><td>Check preparation of the missile in FAILURE mode; check operation of PLAD 3090Э1 in EML mode when panel FAILURE on device OP-10Б is on</td><td><select class="form-control" name="a2_4220_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4220_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4220_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.21</td><td>Check operation of the PLAD 3090Э1 in EML mode when the panel DANGER is on (LIFTOFF mode)</td><td><select class="form-control" name="a2_4221_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4221_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4221_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.22</td><td>Check operation of the PLAD 3090Э1 in EML mode when the panel DANGER is on (LAUNCH FAILURE mode)</td><td><select class="form-control" name="a2_4222_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4222_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4222_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.23</td><td>Check commands PAUG and RD transmission to missile</td><td><select class="form-control" name="a2_4223_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4223_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4223_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.24</td><td>Check operation of the PLAD 3090Э1 in the modes PT and WT</td><td><select class="form-control" name="a2_4224_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4224_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4224_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.25</td><td>Check operation of the PLAD 3090Э1 in the modes LF/NJ</td><td><select class="form-control" name="a2_4225_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4225_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4225_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.26</td><td>Check the time of 3.5 s</td><td><select class="form-control" name="a2_4226_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4226_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4226_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.27</td><td>Check the time of 14 s</td><td><select class="form-control" name="a2_4227_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4227_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4227_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.28</td><td>Check the time of 10 s</td><td><select class="form-control" name="a2_4228_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4228_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4228_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.29</td><td>Check the time of 2.5 s</td><td><select class="form-control" name="a2_4229_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4229_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4229_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.30</td><td>Check the time of 0.08 s</td><td><select class="form-control" name="a2_4230_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4230_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4230_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.31</td><td>Check the time of 0.5 s</td><td><select class="form-control" name="a2_4231_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4231_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4231_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.32</td><td>Check the time of signal "Overheat" appearance</td><td><select class="form-control" name="a2_4232_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4232_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4232_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.33</td><td>Check currents through circuits HRG, HRG, NRG, NRG, MSA, MSA, MS, MS, AGG, AGG, UC</td><td><select class="form-control" name="a2_4233_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4233_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4233_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.34</td><td>Check joint operation of the PLAD 3090Э1 with Launcher 3C-90-15</td><td><select class="form-control" name="a2_4234_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4234_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_4234_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.34.1</td><td>Check commands "Outside Dangerous Zone", "Outside Braking Zone", "Hatch Closed", transmitted to the PLAD 3090Э1</td><td><select class="form-control" name="a2_42341_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_42341_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_42341_dyd" rows="2"></textarea></td></tr>
+                      <tr><td></td><td class="serial-no">4.2.34.2</td><td>Check transmission of command PD from Launcher 3C-90-15 to the PLAD 3090Э1</td><td><select class="form-control" name="a2_42342_res"><option value="">--</option><option>Sat</option><option>Unsat</option></select></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_42342_watt" rows="2"></textarea></td><td><textarea class="form-control wrstg-scroll-textarea" name="a2_42342_dyd" rows="2"></textarea></td></tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </fieldset>
+
+              <!-- ══════════════════════════════════════════
+                   REMARKS
+              ══════════════════════════════════════════ -->
+              <fieldset class="custom-fieldset">
+                <legend class="legend-custom text-uppercase">Remarks</legend>
+                <div class="static-section">
+                  <div class="table-responsive">
+                    <table class="custom_tbl" id="remarks_table">
+                      <thead>
+                        <tr>
+                          <th class="serial-no">Sr No</th>
+                          <th>Observations</th>
+                          <th>SS Remarks</th>
+                          <th class="action" style="width:80px;">Action</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="serial-no">1</td>
+                          <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="observation" rows="2"></textarea></td>
+                          <td><textarea class="form-control wrstg-scroll-textarea" data-base-name="ss_remarks" rows="2"></textarea></td>
+                          <td class="action action-cell-holder">
+                            <div class="action-controls">
+                              <button type="button" class="btn-round btn-add" onclick="addRow('remarks_table')" title="Add Row">+</button>
+                              <button type="button" class="btn-round btn-remove" onclick="removeRow(this, 'remarks_table')" title="Remove Row">-</button>
+                            </div>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <p class="text-muted mt-2" style="font-size:11px;">
+                    <strong>WBA</strong> – Will Be Amended &nbsp;|&nbsp;
+                    <strong>WBD</strong> – Will Be Done &nbsp;|&nbsp;
+                    <strong>WOW</strong> – Will Obtain Waiver &nbsp;|&nbsp;
+                    <strong>COM</strong> – Completed
+                  </p>
+                </div>
+              </fieldset>
+
+              <!-- ===== PRESENTING AUTHORITY ===== -->
+                                                        <fieldset class="custom-fieldset mt-4">
+                                                                <legend class="legend-custom text-uppercase">Presenting Authority</legend>
+                                                                <div class="row g-3 mb-3">
+
+                                                                        <div class="col-md-3 col-12">
+                                                                                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                                                        <select class="form-control" id="hats_atrx_1000_presenting_authority"
+                                                                                                name="hats_atrx_1000_presenting_authority" required>
+                                                                                                <option value="">--Select--</option>
+                                                                                                <option value="dockyard">Dockyard</option>
+                                                                                                <option value="shipstaff">Ship's Staff</option>
+                                                                                                <option value="oem">OEM</option>
+                                                                                        </select>
+                                                                                        <label class="form_control_1" for="hats_atrx_1000_presenting_authority">
+                                                                                                Presenting Authority <span class="text-danger">*</span>
+                                                                                        </label>
+                                                                                </div>
+                                                                        </div>
+
+                                                                        <!-- WATT 1 -->
+                                                                        <div class="col-md-3 col-12">
+                                                                                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                                                        <input type="text" class="form-control" id="hats_atrx_1000_watt_1_name"
+                                                                                                name="hats_atrx_1000_watt_1_name">
+                                                                                        <label class="form_control_1">WATT(1)</label>
+                                                                                </div>
+                                                                        </div>
+
+                                                                        <!-- WATT 2 -->
+                                                                        <div class="col-md-3 col-12">
+                                                                                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                                                        <input type="text" class="form-control" id="hats_atrx_1000_watt_2_name"
+                                                                                                name="hats_atrx_1000_watt_2_name">
+                                                                                        <label class="form_control_1">WATT(2)</label>
+                                                                                </div>
+                                                                        </div>
+
+                                                                        <!-- WATT 3 -->
+                                                                        <div class="col-md-3 col-12">
+                                                                                <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                                                        <input type="text" class="form-control" id="hats_atrx_1000_watt_3_name"
+                                                                                                name="hats_atrx_1000_watt_3_name">
+                                                                                        <label class="form_control_1">WATT(3)</label>
+                                                                                </div>
+                                                                        </div>
+
+                                                                </div>
+
+                                                                <div class="table-responsive mt-4">
+                                                                        <table class="custom_tbl" id="hats_atrx_1000_remarks_table">
+                                                                                <thead class="table-dark-head">
+                                                                                        <tr>
+                                                                                                <th>REMARKS TO BE GIVEN</th>
+                                                                                                <th>WBA - WILL BE AMENDED</th>
+                                                                                                <th>WBD - WILL BE DONE</th>
+                                                                                                <th>WOW - WILL OBTAIN WAIVER</th>
+                                                                                                <th>COM - COMPLETED</th>
+                                                                                                <th>N/O - NOT OFFERED</th>
+                                                                                        </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                        <tr>
+                                                                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                                                                                name="hats_atrx_1000_remarks_main"></textarea></td>
+                                                                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                                                                                name="hats_atrx_1000_wba"></textarea></td>
+                                                                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                                                                                name="hats_atrx_1000_wbd"></textarea></td>
+                                                                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                                                                                name="hats_atrx_1000_wow"></textarea></td>
+                                                                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                                                                                name="hats_atrx_1000_com"></textarea></td>
+                                                                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2"
+                                                                                                                name="hats_atrx_1000_no"></textarea></td>
+                                                                                        </tr>
+                                                                                        <tr>
+                                                                                                <td><strong>OIC</strong></td>
+                                                                                                <td><strong>CDR TRIALS</strong></td>
+                                                                                                <td><strong>STO (G)</strong></td>
+                                                                                                <td><strong>STO (L)</strong></td>
+                                                                                                <td colspan="2"><strong>TO (L)</strong></td>
+                                                                                        </tr>
+                                                                                </tbody>
+                                                                        </table>
+                                                                </div>
+                                                        </fieldset>
+
+              <!-- Submit -->
+              <div class="d-flex justify-content-center mt-4 gap-2">
+                <button type="submit" class="btn btn-success px-4">Submit</button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

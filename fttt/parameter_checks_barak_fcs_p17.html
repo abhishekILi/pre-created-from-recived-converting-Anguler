@@ -1,0 +1,1647 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+    .custom_tbl .custom-header-row th {
+    color: white;
+    background-color: var(--matcdf-tblheader);
+    padding: 10px 15px;
+    border-left: 1px solid var(--matcdf-tblborder);
+    border-right: 1px solid var(--matcdf-tblborder);
+    text-align: center;
+}
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item" aria-current="page">FTTT</li>
+					<li class="breadcrumb-item active" aria-current="page">Parameter Checks Barak FCS P17</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+</div>
+<div class="container-fluid" style="background-color: transparent;">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						
+						<span class="caption-subject bold">PARAMETER CHECKS BARAK FCS P17</span>
+					</div>
+				</div>
+
+				<div class="portlet-body form mt-4 mb-4">
+					<form method="post" id="parameter_checks_form">
+						{% csrf_token %}
+						<div class="form-body">
+							  <fieldset class="custom-fieldset">
+                                    <legend class="legend-custom text-uppercase">BASIC INFORMATION</legend>
+                                    <div class="row g-3">
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="system_sub_system"placeholder=" ">
+                                                <label class="form_control_1">1. System/ Sub system</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="job_undertaken" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">2. Job Undertaken</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <!-- <textarea class="form-control wrstg-scroll-textarea" name="reference_documents" rows="2" placeholder=" "></textarea> -->
+                                                 <input type="file" class ="form-control" name="reference_documents">
+                                                <label class="form_control_1">3. Reference Documents</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="authority" placeholder=" ">
+                                                <label class="form_control_1">4. Authority</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="agencies_involved" value="FTTT(Vzg)" placeholder=" " readonly>
+                                                <label class="form_control_1">5. Agencies involved</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="date" class="form-control" name="date_commenced">
+                                                <label class="form_control_1">6. Date Commenced</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="date" class="form-control" name="date_completed">
+                                                <label class="form_control_1">7. Date Completed</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="prepared_by" placeholder=" ">
+                                                <label class="form_control_1">8. Prepared by</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="vetted_by" placeholder=" ">
+                                                <label class="form_control_1">9. Vetted by</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="reference_no" placeholder=" ">
+                                                <label class="form_control_1">10. Reference No.</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="summary_of_observations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">11. Summary of observations</label>
+                                            </div>
+                                        </div>
+
+                                        <!-- <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="operational_limitations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">12. Operational limitations (if any)</label>
+                                            </div>
+                                        </div> -->
+
+                                    </div>
+                                </fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom">12. Visual Inspection Barak (Port) </legend>
+								<div class="table-responsive">
+									<table class="custom_tbl">
+										<thead>
+											<tr>
+												<th name="serial_no" class="serial-no" style="text-align: center;">Ser no.</th>
+												<th name="description" style="text-align: center;">Description of Check<br> a.</th>
+												<th colspan="2" name="last_reading" style="text-align: center;">Remarks<br> b.</th>
+												   
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no" rowspan="4">1</td>
+												<td colspan="3"><strong>Inspection of Antenna assembly</strong></td>
+											</tr>
+											<tr>
+												<td>1.1. Status of Antenna connectors</td>
+                                                <td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="1" name="antenna_connectors_1_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td>1.2. Damaged paint patches on the pedestal or RFEE</td>
+                                                <td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="1" name="antenna_paint_pedestal_1_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td>1.3 Damaged paint patches on the reflector or radome surfaces</td>
+                                                <td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="1" name="antenna_paint_reflector_1_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no" rowspan="3">2</td>
+												<td colspan="3"><strong>Power supply checks</strong></td>
+											</tr>
+											<tr>
+												<td>2.1. 380V, 50 Hz, 3Φ</td>
+                                                <td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="1" name="power_380v_2_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td>2.2. 220V 400 Hz, 3Φ</td>
+                                                <td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="1" name="power_220v_2_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">3</td>
+												<td>Inspection of waveguide – material state</td>
+												<td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="1" name="waveguide_inspection_3_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">4</td>
+												<td>Status of system ventilation</td>
+												<td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="1" name="ventilation_status_4_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">5</td>
+												<td>Status of ACU</td>
+												<td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="1" name="acu_status_5_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">6</td>
+												<td>Status of Cables/ Connectors</td>
+												<td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="1" name="cables_status_6_remarks"></textarea></td>
+											</tr>
+
+                                            <tr>
+												<td class="serial-no">7</td>
+												<td>Availability of Main/ Aux power supply</td>
+												<td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="1" name="power_supply_avail_7_remarks"></textarea></td>
+											</tr>
+                                            <tr>
+												<td class="serial-no">8</td>
+												<td>Status of SPTA, Tool Kits and Accessories required for onboard repairs and maintenance</td>
+												<td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="2" name="spta_status_8_remarks"></textarea></td>
+											</tr>
+
+                                            
+                                            <tr>
+												<td class="serial-no">9</td>
+												<td>Status of POL for onboard repairs and maintenance</td>
+												<td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="1" name="pol_status_9_remarks"></textarea></td>
+											</tr>
+
+                                            <tr >
+                                                <td class="serial-no" rowspan="10">10</td>
+                                                <td><strong>Running Hours</strong></td>
+                                                <td><strong>Last Reading</strong></td>
+                                                <td><strong>Present Reading</strong></td>
+                                            </tr>
+
+											<tr>
+												
+												<td>System running hours (PDD)</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="system_running_hours_10_last"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="system_running_hours_10_present"></textarea></td>
+											</tr>
+											<tr>
+												<td colspan="3"><strong>X Band running hours</strong></td>
+											</tr>
+											<tr>
+												<td>Standby</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="xband_standby_10_last"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="xband_standby_10_present"></textarea></td>
+											</tr>
+											<tr>
+												<td>Transmission</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="xband_transmission_10_last"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="xband_transmission_10_present"></textarea></td>
+											</tr>
+											<tr>
+												<td>X-TWT</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="xband_xtwt_10_last"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="xband_xtwt_10_present"></textarea></td>
+											</tr>
+											<tr>
+												<td colspan="3"><strong>Ka Band running hours</strong></td>
+											</tr>
+											<tr>
+												<td>Standby</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="kaband_standby_10_last"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="kaband_standby_10_present"></textarea></td>
+											</tr>
+											<tr>
+												<td>Transmission</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="kaband_transmission_10_last"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="kaband_transmission_10_present"></textarea></td>
+											</tr>
+											<tr>
+												<td>Ka-TWT</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="kaband_katnt_10_last"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="kaband_katnt_10_present"></textarea></td>
+											</tr>
+
+										</tbody>
+									</table>
+								</div>
+
+                            </fieldset>
+
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom">13. Parameter checks FCR </legend>
+								<div class="table-responsive">
+									<table class="custom_tbl">
+										<thead>
+											<tr>
+												<th name="serial_no" class="serial-no" style="text-align: center;">Ser no.</th>
+												<th name="description" style="text-align: center;">Parameter Description<br> a.</th>
+												<th name="specified_value" style="text-align: center;">Specified Value<br> b.</th>
+												<th name="last_measured_value" style="text-align: center;">Last Measured Value<br> c.</th>
+												<th name="present_value" style="text-align: center;">Present Value<br> d.</th>
+												<th name="remarks" style="text-align: center;">Remarks<br> e.</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no">1</td>
+												<td>MO Frequency</td>
+												<td>120 MHz ±100Hz</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="mo_frequency_1_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="mo_frequency_1_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="mo_frequency_1_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">2</td>
+												<td>MO Power</td>
+												<td>-25&lt;P&lt;-10dBm</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="mo_power_2_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="mo_power_2_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="mo_power_2_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">3</td>
+												<td>IF 2 Frequency</td>
+												<td>1800MHz ±1500 Hz</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="if2_frequency_3_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="if2_frequency_3_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="if2_frequency_3_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">4</td>
+												<td>IF 2 Power</td>
+												<td>-20&lt;P&lt;-8dBm</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="if2_power_4_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="if2_power_4_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="if2_power_4_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">5</td>
+												<td>Pulse Repetition Time</td>
+												<td>1 ± 0.2 µs</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pulse_repetition_time_5_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pulse_repetition_time_5_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pulse_repetition_time_5_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">6</td>
+												<td>SMC</td>
+												<td>2.5 ± 0.2 µs</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="smc_6_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="smc_6_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="smc_6_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no" rowspan="3">7</td>
+												<td>VSWR - F1</td>
+												<td rowspan="3">&lt;1.5</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="vswr_f1_7_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="vswr_f1_7_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="vswr_f1_7_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td>VSWR - F2</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="vswr_f2_7_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="vswr_f2_7_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="vswr_f2_7_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td>VSWR - F3</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="vswr_f3_7_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="vswr_f3_7_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="vswr_f3_7_remarks"></textarea></td>
+											</tr>
+											<tr class="custom-header-row">
+												<th colspan="6"  style="text-align: center;">X BAND CHECKS</th>
+											</tr>
+											<tr>
+												<td class="serial-no">8</td>
+												<td>Pulse Width(x) T1</td>
+												<td>0.466 ± 0.1 µs</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pulse_width_t1_8_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pulse_width_t1_8_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pulse_width_t1_8_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">9</td>
+												<td>Pulse Width(x) T2</td>
+												<td>0.933 ± 0.1 µs</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pulse_width_t2_9_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pulse_width_t2_9_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pulse_width_t2_9_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">10</td>
+												<td>Pulse Width(x) T3</td>
+												<td>4.66 ± 0.1 µs</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pulse_width_t3_10_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pulse_width_t3_10_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pulse_width_t3_10_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">11</td>
+												<td>Pulse Width(x) T4</td>
+												<td>12.13 ± 0.1 µs</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pulse_width_t4_11_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pulse_width_t4_11_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pulse_width_t4_11_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">12</td>
+												<td>Synthesizer Freq(X)</td>
+												<td>7020-7520 MHz</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="synthesizer_freq_12_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="synthesizer_freq_12_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="synthesizer_freq_12_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">13</td>
+												<td>Synthesizer(X) Power O/P</td>
+												<td>-15&lt;P&lt;0 dBm</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="synthesizer_power_13_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="synthesizer_power_13_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="synthesizer_power_13_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">14</td>
+												<td>'X' Band Power O/P</td>
+												<td>&gt;0.750 mW</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="xband_power_14_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="xband_power_14_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="xband_power_14_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">15</td>
+												<td>X band TWT S No:</td>
+                                                <td colspan="4"><textarea class="form-control wrstg-scroll-textarea" name="xband_twt_sno_15"></textarea></td>
+											</tr>
+											<tr class ="custom-header-row">
+												<td class="serial-no" rowspan="6">16</td>
+												<th>X Band Transmitter Maintenance Checks <br>a.</th>
+												<th style="text-align: center;">Specified Value<br><sub>(As per TWT label specification)</sub> <br>b. </th>
+												<th style="text-align: center;">Last Measured Value <br>c.</th>
+												<th style="text-align: center;">Present Value<br>d.</th>
+												<th style="text-align: center;">Remark<br>e.</th>
+											</tr>											
+                                            <tr>
+												<td>Cathode Voltage</td>
+												<td>-14.56 ± 0.2 kV</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="cathode_voltage_16_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="cathode_voltage_16_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="cathode_voltage_16_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td>Cathode Peak current</td>
+												<td>2.50 ± 0.2 Amp</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="cathode_current_16_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="cathode_current_16_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="cathode_current_16_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td>Body Peak Current</td>
+												<td>325 ± 200 mA</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="body_current_16_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="body_current_16_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="body_current_16_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td>Filament Voltage</td>
+												<td>6.3 ± 0.2 V</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="filament_voltage_16_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="filament_voltage_16_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="filament_voltage_16_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td>Grid Voltage</td>
+												<td>313 ± 20 V</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="grid_voltage_16_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="grid_voltage_16_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="grid_voltage_16_remarks"></textarea></td>
+											</tr>
+											<tr class="custom-header-row">
+												<th colspan="6" style="text-align: center;">KA BAND CHECKS</th>
+											</tr>
+                                            <tr class="custom-header-row">
+												<th name="serial_no" class="serial-no" style="text-align: center;">Ser no.</th>
+												<th name="description" style="text-align: center;">Parameter Description<br> a.</th>
+												<th name="specified_value" style="text-align: center;">Specified Value<br> b.</th>
+												<th name="last_measured_value" style="text-align: center;">Last Measured Value<br> c.</th>
+												<th name="present_value" style="text-align: center;">Present Value<br> d.</th>
+												<th name="remarks" style="text-align: center;">Remarks<br> e.</th>
+											</tr>
+											<tr>
+												<td class="serial-no">17</td>
+												<td>Synthesizer Freq (Ka)</td>
+												<td>7245-7595 MHz</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="synthesizer_freq_ka_17_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="synthesizer_freq_ka_17_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="synthesizer_freq_ka_17_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">18</td>
+												<td>Synthesizer (Ka) Power O/P</td>
+												<td>-15&lt;P&lt;0 dBm</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="synthesizer_power_ka_18_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="synthesizer_power_ka_18_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="synthesizer_power_ka_18_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">19</td>
+												<td>Ka Band Power O/P</td>
+												<td>&gt;2.5 mW</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="kaband_power_19_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="kaband_power_19_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="kaband_power_19_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">20</td>
+												<td>Pulse Width(x) T1</td>
+												<td>0.466 ± 0.1 µs</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pulse_width_t1_20_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pulse_width_t1_20_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pulse_width_t1_20_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">21</td>
+												<td>Pulse Width(x) T2</td>
+												<td>0.933 ± 0.1 µs</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pulse_width_t2_21_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pulse_width_t2_21_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pulse_width_t2_21_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">22</td>
+												<td>Pulse Width(x) T3</td>
+												<td>4.66 ± 0.1 µs</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pulse_width_t3_22_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pulse_width_t3_22_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pulse_width_t3_22_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">23</td>
+												<td>Pulse Width(x) T4</td>
+												<td>12.13 ± 0.1 µs</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pulse_width_t4_23_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pulse_width_t4_23_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="pulse_width_t4_23_remarks"></textarea></td>
+											</tr>
+                                            <tr>
+												<td class="serial-no">24</td>
+												<td>Ka band TWT S No:</td>
+                                                <td colspan="4"><textarea class="form-control wrstg-scroll-textarea" name="kaband_twt_sno_24"></textarea></td>
+											</tr>
+                                            <tr>
+												<td class="serial-no">25</td>
+												<td>Ka band Transmitter S No:</td>
+                                                <td colspan="4"><textarea class="form-control wrstg-scroll-textarea" name="kaband_transmitter_sno_25"></textarea></td>
+											</tr>
+											<tr class="custom-header-row">
+												<td rowspan="6" class="serial-no">26</td>
+												<th>Ka Band Transmitter Maintenance Checks <br>a.</th>
+												<th style="text-align: center;">Specified Value<br><sub>(As per TWT label specification)</sub> <br>b.</th>
+												<th style="text-align: center;">Last Measured Value <br>c.</th>
+												<th style="text-align: center;">Present Value <br>d.</th>
+												<th style="text-align: center;">Remark <br>e.</th>
+											</tr>
+                                            <tr>
+												<td>Cathode Voltage</td>
+												<td>-14.56 ± 0.2 kV</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="cathode_voltage_27_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="cathode_voltage_27_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="cathode_voltage_27_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td>Cathode Peak current</td>
+												<td>2.50 ± 0.2 Amp</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="cathode_current_27_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="cathode_current_27_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="cathode_current_27_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td>Body Peak Current</td>
+												<td>325 ± 200 mA</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="body_current_27_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="body_current_27_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="body_current_27_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td>Filament Voltage</td>
+												<td>6.3 ± 0.2 V</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="filament_voltage_27_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="filament_voltage_27_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="filament_voltage_27_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td>Grid Voltage</td>
+												<td>313 ± 20 V</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="grid_voltage_27_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="grid_voltage_27_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="grid_voltage_27_remarks"></textarea></td>
+											</tr>											
+										</tbody>
+									</table>
+								</div>
+
+                            </fieldset>
+
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom">14. Calibration Checks FCR (Port) </legend>
+								<div class="table-responsive">
+									<table class="custom_tbl">
+										<thead>
+											<tr>
+												<th name="serial_no" class="serial-no" style="text-align: center;">Ser no.</th>
+												<th name="observation" style="text-align: center;">Observation<br> a.</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no">1</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="calibration_observation_1"></textarea></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+                            </fieldset>
+
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom">15. Operational Checks Barak FCR (Port) </legend>
+								<div class="table-responsive">
+									<table class="custom_tbl">
+										<thead>
+											<tr>
+												<th name="serial_no" class="serial-no" style="text-align: center;">Ser no.</th>
+												<th name="checks_description" style="text-align: center;">Checks Description<br> a.</th>
+												<th name="remarks" style="text-align: center;" colspan="2">Remarks<br> b.</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no">1</td>
+												<td>Local mode Power up for initializing FCR</td>
+												<td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="2" name="local_mode_powerup_1_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">2</td>
+												<td>BIT Status</td>
+												<td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="2" name="bit_status_2_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">3</td>
+												<td>LCU/RSPU Communication</td>
+												<td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="2" name="lcu_rspu_comm_3_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">4</td>
+												<td>RFEE Fan checks</td>
+												<td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="2" name="rfee_fan_4_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">5</td>
+												<td>Gun Interface checks(AK630 P&S)</td>
+												<td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="2" name="gun_interface_5_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no" rowspan="5">6</td>
+												<th style="text-align: center;">Antenna</th>
+												<th style="text-align: center;">Antenna Serial No.</th>
+												<th style="text-align: center;">Antenna ID in EEPROM</th>
+											</tr>
+											<tr>
+												<td>X Main</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="antenna_serial_x_main_6"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="antenna_id_x_main_6"></textarea></td>
+											</tr>
+											<tr>
+												<td>Ka Main</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="antenna_serial_ka_main_6"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="antenna_id_ka_main_6"></textarea></td>
+											</tr>
+											<tr>
+												<td>Ka Narrow</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="antenna_serial_ka_narrow_6"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="antenna_id_ka_narrow_6"></textarea></td>
+											</tr>
+											<tr>
+												<td>Ka Wide</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="antenna_serial_ka_wide_6"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="antenna_id_ka_wide_6"></textarea></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								
+                            </fieldset>
+
+                            <fieldset class="custom-fieldset">
+								<legend class="legend-custom">16. Visual Inspection Barak (Stbd) </legend>
+								<div class="table-responsive">
+									<table class="custom_tbl">
+										<thead>
+											<tr>
+												
+												<th name="serial_no" class="serial-no" style="text-align: center;">Ser no.</th>
+												<th name="description" style="text-align: center;">Description of Check<br> a.</th>
+												<th colspan="2" name="last_reading" style="text-align: center;">Remarks<br> b.</th>
+												   
+											</tr>
+                                                
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no" rowspan="4">1</td>
+												<td colspan="3"><strong>Inspection of Antenna assembly</strong></td>
+											</tr>
+											<tr>
+												<td>1.1. Status of Antenna connectors</td>
+                                                <td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="1" name="s_antenna_connectors_1_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td>1.2. Damaged paint patches on the pedestal or RFEE</td>
+                                                <td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="1" name="s_antenna_paint_pedestal_1_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td>1.3 Damaged paint patches on the reflector or radome surfaces</td>
+                                                <td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="1" name="s_antenna_paint_reflector_1_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no" rowspan="3">2</td>
+												<td colspan="3"><strong>Power supply checks</strong></td>
+											</tr>
+											<tr>
+												<td>2.1. 380V, 50 Hz, 3Φ</td>
+                                                <td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="1" name="s_power_380v_2_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td>2.2. 220V 400 Hz, 3Φ</td>
+                                                <td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="1" name="s_power_220v_2_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">3</td>
+												<td>Inspection of waveguide – material state</td>
+												<td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="1" name="s_waveguide_inspection_3_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">4</td>
+												<td>Status of system ventilation</td>
+												<td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="1" name="s_ventilation_status_4_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">5</td>
+												<td>Status of ACU</td>
+												<td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="1" name="s_acu_status_5_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">6</td>
+												<td>Status of Cables/ Connectors</td>
+												<td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="1" name="s_cables_status_6_remarks"></textarea></td>
+											</tr>
+
+                                            <tr>
+												<td class="serial-no">7</td>
+												<td>Availability of Main/ Aux power supply</td>
+												<td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="1" name="s_power_supply_avail_7_remarks"></textarea></td>
+											</tr>
+                                            <tr>
+												<td class="serial-no">8</td>
+												<td>Status of SPTA, Tool Kits and Accessories required for onboard repairs and maintenance</td>
+												<td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="2" name="s_spta_status_8_remarks"></textarea></td>
+											</tr>
+
+                                            
+                                            <tr>
+												<td class="serial-no">9</td>
+												<td>Status of POL for onboard repairs and maintenance</td>
+												<td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="1" name="s_pol_status_9_remarks"></textarea></td>
+											</tr>
+
+                                            <tr >
+                                                <td class="serial-no" rowspan="10">10</td>
+                                                <td><strong>Running Hours</strong></td>
+                                                <td><strong>Last Reading</strong></td>
+                                                <td><strong>Present Reading</strong></td>
+                                            </tr>
+
+											<tr>
+												<td>System running hours (PDD)</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="s_system_running_hours_10_last"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="s_system_running_hours_10_present"></textarea></td>
+											</tr>
+											<tr>
+												<td colspan="3"><strong>X Band running hours</strong></td>
+											</tr>
+											<tr>
+												<td>Standby</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="s_xband_standby_10_last"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="s_xband_standby_10_present"></textarea></td>
+											</tr>
+											<tr>
+												<td>Transmission</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="s_xband_transmission_10_last"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="s_xband_transmission_10_present"></textarea></td>
+											</tr>
+											<tr>
+												<td>X-TWT</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="s_xband_xtwt_10_last"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="s_xband_xtwt_10_present"></textarea></td>
+											</tr>
+											<tr>
+												<td colspan="3"><strong>Ka Band running hours</strong></td>
+											</tr>
+											<tr>
+												<td>Standby</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="s_kaband_standby_10_last"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="s_kaband_standby_10_present"></textarea></td>
+											</tr>
+											<tr>
+												<td>Transmission</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="s_kaband_transmission_10_last"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="s_kaband_transmission_10_present"></textarea></td>
+											</tr>
+											<tr>
+												<td>Ka-TWT</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="s_kaband_katnt_10_last"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="s_kaband_katnt_10_present"></textarea></td>
+											</tr>
+
+										</tbody>
+									</table>
+								</div>
+                            </fieldset>    
+
+                            <fieldset class="custom-fieldset">
+
+                                <legend class="legend-custom">17. Parameter checks FCR </legend>
+								<div class="table-responsive">
+									<table class="custom_tbl">
+										<thead>
+											<tr>
+												<th name="s_serial_no" class="serial-no" style="text-align: center;">Ser no.</th>
+												<th name="s_description" style="text-align: center;">Parameter Description<br> a.</th>
+												<th name="s_specified_value" style="text-align: center;">Specified Value<br> b.</th>
+												<th name="s_last_measured_value" style="text-align: center;">Last Measured Value<br> c.</th>
+												<th name="s_present_value" style="text-align: center;">Present Value<br> d.</th>
+												<th name="s_remarks" style="text-align: center;">Remarks<br> e.</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no">1</td>
+												<td>MO Frequency</td>
+												<td>120 MHz ±100Hz</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_mo_frequency_1_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_mo_frequency_1_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_mo_frequency_1_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">2</td>
+												<td>MO Power</td>
+												<td>-25&lt;P&lt;-10dBm</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_mo_power_2_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_mo_power_2_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_mo_power_2_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">3</td>
+												<td>IF 2 Frequency</td>
+												<td>1800MHz ±1500 Hz</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_if2_frequency_3_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_if2_frequency_3_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_if2_frequency_3_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">4</td>
+												<td>IF 2 Power</td>
+												<td>-20&lt;P&lt;-8dBm</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_if2_power_4_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_if2_power_4_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_if2_power_4_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">5</td>
+												<td>Pulse Repetition Time</td>
+												<td>1 ± 0.2 µs</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_pulse_repetition_time_5_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_pulse_repetition_time_5_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_pulse_repetition_time_5_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">6</td>
+												<td>SMC</td>
+												<td>2.5 ± 0.2 µs</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_smc_6_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_smc_6_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_smc_6_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no" rowspan="3">7</td>
+												<td>7.1. VSWR - F1</td>
+												<td rowspan="3">&lt;1.5</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_vswr_f1_7_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_vswr_f1_7_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_vswr_f1_7_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td>7.2. VSWR - F2</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_vswr_f2_7_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_vswr_f2_7_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_vswr_f2_7_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td>7.3. VSWR - F3</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_vswr_f3_7_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_vswr_f3_7_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_vswr_f3_7_remarks"></textarea></td>
+											</tr>
+											<tr class="custom-header-row">
+												<th colspan="6"  style="text-align: center;">X BAND CHECKS</th>
+											</tr>
+											<tr>
+												<td class="serial-no">8</td>
+												<td>Pulse Width(x) T1</td>
+												<td>0.466 ± 0.1 µs</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_pulse_width_t1_8_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_pulse_width_t1_8_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_pulse_width_t1_8_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">9</td>
+												<td>Pulse Width(x) T2</td>
+												<td>0.933 ± 0.1 µs</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_pulse_width_t2_9_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_pulse_width_t2_9_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_pulse_width_t2_9_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">10</td>
+												<td>Pulse Width(x) T3</td>
+												<td>4.66 ± 0.1 µs</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_pulse_width_t3_10_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_pulse_width_t3_10_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_pulse_width_t3_10_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">11</td>
+												<td>Pulse Width(x) T4</td>
+												<td>12.13 ± 0.1 µs</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_pulse_width_t4_11_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_pulse_width_t4_11_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_pulse_width_t4_11_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">12</td>
+												<td>Synthesizer Freq(X)</td>
+												<td>7020-7520 MHz</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_synthesizer_freq_12_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_synthesizer_freq_12_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_synthesizer_freq_12_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">13</td>
+												<td>Synthesizer(X) Power O/P</td>
+												<td>-15&lt;P&lt;0 dBm</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_synthesizer_power_13_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_synthesizer_power_13_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_synthesizer_power_13_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">14</td>
+												<td>'X' Band Power O/P</td>
+												<td>&gt;0.750 mW</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_xband_power_14_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_xband_power_14_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_xband_power_14_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">15</td>
+												<td>X band TWT S No:</td>
+                                                <td colspan="4"><textarea class="form-control wrstg-scroll-textarea" name="s_xband_twt_sno_15"></textarea></td>
+											</tr>
+											<tr class ="custom-header-row">
+												<td class="serial-no" rowspan="6">16</td>
+												<th>X Band Transmitter Maintenance Checks <br>a.</th>
+												<th style="text-align: center;">Specified Value<br><sub>(As per TWT label specification)</sub> <br>b. </th>
+												<th style="text-align: center;">Last Measured Value <br>c.</th>
+												<th style="text-align: center;">Present Value<br>d.</th>
+												<th style="text-align: center;">Remark<br>e.</th>
+											</tr>											
+                                            <tr>
+												<td>Cathode Voltage</td>
+												<td>-14.56 ± 0.2 kV</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_cathode_voltage_16_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_cathode_voltage_16_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_cathode_voltage_16_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td>Cathode Peak current</td>
+												<td>2.50 ± 0.2 Amp</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_cathode_current_16_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_cathode_current_16_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_cathode_current_16_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td>Body Peak Current</td>
+												<td>325 ± 200 mA</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_body_current_16_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_body_current_16_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_body_current_16_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td>Filament Voltage</td>
+												<td>6.3 ± 0.2 V</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_filament_voltage_16_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_filament_voltage_16_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_filament_voltage_16_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td>Grid Voltage</td>
+												<td>313 ± 20 V</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_grid_voltage_16_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_grid_voltage_16_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_grid_voltage_16_remarks"></textarea></td>
+											</tr>
+											<tr class ="custom-header-row">
+												<th colspan="6" style="text-align: center;">KA BAND CHECKS</th>
+											</tr>
+                                            <tr class="custom-header-row">
+												<th name="s_serial_no" class="serial-no" style="text-align: center;">Ser no.</th>
+												<th name="s_description" style="text-align: center;">Parameter Description<br> a.</th>
+												<th name="s_specified_value" style="text-align: center;">Specified Value<br> b.</th>
+												<th name="s_last_measured_value" style="text-align: center;">Last Measured Value<br> c.</th>
+												<th name="s_present_value" style="text-align: center;">Present Value<br> d.</th>
+												<th name="s_remarks" style="text-align: center;">Remarks<br> e.</th>
+											</tr>
+											<tr>
+												<td class="serial-no">17</td>
+												<td>Synthesizer Freq (Ka)</td>
+												<td>7245-7595 MHz</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_synthesizer_freq_ka_17_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_synthesizer_freq_ka_17_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_synthesizer_freq_ka_17_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">18</td>
+												<td>Synthesizer (Ka) Power O/P</td>
+												<td>-15&lt;P&lt;0 dBm</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_synthesizer_power_ka_18_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_synthesizer_power_ka_18_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_synthesizer_power_ka_18_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">19</td>
+												<td>Ka Band Power O/P</td>
+												<td>&gt;2.5 mW</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_kaband_power_19_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_kaband_power_19_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_kaband_power_19_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">20</td>
+												<td>Pulse Width(x) T1</td>
+												<td>0.466 ± 0.1 µs</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_pulse_width_t1_20_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_pulse_width_t1_20_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_pulse_width_t1_20_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">21</td>
+												<td>Pulse Width(x) T2</td>
+												<td>0.933 ± 0.1 µs</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_pulse_width_t2_21_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_pulse_width_t2_21_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_pulse_width_t2_21_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">22</td>
+												<td>Pulse Width(x) T3</td>
+												<td>4.66 ± 0.1 µs</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_pulse_width_t3_22_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_pulse_width_t3_22_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_pulse_width_t3_22_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">23</td>
+												<td>Pulse Width(x) T4</td>
+												<td>12.13 ± 0.1 µs</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_pulse_width_t4_23_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_pulse_width_t4_23_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_pulse_width_t4_23_remarks"></textarea></td>
+											</tr>
+                                            <tr>
+												<td class="serial-no">24</td>
+												<td>Ka band TWT S No:</td>
+                                                <td colspan="4"><textarea class="form-control wrstg-scroll-textarea" name="s_kaband_twt_sno_24"></textarea></td>
+											</tr>
+                                            <tr>
+												<td class="serial-no">25</td>
+												<td>Ka band Transmitter S No:</td>
+                                                <td colspan="4"><textarea class="form-control wrstg-scroll-textarea" name="s_kaband_transmitter_sno_25"></textarea></td>
+											</tr>
+											<tr class="custom-header-row">
+												<td rowspan="6" class="serial-no">26</td>
+												<th>Ka Band Transmitter Maintenance Checks <br>a.</th>
+												<th style="text-align: center;">Specified Value<br><sub>(As per TWT label specification)</sub> <br>b.</th>
+												<th style="text-align: center;">Last Measured Value <br>c.</th>
+												<th style="text-align: center;">Present Value <br>d.</th>
+												<th style="text-align: center;">Remark <br>e.</th>
+											</tr>											
+                                            <tr>
+												<td>Cathode Voltage</td>
+												<td>-14.56 ± 0.2 kV</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_cathode_voltage_27_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_cathode_voltage_27_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_cathode_voltage_27_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td>Cathode Peak current</td>
+												<td>2.50 ± 0.2 Amp</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_cathode_current_27_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_cathode_current_27_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_cathode_current_27_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td>Body Peak Current</td>
+												<td>325 ± 200 mA</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_body_current_27_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_body_current_27_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_body_current_27_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td>Filament Voltage</td>
+												<td>6.3 ± 0.2 V</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_filament_voltage_27_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_filament_voltage_27_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_filament_voltage_27_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td>Grid Voltage</td>
+												<td>313 ± 20 V</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_grid_voltage_27_last"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_grid_voltage_27_present"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" name="s_grid_voltage_27_remarks"></textarea></td>
+											</tr>											
+										</tbody>
+									</table>
+								</div>
+
+                            </fieldset>
+
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom">18. Calibration Checks FCR (Stbd) </legend>
+								<div class="table-responsive">
+									<table class="custom_tbl">
+										<thead>
+											<tr>
+												<th name="s_serial_no" class="serial-no" style="text-align: center;">Ser no.</th>
+												<th name="s_observation" style="text-align: center;">Observation<br> a.</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no">1</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="s_calibration_observation_1"></textarea></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+
+                            </fieldset>
+
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom">19. Operational Checks Barak FCR (Stbd) </legend>
+								<div class="table-responsive">
+									<table class="custom_tbl">
+										<thead>
+											<tr>
+												<th name="s_serial_no" class="serial-no" style="text-align: center;">Ser no.</th>
+												<th name="s_checks_description" style="text-align: center;">Checks Description<br> a.</th>
+												<th name="s_remarks" style="text-align: center;" colspan="2">Remarks<br> b.</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="serial-no">1</td>
+												<td>Local mode Power up for initializing FCR</td>
+												<td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="2" name="s_local_mode_powerup_1_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">2</td>
+												<td>BIT Status</td>
+												<td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="2" name="s_bit_status_2_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">3</td>
+												<td>LCU/RSPU Communication</td>
+												<td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="2" name="s_lcu_rspu_comm_3_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">4</td>
+												<td>RFEE Fan checks</td>
+												<td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="2" name="s_rfee_fan_4_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no">5</td>
+												<td>Gun Interface checks(AK630 P&S)</td>
+												<td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="2" name="s_gun_interface_5_remarks"></textarea></td>
+											</tr>
+											<tr>
+												<td class="serial-no" rowspan="5">6</td>
+												<th style="text-align: center;">Antenna</th>
+												<th style="text-align: center;">Antenna Serial No.</th>
+												<th style="text-align: center;">Antenna ID in EEPROM</th>
+											</tr>
+											<tr>
+												<td>X Main</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="s_antenna_serial_x_main_6"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="s_antenna_id_x_main_6"></textarea></td>
+											</tr>
+											<tr>
+												<td>Ka Main</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="s_antenna_serial_ka_main_6"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="s_antenna_id_ka_main_6"></textarea></td>
+											</tr>
+											<tr>
+												<td>Ka Narrow</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="s_antenna_serial_ka_narrow_6"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="s_antenna_id_ka_narrow_6"></textarea></td>
+											</tr>
+											<tr>
+												<td>Ka Wide</td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="s_antenna_serial_ka_wide_6"></textarea></td>
+												<td><textarea class="form-control wrstg-scroll-textarea" rows="1" name="s_antenna_id_ka_wide_6"></textarea></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								
+                            </fieldset>
+
+                            <fieldset class="custom-fieldset">
+								<legend class="legend-custom">20. Constant Load Data </legend>
+								<div class="table-responsive">
+									<table class="custom_tbl">
+										
+										<tbody>
+                                            <tr>
+                                                <td rowspan="5">1</td>
+                                                <td colspan="5"><b>FCRs</b></td>
+                                            </tr>
+
+                                            <tr class="custom-header-row">
+                                                <th  class="serial-no">Ser No.</th>
+                                                <th>Description<br>a.</th>
+                                                <th>FCR Port<br>b.</th>
+                                                <th>FCR Stbd<br>c.</th>
+                                            </tr>
+                                            
+                                            
+                                            <tr>
+                                                <td>1.1</td>
+                                                <td>Tilt direction</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="tilt_direction_port"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="tilt_direction_stbd"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>1.2</td>
+                                                <td>Tilt amplitude</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="tilt_amplitude_port"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="tilt_amplitude_stbd"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>1.3</td>
+                                                <td>A/R range bias</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="ar_range_bias_port"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="ar_range_bias_stbd"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="6">2</td>
+                                                <td colspan="5"><b>Launchers</b></td>
+                                            </tr>
+
+                                            <tr class="custom-header-row">
+                                                <th  class="serial-no">Ser No.</th>
+                                                <th>Description<br>a.</th>
+                                                <th>Tilt Direction<br>b.</th>
+                                                <th>Tilt Amplitude<br>c.</th>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td>2.1</td>
+                                                <td>BLCS 1</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="blcs_1_port"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="blcs_1_stbd"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>2.2</td>
+                                                <td>BLCS 2</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="blcs_2_port"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="blcs_2_stbd"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>2.3</td>
+                                                <td>BLCS 3</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="blcs_3_port"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="blcs_3_stbd"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>2.4</td>
+                                                <td>BLCS 4</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="blcs_4_port"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="blcs_4_stbd"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="6">3</td>
+                                                <td colspan="5"><b>GUNS(AK630)</b></td>
+                                            </tr>
+
+                                            <tr class="custom-header-row">
+                                                <th  class="serial-no">Ser No.</th>
+                                                <th>Description<br>a.</th>
+                                                <th>Port<br>b.</th>
+                                                <th>STBD<br>c.</th>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <td>3.1</td>
+                                                <td>Tilt direction</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="guns_tilt_direction_port"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="guns_tilt_direction_stbd"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.2</td>
+                                                <td>Tilt amplitude</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="guns_tilt_amplitude_port"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="guns_tilt_amplitude_stbd"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.3</td>
+                                                <td>Azimuth Bias</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="guns_azimuth_bias_port"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="guns_azimuth_bias_stbd"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td>3.4</td>
+                                                <td>Elevation bias</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="guns_elevation_bias_port"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="guns_elevation_bias_stbd"></textarea></td>
+                                            </tr>
+                                        </tbody>
+									</table>
+								</div>
+
+                            </fieldset>
+
+                            
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom">21. Software Versions</legend>
+
+                                <div class="table-responsive">
+                                    <table class="custom_tbl">
+                                        <thead>
+                                        </thead>
+                                        <tbody>
+                                            <!-- Row 1 -->
+                                            <tr>
+                                                <td rowspan="10">1</td>
+                                                <td colspan="5"><b>FCRs</b></td>
+                                            </tr>
+
+                                            <!-- Row 2 -->
+                                            <tr>
+                                                <td colspan="5"><b>Processor Versions</b></td>
+                                            </tr>
+
+                                            <!-- Header Row -->
+                                            <tr class="custom-header-row">
+                                                <th colspan="2" class="serial-no">Ser No.</th>
+                                                <th>Processor<br>a.</th>
+                                                <th>FCR Port<br>b.</th>
+                                                <th>FCR Stbd<br>c.</th>
+                                            </tr>
+
+                                            <!-- Data Rows -->
+                                            <tr>
+                                                <td colspan="2">1.1</td>
+                                                <td>PSP</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="psp_serial_1_port"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="psp_version_1_stbd"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="2">1.2</td>
+                                                <td>SM</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="sm_serial_1_port"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="sm_version_1_stbd"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="2">1.3</td>
+                                                <td>MC</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="mc_serial_1_port"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="mc_version_1_stbd"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="2">1.4</td>
+                                                <td>SU</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="su_serial_1_port"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="su_version_1_stbd"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="2">1.5</td>
+                                                <td>GC1</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="gc1_serial_1_port"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="gc1_version_1_stbd"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="2">1.6</td>
+                                                <td>GC2</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="gc2_serial_1_port"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="gc2_version_1_stbd"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="2">1.7</td>
+                                                <td>Timing</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="timing_serial_1_port"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="timing_version_1_stbd"></textarea></td>
+                                            </tr>
+
+                                             <tr>
+                                                <td rowspan="13">2</td>
+                                                <td colspan="5"><b>System Version FCC</b></td>
+                                            </tr>
+                                            <tr class="custom-header-row">
+                                                <th colspan="2" class="serial-no">Ser No.</th>
+                                                <th>Description<br>a.</th>
+                                                <th colspan="2">Version<br>b.</th>
+                                                
+                                            </tr>
+
+                                           <tr>
+                                                <td colspan="2">2.1</td>
+                                                <td>ENGAGE</td>
+                                                <td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="2" name="engage_version_2_1"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="2">2.2</td>
+                                                <td>IOP</td>
+                                                <td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="2" name="iop_version_2_2"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="2">2.3</td>
+                                                <td>TERA</td>
+                                                <td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="2" name="tera_version_2_3"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="2">2.4</td>
+                                                <td>SDBCO</td>
+                                                <td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="2" name="sdbco_version_2_4"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="2">2.5</td>
+                                                <td>UTILCOM</td>
+                                                <td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="2" name="utilcom_version_2_5"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">2.6</td>
+                                                <td>BLCU1</td>
+                                                <td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="2" name="blcu1_version_2_6"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">2.7</td>
+                                                <td>BLCU2</td>
+                                                <td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="2" name="blcu2_version_2_7"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">2.8</td>
+                                                <td>BLCU3</td>
+                                                <td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="2" name="blcu3_version_2_8"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">2.9</td>
+                                                <td>BLCU4</td>
+                                                <td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="2" name="blcu4_version_2_9"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">2.10</td>
+                                                <td>GCU STBD</td>
+                                                <td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="2" name="gcu_stbd_version_2_10"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">2.11</td>
+                                                <td>GCU PORT</td>
+                                                <td colspan="2"><textarea class="form-control wrstg-scroll-textarea" rows="2" name="gcu_port_version_2_11"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td rowspan="7">3</td>
+                                                <td colspan="5"><b>FCR Antenna Parameters (Mast Sector)</b></td>
+                                            </tr>
+                                            <!-- Header Row -->
+                                            <tr class="custom-header-row">
+                                                <th colspan="2" class="serial-no">Ser No.</th>
+                                                <th>Description<br>a.</th>
+                                                <th>FCR Port<br>b.</th>
+                                                <th>FCR Stbd<br>c.</th>
+                                            </tr>
+
+                                            <!-- Data Rows -->
+                                            <tr>
+                                                <td colspan="2">3.1</td>
+                                                <td>AZ Center (Deg.)</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="psp_serial_1_port"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="psp_version_1_stbd"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="2">3.2</td>
+                                                <td>± AZ Width (Deg.)</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="sm_serial_1_port"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="sm_version_1_stbd"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="2">3.3</td>
+                                                <td>EL Center (Deg.)</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="mc_serial_1_port"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="mc_version_1_stbd"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="2">3.4</td>
+                                                <td>± EL Width (Deg.)</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="su_serial_1_port"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="su_version_1_stbd"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="2">3.5</td>
+                                                <td>Antenna Height (m)</td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="gc1_serial_1_port"></textarea></td>
+                                                <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="gc1_version_1_stbd"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td rowspan="3">4</td>
+                                                <td colspan="5"><b>Location of EEPROM file and Polynoms in LCU</b></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td><b>PORT FCR</b></td>
+                                                <td colspan="4"><textarea class="form-control wrstg-scroll-textarea" rows="2" name="eeprom_location_port"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td><b>STBD FCR</b></td>
+                                                <td colspan="4"><textarea class="form-control wrstg-scroll-textarea" rows="2" name="eeprom_location_stbd"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td rowspan="4">5</td>
+                                                <td colspan="5"><b>Other Utility Tools Version</b></td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="2">5.1</td>
+                                                <td ><textarea class="form-control wrstg-scroll-textarea" rows="2" name="eeprom_location_port"></textarea></td>
+                                                <td ><textarea class="form-control wrstg-scroll-textarea" rows="2" name="eeprom_location_port"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="2">5.2</td>
+                                                <td ><textarea class="form-control wrstg-scroll-textarea" rows="2" name="eeprom_location_port"></textarea></td>
+                                                <td ><textarea class="form-control wrstg-scroll-textarea" rows="2" name="eeprom_location_port"></textarea></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="2">5.3</td>
+                                                <td ><textarea class="form-control wrstg-scroll-textarea" rows="2" name="eeprom_location_stbd"></textarea></td>
+                                                <td ><textarea class="form-control wrstg-scroll-textarea" rows="2" name="eeprom_location_port"></textarea></td>
+                                            </tr>
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                             <fieldset class="custom-fieldset">
+                                <legend class="legend-custom">22. Details of Last Alignment Checks Undertaken</legend>
+
+                                <div class="table-responsive">
+                                    <table class="custom_tbl">
+                                        <thead>
+                                            <tr>
+												<th name="s_serial_no" class="serial-no" style="text-align: center;">Ser no.</th>
+												<th name="s_description" style="text-align: center;">Activity<br> a.</th>
+												<th name="s_last_reading" style="text-align: center;">Port FCR <br> b.</th>
+												<th name="s_present_reading" style="text-align: center;">STBD FCR<br> c.</th>
+											</tr>
+										</thead>
+                                        <tbody>
+                                           <tr>
+                                            <td>1</td>
+                                            <td>TV Camera Alignment</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="guns_elevation_bias_stbd"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="guns_elevation_bias_port"></textarea></td>
+                                           </tr>
+
+                                            <tr>
+                                           <td>2</td>
+                                            <td>Antenna Alignment Verification(AAV) checks</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="guns_elevation_bias_stbd"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="guns_elevation_bias_port"></textarea></td>
+                                           </tr>
+
+                                           <tr>
+                                            <td>3</td>
+                                            <td>Tilt Verification Checks </td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="guns_elevation_bias_stbd"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="guns_elevation_bias_port"></textarea></td>
+                                           </tr>
+
+                                           <tr>
+                                            <td>4</td>
+                                            <td>Elevation Alignment Verification Checks </td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="guns_elevation_bias_stbd"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="guns_elevation_bias_port"></textarea></td>
+                                           </tr>
+
+                                           <tr>
+                                            <td>5</td>
+                                            <td>RBC</td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="guns_elevation_bias_stbd"></textarea></td>
+                                            <td><textarea class="form-control wrstg-scroll-textarea" rows="2" name="guns_elevation_bias_port"></textarea></td>
+                                           </tr>
+
+                                           <tr>
+                                            <td colspan="5">
+                                                Note- Multiple runs of AAV to be undertaken to calculate correct bias values and updation of the same in EEPROM iaw NHQ/ DWE letter WM/0215/BB dated 24 May 21.
+                                           </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+
+							<div class="d-flex justify-content-center mt-4">
+								<button type="submit" class="btn btn-primary px-4">Submit </button>
+							</div>
+
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}

@@ -1,0 +1,330 @@
+{% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+/* Fix table layout */
+.custom_tbl {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+/* Center table headers */
+.custom_tbl thead th {
+    text-align: center;
+    vertical-align: middle;
+    padding: 10px;
+    font-weight: 600;
+}
+
+/* Center table body */
+.custom_tbl td {
+    text-align: center;
+    vertical-align: middle;
+    padding: 6px;
+}
+
+/* Remarks column width */
+.remarks-col {
+    min-width: 280px;
+    width: 300px;
+}
+
+/* Keep remarks text left for readability */
+.remarks-col textarea {
+    text-align: left;
+    resize: vertical;
+}
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+
+    <!-- Breadcrumb -->
+    <div class="row">
+        <div class="col-md-12">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'ITTTM:home' %}">ITTTM</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{% url 'ITTTM:home' %}">CBIU</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        BASIN TRIALS AND HATs FORMAT - Y-160 BOILER
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Portlet -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="portlet light bordered">
+                <div class="portlet-title">
+                    <div class="caption font-green">
+                        <span class="caption-subject bold">
+                            BASIN TRIALS AND HATs FORMAT - Y-160 BOILER (INS BETWA, INS BRAHMAPUTRA)
+                        </span>
+                    </div>
+                </div>
+
+                <div class="portlet-body form mt-2 mb-4">
+                    <form method="post" id="basin_hat_form">
+                        {% csrf_token %}
+                        <div class="form-body">
+
+                            <!-- ===== BASIC INFORMATION ===== -->
+                            <fieldset class="custom-fieldset">
+                                <legend class="legend-custom text-uppercase">Basic Information</legend>
+                                <div class="row g-3">
+
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="date" class="form-control" name="trial_date" required>
+                                            <label class="form_control_1">DATE <span class="text-danger">*</span></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" name="draught_fwd">
+                                            <label class="form_control_1">SHIPS DRAUGHT FWD</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" name="draught_aft">
+                                            <label class="form_control_1">SHIPS DRAUGHT AFT</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3 col-12">
+                                        <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                            <input type="text" class="form-control" name="displacement">
+                                            <label class="form_control_1">SHIP'S DISPLACEMENT</label>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </fieldset>
+
+                            <!-- ===== MAIN DATA TABLE ===== -->
+                            <fieldset class="custom-fieldset mt-4">
+                                <legend class="legend-custom text-uppercase">Trial Data</legend>
+                                <div class="table-responsive">
+                                    <table class="custom_tbl" id="basin_hat_table">
+                                        <thead>
+
+                                            <!-- Row 1 -->
+                                            <tr class="custom-header-row">
+                                                <th rowspan="3">MPP<br>MODE</th>
+                                                <th colspan="2" rowspan="2">SHAFT<br>RPM</th>
+                                                <th colspan="2" rowspan="2">BOILER LOAD<br>(%)</th>
+                                                <th colspan="2" rowspan="2">FD<br>BLOWER RPM</th>
+                                                <th colspan="2" rowspan="2">
+                                                    FUEL PUMP<br>DISCHARGE<br>PRESSURE (BAR)<br>
+                                                    <small>Inboard &amp; Outboard</small>
+                                                </th>
+                                                <th colspan="6">FUEL PRESSURE TO BURNER (BAR)</th>
+                                                <th rowspan="2">
+                                                    Feed Pump<br>Discharge<br>Pressure<br>(Aux/Main)<br>(BAR)
+                                                </th>
+                                                <th rowspan="3" class="remarks-col">REMARKS</th>
+                                            </tr>
+
+                                            <!-- Row 2 -->
+                                            <tr class="custom-header-row">
+                                                <th colspan="3">PORT BOILER<br>BURNERS</th>
+                                                <th colspan="3">STBD BOILER<br>BURNERS</th>
+                                            </tr>
+
+                                            <!-- Row 3 -->
+                                            <tr class="custom-header-row">
+                                                <th>PORT</th>
+                                                <th>STBD</th>
+                                                <th>PORT</th>
+                                                <th>STBD</th>
+                                                <th>PORT</th>
+                                                <th>STBD</th>
+                                                <th>INBOARD</th>
+                                                <th>OUTBOARD</th>
+                                                <th>1</th>
+                                                <th>2</th>
+                                                <th>3</th>
+                                                <th>1</th>
+                                                <th>2</th>
+                                                <th>3</th>
+                                                <th></th>
+                                            </tr>
+
+                                        </thead>
+                                        <tbody>
+
+                                            <!-- ===== AHEAD ROWS ===== -->
+                                            <tr>
+                                                <td rowspan="3" class="fw-bold">AHEAD</td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_shaft_port_1"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_shaft_stbd_1"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_boiler_port_1"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_boiler_stbd_1"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_fd_port_1"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_fd_stbd_1"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_fp_ib_1"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_fp_ob_1"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_port_b1_1"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_port_b2_1"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_port_b3_1"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_stbd_b1_1"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_stbd_b2_1"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_stbd_b3_1"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_feedpump_1"></td>
+                                                <td class="remarks-col">
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="ahead_remarks_1"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_shaft_port_2"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_shaft_stbd_2"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_boiler_port_2"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_boiler_stbd_2"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_fd_port_2"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_fd_stbd_2"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_fp_ib_2"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_fp_ob_2"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_port_b1_2"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_port_b2_2"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_port_b3_2"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_stbd_b1_2"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_stbd_b2_2"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_stbd_b3_2"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_feedpump_2"></td>
+                                                <td class="remarks-col">
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="ahead_remarks_2"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_shaft_port_3"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_shaft_stbd_3"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_boiler_port_3"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_boiler_stbd_3"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_fd_port_3"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_fd_stbd_3"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_fp_ib_3"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_fp_ob_3"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_port_b1_3"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_port_b2_3"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_port_b3_3"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_stbd_b1_3"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_stbd_b2_3"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_stbd_b3_3"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="ahead_feedpump_3"></td>
+                                                <td class="remarks-col">
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="ahead_remarks_3"></textarea>
+                                                </td>
+                                            </tr>
+
+                                            <!-- ===== ASTERN ROWS ===== -->
+                                            <tr>
+                                                <td rowspan="3" class="fw-bold">ASTERN</td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_shaft_port_1"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_shaft_stbd_1"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_boiler_port_1"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_boiler_stbd_1"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_fd_port_1"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_fd_stbd_1"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_fp_ib_1"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_fp_ob_1"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_port_b1_1"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_port_b2_1"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_port_b3_1"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_stbd_b1_1"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_stbd_b2_1"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_stbd_b3_1"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_feedpump_1"></td>
+                                                <td class="remarks-col">
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="astern_remarks_1"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_shaft_port_2"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_shaft_stbd_2"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_boiler_port_2"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_boiler_stbd_2"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_fd_port_2"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_fd_stbd_2"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_fp_ib_2"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_fp_ob_2"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_port_b1_2"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_port_b2_2"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_port_b3_2"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_stbd_b1_2"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_stbd_b2_2"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_stbd_b3_2"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_feedpump_2"></td>
+                                                <td class="remarks-col">
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="astern_remarks_2"></textarea>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_shaft_port_3"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_shaft_stbd_3"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_boiler_port_3"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_boiler_stbd_3"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_fd_port_3"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_fd_stbd_3"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_fp_ib_3"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_fp_ob_3"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_port_b1_3"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_port_b2_3"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_port_b3_3"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_stbd_b1_3"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_stbd_b2_3"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_stbd_b3_3"></td>
+                                                <td><input type="text" class="form-control line-input embarked-hrs" name="astern_feedpump_3"></td>
+                                                <td class="remarks-col">
+                                                    <textarea class="form-control wrstg-scroll-textarea" name="astern_remarks_3"></textarea>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </fieldset>
+
+                            <!-- ===== CBIU REMARKS ===== -->
+                            <fieldset class="custom-fieldset mt-4">
+                                <legend class="legend-custom text-uppercase">
+                                    CBIU Remarks (Not Editable By Ship)
+                                </legend>
+                                <div class="form-group mt-2">
+                                    <textarea class="form-control wrstg-scroll-textarea"
+                                        name="cbiu_remarks"
+                                        rows="4"
+                                        placeholder=""></textarea>
+                                </div>
+                            </fieldset>
+
+                            <!-- ===== SUBMIT BUTTON ===== -->
+                            <div class="d-flex justify-content-center mt-4 gap-2">
+                                <button type="submit" class="btn btn-success px-4">Save</button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+<script src="{% static 'js/itttm/wrstg_common.js' %}"></script>
+{% endblock js %}

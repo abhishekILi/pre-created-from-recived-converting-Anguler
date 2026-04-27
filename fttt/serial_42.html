@@ -1,0 +1,621 @@
+    {% extends 'itttm/trials_base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'itttm/wrstg-common.css' %}">
+<style>
+	#serial42_tbl th,
+	#serial42_tbl td {
+		text-align: center;
+		vertical-align: middle;
+	}
+
+	#serial42_tbl .text-left {
+		text-align: left;
+	}
+	#serial42_tbl .group-row {
+		font-weight: 700;
+	}
+	#serial42_tbl .small-note {
+		font-size: 13px;
+		line-height: 1.35;
+	}
+
+	/* #serial42_tbl .tight td,
+	#serial42_tbl .tight th {
+		padding-top: 4px;
+		padding-bottom: 4px;
+	} */
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid" style="background-color: transparent;">
+	<div class="row">
+		<div class="col-md-12">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a href="{% url 'ITTTM:home' %}">ITTTM</a></li>
+					<li class="breadcrumb-item" aria-current="page">FTTT</li>
+					<li class="breadcrumb-item active" aria-current="page">Parameter Checks Humsa NG MK II P17A/Rana</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="portlet light bordered">
+				<div class="portlet-title">
+					<div class="caption font-green">
+						<span class="caption-subject bold">SERIAL 42</span>
+					</div>
+				</div>
+				
+
+				<div class="portlet-body form mt-3 mb-4" id="serial42_tbl">
+					<form method="post" id="serial_42_form">
+						{% csrf_token %}
+						<div class="form-body">
+
+							<fieldset class="custom-fieldset">
+                                    <legend class="legend-custom text-uppercase">REPORT ON PARAMETER CHECKS UNDERTAKEN -INS </legend>
+                                    <div class="row g-3">
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="humsa_ng_system_sub_system" value="HUMSA-NG-MK II" placeholder=" ">
+                                                <label class="form_control_1">1. System/ Sub system</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="humsa_ng_job_undertaken" placeholder=" ">
+                                                <label class="form_control_1">2. Job Undertaken</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <!-- <textarea class="form-control wrstg-scroll-textarea" name="tilt_checks_reference_documents" rows="2" placeholder=" "></textarea> -->
+                                                 <input type="file" class ="form-control" name="humsa_ng_reference_documents">
+                                                <label class="form_control_1">3. Reference Documents</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="humsa_ng_authority" placeholder=" ">
+                                                <label class="form_control_1">4. Authority</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="humsa_ng_agencies_involved" value="FTTT(Vzg)" placeholder=" " readonly>
+                                                <label class="form_control_1">5. Agencies involved</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="date" class="form-control" name="humsa_ng_date_commenced">
+                                                <label class="form_control_1">6. Date Commenced</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="date" class="form-control" name="humsa_ng_date_completed">
+                                                <label class="form_control_1">7. Date Completed</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="humsa_ng_prepared_by" placeholder=" ">
+                                                <label class="form_control_1">8. Prepared by</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="humsa_ng_vetted_by" placeholder=" ">
+                                                <label class="form_control_1">9. Vetted by</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <input type="text" class="form-control" name="humsa_ng_reference_no" placeholder=" ">
+                                                <label class="form_control_1">10. Reference No.</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="humsa_ng_summary_of_observations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">11. Summary of observations</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4 col-12">
+                                            <div class="form-group form-md-line-input form-md-floating-label mt-2 mb-2">
+                                                <textarea class="form-control wrstg-scroll-textarea" name="humsa_ng_operational_limitations" rows="2" placeholder=" "></textarea>
+                                                <label class="form_control_1">12. Operational limitations (if any)</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </fieldset>
+
+							
+							<!-- MAIN TABLE STARTS FROM HERE -->
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom">1. Stave Insulation Checks</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl tight">
+										<thead>
+											<tr>
+												<th colspan="6">Stave Insulation Checks<br>(As per Maint Op No. MT - 6400008, Ideal Value =&gt; 1MΩ)<br>(Test Equipment – 500V Insutester) SL No.</th>
+											</tr>
+											<tr>
+												<th rowspan="2">Stave No<br>a.</th>
+												<th colspan="2">Insulation Measured<br>(&gt;1 MΩ)<br>b.</th>
+												<th rowspan="2">Stave No<br>a.</th>
+												<th colspan="2">Insulation Measured<br>(&gt;1 MΩ)<br>b.</th>
+											</tr>
+											<tr>
+												<th>Top</th>
+												<th>Bottom</th>
+												<th>Top</th>
+												<th>Bottom</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>00</td><td><input class="form-control" name="stave_00_top"></td><td><input class="form-control" name="stave_00_bottom"></td><td>16</td><td><input class="form-control" name="stave_16_top"></td><td><input class="form-control" name="stave_16_bottom"></td></tr>
+											<tr><td>01</td><td><input class="form-control" name="stave_01_top"></td><td><input class="form-control" name="stave_01_bottom"></td><td>17</td><td><input class="form-control" name="stave_17_top"></td><td><input class="form-control" name="stave_17_bottom"></td></tr>
+											<tr><td>02</td><td><input class="form-control" name="stave_02_top"></td><td><input class="form-control" name="stave_02_bottom"></td><td>18</td><td><input class="form-control" name="stave_18_top"></td><td><input class="form-control" name="stave_18_bottom"></td></tr>
+											<tr><td>03</td><td><input class="form-control" name="stave_03_top"></td><td><input class="form-control" name="stave_03_bottom"></td><td>19</td><td><input class="form-control" name="stave_19_top"></td><td><input class="form-control" name="stave_19_bottom"></td></tr>
+											<tr><td>04</td><td><input class="form-control" name="stave_04_top"></td><td><input class="form-control" name="stave_04_bottom"></td><td>20</td><td><input class="form-control" name="stave_20_top"></td><td><input class="form-control" name="stave_20_bottom"></td></tr>
+											<tr><td>05</td><td><input class="form-control" name="stave_05_top"></td><td><input class="form-control" name="stave_05_bottom"></td><td>21</td><td><input class="form-control" name="stave_21_top"></td><td><input class="form-control" name="stave_21_bottom"></td></tr>
+											<tr><td>06</td><td><input class="form-control" name="stave_06_top"></td><td><input class="form-control" name="stave_06_bottom"></td><td>22</td><td><input class="form-control" name="stave_22_top"></td><td><input class="form-control" name="stave_22_bottom"></td></tr>
+											<tr><td>07</td><td><input class="form-control" name="stave_07_top"></td><td><input class="form-control" name="stave_07_bottom"></td><td>23</td><td><input class="form-control" name="stave_23_top"></td><td><input class="form-control" name="stave_23_bottom"></td></tr>
+											<tr><td>08</td><td><input class="form-control" name="stave_08_top"></td><td><input class="form-control" name="stave_08_bottom"></td><td>24</td><td><input class="form-control" name="stave_24_top"></td><td><input class="form-control" name="stave_24_bottom"></td></tr>
+											<tr><td>09</td><td><input class="form-control" name="stave_09_top"></td><td><input class="form-control" name="stave_09_bottom"></td><td>25</td><td><input class="form-control" name="stave_25_top"></td><td><input class="form-control" name="stave_25_bottom"></td></tr>
+											<tr><td>10</td><td><input class="form-control" name="stave_10_top"></td><td><input class="form-control" name="stave_10_bottom"></td><td>26</td><td><input class="form-control" name="stave_26_top"></td><td><input class="form-control" name="stave_26_bottom"></td></tr>
+											<tr><td>11</td><td><input class="form-control" name="stave_11_top"></td><td><input class="form-control" name="stave_11_bottom"></td><td>27</td><td><input class="form-control" name="stave_27_top"></td><td><input class="form-control" name="stave_27_bottom"></td></tr>
+											<tr><td>12</td><td><input class="form-control" name="stave_12_top"></td><td><input class="form-control" name="stave_12_bottom"></td><td>28</td><td><input class="form-control" name="stave_28_top"></td><td><input class="form-control" name="stave_28_bottom"></td></tr>
+											<tr><td>13</td><td><input class="form-control" name="stave_13_top"></td><td><input class="form-control" name="stave_13_bottom"></td><td>29</td><td><input class="form-control" name="stave_29_top"></td><td><input class="form-control" name="stave_29_bottom"></td></tr>
+											<tr><td>14</td><td><input class="form-control" name="stave_14_top"></td><td><input class="form-control" name="stave_14_bottom"></td><td>30</td><td><input class="form-control" name="stave_30_top"></td><td><input class="form-control" name="stave_30_bottom"></td></tr>
+											<tr><td>15</td><td><input class="form-control" name="stave_15_top"></td><td><input class="form-control" name="stave_15_bottom"></td><td>31</td><td><input class="form-control" name="stave_31_top"></td><td><input class="form-control" name="stave_31_bottom"></td></tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom">2. Transmitter Checks (TSG and Power Amplifiers)</legend>
+
+								<p><strong>2.1 TSG Checks (Pulse Length and Frequency Checks)</strong></p>
+								<div class="table-responsive">
+									<table class="custom_tbl tight">
+										<thead>
+											<tr>
+												<th>Waveform<br>a.</th>
+												<th>Freq<br>b.</th>
+												<th>Expected Freq (Hz)<br>c.</th>
+												<th>Measured Freq (Hz)<br>(Tolerance ± 25 Hz)<br>d.</th>
+												<th>PL (ms)<br>e.</th>
+												<th>PL Measured<br>(Tolerance ±2ms)<br>g.</th>
+												<th>Remarks<br>h.</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>CW</td><td>Low</td><td>4500</td><td><input class="form-control" name="tsg_mfreq_1"></td><td>80</td><td><input class="form-control" name="tsg_pl_1"></td><td><textarea class="form-control wrstg-scroll-textarea" name="tsg_remark_1" rows="1"></textarea></td></tr>
+											<tr><td>CW</td><td>Low</td><td>4500</td><td><input class="form-control" name="tsg_mfreq_2"></td><td>160</td><td><input class="form-control" name="tsg_pl_2"></td><td><textarea class="form-control wrstg-scroll-textarea" name="tsg_remark_2" rows="1"></textarea></td></tr>
+											<tr><td>CW</td><td>High</td><td>6000</td><td><input class="form-control" name="tsg_mfreq_3"></td><td>320</td><td><input class="form-control" name="tsg_pl_3"></td><td><textarea class="form-control wrstg-scroll-textarea" name="tsg_remark_3" rows="1"></textarea></td></tr>
+											<tr><td>CW</td><td>High</td><td>6000</td><td><input class="form-control" name="tsg_mfreq_4"></td><td>640</td><td><input class="form-control" name="tsg_pl_4"></td><td><textarea class="form-control wrstg-scroll-textarea" name="tsg_remark_4" rows="1"></textarea></td></tr>
+										</tbody>
+									</table>
+								</div>
+
+								<p class="mt-3"><strong>2.2 Power Amplifier Checks (Freq- 4500 Hz /6000 Hz Power = 0dB &amp; W/F- CW) at PA</strong></p>
+								<div class="table-responsive">
+									<table class="custom_tbl tight">
+										<thead>
+											<tr>
+												<th rowspan="2">Cabinet 1<br>Power Amplifier<br>a.</th>
+												<th colspan="2">SL = 0 dB<br>b.</th>
+												<th rowspan="2">Remarks<br>c.</th>
+											</tr>
+											<tr>
+												<th>I MON<br>(RMS)</th>
+												<th>Power<br>(1000±15%)</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>01</td><td><input class="form-control" name="c1_imon_01"></td><td><input class="form-control" name="c1_power_01"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c1_remark_01" rows="1"></textarea></td></tr>
+											<tr><td>02</td><td><input class="form-control" name="c1_imon_02"></td><td><input class="form-control" name="c1_power_02"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c1_remark_02" rows="1"></textarea></td></tr>
+											<tr><td>03</td><td><input class="form-control" name="c1_imon_03"></td><td><input class="form-control" name="c1_power_03"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c1_remark_03" rows="1"></textarea></td></tr>
+											<tr><td>04</td><td><input class="form-control" name="c1_imon_04"></td><td><input class="form-control" name="c1_power_04"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c1_remark_04" rows="1"></textarea></td></tr>
+											<tr><td>05</td><td><input class="form-control" name="c1_imon_05"></td><td><input class="form-control" name="c1_power_05"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c1_remark_05" rows="1"></textarea></td></tr>
+											<tr><td>06</td><td><input class="form-control" name="c1_imon_06"></td><td><input class="form-control" name="c1_power_06"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c1_remark_06" rows="1"></textarea></td></tr>
+											<tr><td>07</td><td><input class="form-control" name="c1_imon_07"></td><td><input class="form-control" name="c1_power_07"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c1_remark_07" rows="1"></textarea></td></tr>
+											<tr><td>08</td><td><input class="form-control" name="c1_imon_08"></td><td><input class="form-control" name="c1_power_08"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c1_remark_08" rows="1"></textarea></td></tr>
+											<tr><td>09</td><td><input class="form-control" name="c1_imon_09"></td><td><input class="form-control" name="c1_power_09"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c1_remark_09" rows="1"></textarea></td></tr>
+											<tr><td>10</td><td><input class="form-control" name="c1_imon_10"></td><td><input class="form-control" name="c1_power_10"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c1_remark_10" rows="1"></textarea></td></tr>
+											<tr><td>11</td><td><input class="form-control" name="c1_imon_11"></td><td><input class="form-control" name="c1_power_11"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c1_remark_11" rows="1"></textarea></td></tr>
+											<tr><td>12</td><td><input class="form-control" name="c1_imon_12"></td><td><input class="form-control" name="c1_power_12"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c1_remark_12" rows="1"></textarea></td></tr>
+											<tr><td>13</td><td><input class="form-control" name="c1_imon_13"></td><td><input class="form-control" name="c1_power_13"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c1_remark_13" rows="1"></textarea></td></tr>
+											<tr><td>14</td><td><input class="form-control" name="c1_imon_14"></td><td><input class="form-control" name="c1_power_14"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c1_remark_14" rows="1"></textarea></td></tr>
+											<tr><td>15</td><td><input class="form-control" name="c1_imon_15"></td><td><input class="form-control" name="c1_power_15"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c1_remark_15" rows="1"></textarea></td></tr>
+											<tr><td>16</td><td><input class="form-control" name="c1_imon_16"></td><td><input class="form-control" name="c1_power_16"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c1_remark_16" rows="1"></textarea></td></tr>
+											<tr><td>17</td><td><input class="form-control" name="c1_imon_17"></td><td><input class="form-control" name="c1_power_17"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c1_remark_17" rows="1"></textarea></td></tr>
+											<tr><td>18</td><td><input class="form-control" name="c1_imon_18"></td><td><input class="form-control" name="c1_power_18"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c1_remark_18" rows="1"></textarea></td></tr>
+											<tr><td>19</td><td><input class="form-control" name="c1_imon_19"></td><td><input class="form-control" name="c1_power_19"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c1_remark_19" rows="1"></textarea></td></tr>
+											<tr><td>20</td><td><input class="form-control" name="c1_imon_20"></td><td><input class="form-control" name="c1_power_20"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c1_remark_20" rows="1"></textarea></td></tr>
+											<tr><td>21</td><td><input class="form-control" name="c1_imon_21"></td><td><input class="form-control" name="c1_power_21"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c1_remark_21" rows="1"></textarea></td></tr>
+											<tr><td>22</td><td><input class="form-control" name="c1_imon_22"></td><td><input class="form-control" name="c1_power_22"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c1_remark_22" rows="1"></textarea></td></tr>
+											<tr><td>23</td><td><input class="form-control" name="c1_imon_23"></td><td><input class="form-control" name="c1_power_23"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c1_remark_23" rows="1"></textarea></td></tr>
+											<tr><td>24</td><td><input class="form-control" name="c1_imon_24"></td><td><input class="form-control" name="c1_power_24"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c1_remark_24" rows="1"></textarea></td></tr>
+											<tr><td>25</td><td><input class="form-control" name="c1_imon_25"></td><td><input class="form-control" name="c1_power_25"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c1_remark_25" rows="1"></textarea></td></tr>
+											<tr><td>26</td><td><input class="form-control" name="c1_imon_26"></td><td><input class="form-control" name="c1_power_26"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c1_remark_26" rows="1"></textarea></td></tr>
+											<tr><td>27</td><td><input class="form-control" name="c1_imon_27"></td><td><input class="form-control" name="c1_power_27"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c1_remark_27" rows="1"></textarea></td></tr>
+											<tr><td>28</td><td><input class="form-control" name="c1_imon_28"></td><td><input class="form-control" name="c1_power_28"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c1_remark_28" rows="1"></textarea></td></tr>
+											<tr><td>29</td><td><input class="form-control" name="c1_imon_29"></td><td><input class="form-control" name="c1_power_29"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c1_remark_29" rows="1"></textarea></td></tr>
+											<tr><td>30</td><td><input class="form-control" name="c1_imon_30"></td><td><input class="form-control" name="c1_power_30"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c1_remark_30" rows="1"></textarea></td></tr>
+											<tr><td>31</td><td><input class="form-control" name="c1_imon_31"></td><td><input class="form-control" name="c1_power_31"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c1_remark_31" rows="1"></textarea></td></tr>
+											<tr><td>32</td><td><input class="form-control" name="c1_imon_32"></td><td><input class="form-control" name="c1_power_32"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c1_remark_32" rows="1"></textarea></td></tr>
+										</tbody>
+									</table>
+								</div>
+								<p class="small-note mt-2 mb-3">Power = (1.25 X RMS value of I<sub>mon</sub>*)<sup>2</sup> X 120 = 1000W ± 15 %<br><strong>Note</strong> MF= 1.25 to be considered while taking measurements from indication panel &amp; MF = 2.5 To be considered while taking measurements from PA</p>
+
+								<div class="table-responsive">
+									<table class="custom_tbl tight">
+										<thead>
+											<tr>
+												<th rowspan="2">Cabinet 2<br>Power Amplifier<br>a.</th>
+												<th colspan="2">SL = 0 dB<br>b.</th>
+												<th rowspan="2">Remarks<br>c.</th>
+											</tr>
+											<tr>
+												<th>I MON<br>(RMS)</th>
+												<th>Power<br>(1000±15%)</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>01</td><td><input class="form-control" name="c2_imon_01"></td><td><input class="form-control" name="c2_power_01"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c2_remark_01" rows="1"></textarea></td></tr>
+											<tr><td>02</td><td><input class="form-control" name="c2_imon_02"></td><td><input class="form-control" name="c2_power_02"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c2_remark_02" rows="1"></textarea></td></tr>
+											<tr><td>03</td><td><input class="form-control" name="c2_imon_03"></td><td><input class="form-control" name="c2_power_03"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c2_remark_03" rows="1"></textarea></td></tr>
+											<tr><td>04</td><td><input class="form-control" name="c2_imon_04"></td><td><input class="form-control" name="c2_power_04"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c2_remark_04" rows="1"></textarea></td></tr>
+											<tr><td>05</td><td><input class="form-control" name="c2_imon_05"></td><td><input class="form-control" name="c2_power_05"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c2_remark_05" rows="1"></textarea></td></tr>
+											<tr><td>06</td><td><input class="form-control" name="c2_imon_06"></td><td><input class="form-control" name="c2_power_06"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c2_remark_06" rows="1"></textarea></td></tr>
+											<tr><td>07</td><td><input class="form-control" name="c2_imon_07"></td><td><input class="form-control" name="c2_power_07"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c2_remark_07" rows="1"></textarea></td></tr>
+											<tr><td>08</td><td><input class="form-control" name="c2_imon_08"></td><td><input class="form-control" name="c2_power_08"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c2_remark_08" rows="1"></textarea></td></tr>
+											<tr><td>09</td><td><input class="form-control" name="c2_imon_09"></td><td><input class="form-control" name="c2_power_09"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c2_remark_09" rows="1"></textarea></td></tr>
+											<tr><td>10</td><td><input class="form-control" name="c2_imon_10"></td><td><input class="form-control" name="c2_power_10"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c2_remark_10" rows="1"></textarea></td></tr>
+											<tr><td>11</td><td><input class="form-control" name="c2_imon_11"></td><td><input class="form-control" name="c2_power_11"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c2_remark_11" rows="1"></textarea></td></tr>
+											<tr><td>12</td><td><input class="form-control" name="c2_imon_12"></td><td><input class="form-control" name="c2_power_12"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c2_remark_12" rows="1"></textarea></td></tr>
+											<tr><td>13</td><td><input class="form-control" name="c2_imon_13"></td><td><input class="form-control" name="c2_power_13"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c2_remark_13" rows="1"></textarea></td></tr>
+											<tr><td>14</td><td><input class="form-control" name="c2_imon_14"></td><td><input class="form-control" name="c2_power_14"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c2_remark_14" rows="1"></textarea></td></tr>
+											<tr><td>15</td><td><input class="form-control" name="c2_imon_15"></td><td><input class="form-control" name="c2_power_15"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c2_remark_15" rows="1"></textarea></td></tr>
+											<tr><td>16</td><td><input class="form-control" name="c2_imon_16"></td><td><input class="form-control" name="c2_power_16"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c2_remark_16" rows="1"></textarea></td></tr>
+											<tr><td>17</td><td><input class="form-control" name="c2_imon_17"></td><td><input class="form-control" name="c2_power_17"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c2_remark_17" rows="1"></textarea></td></tr>
+											<tr><td>18</td><td><input class="form-control" name="c2_imon_18"></td><td><input class="form-control" name="c2_power_18"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c2_remark_18" rows="1"></textarea></td></tr>
+											<tr><td>19</td><td><input class="form-control" name="c2_imon_19"></td><td><input class="form-control" name="c2_power_19"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c2_remark_19" rows="1"></textarea></td></tr>
+											<tr><td>20</td><td><input class="form-control" name="c2_imon_20"></td><td><input class="form-control" name="c2_power_20"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c2_remark_20" rows="1"></textarea></td></tr>
+											<tr><td>21</td><td><input class="form-control" name="c2_imon_21"></td><td><input class="form-control" name="c2_power_21"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c2_remark_21" rows="1"></textarea></td></tr>
+											<tr><td>22</td><td><input class="form-control" name="c2_imon_22"></td><td><input class="form-control" name="c2_power_22"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c2_remark_22" rows="1"></textarea></td></tr>
+											<tr><td>23</td><td><input class="form-control" name="c2_imon_23"></td><td><input class="form-control" name="c2_power_23"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c2_remark_23" rows="1"></textarea></td></tr>
+											<tr><td>24</td><td><input class="form-control" name="c2_imon_24"></td><td><input class="form-control" name="c2_power_24"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c2_remark_24" rows="1"></textarea></td></tr>
+											<tr><td>25</td><td><input class="form-control" name="c2_imon_25"></td><td><input class="form-control" name="c2_power_25"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c2_remark_25" rows="1"></textarea></td></tr>
+											<tr><td>26</td><td><input class="form-control" name="c2_imon_26"></td><td><input class="form-control" name="c2_power_26"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c2_remark_26" rows="1"></textarea></td></tr>
+											<tr><td>27</td><td><input class="form-control" name="c2_imon_27"></td><td><input class="form-control" name="c2_power_27"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c2_remark_27" rows="1"></textarea></td></tr>
+											<tr><td>28</td><td><input class="form-control" name="c2_imon_28"></td><td><input class="form-control" name="c2_power_28"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c2_remark_28" rows="1"></textarea></td></tr>
+											<tr><td>29</td><td><input class="form-control" name="c2_imon_29"></td><td><input class="form-control" name="c2_power_29"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c2_remark_29" rows="1"></textarea></td></tr>
+											<tr><td>30</td><td><input class="form-control" name="c2_imon_30"></td><td><input class="form-control" name="c2_power_30"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c2_remark_30" rows="1"></textarea></td></tr>
+											<tr><td>31</td><td><input class="form-control" name="c2_imon_31"></td><td><input class="form-control" name="c2_power_31"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c2_remark_31" rows="1"></textarea></td></tr>
+											<tr><td>32</td><td><input class="form-control" name="c2_imon_32"></td><td><input class="form-control" name="c2_power_32"></td><td><textarea class="form-control wrstg-scroll-textarea" name="c2_remark_32" rows="1"></textarea></td></tr>
+										</tbody>
+									</table>
+								</div>
+								<p class="small-note mt-2 mb-0">Power = (1.25 X RMS value of I<sub>mon</sub>)<sup>2</sup> X 120 = 1000W ± 15 %<br><strong>Note</strong> MF= 1.25 to be considered while taking measurements from indication panel &amp; MF = 2.5 To be considered while taking measurements from PA</strong></p>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom">3. Active &amp; Passive Sonar Front End Subsystem</legend>
+
+								<p><strong>3.1 Active Self Noise Measurement</strong> <span class="ml-3">Expected Value &lt; 0.05</span></p>
+								<div class="table-responsive">
+									<table class="custom_tbl tight">
+										<thead>
+											<tr>
+												<th>Channel No.<br>a.</th>
+												<th>Remarks<br>b.</th>
+												<th>Channel No.<br>a.</th>
+												<th>Remarks<br>b.</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>1</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_1" rows="1"></textarea></td><td>33</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_33" rows="1"></textarea></td></tr>
+											<tr><td>2</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_2" rows="1"></textarea></td><td>34</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_34" rows="1"></textarea></td></tr>
+											<tr><td>3</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_3" rows="1"></textarea></td><td>35</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_35" rows="1"></textarea></td></tr>
+											<tr><td>4</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_4" rows="1"></textarea></td><td>36</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_36" rows="1"></textarea></td></tr>
+											<tr><td>5</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_5" rows="1"></textarea></td><td>37</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_37" rows="1"></textarea></td></tr>
+											<tr><td>6</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_6" rows="1"></textarea></td><td>38</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_38" rows="1"></textarea></td></tr>
+											<tr><td>7</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_7" rows="1"></textarea></td><td>39</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_39" rows="1"></textarea></td></tr>
+											<tr><td>8</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_8" rows="1"></textarea></td><td>40</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_40" rows="1"></textarea></td></tr>
+											<tr><td>9</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_9" rows="1"></textarea></td><td>41</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_41" rows="1"></textarea></td></tr>
+											<tr><td>10</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_10" rows="1"></textarea></td><td>42</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_42" rows="1"></textarea></td></tr>
+											<tr><td>11</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_11" rows="1"></textarea></td><td>43</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_43" rows="1"></textarea></td></tr>
+											<tr><td>12</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_12" rows="1"></textarea></td><td>44</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_44" rows="1"></textarea></td></tr>
+											<tr><td>13</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_13" rows="1"></textarea></td><td>45</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_45" rows="1"></textarea></td></tr>
+											<tr><td>14</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_14" rows="1"></textarea></td><td>46</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_46" rows="1"></textarea></td></tr>
+											<tr><td>15</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_15" rows="1"></textarea></td><td>47</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_47" rows="1"></textarea></td></tr>
+											<tr><td>16</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_16" rows="1"></textarea></td><td>48</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_48" rows="1"></textarea></td></tr>
+											<tr><td>17</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_17" rows="1"></textarea></td><td>49</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_49" rows="1"></textarea></td></tr>
+											<tr><td>18</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_18" rows="1"></textarea></td><td>50</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_50" rows="1"></textarea></td></tr>
+											<tr><td>19</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_19" rows="1"></textarea></td><td>51</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_51" rows="1"></textarea></td></tr>
+											<tr><td>20</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_20" rows="1"></textarea></td><td>52</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_52" rows="1"></textarea></td></tr>
+											<tr><td>21</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_21" rows="1"></textarea></td><td>53</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_53" rows="1"></textarea></td></tr>
+											<tr><td>22</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_22" rows="1"></textarea></td><td>54</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_54" rows="1"></textarea></td></tr>
+											<tr><td>23</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_23" rows="1"></textarea></td><td>55</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_55" rows="1"></textarea></td></tr>
+											<tr><td>24</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_24" rows="1"></textarea></td><td>56</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_56" rows="1"></textarea></td></tr>
+											<tr><td>25</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_25" rows="1"></textarea></td><td>57</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_57" rows="1"></textarea></td></tr>
+											<tr><td>26</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_26" rows="1"></textarea></td><td>58</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_58" rows="1"></textarea></td></tr>
+											<tr><td>27</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_27" rows="1"></textarea></td><td>59</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_59" rows="1"></textarea></td></tr>
+											<tr><td>28</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_28" rows="1"></textarea></td><td>60</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_60" rows="1"></textarea></td></tr>
+											<tr><td>29</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_29" rows="1"></textarea></td><td>61</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_61" rows="1"></textarea></td></tr>
+											<tr><td>30</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_30" rows="1"></textarea></td><td>62</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_62" rows="1"></textarea></td></tr>
+											<tr><td>31</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_31" rows="1"></textarea></td><td>63</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_63" rows="1"></textarea></td></tr>
+											<tr><td>32</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_32" rows="1"></textarea></td><td>64</td><td><textarea class="form-control wrstg-scroll-textarea" name="asn_64" rows="1"></textarea></td></tr>
+										</tbody>
+									</table>
+								</div>
+
+								<p class="mt-3"><strong>3.2 Passive Self Noise Measurement</strong> <span class="ml-3">Expected Value&lt; 0.05</span></p>
+								<div class="table-responsive">
+									<table class="custom_tbl tight">
+										<thead>
+											<tr>
+												<th>Channel No.<br>a.</th>
+												<th>Remarks<br>b.</th>
+												<th>Channel No.<br>a.</th>
+												<th>Remarks<br>b.</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>1</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_1" rows="1"></textarea></td><td>33</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_33" rows="1"></textarea></td></tr>
+											<tr><td>2</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_2" rows="1"></textarea></td><td>34</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_34" rows="1"></textarea></td></tr>
+											<tr><td>3</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_3" rows="1"></textarea></td><td>35</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_35" rows="1"></textarea></td></tr>
+											<tr><td>4</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_4" rows="1"></textarea></td><td>36</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_36" rows="1"></textarea></td></tr>
+											<tr><td>5</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_5" rows="1"></textarea></td><td>37</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_37" rows="1"></textarea></td></tr>
+											<tr><td>6</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_6" rows="1"></textarea></td><td>38</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_38" rows="1"></textarea></td></tr>
+											<tr><td>7</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_7" rows="1"></textarea></td><td>39</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_39" rows="1"></textarea></td></tr>
+											<tr><td>8</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_8" rows="1"></textarea></td><td>40</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_40" rows="1"></textarea></td></tr>
+											<tr><td>9</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_9" rows="1"></textarea></td><td>41</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_41" rows="1"></textarea></td></tr>
+											<tr><td>10</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_10" rows="1"></textarea></td><td>42</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_42" rows="1"></textarea></td></tr>
+											<tr><td>11</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_11" rows="1"></textarea></td><td>43</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_43" rows="1"></textarea></td></tr>
+											<tr><td>12</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_12" rows="1"></textarea></td><td>44</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_44" rows="1"></textarea></td></tr>
+											<tr><td>13</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_13" rows="1"></textarea></td><td>45</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_45" rows="1"></textarea></td></tr>
+											<tr><td>14</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_14" rows="1"></textarea></td><td>46</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_46" rows="1"></textarea></td></tr>
+											<tr><td>15</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_15" rows="1"></textarea></td><td>47</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_47" rows="1"></textarea></td></tr>
+											<tr><td>16</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_16" rows="1"></textarea></td><td>48</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_48" rows="1"></textarea></td></tr>
+											<tr><td>17</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_17" rows="1"></textarea></td><td>49</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_49" rows="1"></textarea></td></tr>
+											<tr><td>18</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_18" rows="1"></textarea></td><td>50</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_50" rows="1"></textarea></td></tr>
+											<tr><td>19</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_19" rows="1"></textarea></td><td>51</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_51" rows="1"></textarea></td></tr>
+											<tr><td>20</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_20" rows="1"></textarea></td><td>52</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_52" rows="1"></textarea></td></tr>
+											<tr><td>21</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_21" rows="1"></textarea></td><td>53</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_53" rows="1"></textarea></td></tr>
+											<tr><td>22</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_22" rows="1"></textarea></td><td>54</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_54" rows="1"></textarea></td></tr>
+											<tr><td>23</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_23" rows="1"></textarea></td><td>55</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_55" rows="1"></textarea></td></tr>
+											<tr><td>24</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_24" rows="1"></textarea></td><td>56</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_56" rows="1"></textarea></td></tr>
+											<tr><td>25</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_25" rows="1"></textarea></td><td>57</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_57" rows="1"></textarea></td></tr>
+											<tr><td>26</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_26" rows="1"></textarea></td><td>58</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_58" rows="1"></textarea></td></tr>
+											<tr><td>27</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_27" rows="1"></textarea></td><td>59</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_59" rows="1"></textarea></td></tr>
+											<tr><td>28</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_28" rows="1"></textarea></td><td>60</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_60" rows="1"></textarea></td></tr>
+											<tr><td>29</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_29" rows="1"></textarea></td><td>61</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_61" rows="1"></textarea></td></tr>
+											<tr><td>30</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_30" rows="1"></textarea></td><td>62</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_62" rows="1"></textarea></td></tr>
+											<tr><td>31</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_31" rows="1"></textarea></td><td>63</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_63" rows="1"></textarea></td></tr>
+											<tr><td>32</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_32" rows="1"></textarea></td><td>64</td><td><textarea class="form-control wrstg-scroll-textarea" name="psn_64" rows="1"></textarea></td></tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom">4. Receiver Checks</legend>
+
+								<p><strong>4.1 MDL Checks for Active Detection Processor</strong></p>
+								<div class="table-responsive">
+									<table class="custom_tbl tight">
+										<thead>
+											<tr>
+												<th>Ser</th>
+												<th>PL/ Waveform<br>a.</th>
+												<th>Processor<br>b.</th>
+												<th>MDL Value Expected (dB)<br>c.<br>Freq: Low<br>Freq: High</th>
+												<th>MDL Value Measured (dB)<br>d.<br>Freq: Low<br>Freq: High</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>1</td><td>160/CW</td><td>CONV_ED</td><td>-15</td><td><input class="form-control" name="mdl_meas_1"></td></tr>
+											<tr><td>2</td><td>160/CW</td><td>CONV_SBC</td><td>-13</td><td><input class="form-control" name="mdl_meas_2"></td></tr>
+											<tr><td>3</td><td>160/CW</td><td>CONV_RC</td><td>-24</td><td><input class="form-control" name="mdl_meas_3"></td></tr>
+											<tr><td>4</td><td>640/CW</td><td>CONV_ED</td><td>-18</td><td><input class="form-control" name="mdl_meas_4"></td></tr>
+											<tr><td>5</td><td>640/CW</td><td>CONV_SBC</td><td>-16</td><td><input class="form-control" name="mdl_meas_5"></td></tr>
+											<tr><td>6</td><td>640/CW</td><td>CONV_RC</td><td>-30</td><td><input class="form-control" name="mdl_meas_6"></td></tr>
+											<tr><td>7</td><td>160/LFM UP/DN</td><td>CONV_ED</td><td>-15</td><td><input class="form-control" name="mdl_meas_7"></td></tr>
+											<tr><td>8</td><td>160/LFM UP/DN</td><td>CONV_SBC</td><td>-13</td><td><input class="form-control" name="mdl_meas_8"></td></tr>
+											<tr><td>9</td><td>160/LFM UP/DN</td><td>CONV_RC</td><td>-24</td><td><input class="form-control" name="mdl_meas_9"></td></tr>
+											<tr><td>10</td><td>640/LFM UP/DN</td><td>CONV_ED</td><td>-18</td><td><input class="form-control" name="mdl_meas_10"></td></tr>
+											<tr><td>11</td><td>640/LFM UP/DN</td><td>CONV_SBC</td><td>-16</td><td><input class="form-control" name="mdl_meas_11"></td></tr>
+											<tr><td>12</td><td>640/LFM UP/DN</td><td>CONV_RC</td><td>-30</td><td><input class="form-control" name="mdl_meas_12"></td></tr>
+											<tr><td>13</td><td>160/SFM UP/DN</td><td>CONV_ED</td><td>-15</td><td><input class="form-control" name="mdl_meas_13"></td></tr>
+											<tr><td>14</td><td>160/SFM UP/DN</td><td>CONV_PDPC</td><td>-18</td><td><input class="form-control" name="mdl_meas_14"></td></tr>
+											<tr><td>15</td><td>320/SFM UP/DN</td><td>CONV_ED</td><td>-17</td><td><input class="form-control" name="mdl_meas_15"></td></tr>
+											<tr><td>16</td><td>320/SFM UP/DN</td><td>CONV_PDPC</td><td>-22</td><td><input class="form-control" name="mdl_meas_16"></td></tr>
+											<tr><td>17</td><td>1280/COMBO</td><td>CONV_RC</td><td>-32</td><td><input class="form-control" name="mdl_meas_17"></td></tr>
+											<tr><td>18</td><td>2560/COMBO</td><td>CONV_RC</td><td>-34</td><td><input class="form-control" name="mdl_meas_18"></td></tr>
+										</tbody>
+									</table>
+								</div>
+
+								<p class="mt-3"><strong>4.2 MDL Checks for Passive Detection Processor when B-STABN - OFF</strong></p>
+								<p class="mb-2">(Expected: CONV_ED/ MVDR_ED: -21 dB &amp; CONV_SBC: -19 dB)</p>
+								<div class="table-responsive">
+									<table class="custom_tbl tight">
+										<thead>
+											<tr>
+												<th rowspan="2">Target<br>SNR<br>a.</th>
+												<th colspan="3">Target-1,2,3 (2 sec)<br>b.</th>
+												<th colspan="3">Target-1,2,3 (8 sec)<br>c.</th>
+												<th rowspan="2">Remarks<br>d.</th>
+											</tr>
+											<tr>
+												<th>CONV_ED</th>
+												<th>CONV_SBC</th>
+												<th>MVDR_ED</th>
+												<th>CONV_ED</th>
+												<th>CONV_SBC</th>
+												<th>MVDR_ED</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td>-16</td><td><input class="form-control" name="pmdl_16_2s_ed"></td><td><input class="form-control" name="pmdl_16_2s_sbc"></td><td><input class="form-control" name="pmdl_16_2s_mvdr"></td><td><input class="form-control" name="pmdl_16_8s_ed"></td><td><input class="form-control" name="pmdl_16_8s_sbc"></td><td><input class="form-control" name="pmdl_16_8s_mvdr"></td><td><textarea class="form-control" name="pmdl_remark_16" rows="1"></textarea></td></tr>
+											<tr><td>-17</td><td><input class="form-control" name="pmdl_17_2s_ed"></td><td><input class="form-control" name="pmdl_17_2s_sbc"></td><td><input class="form-control" name="pmdl_17_2s_mvdr"></td><td><input class="form-control" name="pmdl_17_8s_ed"></td><td><input class="form-control" name="pmdl_17_8s_sbc"></td><td><input class="form-control" name="pmdl_17_8s_mvdr"></td><td><textarea class="form-control" name="pmdl_remark_17" rows="1"></textarea></td></tr>
+											<tr><td>-18</td><td><input class="form-control" name="pmdl_18_2s_ed"></td><td><input class="form-control" name="pmdl_18_2s_sbc"></td><td><input class="form-control" name="pmdl_18_2s_mvdr"></td><td><input class="form-control" name="pmdl_18_8s_ed"></td><td><input class="form-control" name="pmdl_18_8s_sbc"></td><td><input class="form-control" name="pmdl_18_8s_mvdr"></td><td><textarea class="form-control" name="pmdl_remark_18" rows="1"></textarea></td></tr>
+											<tr><td>-19</td><td><input class="form-control" name="pmdl_19_2s_ed"></td><td><input class="form-control" name="pmdl_19_2s_sbc"></td><td><input class="form-control" name="pmdl_19_2s_mvdr"></td><td><input class="form-control" name="pmdl_19_8s_ed"></td><td><input class="form-control" name="pmdl_19_8s_sbc"></td><td><input class="form-control" name="pmdl_19_8s_mvdr"></td><td><textarea class="form-control" name="pmdl_remark_19" rows="1"></textarea></td></tr>
+											<tr><td>-20</td><td><input class="form-control" name="pmdl_20_2s_ed"></td><td><input class="form-control" name="pmdl_20_2s_sbc"></td><td><input class="form-control" name="pmdl_20_2s_mvdr"></td><td><input class="form-control" name="pmdl_20_8s_ed"></td><td><input class="form-control" name="pmdl_20_8s_sbc"></td><td><input class="form-control" name="pmdl_20_8s_mvdr"></td><td><textarea class="form-control" name="pmdl_remark_20" rows="1"></textarea></td></tr>
+											<tr><td>-21</td><td><input class="form-control" name="pmdl_21_2s_ed"></td><td><input class="form-control" name="pmdl_21_2s_sbc"></td><td><input class="form-control" name="pmdl_21_2s_mvdr"></td><td><input class="form-control" name="pmdl_21_8s_ed"></td><td><input class="form-control" name="pmdl_21_8s_sbc"></td><td><input class="form-control" name="pmdl_21_8s_mvdr"></td><td><textarea class="form-control" name="pmdl_remark_21" rows="1"></textarea></td></tr>
+											<tr><td>-22</td><td><input class="form-control" name="pmdl_22_2s_ed"></td><td><input class="form-control" name="pmdl_22_2s_sbc"></td><td><input class="form-control" name="pmdl_22_2s_mvdr"></td><td><input class="form-control" name="pmdl_22_8s_ed"></td><td><input class="form-control" name="pmdl_22_8s_sbc"></td><td><input class="form-control" name="pmdl_22_8s_mvdr"></td><td><textarea class="form-control" name="pmdl_remark_22" rows="1"></textarea></td></tr>
+											<tr><td>-23</td><td><input class="form-control" name="pmdl_23_2s_ed"></td><td><input class="form-control" name="pmdl_23_2s_sbc"></td><td><input class="form-control" name="pmdl_23_2s_mvdr"></td><td><input class="form-control" name="pmdl_23_8s_ed"></td><td><input class="form-control" name="pmdl_23_8s_sbc"></td><td><input class="form-control" name="pmdl_23_8s_mvdr"></td><td><textarea class="form-control" name="pmdl_remark_23" rows="1"></textarea></td></tr>
+										</tbody>
+									</table>
+								</div>
+
+								<p class="mt-3"><strong>4.3 Bearing Discrimination Checks – Detection Processor</strong></p>
+								<div class="table-responsive">
+									<table class="custom_tbl tight">
+										<thead>
+											<tr>
+												<th colspan="3">Bearing (degree)<br>a.</th>
+												<th colspan="4">Bearing Discrimination (degree)<br>b.</th>
+											</tr>
+											<tr>
+												<th>TGT 1</th>
+												<th>TGT 2</th>
+												<th>TGT 2<br>{just before merging (deg)}</th>
+												<th>CONV_ED<br>(Ideal Value ≤22°)</th>
+												<th>CONV_SBC<br>(Ideal Value ≤20°)</th>
+												<th>MVDR_ED<br>(Ideal Value ≤15°)</th>
+												<th>Remarks</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td><input class="form-control" name="bd_dp_t1_1"></td><td><input class="form-control" name="bd_dp_t2_1"></td><td><input class="form-control" name="bd_dp_merge_1"></td><td><input class="form-control" name="bd_dp_ed_1"></td><td><input class="form-control" name="bd_dp_sbc_1"></td><td><input class="form-control" name="bd_dp_mvdr_1"></td><td><textarea class="form-control" name="bd_dp_remark_1" rows="1"></textarea></td></tr>
+											<tr><td><input class="form-control" name="bd_dp_t1_2"></td><td><input class="form-control" name="bd_dp_t2_2"></td><td><input class="form-control" name="bd_dp_merge_2"></td><td><input class="form-control" name="bd_dp_ed_2"></td><td><input class="form-control" name="bd_dp_sbc_2"></td><td><input class="form-control" name="bd_dp_mvdr_2"></td><td><textarea class="form-control" name="bd_dp_remark_2" rows="1"></textarea></td></tr>
+											<tr><td><input class="form-control" name="bd_dp_t1_3"></td><td><input class="form-control" name="bd_dp_t2_3"></td><td><input class="form-control" name="bd_dp_merge_3"></td><td><input class="form-control" name="bd_dp_ed_3"></td><td><input class="form-control" name="bd_dp_sbc_3"></td><td><input class="form-control" name="bd_dp_mvdr_3"></td><td><textarea class="form-control" name="bd_dp_remark_3" rows="1"></textarea></td></tr>
+											<tr><td><input class="form-control" name="bd_dp_t1_4"></td><td><input class="form-control" name="bd_dp_t2_4"></td><td><input class="form-control" name="bd_dp_merge_4"></td><td><input class="form-control" name="bd_dp_ed_4"></td><td><input class="form-control" name="bd_dp_sbc_4"></td><td><input class="form-control" name="bd_dp_mvdr_4"></td><td><textarea class="form-control" name="bd_dp_remark_4" rows="1"></textarea></td></tr>
+										</tbody>
+									</table>
+								</div>
+
+								<p class="mt-3"><strong>4.4 Bearing Discrimination Checks– Track Processor</strong></p>
+								<div class="table-responsive">
+									<table class="custom_tbl tight">
+										<thead>
+											<tr>
+												<th colspan="3">Bearing (degree)<br>a.</th>
+												<th colspan="2">Bearing Discrimination (degree)<br>b.</th>
+											</tr>
+											<tr>
+												<th>TGT 1</th>
+												<th>TGT 2</th>
+												<th>TGT 2<br>{just before merging (deg)}</th>
+												<th>MVDR_ED<br>(Ideal Value ≤15°)</th>
+												<th>Remarks</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td><input class="form-control" name="bd_tp_t1_1"></td><td><input class="form-control" name="bd_tp_t2_1"></td><td><input class="form-control" name="bd_tp_merge_1"></td><td><input class="form-control" name="bd_tp_mvdr_1"></td><td><textarea class="form-control" name="bd_tp_remark_1" rows="1"></textarea></td></tr>
+											<tr><td><input class="form-control" name="bd_tp_t1_2"></td><td><input class="form-control" name="bd_tp_t2_2"></td><td><input class="form-control" name="bd_tp_merge_2"></td><td><input class="form-control" name="bd_tp_mvdr_2"></td><td><textarea class="form-control" name="bd_tp_remark_2" rows="1"></textarea></td></tr>
+											<tr><td><input class="form-control" name="bd_tp_t1_3"></td><td><input class="form-control" name="bd_tp_t2_3"></td><td><input class="form-control" name="bd_tp_merge_3"></td><td><input class="form-control" name="bd_tp_mvdr_3"></td><td><textarea class="form-control" name="bd_tp_remark_3" rows="1"></textarea></td></tr>
+											<tr><td><input class="form-control" name="bd_tp_t1_4"></td><td><input class="form-control" name="bd_tp_t2_4"></td><td><input class="form-control" name="bd_tp_merge_4"></td><td><input class="form-control" name="bd_tp_mvdr_4"></td><td><textarea class="form-control" name="bd_tp_remark_4" rows="1"></textarea></td></tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom">5. FDS Checks – Subsystem Link Checks</legend>
+								<div class="table-responsive">
+									<table class="custom_tbl tight">
+										<thead>
+											<tr>
+												<th>Mnemonic<br>a.</th>
+												<th>Subsystem<br>b.</th>
+												<th>Remarks<br>c.</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr><td colspan="3" class="group-row">Receiver Electronics Cabinet</td></tr>
+											<tr><td>1.</td><td class="text-left">Passive Rx 1</td><td><textarea class="form-control wrstg-scroll-textarea" name="fds_remark_1" rows="1"></textarea></td></tr>
+											<tr><td>2.</td><td class="text-left">Passive Rx 2</td><td><textarea class="form-control wrstg-scroll-textarea" name="fds_remark_2" rows="1"></textarea></td></tr>
+											<tr><td>3.</td><td class="text-left">Passive Rx 3</td><td><textarea class="form-control wrstg-scroll-textarea" name="fds_remark_3" rows="1"></textarea></td></tr>
+											<tr><td>4.</td><td class="text-left">Passive Rx 4</td><td><textarea class="form-control wrstg-scroll-textarea" name="fds_remark_4" rows="1"></textarea></td></tr>
+											<tr><td>5.</td><td class="text-left">Active Rx 1</td><td><textarea class="form-control wrstg-scroll-textarea" name="fds_remark_5" rows="1"></textarea></td></tr>
+											<tr><td>6.</td><td class="text-left">Active Rx 2</td><td><textarea class="form-control wrstg-scroll-textarea" name="fds_remark_6" rows="1"></textarea></td></tr>
+											<tr><td>7.</td><td class="text-left">Active Rx 3</td><td><textarea class="form-control wrstg-scroll-textarea" name="fds_remark_7" rows="1"></textarea></td></tr>
+
+											<tr><td colspan="3" class="group-row">Front End Cabinet</td></tr>
+											<tr><td>8.</td><td class="text-left">SYSCON PCB</td><td><textarea class="form-control wrstg-scroll-textarea" name="fds_remark_8" rows="1"></textarea></td></tr>
+											<tr><td>9.</td><td class="text-left">Preamplifier PCB</td><td><textarea class="form-control wrstg-scroll-textarea" name="fds_remark_9" rows="1"></textarea></td></tr>
+											<tr><td>10.</td><td class="text-left">ADC</td><td><textarea class="form-control wrstg-scroll-textarea" name="fds_remark_10" rows="1"></textarea></td></tr>
+											<tr><td>11.</td><td class="text-left">Front Panel PCB</td><td><textarea class="form-control wrstg-scroll-textarea" name="fds_remark_11" rows="1"></textarea></td></tr>
+											<tr><td>12.</td><td class="text-left">Tx/Rx PCB</td><td><textarea class="form-control wrstg-scroll-textarea" name="fds_remark_12" rows="1"></textarea></td></tr>
+
+											<tr><td colspan="3" class="group-row">Work station</td></tr>
+											<tr><td>13.</td><td class="text-left">ESI Power PC</td><td><textarea class="form-control wrstg-scroll-textarea" name="fds_remark_13" rows="1"></textarea></td></tr>
+											<tr><td>14.</td><td class="text-left">DDR Rugged PC</td><td><textarea class="form-control wrstg-scroll-textarea" name="fds_remark_14" rows="1"></textarea></td></tr>
+											<tr><td>15.</td><td class="text-left">SNS Panel PC</td><td><textarea class="form-control wrstg-scroll-textarea" name="fds_remark_15" rows="1"></textarea></td></tr>
+
+											<tr><td colspan="3" class="group-row">Display Cabinets</td></tr>
+											<tr><td>16.</td><td class="text-left">HMI-1 Panel PC</td><td><textarea class="form-control wrstg-scroll-textarea" name="fds_remark_16" rows="1"></textarea></td></tr>
+											<tr><td>17.</td><td class="text-left">HMI-2 Panel PC</td><td><textarea class="form-control wrstg-scroll-textarea" name="fds_remark_17" rows="1"></textarea></td></tr>
+											<tr><td>18.</td><td class="text-left">HMI-3 Panel PC</td><td><textarea class="form-control wrstg-scroll-textarea" name="fds_remark_18" rows="1"></textarea></td></tr>
+											<tr><td>19.</td><td class="text-left">HMI-4 Panel PC</td><td><textarea class="form-control wrstg-scroll-textarea" name="fds_remark_19" rows="1"></textarea></td></tr>
+											<tr><td>20.</td><td class="text-left">FDS-1 TID</td><td><textarea class="form-control wrstg-scroll-textarea" name="fds_remark_20" rows="1"></textarea></td></tr>
+											<tr><td>21.</td><td class="text-left">FDS-2 TID</td><td><textarea class="form-control wrstg-scroll-textarea" name="fds_remark_21" rows="1"></textarea></td></tr>
+										</tbody>
+									</table>
+								</div>
+							</fieldset>
+
+							<fieldset class="custom-fieldset">
+								<legend class="legend-custom">6. NACS Checks</legend>
+								<div class="row">
+									<div class="col-md-12 mb-2">
+										<label>Last NACS Checks carried out</label>
+										<input type="text" class="form-control" name="nacs_last_check">
+									</div>
+									<div class="col-md-12">
+										<label>Any observations as per NACS checks summary</label>
+										<textarea class="form-control wrstg-scroll-textarea" name="nacs_observations" rows="2"></textarea>
+									</div>
+								</div>
+							</fieldset>
+
+							<div class="form-actions text-right mt-3">
+								<button type="submit" class="btn btn-success">Submit</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
